@@ -111,7 +111,7 @@ public class ScreenTools
    [McpServerTool(Name = "press_keys")]
    [Description("""
                 Presses keys on the headless JAStudio's keyboard, one after another, each released before the next: keys such as Enter, Escape, Tab or the arrows,
-                and shortcuts such as Ctrl+O. Each is given by its name, after those of the modifier keys held with it, joined by +, and keys one after another are
+                and shortcuts such as Ctrl+S. Each is given by its name, after those of the modifier keys held with it, joined by +, and keys one after another are
                 separated by spaces: "Ctrl+Shift+S", or "Down Down Enter". The names are Avalonia's: letters and digits, Enter, Escape, Tab, Space, Back (the
                 backspace), Delete, Up, Down, Left, Right, Home, End, PageUp, PageDown and F1 to F12, and the modifiers Ctrl, Shift, Alt and Meta. The keys go to the
                 control that has the keyboard, in the active window, and a key without Ctrl, Alt or Meta held types what it types on a US keyboard, as a real one
@@ -119,7 +119,7 @@ public class ScreenTools
                 type_text's. Then gives the screen as it is afterwards.
                 """)]
    public IEnumerable<ContentBlock> PressKeys(
-      [Description("The keys, such as \"Ctrl+O\" or \"Down Down Enter\".")] string keys,
+      [Description("The keys, such as \"Ctrl+S\" or \"Down Down Enter\".")] string keys,
       [Description("Whether to give the screen's image afterwards, rather than only the text.")] bool withTheImage = true)
    {
       var chords = KeyChord.SequenceIn(keys);

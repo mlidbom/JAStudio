@@ -40,16 +40,7 @@
     "condition": {
       "allOf": [
         {
-          "firstToken": {
-            "anyOf": [
-              {
-                "fact": "godanImperativeStem"
-              },
-              {
-                "fact": "godanImperativeInflection"
-              }
-            ]
-          }
+          "sharedCondition": "StartsInAGodanImperative"
         }
       ]
     },

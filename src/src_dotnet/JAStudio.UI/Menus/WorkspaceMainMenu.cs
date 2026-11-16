@@ -8,11 +8,11 @@ namespace JAStudio.UI.Menus;
 
 /// <summary>
 /// The workspace's main menu, its menu bar, with the keyboard shortcuts the workspace window binds: the way to everything in JAStudio<br/>
-/// besides the notes, such as the options, the import profiles and the batch updates.
+/// besides the notes, such as the options, the import profiles, the batch updates and the Studying window.
 /// </summary>
 /// <remarks>
 /// It was also Anki's "Japanese" menu until 2026-11-08. Anki now only toggles the workspace, or opens it on its search, from its JA Studio menu<br/>
-/// (<see cref="AnkiMenus.BuildJAStudioMenuSpec"/>) or with Ctrl+Shift+O and Ctrl+O.
+/// (the Anki add-on's <c>jastudio_menu.py</c>) or with Ctrl+Shift+O and Ctrl+S (<see cref="AnkiDialogs"/>).
 /// </remarks>
 public class WorkspaceMainMenu
 {
@@ -33,7 +33,7 @@ public class WorkspaceMainMenu
       SpecMenuItem.Submenu(ShortcutFinger.Home2("Lookup"),
                            new List<SpecMenuItem>
                            {
-                              SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+O)"), WorkspaceWindow.ToggleNoteSearch),
+                              SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+S)"), WorkspaceWindow.ToggleNoteSearch),
                               WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home2("Web"), getClipboardContent),
                               SpecMenuItem.Command(ShortcutFinger.Home3(MainMenuWindows.SharedConditions.Name), () => MainMenuWindows.SharedConditions.Open(_services))
                            }
@@ -53,7 +53,7 @@ public class WorkspaceMainMenu
                                                       BatchCommand(ShortcutFinger.Down1("All the above: Full rebuild"), _services.LocalNoteUpdater.FullRebuild)
                                                    }
                               ),
-                              SpecMenuItem.Command(ShortcutFinger.Home2(MainMenuWindows.ImportProfiles.Name), () => MainMenuWindows.ImportProfiles.Open(_services), enabled: _services.AnkiAvailability.IsAvailable),
+                              SpecMenuItem.Command(ShortcutFinger.Home2(MainMenuWindows.ImportProfiles.Name), () => MainMenuWindows.ImportProfiles.Open(_services), enabled: _services.SRSAvailability.IsAvailable),
                               BatchCommand(ShortcutFinger.Home3("Update everything except reanalysing sentences"), _services.LocalNoteUpdater.UpdateAll),
                               BatchCommand(ShortcutFinger.Home4("Create vocab notes for parsed words"), _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries),
                               BatchCommand(ShortcutFinger.Home5("Regenerate vocab source answers from dictionary"), _services.LocalNoteUpdater.RegenerateJamdictVocabAnswers),
@@ -61,17 +61,16 @@ public class WorkspaceMainMenu
                               BatchCommand(ShortcutFinger.Up2("Reload the collection from disk"), () => _services.CoreApp.Collection.ReloadFromBackend()),
                               BatchCommand(ShortcutFinger.Up3("Write file system repository"), _services.LocalNoteUpdater.WriteFileSystemRepository)
                            }
+      ),
+      SpecMenuItem.Submenu(ShortcutFinger.Home4("Studying"),
+                           new List<SpecMenuItem>
+                           {
+                              //review: the menu's place for the Studying window, and its shortcut, are Claude's choice (2026-11-15), for Magnus to change.
+                              SpecMenuItem.Command(ShortcutFinger.Home1(MainMenuWindows.Studying.Name), () => MainMenuWindows.Studying.Open(_services), shortcut: "Ctrl+Shift+y", enabled: _services.SRSAvailability.IsAvailable)
+                           }
       )
    ];
 
    SpecMenuItem BatchCommand(string name, Action action, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
-      => SpecMenuItem.Command(name,
-                              () => _services.BackgroundTaskManager.Run(() =>
-                              {
-                                 action();
-                                 _services.AnkiWindows.Refresh();
-                              }),
-                              acceleratorKey,
-                              shortcut,
-                              enabled);
+      => SpecMenuItem.Command(name, () => _services.BackgroundTaskManager.Run(action), acceleratorKey, shortcut, enabled);
 }

@@ -9,14 +9,18 @@ using JAStudio.Core.TaskRunners;
 namespace JAStudio.Core.Importing;
 
 /// <summary>
-/// Runs the <see cref="ImportProfile"/>s that <see cref="ImportProfile.RunsAutomatically"/> when Anki signals that raw notes may have arrived:<br/>
-/// when Anki finished importing a file, such as Immersion Kit's .apkg sentence cards, and when a note was added, as AnkiConnect adds them.<br/>
+/// Runs the <see cref="ImportProfile"/>s that <see cref="ImportProfile.RunsAutomatically"/> at each sync with the spaced repetition system<br/>
+/// (<see cref="Studying.SRSSync"/>): raw notes may have arrived in Anki since the sync before, such as Immersion Kit's .apkg sentence cards, or<br/>
+/// notes that AnkiConnect added.<br/>
 /// A run that has problems isn't executed: <see cref="StoppedByProblems"/> notifies its profile, for its report to be shown.
 /// </summary>
 /// <remarks>
-/// Anki's .apkg importer runs in Anki's Rust backend, which adds the notes without announcing each one, so a finished import is a signal of its own.<br/>
-/// The runs happen in the background, one profile at a time. A profile that's signalled again while it waits runs once, so a burst of added notes<br/>
-/// doesn't check it once per note. A profile signalled while it runs runs again afterwards, to import what arrived meanwhile.
+/// The runs happen in the background, one profile at a time. A profile that's asked for again while it waits runs once, and one asked for while it<br/>
+/// runs runs again afterwards, to import what arrived meanwhile.
+/// </remarks>
+/// <remarks>
+/// Until 2026-11-15 Anki signalled when it had imported a file and when a note was added, and the profiles ran then: see<br/>
+/// dev_docs/moving-jastudio-out-of-anki.md.
 /// </remarks>
 public class AutomaticImportRuns
 {
@@ -40,13 +44,11 @@ public class AutomaticImportRuns
    public IObservable<ImportRun> Executed => _executed;
 
    /// <summary>
-   /// Anki finished importing a file, such as an .apkg, which may have brought raw notes of any note type. Runs every automatic profile whose note type<br/>
-   /// the open Anki profile has: a profile whose note type it hasn't has no raw notes to import there.
+   /// A sync with the spaced repetition system was made (<see cref="Studying.SRSSync"/>), and raw notes of any note type may have arrived in Anki since<br/>
+   /// the one before. Runs every automatic profile whose note type the open Anki profile has: a profile whose note type it hasn't has no raw notes<br/>
+   /// to import there.
    /// </summary>
-   public void AfterAnkiImportedAFile() => _profilesWaitingToRun.Add(AutomaticProfiles());
-
-   /// <summary>A note of the note type <paramref name="ankiNoteType"/> was added in Anki. Runs the automatic profiles that take notes of that type.</summary>
-   public void AfterANoteWasAddedInAnki(string ankiNoteType) => _profilesWaitingToRun.Add(AutomaticProfiles().Where(it => it.AnkiNoteType == ankiNoteType));
+   public void AfterASyncWithTheSRS() => _profilesWaitingToRun.Add(AutomaticProfiles());
 
    IEnumerable<ImportProfile> AutomaticProfiles() => _savedProfiles.All.Where(it => it.RunsAutomatically);
 

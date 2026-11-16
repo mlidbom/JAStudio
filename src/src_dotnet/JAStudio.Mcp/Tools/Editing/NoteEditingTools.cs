@@ -44,14 +44,16 @@ public class NoteEditingTools
                 Edits a note as its editor in the workspace does: writes each field given through the note's own operations, then does what the
                 editor does after a change. When a field written changes how sentences parse, such as a vocab's forms or match-condition, the
                 sentences that may contain the vocab are reparsed; then the note's generated data is updated. The note is saved to the corpus
-                checkout, and its Anki note updated, as any edit is. Fields are named, and their values given, as
+                checkout, as any edit is, and its study-note in Anki is written at the next sync with Anki, as sync_with_anki runs one. Fields
+                are named, and their values given, as
                 get_the_editable_fields_of_a_note lists them. Every name and value is checked before anything is written; a value the note
                 refuses, such as an unknown part of speech, fails the edit at that field, after the fields before it were written. Related
                 vocab are linked both ways, as when a person edits them: writing a vocab's synonyms, perfect synonyms or ergative twins changes
                 the vocab they name too, and writing a kanji's similar meaning or confused with changes the kanji they name. A sentence's
                 highlighted vocab and incorrect and hidden matches reparse the sentence. Reports each field of the note that changed, before and
                 after, in the order of its fields, those the edit didn't write included, such as a vocab's synonyms when its perfect synonyms are
-                written.
+                written. A sentence that is a parsing case reports a change to how it compares with what it expects too, as parsingCase: its
+                outcome and how many differences, which list_the_parsing_cases lists.
                 """)]
    public NoteEdit EditANote(
       [Description("The note's id, as search_notes lists it.")] string noteId,

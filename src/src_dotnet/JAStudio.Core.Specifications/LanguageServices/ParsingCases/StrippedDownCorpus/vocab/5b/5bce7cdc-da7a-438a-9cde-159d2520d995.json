@@ -44,7 +44,7 @@
       "isOwned": false
     }
   ],
-  "sentenceCount": 0,
+  "sentenceCount": 1,
   "technicalNotes": "When encountering the was/did meaning, split using word break tag function since this adds no value and confuses tenses such as てたん",
   "references": "",
   "images": [],

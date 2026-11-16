@@ -33,11 +33,12 @@ public static class CardServerUrl
    /// <summary>
    /// The server-relative path of the page that shows a side of one of <paramref name="note"/>'s cards, as Anki shows it in an iframe.
    /// </summary>
+   /// <param name="note">The note whose card it is.</param>
    /// <param name="cardType">The card's type, the name of its card template in Anki, such as <see cref="CardTypes.Reading"/>.</param>
    /// <param name="side"><c>front</c> or <c>back</c>.</param>
    /// <param name="displayContext"><c>review</c> when Anki's reviewer shows the card, <c>preview</c> when its previewer does.</param>
    public static string CardPagePath(JPNote note, string cardType, string side, string displayContext) =>
-      $"/card/{CardPageNoteType(note)}/{side}?{NoteIdQueryParameter}={note.GetId()}&CardType={cardType}&DisplayContext={displayContext}";
+      $"/card/{CardPageNoteType(note)}/{side}?{NoteIdQueryParameter}={note.GetId()}&CardType={cardType}&{DisplayContextQueryParameter}={displayContext}";
 
    /// <summary>The absolute URL of <see cref="CardPagePath"/> on the running CardServer.</summary>
    public static Uri CardPageUrl(JPNote note, string cardType, string side, string displayContext) =>
@@ -52,6 +53,12 @@ public static class CardServerUrl
    public static NoteId? NoteIdOfPage(Uri cardServerPageUrl) =>
       HttpUtility.ParseQueryString(cardServerPageUrl.Query)[NoteIdQueryParameter] is {} noteId ? NoteId.Parse(noteId) : null;
 
+   /// <summary>
+   /// Whether <paramref name="cardServerPageUrl"/> is the page of a card as Anki shows it (<see cref="CardPagePath"/>), rather than a note's own<br/>
+   /// page (<see cref="NotePagePath"/>): only Anki's pages say which of its windows shows them.
+   /// </summary>
+   public static bool IsACardsPageInAnki(Uri cardServerPageUrl) => HttpUtility.ParseQueryString(cardServerPageUrl.Query)[DisplayContextQueryParameter] is not null;
+
    /// <summary>The note type segment of a card page path: <c>/card/{type}/…</c>.</summary>
    public static string CardPageNoteType(JPNote note) =>
       note switch
@@ -63,4 +70,5 @@ public static class CardServerUrl
       };
 
    const string NoteIdQueryParameter = "NoteId";
+   const string DisplayContextQueryParameter = "DisplayContext";
 }

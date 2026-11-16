@@ -1,4 +1,5 @@
 {
+  "sentenceId": "1b090d2c-83f3-4562-8dd4-a20b28a21248",
   "sentence": "子供だって知ってる",
   "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_that_is_not_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 子供 | だって | 知る | てる.",
   "parsedWords": [

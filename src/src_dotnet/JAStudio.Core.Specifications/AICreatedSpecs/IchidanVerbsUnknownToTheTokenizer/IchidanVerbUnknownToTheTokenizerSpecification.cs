@@ -3,6 +3,7 @@ using System.Linq;
 using JAStudio.Core.LanguageServices.Parsing;
 using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
+using JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 using JAStudio.Core.UI.Web.Sentence;
 
 namespace JAStudio.Core.Specifications.AICreatedSpecs.IchidanVerbsUnknownToTheTokenizer;
@@ -10,7 +11,7 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.IchidanVerbsUnknownToTheTo
 /// <summary>
 /// Base for the specifications of how JAStudio reads and splits text containing an ichidan verb missing from the tokenizer's dictionary.<br/>
 /// 磨げる, the potential form of 磨ぐ, is missing from the dictionary; 泳げる, the potential form of 泳ぐ, is in it. How such text is displayed<br/>
-/// is specified by parsing cases (<see cref="LanguageServices.ParsingCases.ParsingCase"/>) of the same sentences.
+/// is specified by parsing cases (<see cref="ParsingCaseFile"/>) of the same sentences.
 /// </summary>
 public abstract class IchidanVerbUnknownToTheTokenizerSpecification : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {

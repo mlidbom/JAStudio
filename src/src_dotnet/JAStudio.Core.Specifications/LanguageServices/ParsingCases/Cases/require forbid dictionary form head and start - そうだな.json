@@ -1,4 +1,5 @@
 {
+  "sentenceId": "19dfc7ac-a303-47af-8b9f-a9c7ef64d4a1",
   "sentence": "そうだな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: そうだ | な:s.end.",
   "parsedWords": [

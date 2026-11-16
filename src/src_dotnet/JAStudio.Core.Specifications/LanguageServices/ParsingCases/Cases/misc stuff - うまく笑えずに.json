@@ -1,4 +1,5 @@
 {
+  "sentenceId": "7e9a7563-3281-4289-92f6-9c54a6342093",
   "sentence": "うまく笑えずに",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: うまく | 笑える | ずに.",
   "parsedWords": [

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "0296a6ca-4eb7-4f90-ada6-f6f7337bd3d0",
   "sentence": "落としたって何を",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 落とす | た | って | 何を.",
   "parsedWords": [

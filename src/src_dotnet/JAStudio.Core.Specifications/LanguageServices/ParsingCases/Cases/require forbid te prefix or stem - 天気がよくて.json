@@ -1,4 +1,5 @@
 {
+  "sentenceId": "0ff6d7b8-aab6-4fcf-9ec8-3988ef1f700f",
   "sentence": "天気がよくて",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 天気 | が | よい | て.",
   "parsedWords": [

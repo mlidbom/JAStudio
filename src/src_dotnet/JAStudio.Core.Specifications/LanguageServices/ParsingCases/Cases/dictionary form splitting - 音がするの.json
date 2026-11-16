@@ -1,4 +1,5 @@
 {
+  "sentenceId": "7e8622b2-d2b6-423e-a168-1cf8fe4325a1",
   "sentence": "音がするの",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: 音がする | うの.",
   "parsedWords": [

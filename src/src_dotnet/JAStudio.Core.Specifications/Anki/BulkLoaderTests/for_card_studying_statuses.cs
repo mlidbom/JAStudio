@@ -2,7 +2,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying;
 
 // ReSharper disable InconsistentNaming
 
@@ -14,7 +14,7 @@ public class for_card_studying_statuses : SpecificationReadingAnAnkiCollectionFi
    {
       readonly CardStudyingStatus[] _statuses;
 
-      public after_fetching_all() => _statuses = [.. WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiTestDb.Database).StudyingStatuses];
+      public after_fetching_all() => _statuses = [.. TheStudyNotesIn(AnkiTestDb.Database).SelectMany(it => it.CardStudyingStatuses)];
 
       [XF] public void the_result_is_not_empty() => _statuses.Must().NotBeEmpty();
 
@@ -28,7 +28,7 @@ public class for_card_studying_statuses : SpecificationReadingAnAnkiCollectionFi
          _statuses.Select(s => s.NoteTypeName).Distinct().Must().Contain(NoteTypes.Sentence);
 
       [XF] public void every_status_has_a_positive_external_note_id() =>
-         _statuses.Must().Satisfy(it => it.All(s => s.ExternalNoteId > 0));
+         _statuses.Must().Satisfy(it => it.All(s => s.StudyNoteId > 0));
 
       [XF] public void every_status_has_a_card_type() =>
          _statuses.Must().Satisfy(it => it.All(s => !string.IsNullOrEmpty(s.CardType)));

@@ -11,11 +11,10 @@ using Compze.Internals.Logging;
 using Compze.Internals.SystemCE;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
-using JAStudio.Core.Importing;
 using JAStudio.Mcp.Discovery;
 using JAStudio.Mcp.Live;
+using JAStudio.Core.UI.Shortcuts;
 using JAStudio.UI;
-using JAStudio.UI.Shortcuts;
 using JAStudio.UI.Views.Importing;
 using JAStudio.UI.Views.Workspace;
 using JAStudio.Web;
@@ -32,7 +31,7 @@ public class JAStudioAnkiAppRoot
    readonly CoreApp _coreApp;
    readonly CardServer _cardServer;
    readonly LiveJAStudioMcpServer _liveMcpServer;
-   readonly CatchingUpWithAnki _catchingUpWithAnki;
+   readonly FollowingAnkisLifecycle _followingAnkisLifecycle;
 
    // Stored to keep the UI thread rooted (prevent GC). Not accessed directly.
 #pragma warning disable CS0414
@@ -46,30 +45,22 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    public AnkiDialogs Dialogs { get; }
 
-   // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
-   public PythonAnkiMenus Menus { get; }
-
    /// <summary>The keyboard shortcuts for a note being viewed, which Python binds in Anki's reviewer and previewer.</summary>
    public NoteViewShortcuts NoteViewShortcuts { get; }
-
-   /// <summary>The writes of the notes' study-notes into Anki, which Python makes, held during a sync and while no Anki profile is open.</summary>
-   // ReSharper disable once MemberCanBePrivate.Global used from python
-   public StudyNoteWrites StudyNoteWrites { get; } = new();
 
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    // ReSharper disable once UnusedMember.Global used from python
    public bool IsInitialized => _coreApp.Collection.IsInitialized;
 
-   JAStudioAnkiAppRoot(IHost host, CoreApp coreApp, CardServer cardServer, LiveJAStudioMcpServer liveMcpServer)
+   JAStudioAnkiAppRoot(IHost host, CoreApp coreApp, AnkiDialogs dialogs, CardServer cardServer, LiveJAStudioMcpServer liveMcpServer)
    {
       _host = host;
       _coreApp = coreApp;
       _cardServer = cardServer;
       _liveMcpServer = liveMcpServer;
-      _catchingUpWithAnki = new CatchingUpWithAnki(coreApp.Collection, StudyNoteWrites, coreApp.Services.BackgroundTaskManager);
-      Dialogs = new AnkiDialogs();
-      Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
-      NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
+      _followingAnkisLifecycle = new FollowingAnkisLifecycle(coreApp.Collection, coreApp.Services.Resolve<AnkisAvailability>(), coreApp.Services.BackgroundTaskManager);
+      Dialogs = dialogs;
+      NoteViewShortcuts = coreApp.Services.Resolve<NoteViewShortcuts>();
    }
 
    // ReSharper disable once UnusedMember.Global // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
@@ -83,6 +74,7 @@ public class JAStudioAnkiAppRoot
       var plan = AppBootstrapper.PrepareProduction(new AnkiAddonEnvironmentDependenciesRegistrar());
 
       var host = Host.CreateDefaultBuilder()
+                     .UseContentRoot(JAStudiosAssemblies.Folder.FullName)
                      .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
                      .Build();
 
@@ -119,44 +111,31 @@ public class JAStudioAnkiAppRoot
       Dispatcher.UIThread.Invoke(() => UIApp.InitializeWorkspaceWindow(coreApp.Services));
       AutomaticImportRunReports.StartShowing(coreApp.Services);
 
-      var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services));
+      var dialogs = new AnkiDialogs();
+      var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services), dialogs);
 
       var liveMcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver, JAStudioHost.Anki);
 
-      var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer, liveMcpServer) { _uiThread = uiThread };
+      var root = new JAStudioAnkiAppRoot(host, coreApp, dialogs, cardServer, liveMcpServer) { _uiThread = uiThread };
 
-      root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => AnkiFacade.UIUtils.Refresh());
+      // A card that Anki drew while the collection was loading says that JAStudio is still loading (AppendingPrerenderer), so Anki draws its cards again.
+      root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => coreApp.Services.SRSWindows.Refresh());
 
       cardServer.Start();
 
       return root;
    }
 
+   /// <summary>
+   /// An Anki profile opened or is closing, or Anki's own sync is starting or has finished: all that Anki tells JAStudio of, which Python passes on<br/>
+   /// from Anki's hooks (<see cref="FollowingAnkisLifecycle"/>).
+   /// </summary>
    // ReSharper disable once UnusedMember.Global used from python
    public void HandleAnkiLifecycleEvent(AnkiLifecycleEvent lifecycleEvent)
    {
       this.Log().Info($"HandleAnkiLifecycleEvent({lifecycleEvent})");
-      _catchingUpWithAnki.Handle(lifecycleEvent);
+      _followingAnkisLifecycle.Handle(lifecycleEvent);
    }
-
-   /// <summary>
-   /// Anki finished importing a file, such as an .apkg, through its import dialog: runs the <see cref="AutomaticImportRuns"/>. Python calls it from Anki's<br/>
-   /// <c>operation_did_execute</c> hook, since Anki's importer adds the notes in its Rust backend without announcing each one.
-   /// </summary>
-   // ReSharper disable once UnusedMember.Global used from python
-   public void AnkiImportedAFile() => _coreApp.Services.Resolve<AutomaticImportRuns>().AfterAnkiImportedAFile();
-
-   /// <summary>
-   /// A note of the note type <paramref name="ankiNoteType"/> was added in Anki, as AnkiConnect adds them: runs the <see cref="AutomaticImportRuns"/> of that<br/>
-   /// note type. Python calls it once the note is in Anki's database.
-   /// </summary>
-   // ReSharper disable once UnusedMember.Global used from python
-   public void ANoteWasAddedInAnki(string ankiNoteType) => _coreApp.Services.Resolve<AutomaticImportRuns>().AfterANoteWasAddedInAnki(ankiNoteType);
-
-   /// <inheritdoc cref="CatchingUpWithAnki.AnkiChangedNotes"/>
-   /// <remarks>Python calls it from Anki's <c>operation_did_execute</c> hook.</remarks>
-   // ReSharper disable once UnusedMember.Global used from python
-   public void AnkiChangedNotes() => _catchingUpWithAnki.AnkiChangedNotes();
 
    // ReSharper disable once UnusedMember.Global used from python
    public void ShutDown() => this.Log().Info().MethodExecutionTime(() =>

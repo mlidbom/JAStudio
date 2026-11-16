@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import atexit
+import traceback
 from typing import TYPE_CHECKING
 
 from jaspythonutils.sysutils.typed import non_optional
@@ -30,7 +31,12 @@ def _init_dot_net_app() -> None:
     global _dotnet_ui_root_instance
     from JAStudio.Anki.PythonInterop import JAStudioAnkiAppRoot
 
-    _dotnet_ui_root_instance = JAStudioAnkiAppRoot.Initialize()
+    try:
+        _dotnet_ui_root_instance = JAStudioAnkiAppRoot.Initialize()
+    except Exception:
+        # Anki shows the failure in a dialog only, and every later use of JAStudio then fails with an error that doesn't say why: the log keeps the reason.
+        mylog.error(f"JAStudio's .NET side failed to start:\n{traceback.format_exc()}")
+        raise
 
     def shutdown_dot_net() -> None:
         mylog.info("Shutting down DotNet UI")

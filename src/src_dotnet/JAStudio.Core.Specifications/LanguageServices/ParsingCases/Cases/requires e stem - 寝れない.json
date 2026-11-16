@@ -1,4 +1,5 @@
 {
+  "sentenceId": "b3e946eb-76bf-4ec4-afb1-9b46f43d9f24",
   "sentence": "寝れない",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequiresEStem, against vocab copied by hand, expected the breakdown to display: 寝る | れない.",
   "parsedWords": [

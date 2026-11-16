@@ -100,6 +100,9 @@ reads: the loop of changing the UI and looking at it, without Magnus.
 
 ## 2. New builds reaching the live JAStudio without restarting Anki
 
+**Direction agreed (Magnus, 2026-11-14):** JAStudio becomes a program of its own, and its Anki add-on pure Python, the
+two talking HTTP. The design, with the answers to the open questions below, is in `moving-jastudio-out-of-anki.md`.
+
 **Now:** a new build reaches the JAStudio inside Anki only when Anki restarts. The addon copies the newest build into
 `src/runtime_binaries` as Anki starts (`jastudio/dotnet/copy_runtime_binaries.py`), and pythonnet loads it into Anki's
 process, where it stays until Anki closes. So every change to code that runs in Anki waits for Magnus to restart Anki,

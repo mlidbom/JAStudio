@@ -43,7 +43,7 @@ public class When_editing_the_Anki_tags_in_the_tag_tree_in_the_workspace : Speci
       _anki = GetService<PretendAnki>();
       _anki.Tag(_sentenceAboutHome, "tmp::a", "marked");
       _anki.Tag(_sentenceAboutSchool, "tmp::b");
-      GetService<JPCollection>().ReadTheStudyNotesFromAnkiAgain();
+      GetService<JPCollection>().ReadTheStudyNotesFromTheSRSAgain();
 
       _tags = Workspace.Navigation.TagManagement;
       Workspace.Navigation.IsTagManagementShown = true;

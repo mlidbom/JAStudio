@@ -21,11 +21,13 @@ using JAStudio.Mcp.Tools.Editing;
 using JAStudio.Mcp.Tools.Matching;
 using JAStudio.Mcp.Tools.Memory;
 using JAStudio.Mcp.Tools.Notes;
+using JAStudio.Mcp.Tools.ParsingCases;
 using JAStudio.Mcp.Tools.Rebuilding;
 using JAStudio.Mcp.Tools.Reservoir;
 using JAStudio.Mcp.Tools.Saving;
 using JAStudio.Mcp.Tools.Reloading;
 using JAStudio.Mcp.Tools.Screen;
+using JAStudio.Mcp.Tools.Studying;
 using JAStudio.Mcp.Tools.StudyNotes;
 using JAStudio.Mcp.Tools.Tagging;
 using JAStudio.Mcp.Tools.Windows;
@@ -112,7 +114,8 @@ public sealed partial class JAStudioMcpServer
       var builder = WebApplication.CreateBuilder(new WebApplicationOptions
       {
          EnvironmentName = "Production",
-         ApplicationName = typeof(JAStudioMcpServer).Assembly.GetName().Name
+         ApplicationName = typeof(JAStudioMcpServer).Assembly.GetName().Name,
+         ContentRootPath = JAStudiosAssemblies.Folder.FullName
       });
       builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Loopback, port));
       builder.Logging.SetMinimumLevel(LogLevel.Warning);
@@ -134,9 +137,11 @@ public sealed partial class JAStudioMcpServer
              .WithTools<NoteCreationTools>(ToolResultJsonOptions)
              .WithTools<UniversalNoteActionTools>(ToolResultJsonOptions)
              .WithTools<StudyNoteTools>(ToolResultJsonOptions)
+             .WithTools<SyncTools>(ToolResultJsonOptions)
              .WithTools<ReservoirTools>(ToolResultJsonOptions)
              .WithTools<MemoryTools>(ToolResultJsonOptions)
-             .WithTools<SharedConditionTools>(ToolResultJsonOptions);
+             .WithTools<SharedConditionTools>(ToolResultJsonOptions)
+             .WithTools<ParsingCaseTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
       builder.Services.AddSingleton<OpenReservoirs>();
 

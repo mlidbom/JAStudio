@@ -23,8 +23,8 @@ stops making sense. Search results, the note you're viewing and its editors belo
 - **The editor section,** collapsible, on the right, shows the editors of the shown tab's note. There's one per
   workspace, opened or closed for all tabs at once.
 - **The navigation pane,** on the left, holds ways to find notes, as tabs of their own, whose notes open in the
-  workspace's tabs: the search, and the list a note menu's "Open" item shows. Later perhaps more, such as the tag
-  tree.
+  workspace's tabs: the search, the list a note menu's "Open" item shows, the tag tree, and the corpus's parsing
+  cases.
 
 Defaults, unless something changes them:
 - Following a link navigates within the tab. Middle-clicking a link opens it in a new tab in the background.
@@ -81,8 +81,8 @@ apply here.
 ## Data: live editing and sync
 
 - **Live editing.** Every change is written to the note at once: a check box when it's clicked, a text field on
-  every keystroke. There's no Save button. JSON files in git make this unusually safe. A planned "revert this note
-  to its last committed version" covers mistakes.
+  every keystroke. There's no Save button. JSON files in git make this unusually safe. A note's history and rolling it
+  back, planned in the changes view ([changes-view.md](changes-view.md)), cover mistakes.
 - **One shared object per note.** `NoteCache` holds one object per note, and every view shows that object, so
   several editors on the same note need no special handling. An editor refreshes every field from the note whenever
   the note is updated.
@@ -131,8 +131,8 @@ Built 2026-11-13, as step 3 of [increment 10](#increments).
 - **Links:** a word's vocab, a compound's parts and a word's kanji are links (`NoteLinkViewModel`). A click shows the
   note in the tab, a middle-click opens it in a background tab.
 - **Audio:** the ▶ buttons play the note's audio through `WorkspaceAudioPlayer`, and the sentence's own plays when the
-  tab is first shown with it, as the card's page does. The headless JAStudio plays nothing
-  (`WorkspaceAudioPlayer.PlayNothingFromNowOn`): an agent drives it, on Magnus's computer.
+  tab is first shown with it, as the card's page does. R plays it again, as in Anki's reviewer. The headless JAStudio
+  plays nothing (`WorkspaceAudioPlayer.PlayNothingFromNowOn`): an agent drives it, on Magnus's computer.
 - **Keys:** the note view shortcuts work on the page as on a card's page (`NoteViewKeyGesture`), and the page scrolls as
   a browser's does: the arrows, Page Up and Page Down, Home and End.
 - **Right-click** opens the note's menu (`NoteContextMenu`), for the text right-clicked: the text selected there, or the
@@ -143,6 +143,55 @@ Built 2026-11-13, as step 3 of [increment 10](#increments).
 - **Left out of the card's styles:** those for a breakdown entry's `secondary_match`, `shadowed`, `configured_hidden`
   and `configured_incorrect_match` classes. The card puts a match's hiding reasons among its classes, and those read like
   `forbids::configured_hidden`, so the styles never applied.
+
+## The parsing cases in the workspace, as built
+
+Built 2026-11-15. A parsing case is a sentence of the corpus marked as one, with the exact result it's expected to
+parse to and a person's verdict on the vocab its breakdown displays: see `parsing-cases.md`, and
+`todo/parsing-cases-in-the-corpus.md` for what Magnus decided about them.
+
+### The Parsing cases tab of the navigation pane
+
+`ParsingCasesViewModel`, shown by `ParsingCasesView`.
+
+- **A grid of the corpus's parsing cases,** each with how its sentence parses now compared with what the case expects
+  (fails, to review, as expected: `ParsingCaseOutcome`), the verdict, the case's name and its sentence. A column's
+  header sorts by it; at first by how the cases parse, those that fail first, then by name.
+- **Filters above the grid:** a toggle for each outcome and for each verdict, each saying how many of all the cases
+  it lets through, and a text that the name, the sentence or the why contains. While no toggle of a group is on, the
+  group lets every case through.
+- **Below the grid:** the selected case's why and its differences, a line each.
+- **Enter or a double-click** shows a case's sentence in the workspace; a middle-click opens it in a background tab.
+- **Every case is parsed and compared anew, in the background,** each time the tab is shown and on Refresh (F5):
+  each under every combination of the breakdown's options, in parallel. How long that takes for the 230 cases isn't
+  measured: the list was there by the time the tab was first looked at.
+  Between those, a case is compared again whenever its sentence is updated, so a verdict given or a result accepted
+  shows at once, and a sentence just marked as a parsing case gets a row.
+- **The cases listed stay listed** until the filters change or the list is refreshed, as the search's results do.
+
+### On a sentence's page
+
+- **A parsing case section** above the breakdown (`SentenceParsingCaseViewModel`), for a sentence that is a parsing
+  case: its name and why; the verdict as three buttons, the one given chosen, a click giving another; how it parses
+  compared with what it expects; and when it parses otherwise, its differences, a button accepting what it parses to
+  now, and a check box for showing what it expects beside the breakdown.
+- **The breakdown beside the one the case expects,** in two columns, "it parses to" and "its parsing case expects",
+  for a case that parses otherwise in any way, while the check box is on (the setting
+  `ShowWhatAParsingCaseExpectsBesideTheBreakdown`, on by default). The rows are `BreakdownBesideTheExpected`'s: a word
+  both sides have in one row, and a word only one has beside the other's word that starts at the same place, or beside
+  "not displayed" or "not expected". A row that differs is marked. The expected side shows each word with its vocab as
+  the vocab is now, since a parsing case holds vocab by id alone. Not in edit mode, which lists every match.
+- **A sentence that is no parsing case** has a quiet "Mark as a parsing case" button under its breakdown.
+- **The sentence's menu** has a "Parsing case" submenu with only what applies: marking it, or, for a case, giving
+  another verdict, accepting what it parses to, and making it an ordinary sentence again.
+- **The sentence's editor** has a "Parsing case" group with the case's name and why, shown while the sentence is a
+  parsing case.
+
+### What a parsing case's result doesn't depend on
+
+The breakdown a parsing case records and compares is the one a person reads the sentence by
+(`TextAnalysisViewModel.MatchesDisplayedOutsideEditMode`), whether or not the breakdown is shown in edit mode. Until
+2026-11-15 it followed that setting, and every case compared as parsing otherwise while edit mode was on.
 
 ## The right-click menu by what's right-clicked
 
@@ -390,11 +439,15 @@ First version, 2026-11-13.
   previewer, which Python binds from the same table. Most are single-key toggles for sentence breakdowns; a few
   act on the note being viewed.
 - **Keys pressed on the note's page go to the web view,** so `card.js` reports each key press, and the tab asks the
-  window for its shortcut before trying the note view shortcuts. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O,
+  window for its shortcut before trying the note view shortcuts. The window's own shortcuts (Ctrl+S, Ctrl+Shift+O,
   Ctrl+E, Ctrl+W, Ctrl+T, Ctrl+Shift+T, Ctrl+M, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the
   keyboard is outside the page. Ctrl+M opens the match-condition window of the vocab the shown tab shows.
   Single-key shortcuts deliberately aren't window key bindings, because they would fire while typing in the
   editors to come.
+- **R plays the shown note's audio again,** as in Anki's reviewer, on a page in Avalonia: a sentence's, for now. The tab
+  handles it itself, ahead of the note view shortcuts (`NoteTabViewModel.KeyPressed`), since Anki binds those in its
+  reviewer and previewer too, where R already plays the audio again. On a card's page, such as a vocab's, it does
+  nothing: the page plays its audio in the web view. The vocab's page moves to Avalonia soon, and R then works there.
 - **A setting change reloads the page**, as do an update to the note on it and a reload of the collection after an
   Anki sync. A hidden tab reloads when it's shown instead.
 - **Back and forward** (Alt+Left, Alt+Right, and the buttons) go through the tab's history of the notes it showed
@@ -413,7 +466,7 @@ First version, 2026-11-13.
 - **The keyboard follows the shown tab.** Hiding a web view doesn't take the keyboard focus away from it, so a
   tab focuses its page when it's shown. Otherwise keys would go to the hidden tab's page and act on its note.
 - **Taking the keyboard back from a web view.** Focusing an Avalonia control in code doesn't take the Windows
-  keyboard focus away from a web view; Avalonia does that only when the window is clicked. So Ctrl+O first gives
+  keyboard focus away from a web view; Avalonia does that only when the window is clicked. So Ctrl+S first gives
   the window back its keyboard focus (`NativeKeyboardFocus`), then puts it on the search's condition tree.
   - **After Alt+Tab back to the window,** Windows gives the keyboard to the native window that had it last, which can
     be a tab's web view even when an Avalonia control has Avalonia's focus. The keys then went to the page, and
@@ -434,9 +487,6 @@ First version, 2026-11-13.
 - **A background tab loads its page when it's first shown.** The web view doesn't tell a hidden page that it's
   hidden, so a page loaded in a background tab would play its note's audio unseen. Until it's first shown, the tab
   has only its header, taken from the link.
-- **Reverting a note** reads its file from the `src/jas_database` git repository as of `HEAD`. It goes through the
-  normal update path, so the cache, the files, the snapshot and the notifications stay consistent. A note created
-  since the last commit has no committed version, so that case still needs deciding.
 
 ## Increments
 
@@ -454,7 +504,7 @@ First version, 2026-11-13.
    `NoteListViewModel`; the dialog is gone.)*
    - The pane is on the left, resized by dragging its edge, and opened or closed with the "Navigation" button. Its
      tabs are "Search" and "List".
-   - Ctrl+O, anywhere including in Anki, brings the workspace forward, opens the pane on its search and puts the
+   - Ctrl+S (Ctrl+O until 2026-11-15), anywhere including in Anki, brings the workspace forward, opens the pane on its search and puts the
      keyboard on the search's condition tree; pressed in the workspace while the pane is open on its search, it closes the pane
      and gives the keyboard to the shown page.
    - The "Open" items of the note menus show a `NoteList`, a title and notes, in the "List" tab, replacing the list
@@ -500,7 +550,8 @@ First version, 2026-11-13.
      are gone.
 6. **Multiple workspaces.** *(Parked 2026-11-06. Leaning, 2026-11-07: this is how several searches stay open,
    each workspace keeping its own search, results and opened notes. See `note-search.md`.)*
-7. **Revert to the committed version.** *(Parked 2026-11-06.)*
+7. **Revert to the committed version.** *(Parked 2026-11-06. Now part of the changes view:
+   [changes-view.md](changes-view.md).)*
 8. **The workspace comes back after a restart.** *(Built 2026-11-08, Magnus: "immensely helpful".)* When the
    workspace window is left (`WorkspaceViewModel.SaveTheState`), its `WorkspaceState` is saved in
    `workspace-state.json` in the user files folder (`SavedWorkspaceState`), per machine and not versioned:

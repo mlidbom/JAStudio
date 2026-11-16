@@ -41,8 +41,6 @@ partial class ReadingsMappingsDialogViewModel : ObservableObject
 
       this.Log().Info("Readings mappings saved");
       _window.Close(true);
-
-      _services.AnkiWindows.Refresh();
    }
 
    void Cancel()

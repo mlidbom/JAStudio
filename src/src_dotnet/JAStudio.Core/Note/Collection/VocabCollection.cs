@@ -15,8 +15,6 @@ namespace JAStudio.Core.Note.Collection;
 public class VocabCollection
 {
    internal readonly VocabCache Cache;
-   // ReSharper disable once UnusedMember.Global used from python
-   public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
 
    public VocabCollection(NoteServices noteServices) => Cache = new VocabCache(noteServices);
 
@@ -41,7 +39,7 @@ public class VocabCollection
       [.. All().Where(it => it.MatchingConfiguration.MatchCondition.Uses(sharedCondition))];
 
    public VocabNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
-   public VocabNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
+   public VocabNote? WithTheStudyNoteOrNone(long studyNoteId) => Cache.WithTheStudyNoteOrNone(studyNoteId);
    public List<VocabNote> WithForm(string form) => Cache.WithForm(form);
 
    /// <summary>Whether any vocab has a form that starts with <paramref name="text"/>, or is it.</summary>

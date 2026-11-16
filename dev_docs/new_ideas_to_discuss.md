@@ -1,4 +1,4 @@
-﻿# New ideas to discuss
+# New ideas to discuss
 
 Ideas Magnus or Claude want to discuss, written down when they occur, so that none is lost (Magnus, 2026-11-11). They're
 ideas that came up while working on something else, or that a code comment can't hold because they're about no one
@@ -46,3 +46,47 @@ piece of code, or that would otherwise be lost in a long response.
   sentences at once, only the sentences that parse differently. That is the experiment Magnus described: change the
   parsing configuration in one, and see at once where the two now disagree. The gateway knows nothing of JAStudio's
   tools, so it would compare answers as JSON, generally, which suits it.
+- **(Claude, 2026-11-15) Get the solution to no inspection warnings, so that a new one shows.** Every inspection of a
+  few files answers with dozens of standing warnings, which the new ones hide: `MemberCanBeInternal` and
+  `MemberCanBePrivate.Global` throughout, the latter on every specification's helpers, and
+  `NotAccessedPositionalProperty.Global` on the records JAStudio's MCP server only serializes to JSON. Either fix them
+  in a campaign (the shared skill `run-and-fix-resharper-inspections`), or turn off the ones that are noise here, for
+  the specifications and for the records that are serialized. *Magnus, 2026-11-15: "There will be a campaign, but not
+  right now."*
+- **(Claude, 2026-11-15) A type for a study-note's id, in place of `long`,** as the code standard on primitives asks.
+  Best done now that the notifications from Anki are gone (`moving-jastudio-out-of-anki.md`, increment 2, part 4): much of
+  the code that passes the id about today goes with them.
+- **(Claude, 2026-11-15) View models dispatch to the UI thread with Avalonia's `Dispatcher`,** though the rule for the
+  UI says that view models don't reference Avalonia types (`ImportRunWindowViewModel`, `StudyingWindowViewModel`).
+  Core has `IUIThreadDispatcher` for it, but the specifications that open windows run with one that dispatches nowhere,
+  while their windows live on the headless UI thread. A dispatcher for those specifications that posts to that thread
+  would let the view models use Core's.
+- **(Claude, 2026-11-15) The Sync button's green mark could go when a sync is due again.** Today it stays until the next
+  sync starts, so it says only that the last sync finished. It could go when JAStudio has changed a note that has a
+  study-note, since that study-note is then out of date until the next sync, and when Anki's own sync has finished,
+  since that may have brought changes from AnkiWeb. JAStudio knows of both without Anki telling it of anything more.
+- **(Claude, 2026-11-15) The workspace window can't be opened in a specification,** so a change to it, such as its
+  Sync button, is seen first when Magnus restarts Anki. It's created once for the process (`WorkspaceWindow._instance`),
+  where the specifications that open windows need one for each of them, as the Studying window has
+  (`StudyingWindow.OpenWindowsByServices`). The headless JAStudio renders its workspace, but has no spaced repetition
+  system, so what is shown only with one can't be seen there either.
+- **(Claude, 2026-11-15) An automatic import's result shows in Anki's tooltip, though the Sync that started it was
+  clicked in the workspace.** `AutomaticImportRunReports` says "The import profile … imported N sentences" in a
+  passing message in Anki's window, from when an import in Anki started the run. Since increment 2 a Sync starts it,
+  from the Sync button. The workspace could say it instead, such as beside the Sync button, where the reason a sync
+  didn't run already shows.
+- **(Claude, 2026-11-15) Each change JAStudio makes in Anki could be an Anki operation that Anki's windows are told
+  of,** as its tag changes are (`aqt.operations.on_op_finished`). Anki's browser, reviewer and undo menu then follow
+  it by themselves, which is the way Anki's developers recommend. Today the write of a study-note, suspending and
+  unsuspending a note's cards, and deleting a study-note change the collection and tell no window.
+  - *The sync's writes as one operation:* one call with every study-note to write (`col.update_notes`), which is one
+    undo entry, "undo the sync", where each study-note is an entry of its own today, and one notification.
+  - *Suspending many notes' cards as one operation,* for the same reasons: `BulkNoteChanges` suspends a note at a
+    time.
+  - *Deleting the note under review with its study-note:* told of the operation, Anki's reviewer moves to the next
+    card. Untold, it keeps showing a card that no longer exists.
+- **(Claude, 2026-11-15) The card that says JAStudio is still loading could be JAStudio's own page.** While the
+  collection loads, Anki's card shows a text (`Mine.AppStillLoadingMessage`), and JAStudio has Anki draw its cards
+  again when the load is done (`ISRSWindows.Refresh`), by poking the reviewer's and the previewer's private members.
+  If the card were a page on the `CardServer` from the start, saying that JAStudio is loading, it could load the
+  card itself when the collection has loaded, and that last refresh could go.

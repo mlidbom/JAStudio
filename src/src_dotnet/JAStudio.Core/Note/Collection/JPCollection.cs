@@ -13,6 +13,8 @@ using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.SysUtils.Threading;
 
 namespace JAStudio.Core.Note.Collection;
@@ -47,8 +49,8 @@ public class JPCollection
 
    /// <summary>
    /// Notifies every note whose study-note in Anki changed, on the thread that changed it: its studying status, when JAStudio suspended or unsuspended<br/>
-   /// its cards or Anki reported a change to one of them (<see cref="UpdateCardStudyingStatus"/>), its <see cref="JPNote.AnkiTags"/>, or its study-note<br/>
-   /// itself, created or deleted, as reading the study-notes from Anki again finds (<see cref="ReadTheStudyNotesFromAnkiAgain"/>).
+   /// its cards, and whatever reading the study-notes from Anki again finds changed (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>), as a sync does:<br/>
+   /// the studying status of a card, its <see cref="JPNote.AnkiTags"/>, or its study-note itself, created or deleted.
    /// </summary>
    /// <remarks>
    /// Both are held in memory, not stored with the note, so changing them updates no note, and <see cref="NoteUpdated"/> doesn't notify them.<br/>
@@ -104,57 +106,55 @@ public class JPCollection
       return Sentences.WithIdOrNone(noteId);
    }
 
-   /// <summary> Look up a note by its external long ID./// </summary>
+   /// <summary>The note that the study-note with the id <paramref name="studyNoteId"/> belongs to, or null when no note is known to have it.</summary>
    // ReSharper disable once UnusedMember.Global called from python
-   public JPNote? NoteFromExternalId(long externalNoteId)
+   public JPNote? NoteOfTheStudyNote(long studyNoteId)
    {
-      var noteId = NoteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
+      var noteId = NoteServices.StudyNoteIds.NoteIdOfTheStudyNote(studyNoteId);
       return noteId != null ? NoteFromNoteId(noteId) : null;
    }
-
-   /// <summary> Returns the external long note ID for the given domain NoteId. Returns 0 if no mapping is found.</summary>
-   // ReSharper disable once UnusedMember.Global called from python
-   public long GetExternalNoteId(NoteId noteId) => NoteServices.ExternalNoteIdMap.ToExternalId(noteId) ?? 0;
 
    public NoteServices NoteServices { get; }
    public VocabNoteFactory VocabNoteFactory { get; }
    public DictLookup DictLookup { get; }
    public VocabNoteGeneratedData VocabNoteGeneratedData { get; }
 
-   /// <summary>Called by Anki when it suspended or unsuspended a card, or added a note: sets the studying status of the card's note, if JAStudio has the note.</summary>
-   // ReSharper disable once UnusedMember.Global called from python
-   public void UpdateCardStudyingStatus(CardStudyingStatus status)
-   {
-      if(NoteFromExternalId(status.ExternalNoteId) is not {} note) return;
-
-      note.SetStudyingStatus(status);
-      NotifyThatTheStudyNoteChangedFor(note);
-   }
+   /// <summary>
+   /// Reads from the SRS, the spaced repetition system, again what this collection holds of each note's study-note, as the load does, without<br/>
+   /// loading the corpus again: its id, the studying statuses of its cards and its tags (<see cref="ISRSStudyNotes.ReadAll"/>). Each note whose study-note<br/>
+   /// differs from before is notified through <see cref="StudyNoteChanged"/>. For when the study-notes may differ from what this collection holds<br/>
+   /// of them: after JAStudio changed Anki's tags (<see cref="AnkiTagChanges"/>), and when another Anki profile opened. A sync reads them so too<br/>
+   /// (<see cref="ReadTheStudyNotesFromTheSRSAgainAndCompareThem"/>). It shows no progress.
+   /// </summary>
+   /// <remarks>review-naming:studying: ReadTheStudyNotesFromTheSRSAgain was ReadTheStudyNotesFromAnkiAgain (Claude, 2026-11-15).</remarks>
+   public void ReadTheStudyNotesFromTheSRSAgain() => _oneLoadOrReadFromTheSRSAtATime.Do(() => { ReadTheStudyNotesAgain(); });
 
    /// <summary>
-   /// Reads from Anki again what this collection holds of each note's study-note, as the load does, without loading the corpus again: its Anki note id,<br/>
-   /// the studying statuses of its cards and its tags (<see cref="IBackendDataLoader"/>). Each note whose study-note differs from before is notified<br/>
-   /// through <see cref="StudyNoteChanged"/>. For when Anki may have changed the study-notes, such as after an Anki operation that changed notes, undo<br/>
-   /// and redo included. It shows no progress.
+   /// Reads the study-notes again, as <see cref="ReadTheStudyNotesFromTheSRSAgain"/> does, and compares each with the study-note JAStudio would write<br/>
+   /// for its note now, before a load can empty this collection: what a sync with the spaced repetition system starts with (<see cref="SRSSync"/>).
    /// </summary>
-   /// <remarks>
-   /// It shows no progress since it runs in the background so often, after every Anki operation that changed notes: Anki's editor saves its note each<br/>
-   /// time typing pauses, and each save is such an operation. A progress window would also take the focus from the editor's field, and the editor saves<br/>
-   /// its note when the field loses the focus: each read would then start the next one.
-   /// </remarks>
-   public void ReadTheStudyNotesFromAnkiAgain() => _oneLoadOrReadFromAnkiAtATime.Do(() =>
+   internal (StudyNotesReadFromTheSRS Read, StudyNoteComparison Comparison) ReadTheStudyNotesFromTheSRSAgainAndCompareThem() => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {
-      using var showingNoProgress = NoteServices.TaskRunner.Current("Reading the study-notes from Anki again", forceHide: true);
-      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.ExternalNoteIdMap.Snapshot();
-      GiveEachNoteItsStudyNoteFrom(_backendDataLoader.Load(NoteServices.TaskRunner), ankiNoteIdsHeldWhenTheReadBegan).ForEach(NotifyThatTheStudyNoteChangedFor);
+      var read = ReadTheStudyNotesAgain();
+      return (read, new StudyNoteComparison(this, read.StudyNotes));
    });
+
+   /// <summary>Reads the study-notes again, gives each note its study-note from them, and notifies each note whose study-note differs from before or is gone.</summary>
+   StudyNotesReadFromTheSRS ReadTheStudyNotesAgain()
+   {
+      var studyNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
+      var read = GiveEachNoteItsStudyNoteFrom(_studyNotesInTheSRS.ReadAll(), studyNoteIdsHeldWhenTheReadBegan);
+      foreach(var note in read.NotesWhoseStudyNoteIsGone.Concat(read.NotesWhoseStudyNoteChanged))
+         NotifyThatTheStudyNoteChangedFor(note);
+      return read;
+   }
 
    public JPCollection(
       NoteServices noteServices,
       INoteRepository noteRepository,
       MediaFileIndex mediaFileIndex,
       MediaStorageService mediaStorage,
-      IBackendDataLoader backendDataLoader)
+      ISRSStudyNotes studyNotesInTheSRS)
    {
       using var _ = this.Log().Info().MethodExecutionTime();
 
@@ -162,7 +162,7 @@ public class JPCollection
       _repository = noteRepository;
       _mediaFileIndex = mediaFileIndex;
       _mediaStorage = mediaStorage;
-      _backendDataLoader = backendDataLoader;
+      _studyNotesInTheSRS = studyNotesInTheSRS;
       DictLookup = new DictLookup(this);
       VocabNoteGeneratedData = new VocabNoteGeneratedData();
       VocabNoteFactory = new VocabNoteFactory(DictLookup, this, noteServices);
@@ -183,42 +183,34 @@ public class JPCollection
    readonly INoteRepository _repository;
    readonly MediaFileIndex _mediaFileIndex;
    readonly MediaStorageService _mediaStorage;
-   readonly IBackendDataLoader _backendDataLoader;
+   readonly ISRSStudyNotes _studyNotesInTheSRS;
 
-   /// <summary>Keeps a load of this collection and a read of the study-notes from Anki from running at the same time, which would mix what they read.</summary>
-   readonly OneAtATime _oneLoadOrReadFromAnkiAtATime = new();
+   /// <summary>
+   /// Keeps a load of this collection and a read of the study-notes from the spaced repetition system from running at the same time, which would<br/>
+   /// mix what they read.
+   /// </summary>
+   readonly OneAtATime _oneLoadOrReadFromTheSRSAtATime = new();
 
    /// <summary>
    /// Permanently deletes <paramref name="note"/> from JAStudio: its corpus data, the note in this collection, and its media files in the media layer<br/>
-   /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its Anki note, if it has one in this Anki profile,<br/>
-   /// is kept or deleted as <paramref name="itsAnkiNote"/> says. A deleted vocab leaves its web of perfect synonyms, whose other vocab keep it as<br/>
-   /// a synonym (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note in Anki instead only forgets<br/>
-   /// its Anki note (<see cref="NoteCacheBase{TNote}.ExternalNoteRemoved"/>).
+   /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its study-note, if it has one, is kept or<br/>
+   /// deleted as <paramref name="itsStudyNote"/> says. A deleted vocab leaves its web of perfect synonyms, whose other vocab keep it as a synonym<br/>
+   /// (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note's study-note in Anki instead leaves<br/>
+   /// the note in the corpus and in JAStudio: the next read of the study-notes finds it gone, and the note is then no longer studied.
    /// </summary>
-   public void Delete(JPNote note, ItsAnkiNote itsAnkiNote)
+   public void Delete(JPNote note, ItsStudyNote itsStudyNote)
    {
       TakeItOutOfItsWebOfPerfectSynonyms();
-      if(itsAnkiNote == ItsAnkiNote.IsDeleted) NoteServices.CardOperations.DeleteNote(note.GetId());
+      if(itsStudyNote == ItsStudyNote.IsDeleted) _studyNotesInTheSRS.DeleteTheStudyNoteOf(note.GetId());
       _repository.Delete(note.GetId());
       RemoveFromItsCache();
-      DeleteTheMediaNoOtherNoteUses();
+      DeleteTheMediaFilesNoNoteUses(note.MediaReferences.Select(it => it.FileName));
       _noteDeleted.OnNext(note);
       return;
 
       void TakeItOutOfItsWebOfPerfectSynonyms()
       {
          if(note is VocabNote vocab) vocab.RelatedNotes.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted();
-      }
-
-      void DeleteTheMediaNoOtherNoteUses()
-      {
-         var filesOfTheNote = note.MediaReferences.Select(it => it.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
-         if(filesOfTheNote.Count == 0) return;
-
-         var filesOtherNotesUse = AllNotes().SelectMany(it => it.MediaReferences).Select(it => it.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
-         filesOfTheNote.Where(it => !filesOtherNotesUse.Contains(it) && _mediaFileIndex.ContainsByOriginalFileName(it))
-                       .ToList()
-                       .ForEach(_mediaStorage.DeleteFile);
       }
 
       void RemoveFromItsCache()
@@ -232,11 +224,35 @@ public class JPCollection
       }
    }
 
+   /// <summary>
+   /// Discards <paramref name="note"/>'s TTS audio, so that it has none (<see cref="Media.AudioReferenceList.DiscardTheTextToSpeechAudio"/>), and deletes<br/>
+   /// its files from the media layer, unless another note uses them, as a file HyperTTS made may be shared by notes with the same text. Their copies<br/>
+   /// in Anki's media folder are left to Anki's "Check Media", as a deleted note's are. Its recordings stay.
+   /// </summary>
+   public void DiscardTheTextToSpeechAudioOf(IHasTextToSpeechAudio note)
+   {
+      var itsFiles = note.Audio.TextToSpeech.Select(it => it.FileName).ToList();
+      note.Audio.DiscardTheTextToSpeechAudio();
+      DeleteTheMediaFilesNoNoteUses(itsFiles);
+   }
+
+   /// <summary>Deletes those of <paramref name="fileNames"/> that no note in the collection uses, and that the media layer has, from the media layer.</summary>
+   void DeleteTheMediaFilesNoNoteUses(IEnumerable<string> fileNames)
+   {
+      var candidates = fileNames.ToHashSet(StringComparer.OrdinalIgnoreCase);
+      if(candidates.Count == 0) return;
+
+      var filesNotesUse = AllNotes().SelectMany(it => it.MediaReferences).Select(it => it.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+      candidates.Where(it => !filesNotesUse.Contains(it) && _mediaFileIndex.ContainsByOriginalFileName(it))
+                .ToList()
+                .ForEach(_mediaStorage.DeleteFile);
+   }
+
    /// <summary>Empties this collection, and forgets every note's Anki note id, as a load starts.</summary>
    void ClearCaches() => this.Log().Warning().MethodExecutionTime(() =>
    {
       IsInitialized = false;
-      NoteServices.ExternalNoteIdMap.Clear();
+      NoteServices.StudyNoteIds.Clear();
       Vocab.Cache.Clear();
       Kanji.Cache.Clear();
       Sentences.Cache.Clear();
@@ -246,7 +262,7 @@ public class JPCollection
    /// Clears this collection and loads it again: the notes from the corpus checkout, and the studying statuses and Anki note ids from Anki. It runs<br/>
    /// at startup, and when asked to, by the workspace's Local Actions > "Reload the collection from disk" or JAStudio's MCP server, to take in changes<br/>
    /// made to the corpus checkout outside JAStudio. After a sync, or as another Anki profile opens, only the study-notes are read again<br/>
-   /// (<see cref="ReadTheStudyNotesFromAnkiAgain"/>), since Anki holds only them.
+   /// (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>), since Anki holds only them.
    /// </summary>
    /// <returns>The notes whose files changed on disk while this collection held them, as <see cref="ReloadFromBackendAfter"/> describes.</returns>
    public IReadOnlyList<JPNote> ReloadFromBackend() => ReloadFromBackendAfter(() => {});
@@ -258,10 +274,10 @@ public class JPCollection
    /// </summary>
    /// <returns>
    /// The notes whose files changed on disk while this collection held them: each one's data now differs from the same note's as held before. Each<br/>
-   /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as its Anki note. Notes this collection<br/>
-   /// didn't hold before aren't among them: none at startup.
+   /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as the workspace's pages. Notes this<br/>
+   /// collection didn't hold before aren't among them: none at startup.
    /// </returns>
-   public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromAnkiAtATime.Do(() =>
+   public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {
       var notesHeldBefore = AllNotes().ToDictionary(it => it.GetId());
       ClearCaches();
@@ -291,43 +307,51 @@ public class JPCollection
       var mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
       var dictionaryLoad = TaskCE.Run(() => runner.RunIndeterminate("Loading the dictionary", DictLookup.LoadTheDictionary));
 
-      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.ExternalNoteIdMap.Snapshot();
-      var backendDataTask = Task.Run(() => _backendDataLoader.Load(NoteServices.TaskRunner));
+      var studyNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
+      var studyNotesRead = TaskCE.Run(() => runner.RunIndeterminate("Reading the study-notes from Anki", _studyNotesInTheSRS.ReadAll));
 
-      Task.WaitAll(repoLoad, mediaIndexBuild, backendDataTask, dictionaryLoad);
+      Task.WaitAll(repoLoad, mediaIndexBuild, studyNotesRead, dictionaryLoad);
 
-      runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(backendDataTask.Result, ankiNoteIdsHeldWhenTheReadBegan));
+      runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(studyNotesRead.Result, studyNoteIdsHeldWhenTheReadBegan));
 
       IsInitialized = true;
       _reloadedFromBackend.OnNext(this);
    }
 
    /// <summary>
-   /// Gives each note what <paramref name="anki"/> holds of its study-note: its Anki note id, the studying statuses of its cards and its tags. A study-note<br/>
-   /// whose note the collection hasn't, such as one added in Anki, has no note to give them to. A note whose study-note was among<br/>
-   /// <paramref name="ankiNoteIdsHeldWhenTheReadBegan"/>, and is gone from Anki, is left with none.
+   /// Gives each note what the spaced repetition system holds of its study-note, as <paramref name="studyNotesRead"/> from it: its id, the studying<br/>
+   /// statuses of its cards and its tags. A study-note that holds no note's id, or whose note the collection hasn't, such as one added in Anki,<br/>
+   /// has no note to give them to. A note whose study-note was among <paramref name="studyNoteIdsHeldWhenTheReadBegan"/>, and is gone from the<br/>
+   /// spaced repetition system, is left with none.
    /// </summary>
-   /// <returns>The notes whose study-note differs from before: at a load, every note with one.</returns>
-   List<JPNote> GiveEachNoteItsStudyNoteFrom(BackendData anki, IReadOnlyDictionary<long, NoteId> ankiNoteIdsHeldWhenTheReadBegan)
+   /// <returns>What was read, with the notes whose study-note differs from before, at a load every note with one, and those whose study-note is gone.</returns>
+   StudyNotesReadFromTheSRS GiveEachNoteItsStudyNoteFrom(IReadOnlyList<StudyNoteInTheSRS> studyNotesRead, IReadOnlyDictionary<long, NoteId> studyNoteIdsHeldWhenTheReadBegan)
    {
+      List<JPNote> notesWhoseStudyNoteThenIsGone = [.. NoteServices.StudyNoteIds.TakeIn(NoteIdOfEachStudyNoteThatHoldsOne(), studyNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>()];
+      notesWhoseStudyNoteThenIsGone.ForEach(it => it.ReadItsStudyNoteFrom([], []));
+
       List<JPNote> notesWhoseStudyNoteChanged = [];
-      foreach(var note in NoteServices.ExternalNoteIdMap.TakeIn(anki.IdMappings, ankiNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>())
+      foreach(var studyNote in studyNotesRead)
       {
-         note.ReadItsStudyNoteFrom([], []);
-         notesWhoseStudyNoteChanged.Add(note);
-      }
+         if(studyNote.NoteId is not {} noteId || NoteFromNoteId(noteId) is not {} note) continue;
 
-      foreach(var (ankiNoteId, noteId) in anki.IdMappings)
-      {
-         if(NoteFromNoteId(noteId) is not {} note) continue;
-
-         var itsStudyNoteDiffers = note.ReadItsStudyNoteFrom(anki.StudyingStatusesOf(ankiNoteId), anki.TagsOf(ankiNoteId)) || ItIsANewStudyNote(ankiNoteId, noteId);
+         var itsStudyNoteDiffers = note.ReadItsStudyNoteFrom(studyNote.CardStudyingStatuses, studyNote.Tags) || ItIsANewStudyNote(studyNote.StudyNoteId, noteId);
          if(itsStudyNoteDiffers) notesWhoseStudyNoteChanged.Add(note);
       }
 
-      return notesWhoseStudyNoteChanged;
+      return new StudyNotesReadFromTheSRS(studyNotesRead, notesWhoseStudyNoteChanged, [.. notesWhoseStudyNoteThenIsGone.Where(ItHasNoOtherStudyNoteNow)]);
 
-      bool ItIsANewStudyNote(long ankiNoteId, NoteId noteId) => !(ankiNoteIdsHeldWhenTheReadBegan.TryGetValue(ankiNoteId, out var heldThen) && heldThen.Equals(noteId));
+      bool ItHasNoOtherStudyNoteNow(JPNote note) => !note.HasAStudyNote();
+
+      Dictionary<long, NoteId> NoteIdOfEachStudyNoteThatHoldsOne()
+      {
+         Dictionary<long, NoteId> noteIdOfEachStudyNote = [];
+         foreach(var studyNote in studyNotesRead)
+            if(studyNote.NoteId is {} noteId) noteIdOfEachStudyNote[studyNote.StudyNoteId] = noteId;
+         return noteIdOfEachStudyNote;
+      }
+
+      bool ItIsANewStudyNote(long studyNoteId, NoteId noteId) => !(studyNoteIdsHeldWhenTheReadBegan.TryGetValue(studyNoteId, out var heldThen) && heldThen.Equals(noteId));
    }
 
    void LoadFromRepository()

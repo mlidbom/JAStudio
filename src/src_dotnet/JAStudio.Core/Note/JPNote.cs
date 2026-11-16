@@ -9,6 +9,7 @@ using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.Studying;
 using MemoryPack;
 
 namespace JAStudio.Core.Note;
@@ -106,45 +107,38 @@ public abstract class JPNote
       return _cardStatus.TryGetValue(cardType, out var isActive) && isActive;
    }
 
-   /// <summary>Whether the note has an Anki note in this Anki profile, which holds its cards and their review history.</summary>
-   public bool HasAnAnkiNote() => Services.ExternalNoteIdMap.ToExternalId(_id).HasValue;
+   /// <summary>
+   /// Whether the note has a study-note in the SRS, the spaced repetition system, which holds its cards and their review history: in Anki, an Anki<br/>
+   /// note in the Anki profile JAStudio works with.
+   /// </summary>
+   /// <remarks>review-naming:studying: HasAStudyNote was HasAnAnkiNote (Claude, 2026-11-15).</remarks>
+   public bool HasAStudyNote() => Services.StudyNoteIds.StudyNoteIdOf(_id).HasValue;
 
    public bool IsStudyingRead() => IsStudying(CardTypes.Reading);
    public bool IsStudyingListening() => IsStudying(CardTypes.Listening);
 
    public void SuspendAllCards()
    {
-      Services.CardOperations.SuspendAllCardsForNote(_id);
+      Services.SRSStudyNotes.SuspendAllCardsForNote(_id);
       SetTheStatusOfEveryKnownCard(isActive: false);
       Flush();
    }
 
    public void UnsuspendAllCards()
    {
-      Services.CardOperations.UnsuspendAllCardsForNote(_id);
+      Services.SRSStudyNotes.UnsuspendAllCardsForNote(_id);
       SetTheStatusOfEveryKnownCard(isActive: true);
       Flush();
    }
 
    /// <summary>
-   /// Marks every card type the note has a status for as active, that is unsuspended, or as suspended, after the studying-add-on was told to do the same,<br/>
+   /// Marks every card type the note has a status for as active, that is unsuspended, or as suspended, after the spaced repetition system was told to do the same,<br/>
    /// and notifies the change through <see cref="JPCollection.StudyNoteChanged"/>, since the status isn't stored with the note and no flush reports it.
    /// </summary>
    void SetTheStatusOfEveryKnownCard(bool isActive)
    {
       foreach(var cardType in _cardStatus.Keys.ToList())
          _cardStatus[cardType] = isActive;
-      Services.Collection.NotifyThatTheStudyNoteChangedFor(this);
-   }
-
-   /// <summary>
-   /// Forgets the note's Anki note, after it was deleted in Anki: the studying status of every card, since with no cards in this Anki profile the note<br/>
-   /// isn't studied in it, and its <see cref="AnkiTags"/>. Notifies the change through <see cref="JPCollection.StudyNoteChanged"/>, since neither<br/>
-   /// is stored with the note and no flush reports it.
-   /// </summary>
-   public void ForgetItsDeletedAnkiNote()
-   {
-      ReadItsStudyNoteFrom([], []);
       Services.Collection.NotifyThatTheStudyNoteChangedFor(this);
    }
 

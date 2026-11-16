@@ -163,12 +163,15 @@ public partial class NoteSearchView : UserControl
    }
 
    /// <remarks>
-   /// It's always posted, so a condition's dialog may have opened meanwhile. Then it does nothing:<br/>
-   /// focusing the line would take the keyboard from the dialog, and the dialog puts it back on the line when it closes.
+   /// It's always posted, so by the time it runs, things may have changed, and then it does nothing:<br/>
+   /// - A condition's dialog may have opened: focusing the line would take the keyboard from the dialog, and the dialog puts it back on the line<br/>
+   ///   when it closes.<br/>
+   /// - The navigation pane may show another of its tabs, which takes the search's view out of the window: as when a workspace shows the state it<br/>
+   ///   was left in, with its search and, say, its Tags tab shown. The keyboard belongs to what is shown.
    /// </remarks>
    void FocusTheSelectedLine()
    {
-      if(OwnerWindow.HasAWindowOpenOverIt()) return;
+      if(TopLevel.GetTopLevel(this) is not Window windowShowingTheSearch || windowShowingTheSearch.HasAWindowOpenOverIt()) return;
 
       if(ConditionTree.GetVisualDescendants().OfType<TreeViewItem>().FirstOrDefault(it => it.DataContext == ViewModel.SelectedNode) is {} selectedLine)
          selectedLine.Focus();

@@ -34,7 +34,7 @@ public class When_running_a_universal_note_action : McpServerSpecification
 
          public keeping_its_Anki_note() => _deleted = ResultOf<NoteSummary>(Delete("keep"));
 
-         [XF] public void the_vocab_had_an_Anki_note() => Vocab.HasAnAnkiNote().Must().BeTrue();
+         [XF] public void the_vocab_had_an_Anki_note() => Vocab.HasAStudyNote().Must().BeTrue();
          [XF] public void the_vocab_deleted_is_reported() => _deleted.Question.Must().Be("勉強");
          [XF] public void the_vocab_is_no_longer_in_the_collection() => TheIdOfTheVocabTheCollectionHolds().Must().BeNull();
       }

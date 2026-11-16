@@ -27,8 +27,7 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
   the pointer's position, which `PointToScreen` turns into a screen position. No OS call is needed.
 - **The note page's context menu** in a workspace tab still opens at the cursor (`MouseCursor`): it's to be replaced
   (below), so it isn't worth reworking.
-- **The generic context menu Anki asks for** (`AnkiMenus.ShowContextMenuPopup`) already gets its position from Qt,
-  through Python. Nothing to change.
+- **The generic context menu Anki asked for** (`AnkiMenus.ShowContextMenuPopup`) is gone: nothing called it.
 - **Windows open where they were last** (`WindowPlaceKeeper`, `RememberedWindowPlaces`), the workspace included.
   A window's place is followed while it's shown and remembered when another window is activated or it's closed, in
   `window-places.json` in the user files folder. The first time, and when its place is on no connected screen,
@@ -40,16 +39,20 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
 - **Windows opened from Anki:** hardly any are needed any more (Magnus). Anki's "Japanese" menu is gone: the
   workspace shows the same menu, now `WorkspaceMainMenu`, as its menu bar, with the same shortcuts. Anki has a JA
   Studio menu instead, with just the workspace and the workspace on its search, so that JAStudio can be found
-  (`AnkiMenus.BuildJAStudioMenuSpec`). Their shortcuts, Ctrl+Shift+O and Ctrl+O, are bound by Anki's global
-  shortcuts and only shown in the menu. The reviewer's hotkeys open no windows.
-- **The reviewer's right-click menu,** and the note page's menu in the workspace, which is the same menu
-  (`NoteContextMenu`), are to go (Magnus, 2026-11-08). They were a hack to get some UI for a rendered note before the
+  (`jastudio_menu.py`, Python's own since 2026-11-15), and since 2026-11-15 the reviewed note in the workspace.
+  Their shortcuts, Ctrl+Shift+O, Ctrl+S and Ctrl+O, are bound by Anki's global shortcuts and only shown in the menu.
+- **The reviewer's right-click menu** went on 2026-11-15, with Anki's other Qt menus
+  (`moving-jastudio-out-of-anki.md`). The note page's menu in the workspace, which is the same menu
+  (`NoteContextMenu`), is to go too (Magnus, 2026-11-08). They were a hack to get some UI for a rendered note before the
   cards were rendered with Blazor, and they guess what was clicked from the text JavaScript found selected. Since
   2026-11-13, the workspace's notes' pages are to be Avalonia's, which know what was clicked, and the menus go once
   those pages do what they do (`jastudio-workspace.md`, "Technology"). Until then, the plan was a Blazor UI on the
   page.
 
 ## Not known yet
+
+*The first three go once JAStudio has moved out of Anki's process, as agreed on 2026-11-14: see
+`moving-jastudio-out-of-anki.md`. Handing the keyboard between JAStudio and Anki is then the new unknown.*
 
 - **Whether the add-on runs in Anki on macOS or Linux at all:** pythonnet loading .NET 11, and where the .NET
   runtime comes from.
@@ -68,8 +71,7 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
 - **Placing windows:** see above.
 - **The Japanese fonts** in the Avalonia UI: one `JapaneseFont` in `App.axaml`, listing Windows', macOS's (Hiragino
   Sans) and Linux's (Noto Sans CJK JP). Fonts that aren't installed are skipped.
-- **The window specifications** run on every platform. *Whether headless Skia works in CI on Linux shows on the next
-  push.*
+- **The window specifications** run on every platform, and pass in CI on Linux since the linux-ci merge (2026-11-14).
 
 - **The Python layer:** no Windows-specific code found.
 - **Audio:** SoundFlow plays it (`text-to-speech.md`). Mp3 normalization is plain C#.

@@ -5,6 +5,7 @@
         xmlns:controls="clr-namespace:JAStudio.UI.Controls"
         xmlns:editorViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors"
         xmlns:navigation="clr-namespace:JAStudio.UI.Views.Workspace.Navigation"
+        xmlns:studying="clr-namespace:JAStudio.UI.Views.Studying"
         x:Class="JAStudio.UI.Views.Workspace.WorkspaceWindow"
         x:DataType="vm:WorkspaceViewModel"
         Title="{Binding Title}"
@@ -12,7 +13,11 @@
         WindowStartupLocation="CenterScreen">
 
     <DockPanel>
-        <Menu DockPanel.Dock="Top" x:Name="MainMenu" />
+        <DockPanel DockPanel.Dock="Top">
+            <studying:SyncButton DockPanel.Dock="Right" DataContext="{Binding SyncButton}" Margin="4,2" />
+            <TextBlock DockPanel.Dock="Right" Text="{Binding SyncButton.WhyTheSyncDidNotRun}" VerticalAlignment="Center" Margin="8,0" />
+            <Menu x:Name="MainMenu" />
+        </DockPanel>
 
         <navigation:NavigationPane x:Name="NavigationPane" DockPanel.Dock="Left" DataContext="{Binding Navigation}" MinWidth="200" />
         <controls:PaneResizeEdge DockPanel.Dock="Left" ResizedPane="{Binding #NavigationPane}" ResizedPaneSide="Left"
@@ -26,7 +31,7 @@
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <ToggleButton DockPanel.Dock="Left" Content="Navigation" IsChecked="{Binding Navigation.IsOpen}"
-                              ToolTip.Tip="Show or hide the navigation pane: the note search (Ctrl+O), and the lists the note menus' Open items show"
+                              ToolTip.Tip="Show or hide the navigation pane: the note search (Ctrl+S), and the lists the note menus' Open items show"
                               Margin="4,2" Padding="8,2" />
                 <ToggleButton DockPanel.Dock="Right" Content="Editor" IsChecked="{Binding IsEditorSectionOpen}"
                               ToolTip.Tip="Show or hide the editor section (Ctrl+E)" Margin="4,2" Padding="8,2" />

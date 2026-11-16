@@ -1,5 +1,6 @@
 """
-Backend for JAStudio.Anki.AnkiFacade: the Python side of each call .NET makes into Anki.
+The Python side of each call .NET makes into Anki through pythonnet: JAStudio.Anki.AnkisFunctions.ThroughPythonnet.AnkiThroughPythonnet calls
+these functions, and so does what is left of JAStudio.Anki.AnkiFacade.
 
 The functions that drive Anki's windows, such as its browser, run their work on the Qt main thread themselves, so they're safe to call from any .NET
 thread, the Avalonia UI thread included. The others call Anki's collection on the calling thread, which Anki's backend allows from any thread.
@@ -8,16 +9,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from anki.cards import CardId
 from anki.notes import NoteId
 from aqt import mw
 from jaspythonutils.sysutils.typed import non_optional, str_
 from jastudio.sysutils.app_thread_pool import run_on_ui_thread_fire_and_forget
-from typed_linq_collections.q_iterable import query
 
 if TYPE_CHECKING:
     from anki.collection import OpChangesWithCount
-    from JAStudio.Core.Note import JPNote
 
 
 # ── Browser ──
@@ -36,17 +34,6 @@ def browser_execute_lookup_and_show_previewer(query: str) -> None:
         from jastudio.ankiutils import search_executor
         search_executor.do_lookup_and_show_previewer(query)
     run_on_ui_thread_fire_and_forget(do_it)
-
-# noinspection PyUnusedFunction
-def browser_prioritize_cards(card_ids: list[int]) -> None:
-    from jastudio.note import queue_manager
-    queue_manager.prioritize_selected_cards(query(card_ids).select(NoteId).to_list())
-
-# noinspection PyUnusedFunction
-def browser_spread_cards_over_days(card_ids: list[int], start_day: int, days_apart: int) -> None:
-    """Spread selected cards over days (distributes due dates across time range)."""
-    from jastudio.ui.menus.browser import main as browser_main
-    browser_main.spread_due_dates(query(card_ids).select(NoteId).to_list(), start_day, days_apart)
 
 # ── UIUtils ──
 
@@ -130,17 +117,21 @@ def tags_number_of_notes_with_a_tag_in(path: str) -> int:
 
 def _tell_anki_of_jastudios_own_operation(changes: OpChangesWithCount) -> None:
     """Tells Anki's windows of the change, as Anki does after each operation, on its main thread: its undo menu, its browser and its reviewer
-    follow it. As JAStudio's own operation, which JAStudio reads the study-notes again after itself."""
+    follow it. None of Anki's windows started the operation, so it has no initiator."""
     from aqt.operations import on_op_finished
-    from jastudio.ui.hooks.follow_the_study_notes_in_anki import JASTUDIOS_OWN_OPERATION
-    mw.taskman.run_on_main(lambda: on_op_finished(mw, changes, JASTUDIOS_OWN_OPERATION))
+    mw.taskman.run_on_main(lambda: on_op_finished(mw, changes, None))
 
 # ── Study-notes ──
 # noinspection PyUnusedFunction
-def study_note_write(anki_note_id: int, jp_note: JPNote) -> None:
-    """Writes the note's study-note into the Anki note, as JAStudio writes it whenever it updates the note."""
-    from jastudio.note.jpnotedata_shim import JPNoteDataShim
-    JPNoteDataShim.write_study_note(jp_note, NoteId(anki_note_id))
+def study_note_write(anki_note_id: int, fields: dict[str, str]) -> None:
+    """Writes the fields, by name, into the Anki note: those JAStudio writes into a note's study-note, as its sync with Anki does for each
+    study-note that differs. The note's other fields, and its tags, stay as they are."""
+    from jastudio.ankiutils import app
+    collection = app.anki_collection()
+    anki_note = collection.get_note(NoteId(anki_note_id))
+    for name, value in fields.items():
+        anki_note[name] = value
+    collection.update_note(anki_note)
 
 # ── NoteEx ──
 # noinspection PyUnusedFunction
@@ -153,11 +144,6 @@ def note_unsuspend_all_cards(note_id: int) -> None:
     from jastudio.anki_extentions.note_ex import NoteEx
     NoteEx.from_id(note_id).un_suspend_all_cards()
 
-# noinspection PyUnusedFunction
-def note_remove(note_id: int) -> None:
-    from jastudio.ankiutils import app
-    app.anki_collection().remove_notes([NoteId(note_id)])
-
 # ── Col ──
 # noinspection PyUnusedFunction
 def col_read_json(select: str) -> str:
@@ -167,11 +153,6 @@ def col_read_json(select: str) -> str:
     return str_(non_optional(app.anki_collection().db).scalar(select))  # pyright: ignore[reportAny]  # Anki types every database value as Any: str_ checks that it's the text
 
 # ── Misc ──
-# noinspection PyUnusedFunction
-def get_note_id_from_card_id(card_id: int) -> int:
-    from jastudio.ankiutils import app
-    return int(app.anki_collection().get_card(CardId(card_id)).nid)
-
 # noinspection PyUnusedFunction
 def addon_root_dir() -> str:
     """Return the addon root directory (the directory containing __init__.py).

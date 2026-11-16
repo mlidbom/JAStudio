@@ -28,9 +28,7 @@ public sealed class TokenizerDictionary
 
    /// <summary>IPADIC, as MeCab.DotNet's package copies it into <c>dic</c> next to this assembly.</summary>
    public static TokenizerDictionary TheBundledIpadic { get; } =
-      new("bundled IPADIC", new DirectoryInfo(Path.Combine(Path.GetDirectoryName(typeof(TokenizerDictionary).Assembly.Location)
-                                                           ?? throw new InvalidOperationException("Cannot determine the assembly's folder"),
-                                                           "dic")));
+      new("bundled IPADIC", new DirectoryInfo(Path.Combine(JAStudiosAssemblies.Folder.FullName, "dic")));
 
    /// <summary>
    /// The release of UniDic JAStudio's tokenizer reads with: contemporary spoken Japanese, 2025.12. It reads colloquial speech, such as an<br/>

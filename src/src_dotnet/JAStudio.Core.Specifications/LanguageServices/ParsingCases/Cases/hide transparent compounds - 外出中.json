@@ -1,4 +1,5 @@
 {
+  "sentenceId": "6bc3ca4b-6da2-40d6-8ba7-d53394a17956",
   "sentence": "外出中",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HideTransparentCompounds, against vocab copied by hand, expected the breakdown to display: 外出 | 中.",
   "parsedWords": [

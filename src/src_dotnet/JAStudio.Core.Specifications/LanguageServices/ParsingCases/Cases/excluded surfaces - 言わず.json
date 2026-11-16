@@ -1,4 +1,5 @@
 {
+  "sentenceId": "ddbeecad-a247-4907-80c5-68dafa0a037d",
   "sentence": "言わず",
   "why": "Converted from TextAnalysisWithSelectDataTests.ExcludedSurfaces, against vocab copied by hand, expected the forms of the parsing result, in that order: 言う | ず.",
   "parsedWords": [

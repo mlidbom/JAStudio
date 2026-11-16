@@ -18,3 +18,7 @@ if not is_testing:
     from jastudio import ui  # noqa
 
     ui.init()
+
+    from jastudio.anki_http import inside_anki  # noqa
+
+    inside_anki.init()

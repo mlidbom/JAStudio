@@ -15,6 +15,7 @@
    </PropertyGroup>
 
    <ItemGroup>
+      <ProjectReference Include="..\JAStudio.Anki\JAStudio.Anki.csproj" />
       <ProjectReference Include="..\JAStudio.UI\JAStudio.UI.csproj" />
       <ProjectReference Include="..\JAStudio.Web\JAStudio.Web.csproj" />
       <ProjectReference Include="..\JAStudio.Mcp\JAStudio.Mcp.csproj" />

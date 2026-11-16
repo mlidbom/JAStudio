@@ -31,7 +31,7 @@
     }
   ],
   "forms": [],
-  "sentenceCount": 366,
+  "sentenceCount": 368,
   "technicalNotes": "",
   "references": "",
   "images": [],
@@ -43,16 +43,7 @@
     "condition": {
       "allOf": [
         {
-          "firstToken": {
-            "anyOf": [
-              {
-                "fact": "ichidanImperativeStem"
-              },
-              {
-                "fact": "ichidanImperativeInflection"
-              }
-            ]
-          }
+          "sharedCondition": "StartsInAnIchidanImperative"
         }
       ]
     },

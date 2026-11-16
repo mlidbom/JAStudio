@@ -29,7 +29,7 @@
     }
   ],
   "forms": [],
-  "sentenceCount": 11948,
+  "sentenceCount": 11999,
   "technicalNotes": "",
   "references": "",
   "images": [],
@@ -45,16 +45,7 @@
   "relatedVocab": {
     "ergativeTwins": [],
     "derivedFrom": null,
-    "perfectSynonyms": [
-      {
-        "text": "る",
-        "disambiguation": ""
-      },
-      {
-        "text": "る",
-        "disambiguation": "non-past"
-      }
-    ],
+    "perfectSynonyms": [],
     "synonyms": [
       {
         "text": "る",

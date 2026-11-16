@@ -1,4 +1,5 @@
 {
+  "sentenceId": "5a9a107e-d795-438b-8bd5-6333d29cfc6e",
   "sentence": "頭突き以外でな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: 頭突き | 以外 | で | な:s.end.",
   "parsedWords": [

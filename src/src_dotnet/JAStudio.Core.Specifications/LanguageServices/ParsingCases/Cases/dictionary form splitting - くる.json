@@ -1,4 +1,5 @@
 {
+  "sentenceId": "d98ae4b9-a632-47b1-875a-91bb94335f41",
   "sentence": "くる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: くる | う.",
   "parsedWords": [

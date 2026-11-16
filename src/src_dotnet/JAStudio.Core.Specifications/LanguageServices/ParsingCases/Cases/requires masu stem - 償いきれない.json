@@ -1,4 +1,5 @@
 {
+  "sentenceId": "9f57da45-f1c0-4511-93ca-818a9a0a61bb",
   "sentence": "償いきれない",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequiresMasuStem, against vocab copied by hand, expected the breakdown to display: 償い | きれない.",
   "parsedWords": [

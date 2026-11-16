@@ -1,6 +1,14 @@
 {
+  "sentenceId": "68054851-dc7d-4a76-9d6c-efff4919fe81",
   "sentence": "「コーヒーはいかがですか？」「いえ、結構です。お構いなく。」",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: コーヒー | は | いかが | ですか | です | か | いえ | 結構 | です | お構いなく.",
+  "configuration": {
+    "highlightedWords": [
+      "お構いなく"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"コーヒー","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"コーヒー","vocabId":"de164f3a-a34e-478f-9e9f-f7401464e1ee"},
     {"form":"は","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},

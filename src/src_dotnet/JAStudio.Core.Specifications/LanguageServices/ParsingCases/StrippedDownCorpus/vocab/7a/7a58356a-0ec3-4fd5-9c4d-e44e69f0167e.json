@@ -22,7 +22,7 @@
   "usuallyWrittenInKana": true,
   "audio": [],
   "forms": [],
-  "sentenceCount": 270,
+  "sentenceCount": 272,
   "technicalNotes": "",
   "references": "",
   "images": [],
@@ -33,16 +33,7 @@
       "allOf": [
         {
           "not": {
-            "firstToken": {
-              "anyOf": [
-                {
-                  "fact": "godanImperativeStem"
-                },
-                {
-                  "fact": "godanImperativeInflection"
-                }
-              ]
-            }
+            "sharedCondition": "StartsInAGodanImperative"
           }
         }
       ]

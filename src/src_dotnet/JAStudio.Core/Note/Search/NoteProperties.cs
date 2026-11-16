@@ -34,9 +34,18 @@ public static class NoteProperties
    /// <summary>Whether the note's listening is being studied: it has a listening card that isn't suspended.</summary>
    public static readonly TrueOrFalseProperty StudyingListening = new("Studying listening", it => it.IsStudying(CardTypes.Listening));
 
+   /// <summary>Whether the note is a sentence marked as a parsing case (<see cref="Sentences.SentenceNote.ParsingCase"/>).</summary>
+   public static readonly TrueOrFalseProperty ParsingCase = new("Parsing case", it => it is Sentences.SentenceNote { ParsingCase: not null });
+
+   /// <summary>
+   /// Whether the note has audio: any audio, a recording or text-to-speech, its source's or the corpus's own (<see cref="IHasTextToSpeechAudio.AllAudio"/>).<br/>
+   /// It counts the note's references to audio, not whether the media layer has their files. A kanji has no audio.
+   /// </summary>
+   public static readonly TrueOrFalseProperty HasAudio = new("Has audio", it => it is IHasTextToSpeechAudio { AllAudio.Preferred: not null });
+
    /// <summary>Every <see cref="TextProperty"/>, such as for finding one by its <see cref="NoteProperty.Name"/>.</summary>
    public static IReadOnlyList<TextProperty> EveryTextProperty => [SearchableText, Question, Answer];
 
    /// <summary>Every <see cref="TrueOrFalseProperty"/>, such as for finding one by its <see cref="NoteProperty.Name"/>.</summary>
-   public static IReadOnlyList<TrueOrFalseProperty> EveryTrueOrFalseProperty => [StudyingReading, StudyingListening];
+   public static IReadOnlyList<TrueOrFalseProperty> EveryTrueOrFalseProperty => [StudyingReading, StudyingListening, ParsingCase, HasAudio];
 }

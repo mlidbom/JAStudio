@@ -1,4 +1,5 @@
 {
+  "sentenceId": "67a74141-6cf2-480a-8b14-2c09ef3a9d09",
   "sentence": "無理して思い出す",
   "why": "Converted from TextAnalysisWithSelectDataTests.ExcludedSurfaces, against vocab copied by hand, expected the forms of the parsing result, in that order: 無理 | して | する | て | 思い出す | 思い出す | う.",
   "parsedWords": [

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "a3968a75-c03f-463b-b4bd-762b4ef532c4",
   "sentence": "ちょっと強引なところがあるから",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: ちょっと | 強引 | な | ところ | がある | う | から.",
   "parsedWords": [

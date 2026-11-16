@@ -127,7 +127,7 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
      take in notes of its own types added in Anki either: `NoteCache.ExternalNoteAdded` is gone, and the corpus-validity
      checks report such a note (`corpus-validity.md`).
    - **A note deleted in Anki stays in the corpus** (Magnus, 2026-11-08). JAStudio forgets its Anki note and cards
-     (`NoteCache.ExternalNoteRemoved`), so it's no longer studied in that Anki profile, and nothing recreates the Anki
+     (`NoteCache.StudyNoteRemoved`), so it's no longer studied in that Anki profile, and nothing recreates the Anki
      note. Anki holds the notes being studied; the corpus holds them all. Deleting a note for good is JAStudio's own
      delete (`JPCollection.Delete`). The media is part of the note (Magnus, 2026-11-08), so that delete also deletes its
      media files from the media layer, unless another note uses the same file. Their copies in Anki's media folder are
@@ -174,7 +174,7 @@ JAStudio writes only these since 2026-11-08 (`AnkiFieldNames`, `CorpusNoteDto.To
 
 | Field | Why Anki needs it |
 |---|---|
-| `jas_note_id` | Links the Anki note to its corpus entry (`AnkiBackendDataLoader`). |
+| `jas_note_id` | Links the Anki note to its corpus entry (`StudyNotesInAnkisDatabase`). |
 | The question (`Q`; for kanji, the kanji character) | Reasons:<br>• Vocab and sentence HyperTTS presets read it.<br>• The reading card's front template is `{{Q}}`, and Anki generates a card only when its front side renders non-empty.<br>• I believe Anki also rejects a front template that references no field at all, but I haven't verified it.<br>• The first field is Anki's sort field in its browser. |
 | Audio (vocab and sentences only) | `Audio_b`, `Audio_g`, `Audio_TTS` for vocab; `Audio Sentence` for sentences. Reasons:<br>• The listening card's front template is the audio fields, so a listening card exists only when the note has audio.<br>• Anki's own playback (auto-play and replay) comes from these fields (`web-rendering-architecture.md`, "Key Discovery: Anki Audio Behavior"). That is also the only audio playback on mobile.<br>• HyperTTS writes new audio into them. |
 
@@ -667,7 +667,7 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
     "high" or "low" in the tag colors the sentence's source label. As the corpus grows, this ordering decides
     which sentences a vocab shows.
   - **Leaning:** read it from the Anki notes' tags when JAStudio loads, as the studying status is. The loader
-    already reads every Anki note's `jas_note_id` (`AnkiBackendDataLoader`), and the tags are in the
+    already reads every Anki note's `jas_note_id` (`StudyNotesInAnkisDatabase`), and the tags are in the
     same row. *The Anki-projection stopped replacing the Anki note's tag list on 2026-11-10: it writes no tags at all
     ([the two sets are separate](#the-corpuss-tags-and-ankis-tags-are-separate-magnus-2026-11-10)).*
   - **For later:** a corpus note with no Anki note has nowhere to carry a priority tag. The alternative then is a
@@ -742,7 +742,7 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     (202), `source::grammar` (181), `-::priority` (2) and `source::jlab` (2). Deleting `anki::source` would strip theirs,
     so the cleanup deletes the branches below `source` that are JAStudio's, unless Magnus decides otherwise then. Anki
     keeps a tag in its tag list until `clear_unused_tags` (what Check Database does) drops it: run it after the cleanup.
-  - *Built 2026-11-10:* `AnkiTagChanges` makes each change through `IAnkiTagOperations`, which `AnkiTagOperations`
+  - *Built 2026-11-10:* `AnkiTagChanges` makes each change through `ISRSTagOperations`, which `AnkiTagOperations`
     implements with Anki's `bulk_add`, `find_and_replace` (removing exactly the tag: Anki's `bulk_remove` removes the tags
     below it too, and Magnus chose on 2026-11-10 that removing a tag works as for a note's own tags, "definitely safest"),
     `rename` and `remove`, each announced to Anki's windows as Anki announces an operation (`on_op_finished`), so its undo
@@ -753,7 +753,10 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     `add_a_tag_to_the_notes_found` and `remove_a_tag_from_the_notes_found`. The rules are in `tags.md`, "Rules". The
     priority tags' branch keeps its name, since JAStudio finds the priorities by it (`Tags.PriorityBranch`).
 - **Decided, not built (Magnus, 2026-11-10): JAStudio re-reads the Anki state, and only it, whenever Anki's may have
-  changed.** The Anki state is all JAStudio takes from Anki, through `AnkiBackendDataLoader`: which Anki note is each
+  changed.** *Since 2026-11-15 it re-reads at a sync a person starts, and Anki no longer tells it of what changed: of
+  what is described below, `follow_the_study_notes_in_anki.py`, `CatchingUpWithAnki`'s re-read after each operation
+  and `StudyNoteWrites` are gone, and JAStudio writes the study-notes at a sync only. See
+  `moving-jastudio-out-of-anki.md`, "Part 4 as built".* The Anki state is all JAStudio takes from Anki, through `ISRSStudyNotes.ReadAll`: which Anki note is each
   note's study-note (the id mappings), the studying statuses of the study-notes' cards, and the study-notes' tags.
   Nothing else depends on the Anki profile or on a sync: the corpus and its media layer live in the add-on folder, the
   configuration is the add-on's, and JAStudio only writes a study-note's fields, never reads them back but for its id.
@@ -762,8 +765,8 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     re-read at a time, announcing through `JPCollection.StudyNoteChanged` only the notes whose study-note differs. It
     replaces the hook's scan of the notes changed since it last looked (`follow_the_tags_of_the_study_notes.py`), which
     misses an undo, since undo restores a note's modification time. *Done 2026-11-10 for Anki operations, undo and redo
-    included, which run as operations: `follow_the_study_notes_in_anki.py` asks for `JPCollection.ReadTheStudyNotesFromAnkiAgain`,
-    in the background, one read at a time (`BackgroundRefresh`). It reads as the load does (`AnkiBackendDataLoader`):
+    included, which run as operations: `follow_the_study_notes_in_anki.py` asks for `JPCollection.ReadTheStudyNotesFromTheSRSAgain`,
+    in the background, one read at a time (`BackgroundRefresh`). It reads as the load does (`StudyNotesInAnkisDatabase`):
     through Anki's own connection since 2026-11-10, see the undo fix below.*
     - *Fixed 2026-11-10, after Magnus found it live: the re-read showed the load's progress window, and it looped.*
       Anki's editor saves its note each time typing pauses, and each save is an operation that changed notes. The

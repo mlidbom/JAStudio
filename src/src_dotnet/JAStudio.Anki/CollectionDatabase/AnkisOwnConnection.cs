@@ -1,8 +1,10 @@
+using JAStudio.Anki.AnkisFunctions;
+
 namespace JAStudio.Anki.CollectionDatabase;
 
 /// <summary>
-/// The database of the collection Anki has open, read through Anki's own connection to it, with SELECTs only, as JAStudio inside Anki reads it.<br/>
-/// A read sees Anki's latest changes, and Anki keeps its undo history.
+/// The database of the collection Anki has open, read through Anki's own connection to it (<see cref="IAnkisDatabase"/>), with SELECTs only, as<br/>
+/// JAStudio inside Anki reads it. A read sees Anki's latest changes, and Anki keeps its undo history.
 /// </summary>
 /// <remarks>
 /// Anki discards its undo history whenever anything but a SELECT runs through that connection, so only SELECTs may. Until 2026-11-10 JAStudio<br/>
@@ -14,7 +16,9 @@ namespace JAStudio.Anki.CollectionDatabase;
 /// change in Anki, that of the study-notes, measured on Magnus's collection on 2026-11-10. Python's lock is free meanwhile, so Anki's UI only<br/>
 /// waits if it needs the collection.
 /// </remarks>
-public sealed class AnkisOwnConnection : AnkiCollectionDatabase
+public sealed class AnkisOwnConnection(IAnkisDatabase ankisDatabase) : AnkiCollectionDatabase
 {
-   protected override string TheJsonTextOf(string select) => AnkiFacade.Col.ReadJson(select);
+   readonly IAnkisDatabase _ankisDatabase = ankisDatabase;
+
+   protected override string TheJsonTextOf(string select) => _ankisDatabase.ReadJson(select);
 }

@@ -17,7 +17,11 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
+using JAStudio.Core.UI.Shortcuts;
+using JAStudio.Core.UI.Web;
 using JAStudio.Core.UI.Web.Kanji;
 using JAStudio.Core.UI.Web.Sentence;
 using JAStudio.Core.UI.Web.Vocab;
@@ -53,9 +57,11 @@ public static class AppBootstrapper
          Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource) => new ConfigurationStore(readingsMappingsSource, configDictSource)),
          Singleton.For<TemporaryServiceCollection>().CreatedBy((IRootResolver resolver) => new TemporaryServiceCollection(resolver)),
          Singleton.For<JapaneseConfig>().CreatedBy((ConfigurationStore store) => store.Config()),
-         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, IBackendDataLoader backendDataLoader) =>
-                                                    new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, backendDataLoader)),
-         Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, IAnkiTagOperations anki) => new AnkiTagChanges(collection, anki)),
+         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISRSStudyNotes studyNotesInTheSRS) =>
+                                                    new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, studyNotesInTheSRS)),
+         Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, ISRSTagOperations anki) => new AnkiTagChanges(collection, anki)),
+         Singleton.For<SRSSync>().CreatedBy((JPCollection collection, ISRSStudyNotes studyNotes, SRSAvailability srsAvailability, AutomaticImportRuns automaticImportRuns, TaskRunner taskRunner) =>
+                                               new SRSSync(collection, studyNotes, srsAvailability, automaticImportRuns, taskRunner)),
          Singleton.For<VocabCollection>().CreatedBy((JPCollection col) => col.Vocab),
          Singleton.For<KanjiCollection>().CreatedBy((JPCollection col) => col.Kanji),
          Singleton.For<SentenceCollection>().CreatedBy((JPCollection col) => col.Sentences),
@@ -77,7 +83,7 @@ public static class AppBootstrapper
          // Core services
          Singleton.For<Settings>().CreatedBy((JapaneseConfig config) => new Settings(config)),
          Singleton.For<AnalysisServices>().CreatedBy((VocabCollection vocab, DictLookup dictLookup, Settings settings) => new AnalysisServices(vocab, dictLookup, settings)),
-         Singleton.For<ExternalNoteIdMap>().CreatedBy(() => new ExternalNoteIdMap()),
+         Singleton.For<StudyNoteIds>().CreatedBy(() => new StudyNoteIds()),
          Singleton.For<LocalNoteUpdater>().CreatedBy((TaskRunner taskRunner, VocabCollection vocab, KanjiCollection kanji, SentenceCollection sentences, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, FileSystemNoteRepository fileSystemNoteRepository) =>
                                                         new LocalNoteUpdater(taskRunner, vocab, kanji, sentences, config, dictLookup, vocabNoteFactory, fileSystemNoteRepository)),
          Singleton.For<TaskRunner>().CreatedBy((DialogProgressPresenter dialogPresenter) => new TaskRunner(dialogPresenter)),
@@ -94,10 +100,16 @@ public static class AppBootstrapper
                                                                 new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<KanjiNoteMnemonicMaker>().CreatedBy((JapaneseConfig config) => new KanjiNoteMnemonicMaker(config)),
 
+         // What the spaced repetition system asks of JAStudio
+         Singleton.For<NoteViewShortcuts>().CreatedBy((JapaneseConfig config) => new NoteViewShortcuts(config)),
+         Singleton.For<HowLongToShowTheQuestion>().CreatedBy((JapaneseConfig config) => new HowLongToShowTheQuestion(config)),
+         Singleton.For<TimeboxLengths>().CreatedBy((JapaneseConfig config) => new TimeboxLengths(config)),
+
          // ViewModels
          Singleton.For<SentenceKanjiListViewModel>().CreatedBy((KanjiCollection kanji) => new SentenceKanjiListViewModel(kanji)),
 
          // Note renderers
+         Singleton.For<ChangesThatOutdateNotePages>().CreatedBy((JPCollection collection, JapaneseConfig config) => new ChangesThatOutdateNotePages(collection, config)),
          Singleton.For<VocabNoteRenderer>().CreatedBy(() => new VocabNoteRenderer()),
          Singleton.For<SentenceNoteRenderer>().CreatedBy(() => new SentenceNoteRenderer()),
          Singleton.For<KanjiNoteRenderer>().CreatedBy(() => new KanjiNoteRenderer())

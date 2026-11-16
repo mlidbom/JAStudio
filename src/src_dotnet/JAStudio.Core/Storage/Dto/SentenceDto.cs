@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note;
@@ -30,6 +31,10 @@ public partial class SentenceDto : CorpusNoteDto
    public string SourceName { get; init; } = string.Empty;
 
    public SentenceSourceDataDto SourceData { get; init; } = new();
+
+   /// <summary>What makes the sentence a parsing case: see <see cref="Note.Sentences.SentenceNote.ParsingCase"/>. Not stored for a sentence that isn't one.</summary>
+   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+   public ParsingCaseDto? ParsingCase { get; init; }
 
    static WordExclusion FromWordExclusionDto(WordExclusionDto d) =>
       d.Index == -1 ? WordExclusion.Global(d.Word) : WordExclusion.AtIndex(d.Word, d.Index);

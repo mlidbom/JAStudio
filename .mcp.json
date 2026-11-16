@@ -16,10 +16,6 @@
       "type": "streamable-http",
       "url": "http://127.0.0.1:64482/stream"
     },
-	"jetbrains-pycharm": {
-      "type": "streamable-http",
-      "url": "http://127.0.0.1:64462/stream"
-    },
     "dotnet-analysis-and-refactoring": {
       "type": "http",
       "url": "http://127.0.0.1:23751/"

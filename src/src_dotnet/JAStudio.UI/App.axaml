@@ -50,6 +50,7 @@
         <SolidColorBrush x:Key="NotePage.Underline" Color="#A79EE2" />
         <SolidColorBrush x:Key="NotePage.Bold" Color="#BD422B" />
         <SolidColorBrush x:Key="NotePage.WarningRed" Color="#C81707" />
+        <SolidColorBrush x:Key="NotePage.DiffersBackground" Color="#E2A994" />
         <SolidColorBrush x:Key="NotePage.Meaning" Color="#974870" />
         <SolidColorBrush x:Key="NotePage.Italic" Color="#AC6B1A" />
         <SolidColorBrush x:Key="NotePage.Reading" Color="#AC6B1A" />

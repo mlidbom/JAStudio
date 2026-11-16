@@ -1,0 +1,16 @@
+from System import IDisposable
+from System.IO import DirectoryInfo, FileInfo
+
+class BeingThePrimaryJAStudio(IDisposable):
+    def Dispose(self) -> None: ...
+
+
+class PrimaryJAStudioAccessFile:
+    def __init__(self, folder: DirectoryInfo) -> None: ...
+    @property
+    def File(self) -> FileInfo: ...
+    @classmethod
+    @property
+    def OfThisUser(cls) -> PrimaryJAStudioAccessFile: ...
+    def TakeUnlessAnotherJAStudioIsIt(self, cardServersPort: int) -> BeingThePrimaryJAStudio: ...
+

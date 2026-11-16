@@ -16,6 +16,9 @@ interface INotePageHost
    /// <summary>The right-click menu for the page's note, for the <paramref name="selection"/> right-clicked: the same one Anki shows for it.</summary>
    List<SpecMenuItem> NoteContextMenuSpec(string selection, string clipboard);
 
-   /// <summary>Runs the note view shortcut bound to <paramref name="keyGesture"/>, if any, on the page's note.</summary>
+   /// <summary>
+   /// Does what <paramref name="keyGesture"/>, pressed on the page, does: r plays the page's note's audio again, and any other key runs the note view<br/>
+   /// shortcut bound to it, if any, on the page's note.
+   /// </summary>
    void KeyPressed(string keyGesture);
 }

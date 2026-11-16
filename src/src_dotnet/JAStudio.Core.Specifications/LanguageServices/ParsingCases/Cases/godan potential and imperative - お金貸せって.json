@@ -1,4 +1,5 @@
 {
+  "sentenceId": "b9717f8a-e2d1-4b87-8328-54a7535b1467",
   "sentence": "お金貸せって",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: お金 | 貸す | え | って; and from TextAnalysisWithSelectDataTests.RequiresAStem, against vocab copied by hand, expected the forms of the parsing result, in that order: お金 | 貸す | え | って.",
   "parsedWords": [

@@ -112,6 +112,9 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
 
    /// <summary>The group with <paramref name="sharedCondition"/> used in each of its conditions, then in place of some of them when they're its definition's.</summary>
    protected override Condition WithSharedConditionUsedInTheConditionsItHolds(ISharedCondition sharedCondition) =>
+      //refactor: using the shared-condition in each condition held is written twice: here, by mapping Conditions, and in the base,
+      //   Condition.WithSharedConditionUsedInTheConditionsItHolds, through WithChildReplaced. This one maps again because it needs a group back
+      //   to put the shared-condition in place of some of the conditions afterwards. One way to say "in each condition held" would serve both.
       WithConditions([.. Conditions.Select(it => it.WithSharedConditionUsed(sharedCondition).AsAConditionOn<TSubject>())]).WithSharedConditionInPlaceOfTheConditionsOfItsDefinition(sharedCondition);
 
    /// <summary>

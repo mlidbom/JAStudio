@@ -1,4 +1,5 @@
 {
+  "sentenceId": "c929fe53-0c35-4f4a-82fe-3972c840fa35",
   "sentence": "行ったって話",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 行く | たって:emergency | 話.",
   "parsedWords": [

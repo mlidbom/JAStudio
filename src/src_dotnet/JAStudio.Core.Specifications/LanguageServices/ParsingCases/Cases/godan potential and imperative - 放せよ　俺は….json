@@ -1,4 +1,5 @@
 {
+  "sentenceId": "8463fb81-74aa-4be8-a476-e9ebd94818de",
   "sentence": "放せよ　俺は…",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 放す | え | よ | 俺 | は.",
   "parsedWords": [

@@ -10,40 +10,21 @@ namespace JAStudio.Core.Storage;
 /// </summary>
 /// <remarks>
 /// The hold is a file beside the corpus checkout, named after it, such as <c>jas_database.lock</c> beside <c>jas_database</c>, which the JAStudio holds<br/>
-/// open, shared with no one, for as long as it runs. The system closes and deletes it when the JAStudio's process ends, however it ends, so a crash<br/>
-/// leaves no lock behind.
+/// for as long as it runs (<see cref="ExclusiveHoldOnAFile"/>), so a crash leaves no lock behind.
 /// </remarks>
 public sealed class CorpusCheckoutLock : IDisposable
 {
-   /// <summary>
-   /// The error code, as <see cref="Exception.HResult"/>, of the <see cref="IOException"/> the system gives opening a file another process holds open:<br/>
-   /// ERROR_SHARING_VIOLATION on Windows; elsewhere EWOULDBLOCK, from the lock .NET takes on the file for <see cref="FileShare.None"/>, which is 11 on<br/>
-   /// Linux and 35 on macOS.
-   /// </summary>
-   static readonly int TheFileIsOpenInAnotherProcess = OperatingSystem.IsWindows() ? unchecked((int)0x80070020)
-                                                       : OperatingSystem.IsLinux() ? 11
-                                                       : 35;
+   readonly ExclusiveHoldOnAFile _hold;
 
-   readonly FileStream _heldOpen;
-
-   CorpusCheckoutLock(FileStream heldOpen) => _heldOpen = heldOpen;
+   CorpusCheckoutLock(ExclusiveHoldOnAFile hold) => _hold = hold;
 
    /// <summary>Holds the corpus checkout in <paramref name="corpusCheckoutFolder"/>, or refuses when another JAStudio holds it.</summary>
    public static CorpusCheckoutLock On(string corpusCheckoutFolder)
    {
       var lockFile = LockFileOf(corpusCheckoutFolder);
-      //todo:compze: Compze.Threading.Interprocess has no exclusive hold a process keeps for as long as it runs, let go of from any thread, and by the
-      //   system when the process ends: its IMutex wraps a system mutex, which only the thread that took it may release, and the standalone JAStudio
-      //   stops on a thread of its own. Once Compze has such a hold, use it here instead of this file.
-      try
-      {
-         return new CorpusCheckoutLock(new FileStream(lockFile, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, bufferSize: 1, FileOptions.DeleteOnClose));
-      }
-      catch(IOException exception) when(exception.HResult == TheFileIsOpenInAnotherProcess)
-      {
-         throw new InvalidOperationException($"Another JAStudio works on the corpus checkout {corpusCheckoutFolder}, which it holds ({lockFile}): JAStudio inside Anki, " +
-                                             "or a standalone or headless JAStudio. Two JAStudios would overwrite each other's edits, so close the other one first.", exception);
-      }
+      return new CorpusCheckoutLock(ExclusiveHoldOnAFile.TakeUnlessAnotherProcessHasIt(lockFile)
+                                 ?? throw new InvalidOperationException($"Another JAStudio works on the corpus checkout {corpusCheckoutFolder}, which it holds ({lockFile}): JAStudio inside Anki, " +
+                                                                        "or a standalone or headless JAStudio. Two JAStudios would overwrite each other's edits, so close the other one first."));
    }
 
    /// <summary>
@@ -53,5 +34,5 @@ public sealed class CorpusCheckoutLock : IDisposable
    static string LockFileOf(string corpusCheckoutFolder) => new DirectoryInfo(corpusCheckoutFolder).TheFolderItself().FullName + ".lock";
 
    /// <summary>Lets go of the corpus checkout, as the JAStudio stops.</summary>
-   public void Dispose() => _heldOpen.Dispose();
+   public void Dispose() => _hold.Dispose();
 }

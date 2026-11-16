@@ -1,4 +1,5 @@
 {
+  "sentenceId": "8820a242-f259-4a53-8ace-a3cd7e01f96d",
   "sentence": "お腹空かしてない",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: お腹 | 空かす | てない.",
   "parsedWords": [

@@ -76,7 +76,7 @@
       "isOwned": false
     }
   ],
-  "sentenceCount": 628,
+  "sentenceCount": 634,
   "technicalNotes": "",
   "references": "",
   "images": [],
@@ -86,16 +86,7 @@
     "condition": {
       "allOf": [
         {
-          "firstToken": {
-            "anyOf": [
-              {
-                "fact": "godanImperativeStem"
-              },
-              {
-                "fact": "godanImperativeInflection"
-              }
-            ]
-          }
+          "sharedCondition": "StartsInAGodanImperative"
         }
       ]
     },

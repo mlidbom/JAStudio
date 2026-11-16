@@ -5,7 +5,7 @@ namespace JAStudio.UI.Views.Workspace.Navigation;
 
 /// <summary>
 /// The view of a <see cref="NavigationPaneViewModel"/>: the navigation pane on the left of the <see cref="WorkspaceWindow"/>,<br/>
-/// with a tab for the note search, one for the list a note menu's "Open" item showed, and one for the tag management.
+/// with a tab for the note search, one for the list a note menu's "Open" item showed, one for the tag management, and one for the corpus's parsing cases.
 /// </summary>
 public partial class NavigationPane : UserControl
 {

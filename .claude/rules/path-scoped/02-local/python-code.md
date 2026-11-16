@@ -24,8 +24,12 @@ moving logic to C#** (see [020-project-orientation.md](../../02-universal-local/
   relying on `typings/` for the new surface.
 
 ## Testing
-- Test dirs: `src/tests/{jastudio_tests,jaslib_tests,jaspythonutils_tests}/` — choose by what's under test.
-  Follow existing pytest patterns; type-hint test code too. Run: `pytest`.
+- Tests are in `src/tests/`: `jaspythonutils_tests/`, and `jastudio_tests/` for the Anki add-on's own code that needs
+  neither .NET nor Anki's window, such as its HTTP server for JAStudio. Follow existing pytest patterns; type-hint test
+  code too. Run: `pytest`.
+- Anki's modules import each other in a circle, which only resolves when `anki.collection` is the first of them to be
+  imported: a package that uses Anki's library without Anki's window imports it in its `__init__.py`
+  (`jastudio/anki_http/__init__.py`).
 
 ## Style
 - PEP 8, 4-space indentation, line length effectively unlimited (`line-length = 320`). f-strings;

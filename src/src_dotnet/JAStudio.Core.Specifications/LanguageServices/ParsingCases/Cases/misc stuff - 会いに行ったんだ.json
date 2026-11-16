@@ -1,4 +1,5 @@
 {
+  "sentenceId": "1d9aa587-ab5e-4ba3-9026-286a0f41b74f",
   "sentence": "会いに行ったんだ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 会う | に行く | たんだ.",
   "parsedWords": [

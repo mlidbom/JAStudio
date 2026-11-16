@@ -1,4 +1,5 @@
 {
+  "sentenceId": "56dd59a0-6d72-4062-b889-3854ca71f095",
   "sentence": "にある",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: に | ある | う.",
   "parsedWords": [

@@ -93,6 +93,9 @@ public class VocabSentenceViewModel
 
       if(match.IsDisplayed)
       {
+         //bug: on 2026-11-13, 食べる's vocab card page failed to render in the headless JAStudio's corpus: one sentence's stored parsing result
+         //   had a match whose index ran past the end of the sentence's text, so these Substring calls threw and took the whole page with them.
+         //   Probably a stale parsing result in that checkout. Not investigated, nor checked against Magnus's own corpus.
          var head = result.Sentence.Substring(0, match.StartIndex);
          var matchRange = result.Sentence.Substring(match.StartIndex, match.EndIndex - match.StartIndex);
          var tail = result.Sentence.Substring(match.EndIndex);

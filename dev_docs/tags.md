@@ -73,7 +73,7 @@ not necessarily in how:
   Anki instead: see the next rule.
 - **The Anki tags, below `anki::`, are changed in Anki, as Anki operations** (Magnus, 2026-11-10: "feature parity for
   working with anki tags would be quite nice"). Everything above works on them too, and each change is one Anki
-  operation, which Anki's Edit > Undo undoes (`AnkiTagChanges`, through `IAnkiTagOperations`). Then JAStudio reads the
+  operation, which Anki's Edit > Undo undoes (`AnkiTagChanges`, through `ISRSTagOperations`). Then JAStudio reads the
   study-notes from Anki again, so the notes show the change.
   - **Renaming and deleting work as in Anki, on every Anki note with a tag in the branch,** of whatever note type, not only
     on JAStudio's study-notes (Magnus, 2026-11-10). So the rename dialog and the delete confirmation count Anki notes,
@@ -146,10 +146,10 @@ many notes change.
   added, removed, renamed and deleted as any other, in Anki (see Rules). *Until 2026-11-10 JAStudio only read them: the
   editor showed them dimmed, without a remove button, and every change to the branch was refused.* A note's own tag
   can't be in the branch: adding one, and renaming a branch into it or out of it, are refused, with why. A level named
-  `anki` lower down, such as `tmp::anki`, is a tag like any other. A change made in Anki during a session shows at once: after every Anki operation
-  that changed notes, such as marking a note, editing tags in Anki's browser or a review that made a card a leech, undo and
-  redo included, JAStudio reads the study-notes from Anki again, in the background (`follow_the_study_notes_in_anki.py`,
-  `JPCollection.ReadTheStudyNotesFromAnkiAgain`). A sync is such an operation too, and a profile opening has JAStudio read them again as well (`CatchingUpWithAnki`). The student-tags left the corpus, priority last; JAStudio reads priority from Anki.
+  `anki` lower down, such as `tmp::anki`, is a tag like any other. A change made in Anki during a session, such as marking a note, editing tags in Anki's browser or a review that made a card a leech,
+  shows after JAStudio's next sync with Anki, which a person starts with the workspace's Sync button (`SRSSync`): it reads the study-notes from Anki again
+  (`JPCollection.ReadTheStudyNotesFromTheSRSAgain`). A profile opening has JAStudio read them again as well (`FollowingAnkisLifecycle`). Until 2026-11-15
+  it showed at once: Anki told JAStudio of every operation that changed notes (`moving-jastudio-out-of-anki.md`). The student-tags left the corpus, priority last; JAStudio reads priority from Anki.
 
 ## Later: branches with meaning, and tags with metadata
 

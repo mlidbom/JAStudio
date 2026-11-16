@@ -33,17 +33,18 @@ partial class ChosenVoicesDialogViewModel : ObservableObject
    readonly List<TextToSpeechVoice> _listed = [];
 
    /// <param name="settings">The settings to choose in, with the voices chosen so far.</param>
+   /// <param name="settingsFile">The file the settings are kept in, where the tts-providers' keys go.</param>
    /// <param name="providers">The tts-providers to offer the voices of.</param>
    /// <param name="player">Plays the samples.</param>
    /// <param name="fatalErrorHandler">Reports a failure no one expected.</param>
-   public ChosenVoicesDialogViewModel(TextToSpeechSettings settings, IReadOnlyList<ITextToSpeechProvider> providers, IAudioPlayer player, IFatalErrorHandler fatalErrorHandler)
+   public ChosenVoicesDialogViewModel(TextToSpeechSettings settings, string settingsFile, IReadOnlyList<ITextToSpeechProvider> providers, IAudioPlayer player, IFatalErrorHandler fatalErrorHandler)
    {
       _settings = settings;
       _providers = providers;
       _player = player;
       _fatalErrorHandler = fatalErrorHandler;
       Chosen = [..settings.ChosenVoicesOf(providers).Select(it => new VoiceChoiceViewModel(it))];
-      Status = providers.Count == 0 ? $"No tts-provider has a key: put them in {TextToSpeechSettings.FileInTheUserProfile}." : "";
+      Status = providers.Count == 0 ? $"No tts-provider has a key: put them in {settingsFile}." : "";
    }
 
    /// <summary>The chosen voices, in priority order. The first is the default.</summary>

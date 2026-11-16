@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Note.Collection;
@@ -8,8 +9,6 @@ namespace JAStudio.Core.Note.Collection;
 public class SentenceCollection
 {
    internal readonly SentenceCache Cache;
-   // ReSharper disable once UnusedMember.Global used from python
-   public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
 
    public SentenceCollection(NoteServices noteServices) => Cache = new SentenceCache(noteServices);
 
@@ -32,8 +31,17 @@ public class SentenceCollection
 
    public List<SentenceNote> All() => Cache.All();
 
+   /// <summary>The sentences that are parsing cases (<see cref="SentenceNote.ParsingCase"/>), in no particular order.</summary>
+   public List<SentenceNote> ThatAreParsingCases() => [.. All().Where(it => it.ParsingCase != null)];
+
+   /// <summary>
+   /// Each sentence that is a parsing case, parsed now and compared with what its case expects, in no particular order. They're parsed in<br/>
+   /// parallel: each is parsed under every combination of the breakdown's options, which takes a few seconds for some hundred cases one by one.
+   /// </summary>
+   public List<ComparedParsingCase> ParsingCasesCompared() => [.. ThatAreParsingCases().AsParallel().Select(ComparedParsingCase.Of)];
+
    public SentenceNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
-   public SentenceNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
+   public SentenceNote? WithTheStudyNoteOrNone(long studyNoteId) => Cache.WithTheStudyNoteOrNone(studyNoteId);
 
    public List<SentenceNote> WithQuestion(string question) => Cache.WithQuestion(question);
 

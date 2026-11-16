@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:textToSpeech="clr-namespace:JAStudio.UI.ViewModels.TextToSpeech"
+             xmlns:providers="clr-namespace:JAStudio.TextToSpeech;assembly=JAStudio.TextToSpeech"
+             x:Class="JAStudio.UI.Views.TextToSpeech.TextToSpeechForANoteView"
+             x:DataType="textToSpeech:TextToSpeechForANoteViewModel">
+
+    <!-- The buttons don't take the keyboard, which stays on the attempts, so that Enter uses the selected attempt rather than pressing a button again. -->
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Spacing="8">
+            <TextBlock Text="Text to speak. Editing it changes only what's spoken, such as writing a word in kana to force its reading:" TextWrapping="Wrap" />
+            <TextBox x:Name="TextToSpeakBox" Text="{Binding TextToSpeak}" FontFamily="{StaticResource JapaneseFont}" FontSize="18" />
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="The note's TTS audio now:" VerticalAlignment="Center" />
+                <Button Content="▶ (0)" Click="OnPlayTheCurrentAudio" IsEnabled="{Binding CurrentAudio.CanPlay}" Focusable="False" Padding="8,2" />
+                <Button Content="Discard" Click="OnDiscardTheTextToSpeechAudio" IsEnabled="{Binding CanDiscardTheTextToSpeechAudio}" Focusable="False" Padding="8,2"
+                        ToolTip.Tip="Removes the note's TTS audio, so that it has none, and deletes its file from the media layer unless another note uses it." />
+                <TextBlock Text="{Binding CurrentAudio.Description}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+
+            <TextBlock Text="Generate with:" />
+            <ItemsControl ItemsSource="{Binding ChosenVoices}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="providers:TextToSpeechVoice">
+                        <Button Content="{Binding}" Click="OnGenerateWithAVoice" Focusable="False" Margin="0,0,6,6" Padding="8,2" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="Every voice" Click="OnGenerateWithEveryVoice" Focusable="False" Padding="8,2" />
+                <Button Content="Voices..." Click="OnChooseTheVoices" Focusable="False" Padding="8,2" />
+                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsGenerating}" Width="80" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <TextBlock Text="Attempts. Selecting one plays it, ▶ plays it again, 1 to 9 play attempts 1 to 9, and Enter uses the selected one:" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,8,0,0">
+            <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Foreground="OrangeRed"
+                       IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+            <Button Content="{Binding UseText}" Click="OnUse" IsEnabled="{Binding CanUse}" Focusable="False" HorizontalAlignment="Right" />
+        </StackPanel>
+
+        <ListBox x:Name="AttemptList" ItemsSource="{Binding Attempts}" SelectedItem="{Binding SelectedAttempt}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="textToSpeech:SpeechAttemptViewModel">
+                    <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+                        <Button Grid.Column="0" Content="▶" Click="OnPlayAnAttempt" Focusable="False" Padding="6,0" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="1" Text="{Binding Description}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="{Binding Length}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Text="{Binding ComparisonWithTheEarlierAttempt}" Margin="12,0,0,0" Foreground="Gray" MinWidth="190" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="4" Text="{Binding ComparisonWithTheCurrentAudio}" Margin="12,0,0,0" Foreground="Gray" MinWidth="210" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+
+</UserControl>

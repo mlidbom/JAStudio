@@ -1,4 +1,5 @@
 {
+  "sentenceId": "c017cf45-b8ed-4af1-9387-63b9f8cf99b4",
   "sentence": "頑張れたというか",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IncorrectExclusions, against vocab copied by hand, with 頑張る, 頑張れ marked as incorrect matches, expected the breakdown to display: 頑張:[MISSING]:emergency | える | た | というか.",
   "configuration": {

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "f5e257b1-5b10-426a-a0c4-2b0daabdebcc",
   "sentence": "食べよう",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IchidanImperative, against vocab copied by hand, expected the breakdown to display: 食べる | う.",
   "parsedWords": [

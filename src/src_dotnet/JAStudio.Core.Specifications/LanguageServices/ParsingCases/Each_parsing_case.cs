@@ -7,7 +7,7 @@ using Xunit;
 namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
 /// <summary>
-/// The everyday mode of the parsing cases: each case (<see cref="ParsingCase"/>) parsed against the stripped-down corpus<br/>
+/// The everyday mode of the parsing cases: each case (<see cref="ParsingCaseFile"/>) parsed against the stripped-down corpus<br/>
 /// (<see cref="ParsingCasesFolder.StrippedDownCorpus"/>), which parses it as the corpus checkout (<see cref="SourceCheckout.CorpusCheckout"/>) did when<br/>
 /// the full mode last refreshed it (<see cref="In_the_full_mode"/>). A case fails when its parsing result differs from the expected one in any<br/>
 /// way, and says how its words differ.

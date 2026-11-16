@@ -1,4 +1,5 @@
 {
+  "sentenceId": "547298c6-48c5-4af0-8697-1aee89d44567",
   "sentence": "前だったのか",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 前 | だった | だ | たの | た | のか | の | か.",
   "parsedWords": [

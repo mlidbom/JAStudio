@@ -1,4 +1,5 @@
 {
+  "sentenceId": "fbe963a2-95a1-44f7-b784-0a758b387051",
   "sentence": "はしゃいでる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: はしゃぐ | でる.",
   "parsedWords": [

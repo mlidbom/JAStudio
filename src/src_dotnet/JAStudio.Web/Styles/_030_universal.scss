@@ -68,3 +68,30 @@ $cardFontSize: 11pt;
 .card #container1 #container2 .play-button.shown-note-audio {
    font-size: 2.5 * $cardFontSize;
 }
+// The page's own right-click menu (RightClickMenu), outside the card's containers: it's drawn over the page, at the cursor.
+.right-click-menu-backdrop {
+   position: fixed;
+   inset: 0;
+   z-index: 1000;
+}
+
+.right-click-menu {
+   position: fixed;
+   z-index: 1001;
+   min-width: 12em;
+   padding: 4px 0;
+   font-size: $cardFontSize;
+   background: var(--colorBgOffset1);
+   color: var(--colorTextCard);
+   border: 1px solid var(--colorBgOffset3);
+   border-radius: 4px;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, .45);
+
+   .right-click-menu-item {
+      padding: 4px 16px;
+      white-space: nowrap;
+      cursor: pointer;
+
+      &:hover { background: color-mix(in lch, var(--colorBgOffset1), var(--colorTextCard) 15%); }
+   }
+}

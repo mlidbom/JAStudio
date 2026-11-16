@@ -70,7 +70,7 @@ public class When_a_note_has_tags_in_Anki : SpecificationStartingWithAnEmptyColl
       public and_then_its_study_note_is_tagged_in_Anki_and_the_study_notes_are_read_again()
       {
          GetService<PretendAnki>().Tag(TheSentence, "leech", "marked");
-         Collection.ReadTheStudyNotesFromAnkiAgain();
+         Collection.ReadTheStudyNotesFromTheSRSAgain();
       }
 
       [XF] public void its_Anki_tags_are_the_new_ones() => TheSentence.AnkiTags.Select(it => it.Name).Order().Must().SequenceEqual(["anki::leech", "anki::marked"]);

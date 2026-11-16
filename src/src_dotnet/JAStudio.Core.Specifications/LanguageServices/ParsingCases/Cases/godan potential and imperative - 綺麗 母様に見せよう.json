@@ -1,4 +1,5 @@
 {
+  "sentenceId": "aec78681-3a0e-4c88-98ee-912cba04f21b",
   "sentence": "綺麗 母様に見せよう",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 綺麗 | 母様 | に | 見せる | う.",
   "parsedWords": [

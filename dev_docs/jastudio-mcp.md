@@ -196,6 +196,23 @@ Four projects, plus each host's part, and the specifications of the tools, of th
   - **Restarting takes about 7 seconds** when the build is up to date. The first load on a corpus checkout takes about
     20, since it builds the checkout's `snapshot.bin` caches.
 
+### Connecting waits for the server's first answer (2026-11-15)
+
+The gateway, and the specifications, connect their MCP clients one way (`ConnectionToTheMcpServer.ClientConnectedTo`):
+with no separate time limit on the server's first answer.
+
+- **The MCP SDK's client gives a server 5 seconds** to answer its first request, `server/discover`, then takes it for a
+  server of an older revision of the protocol, and falls back to that revision's handshake
+  (`McpClientOptions.DiscoverProbeTimeout`).
+- **Against a JAStudio's server the fallback has failed:** "The MCP-Protocol-Version header value '2026-07-28' does not
+  match body params.protocolVersion value '2025-11-25'". Specifications failed so twice on 2026-11-15, each time right
+  after a full build, when connecting took 7 seconds: five in one run, one in another, of 386.
+- **A JAStudio's server speaks the current revision,** so its clients need no fallback, and now wait for as long as
+  connecting may take.
+- **Not known:** what more than the limit passing the failure takes. A limit of 5 to 250 milliseconds didn't reproduce
+  it in 36 specifications each. So the fix removes the path the failure's stack trace was in, without the failure
+  having been seen to go.
+
 ### Why a gateway
 
 Claude Code can't reconnect an MCP server by itself (its documentation, `code.claude.com/docs/en/mcp`, checked
@@ -225,8 +242,9 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
     tags of slice 5 are the next such survey.
 - **The UI, built, in the headless JAStudio only** (`JAStudioMcpServer.StartWithTheHeadlessUI`): in the live JAStudio a
   window opened would open on Magnus's screen, and it has no browser to render pages with. Each tool gives an image.
-  - `render_window` renders one of the main menu's windows, the options, the readings mappings or the import profiles,
-    opened as the menu opens it, and closes it again. To drive one, open it from the workspace's main menu.
+  - `render_window` renders one of the main menu's windows, the options, the readings mappings, the import profiles,
+    the shared-conditions or the Studying window, opened as the menu opens it, and closes it again. To drive one,
+    open it from the workspace's main menu.
   - `render_the_workspace` renders the workspace window as it is, after showing a note in a tab or in the editor, if
     given one, and on the editor's tab asked for, such as a vocab's Matching tab. It keeps its tabs from one call to the
     next, and starts as Magnus last left his workspace.
@@ -372,6 +390,13 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
          autogenerating a vocab's compound parts creates for parts that have none. Accepting a meaning moved from the menus into the notes
          (`VocabNote.AcceptMeaning`, `KanjiNote.AcceptMeaning`), which refuse it while the note has an answer of its own,
          as the menus only offer it then.
+       - **Done (2026-11-15): the parsing cases.** `list_the_parsing_cases` parses every parsing case of the corpus and
+         lists those that parse otherwise than they expect, those that fail first, each with its sentence's id, name,
+         why, verdict, outcome and differences, and how many cases there are of each outcome. A sentence's commands
+         mark it as a parsing case, accept what it parses to and make it ordinary again; its name, why and verdict are
+         editable fields. `edit_a_note` and `run_a_command_on_a_note` report a sentence's parsing case among what
+         changed, as `parsingCase`: null when it isn't one, or else its outcome and how many differences, since marking,
+         accepting and stopping change no editable field.
        - **Left out:** the menu items that open notes, copy text to the clipboard or open a dialog, and reparsing a
          vocab's sentences, which `edit_a_note` does itself when a field written changes how sentences parse.
        - **Done:** `create_a_note` creates a vocab, a sentence or a kanji from a text, as the context menu's "Create"
@@ -391,7 +416,7 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
          written into Anki (`corpus-data-model.md`), about two dozen branches, some with over a hundred paths below.
        - **Deleting a note, as decided with Magnus:** JAStudio is the master of the notes, and Anki only of a student's
          studying, so Anki never prevents a deletion, and JAStudio deletes notes outside Anki too. What happens to a
-         note's Anki note, which holds its cards and their review history, is a choice (`ItsAnkiNote`): kept as it is,
+         note's Anki note, which holds its cards and their review history, is a choice (`ItsStudyNote`): kept as it is,
          or deleted with the history, which can't be undone. The menu's delete dialog asks for the choice when the note
          has an Anki note, keeping it by default; `delete_a_note` takes it as `ankiNote`, and fails without it for such a
          note, as the dialog's question would stop a person. A kept Anki note is left alone, not suspended, which
@@ -423,16 +448,23 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
   updates the note, but a reload passes on only the notes whose files changed while it held them, and none at startup, so a change
   to the corpus made while Anki was closed, or a change to what JAStudio writes, leaves study-notes behind. Built for
   slice 9 of `corpus-data-model.md`, whose change of format is fast-forwarded with Anki closed.
-  - `list_the_study_notes_that_differ` compares every study-note in Anki (`IAnkiStudyNotes`, read straight from Anki's
-    database) with the one JAStudio would write now (`StudyNoteComparison`), as Anki keeps what's written into it: text in
+  - `list_the_study_notes_that_differ` compares every study-note in Anki (`ISRSStudyNotes`, read
+    straight from Anki's database) with the one JAStudio would write now (`StudyNoteComparison`), as Anki keeps what's written into it: text in
     Unicode normalization form C. It counts the differences by field, and lists the notes, each with the fields that
     differ. It also counts and marks the notes where only the markup of the audio differs: the same audio files in the
     same order, with only the markup around them, or which audio field holds which file, different
     (`NoteWhoseStudyNoteDiffers.OnlyTheMarkupOfItsAudioDiffers`), and leaves them out of the lists when asked. Added
     2026-11-10 for slice 9, when moving the audio to lists made 475 study-notes differ so, and none otherwise.
   - `write_the_study_notes_that_differ` writes them, or the study-notes of the notes given, through the same Python code
-    that writes a study-note on every update (`JPNoteDataShim.write_study_note`), then compares again. Only in the live
+    that a sync writes a study-note through (the add-on's `study_note_write`), then compares again. Only in the live
     JAStudio: the headless one compares, reading the collection file, but has no Anki to write in.
+  - `sync_with_anki` (2026-11-15) runs JAStudio's sync with Anki (`SRSSync`), as the workspace's Sync button does: it
+    reads every study-note, gives each note what Anki holds of its study-note, writes the study-notes that
+    differ, and starts the import profiles that run automatically. It reports what the sync did (`SRSSyncReport`): the
+    notes whose study-note had changed in Anki, those whose study-note is gone, those written, and the study-notes of
+    no note, both those that hold no corpus note's id and those whose note the collection hasn't. Only in the live
+    JAStudio, and it refuses, saying why, while Anki's own sync runs or no Anki profile is open. Built so that Claude
+    can run a sync in the live JAStudio without the window: see `moving-jastudio-out-of-anki.md`, "Part 2 as built".
   - **The first comparison (2026-11-10, headless, on the corpus at `8a1a6404c9`):** of 79,719 study-notes, 16 differ:
     sentences whose questions have spaces or a tab at an end that the study-note hasn't. None differs in its audio. It
     compared tags then too: 21,236 study-notes had tags in Anki that the corpus had dropped, those slice 6 dropped
@@ -453,21 +485,9 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
   - **It can't compare across a change to how the corpus stores notes:** a file from before the change can't be read into
     a note, and the tool says which file in which version.
 
-  Still proposed: the same comparison under JAStudio's own features Magnus would love: committing inside JAStudio while
-  seeing which notes changed and how, a note's history with rolling back to a version, and which sentences a change to
-  vocab changed. The git command line suits it: on the corpus repository (207 commits, 79,718 note files) `git status`
-  took 0.17 seconds and a note's history 0.035.
-
-  **Committing inside JAStudio may come before the changes to the vocab's matching configuration** (Magnus,
-  2026-11-10): it would turn his commits, now a manual round of JAStudio and several repositories in Git Extensions,
-  into two or three clicks. What it would do:
-  - run a full rebuild before committing, so a commit always holds everything its edits changed, as the process for
-    changes to the corpus requires (`.claude/rules/02-universal-local/045-committing-with-the-corpus-repository.md`);
-  - show the changes as notes, as `diff_the_changed_notes` does;
-  - commit the media submodules too, innermost first;
-  - tell the notes edited by hand from those a rebuild only regenerated, since JAStudio knows which notes an editor
-    or a command wrote and which a rebuild did, and name the edited ones in the commit message. The diff alone can't:
-    a rebuild changes generated data such as a vocab's `sentenceCount` on notes nobody edited.
+  **The changes view builds on it** ([changes-view.md](changes-view.md)): committing inside JAStudio while seeing which
+  notes changed and how, a note's history with rolling back to a version, and which sentences a change to vocab
+  changed.
 
 ## Open questions
 
@@ -533,3 +553,7 @@ Answered:
    offering its 49 tools under that name; a call through it was answered by the headless JAStudio; disconnecting and
    connecting withdrew and offered the tools again, and stopping it left the gateway's own five. The specifications
    check that a connection follows its JAStudio as it stops and runs again.
+8. **Agreed, not built (Magnus, 2026-11-10: "Good."):** each running JAStudio reports the commit its build was made
+   from, and whether the checkout had uncommitted changes then. Until it does, whether Anki runs the latest build is
+   inferred from timestamps: Anki's process start time against the time of the newest build. The announcement already
+   has room for it: the specifications show a newer build announcing a `sourceCommit`.

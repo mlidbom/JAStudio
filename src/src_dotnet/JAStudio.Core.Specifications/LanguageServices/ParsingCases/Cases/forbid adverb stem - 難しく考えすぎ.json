@@ -1,4 +1,5 @@
 {
+  "sentenceId": "bcfc70da-0536-4b18-ad94-c11aaf3e7762",
   "sentence": "難しく考えすぎ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.ForbidAdverbStem, against vocab copied by hand, expected the breakdown to display: 難しい | 考える | すぎ.",
   "parsedWords": [

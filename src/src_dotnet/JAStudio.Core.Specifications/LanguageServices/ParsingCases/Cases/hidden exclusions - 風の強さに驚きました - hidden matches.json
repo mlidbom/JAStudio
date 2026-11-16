@@ -1,4 +1,5 @@
 {
+  "sentenceId": "3aaacc6a-ae85-4133-8419-219d26ad0e25",
   "sentence": "風の強さに驚きました",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HiddenExclusions, against vocab copied by hand, with 風の強い marked as hidden matches, expected the breakdown to display: 風 | の | 強さ | に | 驚き | ます | た.",
   "configuration": {

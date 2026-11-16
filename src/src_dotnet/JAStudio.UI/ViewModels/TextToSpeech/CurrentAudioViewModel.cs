@@ -7,8 +7,9 @@ using JAStudio.Audio;
 namespace JAStudio.UI.ViewModels.TextToSpeech;
 
 /// <summary>
-/// The note's TTS audio as it is when the TTS dialog opens, which using an attempt replaces:<br/>
-/// played to listen to it again, and decoded once, to compare each attempt with.
+/// A note's TTS audio as it was when read, which using an attempt replaces: played to listen to it again, and decoded once,<br/>
+/// when first compared with an attempt. The TTS dialog reads it as it opens, and again when an attempt is used. The batch TTS dialog reads it for each<br/>
+/// of its notes, to play it.
 /// </summary>
 /// <remarks>
 /// There may be nothing to play: the note may have no TTS audio, the media layer may not have its file yet,<br/>
@@ -17,12 +18,13 @@ namespace JAStudio.UI.ViewModels.TextToSpeech;
 sealed class CurrentAudioViewModel
 {
    readonly byte[]? _audioFile;
+   readonly Lazy<DecodedAudio?> _decoded;
 
    CurrentAudioViewModel(string description, byte[]? audioFile)
    {
       Description = description;
       _audioFile = audioFile;
-      Decoded = audioFile is null ? null : DecodedAudio.Of(audioFile);
+      _decoded = new Lazy<DecodedAudio?>(() => audioFile is null ? null : DecodedAudio.Of(audioFile));
    }
 
    /// <summary>The TTS audio of <paramref name="note"/> as it is now, found in <paramref name="media"/>.</summary>
@@ -42,7 +44,7 @@ sealed class CurrentAudioViewModel
    public bool CanPlay => _audioFile is not null;
 
    /// <summary>The audio decoded, to compare the attempts with. Null when there's nothing to play (<see cref="CanPlay"/>).</summary>
-   public DecodedAudio? Decoded { get; }
+   public DecodedAudio? Decoded => _decoded.Value;
 
    /// <summary>Plays the audio with <paramref name="player"/>. Only when it <see cref="CanPlay"/>.</summary>
    public void PlayWith(IAudioPlayer player) => player.Play(_audioFile ?? throw new InvalidOperationException($"The note's TTS audio can't be played: {Description}."));

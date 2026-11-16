@@ -1,4 +1,5 @@
 {
+  "sentenceId": "8e1de9d2-ef2e-40cd-8ac0-937908927f79",
   "sentence": "長居してしまいまして",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 長居 | する | てしまいます | て.",
   "parsedWords": [

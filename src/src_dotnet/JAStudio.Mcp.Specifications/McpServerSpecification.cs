@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.Specifications;
+using JAStudio.Mcp.Gateway.Connections;
 using JAStudio.Mcp.UI;
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol;
@@ -31,7 +33,7 @@ public abstract class McpServerSpecification : SpecificationStartingWithAnEmptyC
    McpServerSpecification(Func<IRootResolver, JAStudioMcpServer> startTheServer)
    {
       _server = startTheServer(GetService<IRootResolver>());
-      _client = McpClient.CreateAsync(new HttpClientTransport(new HttpClientTransportOptions { Endpoint = _server.Url })).GetAwaiter().GetResult();
+      _client = ConnectionToTheMcpServer.ClientConnectedTo(_server.Url, CancellationToken.None).GetAwaiter().GetResult();
    }
 
    /// <summary>The address the server listens at.</summary>

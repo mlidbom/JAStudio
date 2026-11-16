@@ -1,6 +1,14 @@
 {
+  "sentenceId": "6b28b432-5f43-4963-9e0f-4c1ec51eac29",
   "sentence": "何なんだろうな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 何だ | ん | だろう | な:s.end.",
+  "configuration": {
+    "highlightedWords": [
+      "何なんだ"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"何なんだろう","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"何なんだろう","vocabId":"3d318fb4-0e80-4f5b-93c1-65a58a817bdf"},
     {"form":"何なんだ","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"何なんだ","vocabId":"0a4c6e20-f5fe-44f4-b00a-6b27befa84b8"},

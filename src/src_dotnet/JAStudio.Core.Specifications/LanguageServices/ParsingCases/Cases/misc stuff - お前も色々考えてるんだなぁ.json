@@ -1,4 +1,5 @@
 {
+  "sentenceId": "c80d0a42-767d-4427-8bc2-93b2aede7663",
   "sentence": "お前も色々考えてるんだなぁ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: お前 | も | 色々 | 考える | てる | んだ:のだ | なぁ.",
   "parsedWords": [

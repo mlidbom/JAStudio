@@ -1,4 +1,5 @@
 {
+  "sentenceId": "486b6763-2577-4f5f-b2e4-0591a749ccba",
   "sentence": "平日に切れないよう",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequiresMasuStem, against vocab copied by hand, expected the breakdown to display: 平日 | に | 切れる | ない | よう.",
   "parsedWords": [

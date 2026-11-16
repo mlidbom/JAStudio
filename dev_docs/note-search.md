@@ -102,8 +102,10 @@ A failing spec should print the search indented like the tree, so the difference
 |---|---|---|---|
 | searchable text | text | Notes with any searchable field that matches | The fields the old search box covered (open question 2). In Anki it's every field except tags. |
 | tags | tags | Notes with the tag or a tag in its branch. Also: a tag pattern, a regex, or no tags at all. | See [tags.md](tags.md). |
-| studying reading, studying listening | true-or-false | Notes whose reading, or listening, is being studied: the note is in the studying-add-on (today Anki) and that card isn't suspended | Magnus's proposal. Replaces Anki's `is:suspended` and `card:`, which are about cards. See [studying.md](studying.md). |
+| studying reading, studying listening | true-or-false | Notes whose reading, or listening, is being studied: the note is in the spaced repetition system (today Anki) and that card isn't suspended | Magnus's proposal. Replaces Anki's `is:suspended` and `card:`, which are about cards. See [studying.md](studying.md). |
 | note type | one of a fixed set | vocab, kanji or sentence | |
+| parsing case | true-or-false | Sentences marked as parsing cases | Built 2026-11-15 (`parsing-cases.md`). |
+| has audio | true-or-false | Notes with any audio: a recording or text-to-speech, the source's or the corpus's own | Built 2026-11-15, to find the notes to give TTS audio (`text-to-speech.md`, increment 3). It counts the note's references to audio, not whether the media layer has the files. A kanji has none. |
 | question, answer, reading, and other fields | text, or list of texts | Notes whose field matches | The fields per note type are to be decided. |
 | id | text | Notes with those JAStudio note ids | |
 | JAStudio-specific properties (later) | | For example the vocab a sentence contains, the kanji, the forms, the parts of speech | Each one when a workflow needs it. "Contains vocab" fits Magnus's habit of adding sentences that contain the vocab he's studying. |
@@ -155,7 +157,7 @@ the tree jump around. To keep it as quick as typing:
 **Typing a key from the add menu on the tree does what it does in the add menu** (Magnus, 2026-11-07, replacing
 an earlier decision that typing a letter starts a searchable-text condition). So `t` opens the tag dialog without
 `+` first. `q` opens the whole add menu with the question's submenu open, so it's clear what's happening and another
-choice is one key away. A quick lookup is Ctrl+O, `s`, `c`, a word, Enter.
+choice is one key away. A quick lookup is Ctrl+S, `s`, `c`, a word, Enter.
 
 **When a menu closes without a pick, as with Esc, the keyboard goes back to the selected line.** Otherwise it's left
 on the window's main menu. When an item is picked, what it does decides where the keyboard goes, such as into the
@@ -322,10 +324,10 @@ columns need, and the note's page stays visible beside the results.
        memory, not stored with the note, so suspending or unsuspending updates no note, and `NoteUpdated` doesn't
        report it. Found 2026-11-07: the rows didn't show the selection menu's changes, unless Anki's browser had
        the note open, since its refresh saved the note on Anki's side, and that save was reported as an update. The
-       new notification is raised when JAStudio suspends or unsuspends a note's cards, and when Anki reports a
-       change to a card (`JPCollection.UpdateCardStudyingStatus`). The add-on reports Anki's own suspends and
-       unsuspends, such as those in its browser, through a patch of Anki's scheduler that is put in place when a
-       card is first shown (`clear_studying_cache_on_card_suspend_unsuspend.py`), so not before.
+       new notification is raised when JAStudio suspends or unsuspends a note's cards, and when a read of the
+       study-notes from Anki finds a card's status changed, as JAStudio's sync with Anki does. Until 2026-11-15
+       Anki reported each of its own suspends and unsuspends as it made them, through a patch of its scheduler
+       (`moving-jastudio-out-of-anki.md`).
      - **Refreshing,** with F5 anywhere in the Search tab or the Refresh button, runs the same search again. The
        rows of the notes still found stay, where they are and selected if they were, and read their values again,
        so a refresh shows every change, even one no notification reported. The rows of the notes no longer found
@@ -341,7 +343,7 @@ columns need, and the note's page stays visible beside the results.
    - **Measured (2026-11-07),** on the 49,162 sentence texts, outside the grid: sorting by question took about
      25 ms, sorting by external id about 60 ms, and stripping the markup from them about 5 ms. The grid's own
      overhead isn't measured.
-   - **Not yet:** showing and hiding columns, and the studying-add-on's other card states.
+   - **Not yet:** showing and hiding columns, and the spaced repetition system's other card states.
 4. **Tagging notes** ([tags.md](tags.md), increment 1). *(Adding and removing a tag on the selected results built
    2026-11-07.)*
 5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3). *(Built
@@ -417,4 +419,4 @@ conditions come from factory methods where those read better, and from the prope
 
    The old box's `r:` (readings only) becomes a readings property later.
 3. **Which of Anki's left-out searches does Magnus use?** For example new cards, or cards answered recently. Each
-   would need its data loaded from the studying-add-on, as a property of the note.
+   would need its data loaded from the spaced repetition system, as a property of the note.

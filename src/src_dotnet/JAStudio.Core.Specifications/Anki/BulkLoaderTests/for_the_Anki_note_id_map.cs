@@ -13,13 +13,13 @@ public class for_the_Anki_note_id_map : SpecificationReadingAnAnkiCollectionFile
 {
    public class after_loading_it_from_the_test_collection : for_the_Anki_note_id_map
    {
-      readonly Dictionary<long, NoteId> _corpusNoteIdsByAnkiNoteId;
+      readonly List<NoteId> _corpusNoteIdsOfTheStudyNotes;
 
-      public after_loading_it_from_the_test_collection() => _corpusNoteIdsByAnkiNoteId = WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiTestDb.Database).IdMappings;
+      public after_loading_it_from_the_test_collection() => _corpusNoteIdsOfTheStudyNotes = [.. TheStudyNotesIn(AnkiTestDb.Database).Select(it => it.NoteId).OfType<NoteId>()];
 
-      [XF] public void every_vocab_note_maps_to_a_vocab_id() => _corpusNoteIdsByAnkiNoteId.Values.OfType<VocabId>().Count().Must().Be(253);
-      [XF] public void every_kanji_note_maps_to_a_kanji_id() => _corpusNoteIdsByAnkiNoteId.Values.OfType<KanjiId>().Count().Must().Be(685);
-      [XF] public void every_sentence_note_maps_to_a_sentence_id() => _corpusNoteIdsByAnkiNoteId.Values.OfType<SentenceId>().Count().Must().Be(279);
-      [XF] public void no_other_note_is_mapped() => _corpusNoteIdsByAnkiNoteId.Count.Must().Be(253 + 685 + 279);
+      [XF] public void every_vocab_note_maps_to_a_vocab_id() => _corpusNoteIdsOfTheStudyNotes.OfType<VocabId>().Count().Must().Be(253);
+      [XF] public void every_kanji_note_maps_to_a_kanji_id() => _corpusNoteIdsOfTheStudyNotes.OfType<KanjiId>().Count().Must().Be(685);
+      [XF] public void every_sentence_note_maps_to_a_sentence_id() => _corpusNoteIdsOfTheStudyNotes.OfType<SentenceId>().Count().Must().Be(279);
+      [XF] public void no_other_note_is_mapped() => _corpusNoteIdsOfTheStudyNotes.Count.Must().Be(253 + 685 + 279);
    }
 }

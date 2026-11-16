@@ -1,6 +1,14 @@
 {
+  "sentenceId": "05ffb3bd-4575-46b4-b5f1-c5e0651b50ea",
   "sentence": "悪かったって",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 悪い | た | って.",
+  "configuration": {
+    "highlightedWords": [
+      "悪い"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"悪かった","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"悪かった","vocabId":"325b5658-8f47-46c4-a2d9-e409b90ed2fa"},
     {"form":"悪い","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"悪い","vocabId":"9ef4d0b9-09d2-4ddf-b97e-ca79d9b64260"},

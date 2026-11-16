@@ -149,6 +149,35 @@ function setupWorkspace() {
 
 setupWorkspace();
 
+// The page's own right-click menu (RightClickMenu), wherever the page isn't shown in JAStudio's workspace, which has its own (setupWorkspace):
+// in Anki's reviewer and previewer, and in a web browser. Shift+Right-click keeps the browser's own menu, for "Inspect" and the like.
+window.jaStudioRightClickMenu = {
+   _dotNetRef: null,
+   register: function(dotNetRef) {
+      this._dotNetRef = dotNetRef;
+   }
+};
+
+function setupRightClickMenu() {
+   if (postToWorkspace) return;
+
+   document.addEventListener('contextmenu', function(event) {
+      const menu = window.jaStudioRightClickMenu._dotNetRef;
+      if (event.shiftKey || !menu) return;
+
+      event.preventDefault();
+      const link = event.target.closest('.note-link');
+      menu.invokeMethodAsync('ShowAt', event.clientX, event.clientY, link?.dataset.noteId ?? null, link?.textContent.trim() ?? null);
+   });
+
+   document.addEventListener('keydown', function(event) {
+      const menu = window.jaStudioRightClickMenu._dotNetRef;
+      if (event.key === 'Escape' && menu) menu.invokeMethodAsync('Close');
+   });
+}
+
+setupRightClickMenu();
+
 // Shell toggle: press 'm' to show/hide the app shell.
 // Stores a .NET object reference set by MainLayout via JS interop.
 window.jaStudioShell = {

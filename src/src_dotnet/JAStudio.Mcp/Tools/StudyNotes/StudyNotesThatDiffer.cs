@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Studying.StudyNotes;
 
 namespace JAStudio.Mcp.Tools.StudyNotes;
 

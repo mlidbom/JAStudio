@@ -1,4 +1,5 @@
 {
+  "sentenceId": "bd57e65b-d3a8-4d9b-9c77-6f2a8b4aa291",
   "sentence": "落ちてないかな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 落ちる | てない | かな.",
   "parsedWords": [

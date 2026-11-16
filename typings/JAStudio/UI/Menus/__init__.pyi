@@ -37,6 +37,7 @@ class MainMenuWindows(abc.ABC):
     Options : MainMenuWindow
     ReadingsMappings : MainMenuWindow
     SharedConditions : MainMenuWindow
+    Studying : MainMenuWindow
     TextToSpeechVoices : MainMenuWindow
 
 

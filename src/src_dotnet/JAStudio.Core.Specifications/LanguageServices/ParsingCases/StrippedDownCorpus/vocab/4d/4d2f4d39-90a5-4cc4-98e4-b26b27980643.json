@@ -92,7 +92,7 @@
       "isOwned": false
     }
   ],
-  "sentenceCount": 16,
+  "sentenceCount": 18,
   "technicalNotes": "",
   "references": "",
   "images": [],
@@ -105,16 +105,7 @@
     "condition": {
       "allOf": [
         {
-          "firstToken": {
-            "anyOf": [
-              {
-                "fact": "godanPotentialStem"
-              },
-              {
-                "fact": "godanPotentialInflection"
-              }
-            ]
-          }
+          "sharedCondition": "StartsInAGodanPotentialForm"
         }
       ]
     },

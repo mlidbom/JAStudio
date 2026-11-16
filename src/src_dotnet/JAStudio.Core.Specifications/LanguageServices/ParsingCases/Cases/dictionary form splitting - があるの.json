@@ -1,4 +1,5 @@
 {
+  "sentenceId": "3c52b1e2-ad23-45c6-a707-52bdedee96a1",
   "sentence": "があるの",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: がある | うの.",
   "parsedWords": [

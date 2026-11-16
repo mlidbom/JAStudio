@@ -6,7 +6,7 @@ Hybrid **Python + .NET** addon for **Anki** (Japanese-language study).
   integration all live in `src/src_dotnet/`. Solution: `JAStudio.slnx` at the repo root.
 - **Python 3.13 is a thin integration layer with Anki only.** The project is actively porting UI/business
   logic from Python to C# — **don't expand Python functionality; prefer moving logic to C#.** Python source:
-  `src/jastudio_src/`, `src/jaslib_src/`, `src/jaspythonutils_src/`. Tests: `src/tests/`.
+  `src/jastudio_src/`, `src/jaspythonutils_src/`. Tests: `src/tests/`.
 - **Multiplatform: Windows, macOS and Linux.** We want JAStudio to run on all three, as Anki does, unless achieving it
   would really slow progress: it's a goal, not non-negotiable. Don't add Windows-only code where a multiplatform way
   exists, and put a platform API that can't be avoided behind a seam with an implementation per platform. What still

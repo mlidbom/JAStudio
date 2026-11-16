@@ -1,4 +1,5 @@
 {
+  "sentenceId": "cec04d66-22c8-486a-9d84-5a6ea7b28f0b",
   "sentence": "言っとる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 言う | とる:progressive.",
   "parsedWords": [

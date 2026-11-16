@@ -1,4 +1,5 @@
 {
+  "sentenceId": "4cf54cdd-d587-452d-b481-f06625f2ef19",
   "sentence": "どうやってここを知った。",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: どうやって | どう | やる | て | ここ | を | 知る | た.",
   "parsedWords": [

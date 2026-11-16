@@ -45,13 +45,30 @@ sealed class ConnectionToTheMcpServer : IAsyncDisposable
                                                                 McpServerPrimitiveCollection<McpServerTool> toolsOfferedToClaudeCode,
                                                                 CancellationToken cancellationToken)
    {
-      var mcpServerConnection = await McpClient.CreateAsync(new HttpClientTransport(new HttpClientTransportOptions { Endpoint = jastudio.McpServer }), cancellationToken: cancellationToken);
+      var mcpServerConnection = await ClientConnectedTo(jastudio.McpServer, cancellationToken);
       IReadOnlyList<JAStudioTool> tools = [.. (await mcpServerConnection.ListToolsAsync(cancellationToken: cancellationToken)).Select(it => new JAStudioTool(it.ProtocolTool, connection, mcpServerConnection))];
 
       var connectionToTheMcpServer = new ConnectionToTheMcpServer(jastudio, mcpServerConnection, tools, toolsOfferedToClaudeCode);
       connectionToTheMcpServer.OfferTheTools();
       return connectionToTheMcpServer;
    }
+
+   /// <summary>
+   /// An MCP client connected to the MCP server of a JAStudio at <paramref name="mcpServer"/>. It waits for the server's first answer for as long as<br/>
+   /// connecting may take, without the MCP SDK's separate time limit of 5 seconds on it.
+   /// </summary>
+   /// <remarks>
+   /// By default the SDK's client gives the server 5 seconds to answer its first request, <c>server/discover</c>, then takes it for a server of an<br/>
+   /// older revision of the protocol, and falls back to that revision's handshake (<c>McpClientOptions.DiscoverProbeTimeout</c>). A JAStudio's<br/>
+   /// server speaks the current revision, so its clients need no fallback, and the fallback has failed against it: on 2026-11-15 specifications<br/>
+   /// that took 7 seconds to connect, right after a build, failed in the fallback's handshake with "The MCP-Protocol-Version header value<br/>
+   /// '2026-07-28' does not match body params.protocolVersion value '2025-11-25'". A limit of milliseconds didn't reproduce it, so what more than<br/>
+   /// the limit passing it takes isn't known.
+   /// </remarks>
+   internal static Task<McpClient> ClientConnectedTo(Uri mcpServer, CancellationToken cancellationToken) =>
+      McpClient.CreateAsync(new HttpClientTransport(new HttpClientTransportOptions { Endpoint = mcpServer }),
+                            new McpClientOptions { DiscoverProbeTimeout = Timeout.InfiniteTimeSpan },
+                            cancellationToken: cancellationToken);
 
    void OfferTheTools()
    {

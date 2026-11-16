@@ -1,4 +1,5 @@
 {
+  "sentenceId": "3b87b22e-eccc-486d-817e-fa1061073346",
   "sentence": "俺に謝られても",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 俺 | に | 謝る | あれても.",
   "parsedWords": [

@@ -25,6 +25,7 @@ static class SentenceNoteConverter
                 ParsingResult = ToParsingResultDto(parsingResult),
                 SourceName = note.SourceName.Value,
                 SourceData = note.SourceData.ToDto(),
+                ParsingCase = note.ParsingCase is {} parsingCase ? ParsingCaseDto.From(parsingCase) : null,
                 Tags = note.Tags.ToStringList(),
              };
    }

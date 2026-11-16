@@ -6,6 +6,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Storage;
@@ -212,5 +213,32 @@ public class When_editing_a_note : McpServerSpecification
 
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
       [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Value.Must().Be("went");
+   }
+
+   /// <summary>The sentence is marked as a parsing case first.</summary>
+   public class of_a_sentence_that_is_a_parsing_case_writing_its_name_and_its_verdict : When_editing_a_note
+   {
+      readonly NoteEdit _edit;
+
+      public of_a_sentence_that_is_a_parsing_case_writing_its_name_and_its_verdict()
+      {
+         Sentence.MarkAsAParsingCase();
+         _edit = ResultOf<NoteEdit>(Edit(Sentence, new JsonObject { ["parsingCase.name"] = "the past tense", ["parsingCase.verdictOnTheDisplayedVocab"] = "verified" }));
+      }
+
+      [XF] public void the_parsing_case_has_the_name() => Sentence.ParsingCase!.Name.Must().Be("the past tense");
+      [XF] public void the_parsing_cases_displayed_vocab_are_verified() => Sentence.ParsingCase!.VerdictOnTheDisplayedVocab.Must().Be(Verdict.Verified);
+      [XF] public void the_edit_reports_the_two_fields_changed() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["parsingCase.name", "parsingCase.verdictOnTheDisplayedVocab"]);
+      [XF] public void the_edit_reports_the_verdict_before_as_unverified() => _edit.Changes[1].Before.Must().Satisfy(it => JsonNode.DeepEquals(it, JsonValue.Create("unverified")));
+   }
+
+   public class of_a_sentence_that_is_no_parsing_case_writing_a_parsing_cases_name : When_editing_a_note
+   {
+      readonly CallToolResult _result;
+
+      public of_a_sentence_that_is_no_parsing_case_writing_a_parsing_cases_name() => _result = Edit(Sentence, new JsonObject { ["parsingCase.name"] = "the past tense" });
+
+      [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
+      [XF] public void the_error_says_the_sentence_is_no_parsing_case() => TextOf(_result).Must().Contain("isn't a parsing case");
    }
 }

@@ -3,10 +3,18 @@
 **Status: built, and the old parsing specifications converted (2026-11-09).** Items 3 and 4 of `speeding-up-development.md`, which has the plan and its
 open points. The code is in `src/src_dotnet/JAStudio.Core.Specifications/LanguageServices/ParsingCases/`.
 
+**The corpus is the master of the parsing cases (Magnus, 2026-11-15).** A parsing case is a sentence of the corpus marked
+as one (`SentenceNote.ParsingCase`), with what it's expected to parse to and a person's verdict on it. The case files
+below are generated from those sentences by the full mode, for the specifications to run without the corpus. The plan,
+and how far it has come, is in [parsing cases in the corpus](todo/parsing-cases-in-the-corpus.md).
+
 ## A case
 
-A **parsing case** is one JSON file in `ParsingCases/Cases/`, named for what it's about: the name is the case's name in
-the test explorer. It holds:
+A parsing case's file (`ParsingCaseFile`) is one JSON file in `ParsingCases/Cases/`, generated from its sentence in the
+corpus. It's named for what the parsing case is about and its sentence, such as `ichidan imperative - 捕まえよ`: the name
+is the case's name in the test explorer. It holds:
+- `sentenceId`: the id of the sentence of the corpus it's generated from. The name and the sentence's text can change;
+  the id ties the file to its sentence for good (Magnus, 2026-11-15).
 - `sentence`: as a sentence note's question has it, with `<wbr>` for a word break.
 - `why`: why the case exists, such as the misparse it caught.
 - `configuration`, if the sentence has one: its highlighted words and incorrect and hidden matches, as the corpus stores a
@@ -50,21 +58,29 @@ nothing anyone sees.
 - **The full mode, `In_the_full_mode`,** is run by hand, and often: it's explicit, so it runs only when run by name. In
   Rider, run it from the test explorer; on the command line, run the specifications' executable,
   `JAStudio.Core.Specifications.exe -explicit only -class "JAStudio.Core.Specifications.LanguageServices.ParsingCases.In_the_full_mode+<the nested class>"`.
-  It loads every vocab of the corpus checkout, `src/jas_database`, reading its files and changing nothing there. It parses
-  every case, recording every vocab the parsing looks up, replaces the stripped-down corpus with those vocab, and checks
-  that every case parses against it exactly as against the corpus checkout. Then:
-  - `refreshing_the_stripped_down_corpus_from_the_corpus_checkout` checks that every case parses as it expects. A case
-    that fails shows a change to the corpus, or to the code, that changed how its sentence parses.
-  - `accepting_what_each_case_parses_to_against_the_corpus_checkout` writes what each case parses to into its file, as
-    the result it expects. Review what changed in git's diff before committing it: a recorded result says what the parser
-    does, not what's right.
+  It loads every vocab of the corpus checkout, `src/jas_database`, and its sentences that are parsing cases, reading its
+  files and changing nothing there. It parses each of those sentences, recording every vocab the parsing looks up, replaces
+  the case files with one generated from each sentence, and the stripped-down corpus with those vocab. Its one class,
+  `generating_the_case_files_and_the_stripped_down_corpus_from_the_corpus_checkout`, checks two things:
+  - every parsing case of the corpus checkout parses there exactly as it expects;
+  - every case parses against the stripped-down corpus exactly as its sentence does against the corpus checkout.
+
+  Review what it wrote in git's diff before committing it. A corpus checkout without parsing cases fails it, before it
+  deletes any case file.
 
   A run takes about 6 seconds, 4.6 of them loading the corpus's 28,003 vocab.
 
 ## Making a case
 
-Write its file with `sentence` and `why`, and `configuration` if the sentence needs one, run accepting, and review the
-result it recorded. The vocab its parsing looks up join the stripped-down corpus in the same run.
+Mark the sentence as a parsing case in JAStudio: the button under its breakdown on its page in the workspace, or
+"Parsing case" in its menu (`SentenceCommands`, which the MCP server runs too). What it parses to then is what it
+expects. Name it and say why in its editor, and give your verdict on the vocab it displays on its page: its name, why
+and verdict are editable fields (`SentenceEditableFields`), which the MCP server's `edit_a_note` writes too. A result
+that changes is accepted on the sentence as well. The navigation pane's Parsing cases tab lists every case with how
+it parses now: see [the workspace's design](jastudio-workspace.md#the-parsing-cases-in-the-workspace-as-built).
+
+Then run the full mode: the case's file is generated, and the vocab its parsing looks up join the stripped-down corpus
+in the same run.
 
 ## Why the stripped-down corpus parses each case as the corpus does
 

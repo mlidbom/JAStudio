@@ -1,6 +1,16 @@
 {
+  "sentenceId": "2b8d0ff8-d261-4778-be99-d27ae63bd317",
   "sentence": "月光が差し込んでるんだ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 月光 | が | 差し込む | んでる | んだ:のだ.",
+  "configuration": {
+    "highlightedWords": [
+      "差す",
+      "-",
+      "差し込む"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"月光","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"月光","vocabId":"8d2c94db-10fc-4c2f-aded-70133e1e1769"},
     {"form":"が","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},

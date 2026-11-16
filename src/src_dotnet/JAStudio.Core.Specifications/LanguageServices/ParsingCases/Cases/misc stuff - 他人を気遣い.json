@@ -1,4 +1,5 @@
 {
+  "sentenceId": "1a2da4a4-190b-4a36-aeed-98859df0dd14",
   "sentence": "他人を気遣い",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 他人 | を | 気遣う.",
   "parsedWords": [

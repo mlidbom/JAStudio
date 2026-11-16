@@ -1,10 +1,10 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core;
@@ -25,9 +25,9 @@ public class TemporaryServiceCollection
    public LocalNoteUpdater LocalNoteUpdater => Services.Resolve<LocalNoteUpdater>();
    public TaskRunner TaskRunner => Services.Resolve<TaskRunner>();
    public BackgroundTaskManager BackgroundTaskManager => Services.Resolve<BackgroundTaskManager>();
-   public ExternalNoteIdMap ExternalNoteIdMap => Services.Resolve<ExternalNoteIdMap>();
-   public IAnkiWindows AnkiWindows => Services.Resolve<IAnkiWindows>();
-   public AnkiAvailability AnkiAvailability => Services.Resolve<AnkiAvailability>();
+   public StudyNoteIds StudyNoteIds => Services.Resolve<StudyNoteIds>();
+   public ISRSWindows SRSWindows => Services.Resolve<ISRSWindows>();
+   public SRSAvailability SRSAvailability => Services.Resolve<SRSAvailability>();
 
    // Note services
    public NoteServices NoteServices => Services.Resolve<NoteServices>();

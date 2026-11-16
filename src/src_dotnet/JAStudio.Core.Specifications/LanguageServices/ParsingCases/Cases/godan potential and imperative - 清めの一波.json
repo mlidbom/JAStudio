@@ -1,4 +1,5 @@
 {
+  "sentenceId": "56717f6d-47f0-4cc5-af48-5bb1aaf72a53",
   "sentence": "清めの一波",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 清め | の | 一波:[MISSING]:emergency; and from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 清める | 清め | の.",
   "parsedWords": [

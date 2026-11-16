@@ -1,4 +1,5 @@
 {
+  "sentenceId": "81b8e0cb-3998-4da5-918e-62e4d74fd806",
   "sentence": "作るに決まってるだろ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 作る | う | に決まってる | だろ; and from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 作る | う | に決まってる | に決まる | に | 決まる | てる | だ | だろ.",
   "parsedWords": [

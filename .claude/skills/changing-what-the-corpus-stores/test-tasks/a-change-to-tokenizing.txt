@@ -1,0 +1,1 @@
+MisTokenizedQuotativeDatte: add 語る and 叫ぶ to the verbs after which a だって is the quoting phrasing. Go ahead.

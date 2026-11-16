@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.UI.Web.Sentence;
 using JAStudio.Core.ViewModels.KanjiList;
 using JAStudio.UI.Menus.Notes.Sentence;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
+using JAStudio.UI.ViewModels.Workspace.NotePages.Sentences.ParsingCases;
 
 namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 
@@ -18,13 +21,19 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 /// question with its audio, its answer and comments, and its breakdown: the words found in it, each with the vocab it matched, built from the same<br/>
 /// view models in Core as the card's (<see cref="SentenceViewModel"/>), and in edit mode, its tokens.
 /// </summary>
-sealed class SentencePageViewModel : NotePageViewModel
+/// <remarks>
+/// A sentence that is a parsing case has a section about that (<see cref="ParsingCase"/>), and when it parses otherwise than its case expects, the<br/>
+/// page can show the breakdown the case expects beside the sentence's own (<see cref="RowsBesideTheExpected"/>).
+/// </remarks>
+sealed partial class SentencePageViewModel : NotePageViewModel
 {
    readonly SentenceElementMenus _elementMenus;
+   readonly SentenceNote _sentence;
 
    public SentencePageViewModel(SentenceNote sentence, TemporaryServiceCollection services, INotePageHost host) : base(host)
    {
       _elementMenus = new SentenceElementMenus(services, sentence, host);
+      _sentence = sentence;
       var settings = services.Resolve<Settings>();
       var media = services.Resolve<MediaFileIndex>();
       var isInEditMode = settings.ShowBreakdownInEditMode();
@@ -42,9 +51,27 @@ sealed class SentencePageViewModel : NotePageViewModel
 
       var breakdown = new SentenceViewModel(sentence, settings, services.CoreApp.Collection.Vocab);
       var kanjiLists = services.Resolve<SentenceKanjiListViewModel>();
-      Entries = [.. breakdown.DisplayedMatches.Select(it => new BreakdownEntryViewModel(it, settings, kanjiLists))];
+      var entryOf = breakdown.DisplayedMatches.ToDictionary(it => it, it => new BreakdownEntryViewModel(it, settings, kanjiLists));
+      Entries = [.. breakdown.DisplayedMatches.Select(it => entryOf[it])];
       TokenTables = isInEditMode ? TokenTableViewModel.Of(breakdown.Analysis.Analysis) : [];
+
+      if(sentence.ParsingCase is {} parsingCase)
+      {
+         var comparison = sentence.CompareWithWhatTheParsingCaseExpects();
+         ParsingCase = new SentenceParsingCaseViewModel(sentence, comparison, services);
+         ShowsTheExpectedBesideTheBreakdown = !comparison.ParsesAsExpected && !isInEditMode && services.CoreApp.Config.ShowWhatAParsingCaseExpectsBesideTheBreakdown.Value;
+         if(ShowsTheExpectedBesideTheBreakdown)
+            RowsBesideTheExpected = [.. BreakdownBesideTheExpected.Of(breakdown.Analysis.MatchesDisplayedOutsideEditMode, parsingCase.Expected.BreakdownUnder(settings.BreakdownParsingOptions()))
+                                                                  .Rows
+                                                                  .Select(RowBesideTheExpected)];
+      }
+
       return;
+
+      BreakdownRowBesideTheExpectedViewModel RowBesideTheExpected(BreakdownBesideTheExpected.Row row) =>
+         new(row.Displayed is {} displayed ? entryOf[displayed] : null,
+             row.Expected is {} expected ? new ExpectedBreakdownEntryViewModel(expected, services.CoreApp.Collection) : null,
+             row.IsTheSameWord);
 
       string QuestionAsShown(string question) =>
          isInEditMode ? question.Replace(SentenceQuestionField.WordBreakTag, ShownWordBreakTag) : question;
@@ -95,6 +122,28 @@ sealed class SentencePageViewModel : NotePageViewModel
 
    /// <summary>In edit mode, the tables of the sentence's tokens; none otherwise.</summary>
    public IReadOnlyList<TokenTableViewModel> TokenTables { get; }
+
+   /// <summary>The page's parsing case section, for a sentence that is a parsing case; none otherwise.</summary>
+   public SentenceParsingCaseViewModel? ParsingCase { get; }
+
+   public bool IsAParsingCase => ParsingCase is not null;
+
+   /// <summary>
+   /// Whether the page shows the breakdown the sentence's parsing case expects beside the sentence's own (<see cref="RowsBesideTheExpected"/>), in<br/>
+   /// place of the <see cref="Entries"/> alone: the sentence parses otherwise than its case expects, in any way, the setting for it is on, and the<br/>
+   /// breakdown isn't in edit mode, which lists every match.
+   /// </summary>
+   public bool ShowsTheExpectedBesideTheBreakdown { get; }
+
+   /// <summary>
+   /// The words of the breakdown beside those the parsing case expects under the same options, row by row, in the order they are in the sentence.<br/>
+   /// Empty unless the page <see cref="ShowsTheExpectedBesideTheBreakdown"/>.
+   /// </summary>
+   public IReadOnlyList<BreakdownRowBesideTheExpectedViewModel> RowsBesideTheExpected { get; } = [];
+
+   /// <summary>Makes the sentence a parsing case that expects what it parses to now, for a sentence that isn't one.</summary>
+   [RelayCommand]
+   void MarkAsAParsingCase() => SentenceCommands.MarkAsAParsingCase.Run(_sentence);
 
    public override void PlayTheNotesAudio() => Audio?.Play();
 

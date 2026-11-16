@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.TaskRunners;
@@ -13,22 +12,20 @@ namespace JAStudio.UI.ViewModels.Workspace;
 
 /// <summary>
 /// Makes a change to many notes in the background, with a progress dialog: tagging the selected search results, suspending their cards, and renaming<br/>
-/// or deleting a branch of the tag tree. A change to the notes' own tags, or to their cards, is made a note at a time, and afterwards Anki's own windows<br/>
-/// are refreshed to show it. A change to their Anki tags, below <c>anki::</c>, is made in Anki, as one Anki operation (<see cref="AnkiTagChanges"/>).
+/// or deleting a branch of the tag tree. A change to the notes' own tags, or to their cards, is made a note at a time. A change to their Anki tags,<br/>
+/// below <c>anki::</c>, is made in Anki, as one Anki operation (<see cref="AnkiTagChanges"/>).
 /// </summary>
 class BulkNoteChanges(TemporaryServiceCollection services)
 {
    readonly TaskRunner _taskRunner = services.TaskRunner;
    readonly AnkiTagChanges _ankiTagChanges = services.Resolve<AnkiTagChanges>();
-   readonly IAnkiWindows _ankiWindows = services.AnkiWindows;
 
    /// <summary>Does <paramref name="changeANote"/> to each of <paramref name="notes"/> in the background, showing its progress as <paramref name="whatIsDone"/>.</summary>
    public Task ChangeEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
       TaskCE.Run(() =>
       {
-         using(var scope = _taskRunner.Current(whatIsDone))
-            scope.RunBatch(notes, changeANote, whatIsDone);
-         ShowTheChangeInAnki();
+         using var scope = _taskRunner.Current(whatIsDone);
+         scope.RunBatch(notes, changeANote, whatIsDone);
       });
 
    /// <summary>Adds <paramref name="tag"/> to each of <paramref name="notes"/> that lacks it: to the note itself, or, for an Anki tag, to its study-note in Anki.</summary>
@@ -68,7 +65,4 @@ class BulkNoteChanges(TemporaryServiceCollection services)
          using var scope = _taskRunner.Current(whatIsDone);
          scope.RunIndeterminate(whatIsDone, change);
       });
-
-   /// <summary>Refreshes Anki's own windows, such as its browser, as the note menus do after they change notes.</summary>
-   void ShowTheChangeInAnki() => _ankiWindows.Refresh();
 }

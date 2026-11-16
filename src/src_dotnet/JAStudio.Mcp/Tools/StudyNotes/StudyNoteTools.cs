@@ -1,19 +1,18 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying.StudyNotes;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.StudyNotes;
 
 /// <summary>
 /// The tools that compare the fields of the study-notes in Anki, the Anki notes that hold the notes' cards, with what JAStudio would write now, and write<br/>
-/// those that differ (<see cref="IAnkiStudyNotes"/>). A change to the corpus made while Anki was closed, such as a fast-forward of the corpus checkout<br/>
-/// that changes how notes are stored, reaches the study-notes only through them.
+/// those that differ (<see cref="ISRSStudyNotes"/>), as JAStudio's sync with Anki does, which has a tool of its own (<see cref="Studying.SyncTools"/>). They show<br/>
+/// what a sync would write before it runs, and write without the rest of a sync.
 /// </summary>
 [McpServerToolType]
 public class StudyNoteTools
@@ -22,9 +21,9 @@ public class StudyNoteTools
    const int NotesListedPerTypeByDefault = 10;
 
    readonly JPCollection _collection;
-   readonly IAnkiStudyNotes _studyNotes;
+   readonly ISRSStudyNotes _studyNotes;
 
-   public StudyNoteTools(JPCollection collection, IAnkiStudyNotes studyNotes)
+   public StudyNoteTools(JPCollection collection, ISRSStudyNotes studyNotes)
    {
       _collection = collection;
       _studyNotes = studyNotes;
@@ -34,9 +33,9 @@ public class StudyNoteTools
    [Description("""
                 Compares every study-note in Anki, the Anki note holding a note's cards, with the study-note JAStudio would write for the note now:
                 the fields JAStudio writes, which are the question, the audio and the note's id. A study-note's tags are the student's, which
-                JAStudio never writes. JAStudio writes a note's study-note whenever it updates the note, but a reload passes on only the notes
-                whose files changed while it held them, and none at startup, so a change to the corpus made while Anki was closed, or a change to
-                what JAStudio writes, leaves study-notes out of date until write_the_study_notes_that_differ writes them. Text is compared as Anki
+                JAStudio never writes. JAStudio writes the study-notes that differ at each sync with Anki, which a person starts, so a study-note
+                is out of date from when JAStudio changes its note until the next sync: sync_with_anki runs one, and
+                write_the_study_notes_that_differ writes them without the rest of a sync. Text is compared as Anki
                 stores it, in Unicode normalization form C. In the headless JAStudio, Anki's latest changes may still be in its database's
                 write-ahead log, which it doesn't read. Reports how many study-notes were compared, in how many each field differs, the notes
                 whose study-note differs, by type, each with the fields that differ, and every study-note in Anki that belongs to no note of the
@@ -53,8 +52,9 @@ public class StudyNoteTools
    [McpServerTool(Name = "write_the_study_notes_that_differ", Destructive = false, Idempotent = true)]
    [Description("""
                 Writes the study-note in Anki of every note whose study-note differs from what JAStudio would write now, as
-                list_the_study_notes_that_differ finds them, or of the notes given, whether theirs differ or not: as JAStudio writes a note's
-                study-note whenever it updates the note. Only in the live JAStudio, inside Anki: the headless one has no Anki and refuses. Reports
+                list_the_study_notes_that_differ finds them, or of the notes given, whether theirs differ or not: as a sync with Anki writes
+                them, without reading Anki's changes or running imports. Only in a live JAStudio, inside Anki or the standalone one while Anki runs with
+                a profile open: the headless one has no Anki and refuses. Reports
                 how long it took, the notes whose study-notes it wrote, by type, and how many study-notes differ afterwards, compared again.
                 """)]
    public StudyNotesWritten WriteTheStudyNotesThatDiffer(

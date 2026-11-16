@@ -1,0 +1,1 @@
+A vocab's sentence count (VocabNoteGeneratedData) counts every sentence the vocab is matched in. It should count only the sentences where the match is displayed. Go ahead and change it.

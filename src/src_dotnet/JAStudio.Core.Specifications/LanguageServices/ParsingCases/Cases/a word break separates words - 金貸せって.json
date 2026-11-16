@@ -1,4 +1,5 @@
 {
+  "sentenceId": "fe6faeba-3ba9-48fe-ae43-0f8e30eaf5a4",
   "sentence": "金<wbr>貸せって",
   "why": "Converted from TextAnalysisWithPerTestDataTests.InvisibleSpaceBreakup, against vocab copied by hand, which expected the forms of the parsing result, in that order: 金 | 貸す | え | って.",
   "parsedWords": [

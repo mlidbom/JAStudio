@@ -1,4 +1,5 @@
 {
+  "sentenceId": "bc6e6544-84d8-4507-beb4-033c8175146c",
   "sentence": "男友達だっているでしょうに",
   "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_that_is_not_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 男友達 | だって | いる | る:う | でしょう | に.",
   "parsedWords": [

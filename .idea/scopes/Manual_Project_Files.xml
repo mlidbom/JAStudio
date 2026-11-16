@@ -1,3 +1,0 @@
-<component name="DependencyValidationManager">
-  <scope name="Manual Project Files" pattern="file[JA Studio]:src/jastudio//*||file[JA Studio]:src/MagnusAddonTests//*||file[JA Studio]:src/web//*" />
-</component>

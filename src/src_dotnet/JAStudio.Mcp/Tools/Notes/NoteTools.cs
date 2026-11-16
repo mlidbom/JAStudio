@@ -36,7 +36,7 @@ public class NoteTools
                   in kana and in romaji, with their HTML stripped.
                 - {"tagsInclude": "source::anime"}, which includes the tag's whole branch. A note's tags in Anki, the student's, are below
                   anki::, such as {"tagsInclude": "anki::marked"}.
-                - {"trueOrFalse": "Studying reading" | "Studying listening", "is": true | false}
+                - {"trueOrFalse": "Studying reading" | "Studying listening" | "Parsing case" | "Has audio", "is": true | false}
                 - {"noteTypeIs": "vocab" | "kanji" | "sentence"}
                 {"allOf": []} matches every note.
                 """)]

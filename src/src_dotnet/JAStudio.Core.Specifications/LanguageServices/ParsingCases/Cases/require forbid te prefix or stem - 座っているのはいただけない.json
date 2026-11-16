@@ -1,4 +1,5 @@
 {
+  "sentenceId": "a6e07497-49fb-45ef-be31-485db7269009",
   "sentence": "座っているのはいただけない",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 座る | ている | の | は | いただける:acceptable | ない.",
   "parsedWords": [

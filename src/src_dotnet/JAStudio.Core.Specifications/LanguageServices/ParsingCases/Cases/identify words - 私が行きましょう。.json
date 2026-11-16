@@ -1,6 +1,14 @@
 {
+  "sentenceId": "21d8774f-57b4-4775-ac41-e2b6eee6bc01",
   "sentence": "私が行きましょう。",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 私 | が | 行く | 行き | ましょう | ます | ましょ | う.",
+  "configuration": {
+    "highlightedWords": [
+      "私"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"私","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
     {"form":"が","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},

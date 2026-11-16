@@ -8,6 +8,8 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
+using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 
 // ReSharper disable InconsistentNaming
@@ -16,8 +18,9 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Importing;
 
 /// <summary>
 /// The import profile for Immersion Kit's sentence cards runs automatically, and a sentence card is in Anki. A second profile, for a subs2srs deck's<br/>
-/// note type, has a raw note in Anki too, and would import it if it ran. The automatic runs happen in the background, so each specification waits<br/>
-/// for the one it expects, and the runs happen one after another, in the order of the saved profiles.
+/// note type, has a raw note in Anki too, and would import it if it ran. The profiles that run automatically run at each sync with the spaced<br/>
+/// repetition system (<see cref="SRSSync"/>), which a person starts. The automatic runs happen in the background, so each specification waits for<br/>
+/// the one it expects, and the runs happen one after another, in the order of the saved profiles.
 /// </summary>
 public class When_import_profiles_run_automatically : ImportingSpecification, IAIGeneratedSpec
 {
@@ -53,8 +56,12 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
 
    protected void Save(params ImportProfile[] profiles) => profiles.ToList().ForEach(SavedProfiles.Add);
 
-   protected void AnkiImportedAFile() => AutomaticImportRuns.AfterAnkiImportedAFile();
-   protected void ANoteWasAddedInAnki(string ankiNoteType) => AutomaticImportRuns.AfterANoteWasAddedInAnki(ankiNoteType);
+   /// <summary>Runs a sync a person started, in a collection loaded as at startup: a sync runs only once the collection has loaded.</summary>
+   protected void SyncWithTheSpacedRepetitionSystem()
+   {
+      GetService<JPCollection>().ReloadFromBackend();
+      GetService<SRSSync>().Run();
+   }
 
    protected IReadOnlyList<ImportRun> ExecutedRuns => [.. _executedRuns];
    protected IReadOnlyList<ImportProfile> ProfilesStoppedByProblems => [.. _profilesStoppedByProblems];
@@ -86,11 +93,11 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    {
       public with_the_subs2srs_profile_not_running_automatically() => Save(Subs2srsProfile, ImmersionKitProfile);
 
-      public class after_Anki_imported_a_file : with_the_subs2srs_profile_not_running_automatically
+      public class after_a_sync_with_the_spaced_repetition_system : with_the_subs2srs_profile_not_running_automatically
       {
-         public after_Anki_imported_a_file()
+         public after_a_sync_with_the_spaced_repetition_system()
          {
-            AnkiImportedAFile();
+            SyncWithTheSpacedRepetitionSystem();
             WaitForAnExecutedRun();
          }
 
@@ -110,29 +117,16 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
          Save(Subs2srsProfile, ImmersionKitProfile);
       }
 
-      public class after_Anki_imported_a_file : with_the_subs2srs_profile_running_automatically_too
+      public class after_a_sync_with_the_spaced_repetition_system : with_the_subs2srs_profile_running_automatically_too
       {
-         public after_Anki_imported_a_file()
+         public after_a_sync_with_the_spaced_repetition_system()
          {
-            AnkiImportedAFile();
+            SyncWithTheSpacedRepetitionSystem();
             WaitForExecutedRuns(2);
          }
 
          [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
          [XF] public void the_subs2srs_note_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("猫が好きだ");
-      }
-
-      public class after_a_note_of_the_Immersion_Kit_note_type_was_added_in_Anki : with_the_subs2srs_profile_running_automatically_too
-      {
-         public after_a_note_of_the_Immersion_Kit_note_type_was_added_in_Anki()
-         {
-            ANoteWasAddedInAnki(ImmersionKitNoteType);
-            WaitForAnExecutedRun();
-         }
-
-         [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
-         [XF] public void the_subs2srs_profile_does_not_run_so_its_note_is_not_imported() => TheQuestionsOfTheImportedSentences().Must().Satisfy(it => !it.Contains("猫が好きだ"));
-         [XF] public void only_the_run_of_the_Immersion_Kit_profile_is_notified() => ExecutedRuns.Select(it => it.Profile.Name).Must().SequenceEqual(["Immersion Kit"]);
       }
    }
 
@@ -141,11 +135,11 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
       public with_an_automatic_profile_of_a_note_type_the_Anki_profile_does_not_have_saved_before_the_Immersion_Kit_profile() =>
          Save(new ImportProfile { Name = "Kanshudo", AnkiNoteType = "Kanshudo Sentence", RunsAutomatically = true }, ImmersionKitProfile);
 
-      public class after_Anki_imported_a_file : with_an_automatic_profile_of_a_note_type_the_Anki_profile_does_not_have_saved_before_the_Immersion_Kit_profile
+      public class after_a_sync_with_the_spaced_repetition_system : with_an_automatic_profile_of_a_note_type_the_Anki_profile_does_not_have_saved_before_the_Immersion_Kit_profile
       {
-         public after_Anki_imported_a_file()
+         public after_a_sync_with_the_spaced_repetition_system()
          {
-            AnkiImportedAFile();
+            SyncWithTheSpacedRepetitionSystem();
             WaitForAnExecutedRun();
          }
 
@@ -162,11 +156,11 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
          Save(ImmersionKitProfile);
       }
 
-      public class after_Anki_imported_a_file : with_a_second_sentence_card_whose_audio_file_is_not_in_Ankis_media_folder
+      public class after_a_sync_with_the_spaced_repetition_system : with_a_second_sentence_card_whose_audio_file_is_not_in_Ankis_media_folder
       {
-         public after_Anki_imported_a_file()
+         public after_a_sync_with_the_spaced_repetition_system()
          {
-            AnkiImportedAFile();
+            SyncWithTheSpacedRepetitionSystem();
             WaitForARunStoppedByProblems();
          }
 

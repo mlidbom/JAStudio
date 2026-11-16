@@ -1,4 +1,5 @@
 {
+  "sentenceId": "02e0e299-45fc-4c13-9812-41179046847c",
   "sentence": "ラジオを点けました。",
   "why": "Converted from When_analyzing_a_genuine_ichidan_verb_unknown_to_the_tokenizer_after_wo, against vocab copied by hand, which expected the breakdown to display 点ける. 点ける is missing from the tokenizer's dictionary, and 点け is also the e-stem of the intransitive godan verb 点く, but an intransitive verb doesn't take を.",
   "parsedWords": [

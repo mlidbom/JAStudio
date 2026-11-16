@@ -1,12 +1,13 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.Note;
@@ -24,8 +25,8 @@ public class NoteServices
    internal NoteServices(IRootResolver resolver) => _resolver = resolver;
 
    public JPCollection Collection => _resolver.Resolve<JPCollection>();
-   public ICardOperations CardOperations => _resolver.Resolve<ICardOperations>();
-   public AnkiAvailability AnkiAvailability => _resolver.Resolve<AnkiAvailability>();
+   public ISRSStudyNotes SRSStudyNotes => _resolver.Resolve<ISRSStudyNotes>();
+   public SRSAvailability SRSAvailability => _resolver.Resolve<SRSAvailability>();
    public Settings Settings => _resolver.Resolve<Settings>();
    public DictLookup DictLookup => _resolver.Resolve<DictLookup>();
    public VocabNoteFactory VocabNoteFactory => _resolver.Resolve<VocabNoteFactory>();
@@ -33,7 +34,7 @@ public class NoteServices
    public KanjiNoteMnemonicMaker KanjiNoteMnemonicMaker => _resolver.Resolve<KanjiNoteMnemonicMaker>();
    public JapaneseConfig Config => _resolver.Resolve<JapaneseConfig>();
    public TaskRunner TaskRunner => _resolver.Resolve<TaskRunner>();
-   public ExternalNoteIdMap ExternalNoteIdMap => _resolver.Resolve<ExternalNoteIdMap>();
+   public StudyNoteIds StudyNoteIds => _resolver.Resolve<StudyNoteIds>();
    public MediaFileIndex MediaFileIndex => _resolver.Resolve<MediaFileIndex>();
    public SharedConditions SharedConditions => _resolver.Resolve<SharedConditions>();
 }

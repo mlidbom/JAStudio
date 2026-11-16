@@ -1,7 +1,8 @@
 # Text-to-speech — Design
 
 > **Status: in use (2026-11-08).** Increments 1 and 2 are built, and Magnus uses them in Anki. The facts about the
-> tts-providers are verified against the real services. What's left is under [To do](#to-do) and increment 3.
+> tts-providers are verified against the real services. Increment 3, the batch TTS dialog, is built (2026-11-15), not yet
+> tried in Anki. What's left is under [To do](#to-do) and increment 4.
 
 ## Why
 
@@ -42,6 +43,8 @@ Read from its configuration in the `Magnus` profile on 2026-11-07:
 - **Microsoft and Google from the start, built for more providers.** Google often gets right what Microsoft doesn't.
 - **Forvo is left out of the first iteration.** It's rarely helpful.
 - **Generation is manual:** Magnus listens to the results and picks. Nothing is generated when a note is created.
+  For many notes at once, the batch TTS dialog uses each speech as it arrives, and Magnus listens afterwards, fixing the
+  ones that sound wrong (Magnus, 2026-11-15; see increment 3).
 - **The keys live in a settings file in the user's profile,** outside both repositories:
   `%APPDATA%\JAStudio\text-to-speech.json`.
 - **JAStudio isn't Windows-only,** so the dialog's audio playback mustn't make it so. *(Done: SoundFlow, below.)*
@@ -68,6 +71,16 @@ Read from its configuration in the `Magnus` profile on 2026-11-07:
 - **attempt** — one speech in the TTS dialog, numbered in the order generated (`SpeechAttemptViewModel`).
 - **normalizing** a speech — bringing it to ReplayGain's reference loudness, as `mp3gain /r /c` does, without
   re-encoding it (`SynthesizedSpeech.NormalizedToTheReplayGainReference`). See [Normalizing](#normalizing).
+- **text-to-speech for a note** — the TTS dialog's content: the text to speak, the note's TTS audio now, the voice buttons,
+  the attempts and Use (`TextToSpeechForANoteViewModel`, `TextToSpeechForANoteView`). The TTS dialog shows it, and so does
+  the batch TTS dialog, for its selected note.
+- **batch TTS dialog** — TTS audio for many notes at once, such as the selected search results (`BatchTextToSpeechDialog`).
+- **the batch's voice** — the one voice the batch TTS dialog tries on a note and runs the batch with.
+- **running the batch** — giving every note left for it TTS audio from the batch's voice, each speech used as it arrives.
+- **discarding** a note's TTS audio — removing it from the corpus's own audio of the note, so that it has none, as when every
+  voice says a text wrong, and deleting its file from the media layer unless another note uses it
+  (`JPCollection.DiscardTheTextToSpeechAudioOf`, Magnus, 2026-11-15). Anki's copy is left to Anki's "Check Media", as a
+  deleted note's files are.
 
 ## The tts-providers
 
@@ -147,13 +160,26 @@ would be reported as never used.
 A tts-provider without settings isn't offered. With no file, none is. The settings types don't print their keys,
 so logging one leaks nothing. The chosen voices are written by the dialog for choosing them, which keeps the keys.
 
+The environment says where the file is (`IEnvironmentPaths.TextToSpeechSettingsFile`): in the user's profile, as above, in
+Anki and in the standalone and headless JAStudio. The specifications' environment has it in their own temporary folder,
+where there is none, so the TTS dialogs open in window specifications with no voices, calling no service, and never read
+or write Magnus's keys (since 2026-11-15).
+
 ## The accounts
 
 - **Azure** (created 2026-11-07, paid by Lidbom Solutions AB, Magnus's company): the Speech resource
-  `jastudio-speech-ov1yu0`, in the resource group `jastudio-tts`, in Sweden Central, on the free tier (F0), in the
-  subscription "Lidbom Solutions AB". Its key 1 is in the settings file.
-  - **If the free 0.5 million characters a month run out,** requests are refused until the next month. Moving to
-    pay-as-you-go: `az cognitiveservices account update --name jastudio-speech-ov1yu0 --resource-group jastudio-tts --sku S0`.
+  `jastudio-speech-ov1yu0`, in the resource group `jastudio-tts`, in Sweden Central, in the subscription "Lidbom
+  Solutions AB". Its key 1 is in the settings file.
+  - **On the standard tier (S0), pay-as-you-go, since 2026-11-15.** The free tier (F0) allowed only 20 requests a
+    minute, too slow for TTS on many notes at once; S0 allows 30 a second
+    ([quotas](https://learn.microsoft.com/azure/ai-services/speech-service/speech-services-quotas-and-limits)). It has
+    no monthly fee: Azure's price list for Sweden Central gives $15 per million characters for the neural voices and
+    $22 for Neural HD, and a kanji counts as two characters. Whether S0 keeps F0's 0.5 million free characters a month,
+    Microsoft's sources disagree. Magnus (2026-11-15): cents or a few dollars a month are negligible. The key and the
+    region stayed the same: checked with a request after the change.
+  - **A budget of 100 SEK a month** on the resource group (`jastudio-tts-monthly`, the subscription bills in SEK) emails
+    the subscription's owner when the actual cost reaches it. It's there for a bug that keeps generating: at S0's rate,
+    that could cost around $80 an hour.
   - **To replace the key,** regenerate it in the portal's "Keys and Endpoint", or with
     `az cognitiveservices account keys regenerate`, and put the new one in the settings file.
 - **Google** (created 2026-11-07): the project `jastudio-tts-rdxtcd` ("JAStudio-TTS"), in the organization
@@ -175,7 +201,8 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
    with Magnus's go-ahead, since it spends characters on his accounts. *(Built 2026-11-07, and verified against
    both real services.)*
 2. **The dialog for one note, end to end.** *(Built 2026-11-07.)*
-   - **Opening it** (`TextToSpeechDialog`, `TextToSpeechDialogViewModel`): with the "TTS..." button beside the note's
+   - **Opening it** (`TextToSpeechDialog`, showing a `TextToSpeechForANoteViewModel` in a `TextToSpeechForANoteView` since
+     2026-11-15, when the batch TTS dialog came to show it too): with the "TTS..." button beside the note's
      own audio, in the Corpus section of the workspace's editor section (`AudioListEditorViewModel`; until
      2026-11-10 a text field holding the TTS audio's markup). Or with "Text-to-speech audio..." in a vocab's or a sentence's note
      actions, in its right-click menu, which is also there while reviewing in Anki, where the editor section isn't.
@@ -203,8 +230,9 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
    - **Using** (`UsingASpeech`), the only step that changes anything:
      1. the MP3 is stored in the media layer under a new name naming its voice, such as
         `jastudio-tts-azure-daichi-dragonhdomnilatestneural-<guid>.mp3` (`MediaStorageService.StoreNewAudioFile`);
-     2. it's copied into Anki's media folder through Anki's own `col.media.add_file`, for Anki's playback and the
-        listening cards (Anki's media sync takes it to mobile). Without Anki this is left out;
+     2. the spaced repetition system is given a copy (`ISRSMedia`): in Anki, it's copied into Anki's media folder
+        through Anki's own `col.media.add_file`, for Anki's playback and the listening cards (Anki's media sync takes
+        it to mobile). Without Anki there is nothing to give it to (`NoSRSMedia`);
      3. it replaces the TTS audio in the corpus's own audio of the note (`AudioReferenceList.ReplaceTheTextToSpeechAudioWith`),
         as ours, made by text-to-speech, with its voice and the voice's gender (`AudioReference`). Recordings stay: a
         sentence's recorded clip is its source's audio, and stays the audio played for it. *(Until 2026-11-10 it replaced
@@ -217,8 +245,61 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
      starts 9 to 27 ms after the call. JAStudio is built for one platform at a time, so `miniaudio.dll` sits beside
      its assemblies, as SkiaSharp's native library already does inside Anki.
    - **Verified in Anki** by Magnus on 2026-11-07: generating, playing, comparing and keeping (now using).
-3. **Later:** one voice for the selected search results, remembered favorite voices, and pronunciation help from a
-   vocab's readings where the voice supports it.
+3. **The batch TTS dialog,** TTS audio for many notes at once. *(Built 2026-11-15, as Magnus described it; not yet tried
+   in Anki.)* Asked for because few of the parsing cases had audio. With it came the search condition "Has audio"
+   (`note-search.md`), which finds the notes without.
+   - **Opening it** (`BatchTextToSpeechDialog`, `BatchTextToSpeechDialogViewModel`): "Text-to-speech audio..." (`p`) in the
+     menu of the selected search results, for the selected vocab and sentences. Kanji have no TTS audio and are left out.
+     One dialog serves vocab and sentences alike, since `IHasTextToSpeechAudio`, `UsingASpeech` and
+     `TextToSpeechAudioFolders` already served both. It opens where it was last, and speaks nothing.
+   - **The dialog:** the batch's voice on top, one of the chosen voices, the default at first, with "Try it on the selected
+     note", "Run batch" and "Voices..."; below it the notes (`NoteInTheBatchViewModel`), each with ▶ for its TTS audio
+     now and, beside it to compare, its button for the batch's voice, then its text, its TTS audio now and how far the
+     batch has come with it (`NoteInTheBatchProgress`); and
+     beside them, the selected note's text-to-speech for a note, as the TTS dialog shows it.
+   - **A row's button for the batch's voice** says Generate until the note has a speech by the voice, then ▶
+     (`NoteInTheBatchViewModel.TheBatchVoicesButton`, Magnus, 2026-11-15). Choosing another voice for the batch turns
+     each back to Generate where the note has no speech by that voice.
+   - **The batch's voice speaks a note's text only when there's no speech of it by that voice** (Magnus, 2026-11-15): the
+     latest attempt with the voice in the note's own text-to-speech, else the note's TTS audio, when the voice made it and
+     the text to speak isn't edited (`AudioReference.TextToSpeechVoice` against `TextToSpeechVoice.NameWithItsProvider`).
+     A new rendition by the same voice is had from the voice's button in the note's own text-to-speech, which always speaks.
+   - **Trying the batch's voice** on a note, with its row's Generate or ▶, with P, or with the button for the selected
+     note, selects the note and plays its speech by the voice, which the voice speaks first, as a new attempt, if there's
+     none. Nothing changes.
+   - **Running the batch** gives every note not yet given TTS audio in the dialog a speech from the batch's voice, used at
+     once, so each row's Generate turns to ▶ as its note is done. Its button says how many notes and characters it will run for.
+     A note the batch's voice was tried on gets the attempt listened to, and a note whose TTS audio the voice already
+     made keeps it ("had … already"). A refused request fails that note alone, saying why, and running the batch again
+     tries it again. Stop, or closing the dialog, makes no more requests; the answers to those already made are still used.
+   - **Discarding** a note's TTS audio, with Discard beside "The note's TTS audio now", in both dialogs, leaves it with
+     none and deletes its file, and the batch leaves it so. The attempts stay, to use one after all.
+   - **Reviewing:** selecting a note plays its TTS audio as it is now, and generates nothing; the note's own
+     text-to-speech beside the list generates nothing by itself either. A note that sounds wrong is fixed there: another
+     voice, or the text in kana, and Use. Keys, wherever the keyboard is but in the text to speak and the voice's list:
+     ↑ and ↓ move between the notes in the list, 0 or Space plays the note's audio again, P tries the batch's voice, 1 to 9
+     play its attempts, and Enter uses the selected attempt. The buttons don't take the keyboard, in the TTS dialog too,
+     so that Enter always uses the selected attempt.
+   - **Requests:** 4 at a time (`BatchTextToSpeechDialogViewModel.RequestsAtATime`), and a voice refused for the rate of
+     requests waits and asks again: see [The rate of requests](#the-rate-of-requests). The work on each answer,
+     normalizing and using it, runs on the UI thread, as in the TTS dialog: normalizing a speech of three seconds took
+     about 10 ms (2026-11-15, one rough timing).
+   - **Seen in a rendered window** (`When_opening_the_batch_tts_dialog`), and its behavior specified with the fake
+     tts-provider (`When_generating_tts_audio_for_many_notes`).
+4. **Later:** remembered favorite voices, and pronunciation help from a vocab's readings where the voice supports it.
+
+## The rate of requests
+
+The tts-providers limit how many requests an account makes. Azure's standard tier (S0) allows 30 a second, and its free
+tier (F0) 20 a minute; Google allows 200 Chirp 3 HD requests a minute and 1,000 Neural2 requests, per project
+([Azure](https://learn.microsoft.com/azure/ai-services/speech-service/speech-services-quotas-and-limits),
+[Google](https://docs.cloud.google.com/text-to-speech/quotas), 2026-11-15). Above it, the service answers 429 Too Many
+Requests. Azure also answers so while it scales up to more requests, and documents that every client should wait and ask
+again.
+
+So a voice refused for the rate waits and asks again (`TextToSpeechVoice.SpeakAsync`): after a second, then two, and so on
+up to sixteen, about half a minute in all, before it reports the refusal as any other
+(`TextToSpeechRequestFailedException.IsARefusalForTheRateOfRequests`).
 
 ## Normalizing
 

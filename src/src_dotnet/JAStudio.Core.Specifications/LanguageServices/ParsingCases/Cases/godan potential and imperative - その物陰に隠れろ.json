@@ -1,6 +1,14 @@
 {
+  "sentenceId": "89a2d9d1-0394-4c3c-acac-3b35766e8257",
   "sentence": "その物陰に隠れろ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: その | 物陰 | に | 隠れる | ろ.",
+  "configuration": {
+    "highlightedWords": [
+      "物陰"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"その","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"その","vocabId":"6ac914bd-15bc-475c-8038-59146a91e948"},
     {"form":"物陰","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"物陰","vocabId":"4b480d8b-2483-4915-8b41-2cfc95482b6f"},

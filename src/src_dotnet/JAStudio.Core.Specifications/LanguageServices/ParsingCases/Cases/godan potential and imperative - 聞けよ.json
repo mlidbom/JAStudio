@@ -1,4 +1,5 @@
 {
+  "sentenceId": "613b2908-b7d8-4241-80be-49134f95398e",
   "sentence": "聞けよ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 聞え | よ.",
   "parsedWords": [

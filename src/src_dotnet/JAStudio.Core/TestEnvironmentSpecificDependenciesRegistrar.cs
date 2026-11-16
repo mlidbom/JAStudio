@@ -1,14 +1,11 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using JAStudio.Core.Anki;
-using JAStudio.Core.Anki.StudyNotes;
-using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
-using JAStudio.Core.Note;
-using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TestUtils;
 
 namespace JAStudio.Core;
@@ -28,18 +25,16 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IEnvironmentPaths>().Instance(paths),
          Singleton.For<INoteRepository>().Instance(new InMemoryNoteRepository()),
          Singleton.For<PretendAnki>().Instance(pretendAnki),
-         Singleton.For<IBackendDataLoader>().Instance(pretendAnki),
-         Singleton.For<IAnkiTagOperations>().Instance(pretendAnki),
+         Singleton.For<ISRSStudyNotes>().Instance(pretendAnki),
+         Singleton.For<ISRSTagOperations>().Instance(pretendAnki),
+         Singleton.For<ISRSMedia>().Instance(pretendAnki),
          Singleton.For<RethrowingFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<IFatalErrorHandler>().Instance(fatalErrorHandler),
-         Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Available),
-         Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
+         Singleton.For<SRSAvailability>().Instance(pretendAnki.Availability),
+         Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),
-         Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),
-         Singleton.For<ICardOperations>().Instance(new NoOpCardOperations()),
-         Singleton.For<InMemoryAnkiStudyNotes>().CreatedBy((ExternalNoteIdMap ankiNoteIds) => new InMemoryAnkiStudyNotes(ankiNoteIds)),
-         Singleton.For<IAnkiStudyNotes>().CreatedBy((InMemoryAnkiStudyNotes studyNotes) => (IAnkiStudyNotes)studyNotes)
+         Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource())
       );
    }
 }

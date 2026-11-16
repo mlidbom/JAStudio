@@ -4,14 +4,15 @@ from JAStudio.Core.UI.Web.Sentence import SentenceNoteRenderer
 from JAStudio.Core.UI.Web.Vocab import VocabNoteRenderer
 from System import IEquatable_1, IDisposable
 from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
-from System.Collections.Generic import Dictionary_2, List_1, IReadOnlyList_1, IEnumerable_1
-from JAStudio.Core.Note import NoteId, ExternalNoteIdMap, NoteServices
-from JAStudio.Core.Note.Collection import CardStudyingStatus, JPCollection
+from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
-from JAStudio.Core.TaskRunners import TaskRunner, BackgroundTaskManager
 from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
-from JAStudio.Core.Anki import AnkiAvailability, IAnkiWindows
+from System.IO import DirectoryInfo
+from System.Collections.Generic import List_1
+from JAStudio.Core.TaskRunners import BackgroundTaskManager, TaskRunner
 from JAStudio.Core.Batches import LocalNoteUpdater
+from JAStudio.Core.Note import NoteServices
+from JAStudio.Core.Studying import SRSAvailability, ISRSWindows, StudyNoteIds
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory
 
 class AnkiHTMLRenderers:
@@ -52,18 +53,6 @@ class AppBootstrapper(abc.ABC):
 
 
 
-class BackendData:
-    def __init__(self, idMappings: Dictionary_2[int, NoteId], studyingStatuses: List_1[CardStudyingStatus], studyNoteTags: Dictionary_2[int, IReadOnlyList_1[str]]) -> None: ...
-    @property
-    def IdMappings(self) -> Dictionary_2[int, NoteId]: ...
-    @property
-    def StudyingStatuses(self) -> List_1[CardStudyingStatus]: ...
-    @property
-    def StudyNoteTags(self) -> Dictionary_2[int, IReadOnlyList_1[str]]: ...
-    def StudyingStatusesOf(self, ankiNoteId: int) -> IEnumerable_1[CardStudyingStatus]: ...
-    def TagsOf(self, ankiNoteId: int) -> IReadOnlyList_1[str]: ...
-
-
 class CoreApp(IDisposable):
     @property
     def Collection(self) -> JPCollection: ...
@@ -79,11 +68,6 @@ class CoreApp(IDisposable):
     def Dispose(self) -> None: ...
 
 
-class IBackendDataLoader(typing.Protocol):
-    @abc.abstractmethod
-    def Load(self, taskRunner: TaskRunner) -> BackendData: ...
-
-
 class IEnvironmentPaths(typing.Protocol):
     @property
     def AddonRootDir(self) -> str: ...
@@ -94,12 +78,20 @@ class IEnvironmentPaths(typing.Protocol):
     @property
     def MediaDir(self) -> str: ...
     @property
+    def TextToSpeechSettingsFile(self) -> str: ...
+    @property
     def UserFilesDir(self) -> str: ...
 
 
 class IEnvironmentSpecificDependenciesRegistrar(typing.Protocol):
     @abc.abstractmethod
     def WireEnvironmentSpecificServices(self, registrar: IComponentRegistrar) -> None: ...
+
+
+class JAStudiosAssemblies(abc.ABC):
+    @classmethod
+    @property
+    def Folder(cls) -> DirectoryInfo: ...
 
 
 class StringExtensions(abc.ABC):
@@ -118,11 +110,7 @@ class StringExtensions(abc.ABC):
 
 class TemporaryServiceCollection:
     @property
-    def AnkiAvailability(self) -> AnkiAvailability: ...
-    @property
     def AnkiHTMLRenderers(self) -> AnkiHTMLRenderers: ...
-    @property
-    def AnkiWindows(self) -> IAnkiWindows: ...
     @property
     def BackgroundTaskManager(self) -> BackgroundTaskManager: ...
     @property
@@ -130,13 +118,17 @@ class TemporaryServiceCollection:
     @property
     def CoreApp(self) -> CoreApp: ...
     @property
-    def ExternalNoteIdMap(self) -> ExternalNoteIdMap: ...
-    @property
     def LocalNoteUpdater(self) -> LocalNoteUpdater: ...
     @property
     def NoteServices(self) -> NoteServices: ...
     @property
     def Services(self) -> IRootResolver: ...
+    @property
+    def SRSAvailability(self) -> SRSAvailability: ...
+    @property
+    def SRSWindows(self) -> ISRSWindows: ...
+    @property
+    def StudyNoteIds(self) -> StudyNoteIds: ...
     @property
     def TaskRunner(self) -> TaskRunner: ...
     @property

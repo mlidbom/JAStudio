@@ -1,4 +1,5 @@
 {
+  "sentenceId": "241eb1e6-639d-4dd4-a6a6-e4d222777bac",
   "sentence": "進めない",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 進める | ない.",
   "parsedWords": [

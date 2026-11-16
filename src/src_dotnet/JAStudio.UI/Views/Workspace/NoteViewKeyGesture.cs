@@ -1,5 +1,5 @@
 using Avalonia.Input;
-using JAStudio.UI.Shortcuts;
+using JAStudio.Core.UI.Shortcuts;
 
 namespace JAStudio.UI.Views.Workspace;
 

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "8949041e-78b5-4c58-8447-a19f13ca1853",
   "sentence": "馴染めないでいる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 馴染む | える | ない | でいる.",
   "parsedWords": [

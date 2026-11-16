@@ -1,4 +1,5 @@
 {
+  "sentenceId": "6979cf51-6625-4740-80fd-427a5fc4afeb",
   "sentence": "くれよ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: くれる | え | よ.",
   "parsedWords": [

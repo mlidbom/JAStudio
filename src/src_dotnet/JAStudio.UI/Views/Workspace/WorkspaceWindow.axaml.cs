@@ -79,7 +79,7 @@ public partial class WorkspaceWindow : Window
 
       _windowShortcuts = new Dictionary<string, Action>
                          {
-                            ["Ctrl+o"] = ToggleNoteSearch,
+                            ["Ctrl+s"] = ToggleNoteSearch,
                             ["Ctrl+Shift+o"] = HideUnlessClosingItEndsJAStudio,
                             ["Ctrl+e"] = ToggleEditorSection,
                             ["Ctrl+w"] = _viewModel.CloseSelectedTab,
@@ -169,7 +169,7 @@ public partial class WorkspaceWindow : Window
    public static void EditNote(JPNote note) => Dispatcher.UIThread.Post(() => Instance.ShowNoteInEditor(note));
 
    /// <summary>
-   /// Ctrl+O. In the active workspace with the navigation pane open on its search, closes the pane and gives the keyboard to the shown page.<br/>
+   /// Ctrl+S. In the active workspace with the navigation pane open on its search, closes the pane and gives the keyboard to the shown page.<br/>
    /// Otherwise brings the workspace to the front, opens the pane on its search, and puts the keyboard on the search's condition tree.<br/>
    /// Can be called from any thread.
    /// </summary>

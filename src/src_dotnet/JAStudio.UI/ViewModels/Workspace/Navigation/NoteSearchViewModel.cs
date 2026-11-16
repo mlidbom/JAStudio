@@ -178,6 +178,8 @@ partial class NoteSearchViewModel : ObservableObject
          NoteTypeSubmenu('n', NoteProperties.NoteType),
          TrueOrFalseSubmenu('r', NoteProperties.StudyingReading),
          TrueOrFalseSubmenu('l', NoteProperties.StudyingListening),
+         TrueOrFalseSubmenu('p', NoteProperties.ParsingCase),
+         TrueOrFalseSubmenu('h', NoteProperties.HasAudio),
          Submenu('g', "Group",
          [
             Command('a', "All of", () => AddCondition(ConditionGroup.AllOf())),

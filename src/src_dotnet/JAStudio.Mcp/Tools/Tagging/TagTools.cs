@@ -63,7 +63,7 @@ public class TagTools
       [Description("The most notes to list. Every note the tag is added to is counted either way.")] int maxNotesListed = NoteTools.NotesListedByDefault)
    {
       var tagToAdd = TagManagedByHand(tag);
-      var notesWithoutTheTag = NotesFoundBy(search).Where(it => !it.AllTags.Contains(tagToAdd) && (!tagToAdd.IsAnAnkiTag || it.HasAnAnkiNote())).ToList();
+      var notesWithoutTheTag = NotesFoundBy(search).Where(it => !it.AllTags.Contains(tagToAdd) && (!tagToAdd.IsAnAnkiTag || it.HasAStudyNote())).ToList();
       if(tagToAdd.IsAnAnkiTag)
          _ankiTagChanges.AddTo(notesWithoutTheTag, tagToAdd);
       else

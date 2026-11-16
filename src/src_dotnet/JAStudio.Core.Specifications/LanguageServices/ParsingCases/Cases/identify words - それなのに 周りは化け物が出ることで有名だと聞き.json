@@ -1,6 +1,18 @@
 {
+  "sentenceId": "2c308825-ba51-4e62-8394-e2625c02afc8",
   "sentence": "それなのに 周りは化け物が出ることで有名だと聞き",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: それなのに | 周り | は | 化け物 | が | 出る | こと | で | 有名 | だ | と | 聞く | 聞き | る.",
+  "configuration": {
+    "highlightedWords": [
+      "聞き",
+      "それなのに",
+      "化け物",
+      "周り",
+      "有名"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"それなのに","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"それなのに","vocabId":"cbe5ae61-aa62-409b-ae9c-ec96f5f83abf"},
     {"form":"周り","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"周り","vocabId":"25bcea4a-4994-4da9-947a-bcd6d3b314b3"},

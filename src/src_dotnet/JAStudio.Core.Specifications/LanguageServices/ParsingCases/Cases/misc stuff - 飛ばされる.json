@@ -1,4 +1,5 @@
 {
+  "sentenceId": "270cce86-d63d-481a-9c92-f4317f86bdaf",
   "sentence": "飛ばされる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 飛ばす | あれる | る:う.",
   "parsedWords": [

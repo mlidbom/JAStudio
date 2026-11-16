@@ -1,4 +1,5 @@
 {
+  "sentenceId": "6be981ff-5d5e-4a66-9252-f046a96bc0e7",
   "sentence": "ここは清められ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: ここ | は | 清める | られる.",
   "parsedWords": [

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "511614ab-dd55-4499-9458-b13251400afa",
   "sentence": "知らないんでしょう",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 知らない | ん | でしょう.",
   "parsedWords": [

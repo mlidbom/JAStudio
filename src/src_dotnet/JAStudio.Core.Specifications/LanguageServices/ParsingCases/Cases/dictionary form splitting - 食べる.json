@@ -1,4 +1,5 @@
 {
+  "sentenceId": "0f9d6359-ae36-40c7-aa44-71bd3c33a258",
   "sentence": "食べる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: 食べる | る:う.",
   "parsedWords": [

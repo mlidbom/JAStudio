@@ -1,6 +1,14 @@
 {
+  "sentenceId": "4ba10093-97e5-4d14-8d1b-acb6e7b325c1",
   "sentence": "なぜかというと",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: なぜかというと.",
+  "configuration": {
+    "highlightedWords": [
+      "なぜかというと"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"なぜかというと","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"なぜかというと","vocabId":"09ef99b5-9072-4895-b867-23c36a6f7642"},
     {"form":"なぜか","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"なぜか","vocabId":"ac0b9ddc-b0ac-44a1-ae81-693eb675f20b"},

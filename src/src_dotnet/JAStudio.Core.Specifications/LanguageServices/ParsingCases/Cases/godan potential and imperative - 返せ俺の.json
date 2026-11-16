@@ -1,4 +1,5 @@
 {
+  "sentenceId": "7b119de5-d398-4680-8866-2b1055432dbb",
   "sentence": "返せ俺の",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 返す | え | 俺 | の.",
   "parsedWords": [
