@@ -52,10 +52,4 @@ public class CachingSentenceConfigurationField
       HighlightedWords.Add(vocab.Trim());
       _sentence.UpdateParsedWords(force: true);
    });
-
-   [Obsolete("For testing only")]
-   public void SetValueDirectlyTestsOnly(SentenceConfiguration configuration)
-   {
-      Configuration = configuration;
-   }
 }

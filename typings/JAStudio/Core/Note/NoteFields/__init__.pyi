@@ -10,20 +10,6 @@ class FlagField:
     def ToString(self) -> str: ...
 
 
-class IObjectSerializer_GenericClasses(abc.ABCMeta):
-    Generic_IObjectSerializer_GenericClasses_IObjectSerializer_1_T = typing.TypeVar('Generic_IObjectSerializer_GenericClasses_IObjectSerializer_1_T')
-    def __getitem__(self, types : typing.Type[Generic_IObjectSerializer_GenericClasses_IObjectSerializer_1_T]) -> typing.Type[IObjectSerializer_1[Generic_IObjectSerializer_GenericClasses_IObjectSerializer_1_T]]: ...
-
-IObjectSerializer : IObjectSerializer_GenericClasses
-
-IObjectSerializer_1_T = typing.TypeVar('IObjectSerializer_1_T')
-class IObjectSerializer_1(typing.Generic[IObjectSerializer_1_T], typing.Protocol):
-    @abc.abstractmethod
-    def Deserialize(self, serialized: str) -> IObjectSerializer_1_T: ...
-    @abc.abstractmethod
-    def Serialize(self, instance: IObjectSerializer_1_T) -> str: ...
-
-
 class IStringValue(typing.Protocol):
     @property
     def Value(self) -> str: ...
