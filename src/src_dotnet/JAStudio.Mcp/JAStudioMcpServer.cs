@@ -15,6 +15,7 @@ using JAStudio.Mcp.Discovery;
 using JAStudio.Mcp.Tools.Analysis;
 using JAStudio.Mcp.Tools.Cards;
 using JAStudio.Mcp.Tools.Collection;
+using JAStudio.Mcp.Tools.Copies;
 using JAStudio.Mcp.Tools.Corpus;
 using JAStudio.Mcp.Tools.Dictionary;
 using JAStudio.Mcp.Tools.Editing;
@@ -129,6 +130,7 @@ public sealed partial class JAStudioMcpServer
              .WithTools<CorpusTools>(ToolResultJsonOptions)
              .WithTools<RebuildTools>(ToolResultJsonOptions)
              .WithTools<SaveTools>(ToolResultJsonOptions)
+             .WithTools<CopyTools>(ToolResultJsonOptions)
              .WithTools<ReloadTools>(ToolResultJsonOptions)
              .WithTools<AnalysisTools>(ToolResultJsonOptions)
              .WithTools<DictionaryTools>(ToolResultJsonOptions)

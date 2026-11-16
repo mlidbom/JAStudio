@@ -91,6 +91,18 @@ class CorpusNoteDto(IMemoryPackFormatterRegister, IIdentifiableByGuid, abc.ABC):
     def Tags(self) -> List_1[str]: ...
     @Tags.setter
     def Tags(self, value: List_1[str]) -> List_1[str]: ...
+    # Skipped HoldTheSameState due to it being static, abstract and generic.
+
+    HoldTheSameState : HoldTheSameState_MethodGroup
+    class HoldTheSameState_MethodGroup:
+        def __getitem__(self, t:typing.Type[HoldTheSameState_1_T1]) -> HoldTheSameState_1[HoldTheSameState_1_T1]: ...
+
+        HoldTheSameState_1_T1 = typing.TypeVar('HoldTheSameState_1_T1')
+        class HoldTheSameState_1(typing.Generic[HoldTheSameState_1_T1]):
+            HoldTheSameState_1_TDto = CorpusNoteDto.HoldTheSameState_MethodGroup.HoldTheSameState_1_T1
+            def __call__(self, one: HoldTheSameState_1_TDto, other: HoldTheSameState_1_TDto) -> bool:...
+
+
 
 
 class EnteredFormDto(IMemoryPackable_1[EnteredFormDto]):

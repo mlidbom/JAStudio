@@ -426,6 +426,11 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
     on a clean checkout, the notes whose files then change are those JAStudio would write differently from their files.
     Built 2026-11-10 for slice 9, to see what a change to how notes are stored does to the files, and to check a
     migration: after it, saving every note must change nothing. Meant for the headless JAStudio's own worktree.
+  - `find_what_copies_of_the_notes_lose` copies every note through its snapshot, as Compze's state store makes the copy a
+    unit of work changes, and compares the note with its copy field by field, with Compze's `SnapshotRoundTrip`: what a
+    copy loses is lost at the note's next edit. Reports each field that differs, with how many notes it differs in.
+    Built 2026-11-16 for the migration of the notes to the state store (`dev_docs/taggregates/shared/the-migration.md`),
+    to run after each change to what the notes hold: the whole corpus takes about a second.
   - `list_changed_notes` gives the notes whose files in the corpus checkout differ from its git `HEAD`, by note type, from
     `git status`. How each changed is what `diff_the_changed_notes` shows.
   - `reload_the_collection` loads the collection again from the corpus checkout, and reports the notes it found changed

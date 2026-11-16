@@ -1,18 +1,49 @@
-import typing, abc
-from JAStudio.Core.Note import NoteServices, JPNote, IHasTextToSpeechAudio, NoteId, KanjiNote
+import typing, clr, abc
+from System.Collections.Generic import IReadOnlyList_1, List_1, HashSet_1, IReadOnlyCollection_1, IEnumerable_1
+from System import IEquatable_1, IObservable_1, Action, IDisposable, Func_1
+from JAStudio.Core.Note import JPNote, NoteServices, IHasTextToSpeechAudio, NoteId, KanjiNote
 from JAStudio.Core.Storage import INoteRepository
 from JAStudio.Core.Storage.Media import MediaFileIndex, MediaStorageService
 from JAStudio.Core.Studying.StudyNotes import ISRSStudyNotes
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
-from System import IObservable_1, Action, IDisposable, Func_1
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory, VocabNoteGeneratedData, VocabNote, WordReference, CreatedOrExistingVocab
-from System.Collections.Generic import List_1, IReadOnlyList_1, HashSet_1, IReadOnlyCollection_1, IEnumerable_1
 from JAStudio.Core.Note.Search import NoteCondition
 from JAStudio.Core.Note.Tagging import TagBranch, Tag, TagTree
 from JAStudio.Core.Note.Search.TagProperties import TagPathsInUse
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Sentences.ParsingCases import ComparedParsingCase
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
+
+class CopiesOfTheNotes(abc.ABC):
+    @staticmethod
+    def ThatDifferIn(collection: JPCollection) -> IReadOnlyList_1[CopiesOfTheNotes.ACopyThatDiffers]: ...
+
+    class ACopyThatDiffers(IEquatable_1[CopiesOfTheNotes.ACopyThatDiffers]):
+        def __init__(self, Note: JPNote, Differences: IReadOnlyList_1[str]) -> None: ...
+        @property
+        def Differences(self) -> IReadOnlyList_1[str]: ...
+        @Differences.setter
+        def Differences(self, value: IReadOnlyList_1[str]) -> IReadOnlyList_1[str]: ...
+        @property
+        def Note(self) -> JPNote: ...
+        @Note.setter
+        def Note(self, value: JPNote) -> JPNote: ...
+        def Deconstruct(self, Note: clr.Reference[JPNote], Differences: clr.Reference[IReadOnlyList_1[str]]) -> None: ...
+        def GetHashCode(self) -> int: ...
+        def __eq__(self, left: CopiesOfTheNotes.ACopyThatDiffers, right: CopiesOfTheNotes.ACopyThatDiffers) -> bool: ...
+        def __ne__(self, left: CopiesOfTheNotes.ACopyThatDiffers, right: CopiesOfTheNotes.ACopyThatDiffers) -> bool: ...
+        def ToString(self) -> str: ...
+        # Skipped Equals due to it being static, abstract and generic.
+
+        Equals : Equals_MethodGroup
+        class Equals_MethodGroup:
+            @typing.overload
+            def __call__(self, other: CopiesOfTheNotes.ACopyThatDiffers) -> bool:...
+            @typing.overload
+            def __call__(self, obj: typing.Any) -> bool:...
+
+
+
 
 class ItsStudyNote(typing.SupportsInt):
     @typing.overload

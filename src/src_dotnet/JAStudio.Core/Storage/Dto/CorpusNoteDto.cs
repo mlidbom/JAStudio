@@ -20,4 +20,11 @@ public abstract partial class CorpusNoteDto : IIdentifiableByGuid
 {
    public Guid Id { get; init; }
    public List<string> Tags { get; init; } = [];
+
+   /// <summary>
+   /// Whether <paramref name="one"/> and <paramref name="other"/> hold the same state: whether they serialize to the same bytes. A DTO is a note's<br/>
+   /// snapshot, so this is how a taggregate store tells whether a note changed, as a reload does.
+   /// </summary>
+   public static bool HoldTheSameState<TDto>(TDto one, TDto other) where TDto : CorpusNoteDto =>
+      MemoryPackSerializer.Serialize(one).AsSpan().SequenceEqual(MemoryPackSerializer.Serialize(other));
 }
