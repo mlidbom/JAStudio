@@ -1,7 +1,7 @@
 import typing, clr, abc
 import Compze.Teventive.Taggregates.Tevents
 from System.Collections.Generic import IEnumerable_1, IReadOnlyList_1
-from Compze.Teventive import ITeventSubscriber_1, ITaggregate_1
+from Compze.Teventive import ITeventSubscriber_1, ITaggregate_1, ITeventRouted, ITeventRoutedMember_1
 from Compze.Abstractions import VersionedEntity_1, TaggregateId, EntityId, EntityId_1
 from System import Guid
 from Compze.Tessaging.TessageBus import PublisherTevent_1
@@ -90,6 +90,8 @@ ITeventiveInternals : ITeventiveInternals_GenericClasses
 ITeventiveInternals_2_TTevent = typing.TypeVar('ITeventiveInternals_2_TTevent', contravariant=True)
 ITeventiveInternals_2_TTeventImplementation = typing.TypeVar('ITeventiveInternals_2_TTeventImplementation', contravariant=True, bound=Union[Compze.Teventive.Taggregates.Tevents.TaggregateTevent, ITeventiveInternals_2_TTevent])
 class ITeventiveInternals_2(typing.Generic[ITeventiveInternals_2_TTevent, ITeventiveInternals_2_TTeventImplementation], typing.Protocol):
+    @property
+    def DeclaresTeventAppliersInternal(self) -> bool: ...
     @abc.abstractmethod
     def ApplyTeventInternal(self, tevent: ITeventiveInternals_2_TTevent) -> None: ...
     @abc.abstractmethod
@@ -113,7 +115,7 @@ Taggregate_5_TTaggregateTevent = typing.TypeVar('Taggregate_5_TTaggregateTevent'
 Taggregate_5_TTaggregateTeventImplementation = typing.TypeVar('Taggregate_5_TTaggregateTeventImplementation', bound=Union[Compze.Teventive.Taggregates.Tevents.TaggregateTevent, Taggregate_5_TTaggregateTevent])
 Taggregate_5_TWrapperTeventInterface = typing.TypeVar('Taggregate_5_TWrapperTeventInterface')
 Taggregate_5_TWrapperTeventImplementation = typing.TypeVar('Taggregate_5_TWrapperTeventImplementation')
-class Taggregate_5(typing.Generic[Taggregate_5_TTaggregate, Taggregate_5_TTaggregateTevent, Taggregate_5_TTaggregateTeventImplementation, Taggregate_5_TWrapperTeventInterface, Taggregate_5_TWrapperTeventImplementation], VersionedEntity_1[Taggregate_5_TTaggregate], ITaggregate_1[Taggregate_5_TTaggregateTevent], ITeventiveInternals_2[Taggregate_5_TTaggregateTevent, Taggregate_5_TTaggregateTeventImplementation]):
+class Taggregate_5(typing.Generic[Taggregate_5_TTaggregate, Taggregate_5_TTaggregateTevent, Taggregate_5_TTaggregateTeventImplementation, Taggregate_5_TWrapperTeventInterface, Taggregate_5_TWrapperTeventImplementation], VersionedEntity_1[Taggregate_5_TTaggregate], ITaggregate_1[Taggregate_5_TTaggregateTevent], ITeventRouted, ITeventiveInternals_2[Taggregate_5_TTaggregateTevent, Taggregate_5_TTaggregateTeventImplementation]):
     @property
     def Id(self) -> TaggregateId: ...
     @property
@@ -341,7 +343,7 @@ class Tentity_9(typing.Generic[Tentity_9_TParent, Tentity_9_TParentTevent, Tenti
     ICollectionManager_9_TTentityTevent = typing.TypeVar('ICollectionManager_9_TTentityTevent')
     ICollectionManager_9_TTentityCreatedTevent = typing.TypeVar('ICollectionManager_9_TTentityCreatedTevent')
     ICollectionManager_9_TTentityTeventIdGetterSetter = typing.TypeVar('ICollectionManager_9_TTentityTeventIdGetterSetter')
-    class ICollectionManager_9(typing.Generic[ICollectionManager_9_TParent, ICollectionManager_9_TParentTevent, ICollectionManager_9_TParentTeventImplementation, ICollectionManager_9_TTentity, ICollectionManager_9_TTentityId, ICollectionManager_9_TTentityTeventImplementation, ICollectionManager_9_TTentityTevent, ICollectionManager_9_TTentityCreatedTevent, ICollectionManager_9_TTentityTeventIdGetterSetter], IEntityCollectionManager_5[ICollectionManager_9_TTentity, ICollectionManager_9_TTentityId, ICollectionManager_9_TTentityTevent, ICollectionManager_9_TTentityTeventImplementation, ICollectionManager_9_TTentityCreatedTevent], typing.Protocol):
+    class ICollectionManager_9(typing.Generic[ICollectionManager_9_TParent, ICollectionManager_9_TParentTevent, ICollectionManager_9_TParentTeventImplementation, ICollectionManager_9_TTentity, ICollectionManager_9_TTentityId, ICollectionManager_9_TTentityTeventImplementation, ICollectionManager_9_TTentityTevent, ICollectionManager_9_TTentityCreatedTevent, ICollectionManager_9_TTentityTeventIdGetterSetter], ITeventRoutedMember_1[ICollectionManager_9_TTentityTevent], IEntityCollectionManager_5[ICollectionManager_9_TTentity, ICollectionManager_9_TTentityId, ICollectionManager_9_TTentityTevent, ICollectionManager_9_TTentityTeventImplementation, ICollectionManager_9_TTentityCreatedTevent], typing.Protocol):
         ICollectionManager_9_TParent = Tentity_9.ICollectionManager_9_TParent
         ICollectionManager_9_TParentTevent = Tentity_9.ICollectionManager_9_TParentTevent
         ICollectionManager_9_TParentTeventImplementation = Tentity_9.ICollectionManager_9_TParentTeventImplementation
@@ -372,7 +374,7 @@ TeventiveComponent_6_TParentTeventImplementation = typing.TypeVar('TeventiveComp
 TeventiveComponent_6_TComponent = typing.TypeVar('TeventiveComponent_6_TComponent')
 TeventiveComponent_6_TComponentTevent = typing.TypeVar('TeventiveComponent_6_TComponentTevent')
 TeventiveComponent_6_TComponentTeventImplementation = typing.TypeVar('TeventiveComponent_6_TComponentTeventImplementation', bound=Union[TeventiveComponent_6_TParentTeventImplementation, TeventiveComponent_6_TComponentTevent])
-class TeventiveComponent_6(typing.Generic[TeventiveComponent_6_TParent, TeventiveComponent_6_TParentTevent, TeventiveComponent_6_TParentTeventImplementation, TeventiveComponent_6_TComponent, TeventiveComponent_6_TComponentTevent, TeventiveComponent_6_TComponentTeventImplementation], ITeventiveInternals_2[TeventiveComponent_6_TComponentTevent, TeventiveComponent_6_TComponentTeventImplementation], abc.ABC):
+class TeventiveComponent_6(typing.Generic[TeventiveComponent_6_TParent, TeventiveComponent_6_TParentTevent, TeventiveComponent_6_TParentTeventImplementation, TeventiveComponent_6_TComponent, TeventiveComponent_6_TComponentTevent, TeventiveComponent_6_TComponentTeventImplementation], ITeventRouted, ITeventRoutedMember_1[TeventiveComponent_6_TComponentTevent], ITeventiveInternals_2[TeventiveComponent_6_TComponentTevent, TeventiveComponent_6_TComponentTeventImplementation], abc.ABC):
 
     Component_GenericClasses_TeventiveComponent_6_TParent = typing.TypeVar('Component_GenericClasses_TeventiveComponent_6_TParent')
     Component_GenericClasses_TeventiveComponent_6_TParentTevent = typing.TypeVar('Component_GenericClasses_TeventiveComponent_6_TParentTevent')

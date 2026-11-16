@@ -3,6 +3,7 @@ from Compze.Teventive.Taggregates.Tevents import ITaggregateTevent, ITaggregateT
 from Compze.Abstractions import TaggregateId, ITentity
 from System import DateTime, IObservable_1, Action_1, IDisposable
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
+from Compze.Tessaging.TessageTypes import IPublisherTevent_1, ITevent
 
 class IMutableTaggregateTevent(ITaggregateTevent_0, typing.Protocol):
     @abc.abstractmethod
@@ -36,6 +37,25 @@ ITaggregate_1_TTevent = typing.TypeVar('ITaggregate_1_TTevent', covariant=True)
 class ITaggregate_1(typing.Generic[ITaggregate_1_TTevent], ITaggregate_0, typing.Protocol):
     @property
     def TeventStream(self) -> IObservable_1[ITaggregateTevent_1[ITaggregate_1_TTevent]]: ...
+
+
+class ITeventRouted(typing.Protocol):
+    @property
+    def TeventAppliers(self) -> TeventRouting: ...
+    @property
+    def TeventHandlers(self) -> TeventRouting: ...
+
+
+class ITeventRoutedMember_GenericClasses(abc.ABCMeta):
+    Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent = typing.TypeVar('Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent')
+    def __getitem__(self, types : typing.Type[Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent]) -> typing.Type[ITeventRoutedMember_1[Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent]]: ...
+
+ITeventRoutedMember : ITeventRoutedMember_GenericClasses
+
+ITeventRoutedMember_1_TTevent = typing.TypeVar('ITeventRoutedMember_1_TTevent')
+class ITeventRoutedMember_1(typing.Generic[ITeventRoutedMember_1_TTevent], typing.Protocol):
+    @abc.abstractmethod
+    def DispatchInternal(self, wrapped: IPublisherTevent_1[ITevent], toTeventHandlers: bool) -> None: ...
 
 
 class ITeventSubscriber_GenericClasses(abc.ABCMeta):
@@ -142,4 +162,8 @@ class ITeventSubscriber_1(typing.Generic[ITeventSubscriber_1_TTevent], IDisposab
             def __call__(self, handler: Action_1[ForWrappedGeneric_1_TWrapperTevent]) -> ITeventSubscriber_1[ForWrappedGeneric_1_ITeventSubscriber_1_TTevent]:...
 
 
+
+
+class TeventRouting(abc.ABC):
+    pass
 

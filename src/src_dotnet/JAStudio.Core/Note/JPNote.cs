@@ -24,8 +24,14 @@ namespace JAStudio.Core.Note;
 /// wip: most of a note's parts still change its state directly, and <see cref="Flush"/> publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/><br/>
 /// for them. And JAStudio's own collection keeps the notes, not yet a taggregate store (dev_docs/taggregates/shared/the-migration.md, step 7).
 /// </remarks>
-public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INoteTevent<INoteTevent>, NoteTevent<INoteTevent>>
+public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INoteTevent<INoteTevent>, NoteTevent<INoteTevent>>, ITeventRouted
 {
+   /// <summary>The tevent appliers of every note, which each note class's own extend.</summary>
+   protected static readonly TeventRouting<JPNote> NoteAppliers = TeventRouting<JPNote>.DeclareAppliers(it => it
+     .IgnoreUnhandled<INoteTevent.PartWithoutTeventsChanged>());
+
+   TeventRouting ITeventRouted.TeventAppliers => NoteAppliers;
+
    public NoteFlushGuard RecursiveFlushGuard { get; }
    public NoteGuard Guard { get; }
    public NoteServices Services { get; }
@@ -48,13 +54,7 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    public IEnumerable<Tag> AllTags => Tags.Concat(AnkiTags);
 
    /// <summary>An empty note, which is no note yet: it gets its id, and so becomes a note, from its class's created tevent or by being restored.</summary>
-   /// <param name="services">The services the note is built with.</param>
-   /// <param name="appliersConfig">
-   /// Which tevents the note's class has nothing to apply of: a tevent that is applied by no tevent applier fails to publish unless it says so.<br/>
-   /// <see cref="INoteTevent.PartWithoutTeventsChanged"/> has nothing to apply in every note.
-   /// </param>
-   protected JPNote(NoteServices services, TeventDispatcherConfig? appliersConfig = null)
-      : base((appliersConfig ?? TeventDispatcherConfig.Default).IgnoreUnhandled<INoteTevent.PartWithoutTeventsChanged>())
+   protected JPNote(NoteServices services)
    {
       Services = services;
       RecursiveFlushGuard = new NoteFlushGuard(this);

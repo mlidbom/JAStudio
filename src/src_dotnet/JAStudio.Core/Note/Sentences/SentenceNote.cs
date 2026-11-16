@@ -17,8 +17,14 @@ using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Sentences;
 
-public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<SentenceNote, SentenceDto>
+public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<SentenceNote, SentenceDto>, ITeventRouted
 {
+   /// <remarks>The created tevent has nothing to apply but the sentence's id, which the taggregate base class applies.</remarks>
+   static readonly TeventRouting<SentenceNote> Appliers = NoteAppliers.Extend<SentenceNote>(it => it
+     .IgnoreUnhandled<ISentenceTevent.Created>());
+
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
    public CachingSentenceConfigurationField Configuration { get; private set; }
 
    /// <summary>The corpus's own question for the sentence. While it's empty the source's question is shown instead (<see cref="Question"/>).</summary>
@@ -58,12 +64,8 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none, without its HTML.</summary>
    public StripHtmlOnReadFallbackStringField Answer => new(CorpusAnswer, SourceData.Answer);
 
-   /// <summary>
-   /// An empty sentence, which is no sentence yet: <see cref="RestoreFrom"/> makes it a stored one, and <see cref="SentenceTevent.Created"/> a new one.<br/>
-   /// The created tevent has nothing to apply but the sentence's id, which the taggregate base class applies.
-   /// </summary>
-   internal SentenceNote(NoteServices services) : base(services, TeventDispatcherConfig.Default.IgnoreUnhandled<ISentenceTevent.Created>()) =>
-      BuildThePartsFrom(null);
+   /// <summary>An empty sentence, which is no sentence yet: <see cref="RestoreFrom"/> makes it a stored one, and <see cref="SentenceTevent.Created"/> a new one.</summary>
+   internal SentenceNote(NoteServices services) : base(services) => BuildThePartsFrom(null);
 
    /// <summary>A new sentence, whose source's question is <paramref name="question"/>.</summary>
    public SentenceNote(NoteServices services, string question) : this(services)

@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Compze.Contracts;
+using Compze.Teventive;
 using Compze.Teventive.Taggregates;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
@@ -20,8 +21,13 @@ using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note;
 
-public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>
+public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRouted
 {
+   static readonly TeventRouting<KanjiNote> Appliers = NoteAppliers.Extend<KanjiNote>(it => it
+     .For<IKanjiTevent.Created>(static (kanji, tevent) => kanji._question = tevent.Question));
+
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
    /// <summary>
    /// The corpus's own answer for the kanji: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
    /// </summary>
@@ -60,13 +66,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>
    string _question;
 
    /// <summary>An empty kanji, which is no kanji yet: <see cref="RestoreFrom"/> makes it a stored one, and <see cref="KanjiTevent.Created"/> a new one.</summary>
-   internal KanjiNote(NoteServices services) : base(services)
-   {
-      BuildThePartsFrom(null);
-
-      RegisterTeventAppliers()
-        .For<IKanjiTevent.Created>(it => _question = it.Question);
-   }
+   internal KanjiNote(NoteServices services) : base(services) => BuildThePartsFrom(null);
 
    /// <summary>A new kanji, for the character <paramref name="question"/>.</summary>
    public KanjiNote(NoteServices services, string question) : this(services) => Publish(new KanjiTevent.Created(KanjiId.New(), question));

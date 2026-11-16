@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Compze.Contracts;
+using Compze.Teventive;
 using Compze.Teventive.Taggregates;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
@@ -18,8 +19,13 @@ using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
-public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>
+public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>, ITeventRouted
 {
+   static readonly TeventRouting<VocabNote> Appliers = NoteAppliers.Extend<VocabNote>(it => it
+     .For<IVocabTevent.Question.PropertyUpdated.Text>(static (vocab, tevent) => vocab.Question.Apply(tevent)));
+
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
    public VocabNoteQuestion Question { get; private set; }
 
    /// <summary>
@@ -89,9 +95,6 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       Sentences = new VocabNoteSentences(this);
       Cloner = new VocabCloner(this);
       BuildThePartsFrom(null);
-
-      RegisterTeventAppliers()
-        .For<IVocabTevent.Question.PropertyUpdated.Text>(it => Question.Apply(it));
    }
 
    /// <summary>A new vocab, whose question is <paramref name="question"/>. No other vocab may have it.</summary>
