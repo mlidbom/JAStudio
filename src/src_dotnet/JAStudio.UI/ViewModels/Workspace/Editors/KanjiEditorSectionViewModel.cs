@@ -37,7 +37,6 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
 
       CoreFields =
       [
-         Field(KanjiEditableFields.Question),
          Field(KanjiEditableFields.Answer),
          Field(KanjiEditableFields.Mnemonic)
       ];

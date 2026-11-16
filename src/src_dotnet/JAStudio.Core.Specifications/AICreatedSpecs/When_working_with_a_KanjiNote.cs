@@ -25,8 +25,7 @@ public class When_working_with_a_KanjiNote : SpecificationStartingWithAnEmptyCol
 
       public given_a_kanji_whose_radicals_are_set_to_itself_water_and_mouth()
       {
-         _kanji = new KanjiNote(NoteServices);
-         _kanji.SetQuestion("漢");
+         _kanji = new KanjiNote(NoteServices, "漢");
          _kanji.Radicals.Set(["漢", "水", "口"]);
       }
 

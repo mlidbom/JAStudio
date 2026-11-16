@@ -52,11 +52,15 @@ public class KanjiNote : JPNote
    /// <summary>Other kanji the kanji is easily confused with: a relationship that goes both ways.</summary>
    public MutualKanjiRelationship ConfusedWith { get; }
 
-   readonly WritableStringValue _question;
+   /// <summary>The kanji's character: what the note is about, so it never changes. A kanji with another character is another kanji.</summary>
+   readonly string _question;
+
+   /// <summary>A new kanji, for the character <paramref name="question"/>.</summary>
+   public KanjiNote(NoteServices services, string question) : this(services) => _question = question;
 
    public KanjiNote(NoteServices services, KanjiDto? data = null) : base(services, data != null ? new KanjiId(data.Id) : KanjiId.New(), data?.Tags)
    {
-      _question = new WritableStringValue(data?.Kanji ?? string.Empty, Guard);
+      _question = data?.Kanji ?? string.Empty;
       CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
       Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, Guard);
       SourceData = new KanjiSourceData(data?.SourceData, Guard);
@@ -78,9 +82,7 @@ public class KanjiNote : JPNote
 
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new() { [AnkiFieldNames.Question] = GetQuestion() };
 
-   public override string GetQuestion() => _question.Value;
-
-   public void SetQuestion(string value) => _question.Set(value);
+   public override string GetQuestion() => _question;
 
    /// <summary>Whether <paramref name="character"/> is the kanji's own character: the one other notes name it by, as its radicals and related kanji do.</summary>
    public bool IsNamedBy(string character) => character == GetQuestion();
@@ -310,8 +312,7 @@ public class KanjiNote : JPNote
    /// <summary>Creates a kanji with no readings and adds it to the collection.</summary>
    public static KanjiNote Create(NoteServices services, string question, string answer)
    {
-      var note = new KanjiNote(services);
-      note.SetQuestion(question);
+      var note = new KanjiNote(services, question);
       note.CorpusAnswer.Set(answer);
       services.Collection.Kanji.Add(note);
       return note;

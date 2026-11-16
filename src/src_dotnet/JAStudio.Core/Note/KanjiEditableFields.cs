@@ -17,8 +17,6 @@ namespace JAStudio.Core.Note;
 /// </remarks>
 public static class KanjiEditableFields
 {
-   public static readonly EditableTextField<KanjiNote> Question = new("kanji", "Question", TextFieldFormat.Line, it => it.GetQuestion(), (it, question) => it.SetQuestion(question));
-
    /// <summary>The corpus's own answer, which takes the place of the source's (<see cref="SourceAnswer"/>).</summary>
    public static readonly EditableTextField<KanjiNote> Answer = new("corpusAnswer", "Answer", TextFieldFormat.Line, it => it.CorpusAnswer);
 
@@ -62,7 +60,7 @@ public static class KanjiEditableFields
    /// <summary>Every field above, in the same order.</summary>
    public static IReadOnlyList<IEditableField<KanjiNote>> All { get; } =
    [
-      Question, Answer, Mnemonic, OnReadings, KunReadings, NanoriReadings, Radicals, SimilarMeaning, ConfusedWith, PrimaryVocab, SourceAnswer, SourceMeaningMnemonic, Tags
+      Answer, Mnemonic, OnReadings, KunReadings, NanoriReadings, Radicals, SimilarMeaning, ConfusedWith, PrimaryVocab, SourceAnswer, SourceMeaningMnemonic, Tags
    ];
 
    /// <summary>
