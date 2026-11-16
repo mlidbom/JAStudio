@@ -3,7 +3,7 @@ from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, N
 from Compze.Tessaging.TessageTypes import IPublisherTevent_1
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from System.Collections.Generic import IReadOnlyList_1
-from JAStudio.Core.Note.Vocabulary import EnteredForm
+from JAStudio.Core.Note.Vocabulary import EnteredForm, WordReference
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from JAStudio.Core.Note import VocabId
@@ -28,7 +28,7 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
         pass
 
 
-    class Created(IVocabTevent.Question.TextChanged, ITaggregateCreatedTevent, typing.Protocol):
+    class Created(IVocabTevent.Question.PropertyUpdated.Text, ITaggregateCreatedTevent, typing.Protocol):
         pass
 
 
@@ -58,29 +58,22 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
 
     class Forms(IVocabTevent_0, typing.Protocol):
 
-        class Added(IVocabTevent.Forms, typing.Protocol):
+        class Added(IVocabTevent.Forms.PropertyUpdated.EnteredForms, typing.Protocol):
             @property
             def Form(self) -> str: ...
 
 
-        class NoLongerOwned(IVocabTevent.Forms, typing.Protocol):
+        class PropertyUpdated(abc.ABC):
+
+            class EnteredForms(IVocabTevent.Forms, typing.Protocol):
+                @property
+                def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
+
+
+
+        class Removed(IVocabTevent.Forms.PropertyUpdated.EnteredForms, typing.Protocol):
             @property
             def Form(self) -> str: ...
-
-
-        class Owned(IVocabTevent.Forms, typing.Protocol):
-            @property
-            def Form(self) -> str: ...
-
-
-        class Removed(IVocabTevent.Forms, typing.Protocol):
-            @property
-            def Form(self) -> str: ...
-
-
-        class Replaced(IVocabTevent.Forms, typing.Protocol):
-            @property
-            def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
 
 
 
@@ -98,14 +91,22 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
 
     class Question(IVocabTevent_0, typing.Protocol):
 
-        class DisambiguationChanged(IVocabTevent.Question, typing.Protocol):
-            @property
-            def Disambiguation(self) -> str: ...
+        class PropertyUpdated(abc.ABC):
+
+            class Disambiguation(IVocabTevent.Question, typing.Protocol):
+                @property
+                def Disambiguation(self) -> str: ...
 
 
-        class TextChanged(IVocabTevent.Question, typing.Protocol):
+            class Text(IVocabTevent.Question, typing.Protocol):
+                @property
+                def Text(self) -> str: ...
+
+
+
+        class Renamed(IVocabTevent.Question.PropertyUpdated.Disambiguation, IVocabTevent.Question.PropertyUpdated.Text, typing.Protocol):
             @property
-            def Text(self) -> str: ...
+            def From(self) -> WordReference: ...
 
 
 
@@ -234,7 +235,9 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def UtcTimeStamp(self) -> DateTime: ...
 
         class Added(VocabTevent.Forms, IVocabTevent.Forms.Added):
-            def __init__(self, form: str) -> None: ...
+            def __init__(self, form: str, enteredForms: IReadOnlyList_1[EnteredForm]) -> None: ...
+            @property
+            def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
             @property
             def Form(self) -> str: ...
             @property
@@ -245,22 +248,10 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
             def UtcTimeStamp(self) -> DateTime: ...
 
 
-        class NoLongerOwned(VocabTevent.Forms, IVocabTevent.Forms.NoLongerOwned):
-            def __init__(self, form: str) -> None: ...
+        class EnteredFormsUpdated(VocabTevent.Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms):
+            def __init__(self, enteredForms: IReadOnlyList_1[EnteredForm]) -> None: ...
             @property
-            def Form(self) -> str: ...
-            @property
-            def TaggregateId(self) -> TaggregateId: ...
-            @property
-            def TaggregateVersion(self) -> int: ...
-            @property
-            def UtcTimeStamp(self) -> DateTime: ...
-
-
-        class Owned(VocabTevent.Forms, IVocabTevent.Forms.Owned):
-            def __init__(self, form: str) -> None: ...
-            @property
-            def Form(self) -> str: ...
+            def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
             @property
             def TaggregateId(self) -> TaggregateId: ...
             @property
@@ -270,21 +261,11 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
 
 
         class Removed(VocabTevent.Forms, IVocabTevent.Forms.Removed):
-            def __init__(self, form: str) -> None: ...
-            @property
-            def Form(self) -> str: ...
-            @property
-            def TaggregateId(self) -> TaggregateId: ...
-            @property
-            def TaggregateVersion(self) -> int: ...
-            @property
-            def UtcTimeStamp(self) -> DateTime: ...
-
-
-        class Replaced(VocabTevent.Forms, IVocabTevent.Forms.Replaced):
-            def __init__(self, enteredForms: IReadOnlyList_1[EnteredForm]) -> None: ...
+            def __init__(self, form: str, enteredForms: IReadOnlyList_1[EnteredForm]) -> None: ...
             @property
             def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
+            @property
+            def Form(self) -> str: ...
             @property
             def TaggregateId(self) -> TaggregateId: ...
             @property
@@ -322,20 +303,12 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 
-        class DisambiguationChanged(VocabTevent.Question, IVocabTevent.Question.DisambiguationChanged):
-            def __init__(self, disambiguation: str) -> None: ...
+        class Renamed(VocabTevent.Question, IVocabTevent.Question.Renamed):
+            def __init__(self, from_: WordReference, text: str, disambiguation: str) -> None: ...
             @property
             def Disambiguation(self) -> str: ...
             @property
-            def TaggregateId(self) -> TaggregateId: ...
-            @property
-            def TaggregateVersion(self) -> int: ...
-            @property
-            def UtcTimeStamp(self) -> DateTime: ...
-
-
-        class TextChanged(VocabTevent.Question, IVocabTevent.Question.TextChanged):
-            def __init__(self, text: str) -> None: ...
+            def From(self) -> WordReference: ...
             @property
             def TaggregateId(self) -> TaggregateId: ...
             @property

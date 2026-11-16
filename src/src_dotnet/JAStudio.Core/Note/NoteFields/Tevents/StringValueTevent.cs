@@ -1,9 +1,9 @@
 namespace JAStudio.Core.Note.NoteFields.Tevents;
 
-/// <summary>The base class of the classes of the <see cref="IStringValueTevent"/>s.</summary>
+/// <summary>The classes of the <see cref="IStringValueTevent"/>s.</summary>
 public abstract class StringValueTevent : IStringValueTevent
 {
-   public class Set(string value) : StringValueTevent, IStringValueTevent.Set
+   public class ValueUpdated(string value) : StringValueTevent, IStringValueTevent.PropertyUpdated.Value
    {
       public string Value { get; } = value;
    }
