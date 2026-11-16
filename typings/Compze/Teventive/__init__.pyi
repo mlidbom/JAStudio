@@ -5,7 +5,7 @@ from System import DateTime, IObservable_1, Action_1, IDisposable
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from Compze.Tessaging.TessageTypes import IPublisherTevent_1, ITevent
 
-class IMutableTaggregateTevent(ITaggregateTevent_0, typing.Protocol):
+class IMutableTaggregateTevent(ITaggregateTevent, typing.Protocol):
     @abc.abstractmethod
     def SetTaggregateIdInternal(self, taggregateId: TaggregateId) -> None: ...
     @abc.abstractmethod

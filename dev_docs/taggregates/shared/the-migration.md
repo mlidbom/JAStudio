@@ -55,7 +55,7 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `55f09545c`: participation handlers run as each publish cascade ends.
+  JAStudio's worktree of Compze is at `2a919c6b4`, step 2b: the tevent store joins the shared `ITaggregateStoreUpdater` and `ITaggregateStoreReader`.
 - **JAStudio:** steps 1 to 6 below are done, and so is step 7's increment 1, on step 3's routing. Each passed the whole
   suite, with `full-build.ps1` clean, and is pushed. Neither a full rebuild nor saving every note changes a file of the
   corpus. Magnus has looked at step 6, and it is revised by his word:
