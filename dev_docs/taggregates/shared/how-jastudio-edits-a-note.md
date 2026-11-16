@@ -41,11 +41,10 @@ creating, the batches, the shortcuts the Anki add-on runs, text-to-speech, the s
   which `Edit` uses too.
 - **The full rebuild:** a unit of work for each note, on the threads it uses today. That is safe while each unit of
   work changes only its own note, as `UpdateGeneratedData` does.
-- **Parallel units of work that change each other's notes deadlock** until the store's lock times out, after 30 s,
-  naming the note (`jastudio-rep-opus`). One batch does: `LocalNoteUpdater.RegenerateJamdictVocabAnswers` sets each
-  vocab's source answer on many threads, and `PerfectSynonyms` pushes it into every synonym. Today that is a data race:
-  two threads can change one synonym at once. It runs on one thread, or with a unit of work for each web of perfect
-  synonyms. The other batches change only their own notes.
+- **Parallel units of work that change each other's notes would deadlock** until the store's lock times out, after
+  30 s, naming the note (`jastudio-rep-opus`). None do: `LocalNoteUpdater`'s batches on many threads, the generated
+  data, the metadata tags and the reparse, each change only their own note. `RegenerateJamdictVocabAnswers`, whose
+  answers `PerfectSynonyms` pushes into every synonym, runs on one thread. A batch that changes other notes keeps to one.
 - **Units of work nest:** Compze's `ExecuteUnitOfWork` joins an ambient transaction, so a command that runs another
   command's edit, or a domain method that edits another note, is one unit of work.
 
