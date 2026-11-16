@@ -132,10 +132,10 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
             SpecMenuItem.Submenu(ShortcutFinger.Up2("Remove"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.Command(ShortcutFinger.Home1("Explanation"), () => vocab.Explanation.Empty(), enabled: vocab.Explanation.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home2("Long explanation"), () => vocab.ExplanationLong.Empty(), enabled: vocab.ExplanationLong.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home3("Mnemonic"), () => vocab.Mnemonic.Empty(), enabled: vocab.Mnemonic.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home4("Corpus answer"), () => vocab.CorpusAnswer.Empty(), enabled: vocab.CorpusAnswer.HasValue())
+                                    SpecMenuItem.Command(ShortcutFinger.Home1("Explanation"), () => vocab.Edit(it => it.Explanation.Empty()), enabled: vocab.Explanation.HasValue()),
+                                    SpecMenuItem.Command(ShortcutFinger.Home2("Long explanation"), () => vocab.Edit(it => it.ExplanationLong.Empty()), enabled: vocab.ExplanationLong.HasValue()),
+                                    SpecMenuItem.Command(ShortcutFinger.Home3("Mnemonic"), () => vocab.Edit(it => it.Mnemonic.Empty()), enabled: vocab.Mnemonic.HasValue()),
+                                    SpecMenuItem.Command(ShortcutFinger.Home4("Corpus answer"), () => vocab.Edit(it => it.CorpusAnswer.Empty()), enabled: vocab.CorpusAnswer.HasValue())
                                  })
          }
       );

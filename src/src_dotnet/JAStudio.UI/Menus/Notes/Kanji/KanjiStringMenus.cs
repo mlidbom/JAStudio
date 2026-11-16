@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.KanjiRelationships;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
@@ -29,19 +30,18 @@ static class KanjiStringMenus
 
       SpecMenuItem BuildPrimaryVocabMenuSpec(WordReference? word)
       {
-         var primaryVocab = kanji.PrimaryVocab;
-         var items = primaryVocab.Words
-                                 .Select((primary, position) => ForTheWord(ShortcutFinger.Numpad(position, primary.DisambiguationName), _ => true, it => primaryVocab.PutAt(it, position)))
-                                 .ToList();
+         var items = kanji.PrimaryVocab.Words
+                          .Select((primary, position) => ForTheWord(ShortcutFinger.Numpad(position, primary.DisambiguationName), _ => true, (primaryVocab, it) => primaryVocab.PutAt(it, position)))
+                          .ToList();
 
-         items.Add(ForTheWord(ShortcutFinger.Home1("[Last]"), _ => true, primaryVocab.PutLast));
-         items.Add(ForTheWord(ShortcutFinger.Home2("Remove"), primaryVocab.Contains, primaryVocab.Remove));
+         items.Add(ForTheWord(ShortcutFinger.Home1("[Last]"), _ => true, (primaryVocab, it) => primaryVocab.PutLast(it)));
+         items.Add(ForTheWord(ShortcutFinger.Home2("Remove"), kanji.PrimaryVocab.Contains, (primaryVocab, it) => primaryVocab.Remove(it)));
 
          return SpecMenuItem.Submenu(ShortcutFinger.Home1("Highlighted Vocab"), items);
 
-         SpecMenuItem ForTheWord(string name, Func<WordReference, bool> applies, Action<WordReference> action) =>
+         SpecMenuItem ForTheWord(string name, Func<WordReference, bool> applies, Action<KanjiPrimaryVocab, WordReference> change) =>
             word is {} it
-               ? SpecMenuItem.Command(name, () => action(it), enabled: applies(it))
+               ? SpecMenuItem.Command(name, () => kanji.Edit(edited => change(edited.PrimaryVocab, it)), enabled: applies(it))
                : SpecMenuItem.Command(name, () => {}, enabled: false);
       }
 
@@ -50,7 +50,7 @@ static class KanjiStringMenus
          var items = new List<SpecMenuItem>
                      {
                         NoteCommandMenuItem.Running(ShortcutFinger.Home1, KanjiCommands.AddSimilarMeaning, kanji, text),
-                        SpecMenuItem.Command(ShortcutFinger.Home2("Confused with"), () => kanji.ConfusedWith.Add(text))
+                        SpecMenuItem.Command(ShortcutFinger.Home2("Confused with"), () => kanji.Edit(it => it.ConfusedWith.Add(text)))
                      };
 
          return SpecMenuItem.Submenu(ShortcutFinger.Home2("Add"), items);
@@ -65,20 +65,20 @@ static class KanjiStringMenus
             var onReadings = kanji.Readings.On;
             if(onReadings.IsPrimary(reading))
             {
-               items.Add(SpecMenuItem.Command(titleFactory("Remove primary Onyomi Reading"), () => onReadings.MakeSecondary(reading)));
+               items.Add(SpecMenuItem.Command(titleFactory("Remove primary Onyomi Reading"), () => kanji.Edit(it => it.Readings.On.MakeSecondary(reading))));
             } else if(onReadings.Contains(reading))
             {
-               items.Add(SpecMenuItem.Command(titleFactory("Make primary Onyomi Reading"), () => onReadings.MakePrimary(reading)));
+               items.Add(SpecMenuItem.Command(titleFactory("Make primary Onyomi Reading"), () => kanji.Edit(it => it.Readings.On.MakePrimary(reading))));
             }
          } else if(KanaUtils.IsOnlyHiragana(reading))
          {
             var kunReadings = kanji.Readings.Kun;
             if(kunReadings.IsPrimary(reading))
             {
-               items.Add(SpecMenuItem.Command(titleFactory("Remove primary Kunyomi reading"), () => kunReadings.MakeSecondary(reading)));
+               items.Add(SpecMenuItem.Command(titleFactory("Remove primary Kunyomi reading"), () => kanji.Edit(it => it.Readings.Kun.MakeSecondary(reading))));
             } else if(kunReadings.Contains(reading))
             {
-               items.Add(SpecMenuItem.Command(titleFactory("Make primary Kunyomi reading"), () => kunReadings.MakePrimary(reading)));
+               items.Add(SpecMenuItem.Command(titleFactory("Make primary Kunyomi reading"), () => kanji.Edit(it => it.Readings.Kun.MakePrimary(reading))));
             }
          }
 

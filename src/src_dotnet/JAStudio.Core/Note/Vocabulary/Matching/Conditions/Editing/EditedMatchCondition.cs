@@ -23,7 +23,7 @@ public sealed class EditedMatchCondition : IEditedCondition
 
    public Condition Stored => MatchingConfiguration.MatchCondition;
 
-   public void Store(Condition tree) => MatchingConfiguration.SetMatchCondition(VocabNoteMatchingConfiguration.AsAMatchCondition(tree));
+   public void Store(Condition tree) => _currentVocab().Edit(it => it.MatchingConfiguration.SetMatchCondition(VocabNoteMatchingConfiguration.AsAMatchCondition(tree)));
 
    public IReadOnlyList<CodeLine> LinesOf(Condition tree) => ConditionCode.LinesOfAMatchCondition(VocabNoteMatchingConfiguration.AsAMatchCondition(tree));
 

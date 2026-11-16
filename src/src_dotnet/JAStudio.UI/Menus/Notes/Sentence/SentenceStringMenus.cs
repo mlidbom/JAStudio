@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
@@ -26,7 +27,7 @@ static class SentenceStringMenus
 
    static SpecMenuItem BuildAddMenuSpec(string title, SentenceNote sentence, string menuString)
    {
-      void AddAddWordExclusionAction(List<SpecMenuItem> items, string exclusionTypeTitle, WordExclusionSet exclusionSet)
+      void AddAddWordExclusionAction(List<SpecMenuItem> items, string exclusionTypeTitle, Func<SentenceNote, WordExclusionSet> exclusionSetOf)
       {
          var menuStringAsWordExclusion = WordExclusion.Global(menuString);
          var analysis = sentence.CreateAnalysis();
@@ -41,7 +42,7 @@ static class SentenceStringMenus
             {
                var match = matchesExcludedByMenuString[0];
                items.Add(SpecMenuItem.Command(exclusionTypeTitle,
-                                                () => exclusionSet.Add(match.ToExclusion())
+                                                () => sentence.Edit(it => exclusionSetOf(it).Add(match.ToExclusion()))
                          ));
             } else
             {
@@ -50,7 +51,7 @@ static class SentenceStringMenus
                {
                   var match = matchesExcludedByMenuString[i];
                   var index = i; // Capture for lambda
-                  subItems.Add(SpecMenuItem.Command(ShortcutFinger.FingerByPriorityOrder(index, $"{match.StartIndex}: {match.ParsedForm}"), () => exclusionSet.Add(match.ToExclusion())));
+                  subItems.Add(SpecMenuItem.Command(ShortcutFinger.FingerByPriorityOrder(index, $"{match.StartIndex}: {match.ParsedForm}"), () => sentence.Edit(it => exclusionSetOf(it).Add(match.ToExclusion()))));
                }
 
                items.Add(SpecMenuItem.Submenu(exclusionTypeTitle, subItems));
@@ -64,20 +65,20 @@ static class SentenceStringMenus
       var items = new List<SpecMenuItem>();
 
       var isAlreadyHighlighted = sentence.Configuration.HighlightedWords.Contains(menuString);
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted Vocab"), () => sentence.Configuration.AddHighlightedWord(menuString), enabled: !isAlreadyHighlighted));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted Vocab"), () => sentence.Edit(it => it.Configuration.AddHighlightedWord(menuString)), enabled: !isAlreadyHighlighted));
 
-      AddAddWordExclusionAction(items, ShortcutFinger.Home2("Hidden matches"), sentence.Configuration.HiddenMatches);
-      AddAddWordExclusionAction(items, ShortcutFinger.Home3("Incorrect matches"), sentence.Configuration.IncorrectMatches);
+      AddAddWordExclusionAction(items, ShortcutFinger.Home2("Hidden matches"), it => it.Configuration.HiddenMatches);
+      AddAddWordExclusionAction(items, ShortcutFinger.Home3("Incorrect matches"), it => it.Configuration.IncorrectMatches);
 
       return SpecMenuItem.Submenu(title, items);
    }
 
    static SpecMenuItem BuildRemoveMenuSpec(string title, SentenceNote sentence, string menuString)
    {
-      void AddRemoveWordExclusionAction(string exclusionTypeTitle, List<SpecMenuItem> items, WordExclusionSet exclusionSet)
+      void AddRemoveWordExclusionAction(string exclusionTypeTitle, List<SpecMenuItem> items, Func<SentenceNote, WordExclusionSet> exclusionSetOf)
       {
          var menuStringAsWordExclusion = WordExclusion.Global(menuString);
-         var currentExclusions = exclusionSet.Get().ToList();
+         var currentExclusions = exclusionSetOf(sentence).Get().ToList();
          var coveredExistingExclusions = currentExclusions
                                         .Where(excl => menuStringAsWordExclusion.ExcludesAllWordsExcludedBy(excl))
                                         .ToList();
@@ -86,7 +87,7 @@ static class SentenceStringMenus
          {
             if(coveredExistingExclusions.Count == 1)
             {
-               items.Add(SpecMenuItem.Command(exclusionTypeTitle, () => exclusionSet.RemoveString(menuString)));
+               items.Add(SpecMenuItem.Command(exclusionTypeTitle, () => sentence.Edit(it => exclusionSetOf(it).RemoveString(menuString))));
             } else
             {
                var subItems = new List<SpecMenuItem>();
@@ -94,7 +95,7 @@ static class SentenceStringMenus
                {
                   var exclusion = coveredExistingExclusions[i];
                   var index = i; // Capture for lambda
-                  subItems.Add(SpecMenuItem.Command(ShortcutFinger.FingerByPriorityOrder(index, $"{exclusion.Index}:{exclusion.Word}"), () => exclusionSet.Remove(exclusion)));
+                  subItems.Add(SpecMenuItem.Command(ShortcutFinger.FingerByPriorityOrder(index, $"{exclusion.Index}:{exclusion.Word}"), () => sentence.Edit(it => exclusionSetOf(it).Remove(exclusion))));
                }
 
                items.Add(SpecMenuItem.Submenu(exclusionTypeTitle, subItems));
@@ -108,10 +109,10 @@ static class SentenceStringMenus
       var items = new List<SpecMenuItem>();
 
       var isHighlighted = sentence.Configuration.HighlightedWords.Contains(menuString);
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted vocab"), () => sentence.Configuration.RemoveHighlightedWord(menuString), enabled: isHighlighted));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted vocab"), () => sentence.Edit(it => it.Configuration.RemoveHighlightedWord(menuString)), enabled: isHighlighted));
 
-      AddRemoveWordExclusionAction(ShortcutFinger.Home2("Hidden matches"), items, sentence.Configuration.HiddenMatches);
-      AddRemoveWordExclusionAction(ShortcutFinger.Home3("Incorrect matches"), items, sentence.Configuration.IncorrectMatches);
+      AddRemoveWordExclusionAction(ShortcutFinger.Home2("Hidden matches"), items, it => it.Configuration.HiddenMatches);
+      AddRemoveWordExclusionAction(ShortcutFinger.Home3("Incorrect matches"), items, it => it.Configuration.IncorrectMatches);
 
       return SpecMenuItem.Submenu(title, items);
    }

@@ -58,7 +58,7 @@ class OneNoteTagging
    {
       if(tag.IsAnAnkiTag) return Task.Run(() => _ankiTagChanges.RemoveFrom([note], tag));
 
-      note.Tags.Unset(tag);
+      note.Edit(it => it.Tags.Unset(tag));
       return Task.CompletedTask;
    }
 
@@ -66,7 +66,7 @@ class OneNoteTagging
    {
       if(tag.IsAnAnkiTag) return Task.Run(() => _ankiTagChanges.AddTo([note], tag));
 
-      note.Tags.Set(tag);
+      note.Edit(it => it.Tags.Set(tag));
       return Task.CompletedTask;
    }
 }

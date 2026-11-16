@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts;
@@ -54,7 +55,7 @@ public class PerfectSynonyms
    void PushAnswerToOtherSynonyms()
    {
       foreach(var synonym in Notes())
-         synonym.CorpusAnswer.Set(_vocab.GetAnswer());
+         synonym.Edit(it => it.CorpusAnswer.Set(_vocab.GetAnswer()));
    }
 
    /// <summary>
@@ -75,10 +76,10 @@ public class PerfectSynonyms
    public void Remove(WordReference removed)
    {
       foreach(var removedVocab in Collection.NamedExactlyBy(removed))
-         removedVocab.RelatedNotes.PerfectSynonyms.LeaveTheWeb();
+         EditThePerfectSynonymsOf(removedVocab, it => it.LeaveTheWeb());
 
       foreach(var synonym in TheWholeWeb())
-         synonym.RelatedNotes.PerfectSynonyms.RemoveKeepingItAsASynonym(removed);
+         EditThePerfectSynonymsOf(synonym, it => it.RemoveKeepingItAsASynonym(removed));
    }
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if it's a perfect synonym.</summary>
@@ -93,7 +94,7 @@ public class PerfectSynonyms
    internal void LeaveTheWebAsTheVocabIsDeleted()
    {
       foreach(var synonym in Notes())
-         synonym.RelatedNotes.PerfectSynonyms.RemoveKeepingItAsASynonym(_vocab.Question.Reference);
+         EditThePerfectSynonymsOf(synonym, it => it.RemoveKeepingItAsASynonym(_vocab.Question.Reference));
    }
 
    void RemoveKeepingItAsASynonym(WordReference synonym)
@@ -132,10 +133,16 @@ public class PerfectSynonyms
 
       foreach(var synonym in wholeWeb)
       {
-         foreach(var name in everyName)
-            synonym.RelatedNotes.PerfectSynonyms.AddKeepingItAsASynonymToo(name);
+         EditThePerfectSynonymsOf(synonym, it =>
+         {
+            foreach(var name in everyName)
+               it.AddKeepingItAsASynonymToo(name);
+         });
       }
    }
+
+   /// <summary>Changes <paramref name="vocab"/>'s perfect synonyms with <paramref name="change"/>, in an edit of <paramref name="vocab"/> (<see cref="EditingANote"/>).</summary>
+   static void EditThePerfectSynonymsOf(VocabNote vocab, Action<PerfectSynonyms> change) => vocab.Edit(it => change(it.RelatedNotes.PerfectSynonyms));
 
    public override string ToString() => _words.ToString();
 }

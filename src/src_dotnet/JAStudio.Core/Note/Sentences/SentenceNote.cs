@@ -132,6 +132,8 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
 
    public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
 
+   void IHasTextToSpeechAudio.Edit(Action<IHasTextToSpeechAudio> edit) => this.Edit(it => edit(it));
+
    public override string GetAnswer() => Answer.Get();
 
    public AnalysisServices AnalysisServices => new(Services.Collection.Vocab, Services.DictLookup, Services.Settings);

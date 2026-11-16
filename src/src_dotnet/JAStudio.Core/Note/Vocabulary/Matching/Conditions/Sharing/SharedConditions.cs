@@ -183,7 +183,7 @@ public sealed class SharedConditions
          AddWithItsFile(sharedCondition);
          foreach(var definitionUsingIt in definitionsUsingIt) _folder.Save(definitionUsingIt);
       });
-      vocabUsingIt.ForEach(it => it.MatchingConfiguration.SaveAfterASharedConditionItUsesWasRenamed());
+      vocabUsingIt.ForEach(vocab => vocab.Edit(it => it.MatchingConfiguration.SaveAfterASharedConditionItUsesWasRenamed()));
    }
 
    /// <summary>
@@ -195,7 +195,7 @@ public sealed class SharedConditions
    {
       AssertIsOneOfThese(sharedCondition);
       foreach(var definitionUsingIt in WhoseDefinitionsUse(sharedCondition)) WriteItOutInTheDefinitionOf(definitionUsingIt);
-      _vocab.Value.WhoseMatchConditionsUse(sharedCondition).ForEach(it => it.MatchingConfiguration.WriteOutTheDefinitionOf(sharedCondition));
+      _vocab.Value.WhoseMatchConditionsUse(sharedCondition).ForEach(vocab => vocab.Edit(it => it.MatchingConfiguration.WriteOutTheDefinitionOf(sharedCondition)));
       _monitor.Locked(() => RemoveWithItsFile(sharedCondition));
       return;
 
@@ -219,7 +219,7 @@ public sealed class SharedConditions
    {
       AssertIsOneOfThese(sharedCondition);
       All.Where(it => !it.Equals(sharedCondition)).ToList().ForEach(UseItInTheDefinitionOf);
-      _vocab.Value.All().ForEach(it => it.MatchingConfiguration.UseWhereverItsDefinitionIs(sharedCondition));
+      _vocab.Value.All().ForEach(vocab => vocab.Edit(it => it.MatchingConfiguration.UseWhereverItsDefinitionIs(sharedCondition)));
       return;
 
       void UseItInTheDefinitionOf(ISharedCondition other)

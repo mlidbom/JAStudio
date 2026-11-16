@@ -30,23 +30,24 @@ public class MutualWordRelationship : WordRelationship
       if(Vocab.Question.IsNamedBy(word)) return;
 
       AddTheWord(word);
-      foreach(var otherSide in OtherSidesOf(word))
-         otherSide.AddTheWord(Vocab.Question.Reference);
+      ChangeTheOtherSidesOf(word, it => it.AddTheWord(Vocab.Question.Reference));
    }
 
    /// <summary>Removes <paramref name="word"/>, and this vocab from the same relationship of the vocab <paramref name="word"/> refers to.</summary>
    public override void Remove(WordReference word)
    {
       RemoveTheWord(word);
-      foreach(var otherSide in OtherSidesOf(word))
-         otherSide.RemoveTheWord(Vocab.Question.Reference);
+      ChangeTheOtherSidesOf(word, it => it.RemoveTheWord(Vocab.Question.Reference));
    }
 
    /// <summary>
-   /// The same relationship in each vocab <paramref name="word"/> refers to, but this one: the other side of the relationship, for that word. A word that<br/>
-   /// names no vocab exactly refers to the vocab with it as a form, which can be this vocab, as る is a form of <c>う:non-past</c>, and this vocab would<br/>
-   /// otherwise become its own synonym.
+   /// Changes, with <paramref name="change"/>, the same relationship in each vocab <paramref name="word"/> refers to, but this one, each in an edit of that<br/>
+   /// vocab (<see cref="EditingANote"/>): the other side of the relationship, for that word. A word that names no vocab exactly refers to the vocab with<br/>
+   /// it as a form, which can be this vocab, as る is a form of <c>う:non-past</c>, and this vocab would otherwise become its own synonym.
    /// </summary>
-   IEnumerable<MutualWordRelationship> OtherSidesOf(WordReference word) =>
-      Collection.ReferredToBy(word).Where(it => it.GetId() != Vocab.GetId()).Select(it => _theSameRelationshipIn(it.RelatedNotes));
+   void ChangeTheOtherSidesOf(WordReference word, Action<MutualWordRelationship> change)
+   {
+      foreach(var otherVocab in Collection.ReferredToBy(word).Where(it => it.GetId() != Vocab.GetId()))
+         otherVocab.Edit(it => change(_theSameRelationshipIn(it.RelatedNotes)));
+   }
 }

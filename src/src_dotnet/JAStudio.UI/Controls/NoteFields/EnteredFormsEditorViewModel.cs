@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.UI.Controls.NoteFields;
@@ -45,7 +46,7 @@ partial class EnteredFormsEditorViewModel : ObservableObject
    [RelayCommand(CanExecute = nameof(CanAdd))]
    void Add()
    {
-      _currentVocab().Forms.Add(NewForm.Trim());
+      _currentVocab().Edit(it => it.Forms.Add(NewForm.Trim()));
       NewForm = string.Empty;
       ChangeSaved();
    }
@@ -54,17 +55,19 @@ partial class EnteredFormsEditorViewModel : ObservableObject
 
    void Remove(EnteredForm form)
    {
-      _currentVocab().Forms.Remove(form.Text);
+      _currentVocab().Edit(it => it.Forms.Remove(form.Text));
       ChangeSaved();
    }
 
    void ChangeTheOwnership(EnteredForm form)
    {
-      var forms = _currentVocab().Forms;
-      if(form.IsOwned)
-         forms.Own(form.Text);
-      else
-         forms.StopOwning(form.Text);
+      _currentVocab().Edit(it =>
+      {
+         if(form.IsOwned)
+            it.Forms.Own(form.Text);
+         else
+            it.Forms.StopOwning(form.Text);
+      });
 
       ChangeSaved();
    }

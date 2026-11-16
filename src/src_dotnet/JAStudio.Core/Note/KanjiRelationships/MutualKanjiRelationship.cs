@@ -53,18 +53,24 @@ public class MutualKanjiRelationship
       if(Owner.IsNamedBy(kanji)) return;
 
       _kanji.Add(kanji);
-      OtherSideOf(kanji)?._kanji.Add(Owner.GetQuestion());
+      ChangeTheOtherSideOf(kanji, it => it._kanji.Add(Owner.GetQuestion()));
    }
 
    /// <summary>Removes <paramref name="kanji"/>, and this kanji from the same relationship of <paramref name="kanji"/>'s note.</summary>
    public void Remove(string kanji)
    {
       _kanji.Remove(kanji);
-      OtherSideOf(kanji)?._kanji.Remove(Owner.GetQuestion());
+      ChangeTheOtherSideOf(kanji, it => it._kanji.Remove(Owner.GetQuestion()));
    }
 
-   /// <summary>The same relationship of <paramref name="kanji"/>'s note, or null when the collection has no note for it.</summary>
-   MutualKanjiRelationship? OtherSideOf(string kanji) => Collection.WithKanji(kanji) is {} other ? _theSameRelationshipOf(other) : null;
+   /// <summary>
+   /// Changes, with <paramref name="change"/>, the same relationship of <paramref name="kanji"/>'s note, in an edit of that note (<see cref="EditingANote"/>),<br/>
+   /// when the collection has a note for it.
+   /// </summary>
+   void ChangeTheOtherSideOf(string kanji, Action<MutualKanjiRelationship> change)
+   {
+      if(Collection.WithKanji(kanji) is {} otherKanji) otherKanji.Edit(it => change(_theSameRelationshipOf(it)));
+   }
 
    public override string ToString() => _kanji.ToString();
 }

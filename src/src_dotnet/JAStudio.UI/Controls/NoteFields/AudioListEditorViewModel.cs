@@ -15,19 +15,19 @@ namespace JAStudio.UI.Controls.NoteFields;
 /// </summary>
 partial class AudioListEditorViewModel : MediaListEditorViewModel
 {
-   readonly Func<AudioReferenceList> _currentList;
+   readonly EditedNotePart<AudioReferenceList> _list;
    readonly MediaFileIndex _media;
    readonly IAudioPlayer _player;
    readonly Action? _openTheTextToSpeechDialog;
 
    /// <param name="title">What the list holds, shown above it, such as "Audio".</param>
-   /// <param name="currentList">Finds the list on the note as the collection holds it now.</param>
+   /// <param name="list">The list, on the note the editor edits.</param>
    /// <param name="media">Finds each file in the media layer, to play it.</param>
    /// <param name="player">Plays a file when its button is pressed.</param>
    /// <param name="openTheTextToSpeechDialog">Opens the <see cref="TextToSpeechDialog"/> for the note, for the list its TTS audio goes into; null for any other list.</param>
-   public AudioListEditorViewModel(string title, Func<AudioReferenceList> currentList, MediaFileIndex media, IAudioPlayer player, Action? openTheTextToSpeechDialog = null) : base(title)
+   public AudioListEditorViewModel(string title, EditedNotePart<AudioReferenceList> list, MediaFileIndex media, IAudioPlayer player, Action? openTheTextToSpeechDialog = null) : base(title)
    {
-      _currentList = currentList;
+      _list = list;
       _media = media;
       _player = player;
       _openTheTextToSpeechDialog = openTheTextToSpeechDialog;
@@ -43,7 +43,7 @@ partial class AudioListEditorViewModel : MediaListEditorViewModel
    public override void Refresh()
    {
       Items.Clear();
-      foreach(var audio in _currentList().All)
+      foreach(var audio in _list.Current.All)
          Items.Add(new AudioRowViewModel(audio, _media.Resolve(audio), _player, Remove));
    }
 
@@ -52,7 +52,7 @@ partial class AudioListEditorViewModel : MediaListEditorViewModel
 
    void Remove(AudioReference audio)
    {
-      _currentList().Remove(audio);
+      _list.Edit(it => it.Remove(audio));
       Refresh();
    }
 }

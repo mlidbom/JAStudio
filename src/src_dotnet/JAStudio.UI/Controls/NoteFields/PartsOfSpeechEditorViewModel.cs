@@ -14,19 +14,18 @@ namespace JAStudio.UI.Controls.NoteFields;
 /// Adding or removing one writes to the vocab at once.
 /// </summary>
 /// <remarks>
-/// It reads and writes the parts of speech through <see cref="_currentPartsOfSpeech"/>, which finds them on the vocab the collection holds now,<br/>
-/// since the collection replaces a note's object when it reloads the note.
+/// It reads the parts of speech on the vocab the collection holds now, and changes them in an edit of the vocab, through <see cref="_partsOfSpeech"/>.
 /// </remarks>
 partial class PartsOfSpeechEditorViewModel : ObservableObject
 {
-   readonly Func<VocabNotePartsOfSpeech> _currentPartsOfSpeech;
+   readonly EditedNotePart<VocabNotePartsOfSpeech> _partsOfSpeech;
    readonly Action _partsOfSpeechChanged;
 
-   /// <param name="currentPartsOfSpeech">Finds the parts of speech edited, on the vocab as the collection holds it now.</param>
+   /// <param name="partsOfSpeech">The parts of speech edited, on the vocab the editor edits.</param>
    /// <param name="partsOfSpeechChanged">Called after a change is saved, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
-   public PartsOfSpeechEditorViewModel(Func<VocabNotePartsOfSpeech> currentPartsOfSpeech, Action partsOfSpeechChanged)
+   public PartsOfSpeechEditorViewModel(EditedNotePart<VocabNotePartsOfSpeech> partsOfSpeech, Action partsOfSpeechChanged)
    {
-      _currentPartsOfSpeech = currentPartsOfSpeech;
+      _partsOfSpeech = partsOfSpeech;
       _partsOfSpeechChanged = partsOfSpeechChanged;
       Refresh();
    }
@@ -47,7 +46,7 @@ partial class PartsOfSpeechEditorViewModel : ObservableObject
    /// <summary>Shows the parts of speech as the vocab has them now, after a change made elsewhere.</summary>
    public void Refresh()
    {
-      var partsOfSpeech = _currentPartsOfSpeech();
+      var partsOfSpeech = _partsOfSpeech.Current;
       Items.Clear();
       foreach(var partOfSpeech in partsOfSpeech.All())
          Items.Add(new PartOfSpeechChipViewModel(partOfSpeech, Remove));
@@ -59,7 +58,7 @@ partial class PartsOfSpeechEditorViewModel : ObservableObject
    [RelayCommand(CanExecute = nameof(CanAdd))]
    void Add()
    {
-      _currentPartsOfSpeech().Add(PartOfSpeech.Named(NewPartOfSpeech.Trim()));
+      _partsOfSpeech.Edit(it => it.Add(PartOfSpeech.Named(NewPartOfSpeech.Trim())));
       NewPartOfSpeech = string.Empty;
       ChangeSaved();
    }
@@ -68,7 +67,7 @@ partial class PartsOfSpeechEditorViewModel : ObservableObject
 
    void Remove(PartOfSpeech partOfSpeech)
    {
-      _currentPartsOfSpeech().Remove(partOfSpeech);
+      _partsOfSpeech.Edit(it => it.Remove(partOfSpeech));
       ChangeSaved();
    }
 

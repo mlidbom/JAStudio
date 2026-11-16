@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Commands;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
@@ -41,21 +42,21 @@ class VocabStringMenus
 
       var items = new List<SpecMenuItem>
                   {
-                     Adding(ShortcutFinger.Home1("Synonym"), related.Synonyms.Contains, related.Synonyms.Add),
+                     Adding(ShortcutFinger.Home1("Synonym"), related.Synonyms.Contains, (it, added) => it.RelatedNotes.Synonyms.Add(added)),
                      NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.AddSynonymsTransitivelyOneLevel, vocab, text, enabled: word is not null),
-                     Adding(ShortcutFinger.Home3("Confused with"), related.ConfusedWith.Contains, related.ConfusedWith.Add),
-                     Adding(ShortcutFinger.Home4("Antonym"), related.Antonyms.Contains, related.Antonyms.Add),
-                     SpecMenuItem.Command(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
-                     Adding(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, related.SeeAlso.Add),
-                     Adding(ShortcutFinger.Up2("Ergative twin"), related.ErgativeTwins.Contains, related.ErgativeTwins.Add),
-                     ForTheWord(word, ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"),
+                     Adding(ShortcutFinger.Home3("Confused with"), related.ConfusedWith.Contains, (it, added) => it.RelatedNotes.ConfusedWith.Add(added)),
+                     Adding(ShortcutFinger.Home4("Antonym"), related.Antonyms.Contains, (it, added) => it.RelatedNotes.Antonyms.Add(added)),
+                     SpecMenuItem.Command(ShortcutFinger.Home5("Form"), () => vocab.Edit(it => it.Forms.Add(text)), enabled: !matchedForms.Contains(text)),
+                     Adding(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, (it, added) => it.RelatedNotes.SeeAlso.Add(added)),
+                     Adding(ShortcutFinger.Up2("Ergative twin"), related.ErgativeTwins.Contains, (it, added) => it.RelatedNotes.ErgativeTwins.Add(added)),
+                     ForTheWord(word, vocab, ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"),
                                 it => !related.PerfectSynonyms.Contains(it) && related.PerfectSynonyms.Accepts(it),
-                                related.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym)
+                                (it, added) => it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(added))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home1("Add"), items);
 
-      SpecMenuItem Adding(string name, Func<WordReference, bool> hasIt, Action<WordReference> add) => ForTheWord(word, name, it => !hasIt(it), add);
+      SpecMenuItem Adding(string name, Func<WordReference, bool> hasIt, Action<VocabNote, WordReference> add) => ForTheWord(word, vocab, name, it => !hasIt(it), add);
    }
 
    /// <summary>The Set menu: the text as the word the vocab is derived from (<see cref="Core.Note.Vocabulary.RelatedVocab.RelatedVocab.DerivedFrom"/>).</summary>
@@ -64,7 +65,7 @@ class VocabStringMenus
       var word = WordReference.FromDisambiguationNameOrNone(text);
       var items = new List<SpecMenuItem>
                   {
-                     ForTheWord(word, ShortcutFinger.Home2("Derived from"), it => it != vocab.RelatedNotes.DerivedFrom.Word, it => vocab.RelatedNotes.DerivedFrom.Set(it))
+                     ForTheWord(word, vocab, ShortcutFinger.Home2("Derived from"), it => it != vocab.RelatedNotes.DerivedFrom.Word, (it, derivedFrom) => it.RelatedNotes.DerivedFrom.Set(derivedFrom))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home2("Set"), items);
@@ -79,28 +80,29 @@ class VocabStringMenus
 
       var items = new List<SpecMenuItem>
                   {
-                     Removing(ShortcutFinger.Home1("Synonym"), related.Synonyms.Contains, related.Synonyms.Remove),
-                     Removing(ShortcutFinger.Home2("Confused with"), related.ConfusedWith.Contains, related.ConfusedWith.Remove),
-                     Removing(ShortcutFinger.Home3("Antonym"), related.Antonyms.Contains, related.Antonyms.Remove),
-                     Removing(ShortcutFinger.Home4("Ergative twin"), related.ErgativeTwins.Contains, related.ErgativeTwins.Remove),
-                     SpecMenuItem.Command(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: enteredForms.Contains(text)),
-                     Removing(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, related.SeeAlso.Remove),
-                     Removing(ShortcutFinger.Down1("Perfect synonym"), related.PerfectSynonyms.Contains, related.PerfectSynonyms.Remove),
-                     Removing(ShortcutFinger.Down2("Derived from"), it => it == related.DerivedFrom.Word, _ => related.DerivedFrom.Set(null))
+                     Removing(ShortcutFinger.Home1("Synonym"), related.Synonyms.Contains, (it, removed) => it.RelatedNotes.Synonyms.Remove(removed)),
+                     Removing(ShortcutFinger.Home2("Confused with"), related.ConfusedWith.Contains, (it, removed) => it.RelatedNotes.ConfusedWith.Remove(removed)),
+                     Removing(ShortcutFinger.Home3("Antonym"), related.Antonyms.Contains, (it, removed) => it.RelatedNotes.Antonyms.Remove(removed)),
+                     Removing(ShortcutFinger.Home4("Ergative twin"), related.ErgativeTwins.Contains, (it, removed) => it.RelatedNotes.ErgativeTwins.Remove(removed)),
+                     SpecMenuItem.Command(ShortcutFinger.Home5("Form"), () => vocab.Edit(it => it.Forms.Remove(text)), enabled: enteredForms.Contains(text)),
+                     Removing(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, (it, removed) => it.RelatedNotes.SeeAlso.Remove(removed)),
+                     Removing(ShortcutFinger.Down1("Perfect synonym"), related.PerfectSynonyms.Contains, (it, removed) => it.RelatedNotes.PerfectSynonyms.Remove(removed)),
+                     Removing(ShortcutFinger.Down2("Derived from"), it => it == related.DerivedFrom.Word, (it, _) => it.RelatedNotes.DerivedFrom.Set(null))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"), items);
 
-      SpecMenuItem Removing(string name, Func<WordReference, bool> hasIt, Action<WordReference> remove) => ForTheWord(word, name, hasIt, remove);
+      SpecMenuItem Removing(string name, Func<WordReference, bool> hasIt, Action<VocabNote, WordReference> remove) => ForTheWord(word, vocab, name, hasIt, remove);
    }
 
    /// <summary>
-   /// An item doing <paramref name="action"/> to <paramref name="word"/>, the word the selected text names, enabled when <paramref name="applies"/> to it.<br/>
-   /// Disabled when the selected text names no word (<see cref="WordReference.FromDisambiguationNameOrNone"/>).
+   /// An item making <paramref name="change"/> to <paramref name="vocab"/> with <paramref name="word"/>, the word the selected text names, in an edit of<br/>
+   /// <paramref name="vocab"/> (<see cref="EditingANote"/>), enabled when <paramref name="applies"/> to the word. Disabled when the selected text names no<br/>
+   /// word (<see cref="WordReference.FromDisambiguationNameOrNone"/>).
    /// </summary>
-   static SpecMenuItem ForTheWord(WordReference? word, string name, Func<WordReference, bool> applies, Action<WordReference> action) =>
+   static SpecMenuItem ForTheWord(WordReference? word, VocabNote vocab, string name, Func<WordReference, bool> applies, Action<VocabNote, WordReference> change) =>
       word is {} it
-         ? SpecMenuItem.Command(name, () => action(it), enabled: applies(it))
+         ? SpecMenuItem.Command(name, () => vocab.Edit(edited => change(edited, it)), enabled: applies(it))
          : SpecMenuItem.Command(name, () => {}, enabled: false);
 
    SpecMenuItem BuildSentenceMenuSpec(string text, VocabNote vocab)

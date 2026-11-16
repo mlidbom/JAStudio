@@ -29,13 +29,13 @@ class UsingASpeech(TemporaryServiceCollection services)
       var fileName = speech.UniqueFileName();
       var stored = _mediaStorage.StoreNewAudioFile(speech.Mp3, TextToSpeechAudioFolders.For(note), fileName);
       _srsMedia.Add(stored);
-      note.Audio.ReplaceTheTextToSpeechAudioWith(new AudioReference(fileName)
+      note.Edit(it => it.Audio.ReplaceTheTextToSpeechAudioWith(new AudioReference(fileName)
       {
          IsOurs = true,
          IsTextToSpeech = true,
          TextToSpeechVoice = speech.Voice.NameWithItsProvider,
          VoiceGender = GenderOf(speech.Voice)
-      });
+      }));
       return fileName;
    }
 

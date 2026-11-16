@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -66,7 +65,7 @@ public class NoteEditingTools
 
       foreach(var write in writes) write.Write();
       var sentencesReparsed = ReparseTheSentencesWhenAWriteChangesHowTheyParse(note.Note, writes);
-      note.Note.UpdateGeneratedData();
+      note.Note.Edit(it => it.UpdateGeneratedData());
 
       return new NoteEdit(note.Note.GetQuestion(), valuesBefore.ChangesTo(NoteFieldValues.Of(note)), sentencesReparsed);
    }

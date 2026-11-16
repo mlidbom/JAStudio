@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
@@ -90,9 +91,9 @@ sealed class SentenceElementMenus
    {
       var incorrectMatches = _sentence.Configuration.IncorrectMatches;
       if(incorrectMatches.Contains(match))
-         return SpecMenuItem.Command(ShortcutFinger.Home2(TheLabelOfUnmarking("Unmark incorrect", incorrectMatches, match)), () => incorrectMatches.Remove(match));
+         return SpecMenuItem.Command(ShortcutFinger.Home2(TheLabelOfUnmarking("Unmark incorrect", incorrectMatches, match)), () => _sentence.Edit(it => it.Configuration.IncorrectMatches.Remove(match)));
 
-      return match.IsValid ? SpecMenuItem.Command(ShortcutFinger.Home2("Mark incorrect here"), () => incorrectMatches.Add(match)) : null;
+      return match.IsValid ? SpecMenuItem.Command(ShortcutFinger.Home2("Mark incorrect here"), () => _sentence.Edit(it => it.Configuration.IncorrectMatches.Add(match))) : null;
    }
 
    /// <summary>Unhides <paramref name="match"/> when the sentence hides it, or hides it at its position when it's shown. Neither when it's hidden otherwise.</summary>
@@ -100,9 +101,9 @@ sealed class SentenceElementMenus
    {
       var hiddenMatches = _sentence.Configuration.HiddenMatches;
       if(hiddenMatches.Contains(match))
-         return SpecMenuItem.Command(ShortcutFinger.Home3(TheLabelOfUnmarking("Unhide", hiddenMatches, match)), () => hiddenMatches.Remove(match));
+         return SpecMenuItem.Command(ShortcutFinger.Home3(TheLabelOfUnmarking("Unhide", hiddenMatches, match)), () => _sentence.Edit(it => it.Configuration.HiddenMatches.Remove(match)));
 
-      return match.IsValidForDisplay ? SpecMenuItem.Command(ShortcutFinger.Home3("Hide here"), () => hiddenMatches.Add(match)) : null;
+      return match.IsValidForDisplay ? SpecMenuItem.Command(ShortcutFinger.Home3("Hide here"), () => _sentence.Edit(it => it.Configuration.HiddenMatches.Add(match))) : null;
    }
 
    /// <summary>
@@ -119,9 +120,9 @@ sealed class SentenceElementMenus
    SpecMenuItem? HighlightingOrRemovingTheHighlight(Match match)
    {
       if(_sentence.Configuration.Highlights(match))
-         return SpecMenuItem.Command(ShortcutFinger.Home4("Remove the highlight"), () => _sentence.Configuration.RemoveTheHighlightOf(match));
+         return SpecMenuItem.Command(ShortcutFinger.Home4("Remove the highlight"), () => _sentence.Edit(it => it.Configuration.RemoveTheHighlightOf(match)));
 
-      return match is MissingMatch ? null : SpecMenuItem.Command(ShortcutFinger.Home4("Highlight"), () => _sentence.Configuration.Highlight(match));
+      return match is MissingMatch ? null : SpecMenuItem.Command(ShortcutFinger.Home4("Highlight"), () => _sentence.Edit(it => it.Configuration.Highlight(match)));
    }
 
    /// <summary>

@@ -354,7 +354,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    public static KanjiNote CreateByHand(NoteServices services, string question, string answer)
    {
       var note = Create(services, question, answer);
-      note.Tags.Set(Tagging.Tags.Source.Jastudio);
+      note.Edit(it => it.Tags.Set(Tagging.Tags.Source.Jastudio));
       return note;
    }
 }

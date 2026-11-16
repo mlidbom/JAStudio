@@ -59,7 +59,7 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
          Field(KanjiEditableFields.SourceAnswer),
          Field(KanjiEditableFields.SourceMeaningMnemonic)
       ];
-      Images = new ImageListEditorViewModel("Images", () => CurrentKanji().Images, services.Resolve<MediaFileIndex>());
+      Images = new ImageListEditorViewModel("Images", EditedNotePart.Of(CurrentKanji, it => it.Images), services.Resolve<MediaFileIndex>());
       Tags = new NoteTagsEditorViewModel(services, CurrentKanji);
    }
 
@@ -108,16 +108,15 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
           () => string.Join(", ", field.Read(CurrentKanji())),
           WritingToTheCurrentKanji((it, text) => field.Write(it, StringExtensions.ExtractCommaSeparatedValues(text))));
 
-   KanjiReadingListEditorViewModel ReadingList(EditableKanjiReadingsField field) => new(_fatalErrorHandler, () => field.ReadingsOn(CurrentKanji()));
+   KanjiReadingListEditorViewModel ReadingList(EditableKanjiReadingsField field) => new(_fatalErrorHandler, EditedNotePart.Of(CurrentKanji, field.ReadingsOn));
 
    /// <summary>Writes a field's text with <paramref name="write"/> to the kanji as the collection holds it now, and updates the kanji's generated data.</summary>
    Action<string> WritingToTheCurrentKanji(Action<KanjiNote, string> write) =>
-      text =>
+      text => CurrentKanji().Edit(it =>
       {
-         var kanji = CurrentKanji();
-         write(kanji, text);
-         kanji.UpdateGeneratedData();
-      };
+         write(it, text);
+         it.UpdateGeneratedData();
+      });
 
    /// <summary>The kanji being edited, as the collection holds it now.</summary>
    KanjiNote CurrentKanji() => _services.CoreApp.Collection.Kanji.WithIdOrNone(_kanjiId)

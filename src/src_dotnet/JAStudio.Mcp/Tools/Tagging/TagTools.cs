@@ -67,7 +67,7 @@ public class TagTools
       if(tagToAdd.IsAnAnkiTag)
          _ankiTagChanges.AddTo(notesWithoutTheTag, tagToAdd);
       else
-         foreach(var note in notesWithoutTheTag) note.Tags.Set(tagToAdd);
+         foreach(var note in notesWithoutTheTag) note.Edit(it => it.Tags.Set(tagToAdd));
 
       return new NotesTheTagChangedOn(notesWithoutTheTag.Count, [..notesWithoutTheTag.Take(maxNotesListed).Select(NoteSummary.Of)]);
    }
@@ -91,7 +91,7 @@ public class TagTools
       if(tagToRemove.IsAnAnkiTag)
          _ankiTagChanges.RemoveFrom(notesWithTheTag, tagToRemove);
       else
-         foreach(var note in notesWithTheTag) note.Tags.Unset(tagToRemove);
+         foreach(var note in notesWithTheTag) note.Edit(it => it.Tags.Unset(tagToRemove));
 
       return new NotesTheTagChangedOn(notesWithTheTag.Count, [..notesWithTheTag.Take(maxNotesListed).Select(NoteSummary.Of)]);
    }
@@ -114,7 +114,7 @@ public class TagTools
       var notesWithATagInIt = _collection.NotesWithATagIn(branchToDelete);
       if(!branchToDelete.IsInTheAnkiBranch)
       {
-         foreach(var note in notesWithATagInIt) note.Tags.RemoveTheBranch(branchToDelete);
+         foreach(var note in notesWithATagInIt) note.Edit(it => it.Tags.RemoveTheBranch(branchToDelete));
          return new DeletedTagBranch(branch, notesWithATagInIt.Count, AnkiNotesThatHadATagInIt: null);
       }
 

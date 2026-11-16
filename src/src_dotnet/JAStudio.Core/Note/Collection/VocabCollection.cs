@@ -90,7 +90,7 @@ public class VocabCollection
    internal void RenameTheReferences(WordReference oldName, WordReference newName)
    {
       foreach(var vocab in All())
-         vocab.RenameTheReferences(oldName, newName);
+         vocab.Edit(it => it.RenameTheReferences(oldName, newName));
    }
 
    /// <summary>

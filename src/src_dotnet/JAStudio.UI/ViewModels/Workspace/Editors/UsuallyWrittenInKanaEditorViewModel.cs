@@ -1,7 +1,7 @@
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
+using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -12,21 +12,21 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// A choice is written to the vocab at once.
 /// </summary>
 /// <remarks>
-/// It reads and writes the <see cref="VocabNoteUsuallyWrittenInKana.Decision"/> through <c>currentUsuallyWrittenInKana</c>, which finds it on the vocab<br/>
-/// the collection holds now, since the collection replaces a note's object when it reloads the note (see <see cref="VocabEditorSectionViewModel"/>).
+/// It reads the <see cref="VocabNoteUsuallyWrittenInKana.Decision"/> on the vocab the collection holds now, and decides it in an edit of the vocab,<br/>
+/// through <see cref="_usuallyWrittenInKana"/>, since the collection replaces a note's object when it reloads the note (see <see cref="VocabEditorSectionViewModel"/>).
 /// </remarks>
 class UsuallyWrittenInKanaEditorViewModel : ObservableObject
 {
    readonly IFatalErrorHandler _fatalErrorHandler;
-   readonly Func<VocabNoteUsuallyWrittenInKana> _currentUsuallyWrittenInKana;
+   readonly EditedNotePart<VocabNoteUsuallyWrittenInKana> _usuallyWrittenInKana;
    UsuallyWrittenInKanaDecision _decision;
 
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a choice, which the radio buttons' bindings would swallow.</param>
-   /// <param name="currentUsuallyWrittenInKana">Finds the <see cref="VocabNoteUsuallyWrittenInKana"/> of the vocab as the collection holds it now.</param>
-   public UsuallyWrittenInKanaEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNoteUsuallyWrittenInKana> currentUsuallyWrittenInKana)
+   /// <param name="usuallyWrittenInKana">The <see cref="VocabNoteUsuallyWrittenInKana"/> of the vocab the editor edits.</param>
+   public UsuallyWrittenInKanaEditorViewModel(IFatalErrorHandler fatalErrorHandler, EditedNotePart<VocabNoteUsuallyWrittenInKana> usuallyWrittenInKana)
    {
       _fatalErrorHandler = fatalErrorHandler;
-      _currentUsuallyWrittenInKana = currentUsuallyWrittenInKana;
+      _usuallyWrittenInKana = usuallyWrittenInKana;
       _decision = DecisionOnTheVocab();
    }
 
@@ -59,7 +59,7 @@ class UsuallyWrittenInKanaEditorViewModel : ObservableObject
 
       _fatalErrorHandler.HandleExceptionsFrom(() =>
       {
-         _currentUsuallyWrittenInKana().Decide(decision);
+         _usuallyWrittenInKana.Edit(it => it.Decide(decision));
          Show(decision);
       });
    }
@@ -72,5 +72,5 @@ class UsuallyWrittenInKanaEditorViewModel : ObservableObject
       OnPropertyChanged(nameof(IsNo));
    }
 
-   UsuallyWrittenInKanaDecision DecisionOnTheVocab() => _currentUsuallyWrittenInKana().Decision;
+   UsuallyWrittenInKanaDecision DecisionOnTheVocab() => _usuallyWrittenInKana.Current.Decision;
 }

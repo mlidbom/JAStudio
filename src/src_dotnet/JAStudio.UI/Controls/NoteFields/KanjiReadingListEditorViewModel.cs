@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -12,21 +11,20 @@ namespace JAStudio.UI.Controls.NoteFields;
 /// whether it's primary, and a box for adding one. Adding or removing a reading, and making it primary or secondary, writes to the kanji at once.
 /// </summary>
 /// <remarks>
-/// It reads and writes the readings through <see cref="_currentReadings"/>, which finds them on the kanji the collection holds now,<br/>
-/// since the collection replaces a note's object when it reloads the note.
+/// It reads the readings on the kanji the collection holds now, and changes them in an edit of the kanji, through <see cref="_readings"/>.
 /// </remarks>
 partial class KanjiReadingListEditorViewModel : ObservableObject
 {
    readonly IFatalErrorHandler _fatalErrorHandler;
-   readonly Func<KanjiReadingList> _currentReadings;
+   readonly EditedNotePart<KanjiReadingList> _readings;
 
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while making a reading primary or secondary, which the check box's binding would swallow.</param>
-   /// <param name="currentReadings">Finds the readings edited, on the kanji as the collection holds it now.</param>
-   public KanjiReadingListEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<KanjiReadingList> currentReadings)
+   /// <param name="readings">The readings edited, on the kanji the editor edits.</param>
+   public KanjiReadingListEditorViewModel(IFatalErrorHandler fatalErrorHandler, EditedNotePart<KanjiReadingList> readings)
    {
       _fatalErrorHandler = fatalErrorHandler;
-      _currentReadings = currentReadings;
-      Label = currentReadings().Kind.ToString();
+      _readings = readings;
+      Label = readings.Current.Kind.ToString();
       Refresh();
    }
 
@@ -45,7 +43,7 @@ partial class KanjiReadingListEditorViewModel : ObservableObject
    public void Refresh()
    {
       Items.Clear();
-      foreach(var reading in _currentReadings().All())
+      foreach(var reading in _readings.Current.All())
          Items.Add(new KanjiReadingChipViewModel(reading, Remove, ChangeWhetherPrimary));
    }
 
@@ -53,7 +51,7 @@ partial class KanjiReadingListEditorViewModel : ObservableObject
    [RelayCommand(CanExecute = nameof(CanAdd))]
    void Add()
    {
-      _currentReadings().Add(NewReading.Trim());
+      _readings.Edit(it => it.Add(NewReading.Trim()));
       NewReading = string.Empty;
       Refresh();
    }
@@ -62,17 +60,19 @@ partial class KanjiReadingListEditorViewModel : ObservableObject
 
    void Remove(KanjiReading reading)
    {
-      _currentReadings().Remove(reading.Kana);
+      _readings.Edit(it => it.Remove(reading.Kana));
       Refresh();
    }
 
    void ChangeWhetherPrimary(KanjiReading reading) => _fatalErrorHandler.HandleExceptionsFrom(() =>
    {
-      var readings = _currentReadings();
-      if(reading.IsPrimary)
-         readings.MakePrimary(reading.Kana);
-      else
-         readings.MakeSecondary(reading.Kana);
+      _readings.Edit(it =>
+      {
+         if(reading.IsPrimary)
+            it.MakePrimary(reading.Kana);
+         else
+            it.MakeSecondary(reading.Kana);
+      });
 
       Refresh();
    });

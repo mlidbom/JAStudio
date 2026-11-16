@@ -21,10 +21,14 @@ public class Synonyms : MutualWordRelationship
 
       void GiveEachThisVocabsSynonyms()
       {
+         var mySynonyms = Words.ToList();
          foreach(var synonymVocab in theSynonymsVocab)
          {
-            foreach(var mySynonym in Words.ToList())
-               synonymVocab.RelatedNotes.Synonyms.Add(mySynonym);
+            synonymVocab.Edit(it =>
+            {
+               foreach(var mySynonym in mySynonyms)
+                  it.RelatedNotes.Synonyms.Add(mySynonym);
+            });
          }
       }
 

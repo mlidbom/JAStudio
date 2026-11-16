@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Storage.Media;
@@ -11,15 +10,15 @@ namespace JAStudio.UI.Controls.NoteFields;
 /// </summary>
 class ImageListEditorViewModel : MediaListEditorViewModel
 {
-   readonly Func<MediaReferenceList<ImageReference>> _currentList;
+   readonly EditedNotePart<MediaReferenceList<ImageReference>> _list;
    readonly MediaFileIndex _media;
 
    /// <param name="title">What the list holds, shown above it, such as "Screenshots".</param>
-   /// <param name="currentList">Finds the list on the note as the collection holds it now.</param>
+   /// <param name="list">The list, on the note the editor edits.</param>
    /// <param name="media">Finds each file in the media layer, to show it.</param>
-   public ImageListEditorViewModel(string title, Func<MediaReferenceList<ImageReference>> currentList, MediaFileIndex media) : base(title)
+   public ImageListEditorViewModel(string title, EditedNotePart<MediaReferenceList<ImageReference>> list, MediaFileIndex media) : base(title)
    {
-      _currentList = currentList;
+      _list = list;
       _media = media;
       Refresh();
    }
@@ -30,13 +29,13 @@ class ImageListEditorViewModel : MediaListEditorViewModel
    public override void Refresh()
    {
       Items.Clear();
-      foreach(var image in _currentList().All)
+      foreach(var image in _list.Current.All)
          Items.Add(new ImageThumbnailViewModel(image, _media.Resolve(image), Remove));
    }
 
    void Remove(ImageReference image)
    {
-      _currentList().Remove(image);
+      _list.Edit(it => it.Remove(image));
       Refresh();
    }
 }

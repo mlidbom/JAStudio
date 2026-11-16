@@ -32,9 +32,9 @@ public class NoteViewShortcuts
          new("k", Toggle(config.ShowSentenceBreakdownInEditMode)),
          new("q", Toggle(config.ShowKanjiMnemonicsInSentenceBreakdown)),
          new("0", RemoveMnemonic),
-         new("7", OnSentence(sentence => sentence.SourceData.Comments.Empty())),
-         new("8", OnSentence(sentence => sentence.Configuration.IncorrectMatches.Reset())),
-         new("9", OnVocab(vocab => vocab.CompoundParts.AutoGenerate())),
+         new("7", EditingTheViewedSentence(it => it.SourceData.Comments.Empty())),
+         new("8", EditingTheViewedSentence(it => it.Configuration.IncorrectMatches.Reset())),
+         new("9", EditingTheViewedVocab(it => it.CompoundParts.AutoGenerate())),
          new("Ctrl+Shift+Alt+s", Toggle(config.AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound)),
          new("Ctrl+Shift+Alt+h", Toggle(config.AutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound)),
          new("Ctrl+Shift+Alt+t", Toggle(config.AutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound)),
@@ -61,23 +61,25 @@ public class NoteViewShortcuts
       switch(viewedNote)
       {
          case KanjiNote kanji:
-            kanji.Mnemonic.Empty();
+            kanji.Edit(it => it.Mnemonic.Empty());
             break;
          case VocabNote vocab:
-            vocab.Mnemonic.Empty();
+            vocab.Edit(it => it.Mnemonic.Empty());
             break;
       }
    }
 
-   static Action<JPNote?> OnSentence(Action<SentenceNote> action) => viewedNote =>
+   /// <summary>Runs <paramref name="edit"/> on the viewed note, in an edit of it (<see cref="EditingANote"/>), when it is a sentence.</summary>
+   static Action<JPNote?> EditingTheViewedSentence(Action<SentenceNote> edit) => viewedNote =>
    {
       if(viewedNote is SentenceNote sentence)
-         action(sentence);
+         sentence.Edit(edit);
    };
 
-   static Action<JPNote?> OnVocab(Action<VocabNote> action) => viewedNote =>
+   /// <summary>Runs <paramref name="edit"/> on the viewed note, in an edit of it (<see cref="EditingANote"/>), when it is a vocab.</summary>
+   static Action<JPNote?> EditingTheViewedVocab(Action<VocabNote> edit) => viewedNote =>
    {
       if(viewedNote is VocabNote vocab)
-         action(vocab);
+         vocab.Edit(edit);
    };
 }

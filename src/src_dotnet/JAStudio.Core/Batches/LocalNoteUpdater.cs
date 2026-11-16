@@ -79,19 +79,19 @@ public class LocalNoteUpdater
    public void UpdateSentences()
    {
       using var scope = _taskRunner.Current("Updating sentences");
-      scope.RunBatch([.. _sentences.All()], it => { it.UpdateGeneratedData(); }, "Updating sentences", TheReanalysisThreads);
+      scope.RunBatch([.. _sentences.All()], sentence => sentence.Edit(it => it.UpdateGeneratedData()), "Updating sentences", TheReanalysisThreads);
    }
 
    public void UpdateKanji()
    {
       using var scope = _taskRunner.Current("Updating kanji");
-      scope.RunBatch([.. _kanji.All()], it => { it.UpdateGeneratedData(); }, "Updating kanji", TheReanalysisThreads);
+      scope.RunBatch([.. _kanji.All()], kanji => kanji.Edit(it => it.UpdateGeneratedData()), "Updating kanji", TheReanalysisThreads);
    }
 
    public void UpdateVocab()
    {
       using var scope = _taskRunner.Current("Updating vocab");
-      scope.RunBatch([.. _vocab.All()], it => { it.UpdateGeneratedData(); }, "Updating vocab", TheReanalysisThreads);
+      scope.RunBatch([.. _vocab.All()], vocab => vocab.Edit(it => it.UpdateGeneratedData()), "Updating vocab", TheReanalysisThreads);
    }
 
    public void TagNoteMetadata()
@@ -113,7 +113,7 @@ public class LocalNoteUpdater
       }
 
       using var scope = _taskRunner.Current("Tagging sentence notes");
-      scope.RunBatch([.. _sentences.All()], TagSentence, "Tagging sentence notes", TheReanalysisThreads);
+      scope.RunBatch([.. _sentences.All()], sentence => sentence.Edit(TagSentence), "Tagging sentence notes", TheReanalysisThreads);
    }
 
    public void TagVocabMetadata()
@@ -128,7 +128,7 @@ public class LocalNoteUpdater
       }
 
       using var scope = _taskRunner.Current("Tagging vocab");
-      scope.RunBatch([.. _vocab.All()], TagNote, "Tag vocab notes", TheReanalysisThreads);
+      scope.RunBatch([.. _vocab.All()], vocab => vocab.Edit(TagNote), "Tag vocab notes", TheReanalysisThreads);
    }
 
    /// <summary>
@@ -185,8 +185,8 @@ public class LocalNoteUpdater
 
       using var scope = _taskRunner.Current("Tagging kanji");
       var allKanji = _kanji.All().ToList();
-      scope.RunBatch(allKanji, TagKanji, "Tagging kanji", TheReanalysisThreads);
-      scope.RunBatch(allKanji, TagHasSingleKanjiVocabWithReadingDifferentFromKanjiPrimaryReading, "Tagging kanji with single kanji vocab", TheReanalysisThreads);
+      scope.RunBatch(allKanji, kanji => kanji.Edit(TagKanji), "Tagging kanji", TheReanalysisThreads);
+      scope.RunBatch(allKanji, kanji => kanji.Edit(TagHasSingleKanjiVocabWithReadingDifferentFromKanjiPrimaryReading), "Tagging kanji with single kanji vocab", TheReanalysisThreads);
    }
 
    public void ReparseAllSentences()
@@ -220,10 +220,7 @@ public class LocalNoteUpdater
 
    public void ReparseSentences(List<SentenceNote> sentences)
    {
-      void ReparseSentence(SentenceNote sentence)
-      {
-         sentence.UpdateParsedWords(force: true);
-      }
+      void ReparseSentence(SentenceNote sentence) => sentence.Edit(it => it.UpdateParsedWords(force: true));
 
       // Shuffle to get accurate time estimations
       var random = new Random();
@@ -259,7 +256,7 @@ public class LocalNoteUpdater
 
       void UpdateTheGeneratedDataOfTheVocab()
       {
-         foreach(var it in vocab) it.UpdateGeneratedData();
+         foreach(var oneVocab in vocab) oneVocab.Edit(it => it.UpdateGeneratedData());
       }
    }
 
@@ -346,7 +343,7 @@ public class LocalNoteUpdater
    {
       using var scope = _taskRunner.Current("Regenerating vocab source answers from dictionary");
       var vocabNotes = _vocab.All().ToList();
-      scope.RunBatch(vocabNotes, it => { it.GenerateAndSetAnswer(); }, "Regenerating vocab source answers from dictionary");
+      scope.RunBatch(vocabNotes, vocab => vocab.Edit(it => it.GenerateAndSetAnswer()), "Regenerating vocab source answers from dictionary");
    }
 
    public void ForceFlushAllNotes()

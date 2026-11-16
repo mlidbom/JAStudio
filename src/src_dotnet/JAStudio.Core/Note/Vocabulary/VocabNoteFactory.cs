@@ -29,14 +29,11 @@ public class VocabNoteFactory
       var lookupResult = _dictLookup.LookupWord(question);
       if(!lookupResult.FoundWords())
       {
-         var ourOwn = Create(question, "", []);
-         ourOwn.Tags.Set(Tags.Source.Jastudio);
-         return ourOwn;
+         return Create(question, "", [], it => it.Tags.Set(Tags.Source.Jastudio));
       }
 
-      var created = Create(question, lookupResult.FormatAnswer(), lookupResult.Readings());
-      created.Tags.Set(Tags.Source.Jamdict);
-      created.UpdateGeneratedData();
+      var created = Create(question, lookupResult.FormatAnswer(), lookupResult.Readings(), it => it.Tags.Set(Tags.Source.Jamdict));
+      created.Edit(it => it.UpdateGeneratedData());
       return created;
    }
 
@@ -76,8 +73,11 @@ public class VocabNoteFactory
    public VocabNote CreateWithCorpusAnswer(string question, string corpusAnswer, List<string> readings, Action<VocabNote>? initializer = null)
    {
       var note = Create(question, "", readings, initializer);
-      note.CorpusAnswer.Set(corpusAnswer);
-      note.Tags.Set(Tags.Source.Jastudio);
+      note.Edit(it =>
+      {
+         it.CorpusAnswer.Set(corpusAnswer);
+         it.Tags.Set(Tags.Source.Jastudio);
+      });
       return note;
    }
 }

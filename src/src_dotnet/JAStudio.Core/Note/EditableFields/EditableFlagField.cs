@@ -12,11 +12,10 @@ public sealed class EditableFlagField<TNote> : EditableField<TNote, bool> where 
    /// <param name="changesHowSentencesParse">See <see cref="IEditableField{TNote}.ChangesHowSentencesParse"/>.</param>
    public EditableFlagField(string name, string label, Func<TNote, FlagField> flagOn, bool changesHowSentencesParse = false)
       : base(name, label, changesHowSentencesParse) =>
-      FlagOn = flagOn;
+      _flagOn = flagOn;
 
-   /// <summary>Finds the flag on a note, for the editor's check box, which reads and writes it there.</summary>
-   public Func<TNote, FlagField> FlagOn { get; }
+   readonly Func<TNote, FlagField> _flagOn;
 
-   public override bool Read(TNote note) => FlagOn(note).IsSet();
-   protected override void WriteToTheEditedNote(TNote note, bool value) => FlagOn(note).SetTo(value);
+   public override bool Read(TNote note) => _flagOn(note).IsSet();
+   protected override void WriteToTheEditedNote(TNote note, bool value) => _flagOn(note).SetTo(value);
 }

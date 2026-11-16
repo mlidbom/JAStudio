@@ -221,7 +221,7 @@ public class VocabNoteForms
 
       foreach(var removeNote in removeNotes)
       {
-         removeNote.Forms.Remove(_vocab.GetQuestion());
+         removeNote.Edit(it => it.Forms.Remove(_vocab.GetQuestion()));
       }
    }
 
@@ -249,7 +249,7 @@ public class VocabNoteForms
 
       foreach(var addNote in addNotes)
       {
-         addNote.Forms.Add(_vocab.GetQuestion());
+         addNote.Edit(it => it.Forms.Add(_vocab.GetQuestion()));
       }
    }
 

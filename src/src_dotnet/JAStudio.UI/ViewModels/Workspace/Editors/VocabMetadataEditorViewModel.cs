@@ -28,7 +28,7 @@ class VocabMetadataEditorViewModel
       _currentVocab = currentVocab;
       Tags = new NoteTagsEditorViewModel(services, currentVocab);
 
-      UsuallyWrittenInKana = new UsuallyWrittenInKanaEditorViewModel(_fatalErrorHandler, () => _currentVocab().UsuallyWrittenInKana);
+      UsuallyWrittenInKana = new UsuallyWrittenInKanaEditorViewModel(_fatalErrorHandler, EditedNotePart.Of(_currentVocab, it => it.UsuallyWrittenInKana));
       MiscFlags = [Flag(VocabEditableFields.IsCompositionallyTransparentCompound)];
       RegisterFlags =
       [
@@ -64,5 +64,5 @@ class VocabMetadataEditorViewModel
       Tags.Refresh();
    }
 
-   FlagEditorViewModel Flag(EditableFlagField<VocabNote> field) => new(_fatalErrorHandler, field.Label, () => field.FlagOn(_currentVocab()), () => {});
+   FlagEditorViewModel Flag(EditableFlagField<VocabNote> field) => new(_fatalErrorHandler, field.Label, () => field.Read(_currentVocab()), isSet => field.Write(_currentVocab(), isSet), () => {});
 }

@@ -1,3 +1,4 @@
+using System;
 using JAStudio.Core.Note.Media;
 
 namespace JAStudio.Core.Note;
@@ -19,6 +20,12 @@ public interface IHasTextToSpeechAudio
 
    /// <summary>All the note's audio, its source's and the corpus's own, in the order it's preferred in.</summary>
    AllAudioOfANote AllAudio { get; }
+
+   /// <summary>
+   /// Runs <paramref name="edit"/> on the note as an edit of it (<see cref="EditingANote"/>), for code that knows the note only as one whose audio TTS<br/>
+   /// can generate. <paramref name="edit"/> reads and changes only the note it is given.
+   /// </summary>
+   void Edit(Action<IHasTextToSpeechAudio> edit);
 
    /// <summary><paramref name="question"/> as TTS should speak it, cleaned as HyperTTS cleaned it: without markup, and without <c>〜</c> and <c>|</c>.</summary>
    static string SpeakableTextOf(string question) => StringExtensions.StripHtmlMarkup(question).Replace("〜", "").Replace("|", "").Trim();

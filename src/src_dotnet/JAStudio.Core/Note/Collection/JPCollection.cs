@@ -231,8 +231,12 @@ public class JPCollection
    /// </summary>
    public void DiscardTheTextToSpeechAudioOf(IHasTextToSpeechAudio note)
    {
-      var itsFiles = note.Audio.TextToSpeech.Select(it => it.FileName).ToList();
-      note.Audio.DiscardTheTextToSpeechAudio();
+      List<string> itsFiles = [];
+      note.Edit(it =>
+      {
+         itsFiles = [.. it.Audio.TextToSpeech.Select(audio => audio.FileName)];
+         it.Audio.DiscardTheTextToSpeechAudio();
+      });
       DeleteTheMediaFilesNoNoteUses(itsFiles);
    }
 

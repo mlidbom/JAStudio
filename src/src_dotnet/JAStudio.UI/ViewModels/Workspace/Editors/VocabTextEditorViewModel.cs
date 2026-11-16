@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JAStudio.Core;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.EditableFields;
@@ -43,7 +44,7 @@ class VocabTextEditorViewModel
       Disambiguation = CommittingField(VocabEditableFields.Disambiguation);
       Readings = Field(VocabEditableFields.Readings);
       Forms = new EnteredFormsEditorViewModel(_currentVocab, _sentencesReparser.ReparseSentences);
-      PartsOfSpeech = new PartsOfSpeechEditorViewModel(() => _currentVocab().PartsOfSpeech, _sentencesReparser.ReparseSentences);
+      PartsOfSpeech = new PartsOfSpeechEditorViewModel(EditedNotePart.Of(_currentVocab, it => it.PartsOfSpeech), _sentencesReparser.ReparseSentences);
       CorpusFields =
       [
          Field(VocabEditableFields.Answer),
@@ -55,13 +56,13 @@ class VocabTextEditorViewModel
       ];
       CorpusMedia =
       [
-         new AudioListEditorViewModel("Audio", () => _currentVocab().Audio, media, WorkspaceAudioPlayer.Instance, openTheTextToSpeechDialog),
-         new ImageListEditorViewModel("Images", () => _currentVocab().Images, media)
+         new AudioListEditorViewModel("Audio", EditedNotePart.Of(_currentVocab, it => it.Audio), media, WorkspaceAudioPlayer.Instance, openTheTextToSpeechDialog),
+         new ImageListEditorViewModel("Images", EditedNotePart.Of(_currentVocab, it => it.Images), media)
       ];
       SourceMedia =
       [
-         new AudioListEditorViewModel("Audio", () => _currentVocab().SourceData.Audio, media, WorkspaceAudioPlayer.Instance),
-         new ImageListEditorViewModel("Images", () => _currentVocab().SourceData.Images, media)
+         new AudioListEditorViewModel("Audio", EditedNotePart.Of(_currentVocab, it => it.SourceData.Audio), media, WorkspaceAudioPlayer.Instance),
+         new ImageListEditorViewModel("Images", EditedNotePart.Of(_currentVocab, it => it.SourceData.Images), media)
       ];
       TechnicalNotes = Field(VocabEditableFields.TechnicalNotes);
       SourceFields =
@@ -137,10 +138,9 @@ class VocabTextEditorViewModel
 
    /// <summary>Writes a field's text with <paramref name="write"/> to the vocab as the collection holds it now, and updates the vocab's generated data.</summary>
    Action<string> WritingToTheCurrentVocab(Action<VocabNote, string> write) =>
-      text =>
+      text => _currentVocab().Edit(it =>
       {
-         var vocab = _currentVocab();
-         write(vocab, text);
-         vocab.UpdateGeneratedData();
-      };
+         write(it, text);
+         it.UpdateGeneratedData();
+      });
 }

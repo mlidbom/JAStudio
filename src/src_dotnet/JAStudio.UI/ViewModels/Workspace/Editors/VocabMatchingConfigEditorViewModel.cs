@@ -105,7 +105,7 @@ class VocabMatchingConfigEditorViewModel : ObservableObject
       new(_fatalErrorHandler, field.Label, () => field.Read(_currentVocab()), choice => field.Write(_currentVocab(), choice), ChangeMade);
 
    FlagEditorViewModel Flag(EditableFlagField<VocabNote> field) =>
-      new(_fatalErrorHandler, field.Label, () => field.FlagOn(_currentVocab()), ChangeMade);
+      new(_fatalErrorHandler, field.Label, () => field.Read(_currentVocab()), isSet => field.Write(_currentVocab(), isSet), ChangeMade);
 
    TextSetEditorViewModel TextSetRule(EditableTextSetField<VocabNote> field) =>
       new(field.Label,

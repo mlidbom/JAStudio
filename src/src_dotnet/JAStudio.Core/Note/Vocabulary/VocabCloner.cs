@@ -49,18 +49,20 @@ public class VocabCloner
       {
          var newReadings = Note.GetReadings().Select(AppendPrependAddendum).ToList();
          var newVocab = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(AppendPrependAddendum(Note.GetQuestion()), Note.GetAnswer(), newReadings);
-
-         if(setCompounds)
+         newVocab.Edit(it =>
          {
-            var compounds = isPrefix
-                               ? new List<WordReference> { new(addendum), Note.Question.Reference }
-                               : new List<WordReference> { Note.Question.Reference, new(addendum) };
-            newVocab.CompoundParts.SetPrimary(compounds);
-         }
+            if(setCompounds)
+            {
+               var compounds = isPrefix
+                                  ? new List<WordReference> { new(addendum), Note.Question.Reference }
+                                  : new List<WordReference> { Note.Question.Reference, new(addendum) };
+               it.CompoundParts.SetPrimary(compounds);
+            }
 
-         newVocab.PartsOfSpeech.Set(partsOfSpeech);
-         newVocab.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).Select(EnteredForm.NotOwned));
-         finish?.Invoke(newVocab);
+            it.PartsOfSpeech.Set(partsOfSpeech);
+            it.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).Select(EnteredForm.NotOwned));
+            finish?.Invoke(it);
+         });
          return newVocab;
       }
 
@@ -81,9 +83,12 @@ public class VocabCloner
    VocabNote CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(string question, string answer, List<string> readings)
    {
       var clone = Note.Services.VocabNoteFactory.CreateWithCorpusAnswer(question, answer, readings);
-      CopyVocabTagsTo(clone);
-      clone.Register.OverwriteWith(Note.Register);
-      clone.MatchingConfiguration.OverwriteWith(Note.MatchingConfiguration);
+      clone.Edit(it =>
+      {
+         CopyVocabTagsTo(it);
+         it.Register.OverwriteWith(Note.Register);
+         it.MatchingConfiguration.OverwriteWith(Note.MatchingConfiguration);
+      });
       return clone;
    }
 
@@ -214,13 +219,14 @@ public class VocabCloner
       VocabNote Create()
       {
          var clone = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(CreateFullForm(Note.GetQuestion()), Note.GetAnswer(), []);
-         clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).Select(EnteredForm.NotOwned));
-         var readings = Note.GetReadings().Select(CreateFullForm).ToList();
-         clone.SetReadings(readings);
-         clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
-         var compounds = new List<WordReference> { Note.Question.Reference, new(formSuffix) };
-         clone.CompoundParts.SetPrimary(compounds);
-         finish?.Invoke(clone);
+         clone.Edit(it =>
+         {
+            it.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).Select(EnteredForm.NotOwned));
+            it.SetReadings([.. Note.GetReadings().Select(CreateFullForm)]);
+            it.PartsOfSpeech.Set([PartOfSpeech.Expression]);
+            it.CompoundParts.SetPrimary([Note.Question.Reference, new(formSuffix)]);
+            finish?.Invoke(it);
+         });
          return clone;
       }
 

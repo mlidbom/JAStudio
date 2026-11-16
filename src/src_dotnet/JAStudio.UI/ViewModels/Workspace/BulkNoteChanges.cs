@@ -20,12 +20,15 @@ class BulkNoteChanges(TemporaryServiceCollection services)
    readonly TaskRunner _taskRunner = services.TaskRunner;
    readonly AnkiTagChanges _ankiTagChanges = services.Resolve<AnkiTagChanges>();
 
-   /// <summary>Does <paramref name="changeANote"/> to each of <paramref name="notes"/> in the background, showing its progress as <paramref name="whatIsDone"/>.</summary>
+   /// <summary>
+   /// Does <paramref name="changeANote"/> to each of <paramref name="notes"/>, in an edit of it (<see cref="EditingANote"/>), in the background, showing its<br/>
+   /// progress as <paramref name="whatIsDone"/>.
+   /// </summary>
    public Task ChangeEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
       TaskCE.Run(() =>
       {
          using var scope = _taskRunner.Current(whatIsDone);
-         scope.RunBatch(notes, changeANote, whatIsDone);
+         scope.RunBatch(notes, note => note.Edit(changeANote), whatIsDone);
       });
 
    /// <summary>Adds <paramref name="tag"/> to each of <paramref name="notes"/> that lacks it: to the note itself, or, for an Anki tag, to its study-note in Anki.</summary>

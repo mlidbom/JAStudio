@@ -33,7 +33,7 @@ public class KanjiCollection
    internal void RenameThePrimaryVocab(WordReference oldName, WordReference newName)
    {
       foreach(var kanji in All())
-         kanji.PrimaryVocab.Rename(oldName, newName);
+         kanji.Edit(it => it.PrimaryVocab.Rename(oldName, newName));
    }
 
    public HashSet<KanjiNote> WithReading(string reading)

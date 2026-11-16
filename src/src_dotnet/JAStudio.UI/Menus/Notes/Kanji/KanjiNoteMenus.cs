@@ -39,7 +39,7 @@ class KanjiNoteMenus
 
       items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up2, KanjiCommands.PopulateRadicalsFromMnemonicTags, kanji));
       items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up3, KanjiCommands.BootstrapMnemonicFromRadicals, kanji));
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.Mnemonic.Empty()));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.Edit(it => it.Mnemonic.Empty())));
 
       return SpecMenuItem.Submenu(title, items);
    }

@@ -165,6 +165,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
 
    public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
 
+   void IHasTextToSpeechAudio.Edit(Action<IHasTextToSpeechAudio> edit) => this.Edit(it => edit(it));
+
    /// <summary>The file of the vocab's <see cref="AllAudioOfANote.Preferred"/> audio in the media layer, or null when it has no audio, or the media layer hasn't its file.</summary>
    public AudioAttachment? PreferredAudio => AllAudio.PreferredFileIn(Services.MediaFileIndex);
 

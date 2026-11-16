@@ -55,13 +55,13 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
       var media = services.Resolve<MediaFileIndex>();
       CorpusMedia =
       [
-         new AudioListEditorViewModel("Audio", () => CurrentSentence().Audio, media, WorkspaceAudioPlayer.Instance, () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
-         new ImageListEditorViewModel("Screenshots", () => CurrentSentence().Screenshots, media)
+         new AudioListEditorViewModel("Audio", EditedNotePart.Of(CurrentSentence, it => it.Audio), media, WorkspaceAudioPlayer.Instance, () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
+         new ImageListEditorViewModel("Screenshots", EditedNotePart.Of(CurrentSentence, it => it.Screenshots), media)
       ];
       SourceMedia =
       [
-         new AudioListEditorViewModel("Audio", () => CurrentSentence().SourceData.Audio, media, WorkspaceAudioPlayer.Instance),
-         new ImageListEditorViewModel("Screenshots", () => CurrentSentence().SourceData.Screenshots, media)
+         new AudioListEditorViewModel("Audio", EditedNotePart.Of(CurrentSentence, it => it.SourceData.Audio), media, WorkspaceAudioPlayer.Instance),
+         new ImageListEditorViewModel("Screenshots", EditedNotePart.Of(CurrentSentence, it => it.SourceData.Screenshots), media)
       ];
       OtherFields =
       [
@@ -114,12 +114,11 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
 
    /// <summary>Writes a field's text with <paramref name="write"/> to the sentence as the collection holds it now, and updates the sentence's generated data.</summary>
    Action<string> WritingToTheCurrentSentence(Action<SentenceNote, string> write) =>
-      text =>
+      text => CurrentSentence().Edit(it =>
       {
-         var sentence = CurrentSentence();
-         write(sentence, text);
-         sentence.UpdateGeneratedData();
-      };
+         write(it, text);
+         it.UpdateGeneratedData();
+      });
 
    /// <summary>The sentence being edited, as the collection holds it now.</summary>
    SentenceNote CurrentSentence() => _services.CoreApp.Collection.Sentences.WithIdOrNone(_sentenceId)
