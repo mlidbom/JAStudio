@@ -123,6 +123,11 @@ Each a commit that builds and passes the whole suite, so the switch to the store
      after a full collection. Step 12 measures it against `main`.
    - **"Force flush all cached notes" is gone from the workspace's menu:** there is no cache to flush. "Log when flushing
      notes" logs each note a unit of work saves.
+   - **Open with Magnus on Compze's side, which may change this** (`jastudio-rep-opus`, 2026-11-16): whether a store
+     index promises id order, which would let `NoteIndex.NotesWith`'s sort go; whether every taggregate of a class
+     moves from `IStateStore.All` to a bulk reader beside the shared reader, which would change what `StoredNotes`
+     depends on; and the end-of-spike API review, in which `ReloadFromStorageAfter` may go, leaving JAStudio to hold its
+     own units of work back around a fast-forward.
 
 ## The three decisions
 
