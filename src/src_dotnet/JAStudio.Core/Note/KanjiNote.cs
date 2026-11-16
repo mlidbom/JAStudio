@@ -312,7 +312,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
 
    /// <summary>
    /// Adds to the radicals the kanji the mnemonic names in its <c>&lt;rad&gt;</c> tags, in the order it names them, those it hasn't already: each<br/>
-   /// kanji whose answer has a tag's text as a word of its own.
+   /// kanji whose answer has a tag's text as a word of its own, and the kanji one tag names in the order of their characters.
    /// </summary>
    public void PopulateRadicalsFromMnemonicTags()
    {
@@ -328,8 +328,9 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
          var everyKanji = Services.Collection.Kanji.All();
          return
          [
-            .. radicalNames.SelectMany(name => everyKanji.Where(kanji => KanjiAnswerContainsRadicalNameAsASeparateWord(name, kanji)))
-                           .Select(kanji => kanji.GetQuestion())
+            .. radicalNames.SelectMany(name => everyKanji.Where(kanji => KanjiAnswerContainsRadicalNameAsASeparateWord(name, kanji))
+                                                         .Select(kanji => kanji.GetQuestion())
+                                                         .Order(StringComparer.Ordinal))
                            .Distinct()
          ];
 

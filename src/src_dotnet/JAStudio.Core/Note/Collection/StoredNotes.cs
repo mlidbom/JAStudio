@@ -33,7 +33,7 @@ sealed class StoredNotes<TNote> where TNote : JPNote
    /// <summary>The recorder every lookup of these notes passes its result through.</summary>
    public LookupRecorder<TNote> LookupRecorder { get; } = new();
 
-   /// <summary>Every note of the class, in the order of their ids, the order the corpus's notes load in.</summary>
+   /// <summary>Every note of the class, in no particular order.</summary>
    public List<TNote> All() => LookupRecorder.LookedUp([.. _reader.Value.All<TNote>().Select(it => it.Current)]);
 
    /// <summary>The note with the id <paramref name="noteId"/>, or null when there is none of this class.</summary>
