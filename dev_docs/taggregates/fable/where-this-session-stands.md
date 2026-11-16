@@ -19,11 +19,16 @@
 - **The shared folder is in step with his decision** (commit df1f1f8fe): the answers document ends with the decision
   and JAStudio's eight requirements of the decided design, the dropped recommendation is in
   `../shared/shared-live-instances-recommended-and-dropped.md`, and the README says what the design costs JAStudio.
-- **What may still come:** Compze's revised design, with the typed taggregate-reference and the index it provides,
-  which `jastudio-rep-opus` is writing and prototyping. Read it against the eight requirements when it arrives.
-- **Three items wait for Magnus's answer,** kept by the `unanswered` script for this session: 7, `VocabNoteForms`
-  written both ways and the conversion sized; 8, send my two reviewers' findings to Compze's representative; 10, work
-  out a Compze component that holds the live taggregates and owns the order in which their tevents become visible.
+- **Compze's revised design is checked** (its commit b078af00e): seven of the eight requirements are in. Sent to
+  `jastudio-rep-opus`: a ninth requirement, that a note is built with its services, where the design uses `new()`;
+  what parsing does, measured on the real corpus, against the prototype's lookup cost; and two corrections. All of
+  it is in the answers document's last section (commit c4b3be359).
+- **The unanswered list was rewritten on Magnus's word** to what I would ask today: 11, whether adoption is
+  decided or the smaller route is still to be weighed; 12, count the places that edit a note; 13, write
+  `VocabNoteForms` against Compze's store prototype when it is ready; 14, the two choices settled by bytes.
+- **What may still come:** Compze's reply to the check.
+- **Four items wait for Magnus's answer,** kept by the `unanswered` script for this session: 11 to 14, described
+  below. The earlier items 7, 8 and 10 are dropped.
 
 ## The sessions, and who speaks for what
 
