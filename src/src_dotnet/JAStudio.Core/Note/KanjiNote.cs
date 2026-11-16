@@ -134,7 +134,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
                      .Replace(">", "|")
                      .Replace("[", "|")
                      .Replace("]", "|")
-                     .ToLower()
+                     .ToLowerInvariant()
                      .Replace("||", "|")
                      .Replace("||", "|")
                      .Replace("||", "|")

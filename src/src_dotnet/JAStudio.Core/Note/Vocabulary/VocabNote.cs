@@ -186,7 +186,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
          sourceAnswer.Replace(" SOURCE", "")
                      .Replace(", ", "/")
                      .Replace(" ", "-")
-                     .ToLower()
+                     .ToLowerInvariant()
                      .StripHtmlAndBracketMarkupAndNoiseCharacters();
    }
 
