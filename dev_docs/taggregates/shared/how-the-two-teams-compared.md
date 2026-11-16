@@ -60,7 +60,7 @@ Different models, measured separately, against Compze.Teventive 0.6.0-alpha. Byt
 
 | The difference | Settled as | Why |
 |---|---|---|
-| A publish from inside the hook: a call of the hook from inside itself (opus), or a queue (fable) | The queue | With the nested call a note's tevents published as A, B, C reach subscribers as A, C, B. The opus team wrote the specification, and its prototype failed it |
+| A publish from inside the hook: a call of the hook from inside itself (opus), or a queue (fable) | The queue | With the nested call a note's tevents published as A, B, C reach subscribers as A, C, B. The opus team wrote the specification, and its prototype failed it. It then built the queue into its prototype, where the specification and Compze's full suite pass |
 | The loaded tevent: a snapshot marker of its own (opus), or the creation tevent (fable) | The marker | A restored note wasn't created; a note has several kinds of creation tevent; and only a snapshot tevent must set every property. Each team had first conceded this to the other |
 | Loading: public on `ITaggregate` (opus), or protected and typed on the class (fable) | Protected, typed on the class | Only the note class's own factory loads, and the type is checked when compiling |
 | Versions of the loaded tevents: one given by the caller (opus), or 1 to k (fable) | One, given by the caller | With 1 to k the version would depend on how many slots a class has |

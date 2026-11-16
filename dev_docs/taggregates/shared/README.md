@@ -56,7 +56,7 @@ All of it is in Compze, and Compze's shared folder lists it with the detail. In 
 | The shared conclusions for Compze | Compze: `dev_docs/taggregate-improvements/shared/` |
 | The fable team's documents | `dev_docs/taggregates/fable/`, and Compze: `dev_docs/taggregate-improvements/fable/` |
 | The opus team's documents | `dev_docs/taggregates/opus/`, and Compze: `dev_docs/taggregate-improvements/opus/` |
-| The prototypes inside Compze's base classes, combined, with the suite passing | Compze: branch `taggregates-opus/combined` |
+| The prototypes inside Compze's base classes, combined, with the suite passing: routing for each class, the snapshot, the hook with its queue, both flaws fixed, the assertion | Compze: branch `taggregates-opus/combined`, at 604c00df4 |
 | The fable team's prototypes and checks | JAStudio: branch `taggregates-fable-experiments`; Compze: branch `taggregate-experiments-fable` |
 
 No code is changed in this checkout, or on Compze's `main`.
