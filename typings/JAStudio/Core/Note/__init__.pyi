@@ -13,7 +13,7 @@ from System import Guid, IDisposable, Action, Func_2
 from JAStudio.Core.Note.KanjiRelationships import MutualKanjiRelationship, KanjiPrimaryVocab, KanjiRadicals
 from JAStudio.Core.Note.NoteFields import WritableStringValue
 from JAStudio.Core.Note.Vocabulary import VocabNote, VocabNoteFactory, VocabNoteGeneratedData
-from Compze.Abstractions import EntityId
+from Compze.Abstractions import TaggregateId
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import SharedConditions
@@ -241,7 +241,7 @@ class NoteGuard:
     def Update(self, mutation: Action) -> None: ...
 
 
-class NoteId(EntityId):
+class NoteId(TaggregateId):
     def __init__(self, id: Guid) -> None: ...
     @property
     def Value(self) -> Guid: ...
