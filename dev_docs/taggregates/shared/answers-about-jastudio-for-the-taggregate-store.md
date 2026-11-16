@@ -365,3 +365,41 @@ strong reason for (b). **They have none: this is the answer of both.**
 **One property to state in Compze's design:** participation handlers run when the unit of work commits. So inside a
 unit of work, after a vocab's answer is set, its perfect synonyms don't have the answer until the commit. I found no
 code in JAStudio that reads it in between, but didn't search for it.
+
+### Checked against Compze's revised design
+
+**Compze's `the-taggregate-store.md` at commit b078af00e has the typed reference and the index prototyped** (branch
+`taggregate-store-opus`, commit 3ac56efa8). Checked against the eight requirements: seven are in as asked, and the
+property about participation handlers is stated. What the check found, all sent to `jastudio-rep-opus`:
+
+- **A ninth requirement: a note is built with its services.** The design restores into an instance that the store
+  builds with `new()`. JAStudio's notes are built with their services, `new VocabNote(noteServices, dto)`, and reach
+  the collection, the dictionary and the configuration through `JPNote.Services`. So the consumer must be able to
+  say how an empty instance is built, where the class is named for the store.
+- **Requirement 1 is met for reading through a reference, and not yet for a lookup.** Measured by Compze: a read
+  through a reference outside a unit of work takes 0.08 µs and allocates nothing; a committed lookup takes 0.65 to
+  0.86 µs and allocates 576 B; a lookup inside a unit of work that holds one copy takes 1.1 to 3.0 µs and 1.2 KB.
+- **What parsing does, measured on the real corpus** with JAStudio's `time_parsing_every_sentence` and
+  `count_the_candidate_words` (2026-11-16, 49,338 sentences, 32 threads, other processes using 1.4
+  processor-seconds meanwhile):
+
+  | | For the corpus | For a sentence |
+  |---|---:|---:|
+  | Processor time to analyze every sentence | 14.2 s | 288 µs |
+  | Allocated | 4.6 GB | 93 KB |
+  | Candidate words built | 1,164,717 | 23.6 |
+  | Lookups of vocab by form, from the candidate words: one each, two when the base form differs | 1.2 to 2.3 million | 24 to 47 |
+  | Checks that some vocab's form starts with a text, at least | 640,795 | 13 |
+
+  Lookups for each token come on top, and were not counted.
+- **So the prototype's committed lookup would add 5 to 14% to the processor time of a full parse, and 15 to 29% to
+  its garbage.** The fix Compze names is the one needed: return the committed set's references without building a
+  list. A read through a reference for each vocab matched, about a million, is under 0.1 processor-seconds.
+- **Two things more that parsing needs of the index:** a check that a key has any note, which allocates nothing; and
+  that a lookup inside a unit of work costs no more than outside it when the unit of work holds no copy of the
+  index's note type. A sentence parsed inside its own unit of work holds the sentence only and makes all these
+  lookups: at the prototype's cost that is 9 to 49% more processor time. Otherwise JAStudio parses on committed
+  state outside the unit of work, and opens it only to store the result.
+- **A correction to Compze's document:** the 51 `NoteGuard.Update` sites don't become units of work. They are the
+  methods inside the notes' parts that change them, and become publishes. The units of work go at their callers,
+  which are the places nobody has counted.
