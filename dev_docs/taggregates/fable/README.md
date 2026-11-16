@@ -24,7 +24,9 @@ would add about 1 GB to a heap of 733 MB.** Everything else that is missing is s
    use Taggregates at all. Measured: a Taggregate keeps 1.1 to 1.6 KB before it has a single part, each component about
    1.0 KB more, and each shared tomponent 0.55 to 0.97 KB more, against 350 bytes for comparable data as plain objects.
    Each instance builds its own tevent dispatchers, registrations and closures, though how a tevent is routed depends
-   only on the class and the tevent's type.
+   only on the class and the tevent's type. **A prototype of the change brings the corpus from about 1.1 GB to about
+   26 MB over plain objects, and loads about fifteen times faster**
+   ([what-the-prototype-of-routing-for-each-class-showed.md](what-the-prototype-of-routing-for-each-class-showed.md)).
 2. **Let a taggregate load from tevents that its own code makes from stored state,** a compacted-history. It works
    today, but only through a member marked for Compze's internal use: without it the loaded taggregate refuses its
    next tevent (run and confirmed).
@@ -68,6 +70,9 @@ That is Compze's to design, and the Compze session `jastudio-rep-fable` has writ
 - **Publishing:** the notification becomes a queue, so that tevents arrive in the order published and the hook is
   never called from inside itself. `Commit` takes its list out before it calls back.
 
+Where the prototype suggests something else than those proposals: loading needs no wrapper, since a taggregate's own
+tevent appliers are routed by the tevent's own type.
+
 ## What is verified, and how
 
 | What | How |
@@ -75,7 +80,7 @@ That is Compze's to design, and the Compze session `jastudio-rep-fable` has writ
 | What a Taggregate, a component and a shared tomponent cost for each instance | Measured, 80,000 instances, Compze.Teventive 0.6.0-alpha from nuget.org |
 | The eight behaviors the notes rely on, loading through the internal member, the two flaws | Run against the same package |
 | What the cost is made of, what the changes would break in Compze | Read in Compze's code by the Compze session, which ran nothing |
-| That routing for each class takes the cost away | Not verified: nothing is built. A prototype is the next experiment |
+| That routing for each class takes the cost away | Measured on a prototype outside Compze, with the same models |
 | The assertion of one thread at a time, the start-up cost of `TaggregateTypeValidator` | Not run |
 | How many components and shared tomponents a note would have | Counted from today's constructors, by judgment of which part becomes what |
 

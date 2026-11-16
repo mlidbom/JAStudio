@@ -13,6 +13,7 @@ references the Compze.Teventive package.
 |---|---|
 | `TaggregateCost` | What a Taggregate and its components cost for each instance, against plain objects |
 | `TeventiveChecks` | The behaviors the notes rely on, loading from a compacted-history, the two flaws, and what a shared tomponent costs |
+| `RoutingForEachClassPrototype` | What the same two models cost with tevent routing decided once for each class: see [what-the-prototype-of-routing-for-each-class-showed.md](what-the-prototype-of-routing-for-each-class-showed.md) |
 
 ```
 dotnet build -c Release
@@ -99,6 +100,6 @@ note's tevents go to in their wrappers. All eight hold:
 
 ## Not run
 
-- **Routing for each class:** nothing of it is built, so that it takes the cost away is not measured.
+- **Routing for each class in Compze itself:** it is measured on a prototype only.
 - **Two threads publishing on one taggregate.**
 - **What `TaggregateTypeValidator` costs at start-up** for an assembly of JAStudio.Core's size, about a thousand types.
