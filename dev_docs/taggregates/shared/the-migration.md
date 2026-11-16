@@ -108,8 +108,8 @@ each build and pass:
 
 ### Open, to settle before the store keeps the notes
 
-[How JAStudio code edits a note](how-jastudio-edits-a-note.md): proposed, with `jastudio-rep-opus`, for Magnus to look
-at, as he did at the tevents' structure. It decides how every edit in JAStudio is written.
+[How JAStudio code edits a note](how-jastudio-edits-a-note.md): agreed by Magnus and `jastudio-rep-opus`, 2026-11-16.
+It decides how every edit in JAStudio is written, and the order increments 3 and 4 are built in.
 
 ## The order
 

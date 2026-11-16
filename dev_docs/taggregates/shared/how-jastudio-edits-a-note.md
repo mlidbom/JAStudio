@@ -1,8 +1,8 @@
 # How JAStudio code edits a note, once the state store keeps the notes
 
-> **Status: proposed, 2026-11-16, by `taggregates-opus`; reviewed by `jastudio-rep-opus`, who agrees with the shape and
-> decision 2, and whose four points are in it; for Magnus to look at.** Step 7 of
-> [the migration](the-migration.md), increments 3 and 4, which are one step. It decides how every edit in JAStudio
+> **Status: agreed, 2026-11-16: by Magnus ("Looks good to me"), and by `jastudio-rep-opus`, whose review is in it.** By
+> `taggregates-opus`. Step 7 of
+[the migration](the-migration.md), increments 3 and 4, which are one step. It decides how every edit in JAStudio
 > is written, so it's settled before the change that converts them all. The model it fits is Magnus's, in Compze's
 > `dev_docs/taggregate-improvements/shared/the-taggregate-store.md`, "The programming model":
 > - a committed instance never changes;
@@ -26,6 +26,23 @@ vocab.Edit(it => it.CorpusAnswer.Set("to run"));
 - **Changing the instance instead of `it` fails before it changes anything,** such as
   `vocab.Edit(it => vocab.CorpusAnswer.Set(...))`: `NoteGuard.Update` asserts first, through Compze's
   `Taggregate.AssertCanBeChanged` (done, `1089ee460`).
+
+## The order it is built in
+
+Each a commit that builds and passes the whole suite, so the switch to the store at the end is small.
+
+1. **`note.Edit(it => ...)` before the store:** until the store keeps the notes, it runs the edit on the note itself.
+   Its contract is already the final one: change only `it`.
+2. **Every edit site calls `Edit`,** an area at a time: commands and editable fields, the UI's direct changes, the MCP
+   tools, the batches, the importer, the shortcuts, text-to-speech, the shared conditions, the cross-note changes in the
+   domain, then the specifications.
+3. **The holders, and the specifications' fields, hold references:** `ITaggregateReference<TNote>`, made over the
+   collection until the store keeps the notes.
+4. **The switch:** the store is composed with `CorpusNoteFiles`, the three note classes and their indexes; the
+   collections read through it; `Edit` gets the copy; `NoteUpdated` is raised after the commit, and its four subscribers
+   move to the UI thread; JAStudio's caches go; a restored note starts from its snapshot's hash (the `wip:` at
+   `JPNote._persisted`). Then the corpus checks: saving every note, a full rebuild, and
+   `find_what_copies_of_the_notes_lose`.
 
 ## The three decisions
 
