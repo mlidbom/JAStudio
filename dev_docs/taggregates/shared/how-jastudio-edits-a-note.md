@@ -59,8 +59,27 @@ Each a commit that builds and passes the whole suite, so the switch to the store
      renaming also edits every kanji. Each edit copies its note once the store keeps them, about 28,000 copies: measure
      it then. And some operations are several edits in a row, such as the MCP server's `edit_a_note`, which writes the
      fields, reparses and updates the generated data: one unit of work around each operation would commit it whole.
-3. **The holders, and the specifications' fields, hold references:** `ITaggregateReference<TNote>`, made over the
+3. **Done. The holders, and the specifications' fields, hold references:** `ITaggregateReference<TNote>`, made over the
    collection until the store keeps the notes.
+   - **`note.Reference()`** (`ReferringToANote`) gives a `NoteReference<TNote>`: `Current` finds the note in the
+     collection by its id, and fails once the collection no longer holds it. `ForUpdate` gives the note an edit of it is
+     editing, and fails otherwise, as the store's fails outside a unit of work. Specified by `When_a_note_is_referred_to`.
+   - **`IHasTextToSpeechAudio` is a taggregate, and has `Reference()`,** for the text-to-speech code that knows the note
+     only as one with TTS audio, as it has `Edit`.
+   - **The holders converted:** the sentence's page (`SentencePageViewModel`), its element menus, its parsing case
+     section and verdict buttons; the TTS dialog's and the batch's view models, which read the note's audio again after
+     using a speech; and the MCP server's `EditableNote`, with its fields and commands, which `edit_a_note` reads back
+     after writing. Each keeps the reference in its field, and reads the note through a property.
+   - **Far fewer than the 25 the survey counted, because most already fit:**
+     - The workspace's tabs, the editors and the match-condition window hold the note's id, and look it up on each use.
+     - The search results' rows and the navigation list hold the note they show, and the rows are given the new note on
+       each change notification. Once the store keeps the notes that is the committed note, which never changes, and a
+       row of a note just deleted still shows it until its notification removes the row. A reference would fail there.
+     - The MCP server's `NoteVersions` holds notes read from files of the corpus's history, not the collection's.
+     - What Core computes for one call holds its notes for that call: matches, the card pages' view models, reports.
+   - **The specifications:** 174 note fields in 84 files hold references, through a property of the field's old name.
+     Those that hold a note never added to the collection, or one they delete, hold the note itself: a reference has
+     nothing to give them.
 4. **The switch:** the store is composed with `CorpusNoteFiles`, the three note classes and their indexes; the
    collections read through it; `Edit` gets the copy; `NoteUpdated` is raised after the commit, and its four subscribers
    move to the UI thread; JAStudio's caches go; a restored note starts from its snapshot's hash (the `wip:` at
