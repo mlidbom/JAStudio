@@ -71,8 +71,10 @@ what JAStudio requires of it, is in
 
 **The next step: the migration, with Compze's store built beside it** (Magnus, 2026-11-16).
 
-- **Who:** `taggregates-opus` in JAStudio, and the Compze session that builds the store. The two iterate until it works
-  well in JAStudio, and it is done when Magnus, `taggregates-opus` and the Compze session all sign off.
+- **Who:** `taggregates-opus` in JAStudio, and `jastudio-rep-opus`, which builds the store in Compze as a spike, steps 1
+  to 4, on Compze's branch `taggregate-store-spike`. The two iterate until it works well in JAStudio, and it is done
+  when Magnus, `taggregates-opus` and `jastudio-rep-opus` all sign off.
+- **The plan, and where the migration stands:** [the-migration.md](the-migration.md).
 - **What:** the whole migration of JAStudio's notes onto the store, to the point where everything the sessions can test
   themselves works: the specifications, the headless JAStudio, the MCP server, and a full rebuild of the real corpus.
   Not one part of a note tried on its own.
