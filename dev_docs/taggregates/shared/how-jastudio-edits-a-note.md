@@ -81,10 +81,28 @@ Each a commit that builds and passes the whole suite, so the switch to the store
      Those that hold a note never added to the collection, or one they delete, hold the note itself: a reference has
      nothing to give them.
 4. **The switch:** the store is composed with `CorpusNoteFiles`, the three note classes and their indexes; the
-   collections read through it; `Edit` gets the copy; `NoteUpdated` is raised after the commit, and its four subscribers
-   move to the UI thread; JAStudio's caches go; a restored note starts from its snapshot's hash (the `wip:` at
-   `JPNote._persisted`). Then the corpus checks: saving every note, a full rebuild, and
-   `find_what_copies_of_the_notes_lose`.
+   collections read through it; `Edit` gets the copy; `NoteUpdated` is raised after the commit; JAStudio's caches go; a
+   restored note starts from its snapshot's hash (the `wip:` at `JPNote._persisted`). Then the corpus checks: saving
+   every note, a full rebuild, and `find_what_copies_of_the_notes_lose`. As planned, 2026-11-16:
+   - **Composed in `AppBootstrapper`:** `registrar.StateStore(...)` with the three note classes, built empty by their
+     factories with `NoteServices`; and the store's indexes, one for each of the caches' today, each keyed by what the
+     cache's snapshot class takes from the note. The question index is shared by the three. The environment's registrar
+     declares the storage: `CorpusNoteFiles` in the hosts, none in the specifications, which keep the notes in memory.
+     And a `LocalTessagingEngine`, which dispatches the notes' tevents.
+   - **`JPCollection.InAUnitOfWork`** runs JAStudio's units of work: `ExecuteUnitOfWork`, which joins the one running.
+     `Edit` gets the note's copy through it with `GetForUpdate`, `Add` saves a new note with `Save`, and `Delete`
+     deletes with `Delete`.
+   - **`NoteUpdated` is raised by JAStudio, not by an observer:** once the outermost unit of work has committed, for each
+     note it added, edited or deleted, synchronously, on the thread that made the change, as today. Every change goes
+     through `Edit`, `Add` and `Delete`, which know their notes, so each note is notified once, after the commit, and
+     the subscribers need no marshalling to the UI thread, nor the specifications a wait for the observers.
+   - **The collections' lookups** read the store's indexes, and give `reference.Current`. The lookup recording that the
+     reparse uses wraps them, as it wraps the caches' today.
+   - **Loading:** the shared conditions first, as today, since restoring a vocab's match-condition names them. Then
+     the store's first use loads every note.
+   - **Waits on Compze** (asked of `jastudio-rep-opus`, 2026-11-16): a storage built from the container's services,
+     since the standalone host resolves the corpus folder; every taggregate of a class, for the searches; and a reload
+     that runs a change to the storage, such as a git fast-forward, while no unit of work can save over it.
 
 ## The three decisions
 
