@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using Compze.Teventive.StateStore;
 using Compze.Teventive.TaggregateStores;
 
 namespace JAStudio.Core.Note.Collection;
@@ -14,6 +13,7 @@ namespace JAStudio.Core.Note.Collection;
 /// <see cref="LookupRecorder"/>.
 /// </summary>
 /// <remarks>
+/// It reads the store through its bulk reader (<see cref="ITaggregateStoreBulkReader"/>), since <see cref="All"/> reads every note of the class.<br/>
 /// The store is resolved at the first lookup, not when the collection is built: resolving it resolves its storage, and a host may only know<br/>
 /// where the corpus is once it has started.
 /// </remarks>
@@ -21,21 +21,20 @@ sealed class StoredNotes<TNote> where TNote : JPNote
 {
    readonly NoteServices _noteServices;
    readonly IRootResolver _resolver;
-   readonly Lazy<IStateStore> _store;
-   readonly Lazy<ITaggregateStoreReader> _reader;
+   readonly Lazy<ITaggregateStoreBulkReader> _reader;
 
    public StoredNotes(NoteServices noteServices, IRootResolver resolver)
    {
       _noteServices = noteServices;
       _resolver = resolver;
-      _store = new Lazy<IStateStore>(resolver.Resolve<IStateStore>);
-      _reader = new Lazy<ITaggregateStoreReader>(resolver.Resolve<ITaggregateStoreReader>);
+      _reader = new Lazy<ITaggregateStoreBulkReader>(resolver.Resolve<ITaggregateStoreBulkReader>);
    }
 
    /// <summary>The recorder every lookup of these notes passes its result through.</summary>
    public LookupRecorder<TNote> LookupRecorder { get; } = new();
 
-   public List<TNote> All() => LookupRecorder.LookedUp([.. _store.Value.All<TNote>().Select(it => it.Current)]);
+   /// <summary>Every note of the class, in the order of their ids, the order the corpus's notes load in.</summary>
+   public List<TNote> All() => LookupRecorder.LookedUp([.. _reader.Value.All<TNote>().Select(it => it.Current)]);
 
    /// <summary>The note with the id <paramref name="noteId"/>, or null when there is none of this class.</summary>
    public TNote? WithIdOrNone(NoteId noteId) => LookupRecorder.LookedUp(_reader.Value.TryGet<JPNote>(noteId, out var note) ? note as TNote : null);
