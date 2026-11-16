@@ -35,6 +35,13 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    public NoteFlushGuard RecursiveFlushGuard { get; }
    public NoteGuard Guard { get; }
    public NoteServices Services { get; }
+
+   /// <summary>Whether the note is in its collection's cache, so that flushing it updates it there, and saves it.</summary>
+   /// <remarks>
+   /// wip: a taggregate store's copy is restored from a snapshot, which leaves this false, so the copy's <see cref="Flush"/> would publish nothing,<br/>
+   /// and its changes would be lost at the commit. When the store keeps the notes (dev_docs/taggregates/shared/the-migration.md, step 7), a restored<br/>
+   /// note starts from the hash of the snapshot it is restored from, and the cache goes.
+   /// </remarks>
    bool _persisted;
 
    /// <summary>
