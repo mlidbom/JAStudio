@@ -2,7 +2,7 @@
 
 > **Status: agreed, 2026-11-16: by Magnus ("Looks good to me"), and by `jastudio-rep-opus`, whose review is in it.** By
 > `taggregates-opus`. Step 7 of
-[the migration](the-migration.md), increments 3 and 4, which are one step. It decides how every edit in JAStudio
+> [the migration](the-migration.md), increments 3 and 4, which are one step. It decides how every edit in JAStudio
 > is written, so it's settled before the change that converts them all. The model it fits is Magnus's, in Compze's
 > `dev_docs/taggregate-improvements/shared/the-taggregate-store.md`, "The programming model":
 > - a committed instance never changes;
