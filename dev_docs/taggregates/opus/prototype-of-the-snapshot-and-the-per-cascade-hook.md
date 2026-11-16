@@ -4,9 +4,11 @@ Changes 1 and 3 of [what Compze needs](what-compze-needs.md), prototyped 2026-11
 routing decided once per class, is jastudio-rep-opus's prototype: see Compze's
 `dev_docs/taggregate-improvements/opus/5-prototype-of-per-class-routing.md`.
 
-- **Where:** Compze, branch `taggregates-opus/snapshot-and-hook`, commit b1be4854c, in the worktree
+- **Where:** Compze, branch `taggregates-opus/snapshot-and-hook`, commits b1be4854c and a5defb7eb, in the worktree
   `C:\Dev\Compze.worktrees\taggregates-opus-snapshot-and-hook`. Branched from Compze's `main` at a6317da47.
-- **Status:** an experiment, not for merging as it stands. Compze's 417 unit tests pass, 38 of them new.
+- **Status:** an experiment, not for merging as it stands. Compze's full suite passes: all 33 test assemblies, with 455
+  unit tests, 38 of them new.
+- **Combined with change 2,** and measured: see [the prototypes combined](the-prototypes-combined.md).
 
 ## What it adds to Compze.Teventive
 
@@ -45,6 +47,14 @@ var note = new Note();
 
 A publish from inside the commit callback is no longer cleared away uncommitted, or changes the list the callback is
 enumerating: it stays uncommitted, for the next commit. The same shape as `Publish`'s fix.
+
+### The lists of tevents are created when first needed, and handed on whole
+
+The uncommitted tevents and the tevents of the publish cascade under way are each a list created by the first tevent.
+`Commit` and the end of a cascade hand the list itself on and leave the field null, instead of copying the list and
+clearing it. No one can change what was handed on, nothing is copied, and a taggregate with nothing uncommitted keeps
+no list, nor the grown backing array a cleared list keeps: 64 bytes less per loaded note, and 208 bytes less after an
+edit (commit a5defb7eb).
 
 ### One thread at a time
 
@@ -96,7 +106,7 @@ for the filtered tests can still read "Passed!", with three fewer tests: read th
 
 ## Not in the prototype
 
-- **Memory:** the lazy `TeventStream` saves one `SimpleObservable` per unobserved taggregate. It's measured together
-  with jastudio-rep-opus's per-class routing, once the two branches are combined.
 - **The convenience for a slot's part of a snapshot,** above.
+- **Iterating a snapshot once instead of copying it into a list,** which would take most of the 256 bytes a load from a
+  snapshot allocates more than one from history.
 - **Compze's documents and changelog,** which an implementation for merging would update.

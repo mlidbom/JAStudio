@@ -25,7 +25,11 @@ own design counts only where it changes what Compze must do.
    its shared tomponents. Raised by taggregates-opus, and decided with jastudio-rep-opus. Two smaller requirements
    are raised and not yet answered: committing from inside the per-cascade hook, and an assertion against two threads
    publishing on one taggregate. See [what Compze needs](what-compze-needs.md).
-5. **Nothing in JAStudio moves onto taggregates before the snapshot and the per-class routing have landed.**
+5. **The three changes work, and together take a note to about 1 KB.** Prototyped in Compze branches, they combine
+   with two small conflicts and pass Compze's full suite. A 15-component note keeps 1,080 bytes loaded from a snapshot,
+   and 8 bytes more once edited, against 11,457 and 18,551 bytes with 0.6.0-alpha and 733 as plain objects. See
+   [the prototypes combined](the-prototypes-combined.md).
+6. **Nothing in JAStudio moves onto taggregates before the snapshot and the per-class routing have landed.**
 
 ## The documents
 
@@ -36,4 +40,6 @@ own design counts only where it changes what Compze must do.
   benchmark is kept.
 - [Prototype of the snapshot and the per-cascade hook](prototype-of-the-snapshot-and-the-per-cascade-hook.md): changes
   1 and 3 built and specified in a Compze branch, and what was decided while building them.
+- [The prototypes combined](the-prototypes-combined.md): the two sessions' prototypes merged, tested and measured:
+  what a taggregate note costs with all three changes. The benchmark is in [benchmark](benchmark/README.md).
 - [Found along the way](found-along-the-way.md): bugs in JAStudio and in Compze, and a broken Compze solution.

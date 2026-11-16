@@ -1,5 +1,7 @@
 # What a taggregate keeps in memory: measured with Compze.Teventive 0.6.0-alpha
 
+With the three changes prototyped, a note keeps about a tenth of this: see [the prototypes combined](the-prototypes-combined.md).
+
 Measured 2026-11-16 by taggregates-opus, on .NET 11.
 
 ## The results
