@@ -1,6 +1,7 @@
 # How JAStudio code edits a note, once the state store keeps the notes
 
-> **Status: proposed, 2026-11-16, by `taggregates-opus`, for `jastudio-rep-opus` and Magnus.** Step 7 of
+> **Status: proposed, 2026-11-16, by `taggregates-opus`; reviewed by `jastudio-rep-opus`, who agrees with the shape and
+> decision 2, and whose four points are in it; for Magnus to look at.** Step 7 of
 > [the migration](the-migration.md), increments 3 and 4, which are one step. It decides how every edit in JAStudio
 > is written, so it's settled before the change that converts them all. The model it fits is Magnus's, in Compze's
 > `dev_docs/taggregate-improvements/shared/the-taggregate-store.md`, "The programming model":
@@ -18,11 +19,13 @@ note everyone reads, the note's file is written, and `JPCollection.NoteUpdated` 
 vocab.Edit(it => it.CorpusAnswer.Set("to run"));
 ```
 
-- **`Edit` works on a stale note too:** it gets the copy by the note's id, of the note as it is committed now. So
-  holding an old instance can only show old data. It can never lose an edit or make a wrong one.
-- **A mistake fails before it changes anything:** changing a part of a committed note, such as
-  `vocab.Edit(it => vocab.CorpusAnswer.Set(...))`, with `vocab` where `it` was meant. This needs a check that
-  `NoteGuard.Update` makes before the change: question 1 below.
+- **Inside `Edit`, read and change only `it`.** `Edit` gets the copy by the note's id, of the note as it is committed
+  now, so calling it on a stale instance is safe. But a lambda that reads the instance `Edit` was called on, such as
+  `vocab.Edit(it => it.CorpusAnswer.Set(vocab.CorpusAnswer.Value + "!"))`, computes from that instance's state, and when
+  it is stale, writes old-derived data over a newer commit: a lost update (`jastudio-rep-opus`).
+- **Changing the instance instead of `it` fails before it changes anything,** such as
+  `vocab.Edit(it => vocab.CorpusAnswer.Set(...))`: `NoteGuard.Update` asserts first, through Compze's
+  `Taggregate.AssertCanBeChanged` (done, `1089ee460`).
 
 ## The three decisions
 
@@ -36,7 +39,13 @@ creating, the batches, the shortcuts the Anki add-on runs, text-to-speech, the s
   `IFieldEditedOneItemAtATime.Add`/`Remove` once for all their commands and fields.
 - **Creating, deleting and reloading** run in a unit of work of the collection's: `JPCollection.InAUnitOfWork(...)`,
   which `Edit` uses too.
-- **The full rebuild:** a unit of work for each note, on the threads it uses today.
+- **The full rebuild:** a unit of work for each note, on the threads it uses today. That is safe while each unit of
+  work changes only its own note, as `UpdateGeneratedData` does.
+- **Parallel units of work that change each other's notes deadlock** until the store's lock times out, after 30 s,
+  naming the note (`jastudio-rep-opus`). One batch does: `LocalNoteUpdater.RegenerateJamdictVocabAnswers` sets each
+  vocab's source answer on many threads, and `PerfectSynonyms` pushes it into every synonym. Today that is a data race:
+  two threads can change one synonym at once. It runs on one thread, or with a unit of work for each web of perfect
+  synonyms. The other batches change only their own notes.
 - **Units of work nest:** Compze's `ExecuteUnitOfWork` joins an ambient transaction, so a command that runs another
   command's edit, or a domain method that edits another note, is one unit of work.
 
@@ -82,22 +91,27 @@ that is running. 11 places:
 `PerfectSynonyms` follows its own vocab's `CorpusAnswer` through a subscription made in its constructor. On a copy that
 still works, since a copy builds its parts.
 
+**A note looked up inside a unit of work that then rolls back is the discarded copy,** holding changes that never
+committed. Only a holder of instances could keep one, and the holders hold references (`jastudio-rep-opus`).
+
 ## `JPCollection.NoteUpdated`, after the commit
 
 Raised for each note a unit of work changed, with the new committed note, once it has committed. Today it is raised
-inside the change, on the changing thread. Its subscribers are four UI and web classes that show changed notes, and
-the saving, which the store's storage takes over. Compze's observers run after the commit, on the engine's own thread,
+inside the change, on the changing thread, often the UI thread. Its subscribers are four UI and web classes that show
+changed notes, and the saving, which the store's storage takes over. **Raised on the engine's thread, the four must
+move to the UI thread themselves** (`jastudio-rep-opus`). Compze's observers run after the commit, on the engine's own thread,
 so a specification that asserts on what an observer does waits for the observers: the wait the plan lists last.
 
-## Questions for `jastudio-rep-opus`
+## What `jastudio-rep-opus` answered, 2026-11-16
 
-1. **Failing before the change.** `NoteGuard.Update` runs a part's change, then `Flush` publishes the interim tevent,
-   and `Publish` asserts the instance isn't read only, after the change is made. A protected `AssertCanBeChanged()`,
-   or `IsReadOnly`, on `Taggregate` would let the guard fail before it. The same holds until the last part is converted.
-2. **`Edit` from an instance.** `note.Edit(...)` gets the copy through `store.Reference<TNote>(note.Id).ForUpdate()`.
-   Should Compze offer that shape itself, for any taggregate?
-3. **The observers' wait** for specifications: Compze's `ILocalTessagingEngine.StopAsync` is what its own
-   specifications use. JAStudio needs one that waits and goes on running.
+1. **Failing before the change:** `Taggregate.AssertCanBeChanged()`, which `NoteGuard.Update` calls first (spike
+   `3d3410a5d`, JAStudio `1089ee460`). A copy that publishes nothing is neither written nor swapped in, so every change
+   must reach `Flush`: `NoteTags` and `WordExclusionSet`, which changed state outside the guard, now go through it.
+2. **`Edit` from an instance stays JAStudio's,** for now: where units of work begin is the application's policy, and an
+   instance-based `ForUpdate` in Compze would invite holding instances. A candidate for Magnus's naming and API pass once
+   the migration has shown how it works.
+3. **The observers' wait:** `ILocalTessagingEngine.AwaitObserversAsync()`, which leaves the engine running (spike
+   `26990b991`).
 
 ## The survey, 2026-11-16
 
