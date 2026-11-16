@@ -30,7 +30,6 @@ namespace JAStudio.Core.Storage.Dto;
 [JsonSerializable(typeof(BreakdownWordDto))]
 [JsonSerializable(typeof(AudioReferenceDto))]
 [JsonSerializable(typeof(ImageReferenceDto))]
-[JsonSerializable(typeof(AllNotesDto))]
 [JsonSourceGenerationOptions(
    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
    GenerationMode = JsonSourceGenerationMode.Default)]

@@ -34,10 +34,6 @@ public partial class JsonFilesystemObjectRepository<TData> where TData : class, 
             $"Type {type.FullName} must be decorated with [MemoryPackable] to be used with {nameof(JsonFilesystemObjectRepository<>)}");
    }
 
-   public void Save(TData data) => PrepareSaving(data).Commit();
-
-   public void Delete(Guid id) => PrepareDeleting(id).Commit();
-
    /// <summary>
    /// Writes <paramref name="data"/>'s file under a temporary name beside the file it replaces or creates, for the returned write to give it<br/>
    /// its name. So what can fail, serializing and writing, fails here, and a crash before the commit leaves the file as it was.
@@ -71,7 +67,7 @@ public partial class JsonFilesystemObjectRepository<TData> where TData : class, 
       return LoadAllFromJsonAndSaveSnapshot();
    }
 
-   public List<ScannedFile> ScanFiles()
+   List<ScannedFile> ScanFiles()
    {
       if(!Directory.Exists(_directory)) return [];
 
@@ -80,14 +76,14 @@ public partial class JsonFilesystemObjectRepository<TData> where TData : class, 
                 .Select(fi => new ScannedFile(fi.FullName, Guid.Parse(Path.GetFileNameWithoutExtension(fi.FullName)), fi.LastWriteTimeUtc))];
    }
 
-   public void SaveSnapshot(List<TData> data)
+   void SaveSnapshot(List<TData> data)
    {
       EnsureDirectoryExists(_directory);
       using var stream = File.Create(SnapshotPath);
       MemoryPackSerializer.SerializeAsync(stream, data).GetAwaiter().GetResult();
    }
 
-   public List<TData> LoadSnapshot()
+   List<TData> LoadSnapshot()
    {
       using var stream = File.OpenRead(SnapshotPath);
       return MemoryPackSerializer.DeserializeAsync<List<TData>>(stream).GetAwaiter().GetResult()
@@ -169,7 +165,7 @@ public partial class JsonFilesystemObjectRepository<TData> where TData : class, 
       public bool HasChanges => ChangedFiles.Count + DeletedCount > 0;
    }
 
-   public class ScannedFile(string path, Guid id, DateTime lastWriteUtc)
+   class ScannedFile(string path, Guid id, DateTime lastWriteUtc)
    {
       public string Path { get; } = path;
       public Guid Id { get; } = id;

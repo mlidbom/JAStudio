@@ -132,35 +132,4 @@ public class NoteSerializerRoundtripTests : SpecificationUsingACollection
    static string Truncate(string value, int maxLength) =>
       value.Length <= maxLength ? value : value.Substring(0, maxLength);
 
-   [Fact]
-   public void AllNotesData_RoundtripsToIdenticalJson()
-   {
-      var allData = new AllNotesData(
-         NoteServices.Collection.Kanji.All(),
-         NoteServices.Collection.Vocab.All(),
-         NoteServices.Collection.Sentences.All());
-
-      var json = _serializer.Serialize(allData);
-      var roundtripped = _serializer.DeserializeAll(json);
-      var reJson = _serializer.Serialize(roundtripped);
-
-      Assert.Equal(json, reJson);
-   }
-
-   [Fact]
-   public void AllNotesData_PreservesNoteCountsAfterRoundtrip()
-   {
-      var kanji = NoteServices.Collection.Kanji.All();
-      var vocab = NoteServices.Collection.Vocab.All();
-      var sentences = NoteServices.Collection.Sentences.All();
-
-      var allData = new AllNotesData(kanji, vocab, sentences);
-      var json = _serializer.Serialize(allData);
-      var roundtripped = _serializer.DeserializeAll(json);
-
-      Assert.Equal(kanji.Count, roundtripped.Kanji.Count);
-      Assert.Equal(vocab.Count, roundtripped.Vocab.Count);
-      Assert.Equal(sentences.Count, roundtripped.Sentences.Count);
-   }
-
 }
