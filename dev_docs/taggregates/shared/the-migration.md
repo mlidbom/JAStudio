@@ -45,7 +45,7 @@ cache.
 - **At the end:** Compze publishes the store's packages, on Magnus's approval, and the branch goes back to package
   references before it merges into `main`.
 
-## Where it stands, 2026-11-16, night
+## Where it stands, 2026-11-17
 
 - **Compze:** steps 2a and 3 are in.
   - Step 2a is the in-memory state store, with three additions JAStudio asked for:
@@ -70,6 +70,12 @@ cache.
   corpus. Magnus has looked at step 6, and it is revised by his word:
   [the-structure-of-the-notes-tevents.md](the-structure-of-the-notes-tevents.md). He also decided that text fields
   become plain strings, which changes step 10: [what-the-notes-hold.md](what-the-notes-hold.md).
+- **Steps 8, 9 and 13 came with the switch:** every edit site has its unit of work, the caches' indexes are the store's,
+  the kanji and the sentences are in the store too, and each unit of work writes its notes' files as all or nothing
+  (`CorpusNoteFiles`). `FileSystemNoteRepository`, which wrote the same files, is gone (`b00768751`), its specifications
+  rewritten against `CorpusNoteFiles`.
+- **Step 10 has begun,** as [below](#step-10-as-it-is-built): the vocab's six text fields are plain strings with tevents
+  of their own (`f69c53948`).
 - **Compze's types are in JAStudio's Python stubs** since the notes derive from `Taggregate`. After each Compze step,
   `src/src_dotnet/regenerate-stubs.ps1 -OnlyTargetTypes -RefreshCompzeStubs` regenerates them: `full-build.ps1`
   regenerates JAStudio's alone.
@@ -119,6 +125,30 @@ each build and pass:
 
 [How JAStudio code edits a note](how-jastudio-edits-a-note.md): agreed by Magnus and `jastudio-rep-opus`, 2026-11-16.
 It decides how every edit in JAStudio is written, and the order increments 3 and 4 are built in.
+
+## Step 10, as it is built
+
+Each part converted publishes tevents of its own instead of the interim one, as
+[the structure of the notes' tevents](the-structure-of-the-notes-tevents.md) has them, and becomes what
+[what the notes hold](what-the-notes-hold.md) says. What reaches other notes stays a call from the domain method,
+marked `wip:`, until step 11 makes it a participation handler. Each increment ends with a full rebuild and saving every
+note in the headless JAStudio, neither changing a file, and the copies checked.
+
+1. **Done (`f69c53948`). The vocab's six text fields are plain strings:** `CorpusAnswer`, `Explanation`,
+   `ExplanationLong`, `Mnemonic`, `TechnicalNotes` and `References`. Each has a `Set` method that trims and publishes
+   its `PropertyUpdated` tevent only when the value changes (`JPNote.PublishIfChanged`), and an applier sets it.
+   `SetCorpusAnswer` pushes the answer to the perfect synonyms itself. The call sites were fixed, position by position,
+   from the build's errors, by a script that the next three increments use again.
+2. **The vocab's source data:** its `Answer`, `Mnemonic` and `ReadingMnemonic`, under a group of their own,
+   `IVocabTevent.SourceData`, since the source data holds more than one property. Changing the answer pushes it to the
+   perfect synonyms as the corpus answer does, and `PerfectSynonyms` subscribes to nothing any more.
+3. **The kanji's text fields and source data,** with `IKanjiTevent`'s `PropertyUpdated` tevents.
+4. **The sentence's text fields and source data,** with `ISentenceTevent`'s. `WritableStringValue` and its interfaces
+   go then, and `SentenceQuestionField` with them.
+5. **The other simple parts,** one or a few to an increment, in the order of [what the notes hold](what-the-notes-hold.md):
+   the sets of words and kanji, the media lists, the register and the flags, the readings, the tags.
+6. **The parts with real behavior:** the question and renaming, the forms, the perfect synonyms, the mutual
+   relationships, the matching configuration, the sentence's configuration. The interim tevent goes with the last.
 
 ## The order
 
