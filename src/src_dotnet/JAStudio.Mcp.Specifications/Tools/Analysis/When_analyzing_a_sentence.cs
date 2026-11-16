@@ -4,6 +4,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Mcp.Tools.Analysis;
 using ModelContextProtocol.Protocol;
@@ -51,7 +52,7 @@ public class When_analyzing_a_sentence : McpServerSpecification
       public given_as_a_sentence_note_whose_configuration_marks_the_match_of_行く_incorrect()
       {
          var sentence = CreateSentence(Sentence);
-         sentence.Configuration.IncorrectMatches.Add(WordExclusion.AtIndex("行く", Sentence.IndexOf("行く", StringComparison.Ordinal)));
+         sentence.Edit(it => it.Configuration.IncorrectMatches.Add(WordExclusion.AtIndex("行く", Sentence.IndexOf("行く", StringComparison.Ordinal))));
          _analysis = ResultOf<AnalyzedSentence>(AnalyzeSentence(new Dictionary<string, object?> { ["sentenceNoteId"] = sentence.GetId().ToString() }));
       }
 

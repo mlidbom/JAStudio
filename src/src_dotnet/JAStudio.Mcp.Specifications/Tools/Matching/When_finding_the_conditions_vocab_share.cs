@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Mcp.Tools.Matching;
@@ -19,9 +20,9 @@ public class When_finding_the_conditions_vocab_share : McpServerSpecification
 
    public When_finding_the_conditions_vocab_share()
    {
-      CreateVocab("ない", "not", "ない").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.SingleToken.WhenRequired, MatchingRules.Ichidan.WhenForbidden));
-      CreateVocab("せる", "make", "せる").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.Ichidan.WhenForbidden));
-      CreateVocab("させる", "make", "させる").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Ichidan.WhenForbidden, MatchingRules.Irrealis.WhenRequired));
+      CreateVocab("ない", "not", "ない").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.SingleToken.WhenRequired, MatchingRules.Ichidan.WhenForbidden)));
+      CreateVocab("せる", "make", "せる").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.Ichidan.WhenForbidden)));
+      CreateVocab("させる", "make", "させる").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Ichidan.WhenForbidden, MatchingRules.Irrealis.WhenRequired)));
       CallTool("define_a_shared_condition",
                new Dictionary<string, object?> { ["subject"] = "Word", ["name"] = "FollowsAGodanIrrealisForm", ["definition"] = """{"allOf": [{"precedingToken": {"fact": "irrealis"}}, {"not": {"precedingToken": {"fact": "ichidanVerb"}}}]}""" });
 

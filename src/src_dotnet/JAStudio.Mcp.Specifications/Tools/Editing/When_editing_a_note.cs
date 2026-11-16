@@ -222,7 +222,7 @@ public class When_editing_a_note : McpServerSpecification
 
       public of_a_sentence_that_is_a_parsing_case_writing_its_name_and_its_verdict()
       {
-         Sentence.MarkAsAParsingCase();
+         Sentence.Edit(it => it.MarkAsAParsingCase());
          _edit = ResultOf<NoteEdit>(Edit(Sentence, new JsonObject { ["parsingCase.name"] = "the past tense", ["parsingCase.verdictOnTheDisplayedVocab"] = "verified" }));
       }
 

@@ -26,7 +26,7 @@ public class When_adding_a_tag_to_the_notes_found : McpServerSpecification
    public When_adding_a_tag_to_the_notes_found()
    {
       _vocabFromWaniKani = WithAStudyNote(CreateVocab("行く", "to go", "いく"));
-      _vocabFromWaniKani.Tags.Set(Tag.FromName("source::wani"));
+      _vocabFromWaniKani.Edit(it => it.Tags.Set(Tag.FromName("source::wani")));
       _vocabWithNoTags = WithAStudyNote(CreateVocab("来る", "to come", "くる"));
       _kanjiWithNoTags = WithAStudyNote(CreateKanji("行", "go", "コウ", "い"));
    }

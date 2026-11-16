@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Mcp.Tools.Corpus.NoteDiffs;
 using ModelContextProtocol.Protocol;
@@ -32,10 +33,13 @@ public class When_diffing_the_changed_notes : CorpusRepositorySpecification
       WriteTheFilesOf(vocab行く, vocab来る, kanji行, sentence);
       FirstCommit = CommitEverything();
 
-      vocab行く.Forms.Add("逝く");
+      vocab行く.Edit(it => it.Forms.Add("逝く"));
       Vocab学校 = CreateVocab("学校", "school", "がっこう");
-      sentence.Configuration.HiddenMatches.AddGlobal("行く");
-      sentence.UpdateParsedWords(force: true);
+      sentence.Edit(it =>
+      {
+         it.Configuration.HiddenMatches.AddGlobal("行く");
+         it.UpdateParsedWords(force: true);
+      });
       WriteTheFilesOf(vocab行く, Vocab学校, sentence);
       FileOf(kanji行).Delete();
       Write(FileOf(vocab来る), JsonNode.Parse(File.ReadAllText(FileOf(vocab来る).FullName))?.ToJsonString() ?? "");

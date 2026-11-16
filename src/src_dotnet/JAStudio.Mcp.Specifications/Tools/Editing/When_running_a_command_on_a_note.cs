@@ -38,8 +38,11 @@ public class When_running_a_command_on_a_note : McpServerSpecification
 
       public accepting_the_meaning_of_a_vocab()
       {
-         Vocab.CorpusAnswer.Set("");
-         Vocab.SourceData.Answer.Set("To study, Learning");
+         Vocab.Edit(it =>
+         {
+            it.CorpusAnswer.Set("");
+            it.SourceData.Answer.Set("To study, Learning");
+         });
          _run = ResultOf<NoteCommandRun>(Run(Vocab, "acceptMeaning"));
       }
 

@@ -160,7 +160,7 @@ public class When_the_Anki_add_on_asks_the_primary_JAStudio : IAsyncDisposable
       {
          public that_acts_on_the_note_Anki_shows()
          {
-            _vocab.Mnemonic.Set("a mnemonic to remove");
+            _vocab.Edit(it => it.Mnemonic.Set("a mnemonic to remove"));
             TheAddOnsAnswerTo("run_the_note_view_shortcut", new { key = "0", note_id = _vocab.GetId().ToString() });
          }
 

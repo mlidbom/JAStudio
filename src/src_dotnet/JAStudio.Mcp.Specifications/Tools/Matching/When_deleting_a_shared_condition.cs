@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -25,7 +26,7 @@ public class When_deleting_a_shared_condition : McpServerSpecification
       CallTool("define_a_shared_condition",
                new Dictionary<string, object?> { ["subject"] = "Token", ["name"] = "IsAVerb", ["definition"] = """{"anyOf": [{"fact": "godanVerb"}, {"fact": "ichidanVerb"}]}""" });
       _ます = CreateVocab("ます", "polite ending", "ます");
-      _ます.MatchingConfiguration.SetMatchCondition(MatchConditionJson.VocabsMatchConditionFromJsonText("""{"precedingToken": {"sharedCondition": "IsAVerb"}}""", GetService<SharedConditions>()));
+      _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(MatchConditionJson.VocabsMatchConditionFromJsonText("""{"precedingToken": {"sharedCondition": "IsAVerb"}}""", GetService<SharedConditions>())));
 
       _deleted = ResultOf<ListedSharedCondition>(CallTool("delete_a_shared_condition", new Dictionary<string, object?> { ["subject"] = "Token", ["name"] = "IsAVerb" }));
    }

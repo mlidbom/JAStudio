@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
@@ -30,12 +31,15 @@ public class When_deleting_a_tag_branch : McpServerSpecification
    public When_deleting_a_tag_branch()
    {
       _sentenceTaggedWithBothEpisodes = WithAStudyNote(CreateTestSentence("明日学校に行く", "I'll go to school tomorrow"));
-      _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName(Episode07));
-      _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName(Episode08));
-      _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName("tmp"));
+      _sentenceTaggedWithBothEpisodes.Edit(it =>
+      {
+         it.Tags.Set(Tag.FromName(Episode07));
+         it.Tags.Set(Tag.FromName(Episode08));
+         it.Tags.Set(Tag.FromName("tmp"));
+      });
 
       _sentenceTaggedWithEpisode08Only = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
-      _sentenceTaggedWithEpisode08Only.Tags.Set(Tag.FromName(Episode08));
+      _sentenceTaggedWithEpisode08Only.Edit(it => it.Tags.Set(Tag.FromName(Episode08)));
 
       _anki = GetService<PretendAnki>();
       _anki.Tag(_sentenceTaggedWithBothEpisodes, "tmp::a", "marked");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
@@ -26,7 +27,7 @@ public class When_defining_a_shared_condition : McpServerSpecification
       Define("Token", "IsAVerb", """{"anyOf": [{"fact": "godanVerb"}, {"fact": "ichidanVerb"}]}""");
       _defined = Define("Word", "FollowsAVerb", """{"precedingToken": {"sharedCondition": "IsAVerb"}}""");
       var followsAVerb = (SharedCondition<CandidateWordVariant>)GetService<SharedConditions>().On(WordConditions.Level)[0];
-      CreateVocab("ます", "polite ending", "ます").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(followsAVerb));
+      CreateVocab("ます", "polite ending", "ます").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(followsAVerb)));
    }
 
    ListedSharedCondition Define(string subject, string name, string definition) =>

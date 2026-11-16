@@ -136,7 +136,7 @@ public class When_the_Anki_add_on_asks_JAStudio : IAsyncDisposable
       {
          public that_acts_on_the_note_Anki_shows()
          {
-            _vocab.Mnemonic.Set("a mnemonic to remove");
+            _vocab.Edit(it => it.Mnemonic.Set("a mnemonic to remove"));
             Post($"/anki/note-view-shortcuts/run?key=0&noteId={_vocab.GetId()}").EnsureSuccessStatusCode();
          }
 

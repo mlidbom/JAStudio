@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Mcp.Tools.Matching;
@@ -20,8 +21,8 @@ public class When_renaming_a_shared_condition : McpServerSpecification
    {
       Define("Token", "IsAVerb", """{"fact": "godanVerb"}""");
       Define("Word", "FollowsAVerb", """{"precedingToken": {"sharedCondition": "IsAVerb"}}""");
-      CreateVocab("ます", "polite ending", "ます").MatchingConfiguration
-                                                .SetMatchCondition(MatchConditionJson.VocabsMatchConditionFromJsonText("""{"precedingToken": {"sharedCondition": "IsAVerb"}}""", GetService<SharedConditions>()));
+      CreateVocab("ます", "polite ending", "ます")
+         .Edit(it => it.MatchingConfiguration.SetMatchCondition(MatchConditionJson.VocabsMatchConditionFromJsonText("""{"precedingToken": {"sharedCondition": "IsAVerb"}}""", GetService<SharedConditions>())));
    }
 
    void Define(string subject, string name, string definition) =>

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
@@ -29,11 +30,14 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
    public When_removing_a_tag_from_the_notes_found()
    {
       _sentenceTaggedWithBothEpisodes = WithAStudyNote(CreateTestSentence("明日学校に行く", "I'll go to school tomorrow"));
-      _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName(Episode07));
-      _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName(Episode08));
+      _sentenceTaggedWithBothEpisodes.Edit(it =>
+      {
+         it.Tags.Set(Tag.FromName(Episode07));
+         it.Tags.Set(Tag.FromName(Episode08));
+      });
 
       _sentenceTaggedWithEpisode08Only = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
-      _sentenceTaggedWithEpisode08Only.Tags.Set(Tag.FromName(Episode08));
+      _sentenceTaggedWithEpisode08Only.Edit(it => it.Tags.Set(Tag.FromName(Episode08)));
    }
 
    protected CallToolResult RemoveATagFromTheNotesFound(JsonObject search, string tag) =>
@@ -74,7 +78,7 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
 
       public a_tag_JAStudio_defines()
       {
-         _sentenceTaggedWithEpisode08Only.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
+         _sentenceTaggedWithEpisode08Only.Edit(it => it.Tags.Set(Tags.Sentence.Uses.HiddenMatches));
          _result = RemoveATagFromTheNotesFound(new JsonObject { ["allOf"] = new JsonArray() }, Tags.Sentence.Uses.HiddenMatches.Name);
       }
 

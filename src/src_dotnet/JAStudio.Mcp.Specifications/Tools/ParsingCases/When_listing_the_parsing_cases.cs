@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Mcp.Tools.ParsingCases;
@@ -24,9 +25,12 @@ public class When_listing_the_parsing_cases : McpServerSpecification
       CreateVocab("ている", "is-doing", "ている");
       CreateSentence("毎日走る");
       Sentence = CreateSentence("毎日走っている");
-      Sentence.MarkAsAParsingCase();
-      Sentence.NameTheParsingCase("the progressive");
-      Sentence.SayWhyItIsAParsingCase("ている was matched as て and いる");
+      Sentence.Edit(it =>
+      {
+         it.MarkAsAParsingCase();
+         it.NameTheParsingCase("the progressive");
+         it.SayWhyItIsAParsingCase("ている was matched as て and いる");
+      });
    }
 
    protected ParsingCasesListed List(bool includingThoseThatParseAsExpected = false, int maxDifferencesListedForEachCase = ParsingCaseTools.DifferencesListedForEachCaseByDefault) =>
@@ -74,7 +78,7 @@ public class When_listing_the_parsing_cases : McpServerSpecification
    {
       public after_its_displayed_vocab_are_verified_and_then_a_vocab_is_added_that_the_breakdown_displays()
       {
-         Sentence.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified);
+         Sentence.Edit(it => it.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified));
          CreateVocab("毎日", "every-day", "まいにち");
       }
 

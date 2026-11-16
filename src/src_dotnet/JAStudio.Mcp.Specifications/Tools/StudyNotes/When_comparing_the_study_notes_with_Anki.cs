@@ -3,6 +3,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Anki;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Studying.StudyNotes;
@@ -74,8 +75,11 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
    {
       public with_two_recordings()
       {
-         Vocab.Audio.Add(new AudioReference("a.mp3"));
-         Vocab.Audio.Add(new AudioReference("b.mp3"));
+         Vocab.Edit(it =>
+         {
+            it.Audio.Add(new AudioReference("a.mp3"));
+            it.Audio.Add(new AudioReference("b.mp3"));
+         });
       }
 
       protected StudyNotesThatDiffer ListTheStudyNotesThatDifferWithTheAudioInAnki(string audioB, string audioG, bool leavingOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers = false)

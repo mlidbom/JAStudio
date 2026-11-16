@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.Mcp.Tools.Matching;
@@ -24,10 +25,13 @@ public class When_using_a_shared_condition_wherever_its_definition_is : McpServe
       Define("Token", "IsAVerb", """{"anyOf": [{"fact": "godanVerb"}, {"fact": "ichidanVerb"}]}""");
       Define("Word", "FollowsAVerb", """{"precedingToken": {"anyOf": [{"fact": "godanVerb"}, {"fact": "ichidanVerb"}]}}""");
       var politeます = CreateVocab("ます", "polite ending", "ます");
-      politeます.Question.SetDisambiguation("polite");
-      politeます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.AnyOf(TokenConditions.IsAnIchidanVerb, TokenConditions.IsAGodanVerb)));
-      CreateVocab("ます", "polite ending, again", "ます").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb)));
-      CreateVocab("を", "object marker", "を").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.IsAMasuStem));
+      politeます.Edit(it =>
+      {
+         it.Question.SetDisambiguation("polite");
+         it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.AnyOf(TokenConditions.IsAnIchidanVerb, TokenConditions.IsAGodanVerb)));
+      });
+      CreateVocab("ます", "polite ending, again", "ます").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb))));
+      CreateVocab("を", "object marker", "を").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.IsAMasuStem)));
    }
 
    void Define(string subject, string name, string definition) =>

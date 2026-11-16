@@ -28,17 +28,20 @@ public class When_getting_the_tag_tree : McpServerSpecification
 {
    public When_getting_the_tag_tree()
    {
-      CreateTestSentence("明日学校に行く", "I'll go to school tomorrow").Tags.Set(Tag.FromName("source::anime::natsume::s3::01"));
+      CreateTestSentence("明日学校に行く", "I'll go to school tomorrow").Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume::s3::01")));
 
       var sentenceAboutHome = CreateTestSentence("家に帰る", "Go home");
-      sentenceAboutHome.Tags.Set(Tag.FromName("source::anime::natsume::s3::02"));
-      sentenceAboutHome.Tags.Set(Tag.FromName("-::priority::low"));
+      sentenceAboutHome.Edit(it =>
+      {
+         it.Tags.Set(Tag.FromName("source::anime::natsume::s3::02"));
+         it.Tags.Set(Tag.FromName("-::priority::low"));
+      });
 
       var studiedVocab = CreateVocab("行く", "to go", "いく");
-      studiedVocab.Tags.Set(Tag.FromName("source::wani::level::01"));
+      studiedVocab.Edit(it => it.Tags.Set(Tag.FromName("source::wani::level::01")));
       studiedVocab.SetStudyingStatus(new CardStudyingStatus(0, CardTypes.Reading, isSuspended: false, NoteTypes.Vocab));
 
-      CreateKanji("行", "go", "コウ", "い").Tags.Set(Tag.FromName("source::wani::level::01"));
+      CreateKanji("行", "go", "コウ", "い").Edit(it => it.Tags.Set(Tag.FromName("source::wani::level::01")));
       CreateVocab("来る", "to come", "くる");
    }
 
