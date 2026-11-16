@@ -16,4 +16,4 @@ public abstract partial class VocabTevent : NoteTevent, IVocabTevent
 }
 
 /// <summary>The class of the wrapper <see cref="IVocabTevent{TTevent}"/>.</summary>
-public class VocabTevent<TTevent>(TTevent tevent) : NoteTevent<TTevent>(tevent), IVocabTevent<TTevent> where TTevent : IVocabTevent;
+public class VocabTevent<TTevent>(TTevent tevent) : NoteTevent<TTevent>(tevent), IVocabTevent<TTevent> where TTevent : INoteTevent;

@@ -36,7 +36,7 @@ observe.ForTevent((INoteTevent it) => ...);
 | Every note's root | `INoteTevent : ITaggregateTevent` | `NoteTevent` |
 | A note class's root | `IVocabTevent : INoteTevent` | `VocabTevent` |
 | A new note | `IVocabTevent.Created : ITaggregateCreatedTevent, Question.TextChanged` | `VocabTevent.Created` |
-| A part's group | `IVocabTevent.Forms : IVocabTevent` | none: never published itself |
+| A part's group | `IVocabTevent.Forms : IVocabTevent` | `VocabTevent.Forms`, abstract: the part's component is typed on it |
 | A part's tevent | `IVocabTevent.Forms.Added { Form }` | `VocabTevent.Forms.Added` |
 | A shared tomponent's own tevents | `IStringValueTevent : ITevent`, `IStringValueTevent.Set { Value }` | `StringValueTevent.Set` |
 | A shared tomponent's place in a note | `IVocabTevent.Mnemonic<out T> : IVocabTevent, IPublisherTevent<T>` | `VocabTevent.Mnemonic<T>` |
@@ -48,21 +48,37 @@ observe.ForTevent((INoteTevent it) => ...);
 
 ## How `VocabNoteForms` will publish and apply them
 
-A sketch, not compiled: how a component declares its tevent appliers comes with Compze's step 3, and its names are
-placeholders until the naming pass. What it shows is the shape: a domain method decides and publishes, and an applier
-only changes state, so loading a vocab, which runs no applier, and changing it can't disagree.
+A sketch, not compiled: how a class declares its tevent appliers comes with Compze's step 3. Its shape is that of
+`jastudio-rep-opus`'s experiment, Compze's branch `taggregate-experiments-opus`,
+`test/Compze.Tests.Unit/CQRS/Taggregates/PerClassTeventRouting/VocabNote.cs`, and its names are placeholders until the
+naming pass. What it shows: a domain method decides and publishes, and an applier only changes state, so loading a vocab,
+which runs no applier, and changing it can't disagree.
 
 ```csharp
-public class VocabNoteForms : VocabNote.Component<IVocabTevent.Forms>
+public class VocabNote : JPNote
+{
+   //The vocab's table extends every note's, and names the vocab's parts: a part is routed to only when its owner's table names it.
+   static readonly TeventRouting<VocabNote> Appliers = NoteAppliers.Extend<VocabNote>(it => it
+      .Component(static vocab => vocab.Forms)
+      .SharedTomponent(static vocab => Slots.Mnemonic));   //and the other five text fields
+
+   //The places of the shared tomponents: statics of the class, as a place describes the class, not one vocab.
+   static class Slots
+   {
+      public static readonly SharedTomponentSlot<...> Mnemonic = new(typeof(VocabTevent.Mnemonic<>));
+   }
+}
+
+public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteForms, IVocabTevent.Forms, VocabTevent.Forms>
 {
    List<EnteredForm> _enteredForms;
 
-   static readonly TeventRouting<VocabNoteForms, IVocabTevent.Forms> Appliers = DeclareAppliers()
-      .For<IVocabTevent.Forms.Added>((forms, it) => forms._enteredForms.Add(EnteredForm.NotOwned(it.Form)))
-      .For<IVocabTevent.Forms.Removed>((forms, it) => forms._enteredForms.RemoveAll(form => form.Text == it.Form))
-      .For<IVocabTevent.Forms.Owned>((forms, it) => forms.Replace(EnteredForm.Owned(it.Form)))
-      .For<IVocabTevent.Forms.NoLongerOwned>((forms, it) => forms.Replace(EnteredForm.NotOwned(it.Form)))
-      .For<IVocabTevent.Forms.Replaced>((forms, it) => forms._enteredForms = [.. it.EnteredForms]);
+   static readonly TeventRouting<VocabNoteForms> Appliers = TeventRouting<VocabNoteForms>.DeclareAppliers(it => it
+      .For<IVocabTevent.Forms.Added>(static (forms, tevent) => forms._enteredForms.Add(EnteredForm.NotOwned(tevent.Form)))
+      .For<IVocabTevent.Forms.Removed>(static (forms, tevent) => forms._enteredForms.RemoveAll(form => form.Text == tevent.Form))
+      .For<IVocabTevent.Forms.Owned>(static (forms, tevent) => forms.Replace(EnteredForm.Owned(tevent.Form)))
+      .For<IVocabTevent.Forms.NoLongerOwned>(static (forms, tevent) => forms.Replace(EnteredForm.NotOwned(tevent.Form)))
+      .For<IVocabTevent.Forms.Replaced>(static (forms, tevent) => forms._enteredForms = [.. tevent.EnteredForms]));
 
    public void Add(string form)
    {
@@ -71,6 +87,9 @@ public class VocabNoteForms : VocabNote.Component<IVocabTevent.Forms>
    }
 }
 ```
+
+How an instance finds its class's table is left out: by your provisional decision, an explicit implementation of a
+Compze interface, so that no such member shows among every note's members.
 
 - **What reaches other vocab leaves the domain call.** Today `Add` also adds this vocab's question to the forms of the vocab
   whose question the form is, by calling them. With tevents that is a participation handler of `IVocabTevent.Forms.Added`,
@@ -82,6 +101,10 @@ public class VocabNoteForms : VocabNote.Component<IVocabTevent.Forms>
   `Forms.Removed`, so that what follows the forms sees that change too.
 
 ## The calls I made, for you to check
+
+`jastudio-rep-opus` has read this, and agrees with calls 1, 2, 3 and 6. It corrected how a component and a place attach
+to their note, which the sketch above now shows, and the code followed: a part's group has an abstract class, which its
+component is typed on, and a vocab's wrapper takes any `INoteTevent`, since a vocab also publishes what every note does.
 
 1. **Nested tevent interfaces are named without an `I`,** by Compze's semantic-events convention: `IVocabTevent.Forms.Added`
    reads as what happened. ReSharper's naming rule flags each at suggestion level (`InconsistentNaming`, rule
@@ -95,8 +118,9 @@ public class VocabNoteForms : VocabNote.Component<IVocabTevent.Forms>
    Turning that edit into `Added`, `Removed` and `Owned` would lose the order of the entered forms, which the vocab
    keeps, and wouldn't be what happened.
 4. **Each text field is a place of the shared tomponent `IStringValueTevent`,** with a wrapper of its own: one interface
-   and one class per field, two files of a few lines each. A vocab has six such fields, and the three note types 27 in all.
-   The analyzer with a code fix that Magnus has decided on for Compze would write the classes.
+   and one class per field, two files of a few lines each, and a line for its place among the vocab's `Slots`. A vocab has
+   six such fields, and the three note types 27 in all. The analyzer with a code fix that Magnus has decided on for Compze
+   would write the classes.
 5. **One file for each nested type,** as the code standards say: 22 files so far, most of them a few lines.
 6. **`Created` is also a `Question.TextChanged`,** as the sample's `UserRegistered` is also a `PropertyUpdated.Email`: what
    follows a vocab's question follows a new vocab's question too.

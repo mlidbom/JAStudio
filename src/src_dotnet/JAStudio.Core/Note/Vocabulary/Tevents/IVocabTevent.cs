@@ -18,5 +18,8 @@ public partial interface IVocabTevent : INoteTevent
    public interface Created : IVocabTevent, ITaggregateCreatedTevent, Question.TextChanged;
 }
 
-/// <summary>An <see cref="IVocabTevent"/> as its vocab published it: see <see cref="INoteTevent{TTevent}"/>.</summary>
-public interface IVocabTevent<out TTevent> : INoteTevent<TTevent> where TTevent : IVocabTevent;
+/// <summary>
+/// A tevent as a vocab published it: see <see cref="INoteTevent{TTevent}"/>. Any <see cref="INoteTevent"/>, since a vocab also publishes the tevents<br/>
+/// every note has.
+/// </summary>
+public interface IVocabTevent<out TTevent> : INoteTevent<TTevent> where TTevent : INoteTevent;

@@ -4,29 +4,30 @@ namespace JAStudio.Core.Note.Vocabulary.Tevents;
 
 public partial class VocabTevent
 {
-   public static class Forms
+   /// <summary>The base class of the classes of the <see cref="IVocabTevent.Forms"/> tevents, which <see cref="VocabNoteForms"/> publishes.</summary>
+   public abstract class Forms : VocabTevent, IVocabTevent.Forms
    {
-      public class Added(string form) : VocabTevent, IVocabTevent.Forms.Added
+      public class Added(string form) : Forms, IVocabTevent.Forms.Added
       {
          public string Form { get; } = form;
       }
 
-      public class Removed(string form) : VocabTevent, IVocabTevent.Forms.Removed
+      public class Removed(string form) : Forms, IVocabTevent.Forms.Removed
       {
          public string Form { get; } = form;
       }
 
-      public class Owned(string form) : VocabTevent, IVocabTevent.Forms.Owned
+      public class Owned(string form) : Forms, IVocabTevent.Forms.Owned
       {
          public string Form { get; } = form;
       }
 
-      public class NoLongerOwned(string form) : VocabTevent, IVocabTevent.Forms.NoLongerOwned
+      public class NoLongerOwned(string form) : Forms, IVocabTevent.Forms.NoLongerOwned
       {
          public string Form { get; } = form;
       }
 
-      public class Replaced(IReadOnlyList<EnteredForm> enteredForms) : VocabTevent, IVocabTevent.Forms.Replaced
+      public class Replaced(IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.Replaced
       {
          public IReadOnlyList<EnteredForm> EnteredForms { get; } = enteredForms;
       }
