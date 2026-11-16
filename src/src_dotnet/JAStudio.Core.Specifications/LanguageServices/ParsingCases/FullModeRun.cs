@@ -29,7 +29,7 @@ sealed class FullModeRun
          ];
 
          var caseOf = ParsingCasesFolder.ReplaceTheCasesWithThoseOf(parsingCasesOfTheCorpus, corpusCheckout.Collection);
-         ParsingCasesFolder.StrippedDownCorpus.ReplaceTheVocabWith(vocabLookedUp, corpusCheckout.Serializer, SourceCheckout.CorpusCheckout);
+         ParsingCasesFolder.StrippedDownCorpus.ReplaceTheVocabWith(vocabLookedUp, SourceCheckout.CorpusCheckout);
          resultAgainstTheCorpusCheckout = parsingCasesOfTheCorpus.ToDictionary(sentence => caseOf[sentence], sentence => results[sentence]);
       }
 

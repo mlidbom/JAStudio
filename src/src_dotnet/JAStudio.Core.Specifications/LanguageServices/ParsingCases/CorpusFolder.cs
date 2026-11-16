@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.SysUtils.IO;
@@ -60,13 +61,10 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    /// Replaces the vocab of this folder with <paramref name="vocab"/>, written as JAStudio writes the corpus's notes, and its shared-conditions with those of<br/>
    /// <paramref name="theCorpusOfTheVocab"/>, which the vocab's match-conditions use.
    /// </summary>
-   public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, NoteSerializer serializer, CorpusFolder theCorpusOfTheVocab)
+   public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, CorpusFolder theCorpusOfTheVocab)
    {
       DeleteTheFilesIn(VocabFolder);
-
-      var repository = new FileSystemNoteRepository(serializer, _folder.FullName);
-      foreach(var note in vocab) repository.Save(note);
-
+      new CorpusNoteFiles(_folder.FullName).Prepare([.. vocab.Select(it => new TaggregateSnapshot(typeof(VocabNote), it.Id, it.TakeSnapshot()))], []).Commit();
       theCorpusOfTheVocab.CopyTheSharedConditionsTo(this);
    }
 
