@@ -104,6 +104,8 @@ piece of code, or that would otherwise be lost in a long response.
     shared tomponents throughout, and a vocab loads from about eleven tevents. No part needs a tevent handler of its
     own. A sentence's root needs one: a change to its configuration reparses it
     (`CachingSentenceConfigurationField`).
+  - *A step on JAStudio's side that waits for nothing, deferred by Magnus the same day* while the changes to Compze
+    are explored: one note type's tevent interfaces, interfaces only, written to be read.
 - **(Claude, 2026-11-15) The card that says JAStudio is still loading could be JAStudio's own page.** While the
   collection loads, Anki's card shows a text (`Mine.AppStillLoadingMessage`), and JAStudio has Anki draw its cards
   again when the load is done (`ISRSWindows.Refresh`), by poking the reviewer's and the previewer's private members.
