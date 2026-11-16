@@ -18,9 +18,9 @@ namespace JAStudio.Core.Note;
 public static class KanjiEditableFields
 {
    /// <summary>The corpus's own answer, which takes the place of the source's (<see cref="SourceAnswer"/>).</summary>
-   public static readonly EditableTextField<KanjiNote> Answer = new("corpusAnswer", "Answer", TextFieldFormat.Line, it => it.CorpusAnswer);
+   public static readonly EditableTextField<KanjiNote> Answer = new("corpusAnswer", "Answer", TextFieldFormat.Line, it => it.CorpusAnswer, (it, text) => it.SetCorpusAnswer(text));
 
-   public static readonly EditableTextField<KanjiNote> Mnemonic = new("mnemonic", "Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic);
+   public static readonly EditableTextField<KanjiNote> Mnemonic = new("mnemonic", "Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic, (it, text) => it.SetMnemonic(text));
 
    public static readonly EditableKanjiReadingsField OnReadings = new("readings.on", KanjiReadingKind.On);
    public static readonly EditableKanjiReadingsField KunReadings = new("readings.kun", KanjiReadingKind.Kun);
@@ -49,11 +49,11 @@ public static class KanjiEditableFields
       new("primaryVocab", "Primary vocab", it => [.. it.PrimaryVocab.Words.Select(word => word.DisambiguationName)], (it, names) => it.PrimaryVocab.Set(WordReference.TheWordsNamedBy(names)));
 
    /// <summary>The answer the kanji's source gave it (<see cref="KanjiNote.SourceData"/>).</summary>
-   public static readonly EditableTextField<KanjiNote> SourceAnswer = new("sourceData.answer", "Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer);
+   public static readonly EditableTextField<KanjiNote> SourceAnswer = new("sourceData.answer", "Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer, (it, text) => it.SourceData.SetAnswer(text));
 
    /// <summary>The meaning mnemonic the kanji's source gave it, never shown on a card.</summary>
    public static readonly EditableTextField<KanjiNote> SourceMeaningMnemonic =
-      new("sourceData.meaningMnemonic", "Meaning mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.MeaningMnemonic);
+      new("sourceData.meaningMnemonic", "Meaning mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.MeaningMnemonic, (it, text) => it.SourceData.SetMeaningMnemonic(text));
 
    public static readonly EditableTagsField<KanjiNote> Tags = new();
 

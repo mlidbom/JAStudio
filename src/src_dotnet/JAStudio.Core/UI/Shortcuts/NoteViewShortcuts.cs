@@ -61,7 +61,7 @@ public class NoteViewShortcuts
       switch(viewedNote)
       {
          case KanjiNote kanji:
-            kanji.Edit(it => it.Mnemonic.Empty());
+            kanji.Edit(it => it.SetMnemonic(string.Empty));
             break;
          case VocabNote vocab:
             vocab.Edit(it => it.SetMnemonic(string.Empty));

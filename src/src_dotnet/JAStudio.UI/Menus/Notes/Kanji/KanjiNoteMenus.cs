@@ -32,14 +32,14 @@ class KanjiNoteMenus
                      SpecMenuItem.Command(ShortcutFinger.Home3("Reset Primary Vocabs"), kanji.PrimaryVocab.Clear)
                   };
 
-      if(!kanji.CorpusAnswer.HasValue())
+      if(kanji.CorpusAnswer is "")
       {
          items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up1, KanjiCommands.AcceptMeaning, kanji));
       }
 
       items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up2, KanjiCommands.PopulateRadicalsFromMnemonicTags, kanji));
       items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up3, KanjiCommands.BootstrapMnemonicFromRadicals, kanji));
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.Edit(it => it.Mnemonic.Empty())));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.Edit(it => it.SetMnemonic(string.Empty))));
 
       return SpecMenuItem.Submenu(title, items);
    }

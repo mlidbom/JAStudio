@@ -16,7 +16,7 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
    public void InsideRadicalPopulation()
    {
       var insideReference = GetService<KanjiCollection>().WithKanji("内")!.Reference();
-      insideReference.Current.Edit(it => it.Mnemonic.Set("<rad>head</rad> <rad>person</rad>"));
+      insideReference.Current.Edit(it => it.SetMnemonic("<rad>head</rad> <rad>person</rad>"));
 
       insideReference.Current.Edit(it => it.PopulateRadicalsFromMnemonicTags());
 
@@ -35,7 +35,7 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
 
       kanjiNoteReference.Current.Edit(it => it.BootstrapMnemonicFromRadicals());
 
-      Assert.Equal(expectedMnemonic, kanjiNoteReference.Current.Mnemonic.Value);
+      Assert.Equal(expectedMnemonic, kanjiNoteReference.Current.Mnemonic);
    }
 
    [Fact]

@@ -20,8 +20,8 @@ using JAStudio.Core.Note.Vocabulary.Tevents;
 namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a vocab's text field publishes the<br/>
-/// <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>) included. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
+/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a vocab's or a kanji's text field<br/>
+/// publishes the <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>) included. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
 /// changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store would save it.
 /// </summary>
 public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
@@ -80,6 +80,50 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
       [XF] public void it_published_its_created_tevent_alone() => _published.Must().Satisfy(it => it is [ISentenceTevent.Created]);
       [XF] public void the_created_tevent_gave_it_its_id() => _sentence.GetId().Must().Be(_published[0].TaggregateId);
+   }
+
+   public class given_a_kanji_in_the_collection : When_notes_publish_tevents
+   {
+      readonly ITaggregateReference<KanjiNote> _kanjiReference;
+      KanjiNote _kanji => _kanjiReference.Current;
+
+      public given_a_kanji_in_the_collection() => _kanjiReference = CreateKanji("走", "run", "ソウ", "はし.る").Reference();
+
+      /// <summary>The tevents the kanji's copy publishes as <paramref name="change"/> changes it, in an edit, as the unit of work dispatches them.</summary>
+      protected IReadOnlyList<INoteTevent> TheTeventsPublishedAs(Action<KanjiNote> change)
+      {
+         List<INoteTevent> published = [];
+         _kanji.Edit(it =>
+         {
+            using var _ = ((ITaggregate)it).TeventStream.Subscribe(tevent => published.Add((INoteTevent)tevent.Tevent));
+            change(it);
+         });
+         return published;
+      }
+
+      public class when_its_answer_is_changed : given_a_kanji_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_answer_is_changed() => _published = TheTeventsPublishedAs(it => it.SetCorpusAnswer(" run | dash "));
+
+         [XF] public void it_publishes_that_its_corpus_answer_was_updated_to_the_new_answer_trimmed() =>
+            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.CorpusAnswer { CorpusAnswer: "run | dash" }]);
+
+         [XF] public void the_committed_kanji_has_the_new_answer() => _kanji.CorpusAnswer.Must().Be("run | dash");
+      }
+
+      public class when_its_source_answer_is_changed : given_a_kanji_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_source_answer_is_changed() => _published = TheTeventsPublishedAs(it => it.SourceData.SetAnswer(" running "));
+
+         [XF] public void it_publishes_that_its_source_answer_was_updated_to_the_new_answer_trimmed() =>
+            _published.Must().Satisfy(it => it is [IKanjiTevent.SourceData.PropertyUpdated.Answer { Answer: "running" }]);
+
+         [XF] public void the_committed_kanji_has_the_new_source_answer() => _kanji.SourceData.Answer.Must().Be("running");
+      }
    }
 
    public class given_a_vocab_in_the_collection : When_notes_publish_tevents

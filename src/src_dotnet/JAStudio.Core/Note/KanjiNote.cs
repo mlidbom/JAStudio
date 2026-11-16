@@ -13,7 +13,6 @@ using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.KanjiRelationships;
 using JAStudio.Core.Note.KanjiTevents;
 using JAStudio.Core.Note.Media;
-using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Dto;
@@ -24,17 +23,27 @@ namespace JAStudio.Core.Note;
 public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRouted
 {
    static readonly TeventRouting<KanjiNote> Appliers = NoteAppliers.Extend<KanjiNote>(it => it
-     .For<IKanjiTevent.Created>(static (kanji, tevent) => kanji._question = tevent.Question));
+     .For<IKanjiTevent.Created>(static (kanji, tevent) => kanji._question = tevent.Question)
+     .For<IKanjiTevent.PropertyUpdated.CorpusAnswer>(static (kanji, tevent) => kanji.CorpusAnswer = tevent.CorpusAnswer)
+     .For<IKanjiTevent.PropertyUpdated.Mnemonic>(static (kanji, tevent) => kanji.Mnemonic = tevent.Mnemonic)
+     .For<IKanjiTevent.PropertyUpdated.KanjiReferences>(static (kanji, tevent) => kanji.KanjiReferences = tevent.KanjiReferences)
+     .Component(static kanji => kanji.SourceData));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
    /// <summary>
    /// The corpus's own answer for the kanji: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
    /// </summary>
-   public WritableStringValue CorpusAnswer { get; private set; }
+   public string CorpusAnswer { get; private set; }
 
    /// <summary>The corpus's own mnemonic for the kanji. The card shows it, or while there's none, a default one: see <see cref="ShownMnemonic"/>.</summary>
-   public WritableStringValue Mnemonic { get; private set; }
+   public string Mnemonic { get; private set; }
+
+   /// <summary>Gives the kanji <paramref name="answer"/>, trimmed, as its <see cref="CorpusAnswer"/>.</summary>
+   public void SetCorpusAnswer(string answer) => PublishIfChanged(CorpusAnswer, answer.Trim(), static it => new KanjiTevent.CorpusAnswerUpdated(it));
+
+   /// <summary>Gives the kanji <paramref name="mnemonic"/>, trimmed, as its <see cref="Mnemonic"/>.</summary>
+   public void SetMnemonic(string mnemonic) => PublishIfChanged(Mnemonic, mnemonic.Trim(), static it => new KanjiTevent.MnemonicUpdated(it));
 
    /// <summary>What the kanji's source gave it when it was imported.</summary>
    public KanjiSourceData SourceData { get; private set; }
@@ -42,7 +51,12 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    /// <summary>The kanji's on, kun and nanori readings, each primary or secondary.</summary>
    public KanjiNoteReadings Readings { get; private set; }
 
-   public WritableStringValue KanjiReferences { get; private set; }
+   /// <summary>The corpus's references for the kanji, such as where its mnemonic comes from.</summary>
+   public string KanjiReferences { get; private set; }
+
+   /// <summary>Gives the kanji <paramref name="kanjiReferences"/>, trimmed, as its <see cref="KanjiReferences"/>.</summary>
+   public void SetKanjiReferences(string kanjiReferences) =>
+      PublishIfChanged(KanjiReferences, kanjiReferences.Trim(), static it => new KanjiTevent.KanjiReferencesUpdated(it));
 
    /// <summary>
    /// The kanji's images, which only a few have, all the corpus's own: pasted or from the web, as kanji have no source media. Shown nowhere yet: JAStudio<br/>
@@ -88,11 +102,11 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    void BuildThePartsFrom(KanjiDto? data)
    {
       _question = data?.Kanji ?? string.Empty;
-      CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
-      Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, Guard);
-      SourceData = new KanjiSourceData(data?.SourceData, Guard);
+      CorpusAnswer = data?.CorpusAnswer ?? string.Empty;
+      Mnemonic = data?.Mnemonic ?? string.Empty;
+      SourceData = new KanjiSourceData(this, data?.SourceData);
       Readings = new KanjiNoteReadings(data?.Readings, Guard);
-      KanjiReferences = new WritableStringValue(data?.References ?? string.Empty, Guard);
+      KanjiReferences = data?.References ?? string.Empty;
       Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], Guard);
       Radicals = new KanjiRadicals(this, data?.Radicals ?? [], Guard);
       PrimaryVocab = new KanjiPrimaryVocab(this, data?.PrimaryVocab.Select(WordReference.FromDto) ?? [], Guard);
@@ -113,7 +127,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    public bool IsNamedBy(string character) => character == GetQuestion();
 
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
-   public override string GetAnswer() => CorpusAnswer.HasValue() ? CorpusAnswer.Value : SourceData.Answer.Value;
+   public override string GetAnswer() => CorpusAnswer is not "" ? CorpusAnswer : SourceData.Answer;
 
    /// <summary>
    /// Makes the source's answer the corpus's own (<see cref="CorpusAnswer"/>), written as the corpus writes a kanji's answers: in lower case, the<br/>
@@ -122,8 +136,8 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    /// </summary>
    public void AcceptMeaning()
    {
-      Contract.State.Assert(!CorpusAnswer.HasValue(), () => $"The kanji {GetQuestion()} has an answer of its own already: {CorpusAnswer.Value}");
-      CorpusAnswer.Set(WrittenAsTheCorpusWritesAKanjisAnswers(SourceData.Answer.Value));
+      Contract.State.Assert(CorpusAnswer is "", () => $"The kanji {GetQuestion()} has an answer of its own already: {CorpusAnswer}");
+      SetCorpusAnswer(WrittenAsTheCorpusWritesAKanjisAnswers(SourceData.Answer));
 
       static string WrittenAsTheCorpusWritesAKanjisAnswers(string sourceAnswer) =>
          sourceAnswer.Replace("<", "|")
@@ -293,7 +307,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    /// The mnemonic the kanji's card shows: the corpus's own <see cref="Mnemonic"/>, or while there's none, a default one made from the kanji's readings<br/>
    /// (<see cref="KanjiNoteMnemonicMaker"/>). The source's mnemonics are never shown.
    /// </summary>
-   public string ShownMnemonic => Mnemonic.HasValue() ? Mnemonic.Value : $"# {Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this)}";
+   public string ShownMnemonic => Mnemonic is not "" ? Mnemonic : $"# {Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this)}";
 
    public List<VocabNote> GetVocabNotes() => Services.Collection.Vocab.WithKanjiInAnyForm(this);
 
@@ -307,7 +321,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
 
    public void BootstrapMnemonicFromRadicals()
    {
-      Mnemonic.Set(Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this));
+      SetMnemonic(Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this));
    }
 
    /// <summary>
@@ -321,7 +335,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
 
       List<string> DetectRadicalsFromMnemonic()
       {
-         var radicalNames = Regex.Matches(Mnemonic.Value, "<rad>(.*?)</rad>")
+         var radicalNames = Regex.Matches(Mnemonic, "<rad>(.*?)</rad>")
                                  .Select(m => m.Groups[1].Value)
                                  .ToList();
 
@@ -342,7 +356,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    public static KanjiNote Create(NoteServices services, string question, string answer)
    {
       var note = new KanjiNote(services, question);
-      note.CorpusAnswer.Set(answer);
+      note.SetCorpusAnswer(answer);
       services.Collection.Kanji.Add(note);
       return note;
    }
