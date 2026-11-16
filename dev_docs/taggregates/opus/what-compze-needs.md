@@ -33,8 +33,22 @@ Compze document: `1-loading-a-taggregate-from-a-snapshot.md`.
 - **Why:** a taggregate can come into being only by publishing its creation tevent, or from a tevent store's history.
   Restoring from stored state works through `LoadFromHistory` only after setting the tevent's version through
   `IMutableTaggregateTevent.SetTaggregateVersionInternal`, which is `[Obsolete]` for Compze's internal use.
-- **The change:** `ITaggregate.LoadFromSnapshot(snapshot, version)`. It wraps the tevent in the taggregate's own
+- **The change:** `ITaggregate.LoadFromSnapshot(snapshot, version)`. It wraps each tevent in the taggregate's own
   wrapper, stamps the version, runs the tevent appliers only, and asserts the invariants.
+- **A snapshot is a short history, not necessarily one tevent:** the shortest history that produces the state. One
+  tevent can restore a taggregate and its owned components, whose tevents are subtypes of the owner's, but not the
+  rest. `Tentity`'s collection manager creates one entity per entity-created tevent, with the id that tevent carries.
+  A shared tomponent receives only tevents wrapped in its slot's adopting wrapper, and two members of the same type,
+  such as a shipping and a billing address, can't both be fed from one tevent. So the snapshot is:
+  - first, the tevent with the snapshot marker, which establishes identity, and no later one has it;
+  - one tevent per entity that implements that entity's created tevent, nested entities alike;
+  - for each shared-tomponent slot, the tomponent's own snapshot tevent wrapped in the slot's adopting wrapper, and for
+    a collection of shared tentities in a slot, one wrapped created tevent per tentity.
+
+  Every part restores through its own appliers. All the snapshot's tevents get the one version: the snapshot as a whole
+  stands for the first N tevents, and how many tevents it takes depends on the shape of the state, not on its history.
+  Raised by taggregates-opus, decided by jastudio-rep-opus (2026-11-16). Restoring each part from a state object, outside
+  the appliers, is rejected: it brings back two code paths for state.
 - **A snapshot marker of its own,** not `ITaggregateCreatedTevent`: a restored note wasn't created, and Compze reads
   `ITaggregateCreatedTevent` as creation. Both markers establish the taggregate's identity. The name is Magnus's call:
   `ITaggregateSnapshotTevent` or `ITaggregateRestoredTevent`.
@@ -89,40 +103,30 @@ Compze document: `4-later.md`. None of these is needed for JAStudio's first slic
   a tevent's interfaces choose its delivery guarantees.
 - **Compze's README calls the in-memory overhead "entirely negligible":** true per dispatch, not per instance held.
 - **A source generator for tevent classes:** the class hierarchy mirrors the interface hierarchy mechanically.
-- **Subscribing to a shared tomponent's tevents across every owner:** see the next section.
+- **A convenience method for subscribing to a shared tomponent's tevents across every owner.** No new routing is
+  needed: routing unwraps one wrapper level, and a shared tomponent's tevent is wrapped twice, but
+  `ForWrappedGeneric<IPublisherTevent<IPublisherTevent<IPostalAddressTevent>>>` matches every slot of every owner by
+  covariance, with nothing declared on the owners, and naming an inner tevent type selects chosen tevents. Checked
+  with 0.6.0-alpha by jastudio-rep-opus. A shorter way to write it would be ergonomics only. (taggregates-opus had
+  proposed that each owner make its adopting wrappers implement a meaning of its own; it works, but needs a
+  declaration on every owner.)
+- **A marker for property-updated tevents,** only if it earns its place for other reasons too. A snapshot tevent that
+  doesn't implement a newly added property-updated tevent leaves that property at its default on load, and the next
+  save loses the data. The per-class tables could check it once per class if property-updated tevents were marked.
+  Until then the consumer's round-trip specification (load, save, compare) is the safety net: JAStudio needs one.
 
-## Open: a snapshot of entity collections and shared tomponents
+## Raised, not yet answered
 
-Raised with jastudio-rep-opus on 2026-11-16, not yet answered. A Compze requirement whatever JAStudio's design: any
-snapshot feature, a tevent store's included, will meet it.
+Raised with jastudio-rep-opus on 2026-11-16. Neither changes the order.
 
-One snapshot tevent can restore a taggregate and its owned components, whose tevents are subtypes of the owner's, but
-not the rest:
-
-- **Entity collections:** `Tentity`'s collection manager creates one entity per entity-created tevent, with the id that
-  tevent carries. One tevent creates at most one entity.
-- **Shared tomponents:** a slot routes to its tomponent only tevents wrapped in the slot's adopting wrapper tevent. Two
-  members of the same tomponent type, such as a shipping and a billing address, both close `IPublisherTevent<T>` over
-  the same inner type, so one snapshot tevent can't hand each slot a different inner tevent.
-
-Read from the code of 0.6.0-alpha (`Tentity.CollectionManager`, `SharedTomponentSlot`), not run.
-
-**Proposed:** a snapshot as the shortest history that produces the state, not necessarily one tevent:
-`LoadFromSnapshot(IEnumerable<ITaggregateTevent> snapshot, int version)`. First the tevent that establishes identity,
-then one created tevent per entity carrying its state, then for each slot the tomponent's own snapshot tevent wrapped
-in that slot's adopting wrapper. Every part still restores through its own appliers. How the snapshot's tevents are
-numbered is left open. The alternative, restoring each part from a state object outside the appliers, brings back two
-code paths for state.
-
-## Considerations raised, for the Compze session to weigh
-
-- **Subscribing to a shared tomponent's tevents across every owner may need no new subscription kind.** Routing
-  unwraps one wrapper level, and a shared tomponent's tevent is wrapped twice, so Compze's documents list a new kind
-  of subscription for it, later. But a slot's adopting wrapper tevent type is itself an owner tevent, so the owner can
-  make it implement a meaning of its own hierarchy, such as "an address changed". A subscriber across every owner then
-  subscribes to that meaning, one wrapper level in. It costs a declaration per owner, and covers every tevent of the
-  slot.
-- **A snapshot that misses a property loses it silently.** A snapshot tevent that doesn't implement a newly added
-  property-updated tevent leaves that property at its default on load, and the next save loses the data. A consumer's
-  round-trip specification (load, save, compare) catches it. Compze could check it only if property-updated tevents
-  were recognizable as such.
+- **Committing from inside the per-cascade hook must be allowed, and specified.** JAStudio's override of the hook
+  commits there. The hook runs inside `Publish`, so Compze must say that `Commit` may be called from it, and that a
+  publish the hook makes afterwards, which starts a cascade of its own, stays uncommitted until its own hook call
+  commits it. A specification: commit in the hook, publish again in the hook, and every tevent is committed once, in
+  order.
+- **A cheap assertion that one taggregate isn't published on by two threads at once.** `Taggregate`'s reentrancy level
+  and its lists are plain fields, so two threads in `Publish` on one instance corrupt them silently. JAStudio could meet
+  it: a full rebuild on background threads updates a vocab's generated data while the UI thread may edit that vocab;
+  today the editors are disabled during a reparse, by hand, for this reason. Recording the publishing thread when a
+  cascade starts, and failing when another thread enters while one is under way, costs a field and a comparison per
+  `Publish`. It doesn't make taggregates thread-safe: it turns a silent corruption into a loud failure.

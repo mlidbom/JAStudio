@@ -21,9 +21,10 @@ own design counts only where it changes what Compze must do.
 3. **Compze needs three changes first, in this order:** loading a taggregate from a snapshot, tevent routing decided
    once per class instead of per instance, and a hook called once per publish cascade. Then smaller changes later. See
    [what Compze needs](what-compze-needs.md).
-4. **One gap is still open:** a snapshot of one tevent can't restore a taggregate's entity collections or its shared
-   tomponents. Raised with jastudio-rep-opus, not yet answered. See
-   [what Compze needs](what-compze-needs.md#open-a-snapshot-of-entity-collections-and-shared-tomponents).
+4. **A snapshot is a short history, not one tevent:** one tevent can't restore a taggregate's entity collections or
+   its shared tomponents. Raised by taggregates-opus, and decided with jastudio-rep-opus. Two smaller requirements
+   are raised and not yet answered: committing from inside the per-cascade hook, and an assertion against two threads
+   publishing on one taggregate. See [what Compze needs](what-compze-needs.md).
 5. **Nothing in JAStudio moves onto taggregates before the snapshot and the per-class routing have landed.**
 
 ## The documents
