@@ -136,6 +136,8 @@ public class ImportRun
       var sentence = Profile.FieldMapping.SentenceFrom(rawNote, Profile.TagsToAdd, _noteServices);
       sentence.UpdateGeneratedData();
 
+      //review: both branches add the sentence the same way, so whether the profile creates Anki notes to study changes nothing here. Should one
+      //   of them do something else, such as create the sentence's study-note, or should the condition go?
       if(Profile.CreatesAnkiNotesToStudy)
          _noteServices.Collection.Sentences.Add(sentence);
       else
