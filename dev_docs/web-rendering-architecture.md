@@ -174,7 +174,7 @@ search, editors) is in `jastudio-workspace.md`.
   `{{Tags}}`.
 - The invisible body therefore still loads images such as `{{Screenshot}}` and runs its `<script>`.
 - `src/web/notes/` holds an older copy of the full templates. Nothing in the code or the build reads it; only
-  `.gitignore` and the `.idea` project files mention `src/web/`.
+  `.gitignore` mentions `src/web/`.
 
 **Next step (changed 2026-11-06):** basic review must work on mobile, where the add-on doesn't run and the card
 is exactly what the template renders. So the stubs are not the target any more: they would show a mobile card
