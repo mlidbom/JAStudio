@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>CS0108;CS0618;CA1715</NoWarn>
+    <DefineConstants>$(DefineConstants);PROTOTYPE</DefineConstants>
+    <CompzeBin>$(MSBuildThisFileDirectory)..\..\compze-static-slots\src\Compze.Teventive\bin\Release\net11.0</CompzeBin>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Program.cs" />
+    <Reference Include="$(CompzeBin)\Compze.*.dll" />
+  </ItemGroup>
+</Project>
