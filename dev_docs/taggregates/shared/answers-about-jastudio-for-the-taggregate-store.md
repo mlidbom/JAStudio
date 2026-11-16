@@ -403,3 +403,20 @@ property about participation handlers is stated. What the check found, all sent 
 - **A correction to Compze's document:** the 51 `NoteGuard.Update` sites don't become units of work. They are the
   methods inside the notes' parts that change them, and become publishes. The units of work go at their callers,
   which are the places nobody has counted.
+
+**All of it is in Compze's design at its commit f3622f9fd, and the lookup is fixed in the prototype** (commit
+56474f568 on `taggregate-store-opus`), checked by me in the document:
+
+- **A committed lookup now takes 0.05 to 0.18 µs and allocates nothing.** Each key's references are an array that is
+  replaced whole at a commit and returned as it is. Against what parsing does, that is 0.1 to 0.4 processor-seconds
+  for a full parse, 1 to 3%, and no garbage, where today's lookup copies the set into a list.
+- **`HasAny` checks a key without resolving a reference,** in 0.05 µs.
+- **The overlay runs only when the unit of work holds a copy of the index's note type:** a lookup of vocab inside a
+  unit of work that holds only a sentence takes 0.11 to 0.12 µs and allocates nothing.
+- **Still open in the prototype:** a lookup inside a unit of work that holds copies of the index's type grows with
+  the number of copies, until the overlay keeps each copy's keys.
+- **The consumer says how an empty note is built,** with a factory where the class is named or by resolving it from
+  the container.
+
+So requirement 1 is met by measurement in Compze's prototype. What it does to parsing in JAStudio is for
+`time_parsing_every_sentence` to show, once JAStudio's indexes sit on Compze's.
