@@ -115,18 +115,22 @@ Compze document: `4-later.md`. None of these is needed for JAStudio's first slic
   save loses the data. The per-class tables could check it once per class if property-updated tevents were marked.
   Until then the consumer's round-trip specification (load, save, compare) is the safety net: JAStudio needs one.
 
-## Raised, not yet answered
+## Two requirements of the per-cascade hook
 
-Raised with jastudio-rep-opus on 2026-11-16. Neither changes the order.
+Raised by taggregates-opus and agreed by jastudio-rep-opus on 2026-11-16, as part of change 3. Both are in the
+[prototype](prototype-of-the-snapshot-and-the-per-cascade-hook.md).
 
 - **Committing from inside the per-cascade hook must be allowed, and specified.** JAStudio's override of the hook
   commits there. The hook runs inside `Publish`, so Compze must say that `Commit` may be called from it, and that a
   publish the hook makes afterwards, which starts a cascade of its own, stays uncommitted until its own hook call
   commits it. A specification: commit in the hook, publish again in the hook, and every tevent is committed once, in
-  order.
+  order. Checking it, jastudio-rep-opus found that `Commit` has the same reentrancy bug as `Publish` (see
+  [found along the way](found-along-the-way.md)).
 - **A cheap assertion that one taggregate isn't published on by two threads at once.** `Taggregate`'s reentrancy level
   and its lists are plain fields, so two threads in `Publish` on one instance corrupt them silently. JAStudio could meet
   it: a full rebuild on background threads updates a vocab's generated data while the UI thread may edit that vocab;
   today the editors are disabled during a reparse, by hand, for this reason. Recording the publishing thread when a
   cascade starts, and failing when another thread enters while one is under way, costs a field and a comparison per
-  `Publish`. It doesn't make taggregates thread-safe: it turns a silent corruption into a loud failure.
+  `Publish`. It doesn't make taggregates thread-safe: it turns a silent corruption into a loud failure. A compare-exchange,
+  so that two threads starting at the same moment can't both pass; `Commit`, `LoadFromHistory` and `LoadFromSnapshot`
+  take it too.
