@@ -32,6 +32,13 @@ public sealed class SentenceViewToggleViewModel
 
    static readonly HashSet<string> TogglesWorthNoticing = ["show_sentence_breakdown_in_edit_mode", "hide_all_compounds"];
 
+   static readonly HashSet<string> TogglesShowingMoreBelowTheWords =
+   [
+      "show_kanji_in_sentence_breakdown",
+      "show_compound_parts_in_sentence_breakdown",
+      "show_kanji_mnemonics_in_sentence_breakdown"
+   ];
+
    readonly ConfigurationValue<bool> _toggle;
 
    SentenceViewToggleViewModel(ConfigurationValue<bool> toggle) => _toggle = toggle;
@@ -53,4 +60,7 @@ public sealed class SentenceViewToggleViewModel
 
    /// <summary>Whether the toggle, on, shows the breakdown in a way that's easy to forget is on, such as its edit mode, so that it should stand out.</summary>
    public bool IsWorthNoticing => TogglesWorthNoticing.Contains(Name);
+
+   /// <summary>Whether the toggle shows more below each word of the breakdown, such as its kanji or a compound's parts, rather than changing which words are displayed.</summary>
+   public bool ShowsMoreBelowTheWords => TogglesShowingMoreBelowTheWords.Contains(Name);
 }
