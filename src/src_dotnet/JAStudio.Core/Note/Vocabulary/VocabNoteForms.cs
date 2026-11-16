@@ -128,7 +128,7 @@ public class VocabNoteForms
       return
       [
          .. _questionAndEnteredFormsList.Value
-                                        .SelectMany(form => _vocab.Services.Collection.Vocab.Cache.WithQuestion(form))
+                                        .SelectMany(form => _vocab.Services.Collection.Vocab.WithQuestion(form))
       ];
    }
 
@@ -160,7 +160,7 @@ public class VocabNoteForms
 
       bool IsNotOwnedByOtherFormNote(string form)
       {
-         return !_vocab.Services.Collection.Vocab.Cache.WithQuestion(form)
+         return !_vocab.Services.Collection.Vocab.WithQuestion(form)
                        .Any(formOwningVocab =>
                                !Equals(formOwningVocab, _vocab) &&
                                formOwningVocab.Forms.MatchedFormsSet().Contains(_vocab.GetQuestion()));
@@ -215,7 +215,7 @@ public class VocabNoteForms
          InvalidateCaches();
       });
 
-      var removeNotes = _vocab.Services.Collection.Vocab.Cache.WithQuestion(remove)
+      var removeNotes = _vocab.Services.Collection.Vocab.WithQuestion(remove)
                               .Where(voc => voc.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion()))
                               .ToList();
 
@@ -243,7 +243,7 @@ public class VocabNoteForms
          InvalidateCaches();
       });
 
-      var addNotes = _vocab.Services.Collection.Vocab.Cache.WithQuestion(add)
+      var addNotes = _vocab.Services.Collection.Vocab.WithQuestion(add)
                            .Where(voc => !voc.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion()))
                            .ToList();
 

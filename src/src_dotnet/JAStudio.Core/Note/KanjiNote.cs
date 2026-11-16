@@ -1,15 +1,14 @@
-using Compze.Internals.SystemCE;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Compze.Contracts;
+using Compze.Internals.SystemCE;
 using Compze.Teventive;
 using Compze.Teventive.Taggregates;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
-using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.KanjiRelationships;
 using JAStudio.Core.Note.KanjiTevents;
@@ -17,6 +16,7 @@ using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note;
@@ -100,10 +100,6 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
       ConfusedWith = new MutualKanjiRelationship(this, data?.ConfusedWith ?? [], Guard, it => it.ConfusedWith);
    }
 
-   public override void UpdateInCache()
-   {
-      Services.Collection.Kanji.Cache.JpNoteUpdated(this);
-   }
 
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
@@ -314,6 +310,10 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
       Mnemonic.Set(Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this));
    }
 
+   /// <summary>
+   /// Adds to the radicals the kanji the mnemonic names in its <c>&lt;rad&gt;</c> tags, in the order it names them, those it hasn't already: each<br/>
+   /// kanji whose answer has a tag's text as a word of its own.
+   /// </summary>
    public void PopulateRadicalsFromMnemonicTags()
    {
       foreach(var radical in DetectRadicalsFromMnemonic().Where(it => !Radicals.Contains(it)))
@@ -325,14 +325,13 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
                                  .Select(m => m.Groups[1].Value)
                                  .ToList();
 
+         var everyKanji = Services.Collection.Kanji.All();
          return
          [
-            .. Services.Collection.Kanji.All()
-                       .Where(KanjiAnswerContainsAnyRadicalNameAsASeparateWord)
-                       .Select(kanji => kanji.GetQuestion())
+            .. radicalNames.SelectMany(name => everyKanji.Where(kanji => KanjiAnswerContainsRadicalNameAsASeparateWord(name, kanji)))
+                           .Select(kanji => kanji.GetQuestion())
+                           .Distinct()
          ];
-
-         bool KanjiAnswerContainsAnyRadicalNameAsASeparateWord(KanjiNote kanji) => radicalNames.Any(name => KanjiAnswerContainsRadicalNameAsASeparateWord(name, kanji));
 
          static bool KanjiAnswerContainsRadicalNameAsASeparateWord(string radicalName, KanjiNote kanji) => Regex.IsMatch(kanji.GetAnswer(), @"\b" + Regex.Escape(radicalName) + @"\b");
       }
@@ -355,6 +354,6 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    {
       var note = Create(services, question, answer);
       note.Edit(it => it.Tags.Set(Tagging.Tags.Source.Jastudio));
-      return note;
+      return note.Reference().Current;
    }
 }

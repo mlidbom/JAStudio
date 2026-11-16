@@ -22,7 +22,7 @@ public class When_reloading_the_collection : McpServerSpecification
    {
       var vocab行く = CreateVocab("行く", "to go", "いく");
       CreateVocab("来る", "to come", "くる");
-      GetService<INoteRepository>().Save(ACopyWithTheAnswer(vocab行く, "to walk"));
+      GetService<NotesStoredInMemory>().Store(ACopyWithTheAnswer(vocab行く, "to walk"));
 
       _result = ResultOf<ReloadResult>(CallTool("reload_the_collection", new Dictionary<string, object?>()));
    }

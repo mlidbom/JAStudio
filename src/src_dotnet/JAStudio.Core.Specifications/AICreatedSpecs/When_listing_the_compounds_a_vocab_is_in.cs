@@ -17,7 +17,7 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
    {
       var compound = CreateVocab(question, "a compound");
       compound.Edit(it => it.CompoundParts.SetPrimary(Words(primaryCompoundParts)));
-      return compound;
+      return compound.Reference().Current;
    }
 
    static List<string> QuestionsOfTheCompoundsListedFor(VocabNote vocab) => vocab.RelatedNotes.InCompounds().Select(it => it.GetQuestion()).ToList();

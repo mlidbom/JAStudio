@@ -1,86 +1,49 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Internals.SystemCE.LinqCE;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
+using Compze.Teventive.StateStore;
 
 namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
-/// One of a note cache's indexes: its notes by keys taken from each note's snapshot, such as vocab by form. Any number of threads look notes<br/>
-/// up in it at once, without locking.
+/// One of the state store's indexes of the notes, such as vocab by form, as a collection reads it: the notes filed under a key, as they are<br/>
+/// now, each lookup passed through the collection's <see cref="LookupRecorder{TNote}"/>. The store keeps the index as units of work commit,<br/>
+/// filing each note under the keys its declaration where the store is composed gives (<see cref="VocabIndexes.DeclareIn"/>).
 /// </summary>
 /// <remarks>
-/// Parsing looks vocab up all the time, from many threads, while the cache changes seldom. When every lookup took the cache's lock, parsing<br/>
-/// on 16 threads spent about a third of its time waiting for it.
+/// The store's index is resolved at the first lookup, not when the collection is built: resolving it builds the store, which resolves its<br/>
+/// storage, and a host may only know where the corpus is once it has started.
 /// </remarks>
-/// <remarks>
-/// The cache changes the index one change at a time, under its lock, and a change never touches a set of notes a lookup may be reading: the<br/>
-/// first time a change touches a key, it copies the key's set, and changes the copy. <see cref="PublishChanges"/> then puts the copies in place.<br/>
-/// So a lookup sees a key's notes as they were before a change or after it, never in the middle of it. Copying a set keeps its order, so the<br/>
-/// notes come in the order they did when the sets were changed in place.
-/// </remarks>
-sealed class NoteIndex<TKey, TNote, TSnapshot> : INoteIndex<TNote, TSnapshot>
-   where TKey : notnull
+sealed class NoteIndex<TNote, TKey>
    where TNote : JPNote
+   where TKey : notnull
 {
-   /// <summary>What lookups read: each key's notes, a set no change touches once it's here.</summary>
-   readonly ConcurrentDictionary<TKey, HashSet<TNote>> _published = new();
-
-   /// <summary>The copies of the published sets that the change under way has touched, which <see cref="PublishChanges"/> puts in place.</summary>
-   readonly Dictionary<TKey, HashSet<TNote>> _changedCopies = new();
-
-   readonly Func<TSnapshot, IEnumerable<TKey>> _keysOf;
+   readonly Lazy<ITaggregateIndex<TNote, TKey>> _index;
    readonly LookupRecorder<TNote> _lookupRecorder;
 
-   /// <param name="keysOf">The keys a note is filed under, taken from its snapshot.</param>
-   /// <param name="lookupRecorder">The recorder of the cache's lookups, which every lookup here passes through.</param>
-   public NoteIndex(Func<TSnapshot, IEnumerable<TKey>> keysOf, LookupRecorder<TNote> lookupRecorder)
+   public NoteIndex(IRootResolver resolver, LookupRecorder<TNote> lookupRecorder)
    {
-      _keysOf = keysOf;
+      _index = new Lazy<ITaggregateIndex<TNote, TKey>>(resolver.Resolve<ITaggregateIndex<TNote, TKey>>);
       _lookupRecorder = lookupRecorder;
    }
 
-   /// <summary>The notes filed under <paramref name="key"/>: a lookup, recorded if a <see cref="LookupRecording{TNote}"/> runs.</summary>
-   public List<TNote> NotesWith(TKey key) => _lookupRecorder.LookedUp(_published.TryGetValue(key, out var notes) ? [.. notes] : []);
-
    /// <summary>
-   /// Whether any note is filed under <paramref name="key"/>. It returns no notes, so it isn't a lookup a <see cref="LookupRecording{TNote}"/><br/>
-   /// records.
+   /// The notes filed under <paramref name="key"/>, as they are now, inside a unit of work as it has changed them, in the order of their ids: the<br/>
+   /// order the corpus's notes load in, which JAStudio's own cache gave them in, so that what takes the first of several, as the tokenizer's<br/>
+   /// godan check does (<see cref="LanguageServices.JanomeEx.Tokenizing.PreProcessingStage.WordInfo"/>), takes the same one whatever order the store<br/>
+   /// files them in.
    /// </summary>
-   /// <remarks>A key whose last note was removed keeps an empty set, so the set's count decides.</remarks>
-   public bool HasNotesWith(TKey key) => _published.TryGetValue(key, out var notes) && notes.Count > 0;
-
-   public void Add(TNote note, TSnapshot snapshot) => _keysOf(snapshot).ForEach(key => ChangedCopyOfTheNotesWith(key).Add(note));
-
-   public void Remove(TNote note, TSnapshot snapshot) => _keysOf(snapshot).ForEach(key => ChangedCopyOfTheNotesWith(key).Remove(note));
-
-   public void Update(TNote note, TSnapshot before, TSnapshot after)
+   public List<TNote> NotesWith(TKey key)
    {
-      var keysBefore = _keysOf(before).ToHashSet();
-      var keysAfter = _keysOf(after).ToHashSet();
-      keysBefore.Except(keysAfter).ForEach(key => ChangedCopyOfTheNotesWith(key).Remove(note));
-      keysAfter.Except(keysBefore).ForEach(key => ChangedCopyOfTheNotesWith(key).Add(note));
+      List<TNote> notes = [.. _index.Value.Lookup(key).Select(it => it.Current)];
+      if(notes.Count > 1) notes.Sort(InTheOrderOfTheirIds);
+      return _lookupRecorder.LookedUp(notes);
    }
 
-   public void Clear()
-   {
-      _changedCopies.Clear();
-      _published.Clear();
-   }
+   static int InTheOrderOfTheirIds(TNote one, TNote other) => one.Id.Value.CompareTo(other.Id.Value);
 
-   public void PublishChanges()
-   {
-      foreach(var (key, notes) in _changedCopies) _published[key] = notes;
-      _changedCopies.Clear();
-   }
-
-   HashSet<TNote> ChangedCopyOfTheNotesWith(TKey key)
-   {
-      if(_changedCopies.TryGetValue(key, out var changedCopy)) return changedCopy;
-
-      changedCopy = _published.TryGetValue(key, out var published) ? new HashSet<TNote>(published) : []; // the copy constructor clones the set as it is, order included, where a collection expression would add the notes one by one
-      _changedCopies[key] = changedCopy;
-      return changedCopy;
-   }
+   /// <summary>Whether any note is filed under <paramref name="key"/>.</summary>
+   public bool HasNotesWith(TKey key) => _index.Value.HasAny(key);
 }

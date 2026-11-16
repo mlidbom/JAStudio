@@ -24,8 +24,8 @@ public class When_the_corpus_has_a_vocab_with_a_matching_setting_or_register_JAS
 
    public When_the_corpus_has_a_vocab_with_a_matching_setting_or_register_JAStudio_does_not_know()
    {
-      var vocab = CreateVocab("あれる", "get-_/is-_", "あれる");
-      vocab.Edit(it =>
+      var vocabReference = CreateVocab("あれる", "get-_/is-_", "あれる").Reference();
+      vocabReference.Current.Edit(it =>
       {
          it.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Required);
          it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired));
@@ -33,7 +33,7 @@ public class When_the_corpus_has_a_vocab_with_a_matching_setting_or_register_JAS
          it.Register.Humble.SetTo(true);
       });
       _serializer = GetService<NoteSerializer>();
-      _json = _serializer.Serialize(vocab);
+      _json = _serializer.Serialize(vocabReference.Current);
    }
 
    void ReadWith(string knownName, string unknownName) => _serializer.DeserializeVocab(_json.Replace($"\"{knownName}\"", $"\"{unknownName}\""));

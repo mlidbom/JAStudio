@@ -20,6 +20,10 @@ static class WordInfo
             }
          }
 
+         //review: with no vocab whose question is the word, the first of those with it as a form decides, in the order of their ids: an
+         //   arbitrary one. 唱う is a form of 歌う, 唄う and 詠う; 歌う comes first and is intransitive, 唄う isn't, so whether 呪文を唱える splits
+         //   into 唱う and える depends on which comes first (IchidanGodanPotentialOrImperativeHybridSplitter.IsPotentialGodan). A rule over all
+         //   of them, such as any of them being intransitive, would decide the same however they are ordered. (taggregates-opus, 2026-11-16)
          return new VocabWordInfoEntry(word, vocabEntries.First());
       }
 

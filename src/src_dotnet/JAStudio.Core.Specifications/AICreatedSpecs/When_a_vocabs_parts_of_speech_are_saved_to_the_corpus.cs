@@ -23,10 +23,10 @@ public class When_a_vocabs_parts_of_speech_are_saved_to_the_corpus : Specificati
 
    public When_a_vocabs_parts_of_speech_are_saved_to_the_corpus()
    {
-      var vocab = CreateVocab("走る", "to run", "はしる");
-      vocab.Edit(it => it.PartsOfSpeech.Set([PartOfSpeech.Intransitive, PartOfSpeech.GodanVerb]));
+      var vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
+      vocabReference.Current.Edit(it => it.PartsOfSpeech.Set([PartOfSpeech.Intransitive, PartOfSpeech.GodanVerb]));
       _serializer = GetService<NoteSerializer>();
-      _json = _serializer.Serialize(vocab);
+      _json = _serializer.Serialize(vocabReference.Current);
    }
 
    [XF] public void the_corpus_json_stores_their_names_in_alphabetical_order() =>

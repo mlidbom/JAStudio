@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
@@ -15,13 +16,14 @@ namespace JAStudio.Mcp.Specifications.Tools.Rebuilding;
 /// </summary>
 public class When_running_a_full_rebuild : CorpusRepositorySpecification
 {
-   readonly KanjiNote _kanji行;
+   readonly ITaggregateReference<KanjiNote> _kanji行Reference;
+   KanjiNote _kanji行 => _kanji行Reference.Current;
    readonly List<Tag> _theKanjisTagsBefore;
    readonly FullRebuildResult _result;
 
    public When_running_a_full_rebuild()
    {
-      _kanji行 = CreateKanji("行", "go", "コウ", "い");
+      _kanji行Reference = CreateKanji("行", "go", "コウ", "い").Reference();
       CreateVocab("行く", "to go", "いく");
       _theKanjisTagsBefore = [.. _kanji行.Tags];
 

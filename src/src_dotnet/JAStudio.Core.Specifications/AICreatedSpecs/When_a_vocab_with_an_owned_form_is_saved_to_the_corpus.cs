@@ -20,15 +20,15 @@ public class When_a_vocab_with_an_owned_form_is_saved_to_the_corpus : Specificat
 
    public When_a_vocab_with_an_owned_form_is_saved_to_the_corpus()
    {
-      var vocab = CreateVocab("走る", "to run", "はしる");
-      vocab.Edit(it =>
+      var vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
+      vocabReference.Current.Edit(it =>
       {
          it.Forms.Add("駆ける");
          it.Forms.Own("駆ける");
          it.Forms.Add("奔る");
       });
       var serializer = GetService<NoteSerializer>();
-      _json = serializer.Serialize(vocab);
+      _json = serializer.Serialize(vocabReference.Current);
       _readBackReference = serializer.DeserializeVocab(_json).Reference();
    }
 

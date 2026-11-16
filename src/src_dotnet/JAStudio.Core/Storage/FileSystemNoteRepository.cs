@@ -2,14 +2,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JAStudio.Core.Note;
-using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
+using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Storage;
 
-public class FileSystemNoteRepository : INoteRepository
+/// <summary>The notes' files in a corpus checkout, written and read a note at a time.</summary>
+/// <remarks>
+/// refactor: only the specifications use it since the state store keeps the notes in <see cref="CorpusNoteFiles"/>, which writes the same files:
+/// CorpusFolder writes vocab with it, and FileSystemNoteRepositoryTests specify <see cref="JsonFilesystemObjectRepository{T}"/>'s loading
+/// through it. Move both to <see cref="CorpusNoteFiles"/>, and delete this (taggregates-opus, 2026-11-16).
+/// </remarks>
+public class FileSystemNoteRepository
 {
    readonly NoteServices _noteServices;
    readonly JsonFilesystemObjectRepository<KanjiDto> _kanjiRepository;

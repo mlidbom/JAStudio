@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Must;
 using Compze.Teventive;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiTevents;
@@ -81,23 +84,28 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
    public class given_a_vocab_in_the_collection : When_notes_publish_tevents
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
-      public given_a_vocab_in_the_collection()
+      public given_a_vocab_in_the_collection() => _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
+
+      /// <summary>The tevents the vocab's copy publishes as <paramref name="change"/> changes it, in an edit, as the unit of work dispatches them.</summary>
+      protected IReadOnlyList<INoteTevent> TheTeventsPublishedAs(Action<VocabNote> change)
       {
-         _vocab = CreateVocab("走る", "to run", "はしる");
-         TheTeventsPublishedBy(_vocab);
+         List<INoteTevent> published = [];
+         _vocab.Edit(it =>
+         {
+            using var _ = ((ITaggregate)it).TeventStream.Subscribe(tevent => published.Add((INoteTevent)tevent.Tevent));
+            change(it);
+         });
+         return published;
       }
 
       public class when_its_answer_is_changed : given_a_vocab_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;
 
-         public when_its_answer_is_changed()
-         {
-            _vocab.Edit(it => it.CorpusAnswer.Set("to dash"));
-            _published = TheTeventsPublishedBy(_vocab);
-         }
+         public when_its_answer_is_changed() => _published = TheTeventsPublishedAs(it => it.CorpusAnswer.Set("to dash"));
 
          [XF] public void it_publishes_that_a_part_without_tevents_changed() =>
             _published.Must().Satisfy(it => it is [INoteTevent.PartWithoutTeventsChanged]);
@@ -107,11 +115,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
       {
          readonly IReadOnlyList<INoteTevent> _published;
 
-         public when_its_answer_is_set_to_the_answer_it_has()
-         {
-            _vocab.CorpusAnswer.Set("to run");
-            _published = TheTeventsPublishedBy(_vocab);
-         }
+         public when_its_answer_is_set_to_the_answer_it_has() => _published = TheTeventsPublishedAs(it => it.CorpusAnswer.Set("to run"));
 
          [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
       }
@@ -120,11 +124,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
       {
          readonly IReadOnlyList<INoteTevent> _published;
 
-         public when_a_tag_is_set()
-         {
-            _vocab.Edit(it => it.Tags.Set(Tags.Source.Jastudio));
-            _published = TheTeventsPublishedBy(_vocab);
-         }
+         public when_a_tag_is_set() => _published = TheTeventsPublishedAs(it => it.Tags.Set(Tags.Source.Jastudio));
 
          [XF] public void it_publishes_that_a_part_without_tevents_changed() =>
             _published.Must().Satisfy(it => it is [INoteTevent.PartWithoutTeventsChanged]);

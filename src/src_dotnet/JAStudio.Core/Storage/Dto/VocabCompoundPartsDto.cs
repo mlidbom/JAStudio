@@ -11,6 +11,9 @@ public partial class VocabCompoundPartsDto
    /// <summary>The <see cref="VocabNoteCompoundParts.Primary"/> parts, in their order.</summary>
    public List<WordReferenceDto> Primary { get; init; } = [];
 
-   /// <summary>The <see cref="VocabNoteCompoundParts.Alternative"/> parts: a set, written in a fixed order so that the same set always writes the same file.</summary>
+   /// <summary>
+   /// The <see cref="VocabNoteCompoundParts.EnteredAlternatives"/> parts, those also primary included: a set, written in a fixed order so that the same<br/>
+   /// set always writes the same file.
+   /// </summary>
    public List<WordReferenceDto> Alternative { get; init; } = [];
 }

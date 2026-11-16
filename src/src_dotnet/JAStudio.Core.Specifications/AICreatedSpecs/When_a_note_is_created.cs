@@ -1,9 +1,11 @@
+using System.Linq;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Storage.Dto;
 
 // ReSharper disable InconsistentNaming
 
@@ -22,5 +24,5 @@ public class When_a_note_is_created : SpecificationStartingWithAnEmptyCollection
 
    [XF] public void it_gets_no_study_note_in_Anki() => _sentence.HasAStudyNote().Must().BeFalse();
    [XF] public void it_is_in_the_collection() => GetService<JPCollection>().NoteFromNoteId(_sentence.GetId()).Must().Be(_sentence);
-   [XF] public void it_is_saved_to_the_corpus() => GetService<INoteRepository>().LoadAll().Sentences.Must().Satisfy(it => it.Exists(saved => saved.GetId() == _sentence.GetId()));
+   [XF] public void it_is_saved_to_the_corpus() => GetService<NotesStoredInMemory>().Snapshots<SentenceDto>().Select(it => it.Id).Must().Contain(_sentence.GetId().Value);
 }

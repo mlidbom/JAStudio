@@ -1,7 +1,8 @@
 using System;
-using Compze.Contracts;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Contracts;
+using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -14,15 +15,40 @@ namespace JAStudio.Core.Note.Collection;
 /// </summary>
 public class VocabCollection
 {
-   internal readonly VocabCache Cache;
+   readonly StoredNotes<VocabNote> _notes;
+   readonly NoteUnitsOfWork _unitsOfWork;
+   readonly NoteIndex<VocabNote, VocabIndexes.Question> _byQuestion;
+   readonly NoteIndex<VocabNote, VocabIndexes.ReferenceNamingIt> _byReferenceNamingIt;
+   readonly NoteIndex<VocabNote, VocabIndexes.Form> _byForm;
+   readonly NoteIndex<VocabNote, VocabIndexes.FormStart> _byFormStart;
+   readonly NoteIndex<VocabNote, VocabIndexes.CompoundPart> _byCompoundPart;
+   readonly NoteIndex<VocabNote, VocabIndexes.DerivedFrom> _byDerivedFrom;
+   readonly NoteIndex<VocabNote, VocabIndexes.KanjiInTheMainForm> _byKanjiInTheMainForm;
+   readonly NoteIndex<VocabNote, VocabIndexes.KanjiInAnyForm> _byKanjiInAnyForm;
+   readonly NoteIndex<VocabNote, VocabIndexes.Reading> _byReading;
+   readonly NoteIndex<VocabNote, VocabIndexes.Stem> _byStem;
 
-   public VocabCollection(NoteServices noteServices) => Cache = new VocabCache(noteServices);
+   internal VocabCollection(NoteServices noteServices, IRootResolver resolver, NoteUnitsOfWork unitsOfWork)
+   {
+      _notes = new StoredNotes<VocabNote>(noteServices, resolver);
+      _unitsOfWork = unitsOfWork;
+      _byQuestion = _notes.IndexBy<VocabIndexes.Question>();
+      _byReferenceNamingIt = _notes.IndexBy<VocabIndexes.ReferenceNamingIt>();
+      _byForm = _notes.IndexBy<VocabIndexes.Form>();
+      _byFormStart = _notes.IndexBy<VocabIndexes.FormStart>();
+      _byCompoundPart = _notes.IndexBy<VocabIndexes.CompoundPart>();
+      _byDerivedFrom = _notes.IndexBy<VocabIndexes.DerivedFrom>();
+      _byKanjiInTheMainForm = _notes.IndexBy<VocabIndexes.KanjiInTheMainForm>();
+      _byKanjiInAnyForm = _notes.IndexBy<VocabIndexes.KanjiInAnyForm>();
+      _byReading = _notes.IndexBy<VocabIndexes.Reading>();
+      _byStem = _notes.IndexBy<VocabIndexes.Stem>();
+   }
 
    /// <summary>Starts recording every vocab this collection's lookups return, such as the vocab parsing a sentence looks at, until the recording is disposed.</summary>
-   public LookupRecording<VocabNote> StartRecordingTheVocabLookedUp() => Cache.StartRecordingTheNotesLookedUp();
+   public LookupRecording<VocabNote> StartRecordingTheVocabLookedUp() => _notes.LookupRecorder.StartRecording();
 
-   public bool IsWord(string form) => Cache.WithForm(form).Count > 0;
-   public List<VocabNote> All() => Cache.All();
+   public bool IsWord(string form) => WithForm(form).Count > 0;
+   public List<VocabNote> All() => _notes.All();
 
    /// <summary>
    /// The vocab whose match-conditions depend on <paramref name="sharedCondition"/>'s definition (<see cref="Condition.DependsOnTheDefinitionOf"/>): those a<br/>
@@ -38,15 +64,15 @@ public class VocabCollection
    public List<VocabNote> WhoseMatchConditionsUse(ISharedCondition sharedCondition) =>
       [.. All().Where(it => it.MatchingConfiguration.MatchCondition.Uses(sharedCondition))];
 
-   public VocabNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
-   public VocabNote? WithTheStudyNoteOrNone(long studyNoteId) => Cache.WithTheStudyNoteOrNone(studyNoteId);
-   public List<VocabNote> WithForm(string form) => Cache.WithForm(form);
+   public VocabNote? WithIdOrNone(NoteId noteId) => _notes.WithIdOrNone(noteId);
+   public VocabNote? WithTheStudyNoteOrNone(long studyNoteId) => _notes.WithTheStudyNoteOrNone(studyNoteId);
+   public List<VocabNote> WithForm(string form) => _byForm.NotesWith(new(form));
 
    /// <summary>Whether any vocab has a form that starts with <paramref name="text"/>, or is it.</summary>
-   public bool HasAFormStartingWith(string text) => Cache.HasAFormStartingWith(text);
+   public bool HasAFormStartingWith(string text) => _byFormStart.HasNotesWith(new(text));
 
    /// <summary>The vocab <paramref name="reference"/> names exactly: whose question has its text and its disambiguation. At most one, as no two vocab share a question.</summary>
-   public List<VocabNote> NamedExactlyBy(WordReference reference) => Cache.NamedExactlyBy(reference);
+   public List<VocabNote> NamedExactlyBy(WordReference reference) => _byReferenceNamingIt.NotesWith(new(reference));
 
    /// <summary>The vocab <paramref name="reference"/> names exactly (<see cref="NamedExactlyBy"/>), or null when no vocab has that question.</summary>
    public VocabNote? NamedExactlyByOrNone(WordReference reference) => NamedExactlyBy(reference).SingleOrDefault();
@@ -59,7 +85,7 @@ public class VocabCollection
       NamedExactlyByOrNone(question) is {} existing ? CreatedOrExistingVocab.Existing(existing) : CreatedOrExistingVocab.Created(create());
 
    /// <summary>Whether a vocab other than <paramref name="vocab"/> has <paramref name="question"/> as its question, which no two vocab may share.</summary>
-   public bool AnotherVocabHasTheQuestion(VocabNote vocab, WordReference question) => NamedExactlyBy(question).Any(it => it != vocab);
+   public bool AnotherVocabHasTheQuestion(VocabNote vocab, WordReference question) => NamedExactlyBy(question).Any(it => !it.Equals(vocab));
 
    /// <summary>The vocab any of <paramref name="references"/> names exactly (<see cref="NamedExactlyBy"/>).</summary>
    public List<VocabNote> NamedExactlyByAny(IEnumerable<WordReference> references) => [.. references.SelectMany(NamedExactlyBy).Distinct()];
@@ -107,7 +133,7 @@ public class VocabCollection
    /// The vocab notes with exactly <paramref name="compoundPart"/> as one of their compound parts,<br/>
    /// and, recursively, every vocab those in turn are part of. Alphabetical by question.
    /// </summary>
-   public List<VocabNote> CompoundsContainingCompoundPart(WordReference compoundPart) => IncludingTheCompoundsTheyArePartOf(Cache.WithCompoundPart(compoundPart));
+   public List<VocabNote> CompoundsContainingCompoundPart(WordReference compoundPart) => IncludingTheCompoundsTheyArePartOf(WithCompoundPart(compoundPart));
 
    /// <summary>
    /// The vocab derived from <paramref name="vocab"/>: those whose <see cref="Vocabulary.RelatedVocab.RelatedVocab.DerivedFrom"/> refers to it, the same lookup<br/>
@@ -116,13 +142,13 @@ public class VocabCollection
    public List<VocabNote> DerivedFrom(VocabNote vocab) =>
    [
       .. WordsThatCouldReferTo(vocab)
-        .SelectMany(Cache.DerivedFrom)
+        .SelectMany(DerivedFromTheWord)
         .Distinct()
         .Where(it => it.RelatedNotes.DerivedFrom.Notes().Contains(vocab))
    ];
-   public List<VocabNote> WithKanjiInMainForm(KanjiNote kanji) => Cache.WithKanjiInMainForm(kanji.GetQuestion());
-   public List<VocabNote> WithKanjiInAnyForm(KanjiNote kanji) => Cache.WithKanjiInAnyForm(kanji.GetQuestion());
-   public List<VocabNote> WithQuestion(string question) => Cache.WithQuestion(question);
+   public List<VocabNote> WithKanjiInMainForm(KanjiNote kanji) => _byKanjiInTheMainForm.NotesWith(new(kanji.GetQuestion()));
+   public List<VocabNote> WithKanjiInAnyForm(KanjiNote kanji) => _byKanjiInAnyForm.NotesWith(new(kanji.GetQuestion()));
+   public List<VocabNote> WithQuestion(string question) => _byQuestion.NotesWith(new(question));
 
    /// <summary>
    /// The vocab <paramref name="disambiguationName"/> names, as a person selects it in a note or types it: with a disambiguation, as <c>入る:masu</c>,<br/>
@@ -133,12 +159,12 @@ public class VocabCollection
       WordReference.FromDisambiguationNameOrNone(disambiguationName) switch
       {
          { IsDisambiguated: true } reference => NamedExactlyBy(reference),
-         {} reference                         => Cache.WithQuestion(reference.Text),
+         {} reference                         => WithQuestion(reference.Text),
          null                                 => []
       };
 
-   public List<VocabNote> WithReading(string reading) => Cache.WithReading(reading);
-   public List<VocabNote> WithStem(string stem) => Cache.WithStem(stem);
+   public List<VocabNote> WithReading(string reading) => _byReading.NotesWith(new(reading));
+   public List<VocabNote> WithStem(string stem) => _byStem.NotesWith(new(stem));
 
    public List<VocabNote> WithAnyFormIn(List<string> forms) => [.. forms.SelectMany(WithForm).Distinct()];
 
@@ -147,8 +173,7 @@ public class VocabCollection
    public void Add(VocabNote note)
    {
       Contract.Argument.Assert(NamedExactlyBy(note.Question.Reference).Count == 0, () => $"A vocab named {note.Question.DisambiguationName} exists already, and no two vocab may share a question.");
-      Cache.AddToCache(note);
-      note.UpdateInCache();
+      _unitsOfWork.Run(it => it.Add(note));
    }
 
    List<VocabNote> IncludingTheCompoundsTheyArePartOf(List<VocabNote> compounds)
@@ -183,11 +208,17 @@ public class VocabCollection
       return withItAsTheirQuestion.Count > 0 ? withItAsTheirQuestion : withTheForm;
    }
 
+   /// <summary>The vocab with exactly <paramref name="compoundPart"/> among their compound parts.</summary>
+   List<VocabNote> WithCompoundPart(WordReference compoundPart) => _byCompoundPart.NotesWith(new(compoundPart));
+
+   /// <summary>The vocab whose derived-from word is exactly <paramref name="word"/>.</summary>
+   List<VocabNote> DerivedFromTheWord(WordReference word) => _byDerivedFrom.NotesWith(new(word));
+
    /// <summary>The vocab notes with a compound part that refers to <paramref name="vocab"/>, not following compounds of compounds.</summary>
    List<VocabNote> CompoundsWithAPartReferringTo(VocabNote vocab) =>
    [
       .. WordsThatCouldReferTo(vocab)
-        .SelectMany(Cache.WithCompoundPart)
+        .SelectMany(WithCompoundPart)
         .Distinct()
         .Where(compound => compound.CompoundParts.AnyPartRefersTo(vocab))
    ];

@@ -142,12 +142,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       MetaData = new VocabNoteMetaData(this, data, Guard);
       Register = new VocabNoteRegister(data?.Register ?? [], Guard);
       UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(data?.UsuallyWrittenInKana, Guard);
-      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, Services.SharedConditions, new NoteGuard(AssertMayBeChanged, FlushAfterTheMatchingConfigurationChanged));
-   }
-
-   public override void UpdateInCache()
-   {
-      Services.Collection.Vocab.Cache.JpNoteUpdated(this);
+      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, Services.SharedConditions, new NoteGuard(AssertCanBeChanged, FlushAfterTheMatchingConfigurationChanged));
    }
 
    public override CorpusNoteDto ToDto() => TakeSnapshot();
@@ -207,6 +202,13 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    /// Flushes the vocab after a change to its <see cref="MatchingConfiguration"/>, once the <see cref="Forms"/> have dropped what they derived from it:<br/>
    /// the snapshot the flush takes must reflect the change.
    /// </summary>
+   /// <summary>
+   /// Saves the vocab after a shared-condition its match-condition uses was renamed (<see cref="Matching.Conditions.Sharing.SharedConditions.Rename"/>): the match-condition holds<br/>
+   /// the shared-condition itself, so neither changed, but the corpus stores it by the shared-condition's name, as every instance of the vocab now<br/>
+   /// does. So the edit's copy shows no change to flush.
+   /// </summary>
+   internal void SaveAfterASharedConditionItsMatchConditionUsesWasRenamed() => PublishThatWhatItStoresChanged();
+
    void FlushAfterTheMatchingConfigurationChanged()
    {
       Forms.OnMatchingConfigurationChanged();

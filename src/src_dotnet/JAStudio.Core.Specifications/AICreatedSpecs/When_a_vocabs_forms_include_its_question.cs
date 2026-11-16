@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
-using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Storage.Dto;
 
 // ReSharper disable InconsistentNaming
 
@@ -15,11 +16,12 @@ public class When_a_vocabs_forms_include_its_question : SpecificationStartingWit
 {
    public class because_they_were_set_including_it : When_a_vocabs_forms_include_its_question
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public because_they_were_set_including_it()
       {
-         _vocab = CreateVocab("走る", "to run", "はしる");
+         _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
          _vocab.Edit(it => it.Forms.SetEnteredForms([EnteredForm.NotOwned("走る"), EnteredForm.NotOwned("駆ける")]));
       }
 
@@ -50,11 +52,12 @@ public class When_a_vocabs_forms_include_its_question : SpecificationStartingWit
 
    public class after_adding_the_question_as_a_form : When_a_vocabs_forms_include_its_question
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public after_adding_the_question_as_a_form()
       {
-         _vocab = CreateVocab("走る", "to run", "はしる");
+         _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
          _vocab.Forms.Add("走る");
       }
 

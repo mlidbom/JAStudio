@@ -4,6 +4,9 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Microsoft;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
+using Compze.Tessaging.Engine.Wiring;
+using Compze.Teventive.StateStore;
+using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing;
@@ -12,10 +15,12 @@ using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
@@ -57,8 +62,8 @@ public static class AppBootstrapper
          Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource) => new ConfigurationStore(readingsMappingsSource, configDictSource)),
          Singleton.For<TemporaryServiceCollection>().CreatedBy((IRootResolver resolver) => new TemporaryServiceCollection(resolver)),
          Singleton.For<JapaneseConfig>().CreatedBy((ConfigurationStore store) => store.Config()),
-         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISRSStudyNotes studyNotesInTheSRS) =>
-                                                    new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, studyNotesInTheSRS)),
+         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, IRootResolver resolver, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISRSStudyNotes studyNotesInTheSRS) =>
+                                                    new JPCollection(noteServices, resolver, mediaFileIndex, mediaStorage, studyNotesInTheSRS)),
          Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, ISRSTagOperations anki) => new AnkiTagChanges(collection, anki)),
          Singleton.For<SRSSync>().CreatedBy((JPCollection collection, ISRSStudyNotes studyNotes, SRSAvailability srsAvailability, AutomaticImportRuns automaticImportRuns, TaskRunner taskRunner) =>
                                                new SRSSync(collection, studyNotes, srsAvailability, automaticImportRuns, taskRunner)),
@@ -85,8 +90,8 @@ public static class AppBootstrapper
          Singleton.For<AnalysisServices>().CreatedBy((VocabCollection vocab, DictLookup dictLookup, Settings settings) => new AnalysisServices(vocab, dictLookup, settings)),
          Singleton.For<StudyNoteIds>().CreatedBy(() => new StudyNoteIds()),
          Singleton.For<WhatTheSRSHoldsOfTheStudyNotes>().CreatedBy(() => new WhatTheSRSHoldsOfTheStudyNotes()),
-         Singleton.For<LocalNoteUpdater>().CreatedBy((TaskRunner taskRunner, VocabCollection vocab, KanjiCollection kanji, SentenceCollection sentences, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, FileSystemNoteRepository fileSystemNoteRepository) =>
-                                                        new LocalNoteUpdater(taskRunner, vocab, kanji, sentences, config, dictLookup, vocabNoteFactory, fileSystemNoteRepository)),
+         Singleton.For<LocalNoteUpdater>().CreatedBy((TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory) =>
+                                                        new LocalNoteUpdater(taskRunner, collection, config, dictLookup, vocabNoteFactory)),
          Singleton.For<TaskRunner>().CreatedBy((DialogProgressPresenter dialogPresenter) => new TaskRunner(dialogPresenter)),
          Singleton.For<DialogProgressPresenter>().CreatedBy((IUIThreadDispatcher dispatcher) => new DialogProgressPresenter(dispatcher)),
          Singleton.For<BackgroundTaskManager>().CreatedBy((IFatalErrorHandler fatalErrorHandler) => new BackgroundTaskManager(fatalErrorHandler)),
@@ -97,8 +102,6 @@ public static class AppBootstrapper
          Singleton.For<VocabNoteFactory>().CreatedBy((JPCollection col) => col.VocabNoteFactory),
          Singleton.For<VocabNoteGeneratedData>().CreatedBy((JPCollection col) => col.VocabNoteGeneratedData),
          Singleton.For<NoteSerializer>().CreatedBy((NoteServices noteServices) => new NoteSerializer(noteServices)),
-         Singleton.For<FileSystemNoteRepository>().CreatedBy((NoteSerializer serializer, IEnvironmentPaths paths) =>
-                                                                new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<KanjiNoteMnemonicMaker>().CreatedBy((JapaneseConfig config) => new KanjiNoteMnemonicMaker(config)),
 
          // What the spaced repetition system asks of JAStudio
@@ -116,10 +119,32 @@ public static class AppBootstrapper
          Singleton.For<KanjiNoteRenderer>().CreatedBy(() => new KanjiNoteRenderer())
       );
 
+      ComposeTheStateStoreOfTheNotes(registrar);
+
       // Allow ASP.NET Core / Blazor hosts inside this process (CardServer) to spin up a
       // child container whose singletons delegate back to the parent.
       MicrosoftChildContainerHostIntegration.RegisterWith(registrar);
 
       return new BootstrapPlan(builder);
+   }
+
+   /// <summary>
+   /// Composes the state store that keeps the notes: the three classes of note, which it builds empty with <see cref="NoteServices"/> to restore
+   /// from their snapshots, their DTOs; the indexes the collections look notes up by; and its storage, which the environment registers, such as
+   /// <see cref="CorpusNoteFiles"/>. And the engine that dispatches the notes' tevents.
+   /// </summary>
+   static void ComposeTheStateStoreOfTheNotes(IComponentRegistrar registrar)
+   {
+      registrar.StateStore(store =>
+      {
+         store.StoredIn((ITaggregateStorage storage) => storage)
+              .Taggregate((NoteServices services) => new VocabNote(services), CorpusNoteDto.HoldTheSameState)
+              .Taggregate((NoteServices services) => new KanjiNote(services), CorpusNoteDto.HoldTheSameState)
+              .Taggregate((NoteServices services) => new SentenceNote(services), CorpusNoteDto.HoldTheSameState);
+         VocabIndexes.DeclareIn(store);
+         KanjiIndexes.DeclareIn(store);
+         SentenceIndexes.DeclareIn(store);
+      });
+      registrar.LocalTessagingEngine(_ => {});
    }
 }

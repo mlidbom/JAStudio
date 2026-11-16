@@ -19,10 +19,10 @@ public class When_a_vocab_with_a_disambiguation_is_saved_to_the_corpus : Specifi
 
    public When_a_vocab_with_a_disambiguation_is_saved_to_the_corpus()
    {
-      var vocab = CreateVocab("入る", "to enter (after a masu stem)", "いる");
-      vocab.Edit(it => it.Question.SetDisambiguation("masu"));
+      var vocabReference = CreateVocab("入る", "to enter (after a masu stem)", "いる").Reference();
+      vocabReference.Current.Edit(it => it.Question.SetDisambiguation("masu"));
       var serializer = GetService<NoteSerializer>();
-      var json = serializer.Serialize(vocab);
+      var json = serializer.Serialize(vocabReference.Current);
       _questionInTheJson = JsonDocument.Parse(json).RootElement.GetProperty("question");
       _readBackReference = serializer.DeserializeVocab(json).Reference();
    }

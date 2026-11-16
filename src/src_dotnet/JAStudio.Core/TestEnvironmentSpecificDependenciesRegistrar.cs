@@ -1,11 +1,12 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
+using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
-using JAStudio.Core.TaskRunners;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
+using JAStudio.Core.TaskRunners;
 using JAStudio.Core.TestUtils;
 
 namespace JAStudio.Core;
@@ -18,12 +19,14 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
       var ankiRawNotes = new InMemoryAnkiRawNotes();
       var pretendAnki = new PretendAnki();
       var fatalErrorHandler = new RethrowingFatalErrorHandler();
+      var notesStoredInMemory = new NotesStoredInMemory();
 
       registrar.Register(
          Singleton.For<InMemoryAnkiRawNotes>().Instance(ankiRawNotes),
          Singleton.For<IAnkiRawNotes>().Instance(ankiRawNotes),
          Singleton.For<IEnvironmentPaths>().Instance(paths),
-         Singleton.For<INoteRepository>().Instance(new InMemoryNoteRepository()),
+         Singleton.For<NotesStoredInMemory>().Instance(notesStoredInMemory),
+         Singleton.For<ITaggregateStorage>().Instance(notesStoredInMemory),
          Singleton.For<PretendAnki>().Instance(pretendAnki),
          Singleton.For<ISRSStudyNotes>().Instance(pretendAnki),
          Singleton.For<ISRSTagOperations>().Instance(pretendAnki),

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note;
@@ -27,14 +28,16 @@ public class When_making_a_shared_condition_of_a_line_of_the_tree_editor : Speci
 {
    static readonly Condition<CandidateWordVariant> FollowsASurfaceEndingWithん = PrecedingToken.Meets(TokenConditions.Surface.Meets(TextConditions.EndsWithOneOf("ん")));
 
-   readonly VocabNote _だの;
-   readonly VocabNote _んだ;
+   readonly ITaggregateReference<VocabNote> _だのReference;
+   VocabNote _だの => _だのReference.Current;
+   readonly ITaggregateReference<VocabNote> _んだReference;
+   VocabNote _んだ => _んだReference.Current;
    readonly EditableCondition _treeOfだの;
 
    public When_making_a_shared_condition_of_a_line_of_the_tree_editor()
    {
-      _だの = VocabWith("だの", !FollowsASurfaceEndingWithん, PrecedingToken.Meets(TokenConditions.IsAGodanVerb));
-      _んだ = VocabWith("んだ", FollowsASurfaceEndingWithん);
+      _だのReference = VocabWith("だの", !FollowsASurfaceEndingWithん, PrecedingToken.Meets(TokenConditions.IsAGodanVerb)).Reference();
+      _んだReference = VocabWith("んだ", FollowsASurfaceEndingWithん).Reference();
       _treeOfだの = new EditableCondition(_だの.MatchingConfiguration.MatchCondition, Level);
    }
 

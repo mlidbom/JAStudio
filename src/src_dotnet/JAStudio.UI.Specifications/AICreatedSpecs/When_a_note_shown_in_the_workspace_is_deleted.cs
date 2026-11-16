@@ -45,7 +45,7 @@ public class When_a_note_shown_in_the_workspace_is_deleted : SpecificationUsingA
    {
       var sentence = CreateTestSentence(question, "an answer");
       sentence.Edit(it => it.Tags.Set(Tag.FromName("source::anime")));
-      return sentence;
+      return sentence.Reference().Current;
    }
 
    [XF] public void its_tab_closes() => Workspace.Tabs.Select(it => it.Header).Must().SequenceEqual([KeptSentence]);

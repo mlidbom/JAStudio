@@ -1,5 +1,6 @@
 using Compze.Contracts.Exceptions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -35,11 +36,12 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
    public class after_updating_a_vocabs_readings : When_working_with_a_VocabNote
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public after_updating_a_vocabs_readings()
       {
-         _vocab = CreateVocab("本", "book", "ほん");
+         _vocabReference = CreateVocab("本", "book", "ほん").Reference();
          _vocab.Edit(it => it.SetReadings(["ほん", "もと"]));
       }
 
@@ -90,11 +92,12 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
    public class after_adding_a_form : When_working_with_a_VocabNote
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public after_adding_a_form()
       {
-         _vocab = CreateVocab("走る", "to run", "はしる");
+         _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
          _vocab.Edit(it => it.Forms.Add("駆ける"));
       }
 
@@ -154,11 +157,12 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
    public class given_a_vocab_with_its_corpus_fields_set : When_working_with_a_VocabNote
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public given_a_vocab_with_its_corpus_fields_set()
       {
-         _vocab = CreateVocab("食べる", "to eat", "たべる");
+         _vocabReference = CreateVocab("食べる", "to eat", "たべる").Reference();
          _vocab.Edit(it =>
          {
             it.CorpusAnswer.Set("to consume");
@@ -174,9 +178,10 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
    public class given_a_vocab_with_a_source_answer : When_working_with_a_VocabNote
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
-      public given_a_vocab_with_a_source_answer() => _vocab = GetService<VocabNoteFactory>().Create("本", "book", ["ほん"]);
+      public given_a_vocab_with_a_source_answer() => _vocabReference = GetService<VocabNoteFactory>().Create("本", "book", ["ほん"]).Reference();
 
       [XF] public void the_answer_shown_is_the_source_answer() => _vocab.GetAnswer().Must().Be("book");
 

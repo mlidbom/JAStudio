@@ -22,8 +22,8 @@ public class When_a_sentence_with_source_data_is_saved_to_the_corpus : Specifica
 
    public When_a_sentence_with_source_data_is_saved_to_the_corpus()
    {
-      var sentence = CreateTestSentence("川に行く", "go to the river");
-      sentence.Edit(it =>
+      var sentenceReference = CreateTestSentence("川に行く", "go to the river").Reference();
+      sentenceReference.Current.Edit(it =>
       {
          it.SourceData.Answer.Set("I go to the river");
          it.SourceData.Comments.Set("A comment from the source");
@@ -31,7 +31,7 @@ public class When_a_sentence_with_source_data_is_saved_to_the_corpus : Specifica
          it.Comments.Set("A comment of the corpus's own");
       });
       var serializer = GetService<NoteSerializer>();
-      var json = serializer.Serialize(sentence);
+      var json = serializer.Serialize(sentenceReference.Current);
       _json = JsonDocument.Parse(json).RootElement;
       _readBackReference = serializer.DeserializeSentence(json).Reference();
    }

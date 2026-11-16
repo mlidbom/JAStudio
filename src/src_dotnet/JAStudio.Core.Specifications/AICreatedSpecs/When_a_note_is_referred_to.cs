@@ -14,12 +14,9 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
 /// A note of the collection kept by its reference, <c>note.Reference()</c> (<see cref="ReferringToANote"/>): on each read, the note as the collection<br/>
-/// holds it now. For update, the note an edit of it is editing, and a failure outside such an edit.
+/// holds it now, which an edit replaces with the changed copy it commits. For update, the copy the running edit's unit of work may change, and a<br/>
+/// failure outside any edit.
 /// </summary>
-/// <remarks>
-/// wip: until a taggregate store keeps the notes, the reference reads the collection, which changes its notes in place. Then the store's references<br/>
-/// replace it, and an edit commits a changed copy in the note's place, which the reference gives from then on.
-/// </remarks>
 public class When_a_note_is_referred_to : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    protected readonly VocabNote Vocab;
@@ -52,10 +49,16 @@ public class When_a_note_is_referred_to : SpecificationStartingWithAnEmptyCollec
       [XF] public void it_gives_the_note_being_edited() => _idOfTheNoteGotForUpdate.Must().Be(Vocab.Id);
    }
 
+   public class getting_the_note_for_update_in_an_edit_of_another_note : When_a_note_is_referred_to
+   {
+      public getting_the_note_for_update_in_an_edit_of_another_note() => OtherVocab.Edit(_ => Reference.ForUpdate().CorpusAnswer.Set("to dash"));
+
+      [XF] public void the_change_to_it_is_committed_with_the_edit() => Reference.Current.GetAnswer().Must().Be("to dash");
+   }
+
    public class getting_the_note_for_update : When_a_note_is_referred_to
    {
       [XF] public void outside_any_edit_fails() => Invoking(() => Reference.ForUpdate()).Must().Throw<StateAssertionFailedException>();
-      [XF] public void in_an_edit_of_another_note_fails() => Invoking(() => OtherVocab.Edit(_ => Reference.ForUpdate())).Must().Throw<StateAssertionFailedException>();
    }
 
    public class once_the_note_was_deleted : When_a_note_is_referred_to

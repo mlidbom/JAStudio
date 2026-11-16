@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -28,7 +29,8 @@ public class When_making_a_shared_condition_of_a_line_of_a_vocabs_tree : Specifi
 {
    static readonly Condition<CandidateWordVariant> FollowsASurfaceEndingWithん = PrecedingToken.Meets(TokenConditions.Surface.Meets(TextConditions.EndsWithOneOf("ん")));
 
-   readonly VocabNote _んだ;
+   readonly ITaggregateReference<VocabNote> _んだReference;
+   VocabNote _んだ => _んだReference.Current;
    readonly MatchConditionWindowViewModel _window;
    readonly NewSharedConditionDialogViewModel _dialog;
 
@@ -36,7 +38,7 @@ public class When_making_a_shared_condition_of_a_line_of_a_vocabs_tree : Specifi
    {
       var だの = CreateVocab("だの", "and so on", "だの");
       だの.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(!FollowsASurfaceEndingWithん, PrecedingToken.Meets(TokenConditions.IsAGodanVerb))));
-      _んだ = CreateVocab("んだ", "it is that", "んだ");
+      _んだReference = CreateVocab("んだ", "it is that", "んだ").Reference();
       _んだ.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(FollowsASurfaceEndingWithん)));
       _window = new MatchConditionWindowViewModel(GetService<TemporaryServiceCollection>(), だの, _ => {}, _ => {});
       Tree.SelectedLine = Tree.Lines[0].Children[0];

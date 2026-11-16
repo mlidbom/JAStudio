@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -7,27 +8,38 @@ namespace JAStudio.Core.Note.Collection;
 
 public class KanjiCollection
 {
-   internal readonly KanjiCache Cache;
+   readonly StoredNotes<KanjiNote> _notes;
+   readonly NoteUnitsOfWork _unitsOfWork;
+   readonly NoteIndex<KanjiNote, KanjiIndexes.Question> _byQuestion;
+   readonly NoteIndex<KanjiNote, KanjiIndexes.Radical> _byRadical;
+   readonly NoteIndex<KanjiNote, KanjiIndexes.Reading> _byReading;
 
-   public KanjiCollection(NoteServices noteServices) => Cache = new KanjiCache(noteServices);
+   internal KanjiCollection(NoteServices noteServices, IRootResolver resolver, NoteUnitsOfWork unitsOfWork)
+   {
+      _notes = new StoredNotes<KanjiNote>(noteServices, resolver);
+      _unitsOfWork = unitsOfWork;
+      _byQuestion = _notes.IndexBy<KanjiIndexes.Question>();
+      _byRadical = _notes.IndexBy<KanjiIndexes.Radical>();
+      _byReading = _notes.IndexBy<KanjiIndexes.Reading>();
+   }
 
-   public List<KanjiNote> All() => Cache.All();
+   public List<KanjiNote> All() => _notes.All();
 
-   public KanjiNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
-   public KanjiNote? WithTheStudyNoteOrNone(long studyNoteId) => Cache.WithTheStudyNoteOrNone(studyNoteId);
+   public KanjiNote? WithIdOrNone(NoteId noteId) => _notes.WithIdOrNone(noteId);
+   public KanjiNote? WithTheStudyNoteOrNone(long studyNoteId) => _notes.WithTheStudyNoteOrNone(studyNoteId);
 
    public List<KanjiNote> WithAnyKanjiIn(List<string> kanjiList)
    {
-      return kanjiList.SelectMany(k => Cache.WithQuestion(k)).ToList();
+      return kanjiList.SelectMany(kanji => _byQuestion.NotesWith(new(kanji))).ToList();
    }
 
    public KanjiNote? WithKanji(string kanji)
    {
-      var results = Cache.WithQuestion(kanji);
+      var results = _byQuestion.NotesWith(new(kanji));
       return results.Count == 1 ? results[0] : null;
    }
 
-   public List<KanjiNote> WithRadical(string radical) => Cache.WithRadical(radical);
+   public List<KanjiNote> WithRadical(string radical) => _byRadical.NotesWith(new(radical));
 
    /// <summary>Renames the word-reference <paramref name="oldName"/> to <paramref name="newName"/> in every kanji's primary vocab, after the vocab that had the one name got the other.</summary>
    internal void RenameThePrimaryVocab(WordReference oldName, WordReference newName)
@@ -39,13 +51,12 @@ public class KanjiCollection
    public HashSet<KanjiNote> WithReading(string reading)
    {
       var hiraganaReading = KanaUtils.AnythingToHiragana(reading);
-      return Cache.WithReading(hiraganaReading);
+      return _byReading.NotesWith(new(hiraganaReading)).ToHashSet();
    }
 
    /// <inheritdoc cref="SentenceCollection.Add"/>
    public void Add(KanjiNote note)
    {
-      Cache.AddToCache(note);
-      note.UpdateInCache();
+      _unitsOfWork.Run(it => it.Add(note));
    }
 }

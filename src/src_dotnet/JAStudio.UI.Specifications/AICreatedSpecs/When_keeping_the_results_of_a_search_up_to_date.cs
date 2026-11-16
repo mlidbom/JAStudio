@@ -59,7 +59,7 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
    {
       var sentence = CreateTestSentence(question, "an answer");
       sentence.Edit(it => it.Tags.Set(Tag.FromName("source::anime")));
-      return sentence;
+      return sentence.Reference().Current;
    }
 
    List<SentenceSearchResultViewModel> FoundSentences() => [.._search.Results.Sentences.Results];

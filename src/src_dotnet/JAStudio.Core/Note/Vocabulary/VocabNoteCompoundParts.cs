@@ -46,6 +46,12 @@ public class VocabNoteCompoundParts
    /// </remarks>
    public List<WordReference> Alternative() => [.. WordReference.InAFixedOrder(_enteredAlternatives.Except(_primary))];
 
+   /// <summary>
+   /// The alternative parts as entered, in the fixed order, those that are also <see cref="Primary"/> parts included: what the vocab stores, so that<br/>
+   /// a copy of it, as each edit makes, keeps a part that stops being a primary part as an alternative one.
+   /// </summary>
+   internal List<WordReference> EnteredAlternatives() => [.. WordReference.InAFixedOrder(_enteredAlternatives.Distinct())];
+
    /// <summary>Every compound part: the <see cref="Primary"/> parts, followed by the <see cref="Alternative"/> ones.</summary>
    public List<WordReference> All() => [.. _primary, .. Alternative()];
 

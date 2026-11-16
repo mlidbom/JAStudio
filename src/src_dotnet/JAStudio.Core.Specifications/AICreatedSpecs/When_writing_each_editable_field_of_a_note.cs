@@ -60,9 +60,9 @@ public abstract class When_writing_each_editable_field_of_a_note : Specification
 
       SentenceNote AParsingCase(string question)
       {
-         var sentence = CreateSentence(question);
-         sentence.Edit(it => it.MarkAsAParsingCase());
-         return sentence;
+         var sentenceReference = CreateSentence(question).Reference();
+         sentenceReference.Current.Edit(it => it.MarkAsAParsingCase());
+         return sentenceReference.Current;
       }
 
       [XF] public void the_stored_sentence_changes_where_each_fields_name_says() => _fieldsWhoseNameIsNotWhereTheStoredSentenceChanged.Must().BeEmpty();
@@ -72,7 +72,7 @@ public abstract class When_writing_each_editable_field_of_a_note : Specification
    {
       var before = StoredValueAt(note, field.Name);
       field.WriteValue(note, AnotherValueThanTheNotesFor(field, note));
-      return !JsonNode.DeepEquals(before, StoredValueAt(note, field.Name));
+      return !JsonNode.DeepEquals(before, StoredValueAt(note.Reference().Current, field.Name));
    }
 
    /// <summary>

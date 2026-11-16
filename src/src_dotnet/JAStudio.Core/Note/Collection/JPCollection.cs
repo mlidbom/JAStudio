@@ -2,16 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
 using Compze.Internals.Logging;
 using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
+using Compze.Teventive.StateStore;
+using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.TagProperties;
-using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
@@ -31,19 +33,44 @@ public class JPCollection
 
    /// <summary>
    /// Notifies this collection every time it has loaded again (<see cref="ReloadFromBackend"/>): at startup, and when asked to.<br/>
-   /// The reload replaces every note object, so anything holding on to one must look it up again by its <see cref="NoteId"/>.
+   /// The reload replaces every note that changed on disk, so anything holding on to a note, not its reference, must look it up again.
    /// </summary>
    public IObservable<JPCollection> ReloadedFromBackend => _reloadedFromBackend;
 
    readonly SimpleObservable<JPNote> _noteUpdated = new();
 
-   /// <summary>Notifies every note in the collection that is updated, whatever its type, on the thread that updated it.</summary>
+   /// <summary>
+   /// Notifies every note in the collection that is updated, whatever its type, as committed, once the unit of work that changed it has committed,<br/>
+   /// on the thread that changed it: a note added, a note an edit changed, and a note whose file a reload found changed on disk.
+   /// </summary>
    public IObservable<JPNote> NoteUpdated => _noteUpdated;
 
    readonly SimpleObservable<JPNote> _noteDeleted = new();
 
    /// <summary>Notifies every note <see cref="Delete"/> deleted, on the thread that deleted it, after it and its media are gone.</summary>
    public IObservable<JPNote> NoteDeleted => _noteDeleted;
+
+   readonly NoteUnitsOfWork _unitsOfWork;
+
+   /// <summary>
+   /// Runs <paramref name="work"/> in a unit of work in which notes are changed: the one running on this thread, or else a new one, which commits<br/>
+   /// once it is done, and then notifies each note it changed (<see cref="NoteUpdated"/>). Every change to a note runs in one, as<br/>
+   /// <c>note.Edit(it => ...)</c> does (<see cref="EditingANote"/>).
+   /// </summary>
+   public void InAUnitOfWork(Action<NoteUnitOfWork> work) => _unitsOfWork.Run(work);
+
+   /// <summary>
+   /// Notifies <paramref name="note"/>, which a unit of work saved, through <see cref="NoteUpdated"/>, and logs it when the options say to log
+   /// flushing notes (<see cref="Configuration.Settings.LogWhenFlushingNotes"/>).
+   /// </summary>
+   void NotifyThatAUnitOfWorkSaved(JPNote note)
+   {
+      if(NoteServices.Settings.LogWhenFlushingNotes()) this.Log().Info($"Saved the {note.GetType().Name} {note.GetQuestion()}");
+      _noteUpdated.OnNext(note);
+   }
+
+   /// <summary>The unit of work running on this thread (<see cref="InAUnitOfWork"/>). Fails when none is.</summary>
+   internal NoteUnitOfWork TheRunningUnitOfWork => _unitsOfWork.Running;
 
    readonly SimpleObservable<JPNote> _studyNoteChanged = new();
 
@@ -149,9 +176,13 @@ public class JPCollection
       return read;
    }
 
+   /// <remarks>
+   /// The state store that keeps the notes (<see cref="IStateStore"/>), and its storage, are resolved at their first use: a host may only know where<br/>
+   /// the corpus is once it has started.
+   /// </remarks>
    public JPCollection(
       NoteServices noteServices,
-      INoteRepository noteRepository,
+      IRootResolver resolver,
       MediaFileIndex mediaFileIndex,
       MediaStorageService mediaStorage,
       ISRSStudyNotes studyNotesInTheSRS)
@@ -159,28 +190,23 @@ public class JPCollection
       using var _ = this.Log().Info().MethodExecutionTime();
 
       NoteServices = noteServices;
-      _repository = noteRepository;
+      _store = new Lazy<IStateStore>(resolver.Resolve<IStateStore>);
+      _storage = new Lazy<ITaggregateStorage>(resolver.Resolve<ITaggregateStorage>);
       _mediaFileIndex = mediaFileIndex;
       _mediaStorage = mediaStorage;
       _studyNotesInTheSRS = studyNotesInTheSRS;
+      _unitsOfWork = new NoteUnitsOfWork(resolver, NotifyThatAUnitOfWorkSaved);
       DictLookup = new DictLookup(this);
       VocabNoteGeneratedData = new VocabNoteGeneratedData();
       VocabNoteFactory = new VocabNoteFactory(DictLookup, this, noteServices);
 
-      Vocab = new VocabCollection(NoteServices);
-      Kanji = new KanjiCollection(NoteServices);
-      Sentences = new SentenceCollection(NoteServices);
-
-      Kanji.Cache.NoteUpdated.Subscribe(note => _repository.Save(note));
-      Vocab.Cache.NoteUpdated.Subscribe(note => _repository.Save(note));
-      Sentences.Cache.NoteUpdated.Subscribe(note => _repository.Save(note));
-
-      Kanji.Cache.NoteUpdated.Subscribe(_noteUpdated.OnNext);
-      Vocab.Cache.NoteUpdated.Subscribe(_noteUpdated.OnNext);
-      Sentences.Cache.NoteUpdated.Subscribe(_noteUpdated.OnNext);
+      Vocab = new VocabCollection(NoteServices, resolver, _unitsOfWork);
+      Kanji = new KanjiCollection(NoteServices, resolver, _unitsOfWork);
+      Sentences = new SentenceCollection(NoteServices, resolver, _unitsOfWork);
    }
 
-   readonly INoteRepository _repository;
+   readonly Lazy<IStateStore> _store;
+   readonly Lazy<ITaggregateStorage> _storage;
    readonly MediaFileIndex _mediaFileIndex;
    readonly MediaStorageService _mediaStorage;
    readonly ISRSStudyNotes _studyNotesInTheSRS;
@@ -198,31 +224,28 @@ public class JPCollection
    /// (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note's study-note in Anki instead leaves<br/>
    /// the note in the corpus and in JAStudio: the next read of the study-notes finds it gone, and the note is then no longer studied.
    /// </summary>
-   public void Delete(JPNote note, ItsStudyNote itsStudyNote)
+   /// <remarks>
+   /// The note is deleted as it is when the deletion begins, whatever instance of it <paramref name="note"/> is, in a unit of work, which deletes its<br/>
+   /// study-note and its media files once it has committed.
+   /// </remarks>
+   public void Delete(JPNote note, ItsStudyNote itsStudyNote) => InAUnitOfWork(unitOfWork =>
    {
+      var theNoteAsItIs = unitOfWork.ForUpdate(note);
       TakeItOutOfItsWebOfPerfectSynonyms();
-      if(itsStudyNote == ItsStudyNote.IsDeleted) _studyNotesInTheSRS.DeleteTheStudyNoteOf(note.GetId());
-      _repository.Delete(note.GetId());
-      RemoveFromItsCache();
-      DeleteTheMediaFilesNoNoteUses(note.MediaReferences.Select(it => it.FileName));
-      _noteDeleted.OnNext(note);
+      unitOfWork.Delete(theNoteAsItIs);
+      unitOfWork.OnceCommitted(() =>
+      {
+         if(itsStudyNote == ItsStudyNote.IsDeleted) _studyNotesInTheSRS.DeleteTheStudyNoteOf(theNoteAsItIs.GetId());
+         DeleteTheMediaFilesNoNoteUses(theNoteAsItIs.MediaReferences.Select(it => it.FileName));
+         _noteDeleted.OnNext(theNoteAsItIs);
+      });
       return;
 
       void TakeItOutOfItsWebOfPerfectSynonyms()
       {
-         if(note is VocabNote vocab) vocab.RelatedNotes.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted();
+         if(theNoteAsItIs is VocabNote vocab) vocab.RelatedNotes.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted();
       }
-
-      void RemoveFromItsCache()
-      {
-         switch(note)
-         {
-            case VocabNote vocab: Vocab.Cache.RemoveFromCache(vocab); break;
-            case KanjiNote kanji: Kanji.Cache.RemoveFromCache(kanji); break;
-            case SentenceNote sentence: Sentences.Cache.RemoveFromCache(sentence); break;
-         }
-      }
-   }
+   });
 
    /// <summary>
    /// Discards <paramref name="note"/>'s TTS audio, so that it has none (<see cref="Media.AudioReferenceList.DiscardTheTextToSpeechAudio"/>), and deletes<br/>
@@ -252,29 +275,26 @@ public class JPCollection
                 .ForEach(_mediaStorage.DeleteFile);
    }
 
-   /// <summary>Empties this collection, and forgets every note's Anki note id, as a load starts.</summary>
-   void ClearCaches() => this.Log().Warning().MethodExecutionTime(() =>
+   /// <summary>Forgets every note's Anki note id, as a load starts.</summary>
+   void ForgetTheStudyNoteIds()
    {
       IsInitialized = false;
       NoteServices.StudyNoteIds.Clear();
-      Vocab.Cache.Clear();
-      Kanji.Cache.Clear();
-      Sentences.Cache.Clear();
-   });
+   }
 
    /// <summary>
-   /// Clears this collection and loads it again: the notes from the corpus checkout, and the studying statuses and Anki note ids from Anki. It runs<br/>
-   /// at startup, and when asked to, by the workspace's Local Actions > "Reload the collection from disk" or JAStudio's MCP server, to take in changes<br/>
-   /// made to the corpus checkout outside JAStudio. After a sync, or as another Anki profile opens, only the study-notes are read again<br/>
+   /// Loads this collection again: the notes from the corpus checkout, and the studying statuses and Anki note ids from Anki. It runs at startup,<br/>
+   /// and when asked to, by the workspace's Local Actions > "Reload the collection from disk" or JAStudio's MCP server, to take in changes made to<br/>
+   /// the corpus checkout outside JAStudio. After a sync, or as another Anki profile opens, only the study-notes are read again<br/>
    /// (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>), since Anki holds only them.
    /// </summary>
    /// <returns>The notes whose files changed on disk while this collection held them, as <see cref="ReloadFromBackendAfter"/> describes.</returns>
    public IReadOnlyList<JPNote> ReloadFromBackend() => ReloadFromBackendAfter(() => {});
 
    /// <summary>
-   /// Makes <paramref name="changeToTheCorpusCheckout"/>, such as a git fast-forward of the corpus checkout, while this collection holds no notes, so that<br/>
-   /// nothing JAStudio does meanwhile saves a note over the change, then loads this collection again, as <see cref="ReloadFromBackend"/> does. It loads<br/>
-   /// again even when the change fails.
+   /// Makes <paramref name="changeToTheCorpusCheckout"/>, such as a git fast-forward of the corpus checkout, while no unit of work runs, so that<br/>
+   /// nothing JAStudio does meanwhile saves a note over the change, then loads this collection again, as <see cref="ReloadFromBackend"/> does.<br/>
+   /// When the change fails, the notes are left as they were, and the study-notes are read again.
    /// </summary>
    /// <returns>
    /// The notes whose files changed on disk while this collection held them: each one's data now differs from the same note's as held before. Each<br/>
@@ -283,44 +303,54 @@ public class JPCollection
    /// </returns>
    public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {
-      var notesHeldBefore = AllNotes().ToDictionary(it => it.GetId());
-      ClearCaches();
-      try
-      {
-         changeToTheCorpusCheckout();
-      }
-      finally
-      {
-         LoadFromBackend();
-      }
+      ForgetTheStudyNoteIds();
+      var reloaded = LoadFromBackendAfter(changeToTheCorpusCheckout);
 
-      List<JPNote> notesChangedOnDisk = [.. AllNotes().Where(ChangedOnDisk)];
-      notesChangedOnDisk.ForEach(it => it.UpdateInCache());
+      List<JPNote> notesChangedOnDisk = [.. reloaded.Changed.Select(it => NoteFromNoteId((NoteId)it)).OfType<JPNote>()];
+      notesChangedOnDisk.ForEach(_noteUpdated.OnNext);
       return notesChangedOnDisk;
-
-      bool ChangedOnDisk(JPNote note) => notesHeldBefore.TryGetValue(note.GetId(), out var theNoteAsHeldBefore) && !note.HasTheSameStoredDataAs(theNoteAsHeldBefore);
    });
 
-   void LoadFromBackend()
+   /// <summary>
+   /// Loads the notes again after <paramref name="changeToTheCorpusCheckout"/>, the shared-conditions first, since a vocab's match-condition uses them by<br/>
+   /// name; and meanwhile the dictionary, the media layer's index and the study-notes. The state store keeps every unit of work waiting until the<br/>
+   /// notes are loaded.
+   /// </summary>
+   ReloadedTaggregates LoadFromBackendAfter(Action changeToTheCorpusCheckout)
    {
       using var runner = NoteServices.TaskRunner.Current("=== Populating JAStudio data from file system ===");
 
-      runner.RunIndeterminate("Loading the shared-conditions", NoteServices.SharedConditions.Load); // before the notes: a vocab's match-condition uses them by name
-
-      var repoLoad = TaskCE.Run(LoadFromRepository);
-      var mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
       var dictionaryLoad = TaskCE.Run(() => runner.RunIndeterminate("Loading the dictionary", DictLookup.LoadTheDictionary));
-
       var studyNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
       var studyNotesRead = TaskCE.Run(() => runner.RunIndeterminate("Reading the study-notes from Anki", _studyNotesInTheSRS.ReadAll));
+      Task? mediaIndexBuild = null;
+      try
+      {
+         return runner.RunIndeterminate("Loading the notes", () => _store.Value.ReloadFromStorageAfter(() =>
+         {
+            changeToTheCorpusCheckout();
+            mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
+            runner.RunIndeterminate("Loading the shared-conditions", NoteServices.SharedConditions.Load);
+         }));
+      }
+      finally
+      {
+         Task.WaitAll(mediaIndexBuild ?? TaskCE.Run(() => _mediaFileIndex.Build()), studyNotesRead, dictionaryLoad);
 
-      Task.WaitAll(repoLoad, mediaIndexBuild, studyNotesRead, dictionaryLoad);
+         runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(studyNotesRead.Result, studyNoteIdsHeldWhenTheReadBegan));
 
-      runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(studyNotesRead.Result, studyNoteIdsHeldWhenTheReadBegan));
-
-      IsInitialized = true;
-      _reloadedFromBackend.OnNext(this);
+         IsInitialized = true;
+         _reloadedFromBackend.OnNext(this);
+      }
    }
+
+   /// <summary>
+   /// Writes <paramref name="note"/> to the storage as it is committed now, changed or not, which a unit of work does only for the notes it changes:<br/>
+   /// to see what loading and saving does to the notes' files, as after a change to how they are stored.
+   /// </summary>
+   /// <remarks>It writes outside any unit of work, so a unit of work committing the same note meanwhile may write over it, or it over the unit of work's.</remarks>
+   public void WriteToTheStorage(JPNote note) =>
+      _storage.Value.Prepare([new TaggregateSnapshot(note.GetType(), note.Id, note.ToDto())], []).Commit();
 
    /// <summary>
    /// Gives each note what the spaced repetition system holds of its study-note, as <paramref name="studyNotesRead"/> from it: its id, the studying<br/>
@@ -356,18 +386,6 @@ public class JPCollection
       }
 
       bool ItIsANewStudyNote(long studyNoteId, NoteId noteId) => !(studyNoteIdsHeldWhenTheReadBegan.TryGetValue(studyNoteId, out var heldThen) && heldThen.Equals(noteId));
-   }
-
-   void LoadFromRepository()
-   {
-      using var runner = NoteServices.TaskRunner.Current("Loading notes from repository");
-
-      var allNotes = _repository.LoadAll();
-
-      Task.WaitAll(
-         runner.RunIndeterminateAsync("Pushing kanji notes into cache", () => Kanji.Cache.AddAllToCache(allNotes.Kanji)),
-         runner.RunIndeterminateAsync("Pushing vocab notes into cache", () => Vocab.Cache.AddAllToCache(allNotes.Vocab)),
-         runner.RunIndeterminateAsync("Pushing sentence notes into cache", () => Sentences.Cache.AddAllToCache(allNotes.Sentences)));
    }
 
 }

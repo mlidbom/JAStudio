@@ -15,8 +15,7 @@ namespace JAStudio.Core.Storage;
 /// snapshot, its DTO, from its file, and writes the files of the notes a unit of work changed, each as JAStudio has always written it.
 /// </summary>
 /// <remarks>
-/// review-naming: CorpusNoteFiles is a name taggregates-opus chose (2026-11-16).<br/>
-/// wip: <see cref="FileSystemNoteRepository"/> writes the same files, until the state store keeps the notes (dev_docs/taggregates/shared/the-migration.md, step 7).
+/// review-naming: CorpusNoteFiles is a name taggregates-opus chose (2026-11-16).
 /// </remarks>
 public partial class CorpusNoteFiles : ITaggregateStorage
 {

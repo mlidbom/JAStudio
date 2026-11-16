@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -18,14 +19,15 @@ namespace JAStudio.Mcp.Specifications.Tools.Matching;
 /// </summary>
 public class When_deleting_a_shared_condition : McpServerSpecification
 {
-   readonly VocabNote _ます;
+   readonly ITaggregateReference<VocabNote> _ますReference;
+   VocabNote _ます => _ますReference.Current;
    readonly ListedSharedCondition _deleted;
 
    public When_deleting_a_shared_condition()
    {
       CallTool("define_a_shared_condition",
                new Dictionary<string, object?> { ["subject"] = "Token", ["name"] = "IsAVerb", ["definition"] = """{"anyOf": [{"fact": "godanVerb"}, {"fact": "ichidanVerb"}]}""" });
-      _ます = CreateVocab("ます", "polite ending", "ます");
+      _ますReference = CreateVocab("ます", "polite ending", "ます").Reference();
       _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(MatchConditionJson.VocabsMatchConditionFromJsonText("""{"precedingToken": {"sharedCondition": "IsAVerb"}}""", GetService<SharedConditions>())));
 
       _deleted = ResultOf<ListedSharedCondition>(CallTool("delete_a_shared_condition", new Dictionary<string, object?> { ["subject"] = "Token", ["name"] = "IsAVerb" }));

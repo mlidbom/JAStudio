@@ -63,7 +63,7 @@ public class VocabCloner
             it.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).Select(EnteredForm.NotOwned));
             finish?.Invoke(it);
          });
-         return newVocab;
+         return newVocab.Reference().Current;
       }
 
       string AppendPrependAddendum(string baseStr)
@@ -89,7 +89,7 @@ public class VocabCloner
          it.Register.OverwriteWith(Note.Register);
          it.MatchingConfiguration.OverwriteWith(Note.MatchingConfiguration);
       });
-      return clone;
+      return clone.Reference().Current;
    }
 
    void CopyVocabTagsTo(VocabNote target)
@@ -227,7 +227,7 @@ public class VocabCloner
             it.CompoundParts.SetPrimary([Note.Question.Reference, new(formSuffix)]);
             finish?.Invoke(it);
          });
-         return clone;
+         return clone.Reference().Current;
       }
 
       string CreateFullForm(string form) => createFormRoot(Note, form) + formSuffix;
@@ -280,11 +280,13 @@ public class VocabCloner
       VocabNote Create()
       {
          var clone = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(CreateImperativeForm(Note.GetQuestion()), Note.GetAnswer(), []);
-         clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).Select(EnteredForm.NotOwned));
-         var readings = Note.GetReadings().Select(CreateImperativeForm).ToList();
-         clone.SetReadings(readings);
-         clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
-         return clone;
+         clone.Edit(it =>
+         {
+            it.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).Select(EnteredForm.NotOwned));
+            it.SetReadings([.. Note.GetReadings().Select(CreateImperativeForm)]);
+            it.PartsOfSpeech.Set([PartOfSpeech.Expression]);
+         });
+         return clone.Reference().Current;
       }
 
       string CreateImperativeForm(string form) => Conjugator.GetImperative(form, Note.PartsOfSpeech.IsIchidan(), Note.PartsOfSpeech.IsGodan());

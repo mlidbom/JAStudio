@@ -23,10 +23,10 @@ public class When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_cor
 
    protected When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_corpus(UsuallyWrittenInKanaDecision decision)
    {
-      var vocab = CreateVocab("毎月", "every month", "まいつき");
-      vocab.Edit(it => it.UsuallyWrittenInKana.Decide(decision));
+      var vocabReference = CreateVocab("毎月", "every month", "まいつき").Reference();
+      vocabReference.Current.Edit(it => it.UsuallyWrittenInKana.Decide(decision));
       var serializer = GetService<NoteSerializer>();
-      var json = serializer.Serialize(vocab);
+      var json = serializer.Serialize(vocabReference.Current);
       _json = JsonDocument.Parse(json).RootElement;
       _readBackReference = serializer.DeserializeVocab(json).Reference();
    }

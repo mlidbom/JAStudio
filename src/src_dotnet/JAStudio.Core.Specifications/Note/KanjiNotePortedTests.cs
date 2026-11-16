@@ -15,12 +15,12 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
    [Fact]
    public void InsideRadicalPopulation()
    {
-      var inside = GetService<KanjiCollection>().WithKanji("内")!;
-      inside.Edit(it => it.Mnemonic.Set("<rad>head</rad> <rad>person</rad>"));
+      var insideReference = GetService<KanjiCollection>().WithKanji("内")!.Reference();
+      insideReference.Current.Edit(it => it.Mnemonic.Set("<rad>head</rad> <rad>person</rad>"));
 
-      inside.Edit(it => it.PopulateRadicalsFromMnemonicTags());
+      insideReference.Current.Edit(it => it.PopulateRadicalsFromMnemonicTags());
 
-      Assert.Equal(["冂", "人"], inside.Radicals.All);
+      Assert.Equal(["冂", "人"], insideReference.Current.Radicals.All);
    }
 
    [Theory]
@@ -30,12 +30,12 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
    [InlineData("塚", "", "<kan>a-mound</kan> <read>Tsuka</read> ...")]
    public void BootstrapMnemonic(string kanji, string radicals, string expectedMnemonic)
    {
-      var kanjiNote = GetService<KanjiCollection>().WithKanji(kanji)!;
-      kanjiNote.Edit(it => it.Radicals.Set(StringExtensions.ExtractCommaSeparatedValues(radicals)));
+      var kanjiNoteReference = GetService<KanjiCollection>().WithKanji(kanji)!.Reference();
+      kanjiNoteReference.Current.Edit(it => it.Radicals.Set(StringExtensions.ExtractCommaSeparatedValues(radicals)));
 
-      kanjiNote.Edit(it => it.BootstrapMnemonicFromRadicals());
+      kanjiNoteReference.Current.Edit(it => it.BootstrapMnemonicFromRadicals());
 
-      Assert.Equal(expectedMnemonic, kanjiNote.Mnemonic.Value);
+      Assert.Equal(expectedMnemonic, kanjiNoteReference.Current.Mnemonic.Value);
    }
 
    [Fact]

@@ -2,8 +2,10 @@ using System;
 using System.IO;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.UI.ViewModels.TextToSpeech;
 
@@ -19,12 +21,13 @@ public class When_generating_tts_audio_for_many_notes : SpecificationUsingAWorks
 {
    readonly FakeTextToSpeechProvider _provider = new();
    readonly RecordingAudioPlayer _player = new();
-   readonly SentenceNote[] _sentences;
+   readonly ITaggregateReference<SentenceNote>[] _sentenceReferences;
+   SentenceNote[] _sentences => [.. _sentenceReferences.Select(it => it.Current)];
    readonly BatchTextToSpeechDialogViewModel _dialog;
 
    public When_generating_tts_audio_for_many_notes()
    {
-      _sentences = [CreateTestSentence("家に帰る", "Go home"), CreateTestSentence("明日学校に行く", "I'll go to school tomorrow"), CreateTestSentence("何でもない", "It's nothing")];
+      _sentenceReferences = [CreateTestSentence("家に帰る", "Go home").Reference(), CreateTestSentence("明日学校に行く", "I'll go to school tomorrow").Reference(), CreateTestSentence("何でもない", "It's nothing").Reference()];
       _dialog = new BatchTextToSpeechDialogViewModel(_sentences, [_provider.Steady, _provider.Varying], _player, GetService<TemporaryServiceCollection>());
    }
 

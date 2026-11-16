@@ -66,8 +66,8 @@ public class When_a_vocab_has_alternative_compound_parts : SpecificationStarting
       [XF] public void the_primary_parts_are_read_back_in_their_order() => NamesOf(_readBack.CompoundParts.Primary()).Must().SequenceEqual(["忘れる", "られない"]);
       [XF] public void the_alternative_parts_are_read_back() => NamesOf(_readBack.CompoundParts.Alternative()).Must().SequenceEqual(["ない", "忘れられる"]);
 
-      [XF] public void the_corpus_json_stores_only_the_alternative_parts_that_are_not_primary_parts() =>
-         CompoundPartsInTheJson("alternative").Must().SequenceEqual(["ない", "忘れられる"]);
+      [XF] public void the_corpus_json_stores_the_alternative_parts_as_entered_the_one_that_is_also_a_primary_part_included() =>
+         CompoundPartsInTheJson("alternative").Must().SequenceEqual(["ない", "られない", "忘れられる"]);
 
       [XF] public void the_corpus_json_stores_the_primary_parts_in_their_order() =>
          CompoundPartsInTheJson("primary").Must().SequenceEqual(["忘れる", "られない"]);

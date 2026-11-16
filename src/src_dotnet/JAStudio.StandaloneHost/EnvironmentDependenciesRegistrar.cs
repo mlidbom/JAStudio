@@ -1,6 +1,7 @@
 using System.IO;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
+using Compze.Teventive.StateStore.Storage;
 using JAStudio.Anki;
 using JAStudio.Anki.AnkisFunctions.OverHttp;
 using JAStudio.Anki.CollectionDatabase;
@@ -31,7 +32,7 @@ sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencies
       registrar.Register(
          Singleton.For<AnkiOverHttp>().CreatedBy(() => new AnkiOverHttp(AnkisHttpServerAccessFile.OfThisUser)),
          Singleton.For<IEnvironmentPaths>().CreatedBy(IEnvironmentPaths (AnkiOverHttp anki) => new EnvironmentPaths(_addOnFolder, anki.Media)),
-         Singleton.For<INoteRepository>().CreatedBy(INoteRepository (NoteSerializer serializer, IEnvironmentPaths paths) => new FileSystemNoteRepository(serializer, paths)),
+         Singleton.For<ITaggregateStorage>().CreatedBy(ITaggregateStorage (IEnvironmentPaths paths) => new CorpusNoteFiles(paths.DatabaseDir)),
          Singleton.For<IFatalErrorHandler>().Instance(new AvaloniaFatalErrorHandler()),
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),

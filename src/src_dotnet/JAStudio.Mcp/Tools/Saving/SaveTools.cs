@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Storage;
 using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Tools.Corpus;
 using ModelContextProtocol.Server;
@@ -13,13 +12,11 @@ namespace JAStudio.Mcp.Tools.Saving;
 public class SaveTools
 {
    readonly JPCollection _collection;
-   readonly INoteRepository _noteRepository;
    readonly CorpusCheckout _corpusCheckout;
 
-   public SaveTools(JPCollection collection, INoteRepository noteRepository, CorpusCheckout corpusCheckout)
+   public SaveTools(JPCollection collection, CorpusCheckout corpusCheckout)
    {
       _collection = collection;
-      _noteRepository = noteRepository;
       _corpusCheckout = corpusCheckout;
    }
 
@@ -37,9 +34,9 @@ public class SaveTools
    {
       var stopwatch = Stopwatch.StartNew();
       var (vocab, kanji, sentences) = (_collection.Vocab.All(), _collection.Kanji.All(), _collection.Sentences.All());
-      vocab.ForEach(_noteRepository.Save);
-      kanji.ForEach(_noteRepository.Save);
-      sentences.ForEach(_noteRepository.Save);
+      vocab.ForEach(_collection.WriteToTheStorage);
+      kanji.ForEach(_collection.WriteToTheStorage);
+      sentences.ForEach(_collection.WriteToTheStorage);
       var secondsTaken = stopwatch.Elapsed.TotalSeconds;
 
       return new EveryNoteSaved(vocab.Count + kanji.Count + sentences.Count,

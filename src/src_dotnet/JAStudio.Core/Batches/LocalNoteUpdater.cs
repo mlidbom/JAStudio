@@ -1,9 +1,9 @@
-using Compze.Internals.SystemCE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Compze.Contracts;
+using Compze.Internals.SystemCE;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
@@ -13,7 +13,6 @@ using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
-using JAStudio.Core.Storage;
 using JAStudio.Core.SysUtils;
 using JAStudio.Core.TaskRunners;
 
@@ -22,24 +21,24 @@ namespace JAStudio.Core.Batches;
 public class LocalNoteUpdater
 {
    readonly TaskRunner _taskRunner;
+   readonly JPCollection _collection;
    readonly VocabCollection _vocab;
    readonly KanjiCollection _kanji;
    readonly SentenceCollection _sentences;
    readonly JapaneseConfig _config;
    readonly DictLookup _dictLookup;
    readonly VocabNoteFactory _vocabNoteFactory;
-   readonly FileSystemNoteRepository _fileSystemNoteRepository;
 
-   internal LocalNoteUpdater(TaskRunner taskRunner, VocabCollection vocab, KanjiCollection kanji, SentenceCollection sentences, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, FileSystemNoteRepository fileSystemNoteRepository)
+   internal LocalNoteUpdater(TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory)
    {
       _taskRunner = taskRunner;
-      _vocab = vocab;
-      _kanji = kanji;
-      _sentences = sentences;
+      _collection = collection;
+      _vocab = collection.Vocab;
+      _kanji = collection.Kanji;
+      _sentences = collection.Sentences;
       _config = config;
       _dictLookup = dictLookup;
       _vocabNoteFactory = vocabNoteFactory;
-      _fileSystemNoteRepository = fileSystemNoteRepository;
    }
 
    /// <summary>
@@ -346,21 +345,12 @@ public class LocalNoteUpdater
       scope.RunBatch(vocabNotes, vocab => vocab.Edit(it => it.GenerateAndSetAnswer()), "Regenerating vocab source answers from dictionary");
    }
 
-   public void ForceFlushAllNotes()
-   {
-      using var scope = _taskRunner.Current("Flushing all notes");
-
-      scope.RunBatch([.. _kanji.All()], it => { it.Flush(); }, "Flushing kanji notes");
-      scope.RunBatch([.. _vocab.All()], it => { it.Flush(); }, "Flushing vocab notes");
-      scope.RunBatch([.. _sentences.All()], it => { it.Flush(); }, "Flushing sentence notes");
-   }
-
    public void WriteFileSystemRepository()
    {
       using var scope = _taskRunner.Current("Writing file system repository");
 
-      Task.WaitAll(scope.RunBatchAsync(_kanji.All(), _fileSystemNoteRepository.Save, "Writing kanji"),
-                   scope.RunBatchAsync(_vocab.All(), _fileSystemNoteRepository.Save, "Writing vocab"),
-                   scope.RunBatchAsync(_sentences.All(), _fileSystemNoteRepository.Save, "Writing sentences"));
+      Task.WaitAll(scope.RunBatchAsync(_kanji.All(), _collection.WriteToTheStorage, "Writing kanji"),
+                   scope.RunBatchAsync(_vocab.All(), _collection.WriteToTheStorage, "Writing vocab"),
+                   scope.RunBatchAsync(_sentences.All(), _collection.WriteToTheStorage, "Writing sentences"));
    }
 }

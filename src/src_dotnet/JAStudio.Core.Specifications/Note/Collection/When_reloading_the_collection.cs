@@ -37,7 +37,7 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
 
       public after_a_notes_file_changed_on_disk()
       {
-         GetService<INoteRepository>().Save(ACopyOf行くWithTheAnswer("to walk"));
+         GetService<NotesStoredInMemory>().Store(ACopyOf行くWithTheAnswer("to walk"));
          _collection.NoteUpdated.Subscribe(it => _questionsOfTheNotesPassedOnAsUpdated.Add(it.GetQuestion()));
 
          _notesChangedOnDisk = _collection.ReloadFromBackend();
@@ -68,7 +68,7 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
          _questionsOfTheVocabHeldDuringTheChange = questionsOfTheVocabHeld;
       }
 
-      [XF] public void the_collection_holds_no_notes_during_the_change() => _questionsOfTheVocabHeldDuringTheChange.Must().BeEmpty();
+      [XF] public void the_collection_holds_its_notes_as_they_were_during_the_change() => _questionsOfTheVocabHeldDuringTheChange.Must().SequenceEqual(["来る", "行く"]);
       [XF] public void the_collection_holds_the_notes_again_afterwards() => QuestionsOfTheVocabHeld().Must().SequenceEqual(["来る", "行く"]);
    }
 

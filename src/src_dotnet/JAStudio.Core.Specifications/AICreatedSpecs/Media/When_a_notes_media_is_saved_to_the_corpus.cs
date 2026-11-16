@@ -41,8 +41,8 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
 
       public a_vocab_with_audio_and_images_from_its_source_and_of_the_corpuss_own()
       {
-         var vocab = CreateVocab("文句", "complaint", "もんく");
-         vocab.Edit(it =>
+         var vocabReference = CreateVocab("文句", "complaint", "もんく").Reference();
+         vocabReference.Current.Edit(it =>
          {
             it.SourceData.Audio.Add(MaleRecording);
             it.SourceData.Audio.Add(FemaleRecording);
@@ -52,7 +52,7 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
             it.Images.Add(WebImage);
             it.Images.Add(AIImage);
          });
-         _json = Serializer.Serialize(vocab);
+         _json = Serializer.Serialize(vocabReference.Current);
          _readBackReference = Serializer.DeserializeVocab(_json).Reference();
       }
 
@@ -97,15 +97,15 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
 
       public a_sentence_with_audio_and_screenshots_from_its_source_and_of_the_corpuss_own()
       {
-         var sentence = CreateTestSentence("家に帰る", "Go home");
-         sentence.Edit(it =>
+         var sentenceReference = CreateTestSentence("家に帰る", "Go home").Reference();
+         sentenceReference.Current.Edit(it =>
          {
             it.SourceData.Audio.Add(Recording);
             it.SourceData.Screenshots.Add(Frame);
             it.Audio.Add(TextToSpeech);
             it.Screenshots.Add(PastedScreenshot);
          });
-         _readBackReference = Serializer.DeserializeSentence(Serializer.Serialize(sentence)).Reference();
+         _readBackReference = Serializer.DeserializeSentence(Serializer.Serialize(sentenceReference.Current)).Reference();
       }
 
       [XF] public void its_sources_recording_is_read_back_as_its_sources() => _readBack.SourceData.Audio.All.Must().SequenceEqual([Recording]);

@@ -1,5 +1,5 @@
-using Xunit;
 using JAStudio.Core.Note;
+using Xunit;
 
 namespace JAStudio.Core.Specifications.Note;
 
@@ -13,9 +13,9 @@ public class SentenceNotePortedTests : SpecificationStartingWithAnEmptyCollectio
    {
       var sentence = "だったら普通に金貸せって言えよ";
 
-      var sentenceNote = CreateSentence(sentence);
-      sentenceNote.Edit(it => it.Question.SplitTokenWithWordBreakTag("金貸"));
+      var sentenceNoteReference = CreateSentence(sentence).Reference();
+      sentenceNoteReference.Current.Edit(it => it.Question.SplitTokenWithWordBreakTag("金貸"));
 
-      Assert.Equal($"だったら普通に金{StringExtensions.InvisibleSpace}貸せって言えよ", sentenceNote.Question.WithInvisibleSpace());
+      Assert.Equal($"だったら普通に金{StringExtensions.InvisibleSpace}貸せって言えよ", sentenceNoteReference.Current.Question.WithInvisibleSpace());
    }
 }

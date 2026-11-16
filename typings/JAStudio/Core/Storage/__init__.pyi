@@ -30,7 +30,7 @@ class CorpusNoteFiles(ITaggregateStorage):
     def Prepare(self, toSave: IReadOnlyList_1[TaggregateSnapshot], toDelete: IReadOnlyList_1[TaggregateToDelete]) -> IPreparedWrite: ...
 
 
-class FileSystemNoteRepository(INoteRepository):
+class FileSystemNoteRepository:
     @typing.overload
     def __init__(self, serializer: NoteSerializer, paths: IEnvironmentPaths) -> None: ...
     @typing.overload
@@ -56,24 +56,6 @@ class FileSystemNoteRepository(INoteRepository):
 class IIdentifiableByGuid(typing.Protocol):
     @property
     def Id(self) -> Guid: ...
-
-
-class INoteRepository(typing.Protocol):
-    @abc.abstractmethod
-    def Delete(self, noteId: NoteId) -> None: ...
-    @abc.abstractmethod
-    def LoadAll(self) -> AllNotesData: ...
-    # Skipped Save due to it being static, abstract and generic.
-
-    Save : Save_MethodGroup
-    class Save_MethodGroup:
-        @typing.overload
-        def __call__(self, note: KanjiNote) -> None:...
-        @typing.overload
-        def __call__(self, note: VocabNote) -> None:...
-        @typing.overload
-        def __call__(self, note: SentenceNote) -> None:...
-
 
 
 class JsonFilesystemObjectRepository_GenericClasses(abc.ABCMeta):
@@ -134,5 +116,36 @@ class NoteSerializer:
         def __call__(self, note: JPNote) -> str:...
         @typing.overload
         def __call__(self, data: AllNotesData) -> str:...
+
+
+
+class NotesStoredInMemory(ITaggregateStorage):
+    def __init__(self) -> None: ...
+    def LoadAll(self) -> IReadOnlyList_1[TaggregateSnapshot]: ...
+    def Prepare(self, toSave: IReadOnlyList_1[TaggregateSnapshot], toDelete: IReadOnlyList_1[TaggregateToDelete]) -> IPreparedWrite: ...
+    def Store(self, note: JPNote) -> None: ...
+    # Skipped SnapshotOf due to it being static, abstract and generic.
+
+    SnapshotOf : SnapshotOf_MethodGroup
+    class SnapshotOf_MethodGroup:
+        def __getitem__(self, t:typing.Type[SnapshotOf_1_T1]) -> SnapshotOf_1[SnapshotOf_1_T1]: ...
+
+        SnapshotOf_1_T1 = typing.TypeVar('SnapshotOf_1_T1')
+        class SnapshotOf_1(typing.Generic[SnapshotOf_1_T1]):
+            SnapshotOf_1_TSnapshot = NotesStoredInMemory.SnapshotOf_MethodGroup.SnapshotOf_1_T1
+            def __call__(self, noteId: NoteId) -> SnapshotOf_1_TSnapshot:...
+
+
+    # Skipped Snapshots due to it being static, abstract and generic.
+
+    Snapshots : Snapshots_MethodGroup
+    class Snapshots_MethodGroup:
+        def __getitem__(self, t:typing.Type[Snapshots_1_T1]) -> Snapshots_1[Snapshots_1_T1]: ...
+
+        Snapshots_1_T1 = typing.TypeVar('Snapshots_1_T1')
+        class Snapshots_1(typing.Generic[Snapshots_1_T1]):
+            Snapshots_1_TSnapshot = NotesStoredInMemory.Snapshots_MethodGroup.Snapshots_1_T1
+            def __call__(self) -> IReadOnlyList_1[Snapshots_1_TSnapshot]:...
+
 
 

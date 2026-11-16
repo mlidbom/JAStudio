@@ -183,7 +183,7 @@ public sealed class SharedConditions
          AddWithItsFile(sharedCondition);
          foreach(var definitionUsingIt in definitionsUsingIt) _folder.Save(definitionUsingIt);
       });
-      vocabUsingIt.ForEach(vocab => vocab.Edit(it => it.MatchingConfiguration.SaveAfterASharedConditionItUsesWasRenamed()));
+      vocabUsingIt.ForEach(vocab => vocab.Edit(it => it.SaveAfterASharedConditionItsMatchConditionUsesWasRenamed()));
    }
 
    /// <summary>

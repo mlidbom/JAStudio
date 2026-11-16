@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
@@ -30,7 +31,8 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
 {
    readonly SharedCondition<IAnalysisToken> _isAVerb;
    readonly SharedCondition<CandidateWordVariant> _followsAVerb;
-   readonly VocabNote _ます;
+   readonly ITaggregateReference<VocabNote> _ますReference;
+   VocabNote _ます => _ますReference.Current;
    readonly List<string> _definitionsOpened = [];
    readonly List<string> _vocabWhoseSentencesWereReparsed = [];
 
@@ -39,7 +41,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
       var sharedConditions = GetService<SharedConditions>();
       _isAVerb = sharedConditions.Define(TokenConditions.Level, "IsAVerb", ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
       _followsAVerb = sharedConditions.Define(Level, "FollowsAVerb", PrecedingToken.Meets(_isAVerb));
-      _ます = CreateVocab("ます", "polite ending", "ます");
+      _ますReference = CreateVocab("ます", "polite ending", "ます").Reference();
       _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb)));
    }
 

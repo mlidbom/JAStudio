@@ -19,7 +19,7 @@ static class VocabNoteConverter
                 Explanation = note.Explanation.Value,
                 ExplanationLong = note.ExplanationLong.Value,
                 Mnemonic = note.Mnemonic.Value,
-                CompoundParts = new VocabCompoundPartsDto { Primary = ToDtos(note.CompoundParts.Primary()), Alternative = ToDtos(note.CompoundParts.Alternative()) },
+                CompoundParts = new VocabCompoundPartsDto { Primary = ToDtos(note.CompoundParts.Primary()), Alternative = ToDtos(note.CompoundParts.EnteredAlternatives()) },
                 Readings = note.GetReadings(),
                 PartsOfSpeech = note.PartsOfSpeech.ToDto(),
                 Register = note.Register.ToDto(),

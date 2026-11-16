@@ -1,5 +1,6 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -27,11 +28,12 @@ public class When_checking_a_match_condition_against_a_word_in_a_sentence : Spec
    static readonly ConditionPosition PrecedingTokenIsNotAGodanVerb = ConditionPosition.Root.Child(1);
    static readonly ConditionPosition PrecedingTokenIsAGodanVerb = PrecedingTokenIsNotAGodanVerb.Child(0);
 
-   readonly VocabNote _ます;
+   readonly ITaggregateReference<VocabNote> _ますReference;
+   VocabNote _ます => _ますReference.Current;
 
    public When_checking_a_match_condition_against_a_word_in_a_sentence()
    {
-      _ます = CreateVocab("ます", "polite ending", "ます");
+      _ますReference = CreateVocab("ます", "polite ending", "ます").Reference();
       _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb)),
                                                                                        !PrecedingToken.Meets(TokenConditions.IsAGodanVerb))));
    }

@@ -47,7 +47,7 @@ public class When_the_workspace_is_left : SpecificationUsingAWorkspace, IAIGener
    {
       var sentence = CreateTestSentence(question, "an answer");
       sentence.Edit(it => it.Tags.Set(Tag.FromName("source::anime")));
-      return sentence;
+      return sentence.Reference().Current;
    }
 
    /// <summary>A new workspace, as after a restart, and then the notes loaded, as when Anki opens its profile.</summary>

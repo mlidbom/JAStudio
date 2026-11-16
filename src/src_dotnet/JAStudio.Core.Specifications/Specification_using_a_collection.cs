@@ -29,7 +29,7 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
    {
       var kanji = KanjiNote.Create(NoteServices, question, answer);
       KanjiReadingsNotation.AddTo(kanji, onReadings, kunReadings);
-      return kanji;
+      return kanji.Reference().Current;
    }
 
    /// <summary>

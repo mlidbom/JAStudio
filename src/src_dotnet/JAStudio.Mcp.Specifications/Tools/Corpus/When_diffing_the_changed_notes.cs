@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -22,25 +23,26 @@ namespace JAStudio.Mcp.Specifications.Tools.Corpus;
 public class When_diffing_the_changed_notes : CorpusRepositorySpecification
 {
    protected readonly string FirstCommit;
-   protected readonly VocabNote Vocab学校;
+   protected readonly ITaggregateReference<VocabNote> Vocab学校Reference;
+   protected VocabNote Vocab学校 => Vocab学校Reference.Current;
 
    public When_diffing_the_changed_notes()
    {
-      var vocab行く = CreateVocab("行く", "to go", "いく");
+      var vocab行くReference = CreateVocab("行く", "to go", "いく").Reference();
       var vocab来る = CreateVocab("来る", "to come", "くる");
       var kanji行 = CreateKanji("行", "go", "コウ", "い");
-      var sentence = CreateTestSentence("明日学校に行く", "I'll go to school tomorrow");
-      WriteTheFilesOf(vocab行く, vocab来る, kanji行, sentence);
+      var sentenceReference = CreateTestSentence("明日学校に行く", "I'll go to school tomorrow").Reference();
+      WriteTheFilesOf(vocab行くReference.Current, vocab来る, kanji行, sentenceReference.Current);
       FirstCommit = CommitEverything();
 
-      vocab行く.Edit(it => it.Forms.Add("逝く"));
-      Vocab学校 = CreateVocab("学校", "school", "がっこう");
-      sentence.Edit(it =>
+      vocab行くReference.Current.Edit(it => it.Forms.Add("逝く"));
+      Vocab学校Reference = CreateVocab("学校", "school", "がっこう").Reference();
+      sentenceReference.Current.Edit(it =>
       {
          it.Configuration.HiddenMatches.AddGlobal("行く");
          it.UpdateParsedWords(force: true);
       });
-      WriteTheFilesOf(vocab行く, Vocab学校, sentence);
+      WriteTheFilesOf(vocab行くReference.Current, Vocab学校, sentenceReference.Current);
       FileOf(kanji行).Delete();
       Write(FileOf(vocab来る), JsonNode.Parse(File.ReadAllText(FileOf(vocab来る).FullName))?.ToJsonString() ?? "");
    }

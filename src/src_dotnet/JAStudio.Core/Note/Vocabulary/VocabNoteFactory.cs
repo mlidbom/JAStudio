@@ -34,7 +34,7 @@ public class VocabNoteFactory
 
       var created = Create(question, lookupResult.FormatAnswer(), lookupResult.Readings(), it => it.Tags.Set(Tags.Source.Jamdict));
       created.Edit(it => it.UpdateGeneratedData());
-      return created;
+      return created.Reference().Current;
    }
 
    /// <summary>Creates a vocab whose answer, <paramref name="sourceAnswer"/>, is its source's, such as the dictionary's.</summary>
@@ -78,6 +78,6 @@ public class VocabNoteFactory
          it.CorpusAnswer.Set(corpusAnswer);
          it.Tags.Set(Tags.Source.Jastudio);
       });
-      return note;
+      return note.Reference().Current;
    }
 }

@@ -11,7 +11,6 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -129,14 +128,16 @@ public abstract class When_sharing_a_condition : SpecificationStartingWithAnEmpt
 
       public class after_its_file_was_deleted_and_the_collection_reloaded : used_in_a_vocabs_match_condition
       {
+         readonly FormatException _theReloadsFailure;
+
          public after_its_file_was_deleted_and_the_collection_reloaded()
          {
             File.Delete(Path.Combine(TheFolderOfTheSharedConditions, "Word.FollowsAVerb.json"));
-            GetService<JPCollection>().ReloadFromBackend();
+            _theReloadsFailure = Invoking(() => GetService<JPCollection>().ReloadFromBackend()).Must().Throw<FormatException>().Which;
          }
 
-         [XF] public void reading_the_vocab_as_stored_throws_since_it_uses_a_shared_condition_there_is_none_of() =>
-            Invoking(TheVocabAsStoredReadBack).Must().Throw<FormatException>();
+         [XF] public void the_reload_fails_since_the_vocab_as_stored_uses_a_shared_condition_there_is_none_of() =>
+            _theReloadsFailure.Message.Must().Contain("FollowsAVerb");
       }
    }
 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -21,11 +22,12 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 /// </summary>
 public class When_renaming_a_shared_condition : When_sharing_a_condition
 {
-   readonly VocabNote _ます;
+   readonly ITaggregateReference<VocabNote> _ますReference;
+   VocabNote _ます => _ますReference.Current;
 
    public When_renaming_a_shared_condition()
    {
-      _ます = CreateVocab("ます", "polite ending", "ます");
+      _ますReference = CreateVocab("ます", "polite ending", "ます").Reference();
       _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb, PrecedingToken.Meets(_isAVerb))));
    }
 

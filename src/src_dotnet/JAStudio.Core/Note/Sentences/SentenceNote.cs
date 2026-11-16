@@ -106,11 +106,6 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
       ParsingCase = data?.ParsingCase?.ToParsingCase();
    }
 
-   public override void UpdateInCache()
-   {
-      Services.Collection.Sentences.Cache.JpNoteUpdated(this);
-   }
-
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
    protected override Type WrapperTeventImplementation => typeof(SentenceTevent<ISentenceTevent>);
