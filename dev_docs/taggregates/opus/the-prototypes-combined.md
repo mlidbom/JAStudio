@@ -8,8 +8,9 @@ into a third:
 - **Changes 1 and 3, the snapshot and the per-cascade hook:** taggregates-opus's branch
   `taggregates-opus/snapshot-and-hook`, at a5defb7eb. Written up in
   [the prototype of the snapshot and the per-cascade hook](prototype-of-the-snapshot-and-the-per-cascade-hook.md).
-- **Combined:** branch `taggregates-opus/combined`, at 7dbfa74c0, in the worktree
-  `C:\Dev\Compze.worktrees\taggregates-opus-combined`.
+- **Combined:** branch `taggregates-opus/combined`, at af602bd0e, in the worktree
+  `C:\Dev\Compze.worktrees\taggregates-opus-combined`. That includes jastudio-rep-opus's later fix of a delegate
+  allocated per dispatch (c70e46199); the unit tests pass with it, and the full suite passed on the commit before it.
 
 ## They combine
 
@@ -29,8 +30,8 @@ combined branch, where its dispatchers are created when first used.
 |---:|---|---:|---:|---:|---:|
 | 15 | plain objects | 733 | | | |
 | 15 | registered per instance | 11,168 | 19,216 | +6,280 | 26,672 |
-| 15 | declared per class, from history | 1,080 | 1,784 | +8 | 11,608 |
-| 15 | **declared per class, from a snapshot** | **1,080** | **2,040** | **+8** | **11,608** |
+| 15 | declared per class, from history | 1,080 | 1,728 | +8 | 9,928 |
+| 15 | **declared per class, from a snapshot** | **1,080** | **1,984** | **+8** | **9,928** |
 | 6 | plain objects | 303 | | | |
 | 6 | **declared per class, from a snapshot** | **504** | **1,464** | **+8** | **4,688** |
 | 1 | plain objects | 47 | | | |
@@ -52,6 +53,7 @@ combined branch, where its dispatchers are created when first used.
 - **A load from a snapshot allocates 256 bytes more than one from history:** `LoadFromSnapshot` copies the tevents into
   a list and wraps them itself, where the caller of `LoadFromHistory` hands them in wrapped. Garbage, not retained:
   about 20 MB over a load of 80,000 notes. Iterating the snapshot once instead of copying it would take most of it.
-- **An edit allocates about 770 bytes,** a publish and its share of a commit: the tevent with its `TessageId` and
-  timestamp, its wrappers, and now a new list for each cascade, which the old code reused. Garbage, not retained. For
+- **An edit allocates about 660 bytes,** a publish and its share of a commit: the tevent with its `TessageId` and
+  timestamp, its wrappers, and now a new list for each cascade, which the old code reused. (The 6- and 1-component
+  rows were measured before the fix of c70e46199, which lowers what edits allocate.) Garbage, not retained. For
   JAStudio, where edits are rare and a full rebuild publishes once or twice per note, it's of no consequence.
