@@ -74,38 +74,6 @@ piece of code, or that would otherwise be lost in a long response.
     time.
   - *Deleting the note under review with its study-note:* told of the operation, Anki's reviewer moves to the next
     card. Untold, it keeps showing a card that no longer exists.
-- **(Magnus, 2026-11-16) The notes as Compze Taggregates,** so that every change to a note is a tevent, and whatever
-  follows a change subscribes to exactly the tevents it concerns. Today `NoteGuard`, `JPNote.Flush` and
-  `JPCollection.NoteUpdated` say only that a note changed, and each listener works out the rest. The storage stays as
-  it is: a note's file holds its state, not its history. *Claude explored it the same day:*
-  - *It fits.* A note's stored state can be one tevent that is every property update at once, as a creation tevent is
-    in Compze's own examples, so loading a note and changing it run the same tevent appliers. `ITaggregate.Commit` is
-    what `Flush` is today: the tevents not yet committed are what isn't saved yet, with no hash of the whole note.
-  - *What it replaces:* the hand-written calls between a note's parts (`VocabNoteForms.OnQuestionChanged`,
-    `OnMatchingConfigurationChanged`); `PerfectSynonyms` subscribing to two `WritableStringValue`s;
-    `VocabNoteQuestion` renaming word-references through the collection; a vocab's whole `VocabSnapshot` rebuilt for
-    all nine indexes at every change; and the UI's editors each being handed the callback that reparses sentences,
-    which is where "this change affects matching" is recorded today.
-  - *What Compze needs first, measured with Compze.Teventive 0.6.0-alpha:* a Taggregate creates its tevent
-    dispatchers for each instance. One with 4 tevent appliers keeps 1.6 KB, and each component about 1.0 KB more,
-    against 350 bytes for the same data as plain objects: for the corpus's 80,000 notes that is several hundred MB to
-    about 1 GB, on a heap of 733 MB (`memory-use.md`). Routing decided once for each Taggregate class would take it
-    away. And a Taggregate can't be restored from stored state outside Compze's tevent store without a member marked
-    for Compze's internal use.
-  - *Smaller, in Compze:* `ITaggregateTevent` is an `IExactlyOnceTevent`, which a note's tevents aren't; and each
-    tevent needs an interface and a class that repeats it, which a source generator could write.
-  - *Worked out with a Compze session the same day,* at Magnus's word: what Compze.Teventive should change, and how, is
-    in Compze's `dev_docs/taggregate-improvements/fable/`, starting at its `README.md`, for Magnus to decide on. In
-    short: a static declaration of the tevent appliers for each class; a note loaded from a compacted-history, the
-    tevents its own code makes from its stored state; a protected hook that tells the note's class it has published;
-    and `ITaggregateTevent` as a plain `ITevent`.
-  - *What that dialog found about the notes:* the same class of part several times in a note is the normal case (six
-    word sets and four media reference lists in a vocab, three reading lists in a kanji), so the notes need Compze's
-    shared tomponents throughout, and a vocab loads from about eleven tevents. No part needs a tevent handler of its
-    own. A sentence's root needs one: a change to its configuration reparses it
-    (`CachingSentenceConfigurationField`).
-  - *A step on JAStudio's side that waits for nothing, deferred by Magnus the same day* while the changes to Compze
-    are explored: one note type's tevent interfaces, interfaces only, written to be read.
 - **(Claude, 2026-11-15) The card that says JAStudio is still loading could be JAStudio's own page.** While the
   collection loads, Anki's card shows a text (`Mine.AppStillLoadingMessage`), and JAStudio has Anki draw its cards
   again when the load is done (`ISRSWindows.Refresh`), by poking the reviewer's and the previewer's private members.
