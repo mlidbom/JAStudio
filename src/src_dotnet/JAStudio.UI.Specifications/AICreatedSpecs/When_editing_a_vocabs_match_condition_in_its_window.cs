@@ -8,6 +8,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
@@ -234,7 +235,7 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
    public class after_the_match_condition_is_changed_elsewhere : When_editing_a_vocabs_match_condition_in_its_window
    {
       public after_the_match_condition_is_changed_elsewhere() =>
-         _vocab.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.IsAGodanVerb)));
+         _vocab.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.IsAGodanVerb))));
 
       [XF] public void the_tree_shows_it_only_once_the_window_is_activated() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:"]);
 

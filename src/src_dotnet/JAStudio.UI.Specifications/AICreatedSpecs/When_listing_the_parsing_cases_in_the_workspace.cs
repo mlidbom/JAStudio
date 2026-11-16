@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
@@ -33,7 +34,7 @@ public class When_listing_the_parsing_cases_in_the_workspace : SpecificationUsin
       CreateVocab("ている", "is-doing", "ている");
       _theProgressive = AParsingCase(TheProgressive, "the progressive");
       _thePastTense = AParsingCase(ThePastTense, "the past tense");
-      _thePastTense.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified);
+      _thePastTense.Edit(it => it.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified));
       _theOrdinarySentence = CreateSentence("毎日走る");
 
       _parsingCases = Workspace.Navigation.ParsingCases;
@@ -44,8 +45,11 @@ public class When_listing_the_parsing_cases_in_the_workspace : SpecificationUsin
    SentenceNote AParsingCase(string question, string name)
    {
       var sentence = CreateSentence(question);
-      sentence.MarkAsAParsingCase();
-      sentence.NameTheParsingCase(name);
+      sentence.Edit(it =>
+      {
+         it.MarkAsAParsingCase();
+         it.NameTheParsingCase(name);
+      });
       return sentence;
    }
 
@@ -100,7 +104,7 @@ public class When_listing_the_parsing_cases_in_the_workspace : SpecificationUsin
 
       public class after_the_listed_cases_displayed_vocab_are_verified : with_the_filter_for_the_unverified_on
       {
-         public after_the_listed_cases_displayed_vocab_are_verified() => _theProgressive.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified);
+         public after_the_listed_cases_displayed_vocab_are_verified() => _theProgressive.Edit(it => it.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified));
 
          [XF] public void the_case_stays_listed() => SentencesListed.Must().SequenceEqual([TheProgressive]);
          [XF] public void its_row_shows_it_as_verified() => RowOf(TheProgressive).VerdictText.Must().Be("verified");
@@ -144,7 +148,7 @@ public class When_listing_the_parsing_cases_in_the_workspace : SpecificationUsin
 
       public class and_what_the_case_parses_to_is_accepted : after_a_vocab_is_added_that_the_breakdown_of_the_unverified_case_displays_and_the_list_is_refreshed
       {
-         public and_what_the_case_parses_to_is_accepted() => _theProgressive.AcceptWhatItParsesToAsAParsingCase();
+         public and_what_the_case_parses_to_is_accepted() => _theProgressive.Edit(it => it.AcceptWhatItParsesToAsAParsingCase());
 
          [XF] public void the_case_is_listed_as_parsing_as_expected_at_once() => RowOf(TheProgressive).OutcomeText.Must().Be("as expected");
          [XF] public void the_filter_for_those_to_review_counts_none() => Filter("to review").Text.Must().Be("to review (0)");
@@ -153,7 +157,7 @@ public class When_listing_the_parsing_cases_in_the_workspace : SpecificationUsin
 
    public class after_the_ordinary_sentence_is_marked_as_a_parsing_case : When_listing_the_parsing_cases_in_the_workspace
    {
-      public after_the_ordinary_sentence_is_marked_as_a_parsing_case() => _theOrdinarySentence.MarkAsAParsingCase();
+      public after_the_ordinary_sentence_is_marked_as_a_parsing_case() => _theOrdinarySentence.Edit(it => it.MarkAsAParsingCase());
 
       [XF] public void it_is_listed_too() => SentencesListed.Must().SequenceEqual([TheProgressive, "毎日走る", ThePastTense]);
       [XF] public void the_status_counts_it() => _parsingCases.StatusText.Must().Be("3 parsing cases");
@@ -161,7 +165,7 @@ public class When_listing_the_parsing_cases_in_the_workspace : SpecificationUsin
 
    public class after_a_case_stops_being_a_parsing_case : When_listing_the_parsing_cases_in_the_workspace
    {
-      public after_a_case_stops_being_a_parsing_case() => _thePastTense.StopBeingAParsingCase();
+      public after_a_case_stops_being_a_parsing_case() => _thePastTense.Edit(it => it.StopBeingAParsingCase());
 
       [XF] public void it_is_no_longer_listed() => SentencesListed.Must().SequenceEqual([TheProgressive]);
       [XF] public void the_status_no_longer_counts_it() => _parsingCases.StatusText.Must().Be("1 parsing case");

@@ -3,6 +3,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
@@ -29,8 +30,8 @@ public class When_opening_the_vocab_depending_on_a_listed_shared_condition : Spe
       var isAVerb = sharedConditions.Define(TokenConditions.Level, "IsAVerb", ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
       var followsAVerb = sharedConditions.Define(Level, "FollowsAVerb", PrecedingToken.Meets(isAVerb));
       sharedConditions.Define(TokenConditions.Level, "IsIchidan", TokenConditions.IsAnIchidanVerb);
-      CreateVocab("ます", "polite ending", "ます").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(followsAVerb));
-      CreateVocab("です", "polite copula", "です").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(followsAVerb));
+      CreateVocab("ます", "polite ending", "ます").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(followsAVerb)));
+      CreateVocab("です", "polite copula", "です").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(followsAVerb)));
 
       _list = new SharedConditionsWindowViewModel(GetService<TemporaryServiceCollection>(), Workspace.Navigation.ShowNoteList);
    }

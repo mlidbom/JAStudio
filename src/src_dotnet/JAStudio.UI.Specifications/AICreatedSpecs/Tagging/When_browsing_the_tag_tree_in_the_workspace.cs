@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
@@ -30,10 +31,10 @@ public class When_browsing_the_tag_tree_in_the_workspace : SpecificationUsingAWo
 
    public When_browsing_the_tag_tree_in_the_workspace()
    {
-      CreateTestSentence("家に帰る", "Go home").Tags.Set(Tag.FromName("source::anime::natsume::s3::01"));
-      CreateTestSentence("学校に行く", "Go to school").Tags.Set(Tag.FromName("source::anime::natsume::s3::02"));
+      CreateTestSentence("家に帰る", "Go home").Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume::s3::01")));
+      CreateTestSentence("学校に行く", "Go to school").Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume::s3::02")));
       _vocab = CreateVocab("行く", "to go", "いく");
-      _vocab.Tags.Set(Tag.FromName("source::wani"));
+      _vocab.Edit(it => it.Tags.Set(Tag.FromName("source::wani")));
 
       _navigation = Workspace.Navigation;
       _search = _navigation.Search;
@@ -116,7 +117,7 @@ public class When_browsing_the_tag_tree_in_the_workspace : SpecificationUsingAWo
          LineOf("source").IsExpanded = true;
          _tags.SelectedLine = LineOf("source::wani");
          _navigation.ShowSearch();
-         _vocab.Tags.Set(Tag.FromName("source::anime::natsume::s4::01"));
+         _vocab.Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume::s4::01")));
       }
 
       public class and_showing_the_tags_tab_again : after_selecting_a_line_and_tagging_a_note_while_the_search_tab_is_shown

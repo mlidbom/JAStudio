@@ -6,6 +6,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -34,9 +35,9 @@ public class When_making_a_shared_condition_of_a_line_of_a_vocabs_tree : Specifi
    public When_making_a_shared_condition_of_a_line_of_a_vocabs_tree()
    {
       var だの = CreateVocab("だの", "and so on", "だの");
-      だの.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(!FollowsASurfaceEndingWithん, PrecedingToken.Meets(TokenConditions.IsAGodanVerb)));
+      だの.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(!FollowsASurfaceEndingWithん, PrecedingToken.Meets(TokenConditions.IsAGodanVerb))));
       _んだ = CreateVocab("んだ", "it is that", "んだ");
-      _んだ.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(FollowsASurfaceEndingWithん));
+      _んだ.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(FollowsASurfaceEndingWithん)));
       _window = new MatchConditionWindowViewModel(GetService<TemporaryServiceCollection>(), だの, _ => {}, _ => {});
       Tree.SelectedLine = Tree.Lines[0].Children[0];
       _dialog = Tree.DialogMakingASharedConditionOfTheSelectedLine() ?? throw new InvalidOperationException("The first line offers no condition to make a shared-condition of.");

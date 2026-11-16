@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.ViewModels.Workspace;
@@ -31,7 +32,7 @@ public class When_the_navigation_pane_is_shown_in_a_window : SpecificationOpenin
    {
       CardServerUrl.BaseUrl = AddressOfACardServerThatIsNotRunning;
       CreateVocab("走る", "to-run", "はしる");
-      CreateSentence("毎日走る").MarkAsAParsingCase();
+      CreateSentence("毎日走る").Edit(it => it.MarkAsAParsingCase());
 
       _navigation = OnTheUIThread(() => new WorkspaceViewModel(Services).Navigation);
       _window = Open(() =>

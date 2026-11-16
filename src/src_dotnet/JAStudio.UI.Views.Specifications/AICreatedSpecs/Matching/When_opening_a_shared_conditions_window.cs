@@ -2,6 +2,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
@@ -28,7 +29,7 @@ public class When_opening_a_shared_conditions_window : SpecificationOpeningWindo
       var sharedConditions = GetService<SharedConditions>();
       var isAVerb = sharedConditions.Define(TokenConditions.Level, "IsAVerb", ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
       _followsAVerb = sharedConditions.Define(WordConditions.Level, "FollowsAVerb", ConditionGroup.AllOf(PrecedingToken.Meets(isAVerb), ConditionGroup.Not(IsASingleToken)));
-      CreateVocab("ます", "polite ending", "ます").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(_followsAVerb));
+      CreateVocab("ます", "polite ending", "ます").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(_followsAVerb)));
 
       _window = Open(() => SharedConditionWindow.Open(_followsAVerb, Services));
       Render(_window, "SharedConditionWindow");

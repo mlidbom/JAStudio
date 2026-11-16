@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.Grouping;
@@ -24,7 +25,7 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
 
    protected When_building_a_search_in_the_workspace()
    {
-      CreateTestSentence(SentenceAboutHome, "Go home").Tags.Set(Tag.FromName("source::anime"));
+      CreateTestSentence(SentenceAboutHome, "Go home").Edit(it => it.Tags.Set(Tag.FromName("source::anime")));
       CreateVocab("行く", "to go", "いく");
       _search = Workspace.Navigation.Search;
    }

@@ -2,6 +2,7 @@ using System.Linq;
 using Avalonia.Controls;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
@@ -28,7 +29,7 @@ public class When_opening_the_shared_conditions_window : SpecificationOpeningWin
       var sharedConditions = GetService<SharedConditions>();
       var isAVerb = sharedConditions.Define(TokenConditions.Level, "IsAVerb", ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
       var followsAVerb = sharedConditions.Define(WordConditions.Level, "FollowsAVerb", PrecedingToken.Meets(isAVerb));
-      CreateVocab("ます", "polite ending", "ます").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(followsAVerb));
+      CreateVocab("ます", "polite ending", "ます").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(followsAVerb)));
 
       _window = Open(() => MainMenuWindows.SharedConditions.Open(Services));
       Render(_window, "SharedConditionsWindow");

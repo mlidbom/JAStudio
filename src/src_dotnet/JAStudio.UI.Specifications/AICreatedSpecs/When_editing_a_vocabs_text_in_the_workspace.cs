@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Controls.NoteFields;
@@ -27,7 +28,7 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
    TextFieldEditorViewModel CorpusAnswer => Text.CorpusFields.Single(it => it.Label == "Answer");
 
    /// <summary>A change to the vocab made elsewhere, as by Anki or a note menu, which makes the editor refresh.</summary>
-   void ChangeTheMnemonicElsewhere() => _vocab.Mnemonic.Set("changed elsewhere");
+   void ChangeTheMnemonicElsewhere() => _vocab.Edit(it => it.Mnemonic.Set("changed elsewhere"));
 
    void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !_editor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 

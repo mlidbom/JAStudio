@@ -56,7 +56,7 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
    SentenceNote CreateTaggedSentence(string question)
    {
       var sentence = CreateTestSentence(question, "an answer");
-      sentence.Tags.Set(Tag.FromName("source::anime"));
+      sentence.Edit(it => it.Tags.Set(Tag.FromName("source::anime")));
       return sentence;
    }
 

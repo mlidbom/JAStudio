@@ -43,7 +43,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
       foreach(var question in new[] { "家に帰る", "学校に行く" })
       {
          var sentence = CreateTestSentence(question, "an answer");
-         sentence.Tags.Set(Tag.FromName("source::anime"));
+         sentence.Edit(it => it.Tags.Set(Tag.FromName("source::anime")));
          sentence.SetStudyingStatus(new CardStudyingStatus(0, CardTypes.Reading, isSuspended: true, NoteTypes.Sentence));
       }
 

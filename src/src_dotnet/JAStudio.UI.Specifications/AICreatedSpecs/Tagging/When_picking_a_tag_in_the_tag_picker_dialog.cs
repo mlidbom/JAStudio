@@ -1,4 +1,5 @@
 using System;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using Compze.Must;
@@ -22,7 +23,7 @@ public class When_picking_a_tag_in_the_tag_picker_dialog : SpecificationUsingAWo
    public When_picking_a_tag_in_the_tag_picker_dialog()
    {
       _sentenceFromMisc = CreateTestSentence("家に帰る", "Go home");
-      _sentenceFromMisc.Tags.Set(Tag.FromName("source::misc"));
+      _sentenceFromMisc.Edit(it => it.Tags.Set(Tag.FromName("source::misc")));
       _sentenceWithNoTags = CreateTestSentence("学校に行く", "Go to school");
    }
 

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
@@ -35,9 +36,12 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    public When_editing_a_notes_tags_in_the_workspace()
    {
       _sentence = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
-      _sentence.Tags.Set(Tag.FromName(SourceTag));
-      _sentence.Tags.Set(Tag.FromName(Label));
-      _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
+      _sentence.Edit(it =>
+      {
+         it.Tags.Set(Tag.FromName(SourceTag));
+         it.Tags.Set(Tag.FromName(Label));
+         it.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
+      });
       _tagsEditor = Edit<SentenceEditorSectionViewModel>(_sentence).Tags;
    }
 

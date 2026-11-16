@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Media;
@@ -150,7 +151,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
       {
          public and_discarding_the_tts_audio_when_another_sentence_uses_the_same_file()
          {
-            CreateTestSentence("家に帰ろう", "Let's go home").Audio.ReplaceTheTextToSpeechAudioWith(new AudioReference(_fileName) { IsTextToSpeech = true });
+            CreateTestSentence("家に帰ろう", "Let's go home").Edit(it => it.Audio.ReplaceTheTextToSpeechAudioWith(new AudioReference(_fileName) { IsTextToSpeech = true }));
             _dialog.DiscardTheTextToSpeechAudio();
          }
 
@@ -182,7 +183,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
 
       public when_the_sentence_has_a_recording_from_its_source_and_attempt_1_is_used()
       {
-         _sentence.SourceData.Audio.Add(Recording);
+         _sentence.Edit(it => it.SourceData.Audio.Add(Recording));
          _dialog.UseTheSelectedAttempt();
       }
 
@@ -211,7 +212,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
       public when_the_notes_tts_audio_is_of_a_kind_jastudio_does_not_play()
       {
          GetService<MediaStorageService>().StoreNewAudioFile([1, 2, 3], TextToSpeechAudioFolders.For(_sentence), "imported-clip.ogg");
-         _sentence.Audio.Add(new AudioReference("imported-clip.ogg") { IsTextToSpeech = true });
+         _sentence.Edit(it => it.Audio.Add(new AudioReference("imported-clip.ogg") { IsTextToSpeech = true }));
          _dialogForOggAudio = DialogOffering(_provider.Steady);
          _dialogForOggAudio.GenerateWithTheDefaultVoice();
       }

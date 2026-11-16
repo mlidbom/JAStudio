@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.ViewModels.Workspace.Editors;
@@ -23,7 +24,7 @@ public class When_editing_a_vocabs_parts_of_speech_in_the_workspace : Specificat
    public When_editing_a_vocabs_parts_of_speech_in_the_workspace()
    {
       _vocab = CreateVocab("走る", "to run", "はしる");
-      _vocab.PartsOfSpeech.Set([PartOfSpeech.GodanVerb, PartOfSpeech.Intransitive]);
+      _vocab.Edit(it => it.PartsOfSpeech.Set([PartOfSpeech.GodanVerb, PartOfSpeech.Intransitive]));
       _editor = Edit<VocabEditorSectionViewModel>(_vocab);
    }
 

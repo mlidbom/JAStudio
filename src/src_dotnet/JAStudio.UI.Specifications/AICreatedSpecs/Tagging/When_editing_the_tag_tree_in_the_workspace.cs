@@ -52,7 +52,7 @@ public class When_editing_the_tag_tree_in_the_workspace : SpecificationUsingAWor
 
    static JPNote Tagged(JPNote note, string tagName)
    {
-      note.Tags.Set(Tag.FromName(tagName));
+      note.Edit(it => it.Tags.Set(Tag.FromName(tagName)));
       return note;
    }
 

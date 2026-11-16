@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Sentences;
@@ -43,7 +44,7 @@ public class When_a_note_shown_in_the_workspace_is_deleted : SpecificationUsingA
    SentenceNote CreateTaggedSentence(string question)
    {
       var sentence = CreateTestSentence(question, "an answer");
-      sentence.Tags.Set(Tag.FromName("source::anime"));
+      sentence.Edit(it => it.Tags.Set(Tag.FromName("source::anime")));
       return sentence;
    }
 

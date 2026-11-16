@@ -2,6 +2,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.Grouping;
@@ -43,7 +44,7 @@ public class When_the_workspace_is_left : SpecificationUsingAWorkspace, IAIGener
    SentenceNote CreateTaggedSentence(string question)
    {
       var sentence = CreateTestSentence(question, "an answer");
-      sentence.Tags.Set(Tag.FromName("source::anime"));
+      sentence.Edit(it => it.Tags.Set(Tag.FromName("source::anime")));
       return sentence;
    }
 

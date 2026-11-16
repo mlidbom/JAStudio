@@ -5,6 +5,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.Notes.Sentence;
@@ -93,7 +94,7 @@ public class When_a_breakdown_entry_is_right_clicked : SpecificationUsingAWorksp
 
    public class after_the_sentence_marks_食べる_incorrect_everywhere_in_it : When_a_breakdown_entry_is_right_clicked
    {
-      public after_the_sentence_marks_食べる_incorrect_everywhere_in_it() => _sentence.Configuration.IncorrectMatches.AddGlobal("食べる");
+      public after_the_sentence_marks_食べる_incorrect_everywhere_in_it() => _sentence.Edit(it => it.Configuration.IncorrectMatches.AddGlobal("食べる"));
 
       [XF] public void its_menu_says_unmarking_it_unmarks_it_everywhere_in_the_sentence() =>
          TheItemsOf食べる().Must().Contain("_e Unmark incorrect, everywhere in the sentence");

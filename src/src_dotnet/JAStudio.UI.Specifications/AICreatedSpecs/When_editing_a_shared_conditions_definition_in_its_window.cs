@@ -7,6 +7,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -39,7 +40,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
       _isAVerb = sharedConditions.Define(TokenConditions.Level, "IsAVerb", ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
       _followsAVerb = sharedConditions.Define(Level, "FollowsAVerb", PrecedingToken.Meets(_isAVerb));
       _ます = CreateVocab("ます", "polite ending", "ます");
-      _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb));
+      _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb)));
    }
 
    private protected SharedConditionWindowViewModel WindowOf(ISharedCondition sharedCondition) =>

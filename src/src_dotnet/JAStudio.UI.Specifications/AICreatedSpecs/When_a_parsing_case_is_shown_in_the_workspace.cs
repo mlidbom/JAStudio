@@ -4,6 +4,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.UI.Controls.NoteFields;
@@ -31,8 +32,11 @@ public class When_a_parsing_case_is_shown_in_the_workspace : SpecificationUsingA
       CreateVocab("走る", "to-run", "はしる");
       CreateVocab("ている", "is-doing", "ている");
       _sentence = CreateSentence("毎日走っている");
-      _sentence.MarkAsAParsingCase();
-      _sentence.NameTheParsingCase("the progressive");
+      _sentence.Edit(it =>
+      {
+         it.MarkAsAParsingCase();
+         it.NameTheParsingCase("the progressive");
+      });
       _editor = Edit<SentenceEditorSectionViewModel>(_sentence);
    }
 
@@ -124,7 +128,7 @@ public class When_a_parsing_case_is_shown_in_the_workspace : SpecificationUsingA
 
    public class after_it_stops_being_a_parsing_case : When_a_parsing_case_is_shown_in_the_workspace
    {
-      public after_it_stops_being_a_parsing_case() => _sentence.StopBeingAParsingCase();
+      public after_it_stops_being_a_parsing_case() => _sentence.Edit(it => it.StopBeingAParsingCase());
 
       [XF] public void the_page_has_no_parsing_case_section() => Page.IsAParsingCase.Must().BeFalse();
       [XF] public void the_editor_no_longer_shows_a_parsing_cases_name_and_why() => _editor.ParsingCase.IsAParsingCase.Must().BeFalse();

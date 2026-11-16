@@ -3,6 +3,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Configuration;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.ViewModels.Workspace;
@@ -73,7 +74,7 @@ public class When_a_sentence_is_shown_in_the_workspace : SpecificationUsingAWork
    {
       const string CorpusQuestion = "パンを食べた。";
 
-      public after_its_corpus_question_is_set() => _sentence.CorpusQuestion.Set(CorpusQuestion);
+      public after_its_corpus_question_is_set() => _sentence.Edit(it => it.CorpusQuestion.Set(CorpusQuestion));
 
       [XF] public void the_page_is_made_anew_showing_it_over_the_sources_question() => (Page.CorpusQuestion, Page.HasACorpusQuestion).Must().Be((CorpusQuestion, true));
    }
