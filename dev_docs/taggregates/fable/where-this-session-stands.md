@@ -11,9 +11,10 @@
   `dev_docs/taggregate-improvements/shared/the-taggregate-store.md` (commit 4450f76db). JAStudio's shared folder is
   in step with it (commit 94fe4c5d4): the README's section on what the store changes, and the last section of the
   answers document, with my six remarks. `jastudio-rep-opus` has the remarks.
-- **Open:** `taggregates-opus` was told of the new recommendation, with a notice asked for when it goes idle. When it
-  has answered or gone idle, take in what it says, then tell `jastudio-rep-opus` that JAStudio has stopped, so that it
-  can report to Magnus.
+- **`taggregates-opus` agrees,** and added that under shared live instances the indexes should follow the live notes:
+  point 7 of the answers document's last section (commit 2490e6e68), sent to `jastudio-rep-opus` with what it asks of
+  Compze. **JAStudio has stopped,** and `jastudio-rep-opus` has been told that it can report to Magnus. What may
+  still come: Compze's reply on point 7.
 - **Three items wait for Magnus's answer,** kept by the `unanswered` script for this session: 7, `VocabNoteForms`
   written both ways and the conversion sized; 8, send my two reviewers' findings to Compze's representative; 10, work
   out a Compze component that holds the live taggregates and owns the order in which their tevents become visible.
