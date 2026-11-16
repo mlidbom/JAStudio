@@ -45,6 +45,14 @@ cache.
 - **At the end:** Compze publishes the store's packages, on Magnus's approval, and the branch goes back to package
   references before it merges into `main`.
 
+## Where it stands, 2026-11-16
+
+- **Compze:** step 1 is pushed, `a0552017d`, and JAStudio's worktree of Compze is there. Step 2 is under way.
+- **JAStudio:** steps 1 to 6 below are done and pushed, each with the whole suite passing and `full-build.ps1` clean.
+  Neither a full rebuild nor saving every note changes a file of the corpus.
+- **Waiting for Magnus:** his look at step 6,
+  [the-structure-of-the-notes-tevents.md](the-structure-of-the-notes-tevents.md), before the rest is built on it.
+
 ## The order
 
 Each step is an increment that builds and passes JAStudio's whole suite, and is committed.

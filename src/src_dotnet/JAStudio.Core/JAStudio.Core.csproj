@@ -40,6 +40,7 @@
       <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" />
       <PackageReference Include="Compze.Internals.Logging" />
       <PackageReference Include="Compze.Internals.SystemCE" />
+      <PackageReference Include="Compze.Teventive" />
       <PackageReference Include="Compze.Threading" />
       <PackageReference Include="Compze.Underscore" />
    </ItemGroup>
