@@ -28,9 +28,19 @@ cache.
   reference to the project of the same name, under a folder given by a property. None of the sixteen project files
   changes, and switching back is deleting that block. Every Compze package must switch at once: a project built from
   source beside the same library from a package gives two copies of one assembly.
-- **The folder:** a Compze worktree of JAStudio's own, moved only to commits `jastudio-rep-opus` names. Building
-  straight from Compze's main checkout would build in the folders `jastudio-rep-opus` builds in, at the same time, and
-  would build its unfinished edits.
+- **The folder:** a Compze worktree of JAStudio's own, `C:\Dev\Compze.worktrees\taggregate-store-spike-for-jastudio`,
+  created by `jastudio-rep-opus` and moved only to commits it names, never committed in. Building straight from
+  Compze's main checkout would build in the folders `jastudio-rep-opus` builds in, at the same time, and would build its
+  unfinished edits.
+- **`JAStudio.slnx` lists the Compze projects too,** 21 of them, Teventive and Tessaging among them. Compze's
+  FlexRef (`build/FlexRef.props` there) turns a Compze project's reference to another into a package reference when the
+  solution being built doesn't list that other project, and the build then fails looking for the package. Listed, they
+  are built from source, and Rider navigates into their source. A new Compze project the migration needs is added to the
+  list too: a missing one fails the restore with NU1101, never silently.
+- **The central pins of Compze's packages are removed** on this branch, in the same block: a pin collides with the
+  project of the same name (NU1109).
+- **Checked, 2026-11-16:** at Compze's `e29fd6673`, which is `main`, JAStudio builds clean and all 2,823 of its .NET
+  specifications pass.
 - **The same SDK** in both repositories' `global.json`, 11.0.100, and both are `net11.0`.
 - **At the end:** Compze publishes the store's packages, on Magnus's approval, and the branch goes back to package
   references before it merges into `main`.
@@ -92,7 +102,20 @@ specification to run an edit.
 - **The MCP server's tools against the headless JAStudio,** which edit notes as the UI does.
 - **What only Magnus can test:** JAStudio inside Anki, live.
 
-## Put to `jastudio-rep-opus`, 2026-11-16
+## Put to `jastudio-rep-opus`, 2026-11-16, and agreed by it
+
+**Its answers:**
+
+- **Typed ids:** yes to all three, as requirements of steps 2 and 4. `Taggregate.Id` isn't sealed, and stays so.
+- **Storage:** the seam, `ITaggregateStorage` (`LoadAll`, and `Prepare` returning a write to commit or discard), comes
+  in step 2. JAStudio keeps its own storage behind it, its DTOs, settings and file layout byte for byte. Compze's JSON
+  store is the default implementation for others, and JAStudio may borrow its atomic write. Step 4 brings JAStudio the
+  snapshots and the round-trip helper, not a new file format.
+- **Loading:** the store fills itself from `ITaggregateStorage.LoadAll` when it starts, outside any unit of work, in
+  step 2. Loading everything again while running stays last.
+- **The interim tevent:** works. A copy counts as changed when it has published, and that is what is written.
+
+**The points as put:**
 
 1. **Typed ids.** A note's id is a `VocabId`, `KanjiId` or `SentenceId`, each a `NoteId`. With `NoteId` derived from
    `TaggregateId`, JAStudio needs the store, the tevents and `RestoreIdentity` to keep the id instance they're given,

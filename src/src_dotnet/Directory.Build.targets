@@ -5,4 +5,23 @@
    <PropertyGroup Condition="'$(JAStudioRuntimeAsync)' != 'false' And '$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
       <Features>$(Features);runtime-async=on</Features>
    </PropertyGroup>
+
+   <!-- wip: the migration of the notes to Compze's state store builds against Compze's spike of it from source, not against
+        Compze's packages (taggregates-opus, 2026-11-16). Each Compze package a project references becomes a reference to
+        the project of the same name in CompzeSourceFolder: a Compze worktree that only ever moves to commits of the spike
+        that jastudio-rep-opus names. Every Compze package switches at once, or a library built from source would sit beside
+        the same library from a package. Once Compze has released the state store, this block goes, and the projects
+        reference the released packages. See dev_docs/taggregates/shared/the-migration.md. -->
+   <PropertyGroup>
+      <CompzeSourceFolder Condition="'$(CompzeSourceFolder)' == ''">C:\Dev\Compze.worktrees\taggregate-store-spike-for-jastudio\src</CompzeSourceFolder>
+   </PropertyGroup>
+   <ItemGroup>
+      <PackageReferenceNotToCompze Include="@(PackageReference)" Exclude="Compze.*" />
+      <CompzePackageBuiltFromSource Include="@(PackageReference)" Exclude="@(PackageReferenceNotToCompze)" />
+      <PackageReference Remove="@(CompzePackageBuiltFromSource)" />
+      <!-- Compze's projects reference each other as projects. A central pin of a Compze package, transitive pinning included,
+           would collide with the project of the same name: NU1109. -->
+      <PackageVersion Remove="Compze.*" />
+      <ProjectReference Include="@(CompzePackageBuiltFromSource->'$(CompzeSourceFolder)\%(Identity)\%(Identity).csproj')" />
+   </ItemGroup>
 </Project>
