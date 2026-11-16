@@ -3,6 +3,10 @@
 > **Status: agreed by the two JAStudio sessions, 2026-11-16.** One list, merged from the two teams' own. Each
 > requirement with the fact about JAStudio behind it. The conclusions are in [README.md](README.md). How Compze would
 > meet each is Compze's to design: see Compze's `dev_docs/taggregate-improvements/shared/`.
+>
+> **It says what the notes would require if they become Taggregates.** Whether they should is not settled: the
+> review that followed found it never weighed, and found what JAStudio itself would have to design, which this list
+> doesn't hold. Both are in [README.md](README.md).
 
 ## JAStudio's use
 
