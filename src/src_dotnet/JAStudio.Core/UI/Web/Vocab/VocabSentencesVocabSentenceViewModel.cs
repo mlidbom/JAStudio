@@ -107,7 +107,7 @@ public class VocabSentenceViewModel
          var shadingStartIndex = shadingMatch?.StartIndex ?? match.StartIndex;
          var shadingEndIndex = shadingMatch?.EndIndex ?? match.EndIndex;
 
-         var preCoveringMatchClass = shadingMatch != null && shadingMatch.VocabId != null && Vocab.RelatedNotes.InCompoundIds.Contains(shadingMatch.VocabId)
+         var preCoveringMatchClass = shadingMatch != null && shadingMatch.VocabId != null && Vocab.RelatedNotes.InCompoundIds().Contains(shadingMatch.VocabId)
                                         ? "compound"
                                         : "shadingMatch";
          var postCoveringMatchClass = preCoveringMatchClass;

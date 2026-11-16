@@ -14,7 +14,6 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 public class RelatedVocab
 {
    readonly VocabNote _vocab;
-   readonly Lazy<HashSet<NoteId>> _inCompoundIds;
 
    public RelatedVocab(VocabNote vocab, VocabRelatedDto? data, NoteGuard guard)
    {
@@ -27,8 +26,6 @@ public class RelatedVocab
       SeeAlso = new MutualWordRelationship(vocab, WordsIn(data?.SeeAlso), guard, it => it.SeeAlso);
       DerivedFrom = new DerivedFrom(vocab, data?.DerivedFrom is {} derivedFrom ? WordReference.FromDto(derivedFrom) : null, guard);
       ConfusedWith = new WordRelationship(vocab, WordsIn(data?.ConfusedWith), guard);
-
-      _inCompoundIds = new Lazy<HashSet<NoteId>>(() => [.. InCompounds().Select(it => it.GetId())]);
       return;
 
       static IEnumerable<WordReference> WordsIn(List<WordReferenceDto>? stored) => stored?.Select(WordReference.FromDto) ?? [];
@@ -55,7 +52,12 @@ public class RelatedVocab
    /// <summary>Words the vocab is easily confused with, such as 礼 for 札. Only this vocab knows of it.</summary>
    public WordRelationship ConfusedWith { get; }
 
-   public HashSet<NoteId> InCompoundIds => _inCompoundIds.Value;
+   /// <summary>The ids of the <see cref="InCompounds"/>.</summary>
+   /// <remarks>
+   /// Computed at each call, from the other vocab as they are then. Kept, it went stale whenever a compound was added, and a vocab can't keep what<br/>
+   /// it computes from other notes once the notes are kept in Compze's state store, where a committed vocab is never changed.
+   /// </remarks>
+   public HashSet<NoteId> InCompoundIds() => [.. InCompounds().Select(it => it.GetId())];
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, in every relationship.</summary>
    internal void Rename(WordReference oldName, WordReference newName)

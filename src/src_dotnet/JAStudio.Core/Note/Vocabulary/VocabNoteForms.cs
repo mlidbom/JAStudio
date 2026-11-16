@@ -32,7 +32,6 @@ public class VocabNoteForms
    LazyCE<List<string>> _matchedFormsList;
    LazyCE<HashSet<string>> _matchedFormsSet;
    LazyCE<HashSet<string>> _ownedForms;
-   LazyCE<HashSet<string>> _notOwnedByOtherVocab;
 
    public VocabNoteForms(VocabNote vocab, VocabDto? data, NoteGuard guard)
    {
@@ -43,7 +42,7 @@ public class VocabNoteForms
    }
 
    /// <summary>Replaces every cached value derived from the forms with one computed afresh on first use.</summary>
-   [MemberNotNull(nameof(_enteredFormsList), nameof(_enteredFormsSet), nameof(_questionAndEnteredFormsList), nameof(_matchedFormsList), nameof(_matchedFormsSet), nameof(_ownedForms), nameof(_notOwnedByOtherVocab))]
+   [MemberNotNull(nameof(_enteredFormsList), nameof(_enteredFormsSet), nameof(_questionAndEnteredFormsList), nameof(_matchedFormsList), nameof(_matchedFormsSet), nameof(_ownedForms))]
    void InvalidateCaches()
    {
       _enteredFormsList = new LazyCE<List<string>>(() => [.. _enteredForms.Select(it => it.Text)]);
@@ -52,7 +51,6 @@ public class VocabNoteForms
       _matchedFormsList = new LazyCE<List<string>>(ComputeMatchedForms);
       _matchedFormsSet = new LazyCE<HashSet<string>>(() => [.. _matchedFormsList.Value]);
       _ownedForms = new LazyCE<HashSet<string>>(ComputeOwnedForms);
-      _notOwnedByOtherVocab = new LazyCE<HashSet<string>>(ComputeNotOwnedByOtherVocab);
    }
 
    List<string> ComputeMatchedForms()
@@ -84,23 +82,6 @@ public class VocabNoteForms
       return ExpandsDictionaryFormEndingPlaceholders
                 ? [..questionAndOwnedEnteredForms.SelectMany(DictionaryFormEndingPlaceholder.FormAndItsExpansions)]
                 : [..questionAndOwnedEnteredForms];
-   }
-
-   HashSet<string> ComputeNotOwnedByOtherVocab()
-   {
-      return
-      [
-         .. MatchedFormsSet()
-           .Where(IsNotOwnedByOtherFormNote)
-      ];
-
-      bool IsNotOwnedByOtherFormNote(string form)
-      {
-         return !_vocab.Services.Collection.Vocab.Cache.WithQuestion(form)
-                       .Any(formOwningVocab =>
-                               !Equals(formOwningVocab, _vocab) &&
-                               formOwningVocab.Forms.MatchedFormsSet().Contains(_vocab.GetQuestion()));
-      }
    }
 
    /// <summary>Whether <paramref name="form"/> is one of the <see cref="OwnedForms"/>.</summary>
@@ -165,7 +146,26 @@ public class VocabNoteForms
    /// The <see cref="MatchedFormsSet"/> except those that are the question of another vocab<br/>
    /// which in turn has this vocab's question among its own matched forms.
    /// </summary>
-   public HashSet<string> NotOwnedByOtherVocab() => _notOwnedByOtherVocab.Value;
+   /// <remarks>
+   /// Computed at each call, from the other vocab as they are then. Kept, it would go stale when another vocab's forms change, and a vocab<br/>
+   /// can't keep what it computes from other notes once the notes are kept in Compze's state store, where a committed vocab is never changed.
+   /// </remarks>
+   public HashSet<string> NotOwnedByOtherVocab()
+   {
+      return
+      [
+         .. MatchedFormsSet()
+           .Where(IsNotOwnedByOtherFormNote)
+      ];
+
+      bool IsNotOwnedByOtherFormNote(string form)
+      {
+         return !_vocab.Services.Collection.Vocab.Cache.WithQuestion(form)
+                       .Any(formOwningVocab =>
+                               !Equals(formOwningVocab, _vocab) &&
+                               formOwningVocab.Forms.MatchedFormsSet().Contains(_vocab.GetQuestion()));
+      }
+   }
 
    static string StripNoiseCharacters(string input) => input.Replace(Mine.VocabPrefixSuffixMarker, "");
 
