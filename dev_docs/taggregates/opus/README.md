@@ -34,4 +34,6 @@ own design counts only where it changes what Compze must do.
 - [What Compze needs](what-compze-needs.md): JAStudio's use, each change Compze needs and why, and what is open.
 - [The measurements](measurements.md): how much a taggregate keeps in memory, how it was measured, and where the
   benchmark is kept.
-- [Found along the way](found-along-the-way.md): two bugs, one in JAStudio and one in Compze.
+- [Prototype of the snapshot and the per-cascade hook](prototype-of-the-snapshot-and-the-per-cascade-hook.md): changes
+  1 and 3 built and specified in a Compze branch, and what was decided while building them.
+- [Found along the way](found-along-the-way.md): bugs in JAStudio and in Compze, and a broken Compze solution.
