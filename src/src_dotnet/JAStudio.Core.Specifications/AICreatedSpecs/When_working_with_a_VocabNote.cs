@@ -53,8 +53,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
       public given_a_question_with_a_disambiguation()
       {
-         _vocab = new VocabNote(NoteServices);
-         _vocab.Question.SetText("取る");
+         _vocab = new VocabNote(NoteServices, "取る");
          _vocab.Question.SetDisambiguation("to take");
       }
 
@@ -124,8 +123,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
       public given_a_vocab_with_an_owned_and_a_not_owned_entered_form()
       {
-         _vocab = new VocabNote(NoteServices);
-         _vocab.Question.SetText("走る");
+         _vocab = new VocabNote(NoteServices, "走る");
          _vocab.Forms.SetEnteredForms([EnteredForm.Owned("駆ける"), EnteredForm.NotOwned("はしる")]);
       }
 
@@ -187,15 +185,11 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       }
    }
 
-   public class after_setting_a_question_on_a_new_note : When_working_with_a_VocabNote
+   public class given_a_new_vocab : When_working_with_a_VocabNote
    {
       readonly VocabNote _vocab;
 
-      public after_setting_a_question_on_a_new_note()
-      {
-         _vocab = new VocabNote(NoteServices);
-         _vocab.Question.SetText("新しい");
-      }
+      public given_a_new_vocab() => _vocab = new VocabNote(NoteServices, "新しい");
 
       [XF] public void the_question_is_matched() =>
          _vocab.Forms.MatchedFormsSet().Must().Contain("新しい");

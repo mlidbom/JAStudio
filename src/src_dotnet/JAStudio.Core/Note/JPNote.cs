@@ -7,14 +7,24 @@ using JAStudio.Core.Anki;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Media;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
+using Compze.Teventive;
+using Compze.Teventive.Taggregates.BaseClasses;
 using MemoryPack;
 
 namespace JAStudio.Core.Note;
 
-public abstract class JPNote
+/// <summary>
+/// A note of the corpus: a vocab, a kanji or a sentence. A Compze taggregate, whose changes are tevents, each an <see cref="INoteTevent"/>.
+/// </summary>
+/// <remarks>
+/// wip: most of a note's parts still change its state directly, and <see cref="Flush"/> publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/><br/>
+/// for them. And JAStudio's own collection keeps the notes, not yet a taggregate store (dev_docs/taggregates/shared/the-migration.md, step 7).
+/// </remarks>
+public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INoteTevent<INoteTevent>, NoteTevent<INoteTevent>>
 {
    public NoteFlushGuard RecursiveFlushGuard { get; }
    public NoteGuard Guard { get; }
@@ -22,34 +32,50 @@ public abstract class JPNote
    bool _persisted;
 
    /// <summary>
-   /// The 128-bit hash of the note's snapshot as it was last saved or loaded (<see cref="TakeSnapshot"/>), to tell whether the note changed since.<br/>
+   /// The 128-bit hash of the note's serialized <see cref="ToDto"/> as it was last saved or loaded, to tell whether the note changed since.<br/>
    /// The hash, not the snapshot: the snapshots took 177 MB right after a start, 2.2 KB a note (2026-11-12). Two snapshots with the same<br/>
    /// 128-bit hash, which would make a change go unsaved, won't happen.
    /// </summary>
    UInt128? _hashOfTheLastPersistedSnapshot;
 
    /// <summary>The note's own tags: the corpus's, stored with the note and edited in JAStudio.</summary>
-   public NoteTags Tags { get; }
+   public NoteTags Tags { get; private set; }
 
    /// <summary>The tags the note's study-note has in Anki, below <c>anki::</c>: the student's, read from Anki and never stored or changed in JAStudio.</summary>
-   public AnkiTags AnkiTags => Services.WhatTheSRSHoldsOfTheStudyNotes.AnkiTagsOf(_id);
+   public AnkiTags AnkiTags => Services.WhatTheSRSHoldsOfTheStudyNotes.AnkiTagsOf(Id);
 
    /// <summary>Every tag the note shows: its own <see cref="Tags"/> and its <see cref="AnkiTags"/>. These are what a person browses and searches.</summary>
    public IEnumerable<Tag> AllTags => Tags.Concat(AnkiTags);
 
-   readonly NoteId _id;
-
-   protected JPNote(NoteServices services, NoteId id, List<string>? tags = null)
+   /// <summary>An empty note, which is no note yet: it gets its id, and so becomes a note, from its class's created tevent or by being restored.</summary>
+   /// <param name="services">The services the note is built with.</param>
+   /// <param name="appliersConfig">
+   /// Which tevents the note's class has nothing to apply of: a tevent that is applied by no tevent applier fails to publish unless it says so.<br/>
+   /// <see cref="INoteTevent.PartWithoutTeventsChanged"/> has nothing to apply in every note.
+   /// </param>
+   protected JPNote(NoteServices services, TeventDispatcherConfig? appliersConfig = null)
+      : base((appliersConfig ?? TeventDispatcherConfig.Default).IgnoreUnhandled<INoteTevent.PartWithoutTeventsChanged>())
    {
       Services = services;
       RecursiveFlushGuard = new NoteFlushGuard(this);
       Guard = new NoteGuard(Flush);
-      Tags = new NoteTags(this, tags);
-      _id = id;
+      Tags = new NoteTags(this);
+   }
+
+   public override NoteId Id => (NoteId)base.Id;
+
+   /// <summary>
+   /// Gives this empty note, being restored from <paramref name="data"/>, what every note stores: its id, <paramref name="id"/>, which the note's<br/>
+   /// class makes of <paramref name="data"/>'s, and its <see cref="Tags"/>. A note's restoring calls it first.
+   /// </summary>
+   protected void RestoreTheNoteFrom(NoteId id, CorpusNoteDto data)
+   {
+      RestoreIdentity(id);
+      Tags = new NoteTags(this, data.Tags);
    }
 
    /// <summary>Holds <paramref name="status"/> as the studying status of the card it is of, of the note's study-note (<see cref="WhatTheSRSHoldsOfTheStudyNotes"/>).</summary>
-   public void SetStudyingStatus(CardStudyingStatus status) => Services.WhatTheSRSHoldsOfTheStudyNotes.SetStudyingStatus(_id, status);
+   public void SetStudyingStatus(CardStudyingStatus status) => Services.WhatTheSRSHoldsOfTheStudyNotes.SetStudyingStatus(Id, status);
 
    /// <summary>
    /// The fields JAStudio writes into the note's Anki study-note, by their names in Anki: the <see cref="StudyNoteFieldsBesidesTheId"/>, and the id of<br/>
@@ -62,14 +88,14 @@ public abstract class JPNote
    public Dictionary<string, string> StudyNoteFields()
    {
       var fields = StudyNoteFieldsBesidesTheId();
-      fields[AnkiFieldNames.JasNoteId] = _id.Value.ToString();
+      fields[AnkiFieldNames.JasNoteId] = Id.Value.ToString();
       return fields;
    }
 
    /// <summary>The fields JAStudio writes into the note's Anki study-note besides <see cref="AnkiFieldNames.JasNoteId"/>: its question and its audio.</summary>
    protected abstract Dictionary<string, string> StudyNoteFieldsBesidesTheId();
 
-   public override bool Equals(object? obj) => obj is JPNote other && other.GetId() == _id;
+   public override bool Equals(object? obj) => obj is JPNote other && other.Id == Id;
 
    public abstract void UpdateInCache();
 
@@ -77,27 +103,27 @@ public abstract class JPNote
    /// Whether the note is studied: through the card of <paramref name="cardType"/>, such as <see cref="CardTypes.Reading"/>, or through any of its<br/>
    /// cards when it's null. A card that isn't suspended is studied.
    /// </summary>
-   public bool IsStudying(string? cardType = null) => Services.WhatTheSRSHoldsOfTheStudyNotes.IsStudying(_id, cardType);
+   public bool IsStudying(string? cardType = null) => Services.WhatTheSRSHoldsOfTheStudyNotes.IsStudying(Id, cardType);
 
    /// <summary>
    /// Whether the note has a study-note in the SRS, the spaced repetition system, which holds its cards and their review history: in Anki, an Anki<br/>
    /// note in the Anki profile JAStudio works with.
    /// </summary>
    /// <remarks>review-naming:studying: HasAStudyNote was HasAnAnkiNote (Claude, 2026-11-15).</remarks>
-   public bool HasAStudyNote() => Services.StudyNoteIds.StudyNoteIdOf(_id).HasValue;
+   public bool HasAStudyNote() => Services.StudyNoteIds.StudyNoteIdOf(Id).HasValue;
 
    public bool IsStudyingRead() => IsStudying(CardTypes.Reading);
    public bool IsStudyingListening() => IsStudying(CardTypes.Listening);
 
    public void SuspendAllCards()
    {
-      Services.SRSStudyNotes.SuspendAllCardsForNote(_id);
+      Services.SRSStudyNotes.SuspendAllCardsForNote(Id);
       SetTheStatusOfEveryKnownCard(isActive: false);
    }
 
    public void UnsuspendAllCards()
    {
-      Services.SRSStudyNotes.UnsuspendAllCardsForNote(_id);
+      Services.SRSStudyNotes.UnsuspendAllCardsForNote(Id);
       SetTheStatusOfEveryKnownCard(isActive: true);
    }
 
@@ -107,15 +133,15 @@ public abstract class JPNote
    /// </summary>
    void SetTheStatusOfEveryKnownCard(bool isActive)
    {
-      Services.WhatTheSRSHoldsOfTheStudyNotes.SetTheStatusOfEveryKnownCard(_id, isActive);
+      Services.WhatTheSRSHoldsOfTheStudyNotes.SetTheStatusOfEveryKnownCard(Id, isActive);
       Services.Collection.NotifyThatTheStudyNoteChangedFor(this);
    }
 
-   public bool HasSuspendedCards() => Services.WhatTheSRSHoldsOfTheStudyNotes.HasSuspendedCards(_id);
+   public bool HasSuspendedCards() => Services.WhatTheSRSHoldsOfTheStudyNotes.HasSuspendedCards(Id);
 
    public bool HasActiveCards() => IsStudying();
 
-   public override int GetHashCode() => _id.GetHashCode();
+   public override int GetHashCode() => Id.GetHashCode();
 
    public override string ToString() => $"{GetQuestion()}: {GetAnswer()}";
 
@@ -131,7 +157,7 @@ public abstract class JPNote
    /// </summary>
    public virtual IEnumerable<string> SearchableTexts() => [GetQuestion(), GetAnswer()];
 
-   public NoteId GetId() => _id;
+   public NoteId GetId() => Id;
 
    /// <summary>
    /// Recomputes the note's generated data: what JAStudio derives from the note and the rest of the corpus, such as a vocab's sentence count or a<br/>
@@ -149,9 +175,7 @@ public abstract class JPNote
 
    public abstract CorpusNoteDto ToDto();
 
-   byte[] TakeSnapshot() => MemoryPackSerializer.Serialize(ToDto());
-
-   UInt128 HashOfASnapshotTakenNow() => XxHash128.HashToUInt128(TakeSnapshot());
+   UInt128 HashOfASnapshotTakenNow() => XxHash128.HashToUInt128(MemoryPackSerializer.Serialize(ToDto()));
 
    internal void MarkAsPersisted()
    {
@@ -166,6 +190,10 @@ public abstract class JPNote
    internal bool HasTheSameStoredDataAs(JPNote theNoteAsHeldBefore) =>
       _hashOfTheLastPersistedSnapshot == theNoteAsHeldBefore._hashOfTheLastPersistedSnapshot;
 
+   /// <summary>
+   /// When the note's stored data changed since it was last saved or loaded, publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/> and<br/>
+   /// updates the note in its cache, which saves it. A note that was never saved or loaded, being created, has nothing to compare with.
+   /// </summary>
    public void Flush()
    {
       if(!_persisted) return;
@@ -175,6 +203,7 @@ public abstract class JPNote
          return;
 
       _hashOfTheLastPersistedSnapshot = hashOfTheSnapshotNow;
+      Publish(new NoteTevent.PartWithoutTeventsChanged());
       RecursiveFlushGuard.Flush();
    }
 

@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Compze.Teventive;
+using Compze.Teventive.Taggregates;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JanomeEx;
@@ -7,43 +11,44 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Sentences.Tevents;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Sentences;
 
-public partial class SentenceNote : JPNote, IHasTextToSpeechAudio
+public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<SentenceNote, SentenceDto>
 {
    public CachingSentenceConfigurationField Configuration { get; private set; }
 
    /// <summary>The corpus's own question for the sentence. While it's empty the source's question is shown instead (<see cref="Question"/>).</summary>
-   public WritableStringValue CorpusQuestion { get; }
+   public WritableStringValue CorpusQuestion { get; private set; }
 
    /// <summary>The corpus's own answer for the sentence. While it's empty the source's answer is shown instead (<see cref="Answer"/>).</summary>
-   public WritableStringValue CorpusAnswer { get; }
+   public WritableStringValue CorpusAnswer { get; private set; }
 
    /// <summary>The corpus's comments on the sentence, shown beside its source's comments.</summary>
-   public WritableStringValue Comments { get; }
+   public WritableStringValue Comments { get; private set; }
 
    /// <summary>What the sentence's source gave it when it was imported.</summary>
-   public SentenceSourceData SourceData { get; }
+   public SentenceSourceData SourceData { get; private set; }
 
    /// <summary>The name of the work or deck the sentence came from, as its source gave it, such as <c>Shirokuma Cafe</c>: see <see cref="SentenceDto.SourceName"/>.</summary>
-   public WritableStringValue SourceName { get; }
+   public WritableStringValue SourceName { get; private set; }
 
-   public WritableStringValue Reading { get; }
+   public WritableStringValue Reading { get; private set; }
 
    /// <summary>
    /// The corpus's own audio for the sentence, added since its source: its TTS audio. The audio its source gave it is its <see cref="SentenceSourceData.Audio"/>,<br/>
    /// and <see cref="AllAudio"/> is both.
    /// </summary>
-   public AudioReferenceList Audio { get; }
+   public AudioReferenceList Audio { get; private set; }
 
    /// <summary>All the sentence's audio, its <see cref="SentenceSourceData.Audio"/> and its <see cref="Audio"/>, in the order it's preferred in.</summary>
-   public AllAudioOfANote AllAudio { get; }
+   public AllAudioOfANote AllAudio { get; private set; }
 
    /// <summary>The corpus's own screenshots for the sentence, added since its source, such as one pasted in. Its card shows them after its source's.</summary>
-   public MediaReferenceList<ImageReference> Screenshots { get; }
+   public MediaReferenceList<ImageReference> Screenshots { get; private set; }
 
    ParsingResult _parsingResult;
 
@@ -53,7 +58,35 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none, without its HTML.</summary>
    public StripHtmlOnReadFallbackStringField Answer => new(CorpusAnswer, SourceData.Answer);
 
-   public SentenceNote(NoteServices services, SentenceDto? data = null) : base(services, data != null ? new SentenceId(data.Id) : SentenceId.New(), data?.Tags)
+   /// <summary>
+   /// An empty sentence, which is no sentence yet: <see cref="RestoreFrom"/> makes it a stored one, and <see cref="SentenceTevent.Created"/> a new one.<br/>
+   /// The created tevent has nothing to apply but the sentence's id, which the taggregate base class applies.
+   /// </summary>
+   internal SentenceNote(NoteServices services) : base(services, TeventDispatcherConfig.Default.IgnoreUnhandled<ISentenceTevent.Created>()) =>
+      BuildThePartsFrom(null);
+
+   /// <summary>A new sentence, whose source's question is <paramref name="question"/>.</summary>
+   public SentenceNote(NoteServices services, string question) : this(services)
+   {
+      Publish(new SentenceTevent.Created(SentenceId.New()));
+      SourceData.Question.Set(question);
+   }
+
+   /// <summary>The sentence <paramref name="data"/> holds, as it was stored.</summary>
+   public SentenceNote(NoteServices services, SentenceDto data) : this(services) => RestoreFrom(data);
+
+   public SentenceDto TakeSnapshot() => SentenceNoteConverter.ToDto(this);
+
+   public void RestoreFrom(SentenceDto snapshot)
+   {
+      RestoreTheNoteFrom(new SentenceId(snapshot.Id), snapshot);
+      BuildThePartsFrom(snapshot);
+   }
+
+   /// <summary>Builds the parts that hold the sentence's stored data, from <paramref name="data"/>, or empty when it's null.</summary>
+   [MemberNotNull(nameof(SourceName), nameof(Reading), nameof(CorpusQuestion), nameof(CorpusAnswer), nameof(Comments), nameof(SourceData), nameof(Audio),
+                  nameof(Screenshots), nameof(AllAudio), nameof(Configuration), nameof(_parsingResult))]
+   void BuildThePartsFrom(SentenceDto? data)
    {
       SourceName = new WritableStringValue(data?.SourceName ?? string.Empty, Guard);
       Reading = new WritableStringValue(data?.Reading ?? string.Empty, Guard);
@@ -75,7 +108,9 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio
       Services.Collection.Sentences.Cache.JpNoteUpdated(this);
    }
 
-   public override CorpusNoteDto ToDto() => SentenceNoteConverter.ToDto(this);
+   public override CorpusNoteDto ToDto() => TakeSnapshot();
+
+   protected override Type WrapperTeventImplementation => typeof(SentenceTevent<ISentenceTevent>);
 
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new()
    {
@@ -154,8 +189,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio
 
    public static SentenceNote CreateTestNote(NoteServices services, string question, string answer)
    {
-      var note = new SentenceNote(services);
-      note.SourceData.Question.Set(question);
+      var note = new SentenceNote(services, question);
       note.CorpusAnswer.Set(answer);
       note.UpdateGeneratedData();
       services.Collection.Sentences.Add(note);
@@ -164,8 +198,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio
 
    public static SentenceNote Create(NoteServices services, string question)
    {
-      var note = new SentenceNote(services);
-      note.SourceData.Question.Set(question);
+      var note = new SentenceNote(services, question);
       note.UpdateGeneratedData();
       services.Collection.Sentences.Add(note);
       return note;

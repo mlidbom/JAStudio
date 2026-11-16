@@ -25,7 +25,7 @@ public class When_working_with_a_SentenceNote : SpecificationStartingWithAnEmpty
 
       public given_an_answer_with_html()
       {
-         _sentence = new SentenceNote(NoteServices);
+         _sentence = new SentenceNote(NoteServices, "これは本です。");
          _sentence.SourceData.Answer.Set("<b>This</b> is a <i>book</i>.");
       }
 
@@ -38,7 +38,7 @@ public class When_working_with_a_SentenceNote : SpecificationStartingWithAnEmpty
    {
       readonly SentenceNote _sentence;
 
-      public given_a_new_sentence_with_default_configuration() => _sentence = new SentenceNote(NoteServices);
+      public given_a_new_sentence_with_default_configuration() => _sentence = new SentenceNote(NoteServices, "これは本です。");
 
       [XF] public void HighlightedWords_is_empty() => _sentence.Configuration.HighlightedWords.Must().BeEmpty();
       [XF] public void IncorrectMatches_is_empty() => _sentence.Configuration.IncorrectMatches.Get().Must().BeEmpty();

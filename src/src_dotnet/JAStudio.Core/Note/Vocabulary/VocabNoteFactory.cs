@@ -43,8 +43,7 @@ public class VocabNoteFactory
    /// <summary>Creates a vocab whose answer, <paramref name="sourceAnswer"/>, is its source's, such as the dictionary's.</summary>
    public VocabNote Create(string question, string sourceAnswer, List<string> readings, Action<VocabNote>? initializer = null)
    {
-      var note = new VocabNote(_noteServices);
-      note.Question.SetText(question);
+      var note = new VocabNote(_noteServices, question);
       note.SourceData.Answer.Set(sourceAnswer);
       note.SetReadings(readings);
 

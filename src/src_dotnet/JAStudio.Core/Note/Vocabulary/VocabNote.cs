@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Compze.Contracts;
+using Compze.Teventive.Taggregates;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
@@ -8,57 +11,58 @@ using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
-public class VocabNote : JPNote, IHasTextToSpeechAudio
+public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>
 {
    public VocabNoteQuestion Question { get; private set; }
 
    /// <summary>
    /// The corpus's own answer for the vocab: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
    /// </summary>
-   public WritableStringValue CorpusAnswer { get; }
+   public WritableStringValue CorpusAnswer { get; private set; }
 
    /// <summary>The corpus's explanation of the vocab, shown on its card.</summary>
-   public WritableStringValue Explanation { get; }
+   public WritableStringValue Explanation { get; private set; }
 
    /// <summary>The corpus's longer explanation of the vocab, shown on its card.</summary>
-   public WritableStringValue ExplanationLong { get; }
+   public WritableStringValue ExplanationLong { get; private set; }
 
    /// <summary>The corpus's own mnemonic for the vocab, shown on its card.</summary>
-   public WritableStringValue Mnemonic { get; }
+   public WritableStringValue Mnemonic { get; private set; }
 
    /// <summary>What the vocab's source gave it when it was imported.</summary>
-   public VocabSourceData SourceData { get; }
+   public VocabSourceData SourceData { get; private set; }
 
-   public VocabNoteForms Forms { get; }
+   public VocabNoteForms Forms { get; private set; }
    public VocabNoteKanji Kanji { get; }
-   public VocabNotePartsOfSpeech PartsOfSpeech { get; }
+   public VocabNotePartsOfSpeech PartsOfSpeech { get; private set; }
    public VocabNoteConjugator Conjugator { get; }
    public VocabNoteSentences Sentences { get; }
-   public VocabNoteCompoundParts CompoundParts { get; }
-   public Vocabulary.RelatedVocab.RelatedVocab RelatedNotes { get; }
-   public VocabNoteMetaData MetaData { get; }
-   public VocabNoteRegister Register { get; }
-   public VocabNoteUsuallyWrittenInKana UsuallyWrittenInKana { get; }
+   public VocabNoteCompoundParts CompoundParts { get; private set; }
+   public Vocabulary.RelatedVocab.RelatedVocab RelatedNotes { get; private set; }
+   public VocabNoteMetaData MetaData { get; private set; }
+   public VocabNoteRegister Register { get; private set; }
+   public VocabNoteUsuallyWrittenInKana UsuallyWrittenInKana { get; private set; }
 
    /// <summary>
    /// The corpus's own audio for the vocab, added since its source: its TTS audio, and recordings from elsewhere, such as Yomitan's or Forvo's.<br/>
    /// The audio its source gave it is its <see cref="VocabSourceData.Audio"/>, and <see cref="AllAudio"/> is both.
    /// </summary>
-   public AudioReferenceList Audio { get; }
+   public AudioReferenceList Audio { get; private set; }
 
    /// <summary>All the vocab's audio, its <see cref="VocabSourceData.Audio"/> and its <see cref="Audio"/>, in the order it's preferred in.</summary>
-   public AllAudioOfANote AllAudio { get; }
+   public AllAudioOfANote AllAudio { get; private set; }
 
    /// <summary>The corpus's own images for the vocab, added since its source, such as images from the web. Shown nowhere yet.</summary>
-   public MediaReferenceList<ImageReference> Images { get; }
+   public MediaReferenceList<ImageReference> Images { get; private set; }
 
-   public VocabNoteMatchingConfiguration MatchingConfiguration { get; }
+   public VocabNoteMatchingConfiguration MatchingConfiguration { get; private set; }
 
    /// <summary>
    /// The texts a sentence must contain one of for the vocab to possibly match in it: the forms it matches by, and unless it must match a<br/>
@@ -72,12 +76,47 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
    public VocabCloner Cloner { get; }
 
-   public WritableStringValue TechnicalNotes { get; }
-   public WritableStringValue References { get; }
+   public WritableStringValue TechnicalNotes { get; private set; }
+   public WritableStringValue References { get; private set; }
 
-   readonly List<string> _readings;
+   List<string> _readings;
 
-   public VocabNote(NoteServices services, VocabDto? data = null) : base(services, data != null ? new VocabId(data.Id) : VocabId.New(), data?.Tags)
+   /// <summary>An empty vocab, which is no vocab yet: <see cref="RestoreFrom"/> makes it a stored one, and <see cref="VocabTevent.Created"/> a new one.</summary>
+   internal VocabNote(NoteServices services) : base(services)
+   {
+      Kanji = new VocabNoteKanji(this);
+      Conjugator = new VocabNoteConjugator(this);
+      Sentences = new VocabNoteSentences(this);
+      Cloner = new VocabCloner(this);
+      BuildThePartsFrom(null);
+
+      RegisterTeventAppliers()
+        .For<IVocabTevent.Question.PropertyUpdated.Text>(it => Question.Apply(it));
+   }
+
+   /// <summary>A new vocab, whose question is <paramref name="question"/>. No other vocab may have it.</summary>
+   public VocabNote(NoteServices services, string question) : this(services)
+   {
+      Question.AssertCanBeTheText(question);
+      Publish(new VocabTevent.Created(VocabId.New(), question));
+   }
+
+   /// <summary>The vocab <paramref name="data"/> holds, as it was stored.</summary>
+   public VocabNote(NoteServices services, VocabDto data) : this(services) => RestoreFrom(data);
+
+   public VocabDto TakeSnapshot() => VocabNoteConverter.ToDto(this);
+
+   public void RestoreFrom(VocabDto snapshot)
+   {
+      RestoreTheNoteFrom(new VocabId(snapshot.Id), snapshot);
+      BuildThePartsFrom(snapshot);
+   }
+
+   /// <summary>Builds the parts that hold the vocab's stored data, from <paramref name="data"/>, or empty when it's null.</summary>
+   [MemberNotNull(nameof(CorpusAnswer), nameof(Explanation), nameof(ExplanationLong), nameof(Mnemonic), nameof(SourceData), nameof(Audio), nameof(Images),
+                  nameof(AllAudio), nameof(TechnicalNotes), nameof(References), nameof(_readings), nameof(Question), nameof(Forms), nameof(PartsOfSpeech),
+                  nameof(CompoundParts), nameof(RelatedNotes), nameof(MetaData), nameof(Register), nameof(UsuallyWrittenInKana), nameof(MatchingConfiguration))]
+   void BuildThePartsFrom(VocabDto? data)
    {
       CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
       Explanation = new WritableStringValue(data?.Explanation ?? string.Empty, Guard);
@@ -93,17 +132,13 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
       Question = new VocabNoteQuestion(this, data, Guard);
       Forms = new VocabNoteForms(this, data, Guard);
-      Kanji = new VocabNoteKanji(this);
       PartsOfSpeech = new VocabNotePartsOfSpeech(this, data, Guard);
-      Conjugator = new VocabNoteConjugator(this);
-      Sentences = new VocabNoteSentences(this);
       CompoundParts = new VocabNoteCompoundParts(this, data, Guard);
       RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab, Guard);
       MetaData = new VocabNoteMetaData(this, data, Guard);
       Register = new VocabNoteRegister(data?.Register ?? [], Guard);
       UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(data?.UsuallyWrittenInKana, Guard);
-      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, services.SharedConditions, new NoteGuard(FlushAfterTheMatchingConfigurationChanged));
-      Cloner = new VocabCloner(this);
+      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, Services.SharedConditions, new NoteGuard(FlushAfterTheMatchingConfigurationChanged));
    }
 
    public override void UpdateInCache()
@@ -111,7 +146,9 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       Services.Collection.Vocab.Cache.JpNoteUpdated(this);
    }
 
-   public override CorpusNoteDto ToDto() => VocabNoteConverter.ToDto(this);
+   public override CorpusNoteDto ToDto() => TakeSnapshot();
+
+   protected override Type WrapperTeventImplementation => typeof(VocabTevent<IVocabTevent>);
 
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new()
    {
@@ -208,8 +245,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
    public static VocabNote Create(NoteServices services, string question, string answer, List<string> readings, List<string> forms)
    {
-      var note = new VocabNote(services);
-      note.Question.SetText(question);
+      var note = new VocabNote(services, question);
       note.CorpusAnswer.Set(answer);
       note.SetReadings(readings);
 

@@ -1,13 +1,17 @@
 using Compze.Internals.SystemCE;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Compze.Contracts;
+using Compze.Teventive.Taggregates;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.KanjiRelationships;
+using JAStudio.Core.Note.KanjiTevents;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
@@ -16,49 +20,72 @@ using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note;
 
-public class KanjiNote : JPNote
+public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>
 {
    /// <summary>
    /// The corpus's own answer for the kanji: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
    /// </summary>
-   public WritableStringValue CorpusAnswer { get; }
+   public WritableStringValue CorpusAnswer { get; private set; }
 
    /// <summary>The corpus's own mnemonic for the kanji. The card shows it, or while there's none, a default one: see <see cref="ShownMnemonic"/>.</summary>
-   public WritableStringValue Mnemonic { get; }
+   public WritableStringValue Mnemonic { get; private set; }
 
    /// <summary>What the kanji's source gave it when it was imported.</summary>
-   public KanjiSourceData SourceData { get; }
+   public KanjiSourceData SourceData { get; private set; }
 
    /// <summary>The kanji's on, kun and nanori readings, each primary or secondary.</summary>
-   public KanjiNoteReadings Readings { get; }
+   public KanjiNoteReadings Readings { get; private set; }
 
-   public WritableStringValue KanjiReferences { get; }
+   public WritableStringValue KanjiReferences { get; private set; }
 
    /// <summary>
    /// The kanji's images, which only a few have, all the corpus's own: pasted or from the web, as kanji have no source media. Shown nowhere yet: JAStudio<br/>
    /// only carries them, kept from the Anki notes before they were trimmed, since an image can't be made again the way the kanji's audio can be computed.
    /// </summary>
-   public MediaReferenceList<ImageReference> Images { get; }
+   public MediaReferenceList<ImageReference> Images { get; private set; }
 
    /// <summary>The radicals the kanji is made of, in their order.</summary>
-   public KanjiRadicals Radicals { get; }
+   public KanjiRadicals Radicals { get; private set; }
 
    /// <summary>The vocab the kanji's page shows first among the vocab with the kanji. Most kanji have none, and show default ones: see <see cref="PrimaryVocabOrDefaults"/>.</summary>
-   public KanjiPrimaryVocab PrimaryVocab { get; }
+   public KanjiPrimaryVocab PrimaryVocab { get; private set; }
 
    /// <summary>Other kanji with a similar meaning: a relationship that goes both ways.</summary>
-   public MutualKanjiRelationship SimilarMeaning { get; }
+   public MutualKanjiRelationship SimilarMeaning { get; private set; }
 
    /// <summary>Other kanji the kanji is easily confused with: a relationship that goes both ways.</summary>
-   public MutualKanjiRelationship ConfusedWith { get; }
+   public MutualKanjiRelationship ConfusedWith { get; private set; }
 
    /// <summary>The kanji's character: what the note is about, so it never changes. A kanji with another character is another kanji.</summary>
-   readonly string _question;
+   string _question;
+
+   /// <summary>An empty kanji, which is no kanji yet: <see cref="RestoreFrom"/> makes it a stored one, and <see cref="KanjiTevent.Created"/> a new one.</summary>
+   internal KanjiNote(NoteServices services) : base(services)
+   {
+      BuildThePartsFrom(null);
+
+      RegisterTeventAppliers()
+        .For<IKanjiTevent.Created>(it => _question = it.Question);
+   }
 
    /// <summary>A new kanji, for the character <paramref name="question"/>.</summary>
-   public KanjiNote(NoteServices services, string question) : this(services) => _question = question;
+   public KanjiNote(NoteServices services, string question) : this(services) => Publish(new KanjiTevent.Created(KanjiId.New(), question));
 
-   public KanjiNote(NoteServices services, KanjiDto? data = null) : base(services, data != null ? new KanjiId(data.Id) : KanjiId.New(), data?.Tags)
+   /// <summary>The kanji <paramref name="data"/> holds, as it was stored.</summary>
+   public KanjiNote(NoteServices services, KanjiDto data) : this(services) => RestoreFrom(data);
+
+   public KanjiDto TakeSnapshot() => KanjiNoteConverter.ToDto(this);
+
+   public void RestoreFrom(KanjiDto snapshot)
+   {
+      RestoreTheNoteFrom(new KanjiId(snapshot.Id), snapshot);
+      BuildThePartsFrom(snapshot);
+   }
+
+   /// <summary>Builds the parts that hold the kanji's stored data, from <paramref name="data"/>, or empty when it's null.</summary>
+   [MemberNotNull(nameof(_question), nameof(CorpusAnswer), nameof(Mnemonic), nameof(SourceData), nameof(Readings), nameof(KanjiReferences), nameof(Images),
+                  nameof(Radicals), nameof(PrimaryVocab), nameof(SimilarMeaning), nameof(ConfusedWith))]
+   void BuildThePartsFrom(KanjiDto? data)
    {
       _question = data?.Kanji ?? string.Empty;
       CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
@@ -78,7 +105,9 @@ public class KanjiNote : JPNote
       Services.Collection.Kanji.Cache.JpNoteUpdated(this);
    }
 
-   public override CorpusNoteDto ToDto() => KanjiNoteConverter.ToDto(this);
+   public override CorpusNoteDto ToDto() => TakeSnapshot();
+
+   protected override Type WrapperTeventImplementation => typeof(KanjiTevent<IKanjiTevent>);
 
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new() { [AnkiFieldNames.Question] = GetQuestion() };
 

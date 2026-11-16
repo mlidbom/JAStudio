@@ -1,5 +1,6 @@
 using System;
 using Compze.Contracts;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
@@ -27,13 +28,13 @@ public class VocabNoteQuestion
       Disambiguation = data?.Question.Disambiguation ?? string.Empty;
    }
 
-   /// <summary>The question itself: the vocab's main form, as <c>入る</c>. Empty only on a vocab that's being created and hasn't been given its question yet.</summary>
+   /// <summary>The question itself: the vocab's main form, as <c>入る</c>. Empty only on an empty vocab, which is no vocab yet (<see cref="VocabNote(NoteServices)"/>).</summary>
    public string Text { get; private set; }
 
    /// <summary>What tells this vocab apart from others with the same <see cref="Text"/>, as <c>masu</c> in <c>入る:masu</c>. Empty for most vocab.</summary>
    public string Disambiguation { get; private set; }
 
-   /// <summary>Whether the vocab has been given its question: false only while it's being created.</summary>
+   /// <summary>Whether the vocab has its question: false only on an empty vocab, which is no vocab yet (<see cref="VocabNote(NoteServices)"/>).</summary>
    public bool HasText => Text != string.Empty;
 
    /// <summary>Whether the vocab has a <see cref="Disambiguation"/>.</summary>
@@ -61,9 +62,7 @@ public class VocabNoteQuestion
    /// </summary>
    public void SetText(string text)
    {
-      Contract.Argument.Assert(text != string.Empty, () => "A vocab's question can't be empty.");
-      AssertHasNoDisambiguationMarker(text);
-      AssertNoOtherVocabHas(new WordReference(text, Disambiguation));
+      AssertCanBeTheText(text);
       RenamingTheReferencesToIt(() => _guard.Update(() =>
       {
          Text = text;
@@ -82,6 +81,16 @@ public class VocabNoteQuestion
       RenamingTheReferencesToIt(() => _guard.Update(() => Disambiguation = disambiguation));
    }
 
+   /// <summary>Fails, saying why, when <paramref name="text"/> can't be the vocab's <see cref="Text"/>, with its <see cref="Disambiguation"/>.</summary>
+   internal void AssertCanBeTheText(string text)
+   {
+      Contract.Argument.Assert(text != string.Empty, () => "A vocab's question can't be empty.");
+      AssertHasNoDisambiguationMarker(text);
+      AssertNoOtherVocabHas(new WordReference(text, Disambiguation));
+   }
+
+   internal void Apply(IVocabTevent.Question.PropertyUpdated.Text tevent) => Text = tevent.Text;
+
    /// <summary>Fails, saying why, when a vocab other than this one has <paramref name="question"/> as its question: no two vocab may share one.</summary>
    void AssertNoOtherVocabHas(WordReference question) =>
       Contract.Argument.Assert(!_vocab.Services.Collection.Vocab.AnotherVocabHasTheQuestion(_vocab, question),
@@ -89,7 +98,7 @@ public class VocabNoteQuestion
 
    /// <summary>
    /// Renames the vocab with <paramref name="rename"/>, then renames the word-references that named it by its old name, so they keep naming it<br/>
-   /// (<see cref="Collection.JPCollection.RenameTheWordReferences"/>). A vocab given its first question, as it's created, had no name to be referred to by.
+   /// (<see cref="Collection.JPCollection.RenameTheWordReferences"/>). A vocab without a question had no name to be referred to by.
    /// </summary>
    void RenamingTheReferencesToIt(Action rename)
    {
