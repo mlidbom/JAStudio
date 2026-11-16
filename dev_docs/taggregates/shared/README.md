@@ -44,8 +44,9 @@ says to it, and what JAStudio's side says to its recommendation, is in
 
 **New for JAStudio with the store,** each in the answers document:
 
-- **Its indexes become derived state of the store,** changed with the commit, and read by a unit of work with its
-  own changes in them.
+- **Its indexes become derived state that the store keeps in step with the notes.** How is open between the two
+  sides. Compze's design changes them at the commit, with a unit of work reading its own changes in them. JAStudio's
+  side asks, under shared live instances, that they follow each change as today, and are put right after a rollback.
 - **What Anki says of a note's cards moves out of the note.** It is not stored, and changes without an edit.
 - **What can't be undone happens after the commit:** telling Anki to delete a study-note or suspend cards, and
   deleting media files. Today it happens in the middle of the edit.

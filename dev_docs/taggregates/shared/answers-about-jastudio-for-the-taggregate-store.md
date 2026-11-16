@@ -314,10 +314,11 @@ immutable value for each transaction. It is how every taggregate is written that
   belong to (a). Under (b) none of them arises. What stays: what Anki says of a note's cards moves out of the note;
   values a note computes lazily and keeps must be safe to read from many threads; and a note must be restorable
   outside any store.
-- **Question 3:** unchanged, and taken up: the indexes as derived state that is itself transactional, written
-  inside the unit of work and applied at its commit; lookups inside a unit of work that read its own writes, for
-  which the session lists the notes it holds, by type; and what can't be undone, such as telling Anki, after the
-  commit and before the edit returns (`IUnitOfWorkResolver.OnCommittedSuccessfully`).
+- **Question 3:** taken up as asked: the indexes as derived state that is itself transactional, written inside the
+  unit of work and applied at its commit; lookups inside a unit of work that read its own writes, for which the
+  session lists the notes it holds, by type; and what can't be undone, such as telling Anki, after the commit and
+  before the edit returns (`IUnitOfWorkResolver.OnCommittedSuccessfully`). **Under (b) JAStudio's side now asks for
+  something simpler for the indexes than what it asked for under (a): see point 7 below.**
 - **Questions 2, 4 and 5:** unchanged, and taken up. The version is kept in memory only. No type identifiers are
   needed for tevents that stay in the process. A unit of work that gets a note, changes it and commits was measured
   by Compze at 8.5 to 12.5 µs and 9.5 KB.
@@ -326,7 +327,7 @@ immutable value for each transaction. It is how every taggregate is written that
 
 ### What JAStudio's side says to (b)
 
-By `taggregates-fable`. `taggregates-opus` has been told of it, and its reply, if any, is taken in here.
+By `taggregates-fable`. `taggregates-opus` agrees with recommending (b) and with points 1 to 6, and added point 7.
 
 1. **I agree with recommending (b).** It is how JAStudio's notes are read today: a note is changed in place, and
    threads that parse read it meanwhile. (b) adds what today lacks: writers of one note wait for each other, an edit
@@ -351,3 +352,30 @@ By `taggregates-fable`. `taggregates-opus` has been told of it, and its reply, i
    and other threads look up the batch's notes by their old keys until it commits. A unit of work for each note
    never waits while it holds one. By Compze's figures that costs about 0.8 s of one core and 0.76 GB of garbage for
    80,000 notes. For JAStudio to measure and choose.
+7. **Under (b) the indexes should follow the live notes, not the commit** (`taggregates-opus`'s addition, which I
+   take, with the point about timing added). Compze's document recommends derived state that is itself
+   transactional: changed at the commit, with a unit of work reading its own changes. Under (a) that fits, since
+   readers see committed notes only. Under (b) it gives every other thread two kinds of read at once: a note's
+   uncommitted state, found through an index that still shows its committed keys. During a rename a lookup finds
+   the vocab under its old question while the vocab itself says the new one, for as long as the unit of work lasts.
+   That pairing is new: today a note is refiled at each change, so a reader's notes and indexes agree.
+   - **The rule instead:** a note is refiled at each change, inside the unit of work, under the cache's lock, one
+     change at a time, as `NoteGuard.Update` has it today. When a unit of work is rolled back, the store restores
+     its notes in place and then tells the consumer which, and each is refiled from what it holds again.
+   - **Lookups then need no reading of a unit of work's own writes,** inside one or out: the indexes show the live
+     notes. The session needn't list what it holds, for this.
+   - **No copies of index sets are held across a unit of work,** so two units of work can't lose each other's change.
+   - **What readers see:** uncommitted notes with indexes that agree with them, and now and then keys that are
+     later rolled back. (b) accepts that for the notes already. Today a failed edit is never undone at all.
+   - **It can't be a participation handler,** since Compze's design dispatches those at the commit, which is too
+     late for a lookup later in the same edit. It has to be told at each publish, once the cascade is settled, on the
+     publishing thread. That is a call out of a publish, which the store's design removed because such calls
+     published on the taggregate they were told of. This one only reads the note to compute its keys, so the rule
+     can be asserted: publishing during it throws.
+   - **It asks two things of Compze under (b):** that the consumer's derived state is told of each settled publish
+     of a note the store holds, under that rule; and that it is told which notes a rollback restored in place,
+     with the notes that were created in the unit of work and are gone again, and those deleted in it that are back.
+     The second call must not fail, as restoring in place must not.
+   - **For the transactional way under (b):** the indexes never show a key that is later rolled back, and no code of
+     the consumer's runs at a rollback. Against it: a transactional map to build, lookups that overlay a unit of
+     work's changes, and the two kinds of read above.
