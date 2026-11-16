@@ -11,10 +11,16 @@
   `dev_docs/taggregate-improvements/shared/the-taggregate-store.md` (commit 4450f76db). JAStudio's shared folder is
   in step with it (commit 94fe4c5d4): the README's section on what the store changes, and the last section of the
   answers document, with my six remarks. `jastudio-rep-opus` has the remarks.
-- **`taggregates-opus` agrees,** and added that under shared live instances the indexes should follow the live notes:
-  point 7 of the answers document's last section (commit 2490e6e68), sent to `jastudio-rep-opus` with what it asks of
-  Compze. **JAStudio has stopped,** and `jastudio-rep-opus` has been told that it can report to Magnus. What may
-  still come: Compze's reply on point 7.
+- **Magnus then chose the private copy, (a), over shared live instances, (b),** after two independent reviews in
+  Compze went against (b). Asked whether JAStudio had a very strong reason for (b), both JAStudio sessions answered
+  no. My reasons for (b) had been the status quo and the size of JAStudio's refactoring, which is no reason by his
+  standards. **Lesson for me: check each reason for a design against "is this the size of a refactoring in
+  disguise" before recommending it.**
+- **The shared folder is in step with his decision** (commit df1f1f8fe): the answers document ends with the decision
+  and JAStudio's eight requirements of the decided design, the dropped recommendation is in
+  `../shared/shared-live-instances-recommended-and-dropped.md`, and the README says what the design costs JAStudio.
+- **What may still come:** Compze's revised design, with the typed taggregate-reference and the index it provides,
+  which `jastudio-rep-opus` is writing and prototyping. Read it against the eight requirements when it arrives.
 - **Three items wait for Magnus's answer,** kept by the `unanswered` script for this session: 7, `VocabNoteForms`
   written both ways and the conversion sized; 8, send my two reviewers' findings to Compze's representative; 10, work
   out a Compze component that holds the live taggregates and owns the order in which their tevents become visible.
