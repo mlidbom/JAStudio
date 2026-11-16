@@ -4,7 +4,7 @@ from System.Collections.Generic import IEnumerable_1, HashSet_1, Dictionary_2, I
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
-from JAStudio.Core.Studying import CardStudyingStatus, SRSAvailability, StudyNoteIds
+from JAStudio.Core.Studying import CardStudyingStatus, SRSAvailability, StudyNoteIds, WhatTheSRSHoldsOfTheStudyNotes
 from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDto
 from JAStudio.Core.Note.Commands import NoteChangingCommand_1, NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextListField_1, EditableListField_2, EditableTagsField_1, IEditableField_1
@@ -276,6 +276,8 @@ class NoteServices:
     def VocabNoteFactory(self) -> VocabNoteFactory: ...
     @property
     def VocabNoteGeneratedData(self) -> VocabNoteGeneratedData: ...
+    @property
+    def WhatTheSRSHoldsOfTheStudyNotes(self) -> WhatTheSRSHoldsOfTheStudyNotes: ...
 
 
 class NoteTypes(abc.ABC):
