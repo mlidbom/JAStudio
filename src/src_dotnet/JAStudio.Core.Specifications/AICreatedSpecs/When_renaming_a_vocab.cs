@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -15,25 +16,31 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   protected readonly VocabNote ToHang;
-   protected readonly VocabNote ToBeHanging;
-   protected readonly VocabNote ToStartTalkingTo;
-   protected readonly VocabNote Multiplication;
-   protected readonly VocabNote ToHook;
-   protected readonly KanjiNote Hang;
+   protected readonly ITaggregateReference<VocabNote> ToHangReference;
+   protected VocabNote ToHang => ToHangReference.Current;
+   protected readonly ITaggregateReference<VocabNote> ToBeHangingReference;
+   protected VocabNote ToBeHanging => ToBeHangingReference.Current;
+   protected readonly ITaggregateReference<VocabNote> ToStartTalkingToReference;
+   protected VocabNote ToStartTalkingTo => ToStartTalkingToReference.Current;
+   protected readonly ITaggregateReference<VocabNote> MultiplicationReference;
+   protected VocabNote Multiplication => MultiplicationReference.Current;
+   protected readonly ITaggregateReference<VocabNote> ToHookReference;
+   protected VocabNote ToHook => ToHookReference.Current;
+   protected readonly ITaggregateReference<KanjiNote> HangReference;
+   protected KanjiNote Hang => HangReference.Current;
 
    public When_renaming_a_vocab()
    {
-      ToHang = CreateVocab("かける", "to hang", ["かける"], ["掛ける"]);
-      ToBeHanging = CreateVocab("掛かる", "to be hanging", "かかる");
+      ToHangReference = CreateVocab("かける", "to hang", ["かける"], ["掛ける"]).Reference();
+      ToBeHangingReference = CreateVocab("掛かる", "to be hanging", "かかる").Reference();
       ToBeHanging.Edit(it => it.RelatedNotes.ErgativeTwins.Add(new WordReference("かける")));
-      ToStartTalkingTo = CreateVocab("話しかける", "to start talking to", "はなしかける");
+      ToStartTalkingToReference = CreateVocab("話しかける", "to start talking to", "はなしかける").Reference();
       ToStartTalkingTo.Edit(it => it.CompoundParts.SetPrimary(Words("話す", "かける")));
-      Multiplication = CreateVocab("掛け算", "multiplication", "かけざん");
+      MultiplicationReference = CreateVocab("掛け算", "multiplication", "かけざん").Reference();
       Multiplication.Edit(it => it.RelatedNotes.DerivedFrom.Set(new WordReference("かける")));
-      ToHook = CreateVocab("引っ掛ける", "to hook", "ひっかける");
+      ToHookReference = CreateVocab("引っ掛ける", "to hook", "ひっかける").Reference();
       ToHook.Edit(it => it.CompoundParts.SetPrimary(Words("引く", "掛ける")));
-      Hang = CreateKanji("掛", "hang", "カイ", "か");
+      HangReference = CreateKanji("掛", "hang", "カイ", "か").Reference();
       Hang.Edit(it => it.PrimaryVocab.PutLast(new WordReference("かける")));
    }
 

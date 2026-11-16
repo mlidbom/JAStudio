@@ -1,5 +1,6 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.Note;
@@ -25,11 +26,12 @@ public class When_the_workspace_is_left : SpecificationUsingAWorkspace, IAIGener
    const string SentenceAboutHome = "家に帰る";
    const string SentenceAboutSchool = "学校に行く";
 
-   readonly SentenceNote _sentenceAboutHome;
+   readonly ITaggregateReference<SentenceNote> _sentenceAboutHomeReference;
+   SentenceNote _sentenceAboutHome => _sentenceAboutHomeReference.Current;
 
    public When_the_workspace_is_left()
    {
-      _sentenceAboutHome = CreateTaggedSentence(SentenceAboutHome);
+      _sentenceAboutHomeReference = CreateTaggedSentence(SentenceAboutHome).Reference();
       var sentenceAboutSchool = CreateTaggedSentence(SentenceAboutSchool);
       Workspace.OpenNote(_sentenceAboutHome);
       Workspace.OpenNote(sentenceAboutSchool);

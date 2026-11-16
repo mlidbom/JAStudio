@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -29,13 +30,14 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
    static readonly TimeSpan TimeToWaitForTheSearch = TimeSpan.FromSeconds(10);
 
    readonly NoteSearchViewModel _search;
-   readonly SentenceNote _sentenceAboutHome;
+   readonly ITaggregateReference<SentenceNote> _sentenceAboutHomeReference;
+   SentenceNote _sentenceAboutHome => _sentenceAboutHomeReference.Current;
    readonly SentenceSearchResultViewModel _rowOfTheSentenceAboutHome;
    int _timesTheRowToldTheGridToReadItsValuesAgain;
 
    protected When_keeping_the_results_of_a_search_up_to_date()
    {
-      _sentenceAboutHome = WithAStudyNote(CreateTaggedSentence(SentenceAboutHome));
+      _sentenceAboutHomeReference = WithAStudyNote(CreateTaggedSentence(SentenceAboutHome)).Reference();
       _sentenceAboutHome.SetStudyingStatus(UnsuspendedReadingCard());
 
       _search = Workspace.Navigation.Search;

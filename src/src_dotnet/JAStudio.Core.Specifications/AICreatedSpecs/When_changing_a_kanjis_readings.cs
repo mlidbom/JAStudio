@@ -1,5 +1,6 @@
 using Compze.Contracts.Exceptions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiReadings;
@@ -15,9 +16,10 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_changing_a_kanjis_readings : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly KanjiNote _kanji;
+   readonly ITaggregateReference<KanjiNote> _kanjiReference;
+   KanjiNote _kanji => _kanjiReference.Current;
 
-   protected When_changing_a_kanjis_readings() => _kanji = CreateKanji("頁", "page", "", "");
+   protected When_changing_a_kanjis_readings() => _kanjiReference = CreateKanji("頁", "page", "", "").Reference();
 
    protected KanjiReadingList On => _kanji.Readings.On;
    protected KanjiReadingList Kun => _kanji.Readings.Kun;

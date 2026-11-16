@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -20,13 +21,15 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_a_vocab_with_matching_configuration_and_a_register_is_saved_to_the_corpus : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
    readonly JsonElement _json;
-   readonly VocabNote _readBack;
+   readonly ITaggregateReference<VocabNote> _readBackReference;
+   VocabNote _readBack => _readBackReference.Current;
 
    public When_a_vocab_with_matching_configuration_and_a_register_is_saved_to_the_corpus()
    {
-      _vocab = CreateVocab("あれる", "get-_/is-_", "あれる");
+      _vocabReference = CreateVocab("あれる", "get-_/is-_", "あれる").Reference();
       _vocab.Edit(it =>
       {
          it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.GodanPotential.WhenForbidden));
@@ -37,7 +40,7 @@ public class When_a_vocab_with_matching_configuration_and_a_register_is_saved_to
       var serializer = GetService<NoteSerializer>();
       var json = serializer.Serialize(_vocab);
       _json = JsonDocument.Parse(json).RootElement;
-      _readBack = serializer.DeserializeVocab(json);
+      _readBackReference = serializer.DeserializeVocab(json).Reference();
    }
 
    JsonElement Matching => _json.GetProperty("matching");

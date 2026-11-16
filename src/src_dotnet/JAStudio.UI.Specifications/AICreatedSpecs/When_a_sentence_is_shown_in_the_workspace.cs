@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Note;
@@ -23,13 +24,15 @@ public class When_a_sentence_is_shown_in_the_workspace : SpecificationUsingAWork
    const string Question = "パンを食べる。";
    const string Answer = "I eat bread.";
 
-   readonly SentenceNote _sentence;
-   readonly VocabNote _toEat;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
+   readonly ITaggregateReference<VocabNote> _toEatReference;
+   VocabNote _toEat => _toEatReference.Current;
 
    public When_a_sentence_is_shown_in_the_workspace()
    {
-      _toEat = CreateVocab("食べる", "to eat", "たべる");
-      _sentence = CreateTestSentence(Question, Answer);
+      _toEatReference = CreateVocab("食べる", "to eat", "たべる").Reference();
+      _sentenceReference = CreateTestSentence(Question, Answer).Reference();
       Workspace.OpenNote(_sentence);
    }
 

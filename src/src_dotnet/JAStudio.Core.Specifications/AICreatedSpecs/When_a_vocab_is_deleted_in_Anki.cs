@@ -1,5 +1,6 @@
 using System;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -19,14 +20,15 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 public class When_a_vocab_is_deleted_in_Anki : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    readonly VocabCollection _vocab;
-   readonly VocabNote _deletedInAnki;
+   readonly ITaggregateReference<VocabNote> _deletedInAnkiReference;
+   VocabNote _deletedInAnki => _deletedInAnkiReference.Current;
 
    public When_a_vocab_is_deleted_in_Anki()
    {
       _vocab = GetService<VocabCollection>();
       var idOfTheVocab = WithAStudyNote(CreateVocab("部屋", "room", "へや")).GetId();
       GetService<JPCollection>().ReloadFromBackend();
-      _deletedInAnki = _vocab.WithIdOrNone(idOfTheVocab) ?? throw new InvalidOperationException("The vocab is gone.");
+      _deletedInAnkiReference = (_vocab.WithIdOrNone(idOfTheVocab) ?? throw new InvalidOperationException("The vocab is gone.")).Reference();
       _deletedInAnki.SetStudyingStatus(new CardStudyingStatus(GetService<StudyNoteIds>().RequiredStudyNoteIdOf(idOfTheVocab), CardTypes.Reading, isSuspended: false, NoteTypes.Vocab));
 
       GetService<PretendAnki>().DeleteTheStudyNoteOf(_deletedInAnki);

@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
@@ -11,11 +12,12 @@ public class for_a_kanji : SpecificationStartingWithAnEmptyCollection, IAIGenera
 {
    public class given_one_with_multiple_tags : for_a_kanji
    {
-      readonly KanjiNote _kanji;
+      readonly ITaggregateReference<KanjiNote> _kanjiReference;
+      KanjiNote _kanji => _kanjiReference.Current;
 
       public given_one_with_multiple_tags()
       {
-         _kanji = CreateKanji("食", "eat", "ショク", "た");
+         _kanjiReference = CreateKanji("食", "eat", "ショク", "た").Reference();
          _kanji.Edit(it =>
          {
             it.Tags.Set(Tags.Kanji.IsRadical);

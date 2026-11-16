@@ -1,5 +1,6 @@
 using Compze.Contracts.Exceptions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -19,13 +20,15 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// </remarks>
 public class When_a_note_is_changed : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   protected readonly VocabNote Vocab;
-   protected readonly VocabNote OtherVocab;
+   protected readonly ITaggregateReference<VocabNote> VocabReference;
+   protected VocabNote Vocab => VocabReference.Current;
+   protected readonly ITaggregateReference<VocabNote> OtherVocabReference;
+   protected VocabNote OtherVocab => OtherVocabReference.Current;
 
    public When_a_note_is_changed()
    {
-      Vocab = CreateVocab("走る", "to run", "はしる");
-      OtherVocab = CreateVocab("歩く", "to walk", "あるく");
+      VocabReference = CreateVocab("走る", "to run", "はしる").Reference();
+      OtherVocabReference = CreateVocab("歩く", "to walk", "あるく").Reference();
    }
 
    protected void ChangeTheVocabsAnswer() => Vocab.CorpusAnswer.Set("to dash");

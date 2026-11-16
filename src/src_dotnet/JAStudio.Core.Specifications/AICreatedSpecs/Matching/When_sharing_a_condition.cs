@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -86,11 +87,12 @@ public abstract class When_sharing_a_condition : SpecificationStartingWithAnEmpt
    /// <summary>The vocab ます's match-condition is <c>FollowsAVerb</c>.</summary>
    public class used_in_a_vocabs_match_condition : When_sharing_a_condition
    {
-      protected readonly VocabNote _vocab;
+      protected readonly ITaggregateReference<VocabNote> _vocabReference;
+      protected VocabNote _vocab => _vocabReference.Current;
 
       public used_in_a_vocabs_match_condition()
       {
-         _vocab = CreateVocab("ます", "polite ending", "ます");
+         _vocabReference = CreateVocab("ます", "polite ending", "ます").Reference();
          _vocab.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(_followsAVerb)));
       }
 
@@ -109,12 +111,13 @@ public abstract class When_sharing_a_condition : SpecificationStartingWithAnEmpt
 
       public class after_reloading_the_collection : used_in_a_vocabs_match_condition
       {
-         readonly VocabNote _vocabAsStored;
+         readonly ITaggregateReference<VocabNote> _vocabAsStoredReference;
+         VocabNote _vocabAsStored => _vocabAsStoredReference.Current;
 
          public after_reloading_the_collection()
          {
             GetService<JPCollection>().ReloadFromBackend();
-            _vocabAsStored = TheVocabAsStoredReadBack();
+            _vocabAsStoredReference = TheVocabAsStoredReadBack().Reference();
          }
 
          [XF] public void the_vocab_as_stored_uses_the_shared_condition_by_its_name() =>

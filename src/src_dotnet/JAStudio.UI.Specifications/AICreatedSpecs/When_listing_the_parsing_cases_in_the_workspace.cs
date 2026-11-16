@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -24,18 +25,21 @@ public class When_listing_the_parsing_cases_in_the_workspace : SpecificationUsin
    static readonly TimeSpan TimeToWaitForTheComparison = TimeSpan.FromSeconds(10);
 
    readonly ParsingCasesViewModel _parsingCases;
-   readonly SentenceNote _theProgressive;
-   readonly SentenceNote _thePastTense;
-   readonly SentenceNote _theOrdinarySentence;
+   readonly ITaggregateReference<SentenceNote> _theProgressiveReference;
+   SentenceNote _theProgressive => _theProgressiveReference.Current;
+   readonly ITaggregateReference<SentenceNote> _thePastTenseReference;
+   SentenceNote _thePastTense => _thePastTenseReference.Current;
+   readonly ITaggregateReference<SentenceNote> _theOrdinarySentenceReference;
+   SentenceNote _theOrdinarySentence => _theOrdinarySentenceReference.Current;
 
    protected When_listing_the_parsing_cases_in_the_workspace()
    {
       CreateVocab("走る", "to-run", "はしる");
       CreateVocab("ている", "is-doing", "ている");
-      _theProgressive = AParsingCase(TheProgressive, "the progressive");
-      _thePastTense = AParsingCase(ThePastTense, "the past tense");
+      _theProgressiveReference = AParsingCase(TheProgressive, "the progressive").Reference();
+      _thePastTenseReference = AParsingCase(ThePastTense, "the past tense").Reference();
       _thePastTense.Edit(it => it.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified));
-      _theOrdinarySentence = CreateSentence("毎日走る");
+      _theOrdinarySentenceReference = CreateSentence("毎日走る").Reference();
 
       _parsingCases = Workspace.Navigation.ParsingCases;
       Workspace.Navigation.ShownTab = NavigationPaneTab.ParsingCases;

@@ -1,5 +1,6 @@
 using System;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -15,12 +16,13 @@ public class When_reading_which_note_a_card_page_shows : SpecificationStartingWi
 
    public class from_the_url_of_a_note_page : When_reading_which_note_a_card_page_shows
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
       readonly NoteId? _noteIdOfThePage;
 
       public from_the_url_of_a_note_page()
       {
-         _vocab = CreateVocab("入れる", "to put in", "いれる");
+         _vocabReference = CreateVocab("入れる", "to put in", "いれる").Reference();
          _noteIdOfThePage = CardServerUrl.NoteIdOfPage(new Uri(CardServerBaseUrl, CardServerUrl.NotePagePath(_vocab)));
       }
 

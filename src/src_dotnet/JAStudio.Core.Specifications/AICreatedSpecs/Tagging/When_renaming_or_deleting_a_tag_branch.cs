@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -26,16 +27,19 @@ public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithA
    static readonly TagBranch TheBranchOfATagJAStudioDefines = new(Tags.Kanji.InAnyVocabForm.Name);
 
    readonly JPCollection _collection;
-   readonly JPNote _sentenceAboutSchool;
-   readonly JPNote _sentenceAboutHome;
-   readonly JPNote _vocab;
+   readonly ITaggregateReference<JPNote> _sentenceAboutSchoolReference;
+   JPNote _sentenceAboutSchool => _sentenceAboutSchoolReference.Current;
+   readonly ITaggregateReference<JPNote> _sentenceAboutHomeReference;
+   JPNote _sentenceAboutHome => _sentenceAboutHomeReference.Current;
+   readonly ITaggregateReference<JPNote> _vocabReference;
+   JPNote _vocab => _vocabReference.Current;
 
    public When_renaming_or_deleting_a_tag_branch()
    {
       _collection = GetService<JPCollection>();
-      _sentenceAboutSchool = Tagged(CreateTestSentence("明日学校に行く", "I'll go to school tomorrow"), "source::anime", $"{Natsume}::s3::01", "-::priority::low");
-      _sentenceAboutHome = Tagged(CreateTestSentence("家に帰る", "Go home"), $"{Natsume}::s3::02");
-      _vocab = Tagged(CreateVocab("行く", "to go", "いく"), "source::anime::tv::s3::01");
+      _sentenceAboutSchoolReference = Tagged(CreateTestSentence("明日学校に行く", "I'll go to school tomorrow"), "source::anime", $"{Natsume}::s3::01", "-::priority::low").Reference();
+      _sentenceAboutHomeReference = Tagged(CreateTestSentence("家に帰る", "Go home"), $"{Natsume}::s3::02").Reference();
+      _vocabReference = Tagged(CreateVocab("行く", "to go", "いく"), "source::anime::tv::s3::01").Reference();
       Tagged(CreateKanji("行", "go", "コウ", "い"), Tags.Kanji.InAnyVocabForm.Name, $"to-be-moved::{TheBranchOfATagJAStudioDefines.LastLevel}");
    }
 

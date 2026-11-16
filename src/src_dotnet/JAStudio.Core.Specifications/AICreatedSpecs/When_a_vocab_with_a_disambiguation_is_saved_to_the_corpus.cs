@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -13,7 +14,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 public class When_a_vocab_with_a_disambiguation_is_saved_to_the_corpus : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    readonly JsonElement _questionInTheJson;
-   readonly VocabNote _readBack;
+   readonly ITaggregateReference<VocabNote> _readBackReference;
+   VocabNote _readBack => _readBackReference.Current;
 
    public When_a_vocab_with_a_disambiguation_is_saved_to_the_corpus()
    {
@@ -22,7 +24,7 @@ public class When_a_vocab_with_a_disambiguation_is_saved_to_the_corpus : Specifi
       var serializer = GetService<NoteSerializer>();
       var json = serializer.Serialize(vocab);
       _questionInTheJson = JsonDocument.Parse(json).RootElement.GetProperty("question");
-      _readBack = serializer.DeserializeVocab(json);
+      _readBackReference = serializer.DeserializeVocab(json).Reference();
    }
 
    [XF] public void it_is_read_back_with_its_question() => _readBack.Question.Text.Must().Be("入る");

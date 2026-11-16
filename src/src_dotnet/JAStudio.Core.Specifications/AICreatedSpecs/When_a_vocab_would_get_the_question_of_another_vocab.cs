@@ -1,5 +1,6 @@
 using Compze.Contracts.Exceptions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -17,21 +18,23 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_a_vocab_would_get_the_question_of_another_vocab : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
 
-   public When_a_vocab_would_get_the_question_of_another_vocab() => _vocab = CreateVocab("食べる", "to-eat", "たべる");
+   public When_a_vocab_would_get_the_question_of_another_vocab() => _vocabReference = CreateVocab("食べる", "to-eat", "たべる").Reference();
 
    int NumberOfVocab => GetService<VocabCollection>().All().Count;
 
    public class creating_its_masu_form_when_the_masu_form_exists_already : When_a_vocab_would_get_the_question_of_another_vocab
    {
-      readonly VocabNote _masuForm;
+      readonly ITaggregateReference<VocabNote> _masuFormReference;
+      VocabNote _masuForm => _masuFormReference.Current;
       readonly CreatedOrExistingVocab _givenBack;
       readonly int _numberOfVocabBefore;
 
       public creating_its_masu_form_when_the_masu_form_exists_already()
       {
-         _masuForm = _vocab.Cloner.CreateMasuForm().Vocab;
+         _masuFormReference = _vocab.Cloner.CreateMasuForm().Vocab.Reference();
          _masuForm.Edit(it => it.CorpusAnswer.Set("eat (polite)"));
          _numberOfVocabBefore = NumberOfVocab;
          _givenBack = _vocab.Cloner.CreateMasuForm();
@@ -45,12 +48,13 @@ public class When_a_vocab_would_get_the_question_of_another_vocab : Specificatio
 
    public class cloning_it_to_a_form_that_another_vocab_has_as_its_question : When_a_vocab_would_get_the_question_of_another_vocab
    {
-      readonly VocabNote _vocabOfTheForm;
+      readonly ITaggregateReference<VocabNote> _vocabOfTheFormReference;
+      VocabNote _vocabOfTheForm => _vocabOfTheFormReference.Current;
       readonly CreatedOrExistingVocab _givenBack;
 
       public cloning_it_to_a_form_that_another_vocab_has_as_its_question()
       {
-         _vocabOfTheForm = CreateVocab("喰べる", "to-eat (rare kanji)", "たべる");
+         _vocabOfTheFormReference = CreateVocab("喰べる", "to-eat (rare kanji)", "たべる").Reference();
          _givenBack = _vocab.Cloner.CloneToForm("喰べる");
       }
 
@@ -91,9 +95,10 @@ public class When_a_vocab_would_get_the_question_of_another_vocab : Specificatio
 
    public class giving_another_vocab_its_question_text : When_a_vocab_would_get_the_question_of_another_vocab
    {
-      readonly VocabNote _otherVocab;
+      readonly ITaggregateReference<VocabNote> _otherVocabReference;
+      VocabNote _otherVocab => _otherVocabReference.Current;
 
-      public giving_another_vocab_its_question_text() => _otherVocab = CreateVocab("飲む", "to-drink", "のむ");
+      public giving_another_vocab_its_question_text() => _otherVocabReference = CreateVocab("飲む", "to-drink", "のむ").Reference();
 
       [XF] public void fails_as_the_vocab_has_that_question() => Invoking(() => _otherVocab.Question.SetText("食べる")).Must().Throw<ArgumentAssertionFailedException>();
    }

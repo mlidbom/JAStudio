@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -17,12 +18,13 @@ public class When_getting_a_note : McpServerSpecification
 
    public class by_the_id_of_a_vocab : When_getting_a_note
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
       readonly CallToolResult _result;
 
       public by_the_id_of_a_vocab()
       {
-         _vocab = CreateVocab("行く", "to go", "いく");
+         _vocabReference = CreateVocab("行く", "to go", "いく").Reference();
          _result = GetNote(_vocab.GetId().ToString());
       }
 
@@ -31,12 +33,13 @@ public class When_getting_a_note : McpServerSpecification
 
    public class by_the_id_of_a_kanji : When_getting_a_note
    {
-      readonly KanjiNote _kanji;
+      readonly ITaggregateReference<KanjiNote> _kanjiReference;
+      KanjiNote _kanji => _kanjiReference.Current;
       readonly CallToolResult _result;
 
       public by_the_id_of_a_kanji()
       {
-         _kanji = CreateKanji("行", "go", "コウ", "い");
+         _kanjiReference = CreateKanji("行", "go", "コウ", "い").Reference();
          _result = GetNote(_kanji.GetId().ToString());
       }
 

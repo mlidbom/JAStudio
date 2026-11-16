@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Note;
@@ -18,11 +19,12 @@ public class When_tagging_kanji_with_their_single_kanji_vocab : SpecificationSta
 
    public class for_a_kanji_whose_single_kanji_vocab_has_a_reading_that_is_not_a_primary_reading : When_tagging_kanji_with_their_single_kanji_vocab
    {
-      readonly KanjiNote _kanji;
+      readonly ITaggregateReference<KanjiNote> _kanjiReference;
+      KanjiNote _kanji => _kanjiReference.Current;
 
       public for_a_kanji_whose_single_kanji_vocab_has_a_reading_that_is_not_a_primary_reading()
       {
-         _kanji = CreateKanji("干", "dry", "<primary>カン</primary>", "ほ");
+         _kanjiReference = CreateKanji("干", "dry", "<primary>カン</primary>", "ほ").Reference();
          CreateVocab("干", "dry", "ほし");
          TagKanjiMetadata();
       }
@@ -33,11 +35,12 @@ public class When_tagging_kanji_with_their_single_kanji_vocab : SpecificationSta
 
    public class for_a_kanji_tagged_as_having_one_with_a_different_reading_that_has_no_single_kanji_vocab : When_tagging_kanji_with_their_single_kanji_vocab
    {
-      readonly KanjiNote _kanji;
+      readonly ITaggregateReference<KanjiNote> _kanjiReference;
+      KanjiNote _kanji => _kanjiReference.Current;
 
       public for_a_kanji_tagged_as_having_one_with_a_different_reading_that_has_no_single_kanji_vocab()
       {
-         _kanji = CreateKanji("莫", "not", "<primary>バク</primary>", "");
+         _kanjiReference = CreateKanji("莫", "not", "<primary>バク</primary>", "").Reference();
          _kanji.Edit(it => it.Tags.Set(Tags.Kanji.WithSingleKanjiVocabWithDifferentReading));
          TagKanjiMetadata();
       }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -15,9 +16,10 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
 {
    static readonly HashSet<string> TheFormStartingWithEachOtherDictionaryFormEnding = ["く限り", "ぐ限り", "す限り", "つ限り", "ぬ限り", "ぶ限り", "む限り", "る限り"];
 
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
 
-   protected When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_placeholder() => _vocab = CreateVocab("う限り", "as-long-as", "うかぎり");
+   protected When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_placeholder() => _vocabReference = CreateVocab("う限り", "as-long-as", "うかぎり").Reference();
 
    static IEnumerable<string> TheFormStartingWithEachOtherDictionaryFormEndingFollowedBy(string suffix) => TheFormStartingWithEachOtherDictionaryFormEnding.Select(form => form + suffix);
 
@@ -84,9 +86,10 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
 
       public class after_creating_a_suffix_version_of_it : that_requires_the_dictionary_form_start
       {
-         readonly VocabNote _suffixVersion;
+         readonly ITaggregateReference<VocabNote> _suffixVersionReference;
+         VocabNote _suffixVersion => _suffixVersionReference.Current;
 
-         public after_creating_a_suffix_version_of_it() => _suffixVersion = _vocab.Cloner.CreateSuffixVersion("では").Vocab;
+         public after_creating_a_suffix_version_of_it() => _suffixVersionReference = _vocab.Cloner.CreateSuffixVersion("では").Vocab.Reference();
 
          [XF] public void the_question_and_the_entered_forms_of_the_suffix_version_are_only_the_question_with_the_suffix_appended() => _suffixVersion.Forms.QuestionAndEnteredFormsList().Must().SequenceEqual(["う限りでは"]);
          [XF] public void the_suffix_version_matches_the_form_starting_with_each_other_dictionary_form_ending_with_the_suffix_appended() =>

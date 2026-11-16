@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.UI.ViewModels.Workspace;
 using JAStudio.UI.ViewModels.Workspace.Editors;
@@ -18,12 +20,13 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_a_sentences_parsing_is_shown_in_its_editor : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
 
    public When_a_sentences_parsing_is_shown_in_its_editor()
    {
       CreateVocab("不浄の", "unclean", "ふじょうの");
-      _sentence = CreateTestSentence("不浄のもの。", "An unclean thing.");
+      _sentenceReference = CreateTestSentence("不浄のもの。", "An unclean thing.").Reference();
       Workspace.OpenNote(_sentence);
    }
 

@@ -1,6 +1,8 @@
 using System;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.UI.Web;
@@ -20,15 +22,18 @@ public class When_following_links_in_a_workspace_tab : SpecificationUsingAWorksp
    const string SecondSentence = "学校に行く";
    const string ThirdSentence = "駅で待つ";
 
-   readonly SentenceNote _first;
-   readonly SentenceNote _second;
-   readonly SentenceNote _third;
+   readonly ITaggregateReference<SentenceNote> _firstReference;
+   SentenceNote _first => _firstReference.Current;
+   readonly ITaggregateReference<SentenceNote> _secondReference;
+   SentenceNote _second => _secondReference.Current;
+   readonly ITaggregateReference<SentenceNote> _thirdReference;
+   SentenceNote _third => _thirdReference.Current;
 
    public When_following_links_in_a_workspace_tab()
    {
-      _first = CreateTestSentence(FirstSentence, "an answer");
-      _second = CreateTestSentence(SecondSentence, "an answer");
-      _third = CreateTestSentence(ThirdSentence, "an answer");
+      _firstReference = CreateTestSentence(FirstSentence, "an answer").Reference();
+      _secondReference = CreateTestSentence(SecondSentence, "an answer").Reference();
+      _thirdReference = CreateTestSentence(ThirdSentence, "an answer").Reference();
       Workspace.OpenNote(_first);
    }
 

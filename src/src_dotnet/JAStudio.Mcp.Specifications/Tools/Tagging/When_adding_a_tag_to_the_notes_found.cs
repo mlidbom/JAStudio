@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
-using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.TestUtils;
 using JAStudio.Mcp.Tools.Tagging;
 using ModelContextProtocol.Protocol;
 
@@ -19,16 +20,19 @@ public class When_adding_a_tag_to_the_notes_found : McpServerSpecification
 {
    protected const string ToReview = "-::to-review";
 
-   protected readonly VocabNote _vocabFromWaniKani;
-   protected readonly VocabNote _vocabWithNoTags;
-   protected readonly KanjiNote _kanjiWithNoTags;
+   protected readonly ITaggregateReference<VocabNote> _vocabFromWaniKaniReference;
+   protected VocabNote _vocabFromWaniKani => _vocabFromWaniKaniReference.Current;
+   protected readonly ITaggregateReference<VocabNote> _vocabWithNoTagsReference;
+   protected VocabNote _vocabWithNoTags => _vocabWithNoTagsReference.Current;
+   protected readonly ITaggregateReference<KanjiNote> _kanjiWithNoTagsReference;
+   protected KanjiNote _kanjiWithNoTags => _kanjiWithNoTagsReference.Current;
 
    public When_adding_a_tag_to_the_notes_found()
    {
-      _vocabFromWaniKani = WithAStudyNote(CreateVocab("行く", "to go", "いく"));
+      _vocabFromWaniKaniReference = WithAStudyNote(CreateVocab("行く", "to go", "いく")).Reference();
       _vocabFromWaniKani.Edit(it => it.Tags.Set(Tag.FromName("source::wani")));
-      _vocabWithNoTags = WithAStudyNote(CreateVocab("来る", "to come", "くる"));
-      _kanjiWithNoTags = WithAStudyNote(CreateKanji("行", "go", "コウ", "い"));
+      _vocabWithNoTagsReference = WithAStudyNote(CreateVocab("来る", "to come", "くる")).Reference();
+      _kanjiWithNoTagsReference = WithAStudyNote(CreateKanji("行", "go", "コウ", "い")).Reference();
    }
 
    protected CallToolResult AddATagToTheNotesFound(JsonObject search, string tag) =>

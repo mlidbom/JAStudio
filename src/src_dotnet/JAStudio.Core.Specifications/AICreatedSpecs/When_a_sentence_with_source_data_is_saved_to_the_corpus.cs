@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -16,7 +17,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 public class When_a_sentence_with_source_data_is_saved_to_the_corpus : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    readonly JsonElement _json;
-   readonly SentenceNote _readBack;
+   readonly ITaggregateReference<SentenceNote> _readBackReference;
+   SentenceNote _readBack => _readBackReference.Current;
 
    public When_a_sentence_with_source_data_is_saved_to_the_corpus()
    {
@@ -31,7 +33,7 @@ public class When_a_sentence_with_source_data_is_saved_to_the_corpus : Specifica
       var serializer = GetService<NoteSerializer>();
       var json = serializer.Serialize(sentence);
       _json = JsonDocument.Parse(json).RootElement;
-      _readBack = serializer.DeserializeSentence(json);
+      _readBackReference = serializer.DeserializeSentence(json).Reference();
    }
 
    string SourceDataProperty(string name) => _json.GetProperty("sourceData").GetProperty(name).ToString();

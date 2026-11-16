@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -24,19 +25,21 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
    protected const string Episode07 = "source::anime::violet::07";
    protected const string Episode08 = "source::anime::violet::08";
 
-   protected readonly SentenceNote _sentenceTaggedWithBothEpisodes;
-   protected readonly SentenceNote _sentenceTaggedWithEpisode08Only;
+   protected readonly ITaggregateReference<SentenceNote> _sentenceTaggedWithBothEpisodesReference;
+   protected SentenceNote _sentenceTaggedWithBothEpisodes => _sentenceTaggedWithBothEpisodesReference.Current;
+   protected readonly ITaggregateReference<SentenceNote> _sentenceTaggedWithEpisode08OnlyReference;
+   protected SentenceNote _sentenceTaggedWithEpisode08Only => _sentenceTaggedWithEpisode08OnlyReference.Current;
 
    public When_removing_a_tag_from_the_notes_found()
    {
-      _sentenceTaggedWithBothEpisodes = WithAStudyNote(CreateTestSentence("明日学校に行く", "I'll go to school tomorrow"));
+      _sentenceTaggedWithBothEpisodesReference = WithAStudyNote(CreateTestSentence("明日学校に行く", "I'll go to school tomorrow")).Reference();
       _sentenceTaggedWithBothEpisodes.Edit(it =>
       {
          it.Tags.Set(Tag.FromName(Episode07));
          it.Tags.Set(Tag.FromName(Episode08));
       });
 
-      _sentenceTaggedWithEpisode08Only = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
+      _sentenceTaggedWithEpisode08OnlyReference = WithAStudyNote(CreateTestSentence("家に帰る", "Go home")).Reference();
       _sentenceTaggedWithEpisode08Only.Edit(it => it.Tags.Set(Tag.FromName(Episode08)));
    }
 

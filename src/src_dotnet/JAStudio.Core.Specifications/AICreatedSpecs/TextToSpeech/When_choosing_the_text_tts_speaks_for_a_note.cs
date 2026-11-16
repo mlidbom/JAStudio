@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -11,13 +12,15 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.TextToSpeech;
 /// <summary>The text TTS speaks for a vocab or a sentence: its question, cleaned as HyperTTS cleaned it.</summary>
 public class When_choosing_the_text_tts_speaks_for_a_note : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
 
    public When_choosing_the_text_tts_speaks_for_a_note()
    {
-      _vocab = CreateVocab("〜について", "about", "について");
-      _sentence = CreateTestSentence("家に帰る", "Go home");
+      _vocabReference = CreateVocab("〜について", "about", "について").Reference();
+      _sentenceReference = CreateTestSentence("家に帰る", "Go home").Reference();
    }
 
    [XF] public void markup_is_removed() => IHasTextToSpeechAudio.SpeakableTextOf("<b>家</b>に<i>帰る</i>").Must().Be("家に帰る");

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiReadings;
@@ -20,13 +21,15 @@ namespace JAStudio.Mcp.Specifications.Tools.Editing;
 /// <summary>The vocab 行った, with the reading いいた and the answer "went", and the sentence 会いに行った, which contains it, with no answer.</summary>
 public class When_editing_a_note : McpServerSpecification
 {
-   protected readonly VocabNote Vocab;
-   protected readonly SentenceNote Sentence;
+   protected readonly ITaggregateReference<VocabNote> VocabReference;
+   protected VocabNote Vocab => VocabReference.Current;
+   protected readonly ITaggregateReference<SentenceNote> SentenceReference;
+   protected SentenceNote Sentence => SentenceReference.Current;
 
    public When_editing_a_note()
    {
-      Vocab = CreateVocab("行った", "went", "いいた");
-      Sentence = CreateSentence("会いに行った");
+      VocabReference = CreateVocab("行った", "went", "いいた").Reference();
+      SentenceReference = CreateSentence("会いに行った").Reference();
    }
 
    protected CallToolResult Edit(JsonObject changes) => Edit(Vocab, changes);
@@ -103,12 +106,13 @@ public class When_editing_a_note : McpServerSpecification
 
    public class of_a_kanji_writing_its_on_readings_in_katakana : When_editing_a_note
    {
-      readonly KanjiNote _kanji;
+      readonly ITaggregateReference<KanjiNote> _kanjiReference;
+      KanjiNote _kanji => _kanjiReference.Current;
       readonly NoteEdit _edit;
 
       public of_a_kanji_writing_its_on_readings_in_katakana()
       {
-         _kanji = CreateKanji("行", "go", "コウ", "い");
+         _kanjiReference = CreateKanji("行", "go", "コウ", "い").Reference();
          _edit = ResultOf<NoteEdit>(Edit(_kanji, new JsonObject
          {
             ["readings.on"] = new JsonArray(new JsonObject { ["kana"] = "ギョウ", ["isPrimary"] = true }, new JsonObject { ["kana"] = "コウ", ["isPrimary"] = false })
@@ -133,12 +137,13 @@ public class When_editing_a_note : McpServerSpecification
    /// <summary>Another vocab, 行く, with the answer "to go".</summary>
    public class of_a_vocab_writing_its_synonyms : When_editing_a_note
    {
-      readonly VocabNote _synonym;
+      readonly ITaggregateReference<VocabNote> _synonymReference;
+      VocabNote _synonym => _synonymReference.Current;
       readonly NoteEdit _edit;
 
       public of_a_vocab_writing_its_synonyms()
       {
-         _synonym = CreateVocab("行く", "to go", "いく");
+         _synonymReference = CreateVocab("行く", "to go", "いく").Reference();
          _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray(new JsonObject { ["text"] = "行く" }) }));
       }
 
@@ -152,12 +157,13 @@ public class When_editing_a_note : McpServerSpecification
    /// <summary>Another vocab, 往った, with the answer "gone".</summary>
    public class of_a_vocab_writing_its_perfect_synonyms : When_editing_a_note
    {
-      readonly VocabNote _perfectSynonym;
+      readonly ITaggregateReference<VocabNote> _perfectSynonymReference;
+      VocabNote _perfectSynonym => _perfectSynonymReference.Current;
       readonly NoteEdit _edit;
 
       public of_a_vocab_writing_its_perfect_synonyms()
       {
-         _perfectSynonym = CreateVocab("往った", "gone", "いった");
+         _perfectSynonymReference = CreateVocab("往った", "gone", "いった").Reference();
          _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.perfectSynonyms"] = new JsonArray(new JsonObject { ["text"] = "往った" }) }));
       }
 

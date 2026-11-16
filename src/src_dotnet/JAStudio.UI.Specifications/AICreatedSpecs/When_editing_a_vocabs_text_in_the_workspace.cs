@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -15,12 +16,13 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 
 public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
    readonly VocabEditorSectionViewModel _editor;
 
    protected When_editing_a_vocabs_text_in_the_workspace()
    {
-      _vocab = CreateVocab("走る", "to run", "はしる");
+      _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
       _editor = Edit<VocabEditorSectionViewModel>(_vocab);
    }
 
@@ -106,9 +108,10 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
 
    public class with_a_sentence_containing_another_form_of_it : When_editing_a_vocabs_text_in_the_workspace
    {
-      readonly SentenceNote _sentence;
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
 
-      public with_a_sentence_containing_another_form_of_it() => _sentence = CreateSentence("毎日駆ける。");
+      public with_a_sentence_containing_another_form_of_it() => _sentenceReference = CreateSentence("毎日駆ける。").Reference();
 
       [XF] public void the_sentence_does_not_match_the_vocab() => _vocab.Sentences.All().Select(it => it.GetId()).Must().Satisfy(it => !it.Contains(_sentence.GetId()));
 

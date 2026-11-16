@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Text.Json;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -14,7 +15,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 public class When_a_vocab_with_an_owned_form_is_saved_to_the_corpus : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    readonly string _json;
-   readonly VocabNote _readBack;
+   readonly ITaggregateReference<VocabNote> _readBackReference;
+   VocabNote _readBack => _readBackReference.Current;
 
    public When_a_vocab_with_an_owned_form_is_saved_to_the_corpus()
    {
@@ -27,7 +29,7 @@ public class When_a_vocab_with_an_owned_form_is_saved_to_the_corpus : Specificat
       });
       var serializer = GetService<NoteSerializer>();
       _json = serializer.Serialize(vocab);
-      _readBack = serializer.DeserializeVocab(_json);
+      _readBackReference = serializer.DeserializeVocab(_json).Reference();
    }
 
    [XF] public void it_is_read_back_with_both_entered_forms_owned_as_they_were() =>

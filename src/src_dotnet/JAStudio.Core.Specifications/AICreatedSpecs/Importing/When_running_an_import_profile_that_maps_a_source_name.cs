@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 
 // ReSharper disable InconsistentNaming
@@ -14,7 +16,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Importing;
 public class When_running_an_import_profile_that_maps_a_source_name : ImportingSpecification, IAIGeneratedSpec
 {
    const string JLabNoteType = "JLab Sentence";
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
 
    public When_running_an_import_profile_that_maps_a_source_name()
    {
@@ -28,7 +31,7 @@ public class When_running_an_import_profile_that_maps_a_source_name : ImportingS
                     };
 
       Importer.Prepare(profile).ExecuteUnlessOutOfDate().Must().BeTrue();
-      _sentence = Sentences.All().Single();
+      _sentenceReference = Sentences.All().Single().Reference();
    }
 
    [XF] public void the_sentence_takes_its_source_name_from_the_mapped_field() => _sentence.SourceName.Value.Must().Be("Shirokuma Cafe");

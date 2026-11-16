@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -11,15 +12,18 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// <summary>The vocab 起こす, 起きる and 起こる, none with ergative twins: 起こす is the transitive counterpart of both the others.</summary>
 public class When_changing_a_vocabs_ergative_twins : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   protected readonly VocabNote ToWakeSomeone;
-   protected readonly VocabNote ToWakeUp;
-   protected readonly VocabNote ToHappen;
+   protected readonly ITaggregateReference<VocabNote> ToWakeSomeoneReference;
+   protected VocabNote ToWakeSomeone => ToWakeSomeoneReference.Current;
+   protected readonly ITaggregateReference<VocabNote> ToWakeUpReference;
+   protected VocabNote ToWakeUp => ToWakeUpReference.Current;
+   protected readonly ITaggregateReference<VocabNote> ToHappenReference;
+   protected VocabNote ToHappen => ToHappenReference.Current;
 
    public When_changing_a_vocabs_ergative_twins()
    {
-      ToWakeSomeone = VocabNote.Create(NoteServices, "起こす", "to wake someone; to cause", "おこす");
-      ToWakeUp = VocabNote.Create(NoteServices, "起きる", "to wake up", "おきる");
-      ToHappen = VocabNote.Create(NoteServices, "起こる", "to happen", "おこる");
+      ToWakeSomeoneReference = VocabNote.Create(NoteServices, "起こす", "to wake someone; to cause", "おこす").Reference();
+      ToWakeUpReference = VocabNote.Create(NoteServices, "起きる", "to wake up", "おきる").Reference();
+      ToHappenReference = VocabNote.Create(NoteServices, "起こる", "to happen", "おこる").Reference();
    }
 
    protected static string[] ErgativeTwinsOf(VocabNote vocab) => SortedNamesOf(vocab.RelatedNotes.ErgativeTwins.Words);

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -15,11 +16,12 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// </summary>
 public abstract class When_filling_a_vocabs_parts_of_speech_from_the_dictionary : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
 
    protected When_filling_a_vocabs_parts_of_speech_from_the_dictionary(string question, string reading)
    {
-      _vocab = CreateVocab(question, "", reading);
+      _vocabReference = CreateVocab(question, "", reading).Reference();
       _vocab.Edit(it => it.PartsOfSpeech.SetAutomaticallyFromDictionary());
    }
 

@@ -1,9 +1,10 @@
 using System;
+using Compze.Must;
+using Compze.Teventive.TaggregateStores;
+using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
-using Compze.Must;
-using Compze.xUnitBDD;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
 
@@ -17,14 +18,16 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs.Tagging;
 /// </summary>
 public class When_picking_a_tag_in_the_tag_picker_dialog : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   protected readonly SentenceNote _sentenceFromMisc;
-   protected readonly SentenceNote _sentenceWithNoTags;
+   protected readonly ITaggregateReference<SentenceNote> _sentenceFromMiscReference;
+   protected SentenceNote _sentenceFromMisc => _sentenceFromMiscReference.Current;
+   protected readonly ITaggregateReference<SentenceNote> _sentenceWithNoTagsReference;
+   protected SentenceNote _sentenceWithNoTags => _sentenceWithNoTagsReference.Current;
 
    public When_picking_a_tag_in_the_tag_picker_dialog()
    {
-      _sentenceFromMisc = CreateTestSentence("家に帰る", "Go home");
+      _sentenceFromMiscReference = CreateTestSentence("家に帰る", "Go home").Reference();
       _sentenceFromMisc.Edit(it => it.Tags.Set(Tag.FromName("source::misc")));
-      _sentenceWithNoTags = CreateTestSentence("学校に行く", "Go to school");
+      _sentenceWithNoTagsReference = CreateTestSentence("学校に行く", "Go to school").Reference();
    }
 
    private protected static string TheSourceWarningOf(TagPickerDialogViewModel dialog) =>

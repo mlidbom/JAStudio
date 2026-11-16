@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Text.Json;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -18,11 +19,12 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_a_vocab_has_alternative_compound_parts : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
 
    public When_a_vocab_has_alternative_compound_parts()
    {
-      _vocab = CreateVocab("忘れられない", "can't forget", "わすれられない");
+      _vocabReference = CreateVocab("忘れられない", "can't forget", "わすれられない").Reference();
       _vocab.Edit(it =>
       {
          it.CompoundParts.SetPrimary(Words("忘れる", "られない"));
@@ -51,13 +53,14 @@ public class When_a_vocab_has_alternative_compound_parts : SpecificationStarting
    public class after_saving_it_to_the_corpus_and_reading_it_back : When_a_vocab_has_alternative_compound_parts
    {
       readonly string _json;
-      readonly VocabNote _readBack;
+      readonly ITaggregateReference<VocabNote> _readBackReference;
+      VocabNote _readBack => _readBackReference.Current;
 
       public after_saving_it_to_the_corpus_and_reading_it_back()
       {
          var serializer = GetService<NoteSerializer>();
          _json = serializer.Serialize(_vocab);
-         _readBack = serializer.DeserializeVocab(_json);
+         _readBackReference = serializer.DeserializeVocab(_json).Reference();
       }
 
       [XF] public void the_primary_parts_are_read_back_in_their_order() => NamesOf(_readBack.CompoundParts.Primary()).Must().SequenceEqual(["忘れる", "られない"]);

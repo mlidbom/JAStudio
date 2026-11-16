@@ -1,6 +1,7 @@
 using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -15,15 +16,18 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// <summary>The vocab てよろしい, ていい and んでいい, which all mean "may", made one web of perfect synonyms by adding the other two to てよろしい.</summary>
 public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   protected readonly VocabNote Teyoroshii;
-   protected readonly VocabNote Teii;
-   protected readonly VocabNote Ndeii;
+   protected readonly ITaggregateReference<VocabNote> TeyoroshiiReference;
+   protected VocabNote Teyoroshii => TeyoroshiiReference.Current;
+   protected readonly ITaggregateReference<VocabNote> TeiiReference;
+   protected VocabNote Teii => TeiiReference.Current;
+   protected readonly ITaggregateReference<VocabNote> NdeiiReference;
+   protected VocabNote Ndeii => NdeiiReference.Current;
 
    public When_changing_a_vocabs_perfect_synonyms()
    {
-      Teyoroshii = VocabNote.Create(NoteServices, "てよろしい", "may", "てよろしい");
-      Teii = VocabNote.Create(NoteServices, "ていい", "may", "ていい");
-      Ndeii = VocabNote.Create(NoteServices, "んでいい", "may", "んでいい");
+      TeyoroshiiReference = VocabNote.Create(NoteServices, "てよろしい", "may", "てよろしい").Reference();
+      TeiiReference = VocabNote.Create(NoteServices, "ていい", "may", "ていい").Reference();
+      NdeiiReference = VocabNote.Create(NoteServices, "んでいい", "may", "んでいい").Reference();
       Teyoroshii.Edit(it =>
       {
          it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(new WordReference("ていい"));

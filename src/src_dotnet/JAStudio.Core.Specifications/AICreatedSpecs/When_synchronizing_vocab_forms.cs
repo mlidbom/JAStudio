@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -11,13 +12,15 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
 {
    public class after_adding_a_form_that_matches_another_vocabs_question : When_synchronizing_vocab_forms
    {
-      readonly VocabNote _vocabA;
-      readonly VocabNote _vocabB;
+      readonly ITaggregateReference<VocabNote> _vocabAReference;
+      VocabNote _vocabA => _vocabAReference.Current;
+      readonly ITaggregateReference<VocabNote> _vocabBReference;
+      VocabNote _vocabB => _vocabBReference.Current;
 
       public after_adding_a_form_that_matches_another_vocabs_question()
       {
-         _vocabA = CreateVocab("食べる", "to eat", "たべる");
-         _vocabB = CreateVocab("食う", "to eat (casual)", "くう");
+         _vocabAReference = CreateVocab("食べる", "to eat", "たべる").Reference();
+         _vocabBReference = CreateVocab("食う", "to eat (casual)", "くう").Reference();
          _vocabA.Edit(it => it.Forms.Add("食う"));
       }
 
@@ -35,11 +38,12 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
 
    public class given_a_vocab_with_an_owned_and_a_not_owned_entered_form : When_synchronizing_vocab_forms
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public given_a_vocab_with_an_owned_and_a_not_owned_entered_form()
       {
-         _vocab = CreateVocab("走る", "to run", "はしる");
+         _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
          _vocab.Edit(it => it.Forms.SetEnteredForms([EnteredForm.Owned("駆ける"), EnteredForm.NotOwned("ダッシュする")]));
       }
 
@@ -50,24 +54,28 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
 
    public class given_a_newly_created_vocab : When_synchronizing_vocab_forms
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
-      public given_a_newly_created_vocab() => _vocab = CreateVocab("本", "book", "ほん");
+      public given_a_newly_created_vocab() => _vocabReference = CreateVocab("本", "book", "ほん").Reference();
 
       [XF] public void the_question_is_included_in_owned_forms() => _vocab.Forms.OwnedForms().Must().Contain("本");
    }
 
    public class given_a_vocab_with_forms_pointing_to_other_vocabs : When_synchronizing_vocab_forms
    {
-      readonly VocabNote _vocab1;
-      readonly VocabNote _vocab2;
-      readonly VocabNote _vocab3;
+      readonly ITaggregateReference<VocabNote> _vocab1Reference;
+      VocabNote _vocab1 => _vocab1Reference.Current;
+      readonly ITaggregateReference<VocabNote> _vocab2Reference;
+      VocabNote _vocab2 => _vocab2Reference.Current;
+      readonly ITaggregateReference<VocabNote> _vocab3Reference;
+      VocabNote _vocab3 => _vocab3Reference.Current;
 
       public given_a_vocab_with_forms_pointing_to_other_vocabs()
       {
-         _vocab1 = CreateVocab("食べる", "to eat", "たべる");
-         _vocab2 = CreateVocab("食う", "to eat (casual)", "くう");
-         _vocab3 = CreateVocab("召し上がる", "to eat (honorific)", "めしあがる");
+         _vocab1Reference = CreateVocab("食べる", "to eat", "たべる").Reference();
+         _vocab2Reference = CreateVocab("食う", "to eat (casual)", "くう").Reference();
+         _vocab3Reference = CreateVocab("召し上がる", "to eat (honorific)", "めしあがる").Reference();
          _vocab1.Edit(it => it.Forms.SetEnteredForms([EnteredForm.NotOwned("食う"), EnteredForm.NotOwned("召し上がる")]));
       }
 

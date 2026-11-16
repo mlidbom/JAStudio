@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -11,14 +12,16 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// <summary>The vocab 行く, with the form 行きます, and the vocab 向かう. No vocab is named 行きます, so the word 行きます refers to 行く, which has it as a form.</summary>
 public class When_changing_a_vocabs_synonyms : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   protected readonly VocabNote ToGo;
-   protected readonly VocabNote ToHeadFor;
+   protected readonly ITaggregateReference<VocabNote> ToGoReference;
+   protected VocabNote ToGo => ToGoReference.Current;
+   protected readonly ITaggregateReference<VocabNote> ToHeadForReference;
+   protected VocabNote ToHeadFor => ToHeadForReference.Current;
 
    public When_changing_a_vocabs_synonyms()
    {
-      ToGo = VocabNote.Create(NoteServices, "行く", "to go", "いく");
+      ToGoReference = VocabNote.Create(NoteServices, "行く", "to go", "いく").Reference();
       ToGo.Edit(it => it.Forms.Add("行きます"));
-      ToHeadFor = VocabNote.Create(NoteServices, "向かう", "to head for", "むかう");
+      ToHeadForReference = VocabNote.Create(NoteServices, "向かう", "to head for", "むかう").Reference();
    }
 
    protected static string[] SynonymsOf(VocabNote vocab) => SortedNamesOf(vocab.RelatedNotes.Synonyms.Words);

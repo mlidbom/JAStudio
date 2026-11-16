@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
@@ -20,12 +21,13 @@ namespace JAStudio.Mcp.Specifications.Tools.StudyNotes;
 /// </summary>
 public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 {
-   protected readonly VocabNote Vocab;
+   protected readonly ITaggregateReference<VocabNote> VocabReference;
+   protected VocabNote Vocab => VocabReference.Current;
    protected readonly PretendAnki Anki;
 
    public When_comparing_the_study_notes_with_Anki()
    {
-      Vocab = WithAStudyNote(CreateVocab("勉強", "study", "べんきょう"));
+      VocabReference = WithAStudyNote(CreateVocab("勉強", "study", "べんきょう")).Reference();
       Anki = GetService<PretendAnki>();
    }
 

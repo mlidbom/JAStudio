@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 
@@ -9,15 +10,18 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// <summary>The kanji 走 (run), 歩 (walk) and 赴 (proceed), and the radicals 土 (soil) and 人 (person).</summary>
 public class When_relating_kanji_to_other_kanji : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   protected readonly KanjiNote Run;
-   protected readonly KanjiNote Walk;
-   protected readonly KanjiNote Proceed;
+   protected readonly ITaggregateReference<KanjiNote> RunReference;
+   protected KanjiNote Run => RunReference.Current;
+   protected readonly ITaggregateReference<KanjiNote> WalkReference;
+   protected KanjiNote Walk => WalkReference.Current;
+   protected readonly ITaggregateReference<KanjiNote> ProceedReference;
+   protected KanjiNote Proceed => ProceedReference.Current;
 
    public When_relating_kanji_to_other_kanji()
    {
-      Run = CreateKanji("走", "run", "ソウ", "はし");
-      Walk = CreateKanji("歩", "walk", "ホ", "ある");
-      Proceed = CreateKanji("赴", "proceed", "フ", "おもむ");
+      RunReference = CreateKanji("走", "run", "ソウ", "はし").Reference();
+      WalkReference = CreateKanji("歩", "walk", "ホ", "ある").Reference();
+      ProceedReference = CreateKanji("赴", "proceed", "フ", "おもむ").Reference();
    }
 
    public class after_adding_歩_to_走_s_kanji_with_a_similar_meaning : When_relating_kanji_to_other_kanji

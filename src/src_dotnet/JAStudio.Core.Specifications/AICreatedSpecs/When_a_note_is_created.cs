@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -14,9 +15,10 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_a_note_is_created : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly JPNote _sentence;
+   readonly ITaggregateReference<JPNote> _sentenceReference;
+   JPNote _sentence => _sentenceReference.Current;
 
-   public When_a_note_is_created() => _sentence = CreateSentence("家に帰る");
+   public When_a_note_is_created() => _sentenceReference = CreateSentence("家に帰る").Reference();
 
    [XF] public void it_gets_no_study_note_in_Anki() => _sentence.HasAStudyNote().Must().BeFalse();
    [XF] public void it_is_in_the_collection() => GetService<JPCollection>().NoteFromNoteId(_sentence.GetId()).Must().Be(_sentence);

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -17,14 +18,15 @@ namespace JAStudio.Mcp.Specifications.Tools.ParsingCases;
 /// </summary>
 public class When_listing_the_parsing_cases : McpServerSpecification
 {
-   protected readonly SentenceNote Sentence;
+   protected readonly ITaggregateReference<SentenceNote> SentenceReference;
+   protected SentenceNote Sentence => SentenceReference.Current;
 
    public When_listing_the_parsing_cases()
    {
       CreateVocab("走る", "to-run", "はしる");
       CreateVocab("ている", "is-doing", "ている");
       CreateSentence("毎日走る");
-      Sentence = CreateSentence("毎日走っている");
+      SentenceReference = CreateSentence("毎日走っている").Reference();
       Sentence.Edit(it =>
       {
          it.MarkAsAParsingCase();

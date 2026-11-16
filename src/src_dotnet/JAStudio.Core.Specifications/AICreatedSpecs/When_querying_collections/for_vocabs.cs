@@ -1,5 +1,6 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -13,13 +14,15 @@ public class for_vocabs : SpecificationStartingWithAnEmptyCollection, IAIGenerat
 {
    public class given_three_vocabs : for_vocabs
    {
-      readonly VocabNote _vocab1;
-      readonly VocabNote _vocab2;
+      readonly ITaggregateReference<VocabNote> _vocab1Reference;
+      VocabNote _vocab1 => _vocab1Reference.Current;
+      readonly ITaggregateReference<VocabNote> _vocab2Reference;
+      VocabNote _vocab2 => _vocab2Reference.Current;
 
       public given_three_vocabs()
       {
-         _vocab1 = CreateVocab("食べる", "to eat", "たべる");
-         _vocab2 = CreateVocab("本", "book", "ほん");
+         _vocab1Reference = CreateVocab("食べる", "to eat", "たべる").Reference();
+         _vocab2Reference = CreateVocab("本", "book", "ほん").Reference();
          CreateVocab("走る", "to run", "はしる");
       }
 

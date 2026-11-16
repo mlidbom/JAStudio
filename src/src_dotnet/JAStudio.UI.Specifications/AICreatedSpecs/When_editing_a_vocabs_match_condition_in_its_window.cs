@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx;
@@ -29,7 +30,8 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_editing_a_vocabs_match_condition_in_its_window : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
    readonly VocabEditorSectionViewModel _editor;
    readonly MatchConditionWindowViewModel _window;
    readonly List<string> _vocabWhoseSentencesWereReparsed = [];
@@ -37,7 +39,7 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
 
    protected When_editing_a_vocabs_match_condition_in_its_window()
    {
-      _vocab = CreateVocab("てよろしい", "may", "てよろしい");
+      _vocabReference = CreateVocab("てよろしい", "may", "てよろしい").Reference();
       _editor = Edit<VocabEditorSectionViewModel>(_vocab);
       _window = new MatchConditionWindowViewModel(GetService<TemporaryServiceCollection>(), _vocab, _ => {}, vocab => _vocabWhoseSentencesWereReparsed.AddRange(vocab.Select(it => it.GetQuestion())));
    }

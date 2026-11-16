@@ -1,5 +1,6 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.UI.Controls.NoteFields;
@@ -12,12 +13,13 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 
 public class When_editing_a_kanji_in_the_workspace : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly KanjiNote _kanji;
+   readonly ITaggregateReference<KanjiNote> _kanjiReference;
+   KanjiNote _kanji => _kanjiReference.Current;
    readonly KanjiEditorSectionViewModel _editor;
 
    protected When_editing_a_kanji_in_the_workspace()
    {
-      _kanji = CreateKanji("走", "run", "", "はし");
+      _kanjiReference = CreateKanji("走", "run", "", "はし").Reference();
       _editor = Edit<KanjiEditorSectionViewModel>(_kanji);
    }
 
@@ -101,11 +103,12 @@ public class When_editing_a_kanji_in_the_workspace : SpecificationUsingAWorkspac
 
    public class after_adding_歩_in_the_similar_meaning_box : When_editing_a_kanji_in_the_workspace
    {
-      readonly KanjiNote _walk;
+      readonly ITaggregateReference<KanjiNote> _walkReference;
+      KanjiNote _walk => _walkReference.Current;
 
       public after_adding_歩_in_the_similar_meaning_box()
       {
-         _walk = CreateKanji("歩", "walk", "ホ", "ある");
+         _walkReference = CreateKanji("歩", "walk", "ホ", "ある").Reference();
          ListEditor("Similar meaning").NewKanji = "歩";
          ListEditor("Similar meaning").AddCommand.Execute(null);
       }

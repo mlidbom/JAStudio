@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -11,11 +12,12 @@ public class for_kanji : SpecificationStartingWithAnEmptyCollection, IAIGenerate
 {
    public class given_two_kanji : for_kanji
    {
-      readonly KanjiNote _kanji1;
+      readonly ITaggregateReference<KanjiNote> _kanji1Reference;
+      KanjiNote _kanji1 => _kanji1Reference.Current;
 
       public given_two_kanji()
       {
-         _kanji1 = CreateKanji("食", "eat", "ショク", "た");
+         _kanji1Reference = CreateKanji("食", "eat", "ショク", "た").Reference();
          CreateKanji("本", "book", "ホン", "もと");
       }
 

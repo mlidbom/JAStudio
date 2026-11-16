@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Compze.Must;
 using Compze.Teventive.StateStore.Storage;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -23,16 +24,19 @@ public class When_a_state_store_keeps_the_notes_in_the_corpus_note_files : Speci
 {
    readonly DirectoryInfo _corpusCheckout = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), $"JAStudio_corpus_note_files_{Guid.NewGuid():N}"));
    protected readonly CorpusNoteFiles NoteFiles;
-   protected readonly VocabNote Vocab;
-   protected readonly KanjiNote Kanji;
-   protected readonly SentenceNote Sentence;
+   protected readonly ITaggregateReference<VocabNote> VocabReference;
+   protected VocabNote Vocab => VocabReference.Current;
+   protected readonly ITaggregateReference<KanjiNote> KanjiReference;
+   protected KanjiNote Kanji => KanjiReference.Current;
+   protected readonly ITaggregateReference<SentenceNote> SentenceReference;
+   protected SentenceNote Sentence => SentenceReference.Current;
 
    public When_a_state_store_keeps_the_notes_in_the_corpus_note_files()
    {
       NoteFiles = new CorpusNoteFiles(_corpusCheckout.FullName);
-      Vocab = CreateVocab("走る", "to run", "はしる");
-      Kanji = CreateKanji("走", "run", "ソウ", "はし.る");
-      Sentence = CreateSentence("家に帰る");
+      VocabReference = CreateVocab("走る", "to run", "はしる").Reference();
+      KanjiReference = CreateKanji("走", "run", "ソウ", "はし.る").Reference();
+      SentenceReference = CreateSentence("家に帰る").Reference();
       NoteFiles.Prepare([SnapshotOf(Vocab), SnapshotOf(Kanji), SnapshotOf(Sentence)], []).Commit();
    }
 

@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Compze.DependencyInjection.Abstractions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Note;
@@ -28,16 +29,18 @@ public class When_the_Anki_add_on_asks_JAStudio : IAsyncDisposable
    readonly WorkspaceTogglesThatRecordRequests _workspaceToggles = new();
    readonly HttpClient _http = new(new HttpClientHandler { AllowAutoRedirect = false });
    readonly CardServer _server;
-   readonly VocabNote _vocab;
-   readonly KanjiNote _kanji;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
+   readonly ITaggregateReference<KanjiNote> _kanjiReference;
+   KanjiNote _kanji => _kanjiReference.Current;
    static readonly string ANoteIdJAStudioHasNot = Guid.NewGuid().ToString();
 
    public When_the_Anki_add_on_asks_JAStudio()
    {
       _server = new CardServer(_appScope.CoreApp.Services.Resolve<IRootResolver>(), _noteLinkOpener, _workspaceToggles);
       _server.Start();
-      _vocab = _appScope.CoreApp.Collection.Vocab.WithQuestion("入れる")[0];
-      _kanji = _appScope.CoreApp.Collection.Kanji.WithKanji("病")!;
+      _vocabReference = _appScope.CoreApp.Collection.Vocab.WithQuestion("入れる")[0].Reference();
+      _kanjiReference = (_appScope.CoreApp.Collection.Kanji.WithKanji("病")!).Reference();
    }
 
    JapaneseConfig Config => _appScope.CoreApp.Config;

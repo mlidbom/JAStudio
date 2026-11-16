@@ -1,5 +1,6 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Media;
@@ -13,14 +14,15 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 public class When_a_kanji_with_an_image_is_saved_to_the_corpus : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    static readonly ImageReference Image = new("Ishikari-River.jpg") { AltText = "The Ishikari River, \"Japan's third longest\"" };
-   readonly KanjiNote _readBack;
+   readonly ITaggregateReference<KanjiNote> _readBackReference;
+   KanjiNote _readBack => _readBackReference.Current;
 
    public When_a_kanji_with_an_image_is_saved_to_the_corpus()
    {
       var kanji = CreateKanji("川", "river", "セン", "かわ");
       kanji.Edit(it => it.Images.Add(Image));
       var serializer = GetService<NoteSerializer>();
-      _readBack = serializer.DeserializeKanji(serializer.Serialize(kanji));
+      _readBackReference = serializer.DeserializeKanji(serializer.Serialize(kanji)).Reference();
    }
 
    [XF] public void it_is_read_back_with_its_image_and_the_images_alt_text() => _readBack.Images.All.Must().SequenceEqual([Image]);

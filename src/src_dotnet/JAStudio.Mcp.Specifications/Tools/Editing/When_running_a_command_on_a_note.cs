@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -18,9 +19,10 @@ namespace JAStudio.Mcp.Specifications.Tools.Editing;
 /// <summary>The vocab 勉強, with the reading べんきょう and the answer "study".</summary>
 public class When_running_a_command_on_a_note : McpServerSpecification
 {
-   protected readonly VocabNote Vocab;
+   protected readonly ITaggregateReference<VocabNote> VocabReference;
+   protected VocabNote Vocab => VocabReference.Current;
 
-   public When_running_a_command_on_a_note() => Vocab = CreateVocab("勉強", "study", "べんきょう");
+   public When_running_a_command_on_a_note() => VocabReference = CreateVocab("勉強", "study", "べんきょう").Reference();
 
    protected CallToolResult Run(JPNote note, string command, string? text = null) =>
       CallTool("run_a_command_on_a_note", new Dictionary<string, object?> { ["noteId"] = note.GetId().ToString(), ["command"] = command, ["text"] = text });
@@ -115,12 +117,13 @@ public class When_running_a_command_on_a_note : McpServerSpecification
    /// <summary>The sentence 会いに行った.</summary>
    public class marking_a_sentence_as_a_parsing_case : When_running_a_command_on_a_note
    {
-      readonly SentenceNote _sentence;
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
       readonly NoteCommandRun _run;
 
       public marking_a_sentence_as_a_parsing_case()
       {
-         _sentence = CreateSentence("会いに行った");
+         _sentenceReference = CreateSentence("会いに行った").Reference();
          _run = ResultOf<NoteCommandRun>(Run(_sentence, "markAsAParsingCase"));
       }
 

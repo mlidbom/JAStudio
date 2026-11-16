@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Note;
@@ -12,11 +13,12 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 public class When_reparsing_the_sentences_for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
 
    protected When_reparsing_the_sentences_for_a_vocab()
    {
-      _vocab = CreateVocab("走る", "to-run", "はしる");
+      _vocabReference = CreateVocab("走る", "to-run", "はしる").Reference();
       CreateSentence("毎日走る。");
    }
 

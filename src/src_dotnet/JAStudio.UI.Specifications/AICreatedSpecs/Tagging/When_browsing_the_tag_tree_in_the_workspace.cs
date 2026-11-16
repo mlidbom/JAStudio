@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
@@ -27,13 +28,14 @@ public class When_browsing_the_tag_tree_in_the_workspace : SpecificationUsingAWo
    readonly NavigationPaneViewModel _navigation;
    readonly NoteSearchViewModel _search;
    readonly TagManagementViewModel _tags;
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
 
    public When_browsing_the_tag_tree_in_the_workspace()
    {
       CreateTestSentence("家に帰る", "Go home").Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume::s3::01")));
       CreateTestSentence("学校に行く", "Go to school").Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume::s3::02")));
-      _vocab = CreateVocab("行く", "to go", "いく");
+      _vocabReference = CreateVocab("行く", "to go", "いく").Reference();
       _vocab.Edit(it => it.Tags.Set(Tag.FromName("source::wani")));
 
       _navigation = Workspace.Navigation;

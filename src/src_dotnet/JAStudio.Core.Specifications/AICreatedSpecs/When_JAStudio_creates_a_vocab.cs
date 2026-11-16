@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
@@ -24,8 +25,9 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
 
    public class without_parts_of_speech_for_a_verb_the_dictionary_has : When_JAStudio_creates_a_vocab
    {
-      readonly VocabNote _vocab;
-      public without_parts_of_speech_for_a_verb_the_dictionary_has() => _vocab = Create("書く", "to write", "かく");
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
+      public without_parts_of_speech_for_a_verb_the_dictionary_has() => _vocabReference = Create("書く", "to write", "かく").Reference();
 
       [XF] public void it_gets_the_dictionarys_parts_of_speech() => NamesOfThePartsOfSpeechOf(_vocab).Must().SequenceEqual(["godan verb", "transitive"]);
       [XF] public void it_stays_undecided_whether_it_is_usually_written_in_kana() => _vocab.UsuallyWrittenInKana.Decision.Must().Be(UsuallyWrittenInKanaDecision.Undecided);
@@ -47,8 +49,9 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
 
    public class without_parts_of_speech_for_a_word_the_dictionary_says_is_usually_written_in_kana : When_JAStudio_creates_a_vocab
    {
-      readonly VocabNote _vocab;
-      public without_parts_of_speech_for_a_word_the_dictionary_says_is_usually_written_in_kana() => _vocab = Create("為る", "to do", "する");
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
+      public without_parts_of_speech_for_a_word_the_dictionary_says_is_usually_written_in_kana() => _vocabReference = Create("為る", "to do", "する").Reference();
 
       [XF] public void it_is_decided_as_usually_written_in_kana() => _vocab.UsuallyWrittenInKana.Decision.Must().Be(UsuallyWrittenInKanaDecision.Yes);
       [XF] public void it_gets_the_dictionarys_parts_of_speech() => _vocab.PartsOfSpeech.All().Must().NotBeEmpty();
@@ -56,26 +59,29 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
 
    public class with_parts_of_speech_given : When_JAStudio_creates_a_vocab
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public with_parts_of_speech_given() =>
-         _vocab = GetService<VocabNoteFactory>().Create("書く", "to write", ["かく"], it => it.PartsOfSpeech.Set([PartOfSpeech.Noun]));
+         _vocabReference = (GetService<VocabNoteFactory>().Create("書く", "to write", ["かく"], it => it.PartsOfSpeech.Set([PartOfSpeech.Noun]))).Reference();
 
       [XF] public void it_keeps_them() => NamesOfThePartsOfSpeechOf(_vocab).Must().SequenceEqual(["noun"]);
    }
 
    public class from_the_dictionary_for_a_word_it_has : When_JAStudio_creates_a_vocab
    {
-      protected readonly VocabNote _vocab;
-      public from_the_dictionary_for_a_word_it_has() => _vocab = GetService<VocabNoteFactory>().CreateWithDictionary("書く");
+      protected readonly ITaggregateReference<VocabNote> _vocabReference;
+      protected VocabNote _vocab => _vocabReference.Current;
+      public from_the_dictionary_for_a_word_it_has() => _vocabReference = (GetService<VocabNoteFactory>().CreateWithDictionary("書く")).Reference();
 
       [XF] public void it_is_tagged_as_the_dictionarys() => _vocab.Tags.Must().Contain(Tags.Source.Jamdict);
       [XF] public void it_is_not_tagged_as_our_own() => _vocab.Tags.Must().Satisfy(it => !it.Contains(Tags.Source.Jastudio));
 
       public class and_then_cloned_with_a_disambiguation : from_the_dictionary_for_a_word_it_has
       {
-         readonly VocabNote _clone;
-         public and_then_cloned_with_a_disambiguation() => _clone = _vocab.Cloner.CloneWithDisambiguation("clone").Vocab;
+         readonly ITaggregateReference<VocabNote> _cloneReference;
+         VocabNote _clone => _cloneReference.Current;
+         public and_then_cloned_with_a_disambiguation() => _cloneReference = _vocab.Cloner.CloneWithDisambiguation("clone").Vocab.Reference();
 
          [XF] public void the_clone_is_tagged_as_the_dictionarys_as_the_original_is() => _clone.Tags.Must().Contain(Tags.Source.Jamdict);
          [XF] public void the_clone_is_not_tagged_as_our_own() => _clone.Tags.Must().Satisfy(it => !it.Contains(Tags.Source.Jastudio));
@@ -83,8 +89,9 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
 
       public class and_then_its_suffix_version_created : from_the_dictionary_for_a_word_it_has
       {
-         readonly VocabNote _suffixVersion;
-         public and_then_its_suffix_version_created() => _suffixVersion = _vocab.Cloner.CreateSuffixVersion("ば").Vocab;
+         readonly ITaggregateReference<VocabNote> _suffixVersionReference;
+         VocabNote _suffixVersion => _suffixVersionReference.Current;
+         public and_then_its_suffix_version_created() => _suffixVersionReference = _vocab.Cloner.CreateSuffixVersion("ば").Vocab.Reference();
 
          [XF] public void the_suffix_version_is_tagged_as_our_own() => _suffixVersion.Tags.Must().Contain(Tags.Source.Jastudio);
          [XF] public void the_suffix_version_is_not_tagged_as_the_dictionarys() => _suffixVersion.Tags.Must().Satisfy(it => !it.Contains(Tags.Source.Jamdict));
@@ -93,8 +100,9 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
 
    public class from_the_dictionary_for_a_word_it_has_no_entry_for : When_JAStudio_creates_a_vocab
    {
-      readonly VocabNote _vocab;
-      public from_the_dictionary_for_a_word_it_has_no_entry_for() => _vocab = GetService<VocabNoteFactory>().CreateWithDictionary("ぺぺぺぺ");
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
+      public from_the_dictionary_for_a_word_it_has_no_entry_for() => _vocabReference = (GetService<VocabNoteFactory>().CreateWithDictionary("ぺぺぺぺ")).Reference();
 
       [XF] public void it_is_tagged_as_our_own() => _vocab.Tags.Must().Contain(Tags.Source.Jastudio);
       [XF] public void it_is_not_tagged_as_the_dictionarys() => _vocab.Tags.Must().Satisfy(it => !it.Contains(Tags.Source.Jamdict));

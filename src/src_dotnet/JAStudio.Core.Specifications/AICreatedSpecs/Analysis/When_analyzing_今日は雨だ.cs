@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -30,12 +32,13 @@ public class When_analyzing_今日は雨だ : SpecificationStartingWithAnEmptyCo
 
    public class with_a_vocab_は雨だ : When_analyzing_今日は雨だ
    {
-      protected readonly VocabNote Vocab;
+      protected readonly ITaggregateReference<VocabNote> VocabReference;
+      protected VocabNote Vocab => VocabReference.Current;
       readonly List<string> _candidateWords;
 
       public with_a_vocab_は雨だ()
       {
-         Vocab = CreateVocab("は雨だ", "it rains");
+         VocabReference = CreateVocab("は雨だ", "it rains").Reference();
          _candidateWords = SurfacesOfTheCandidateWords();
       }
 

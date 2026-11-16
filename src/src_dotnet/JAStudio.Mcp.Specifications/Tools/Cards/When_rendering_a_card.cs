@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.UI.Web;
 using ModelContextProtocol.Protocol;
@@ -20,12 +22,13 @@ public class When_rendering_a_card : McpServerSpecification
 {
    const string AddressOfACardServerThatIsNotRunning = "http://localhost";
 
-   protected readonly VocabNote Vocab;
+   protected readonly ITaggregateReference<VocabNote> VocabReference;
+   protected VocabNote Vocab => VocabReference.Current;
 
    protected When_rendering_a_card() : base(HeadlessUIOfTheSpecifications.Started)
    {
       CardServerUrl.BaseUrl = AddressOfACardServerThatIsNotRunning;
-      Vocab = CreateVocab("行く", "to go", "いく");
+      VocabReference = CreateVocab("行く", "to go", "いく").Reference();
    }
 
    protected CallToolResult RenderCard(Dictionary<string, object?> arguments) =>

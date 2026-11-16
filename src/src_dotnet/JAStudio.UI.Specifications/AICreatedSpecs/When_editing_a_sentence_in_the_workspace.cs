@@ -1,6 +1,8 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Controls.NoteFields;
@@ -12,14 +14,16 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 
 public class When_editing_a_sentence_in_the_workspace : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
    readonly SentenceEditorSectionViewModel _editor;
 
    protected When_editing_a_sentence_in_the_workspace()
    {
-      _vocab = CreateVocab("走る", "to run", "はしる");
-      _sentence = CreateSentence("毎日歩く。");
+      _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
+      _sentenceReference = CreateSentence("毎日歩く。").Reference();
       _editor = Edit<SentenceEditorSectionViewModel>(_sentence);
    }
 

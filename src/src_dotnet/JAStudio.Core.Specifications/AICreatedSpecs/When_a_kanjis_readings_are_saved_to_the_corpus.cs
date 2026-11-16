@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiReadings;
@@ -18,7 +19,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 public class When_a_kanjis_readings_are_saved_to_the_corpus : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    readonly JsonElement _readings;
-   readonly KanjiNote _readBack;
+   readonly ITaggregateReference<KanjiNote> _readBackReference;
+   KanjiNote _readBack => _readBackReference.Current;
 
    public When_a_kanjis_readings_are_saved_to_the_corpus()
    {
@@ -26,7 +28,7 @@ public class When_a_kanjis_readings_are_saved_to_the_corpus : SpecificationStart
       var serializer = GetService<NoteSerializer>();
       var json = serializer.Serialize(kanji);
       _readings = JsonDocument.Parse(json).RootElement.GetProperty("readings");
-      _readBack = serializer.DeserializeKanji(json);
+      _readBackReference = serializer.DeserializeKanji(json).Reference();
    }
 
    static readonly List<KanjiReading> OnReadings = [new("けつ", IsPrimary: true), new("よう", IsPrimary: false)];

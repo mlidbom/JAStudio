@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
@@ -24,14 +25,15 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_a_parsing_case_is_shown_in_the_workspace : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
    readonly SentenceEditorSectionViewModel _editor;
 
    protected When_a_parsing_case_is_shown_in_the_workspace()
    {
       CreateVocab("走る", "to-run", "はしる");
       CreateVocab("ている", "is-doing", "ている");
-      _sentence = CreateSentence("毎日走っている");
+      _sentenceReference = CreateSentence("毎日走っている").Reference();
       _sentence.Edit(it =>
       {
          it.MarkAsAParsingCase();

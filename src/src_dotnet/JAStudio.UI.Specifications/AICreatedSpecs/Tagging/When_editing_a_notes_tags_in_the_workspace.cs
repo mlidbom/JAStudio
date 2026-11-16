@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -30,12 +31,13 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    const string Label = "-::counting";
    const string NewTag = "-::todo::check-the-reading";
 
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
    readonly NoteTagsEditorViewModel _tagsEditor;
 
    public When_editing_a_notes_tags_in_the_workspace()
    {
-      _sentence = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
+      _sentenceReference = WithAStudyNote(CreateTestSentence("家に帰る", "Go home")).Reference();
       _sentence.Edit(it =>
       {
          it.Tags.Set(Tag.FromName(SourceTag));

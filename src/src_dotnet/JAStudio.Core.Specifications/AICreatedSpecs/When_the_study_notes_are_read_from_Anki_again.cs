@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -21,7 +22,8 @@ public class When_the_study_notes_are_read_from_Anki_again : SpecificationStarti
 {
    protected readonly JPCollection Collection;
    protected readonly PretendAnki Anki;
-   protected readonly SentenceNote TheSentence;
+   protected readonly ITaggregateReference<SentenceNote> TheSentenceReference;
+   protected SentenceNote TheSentence => TheSentenceReference.Current;
    protected readonly List<JPNote> NotifiedAsChanged = [];
 
    public When_the_study_notes_are_read_from_Anki_again()
@@ -31,7 +33,7 @@ public class When_the_study_notes_are_read_from_Anki_again : SpecificationStarti
       Collection = GetService<JPCollection>();
       Anki = GetService<PretendAnki>();
       Collection.ReloadFromBackend();
-      TheSentence = Collection.Sentences.WithIdOrNone(sentenceId) ?? throw new System.InvalidOperationException("The sentence is gone.");
+      TheSentenceReference = (Collection.Sentences.WithIdOrNone(sentenceId) ?? throw new System.InvalidOperationException("The sentence is gone.")).Reference();
       Collection.StudyNoteChanged.Subscribe(NotifiedAsChanged.Add);
    }
 

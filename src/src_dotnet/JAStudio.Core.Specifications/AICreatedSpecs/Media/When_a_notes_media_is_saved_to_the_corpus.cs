@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Text.Json;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Media;
@@ -35,7 +36,8 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
       static readonly ImageReference WebImage = new("web-文句.jpg") { AltText = "Complaints & \"grumbling\"" };
       static readonly ImageReference AIImage = new("OIG3.jpg") { IsOurs = true };
       readonly string _json;
-      readonly VocabNote _readBack;
+      readonly ITaggregateReference<VocabNote> _readBackReference;
+      VocabNote _readBack => _readBackReference.Current;
 
       public a_vocab_with_audio_and_images_from_its_source_and_of_the_corpuss_own()
       {
@@ -51,7 +53,7 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
             it.Images.Add(AIImage);
          });
          _json = Serializer.Serialize(vocab);
-         _readBack = Serializer.DeserializeVocab(_json);
+         _readBackReference = Serializer.DeserializeVocab(_json).Reference();
       }
 
       JsonElement TheWrittenVocab => JsonDocument.Parse(_json).RootElement;
@@ -90,7 +92,8 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
       static readonly AudioReference TextToSpeech = new("hypertts-家に帰る.mp3") { IsOurs = true, IsTextToSpeech = true, TextToSpeechVoice = "Azure ja-JP-DaichiNeural", VoiceGender = VoiceGender.Male };
       static readonly ImageReference Frame = new("natsume_ep01.jpg");
       static readonly ImageReference PastedScreenshot = new("paste-1.jpg");
-      readonly SentenceNote _readBack;
+      readonly ITaggregateReference<SentenceNote> _readBackReference;
+      SentenceNote _readBack => _readBackReference.Current;
 
       public a_sentence_with_audio_and_screenshots_from_its_source_and_of_the_corpuss_own()
       {
@@ -102,7 +105,7 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
             it.Audio.Add(TextToSpeech);
             it.Screenshots.Add(PastedScreenshot);
          });
-         _readBack = Serializer.DeserializeSentence(Serializer.Serialize(sentence));
+         _readBackReference = Serializer.DeserializeSentence(Serializer.Serialize(sentence)).Reference();
       }
 
       [XF] public void its_sources_recording_is_read_back_as_its_sources() => _readBack.SourceData.Audio.All.Must().SequenceEqual([Recording]);

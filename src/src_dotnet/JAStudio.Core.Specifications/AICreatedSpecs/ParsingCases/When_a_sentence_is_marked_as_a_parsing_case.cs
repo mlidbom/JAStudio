@@ -1,6 +1,7 @@
 using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -9,8 +10,8 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
-using JAStudio.Core.UI.Web.Sentence;
 using JAStudio.Core.Storage;
+using JAStudio.Core.UI.Web.Sentence;
 using static Compze.Must.MustActions;
 
 // ReSharper disable InconsistentNaming
@@ -19,13 +20,14 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.ParsingCases;
 
 public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
 
    protected When_a_sentence_is_marked_as_a_parsing_case()
    {
       CreateVocab("走る", "to-run", "はしる");
       CreateVocab("ている", "is-doing", "ている");
-      _sentence = CreateSentence("毎日走っている");
+      _sentenceReference = CreateSentence("毎日走っている").Reference();
       _sentence.Edit(it => it.MarkAsAParsingCase());
    }
 
@@ -109,7 +111,8 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
 
    public class and_written_as_the_corpus_stores_it_and_read_back : When_a_sentence_is_marked_as_a_parsing_case
    {
-      readonly SentenceNote _readBack;
+      readonly ITaggregateReference<SentenceNote> _readBackReference;
+      SentenceNote _readBack => _readBackReference.Current;
 
       public and_written_as_the_corpus_stores_it_and_read_back()
       {
@@ -119,7 +122,7 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
             it.SetTheVerdictOnTheDisplayedVocab(Verdict.Broken);
          });
          var serializer = GetService<NoteSerializer>();
-         _readBack = serializer.DeserializeSentence(serializer.Serialize(_sentence));
+         _readBackReference = serializer.DeserializeSentence(serializer.Serialize(_sentence)).Reference();
       }
 
       [XF] public void it_has_its_name() => _readBack.ParsingCase!.Name.Must().Be("the progressive");
@@ -135,8 +138,9 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
 
    public class a_sentence_that_is_not_one : When_a_sentence_is_marked_as_a_parsing_case
    {
-      readonly SentenceNote _ordinarySentence;
-      public a_sentence_that_is_not_one() => _ordinarySentence = CreateSentence("毎日走る");
+      readonly ITaggregateReference<SentenceNote> _ordinarySentenceReference;
+      SentenceNote _ordinarySentence => _ordinarySentenceReference.Current;
+      public a_sentence_that_is_not_one() => _ordinarySentenceReference = CreateSentence("毎日走る").Reference();
 
       [XF] public void is_not_among_the_parsing_cases_the_collection_lists() => GetService<JPCollection>().Sentences.ThatAreParsingCases().Select(it => it.GetQuestion()).Must().SequenceEqual(["毎日走っている"]);
       [XF] public void has_an_empty_editable_name_field() => SentenceEditableFields.ParsingCaseName.Read(_ordinarySentence).Must().Be("");
@@ -228,11 +232,12 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
 
       public class and_another_sentence_with_the_same_words_is_marked_as_a_parsing_case : and_then_the_breakdown_is_switched_to_edit_mode
       {
-         readonly SentenceNote _markedInEditMode;
+         readonly ITaggregateReference<SentenceNote> _markedInEditModeReference;
+         SentenceNote _markedInEditMode => _markedInEditModeReference.Current;
 
          public and_another_sentence_with_the_same_words_is_marked_as_a_parsing_case()
          {
-            _markedInEditMode = CreateSentence("毎日走っている");
+            _markedInEditModeReference = CreateSentence("毎日走っている").Reference();
             _markedInEditMode.Edit(it => it.MarkAsAParsingCase());
          }
 

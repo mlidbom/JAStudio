@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -18,12 +19,13 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_editing_a_vocabs_parts_of_speech_in_the_workspace : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
    readonly VocabEditorSectionViewModel _editor;
 
    public When_editing_a_vocabs_parts_of_speech_in_the_workspace()
    {
-      _vocab = CreateVocab("走る", "to run", "はしる");
+      _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
       _vocab.Edit(it => it.PartsOfSpeech.Set([PartOfSpeech.GodanVerb, PartOfSpeech.Intransitive]));
       _editor = Edit<VocabEditorSectionViewModel>(_vocab);
    }

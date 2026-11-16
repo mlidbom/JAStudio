@@ -1,5 +1,6 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -13,11 +14,12 @@ public class for_a_sentence : SpecificationStartingWithAnEmptyCollection, IAIGen
 {
    public class given_one_with_tags_a_person_manages_and_a_jastudio_maintained_tag : for_a_sentence
    {
-      readonly SentenceNote _sentence;
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
 
       public given_one_with_tags_a_person_manages_and_a_jastudio_maintained_tag()
       {
-         _sentence = CreateTestSentence("これは本です。", "This is a book.");
+         _sentenceReference = CreateTestSentence("これは本です。", "This is a book.").Reference();
          _sentence.Edit(it =>
          {
             it.Tags.Set(Tag.FromName("source::anime::natsume"));
@@ -36,11 +38,12 @@ public class for_a_sentence : SpecificationStartingWithAnEmptyCollection, IAIGen
 
    public class given_one_tagged_with_a_tag_JAStudio_maintains : for_a_sentence
    {
-      readonly SentenceNote _sentence;
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
 
       public given_one_tagged_with_a_tag_JAStudio_maintains()
       {
-         _sentence = CreateTestSentence("これは本です。", "This is a book.");
+         _sentenceReference = CreateTestSentence("これは本です。", "This is a book.").Reference();
          _sentence.Edit(it => it.Tags.Set(Tags.Sentence.Uses.HiddenMatches));
       }
 

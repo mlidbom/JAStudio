@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -27,8 +28,10 @@ public class When_editing_the_Anki_tags_in_the_tag_tree_in_the_workspace : Speci
 
    readonly TagManagementViewModel _tags;
    readonly PretendAnki _anki;
-   readonly JPNote _sentenceAboutHome;
-   readonly JPNote _sentenceAboutSchool;
+   readonly ITaggregateReference<JPNote> _sentenceAboutHomeReference;
+   JPNote _sentenceAboutHome => _sentenceAboutHomeReference.Current;
+   readonly ITaggregateReference<JPNote> _sentenceAboutSchoolReference;
+   JPNote _sentenceAboutSchool => _sentenceAboutSchoolReference.Current;
 
    /// <summary>The rename dialog the tag management showed last.</summary>
    TagRenameDialogViewModel? _renameDialogShown;
@@ -38,8 +41,8 @@ public class When_editing_the_Anki_tags_in_the_tag_tree_in_the_workspace : Speci
 
    public When_editing_the_Anki_tags_in_the_tag_tree_in_the_workspace()
    {
-      _sentenceAboutHome = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
-      _sentenceAboutSchool = WithAStudyNote(CreateTestSentence("学校に行く", "Go to school"));
+      _sentenceAboutHomeReference = WithAStudyNote(CreateTestSentence("家に帰る", "Go home")).Reference();
+      _sentenceAboutSchoolReference = WithAStudyNote(CreateTestSentence("学校に行く", "Go to school")).Reference();
       _anki = GetService<PretendAnki>();
       _anki.Tag(_sentenceAboutHome, "tmp::a", "marked");
       _anki.Tag(_sentenceAboutSchool, "tmp::b");

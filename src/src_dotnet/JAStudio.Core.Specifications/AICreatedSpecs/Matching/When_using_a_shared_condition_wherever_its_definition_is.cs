@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -39,17 +40,23 @@ public abstract class When_using_a_shared_condition_wherever_its_definition_is :
    protected readonly SharedCondition<CandidateWordVariant> _followsAVerb;
 
    /// <summary>Godan potential required, its two facts the other way round: <c>FirstToken.AnyOf(IsAGodanPotentialInflection, IsAGodanPotentialStem)</c>.</summary>
-   protected readonly VocabNote _godanPotentialInTheOtherOrder;
+   protected readonly ITaggregateReference<VocabNote> _godanPotentialInTheOtherOrderReference;
+   protected VocabNote _godanPotentialInTheOtherOrder => _godanPotentialInTheOtherOrderReference.Current;
    /// <summary>Godan potential forbidden: <c>!FirstToken.AnyOf(IsAGodanPotentialStem, IsAGodanPotentialInflection)</c>.</summary>
-   protected readonly VocabNote _godanPotentialForbidden;
+   protected readonly ITaggregateReference<VocabNote> _godanPotentialForbiddenReference;
+   protected VocabNote _godanPotentialForbidden => _godanPotentialForbiddenReference.Current;
    /// <summary>Irrealis required, single token required and ichidan forbidden, in that order.</summary>
-   protected readonly VocabNote _irrealisSingleTokenAndNoIchidan;
+   protected readonly ITaggregateReference<VocabNote> _irrealisSingleTokenAndNoIchidanReference;
+   protected VocabNote _irrealisSingleTokenAndNoIchidan => _irrealisSingleTokenAndNoIchidanReference.Current;
    /// <summary>Irrealis required and ichidan forbidden, and nothing else: its whole match-condition is a shared-condition's definition.</summary>
-   protected readonly VocabNote _irrealisAndNoIchidan;
+   protected readonly ITaggregateReference<VocabNote> _irrealisAndNoIchidanReference;
+   protected VocabNote _irrealisAndNoIchidan => _irrealisAndNoIchidanReference.Current;
    /// <summary><c>FollowingToken.AnyOf(IsAnIchidanVerb, IsAGodanVerb)</c>: <c>Token.IsAVerb</c>'s definition in the other order, under a token.</summary>
-   protected readonly VocabNote _followedByAVerb;
+   protected readonly ITaggregateReference<VocabNote> _followedByAVerbReference;
+   protected VocabNote _followedByAVerb => _followedByAVerbReference.Current;
    /// <summary>Masu stem required, which no shared-condition is.</summary>
-   protected readonly VocabNote _masuStem;
+   protected readonly ITaggregateReference<VocabNote> _masuStemReference;
+   protected VocabNote _masuStem => _masuStemReference.Current;
 
    readonly Dictionary<VocabNote, AllOfGroup<CandidateWordVariant>> _matchConditionsBefore;
    readonly Dictionary<VocabNote, int> _weightsBefore;
@@ -62,12 +69,12 @@ public abstract class When_using_a_shared_condition_wherever_its_definition_is :
       _isAVerb = _sharedConditions.Define(TokenConditions.Level, "IsAVerb", AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
       _followsAVerb = _sharedConditions.Define(Level, "FollowsAVerb", PrecedingToken.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
 
-      _godanPotentialInTheOtherOrder = VocabWith("える", FirstToken.AnyOf(TokenConditions.IsAGodanPotentialInflection, TokenConditions.IsAGodanPotentialStem));
-      _godanPotentialForbidden = VocabWith("れる", MatchingRules.GodanPotential.WhenForbidden);
-      _irrealisSingleTokenAndNoIchidan = VocabWith("ない", MatchingRules.Irrealis.WhenRequired, MatchingRules.SingleToken.WhenRequired, MatchingRules.Ichidan.WhenForbidden);
-      _irrealisAndNoIchidan = VocabWith("せる", MatchingRules.Irrealis.WhenRequired, MatchingRules.Ichidan.WhenForbidden);
-      _followedByAVerb = VocabWith("を", FollowingToken.AnyOf(TokenConditions.IsAnIchidanVerb, TokenConditions.IsAGodanVerb));
-      _masuStem = VocabWith("ます", MatchingRules.MasuStem.WhenRequired);
+      _godanPotentialInTheOtherOrderReference = VocabWith("える", FirstToken.AnyOf(TokenConditions.IsAGodanPotentialInflection, TokenConditions.IsAGodanPotentialStem)).Reference();
+      _godanPotentialForbiddenReference = VocabWith("れる", MatchingRules.GodanPotential.WhenForbidden).Reference();
+      _irrealisSingleTokenAndNoIchidanReference = VocabWith("ない", MatchingRules.Irrealis.WhenRequired, MatchingRules.SingleToken.WhenRequired, MatchingRules.Ichidan.WhenForbidden).Reference();
+      _irrealisAndNoIchidanReference = VocabWith("せる", MatchingRules.Irrealis.WhenRequired, MatchingRules.Ichidan.WhenForbidden).Reference();
+      _followedByAVerbReference = VocabWith("を", FollowingToken.AnyOf(TokenConditions.IsAnIchidanVerb, TokenConditions.IsAGodanVerb)).Reference();
+      _masuStemReference = VocabWith("ます", MatchingRules.MasuStem.WhenRequired).Reference();
 
       _matchConditionsBefore = TheVocab.ToDictionary(it => it, it => it.MatchingConfiguration.MatchCondition);
       _weightsBefore = TheVocab.ToDictionary(it => it, it => it.MatchingConfiguration.CustomRequirementsWeight);

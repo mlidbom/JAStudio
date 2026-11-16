@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Text.Json;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -17,7 +18,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 public class When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_corpus : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    readonly JsonElement _json;
-   readonly VocabNote _readBack;
+   readonly ITaggregateReference<VocabNote> _readBackReference;
+   VocabNote _readBack => _readBackReference.Current;
 
    protected When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_corpus(UsuallyWrittenInKanaDecision decision)
    {
@@ -26,7 +28,7 @@ public class When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_cor
       var serializer = GetService<NoteSerializer>();
       var json = serializer.Serialize(vocab);
       _json = JsonDocument.Parse(json).RootElement;
-      _readBack = serializer.DeserializeVocab(json);
+      _readBackReference = serializer.DeserializeVocab(json).Reference();
    }
 
    JsonValueKind Stored => _json.GetProperty("usuallyWrittenInKana").ValueKind;

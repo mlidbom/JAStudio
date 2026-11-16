@@ -1,5 +1,6 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Media;
@@ -24,11 +25,12 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
    /// </summary>
    public class a_vocab_with_recordings_from_its_source_and_tts_audio_and_a_recording_of_the_corpuss_own : When_a_note_has_audio
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public a_vocab_with_recordings_from_its_source_and_tts_audio_and_a_recording_of_the_corpuss_own()
       {
-         _vocab = CreateVocab("文句", "complaint", "もんく");
+         _vocabReference = CreateVocab("文句", "complaint", "もんく").Reference();
          _vocab.Edit(it =>
          {
             it.SourceData.Audio.Add(new AudioReference("文句_b.mp3") { VoiceGender = VoiceGender.Male });
@@ -51,11 +53,12 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
    /// <summary>The sentence 家に帰る with only TTS audio of the corpus's own, hypertts-家に帰る.mp3.</summary>
    public class a_sentence_with_only_tts_audio : When_a_note_has_audio
    {
-      readonly SentenceNote _sentence;
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
 
       public a_sentence_with_only_tts_audio()
       {
-         _sentence = CreateTestSentence("家に帰る", "Go home");
+         _sentenceReference = CreateTestSentence("家に帰る", "Go home").Reference();
          _sentence.Edit(it => it.Audio.Add(TextToSpeech("hypertts-家に帰る.mp3")));
       }
 
@@ -66,11 +69,12 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
    /// <summary>The sentence 家に帰る with a recording from its source, natsume_ep01.mp3, and TTS audio of the corpus's own, hypertts-家に帰る.mp3.</summary>
    public class a_sentence_with_a_recording_from_its_source_and_tts_audio_of_the_corpuss_own : When_a_note_has_audio
    {
-      readonly SentenceNote _sentence;
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
 
       public a_sentence_with_a_recording_from_its_source_and_tts_audio_of_the_corpuss_own()
       {
-         _sentence = CreateTestSentence("家に帰る", "Go home");
+         _sentenceReference = CreateTestSentence("家に帰る", "Go home").Reference();
          _sentence.Edit(it =>
          {
             it.Audio.Add(TextToSpeech("hypertts-家に帰る.mp3"));
@@ -86,9 +90,10 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
    /// <summary>The sentence 家に帰る with no audio.</summary>
    public class a_sentence_without_audio : When_a_note_has_audio
    {
-      readonly SentenceNote _sentence;
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
 
-      public a_sentence_without_audio() => _sentence = CreateTestSentence("家に帰る", "Go home");
+      public a_sentence_without_audio() => _sentenceReference = CreateTestSentence("家に帰る", "Go home").Reference();
 
       [XF] public void no_audio_is_played_for_it() => _sentence.AllAudio.Preferred.Must().BeNull();
       [XF] public void its_study_note_gets_an_empty_Audio_Sentence() => _sentence.StudyNoteFields()["Audio Sentence"].Must().Be("");

@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -12,11 +13,12 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
 {
    public class after_changing_its_question : for_a_vocab
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public after_changing_its_question()
       {
-         _vocab = CreateVocab("食べる", "to eat", "たべる");
+         _vocabReference = CreateVocab("食べる", "to eat", "たべる").Reference();
          _vocab.GetQuestion();
          _vocab.Edit(it =>
          {
@@ -52,11 +54,12 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
 
    public class after_adding_and_then_removing_a_form : for_a_vocab
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public after_adding_and_then_removing_a_form()
       {
-         _vocab = CreateVocab("食べる", "to eat", "たべる");
+         _vocabReference = CreateVocab("食べる", "to eat", "たべる").Reference();
          _vocab.Edit(it =>
          {
             it.Forms.Add("食う");
@@ -73,11 +76,12 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
 
    public class after_multiple_updates : for_a_vocab
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public after_multiple_updates()
       {
-         _vocab = CreateVocab("走る", "to run", "はしる");
+         _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
          _vocab.Edit(it =>
          {
             it.Forms.Add("駆ける");

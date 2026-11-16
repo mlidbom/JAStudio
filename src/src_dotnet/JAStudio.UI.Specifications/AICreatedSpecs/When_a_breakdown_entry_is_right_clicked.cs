@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
@@ -24,13 +25,15 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_a_breakdown_entry_is_right_clicked : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly SentenceNote _sentence;
-   readonly VocabNote _toEat;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
+   readonly ITaggregateReference<VocabNote> _toEatReference;
+   VocabNote _toEat => _toEatReference.Current;
 
    public When_a_breakdown_entry_is_right_clicked()
    {
-      _toEat = CreateVocab("食べる", "to eat", "たべる");
-      _sentence = CreateTestSentence("パンを食べる。", "I eat bread.");
+      _toEatReference = CreateVocab("食べる", "to eat", "たべる").Reference();
+      _sentenceReference = CreateTestSentence("パンを食べる。", "I eat bread.").Reference();
       GetService<JapaneseConfig>().ShowSentenceBreakdownInEditMode.Value = true;
       Workspace.OpenNote(_sentence);
    }

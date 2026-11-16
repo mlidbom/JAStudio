@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -22,12 +23,13 @@ public class When_creating_a_note : McpServerSpecification
    /// <summary>The sentence 時間を要する exists before the vocab is created.</summary>
    public class a_vocab_from_the_word_要する : When_creating_a_note
    {
-      readonly SentenceNote _sentence;
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
       readonly NoteSummary _created;
 
       public a_vocab_from_the_word_要する()
       {
-         _sentence = CreateSentence("時間を要する");
+         _sentenceReference = CreateSentence("時間を要する").Reference();
          _created = ResultOf<NoteSummary>(Create("vocab", "要する"));
       }
 

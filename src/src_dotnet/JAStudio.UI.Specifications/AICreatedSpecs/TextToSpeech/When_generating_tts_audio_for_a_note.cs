@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.Note;
@@ -25,12 +26,13 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
 {
    readonly FakeTextToSpeechProvider _provider = new();
    readonly RecordingAudioPlayer _player = new();
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentenceReference;
+   SentenceNote _sentence => _sentenceReference.Current;
    readonly TextToSpeechForANoteViewModel _dialog;
 
    public When_generating_tts_audio_for_a_note()
    {
-      _sentence = CreateTestSentence("家に帰る", "Go home");
+      _sentenceReference = CreateTestSentence("家に帰る", "Go home").Reference();
       _dialog = DialogOffering(_provider.Steady, _provider.Varying);
       _dialog.GenerateWithTheDefaultVoice();
    }

@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.Checking;
@@ -20,7 +21,8 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
    {
       protected readonly RawNote SentenceCard;
       protected readonly ImportRun FirstRun;
-      protected readonly SentenceNote Sentence;
+      protected readonly ITaggregateReference<SentenceNote> SentenceReference;
+      protected SentenceNote Sentence => SentenceReference.Current;
 
       protected string StoredAudioPath => Path.Combine(MediaLayerFolder, AudioFolder, "garden_of_words_346.mp3");
       protected string StoredScreenshotPath => Path.Combine(MediaLayerFolder, ScreenshotFolder, "garden_of_words_346.jpg");
@@ -31,7 +33,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
                                                     english: "You've been living your whole life alone!!", reading: "ずっと 1 人[にん]で 生[い]きていくんだ");
          FirstRun = Importer.Prepare(ImmersionKitProfile);
          FirstRun.ExecuteUnlessOutOfDate();
-         Sentence = Sentences.All().Single();
+         SentenceReference = Sentences.All().Single().Reference();
       }
 
       [XF] public void the_sentence_takes_its_source_question_from_the_Expression_field() => Sentence.SourceData.Question.Value.Must().Be("ずっと1人で生きていくんだ");

@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 
@@ -13,11 +14,12 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 public class When_a_kanjis_mnemonic_is_shown : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    const string SourceMnemonic = "A mnemonic from the source";
-   readonly KanjiNote _kanji;
+   readonly ITaggregateReference<KanjiNote> _kanjiReference;
+   KanjiNote _kanji => _kanjiReference.Current;
 
    public When_a_kanjis_mnemonic_is_shown()
    {
-      _kanji = CreateKanji("川", "river", "セン", "かわ");
+      _kanjiReference = CreateKanji("川", "river", "セン", "かわ").Reference();
       _kanji.Edit(it => it.SourceData.MeaningMnemonic.Set(SourceMnemonic));
    }
 

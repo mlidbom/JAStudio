@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -23,9 +24,10 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
 
    public class given_a_vocab_with_another_form : When_listing_the_compounds_a_vocab_is_in
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
-      public given_a_vocab_with_another_form() => _vocab = CreateVocab("時間", "time", ["じかん"], ["時間", "じかん"]);
+      public given_a_vocab_with_another_form() => _vocabReference = CreateVocab("時間", "time", ["じかん"], ["時間", "じかん"]).Reference();
 
       public class with_a_compound_that_has_its_question_as_a_part : given_a_vocab_with_another_form
       {
@@ -50,11 +52,12 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
 
       public class with_a_compound_that_has_its_other_form_as_a_part_while_another_vocab_has_that_form_as_its_question : given_a_vocab_with_another_form
       {
-         readonly VocabNote _otherVocab;
+         readonly ITaggregateReference<VocabNote> _otherVocabReference;
+         VocabNote _otherVocab => _otherVocabReference.Current;
 
          public with_a_compound_that_has_its_other_form_as_a_part_while_another_vocab_has_that_form_as_its_question()
          {
-            _otherVocab = CreateVocab("じかん", "time");
+            _otherVocabReference = CreateVocab("じかん", "time").Reference();
             CreateCompound("じかん割", "じかん", "割");
          }
 
@@ -89,11 +92,12 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
 
    public class given_a_disambiguated_vocab : When_listing_the_compounds_a_vocab_is_in
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public given_a_disambiguated_vocab()
       {
-         _vocab = CreateVocab("方", "way of doing");
+         _vocabReference = CreateVocab("方", "way of doing").Reference();
          _vocab.Edit(it => it.Question.SetDisambiguation("かた"));
       }
 

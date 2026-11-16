@@ -1,5 +1,6 @@
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -20,9 +21,10 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 /// </summary>
 public class When_reading_the_matching_rules_a_vocabs_match_condition_holds : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   readonly VocabNote _vocab;
+   readonly ITaggregateReference<VocabNote> _vocabReference;
+   VocabNote _vocab => _vocabReference.Current;
 
-   public When_reading_the_matching_rules_a_vocabs_match_condition_holds() => _vocab = CreateVocab("あれる", "get-_/is-_", "あれる");
+   public When_reading_the_matching_rules_a_vocabs_match_condition_holds() => _vocabReference = CreateVocab("あれる", "get-_/is-_", "あれる").Reference();
 
    VocabNoteMatchingConfiguration Configuration => _vocab.MatchingConfiguration;
 

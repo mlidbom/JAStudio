@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
@@ -19,8 +20,9 @@ public class When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana : 
 
    public class for_a_new_vocab_whose_question_is_all_kana_and_that_has_no_readings : When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana
    {
-      readonly VocabNote _vocab;
-      public for_a_new_vocab_whose_question_is_all_kana_and_that_has_no_readings() => _vocab = CreateVocab("すごい", "amazing");
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
+      public for_a_new_vocab_whose_question_is_all_kana_and_that_has_no_readings() => _vocabReference = CreateVocab("すごい", "amazing").Reference();
 
       [XF] public void it_is_decided_as_yes() => _vocab.UsuallyWrittenInKana.Decision.Must().Be(UsuallyWrittenInKanaDecision.Yes);
       [XF] public void it_shows_the_uk_meta_tag() => TheMetaTagsHtmlOf(_vocab).Must().Contain(TheUkMetaTagsTooltip);
@@ -28,8 +30,9 @@ public class When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana : 
 
    public class for_a_new_vocab_whose_question_is_not_all_kana : When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana
    {
-      readonly VocabNote _vocab;
-      public for_a_new_vocab_whose_question_is_not_all_kana() => _vocab = CreateVocab("毎月", "every month", "まいつき");
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
+      public for_a_new_vocab_whose_question_is_not_all_kana() => _vocabReference = CreateVocab("毎月", "every month", "まいつき").Reference();
 
       [XF] public void it_stays_undecided() => _vocab.UsuallyWrittenInKana.Decision.Must().Be(UsuallyWrittenInKanaDecision.Undecided);
       [XF] public void it_does_not_show_the_uk_meta_tag() => TheMetaTagsHtmlOf(_vocab).Must().NotContain(TheUkMetaTagsTooltip);
@@ -52,11 +55,12 @@ public class When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana : 
 
    public class for_a_vocab_whose_question_is_all_kana_decided_as_no : When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public for_a_vocab_whose_question_is_all_kana_decided_as_no()
       {
-         _vocab = CreateVocab("すごい", "amazing");
+         _vocabReference = CreateVocab("すごい", "amazing").Reference();
          _vocab.Edit(it => it.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.No));
       }
 

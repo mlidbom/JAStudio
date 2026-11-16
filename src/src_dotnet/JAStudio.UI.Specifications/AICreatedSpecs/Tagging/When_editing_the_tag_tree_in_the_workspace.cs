@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
@@ -25,9 +26,12 @@ public class When_editing_the_tag_tree_in_the_workspace : SpecificationUsingAWor
    static readonly TimeSpan TimeToWaitForTheChange = TimeSpan.FromSeconds(10);
 
    readonly TagManagementViewModel _tags;
-   readonly JPNote _sentenceAboutHome;
-   readonly JPNote _sentenceAboutSchool;
-   readonly JPNote _vocab;
+   readonly ITaggregateReference<JPNote> _sentenceAboutHomeReference;
+   JPNote _sentenceAboutHome => _sentenceAboutHomeReference.Current;
+   readonly ITaggregateReference<JPNote> _sentenceAboutSchoolReference;
+   JPNote _sentenceAboutSchool => _sentenceAboutSchoolReference.Current;
+   readonly ITaggregateReference<JPNote> _vocabReference;
+   JPNote _vocab => _vocabReference.Current;
 
    /// <summary>The rename dialog the tag management showed last.</summary>
    TagRenameDialogViewModel? _renameDialogShown;
@@ -40,9 +44,9 @@ public class When_editing_the_tag_tree_in_the_workspace : SpecificationUsingAWor
 
    public When_editing_the_tag_tree_in_the_workspace()
    {
-      _sentenceAboutHome = Tagged(CreateTestSentence("家に帰る", "Go home"), $"{Natsume}::s3::01");
-      _sentenceAboutSchool = Tagged(CreateTestSentence("学校に行く", "Go to school"), $"{Natsume}::s3::02");
-      _vocab = Tagged(CreateVocab("行く", "to go", "いく"), "source::wani");
+      _sentenceAboutHomeReference = Tagged(CreateTestSentence("家に帰る", "Go home"), $"{Natsume}::s3::01").Reference();
+      _sentenceAboutSchoolReference = Tagged(CreateTestSentence("学校に行く", "Go to school"), $"{Natsume}::s3::02").Reference();
+      _vocabReference = Tagged(CreateVocab("行く", "to go", "いく"), "source::wani").Reference();
       Tagged(CreateKanji("行", "go", "コウ", "い"), Tags.Kanji.InAnyVocabForm.Name);
 
       _tags = Workspace.Navigation.TagManagement;

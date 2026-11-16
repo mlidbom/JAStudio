@@ -1,4 +1,5 @@
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
@@ -12,11 +13,12 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
 {
    public class given_one_tagged_with_a_tag_JAStudio_maintains : for_a_vocab
    {
-      readonly VocabNote _vocab;
+      readonly ITaggregateReference<VocabNote> _vocabReference;
+      VocabNote _vocab => _vocabReference.Current;
 
       public given_one_tagged_with_a_tag_JAStudio_maintains()
       {
-         _vocab = CreateVocab("食べる", "to eat", "たべる");
+         _vocabReference = CreateVocab("食べる", "to eat", "たべる").Reference();
          _vocab.Edit(it => it.Tags.Set(Tags.Vocab.IsIchidanHidingGodanPotential));
       }
 
@@ -33,13 +35,15 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
 
    public class given_two_where_only_one_is_tagged : for_a_vocab
    {
-      readonly VocabNote _tagged;
-      readonly VocabNote _untagged;
+      readonly ITaggregateReference<VocabNote> _taggedReference;
+      VocabNote _tagged => _taggedReference.Current;
+      readonly ITaggregateReference<VocabNote> _untaggedReference;
+      VocabNote _untagged => _untaggedReference.Current;
 
       public given_two_where_only_one_is_tagged()
       {
-         _tagged = CreateVocab("食べる", "to eat", "たべる");
-         _untagged = CreateVocab("飲む", "to drink", "のむ");
+         _taggedReference = CreateVocab("食べる", "to eat", "たべる").Reference();
+         _untaggedReference = CreateVocab("飲む", "to drink", "のむ").Reference();
          _tagged.Edit(it => it.Tags.Set(Tags.Vocab.IsIchidanHidingGodanPotential));
       }
 

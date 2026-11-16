@@ -1,5 +1,6 @@
 using System;
 using Compze.Must;
+using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Note;
@@ -19,8 +20,10 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.UI.Web;
 public class When_a_page_shows_a_sentence_with_a_study_note : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    protected readonly JPCollection Collection;
-   protected readonly SentenceNote TheShownSentence;
-   protected readonly SentenceNote TheOtherSentence;
+   protected readonly ITaggregateReference<SentenceNote> TheShownSentenceReference;
+   protected SentenceNote TheShownSentence => TheShownSentenceReference.Current;
+   protected readonly ITaggregateReference<SentenceNote> TheOtherSentenceReference;
+   protected SentenceNote TheOtherSentence => TheOtherSentenceReference.Current;
    protected readonly IDisposable ThePagesFollowingOfTheChanges;
    protected int TimesThePageWasOutdated;
 
@@ -30,8 +33,8 @@ public class When_a_page_shows_a_sentence_with_a_study_note : SpecificationStart
       var otherSentenceId = WithAStudyNote(CreateTestSentence("駅に行く", "Go to the station")).GetId();
       Collection = GetService<JPCollection>();
       Collection.ReloadFromBackend();
-      TheShownSentence = Collection.Sentences.WithIdOrNone(shownSentenceId) ?? throw new InvalidOperationException("The shown sentence is gone.");
-      TheOtherSentence = Collection.Sentences.WithIdOrNone(otherSentenceId) ?? throw new InvalidOperationException("The other sentence is gone.");
+      TheShownSentenceReference = (Collection.Sentences.WithIdOrNone(shownSentenceId) ?? throw new InvalidOperationException("The shown sentence is gone.")).Reference();
+      TheOtherSentenceReference = (Collection.Sentences.WithIdOrNone(otherSentenceId) ?? throw new InvalidOperationException("The other sentence is gone.")).Reference();
       ThePagesFollowingOfTheChanges = GetService<ChangesThatOutdateNotePages>().Subscribe(TheShownSentence.GetId(), () => TimesThePageWasOutdated++);
    }
 
