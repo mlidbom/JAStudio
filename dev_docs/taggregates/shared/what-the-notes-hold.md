@@ -84,9 +84,9 @@ seconds.
 
 ## Noticed along the way
 
-- **A kanji's question can be edited, but nothing renames the references to it** in other kanji's radicals,
-  similar-meaning and confused-with relationships. `MutualKanjiRelationship`'s documentation says a kanji's character
-  never changes. Either the question shouldn't be editable, or the references should follow it.
+- **A kanji's question could be edited, but nothing renamed the references to it** in other kanji's radicals,
+  similar-meaning and confused-with relationships. Settled by Magnus: a kanji's question is its character, set when it is
+  created and never changed (commit f75555a65). So a kanji has no question tevent.
 - **The stored order of related vocab depends on the current culture** (`Storage/Converters/VocabNoteConverter.cs`, which
   already has a `review:` comment), where the alternative compound parts are in ordinal order.
 - **`VocabNotePartsOfSpeech.Remove` has no caller,** and `MediaReferenceList.Add` doesn't check what its documentation
