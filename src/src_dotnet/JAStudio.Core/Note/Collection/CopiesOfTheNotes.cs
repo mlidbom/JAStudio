@@ -28,28 +28,15 @@ public static class CopiesOfTheNotes
 
    static ACopyThatDiffers? DifferencesOfACopyOf(JPNote note)
    {
-      try
+      var differences = note switch
       {
-         switch(note)
-         {
-            case VocabNote vocab: SnapshotRoundTrip.AssertLosesNothing(vocab, () => new VocabNote(vocab.Services), CorpusNoteDto.HoldTheSameState); break;
-            case KanjiNote kanji: SnapshotRoundTrip.AssertLosesNothing(kanji, () => new KanjiNote(kanji.Services), CorpusNoteDto.HoldTheSameState); break;
-            case SentenceNote sentence: SnapshotRoundTrip.AssertLosesNothing(sentence, () => new SentenceNote(sentence.Services), CorpusNoteDto.HoldTheSameState); break;
-         }
+         VocabNote vocab => SnapshotRoundTrip.DifferencesOf(vocab, () => new VocabNote(vocab.Services), CorpusNoteDto.HoldTheSameState),
+         KanjiNote kanji => SnapshotRoundTrip.DifferencesOf(kanji, () => new KanjiNote(kanji.Services), CorpusNoteDto.HoldTheSameState),
+         SentenceNote sentence => SnapshotRoundTrip.DifferencesOf(sentence, () => new SentenceNote(sentence.Services), CorpusNoteDto.HoldTheSameState),
+         _ => throw new ArgumentException($"{note.GetType().FullName} isn't a class of note.")
+      };
 
-         return null;
-      }
-      //One note's failure, in a walk over every note: a copy that differs is the check's finding, and any other failure is reported whole.
-      catch(Exception exception)
-      {
-         return new ACopyThatDiffers(note, IsTheCheckFindingADifference(exception)
-                                              ? [.. exception.Message.Split(Environment.NewLine).Skip(1)]
-                                              : [exception.ToString()]);
-      }
-
-      //todo:compze: SnapshotRoundTripFailedException isn't public, so it's told by its name. Once it is, catch it by its type, and let any
-      //   other exception through to the tool that runs the check.
-      static bool IsTheCheckFindingADifference(Exception exception) => exception.GetType().Name == "SnapshotRoundTripFailedException";
+      return differences.Count > 0 ? new ACopyThatDiffers(note, differences) : null;
    }
 
    /// <summary>A note whose copy differs from it, and how: each a line that names the field by its path, such as <c>VocabNote.Forms._forms[2]</c>.</summary>
