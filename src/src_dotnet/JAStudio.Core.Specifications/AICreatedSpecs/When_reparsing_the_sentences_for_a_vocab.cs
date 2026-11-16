@@ -1,6 +1,7 @@
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Batches;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
@@ -32,7 +33,7 @@ public class When_reparsing_the_sentences_for_a_vocab : SpecificationStartingWit
       {
          public after_requiring_the_vocab_to_start_the_sentence_which_it_does_not()
          {
-            _vocab.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.SentenceStart.WhenRequired));
+            _vocab.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.SentenceStart.WhenRequired)));
             LocalNoteUpdater.ReparseSentencesForVocab(_vocab);
          }
 

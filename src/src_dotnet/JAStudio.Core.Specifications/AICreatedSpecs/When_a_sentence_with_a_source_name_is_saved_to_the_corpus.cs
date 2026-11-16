@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage;
 
@@ -15,7 +16,7 @@ public class When_a_sentence_with_a_source_name_is_saved_to_the_corpus : Specifi
    public When_a_sentence_with_a_source_name_is_saved_to_the_corpus()
    {
       var sentence = CreateTestSentence("ありがとう", "Thank you");
-      sentence.SourceName.Set("Shirokuma Cafe");
+      sentence.Edit(it => it.SourceName.Set("Shirokuma Cafe"));
       var serializer = GetService<NoteSerializer>();
       _readBack = serializer.DeserializeSentence(serializer.Serialize(sentence));
    }

@@ -61,7 +61,7 @@ public abstract class When_writing_each_editable_field_of_a_note : Specification
       SentenceNote AParsingCase(string question)
       {
          var sentence = CreateSentence(question);
-         sentence.MarkAsAParsingCase();
+         sentence.Edit(it => it.MarkAsAParsingCase());
          return sentence;
       }
 

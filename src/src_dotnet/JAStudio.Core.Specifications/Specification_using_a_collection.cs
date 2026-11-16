@@ -28,8 +28,7 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
    protected KanjiNote CreateKanji(string question, string answer, string onReadings, string kunReadings)
    {
       var kanji = KanjiNote.Create(NoteServices, question, answer);
-      KanjiReadingsNotation.AddTo(kanji.Readings.On, onReadings);
-      KanjiReadingsNotation.AddTo(kanji.Readings.Kun, kunReadings);
+      KanjiReadingsNotation.AddTo(kanji, onReadings, kunReadings);
       return kanji;
    }
 

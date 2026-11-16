@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using static JAStudio.Core.Specifications.WordReferenceNames;
 
@@ -16,7 +17,7 @@ public class When_changing_a_vocabs_synonyms : SpecificationStartingWithAnEmptyC
    public When_changing_a_vocabs_synonyms()
    {
       ToGo = VocabNote.Create(NoteServices, "行く", "to go", "いく");
-      ToGo.Forms.Add("行きます");
+      ToGo.Edit(it => it.Forms.Add("行きます"));
       ToHeadFor = VocabNote.Create(NoteServices, "向かう", "to head for", "むかう");
    }
 
@@ -24,7 +25,7 @@ public class When_changing_a_vocabs_synonyms : SpecificationStartingWithAnEmptyC
 
    public class adding_向かう_to_行く : When_changing_a_vocabs_synonyms
    {
-      public adding_向かう_to_行く() => ToGo.RelatedNotes.Synonyms.Add(new WordReference("向かう"));
+      public adding_向かう_to_行く() => ToGo.Edit(it => it.RelatedNotes.Synonyms.Add(new WordReference("向かう")));
 
       [XF] public void 行く_has_向かう_as_a_synonym() => SynonymsOf(ToGo).Must().SequenceEqual(["向かう"]);
       [XF] public void 向かう_has_行く_as_a_synonym() => SynonymsOf(ToHeadFor).Must().SequenceEqual(["行く"]);
@@ -32,7 +33,7 @@ public class When_changing_a_vocabs_synonyms : SpecificationStartingWithAnEmptyC
 
    public class adding_one_of_its_own_forms_行きます_to_行く : When_changing_a_vocabs_synonyms
    {
-      public adding_one_of_its_own_forms_行きます_to_行く() => ToGo.RelatedNotes.Synonyms.Add(new WordReference("行きます"));
+      public adding_one_of_its_own_forms_行きます_to_行く() => ToGo.Edit(it => it.RelatedNotes.Synonyms.Add(new WordReference("行きます")));
 
       [XF] public void 行く_has_行きます_as_a_synonym_but_not_itself() => SynonymsOf(ToGo).Must().SequenceEqual(["行きます"]);
    }

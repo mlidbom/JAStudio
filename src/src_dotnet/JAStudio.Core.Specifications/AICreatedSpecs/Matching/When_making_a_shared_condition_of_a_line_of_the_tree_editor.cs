@@ -4,6 +4,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -40,7 +41,7 @@ public class When_making_a_shared_condition_of_a_line_of_the_tree_editor : Speci
    VocabNote VocabWith(string question, params Condition<CandidateWordVariant>[] conditions)
    {
       var vocab = CreateVocab(question, question, question);
-      vocab.MatchingConfiguration.SetMatchCondition(AllOf(conditions));
+      vocab.Edit(it => it.MatchingConfiguration.SetMatchCondition(AllOf(conditions)));
       return vocab;
    }
 

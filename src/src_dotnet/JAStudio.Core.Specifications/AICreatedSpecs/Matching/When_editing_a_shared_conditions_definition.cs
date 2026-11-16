@@ -3,6 +3,7 @@ using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
@@ -86,8 +87,8 @@ public class When_editing_a_shared_conditions_definition : When_sharing_a_condit
    {
       public with_a_vocab_using_FollowsAVerb_and_one_using_no_shared_condition()
       {
-         CreateVocab("ます", "polite ending", "ます").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb));
-         CreateVocab("です", "polite copula", "です").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.IsAGodanVerb)));
+         CreateVocab("ます", "polite ending", "ます").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb)));
+         CreateVocab("です", "polite copula", "です").Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.IsAGodanVerb))));
       }
 
       [XF] public void the_vocab_whose_match_condition_depends_on_IsAVerbs_definition_is_the_one_using_FollowsAVerb() =>

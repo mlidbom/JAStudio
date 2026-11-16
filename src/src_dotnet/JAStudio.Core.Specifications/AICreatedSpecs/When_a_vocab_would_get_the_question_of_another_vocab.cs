@@ -1,6 +1,7 @@
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using static Compze.Must.MustActions;
@@ -31,7 +32,7 @@ public class When_a_vocab_would_get_the_question_of_another_vocab : Specificatio
       public creating_its_masu_form_when_the_masu_form_exists_already()
       {
          _masuForm = _vocab.Cloner.CreateMasuForm().Vocab;
-         _masuForm.CorpusAnswer.Set("eat (polite)");
+         _masuForm.Edit(it => it.CorpusAnswer.Set("eat (polite)"));
          _numberOfVocabBefore = NumberOfVocab;
          _givenBack = _vocab.Cloner.CreateMasuForm();
       }

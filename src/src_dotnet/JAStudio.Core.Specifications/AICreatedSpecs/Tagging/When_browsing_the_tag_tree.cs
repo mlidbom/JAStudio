@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Tagging;
 
@@ -26,18 +27,24 @@ public class When_browsing_the_tag_tree : SpecificationStartingWithAnEmptyCollec
 {
    protected When_browsing_the_tag_tree()
    {
-      CreateTestSentence("明日学校に行く", "I'll go to school tomorrow").Tags.Set(Tag.FromName("source::anime::natsume::s3::01"));
+      CreateTestSentence("明日学校に行く", "I'll go to school tomorrow").Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume::s3::01")));
 
       var sentenceAboutHome = CreateTestSentence("家に帰る", "Go home");
-      sentenceAboutHome.Tags.Set(Tag.FromName("source::anime::natsume::s3::02"));
-      sentenceAboutHome.Tags.Set(Tag.FromName("-::priority::low"));
+      sentenceAboutHome.Edit(it =>
+      {
+         it.Tags.Set(Tag.FromName("source::anime::natsume::s3::02"));
+         it.Tags.Set(Tag.FromName("-::priority::low"));
+      });
 
       var sentenceWithTwoTagsInOneBranch = CreateTestSentence("駅に行く", "Go to the station");
-      sentenceWithTwoTagsInOneBranch.Tags.Set(Tag.FromName("source::anime::natsume::s10::01"));
-      sentenceWithTwoTagsInOneBranch.Tags.Set(Tag.FromName("source::anime::natsume::s10::02"));
+      sentenceWithTwoTagsInOneBranch.Edit(it =>
+      {
+         it.Tags.Set(Tag.FromName("source::anime::natsume::s10::01"));
+         it.Tags.Set(Tag.FromName("source::anime::natsume::s10::02"));
+      });
 
-      CreateVocab("行く", "to go", "いく").Tags.Set(Tag.FromName("source::wani"));
-      CreateKanji("行", "go", "コウ", "い").Tags.Set(Tag.FromName("Source::kanken"));
+      CreateVocab("行く", "to go", "いく").Edit(it => it.Tags.Set(Tag.FromName("source::wani")));
+      CreateKanji("行", "go", "コウ", "い").Edit(it => it.Tags.Set(Tag.FromName("Source::kanken")));
       CreateKanji("駅", "station", "エキ", "");
    }
 

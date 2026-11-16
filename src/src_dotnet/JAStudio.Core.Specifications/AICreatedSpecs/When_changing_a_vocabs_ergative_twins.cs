@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using static JAStudio.Core.Specifications.WordReferenceNames;
 
@@ -27,8 +28,11 @@ public class When_changing_a_vocabs_ergative_twins : SpecificationStartingWithAn
    {
       public adding_起きる_and_起こる_as_ergative_twins_of_起こす()
       {
-         ToWakeSomeone.RelatedNotes.ErgativeTwins.Add(new WordReference("起きる"));
-         ToWakeSomeone.RelatedNotes.ErgativeTwins.Add(new WordReference("起こる"));
+         ToWakeSomeone.Edit(it =>
+         {
+            it.RelatedNotes.ErgativeTwins.Add(new WordReference("起きる"));
+            it.RelatedNotes.ErgativeTwins.Add(new WordReference("起こる"));
+         });
       }
 
       [XF] public void 起こす_has_both_as_its_ergative_twins() => ErgativeTwinsOf(ToWakeSomeone).Must().SequenceEqual(["起きる", "起こる"]);
@@ -37,7 +41,7 @@ public class When_changing_a_vocabs_ergative_twins : SpecificationStartingWithAn
 
       public class and_then_removing_起きる_from_起こす : adding_起きる_and_起こる_as_ergative_twins_of_起こす
       {
-         public and_then_removing_起きる_from_起こす() => ToWakeSomeone.RelatedNotes.ErgativeTwins.Remove(new WordReference("起きる"));
+         public and_then_removing_起きる_from_起こす() => ToWakeSomeone.Edit(it => it.RelatedNotes.ErgativeTwins.Remove(new WordReference("起きる")));
 
          [XF] public void 起こす_keeps_起こる_as_its_ergative_twin() => ErgativeTwinsOf(ToWakeSomeone).Must().SequenceEqual(["起こる"]);
          [XF] public void 起きる_no_longer_has_起こす_as_its_ergative_twin() => ErgativeTwinsOf(ToWakeUp).Must().BeEmpty();

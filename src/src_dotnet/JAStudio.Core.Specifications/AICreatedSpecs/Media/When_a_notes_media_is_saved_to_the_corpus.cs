@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text.Json;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -39,13 +40,16 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
       public a_vocab_with_audio_and_images_from_its_source_and_of_the_corpuss_own()
       {
          var vocab = CreateVocab("文句", "complaint", "もんく");
-         vocab.SourceData.Audio.Add(MaleRecording);
-         vocab.SourceData.Audio.Add(FemaleRecording);
-         vocab.SourceData.Images.Add(SourceImage);
-         vocab.Audio.Add(ForvoRecording);
-         vocab.Audio.Add(TextToSpeech);
-         vocab.Images.Add(WebImage);
-         vocab.Images.Add(AIImage);
+         vocab.Edit(it =>
+         {
+            it.SourceData.Audio.Add(MaleRecording);
+            it.SourceData.Audio.Add(FemaleRecording);
+            it.SourceData.Images.Add(SourceImage);
+            it.Audio.Add(ForvoRecording);
+            it.Audio.Add(TextToSpeech);
+            it.Images.Add(WebImage);
+            it.Images.Add(AIImage);
+         });
          _json = Serializer.Serialize(vocab);
          _readBack = Serializer.DeserializeVocab(_json);
       }
@@ -91,10 +95,13 @@ public class When_a_notes_media_is_saved_to_the_corpus : SpecificationStartingWi
       public a_sentence_with_audio_and_screenshots_from_its_source_and_of_the_corpuss_own()
       {
          var sentence = CreateTestSentence("家に帰る", "Go home");
-         sentence.SourceData.Audio.Add(Recording);
-         sentence.SourceData.Screenshots.Add(Frame);
-         sentence.Audio.Add(TextToSpeech);
-         sentence.Screenshots.Add(PastedScreenshot);
+         sentence.Edit(it =>
+         {
+            it.SourceData.Audio.Add(Recording);
+            it.SourceData.Screenshots.Add(Frame);
+            it.Audio.Add(TextToSpeech);
+            it.Screenshots.Add(PastedScreenshot);
+         });
          _readBack = Serializer.DeserializeSentence(Serializer.Serialize(sentence));
       }
 

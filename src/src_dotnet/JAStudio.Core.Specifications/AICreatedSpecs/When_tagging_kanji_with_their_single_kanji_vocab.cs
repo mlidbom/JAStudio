@@ -38,7 +38,7 @@ public class When_tagging_kanji_with_their_single_kanji_vocab : SpecificationSta
       public for_a_kanji_tagged_as_having_one_with_a_different_reading_that_has_no_single_kanji_vocab()
       {
          _kanji = CreateKanji("莫", "not", "<primary>バク</primary>", "");
-         _kanji.Tags.Set(Tags.Kanji.WithSingleKanjiVocabWithDifferentReading);
+         _kanji.Edit(it => it.Tags.Set(Tags.Kanji.WithSingleKanjiVocabWithDifferentReading));
          TagKanjiMetadata();
       }
 

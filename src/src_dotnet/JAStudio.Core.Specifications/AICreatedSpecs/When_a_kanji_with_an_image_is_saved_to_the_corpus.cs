@@ -18,7 +18,7 @@ public class When_a_kanji_with_an_image_is_saved_to_the_corpus : SpecificationSt
    public When_a_kanji_with_an_image_is_saved_to_the_corpus()
    {
       var kanji = CreateKanji("川", "river", "セン", "かわ");
-      kanji.Images.Add(Image);
+      kanji.Edit(it => it.Images.Add(Image));
       var serializer = GetService<NoteSerializer>();
       _readBack = serializer.DeserializeKanji(serializer.Serialize(kanji));
    }

@@ -95,7 +95,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
          public when_its_answer_is_changed()
          {
-            _vocab.CorpusAnswer.Set("to dash");
+            _vocab.Edit(it => it.CorpusAnswer.Set("to dash"));
             _published = TheTeventsPublishedBy(_vocab);
          }
 
@@ -122,7 +122,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
          public when_a_tag_is_set()
          {
-            _vocab.Tags.Set(Tags.Source.Jastudio);
+            _vocab.Edit(it => it.Tags.Set(Tags.Source.Jastudio));
             _published = TheTeventsPublishedBy(_vocab);
          }
 

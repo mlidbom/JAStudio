@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -16,14 +17,14 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       public given_one_tagged_with_a_tag_JAStudio_maintains()
       {
          _vocab = CreateVocab("食べる", "to eat", "たべる");
-         _vocab.Tags.Set(Tags.Vocab.IsIchidanHidingGodanPotential);
+         _vocab.Edit(it => it.Tags.Set(Tags.Vocab.IsIchidanHidingGodanPotential));
       }
 
       [XF] public void the_note_contains_the_tag() => _vocab.Tags.Must().Contain(Tags.Vocab.IsIchidanHidingGodanPotential);
 
       public class after_unsetting_the_tag : given_one_tagged_with_a_tag_JAStudio_maintains
       {
-         public after_unsetting_the_tag() => _vocab.Tags.Unset(Tags.Vocab.IsIchidanHidingGodanPotential);
+         public after_unsetting_the_tag() => _vocab.Edit(it => it.Tags.Unset(Tags.Vocab.IsIchidanHidingGodanPotential));
 
          [XF] public void the_note_no_longer_contains_the_tag() =>
             _vocab.Tags.Must().Satisfy(it => !it.Contains(Tags.Vocab.IsIchidanHidingGodanPotential));
@@ -39,7 +40,7 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       {
          _tagged = CreateVocab("食べる", "to eat", "たべる");
          _untagged = CreateVocab("飲む", "to drink", "のむ");
-         _tagged.Tags.Set(Tags.Vocab.IsIchidanHidingGodanPotential);
+         _tagged.Edit(it => it.Tags.Set(Tags.Vocab.IsIchidanHidingGodanPotential));
       }
 
       [XF] public void the_tagged_vocab_contains_the_tag() => _tagged.Tags.Must().Contain(Tags.Vocab.IsIchidanHidingGodanPotential);

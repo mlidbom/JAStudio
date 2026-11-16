@@ -3,6 +3,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking;
@@ -31,8 +32,8 @@ public class When_checking_a_match_condition_against_a_word_in_a_sentence : Spec
    public When_checking_a_match_condition_against_a_word_in_a_sentence()
    {
       _ます = CreateVocab("ます", "polite ending", "ます");
-      _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb)),
-                                                                        !PrecedingToken.Meets(TokenConditions.IsAGodanVerb)));
+      _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb)),
+                                                                                       !PrecedingToken.Meets(TokenConditions.IsAGodanVerb))));
    }
 
    /// <summary>The match-condition checked against the word ます in <paramref name="sentence"/>, its only match there.</summary>

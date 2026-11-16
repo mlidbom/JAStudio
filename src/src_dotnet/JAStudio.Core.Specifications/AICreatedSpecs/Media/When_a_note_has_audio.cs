@@ -1,6 +1,7 @@
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -28,10 +29,13 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
       public a_vocab_with_recordings_from_its_source_and_tts_audio_and_a_recording_of_the_corpuss_own()
       {
          _vocab = CreateVocab("文句", "complaint", "もんく");
-         _vocab.SourceData.Audio.Add(new AudioReference("文句_b.mp3") { VoiceGender = VoiceGender.Male });
-         _vocab.SourceData.Audio.Add(new AudioReference("文句_g.mp3") { VoiceGender = VoiceGender.Female });
-         _vocab.Audio.Add(TextToSpeech("hypertts-文句.mp3"));
-         _vocab.Audio.Add(new AudioReference("forvo-文句.mp3"));
+         _vocab.Edit(it =>
+         {
+            it.SourceData.Audio.Add(new AudioReference("文句_b.mp3") { VoiceGender = VoiceGender.Male });
+            it.SourceData.Audio.Add(new AudioReference("文句_g.mp3") { VoiceGender = VoiceGender.Female });
+            it.Audio.Add(TextToSpeech("hypertts-文句.mp3"));
+            it.Audio.Add(new AudioReference("forvo-文句.mp3"));
+         });
       }
 
       [XF] public void its_recordings_come_before_its_tts_audio_and_its_sources_recordings_first() =>
@@ -52,7 +56,7 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
       public a_sentence_with_only_tts_audio()
       {
          _sentence = CreateTestSentence("家に帰る", "Go home");
-         _sentence.Audio.Add(TextToSpeech("hypertts-家に帰る.mp3"));
+         _sentence.Edit(it => it.Audio.Add(TextToSpeech("hypertts-家に帰る.mp3")));
       }
 
       [XF] public void its_study_note_gets_it_in_Audio_Sentence() => _sentence.StudyNoteFields()["Audio Sentence"].Must().Be("[sound:hypertts-家に帰る.mp3]");
@@ -67,8 +71,11 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
       public a_sentence_with_a_recording_from_its_source_and_tts_audio_of_the_corpuss_own()
       {
          _sentence = CreateTestSentence("家に帰る", "Go home");
-         _sentence.Audio.Add(TextToSpeech("hypertts-家に帰る.mp3"));
-         _sentence.SourceData.Audio.Add(new AudioReference("natsume_ep01.mp3"));
+         _sentence.Edit(it =>
+         {
+            it.Audio.Add(TextToSpeech("hypertts-家に帰る.mp3"));
+            it.SourceData.Audio.Add(new AudioReference("natsume_ep01.mp3"));
+         });
       }
 
       [XF] public void the_audio_played_for_it_is_the_recording() => _sentence.AllAudio.Preferred.Must().Be(new AudioReference("natsume_ep01.mp3"));

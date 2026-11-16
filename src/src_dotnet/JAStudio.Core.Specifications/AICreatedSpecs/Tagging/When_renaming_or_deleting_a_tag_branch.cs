@@ -42,7 +42,7 @@ public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithA
    static JPNote Tagged(JPNote note, params string[] tagNames)
    {
       foreach(var tagName in tagNames)
-         note.Tags.Set(Tag.FromName(tagName));
+         note.Edit(it => it.Tags.Set(Tag.FromName(tagName)));
       return note;
    }
 
@@ -54,7 +54,7 @@ public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithA
 
    TagBranchRename RenamingWithItsParents(string branchPath, string typedPath) => TagBranchRename.WithItsParents(new TagBranch(branchPath), typedPath, [..TagsInUse()]);
 
-   void Apply(TagBranchRename rename) => _collection.NotesWithATagIn(rename.Branch).ForEach(rename.ApplyTo);
+   void Apply(TagBranchRename rename) => _collection.NotesWithATagIn(rename.Branch).ForEach(note => note.Edit(it => rename.ApplyTo(it)));
 
    static string WhyItCannotBeDone(TagBranchRename rename) => rename.WhyItCannotBeDone ?? throw new InvalidOperationException($"Renaming {rename.Branch.Path} to {rename.Renamed.Path} can be done.");
 
@@ -166,7 +166,7 @@ public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithA
       public after_deleting_natsume_from_the_notes_with_a_tag_in_it()
       {
          var natsume = new TagBranch(Natsume);
-         _collection.NotesWithATagIn(natsume).ForEach(it => it.Tags.RemoveTheBranch(natsume));
+         _collection.NotesWithATagIn(natsume).ForEach(note => note.Edit(it => it.Tags.RemoveTheBranch(natsume)));
       }
 
       [XF] public void every_tag_in_the_branch_is_gone_and_the_tags_above_and_beside_it_stay() => TagsOf(_sentenceAboutSchool).Must().SequenceEqual(["-::priority::low", "source::anime"]);

@@ -28,14 +28,17 @@ public abstract class NoteSearchSpecification : SpecificationStartingWithAnEmpty
    protected NoteSearchSpecification()
    {
       var sentenceAboutSchool = CreateTestSentence(SentenceAboutSchool, "I'll go to school tomorrow");
-      sentenceAboutSchool.Tags.Set(Tag.FromName("source::anime::natsume::s3::01"));
+      sentenceAboutSchool.Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume::s3::01")));
       sentenceAboutSchool.SetStudyingStatus(new CardStudyingStatus(0, CardTypes.Reading, isSuspended: false, NoteTypes.Sentence));
 
       var sentenceAboutHome = CreateTestSentence(SentenceAboutHome, "Go home");
-      sentenceAboutHome.Tags.Set(Tag.FromName("source::anime::natsume::s3::02"));
-      sentenceAboutHome.Tags.Set(Tag.FromName("-::priority::low"));
+      sentenceAboutHome.Edit(it =>
+      {
+         it.Tags.Set(Tag.FromName("source::anime::natsume::s3::02"));
+         it.Tags.Set(Tag.FromName("-::priority::low"));
+      });
 
-      CreateVocab(VocabToGo, "to go", "いく").Tags.Set(Tag.FromName("source::wani"));
+      CreateVocab(VocabToGo, "to go", "いく").Edit(it => it.Tags.Set(Tag.FromName("source::wani")));
 
       CreateKanji(KanjiGo, "go", "コウ", "い");
    }

@@ -1,6 +1,7 @@
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -38,9 +39,9 @@ public class When_reading_the_matching_rules_a_vocabs_match_condition_holds : Sp
    public class with_a_masu_stem_required_a_godan_verb_forbidden_and_ん_a_prefix_it_must_not_follow : When_reading_the_matching_rules_a_vocabs_match_condition_holds
    {
       public with_a_masu_stem_required_a_godan_verb_forbidden_and_ん_a_prefix_it_must_not_follow() =>
-         Configuration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Godan.WhenForbidden,
-                                                              !PrecedingToken.Surface.EndsWithOneOf("ん"),
-                                                              MatchingRules.MasuStem.WhenRequired));
+         _vocab.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Godan.WhenForbidden,
+                                                                                           !PrecedingToken.Surface.EndsWithOneOf("ん"),
+                                                                                           MatchingRules.MasuStem.WhenRequired)));
 
       [XF] public void it_weighs_what_the_rules_did_before_match_conditions_50_required_1_forbidden_and_2_for_texts() =>
          Configuration.CustomRequirementsWeight.Must().Be(53);
@@ -51,7 +52,7 @@ public class When_reading_the_matching_rules_a_vocabs_match_condition_holds : Sp
 
    public class with_a_condition_that_is_no_rules : When_reading_the_matching_rules_a_vocabs_match_condition_holds
    {
-      public with_a_condition_that_is_no_rules() => Configuration.SetMatchCondition(ConditionGroup.AllOf(FirstToken.Meets(TokenConditions.PartOfSpeech.Is("名詞"))));
+      public with_a_condition_that_is_no_rules() => _vocab.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(FirstToken.Meets(TokenConditions.PartOfSpeech.Is("名詞")))));
 
       [XF] public void it_weighs_nothing_since_priority_knows_only_the_rules() => Configuration.CustomRequirementsWeight.Must().Be(0);
       [XF] public void it_holds_no_rule() => NamesOfTheRulesItHolds().Must().BeEmpty();

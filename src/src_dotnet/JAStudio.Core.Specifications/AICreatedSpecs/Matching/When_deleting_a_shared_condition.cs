@@ -5,6 +5,7 @@ using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -32,9 +33,9 @@ public class When_deleting_a_shared_condition : When_sharing_a_condition
    {
       _followsAVerbAsASingleToken = _sharedConditions.Define(Level, "FollowsAVerbAsASingleToken", ConditionGroup.AllOf(_followsAVerb, IsASingleToken));
       _ます = CreateVocab("ます", "polite ending", "ます");
-      _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerbAsASingleToken, IsMatchedByItsSurface));
+      _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerbAsASingleToken, IsMatchedByItsSurface)));
       _を = CreateVocab("を", "object marker", "を");
-      _を.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(_isAVerb)));
+      _を.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(_isAVerb))));
    }
 
    void Delete(ISharedCondition sharedCondition) => _sharedConditions.Delete(sharedCondition);

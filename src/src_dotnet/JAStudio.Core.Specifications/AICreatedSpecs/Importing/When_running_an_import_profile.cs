@@ -5,6 +5,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.Checking;
 using JAStudio.Core.Importing.RawNotes;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
@@ -115,8 +116,11 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
       {
          public and_then_the_sentence_stops_using_its_media_files()
          {
-            Sentence.SourceData.Audio.Remove(Sentence.SourceData.Audio.All.Single());
-            Sentence.SourceData.Screenshots.Remove(Sentence.SourceData.Screenshots.All.Single());
+            Sentence.Edit(it =>
+            {
+               it.SourceData.Audio.Remove(Sentence.SourceData.Audio.All.Single());
+               it.SourceData.Screenshots.Remove(Sentence.SourceData.Screenshots.All.Single());
+            });
          }
 
          public class and_another_sentence_card_has_the_same_audio_file : and_then_the_sentence_stops_using_its_media_files

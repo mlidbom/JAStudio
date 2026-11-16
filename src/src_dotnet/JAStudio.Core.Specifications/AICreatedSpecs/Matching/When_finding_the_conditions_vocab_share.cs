@@ -4,6 +4,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
@@ -47,7 +48,7 @@ public class When_finding_the_conditions_vocab_share : SpecificationStartingWith
    }
 
    void VocabWith(string question, params Condition<CandidateWordVariant>[] conditions) =>
-      CreateVocab(question, question, question).MatchingConfiguration.SetMatchCondition(AllOf(conditions));
+      CreateVocab(question, question, question).Edit(it => it.MatchingConfiguration.SetMatchCondition(AllOf(conditions)));
 
    IReadOnlyList<string> Codes => [.. _found.Select(it => it.Code)];
 

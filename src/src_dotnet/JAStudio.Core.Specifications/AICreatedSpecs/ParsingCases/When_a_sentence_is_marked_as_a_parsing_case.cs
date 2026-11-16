@@ -4,6 +4,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
@@ -25,7 +26,7 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
       CreateVocab("走る", "to-run", "はしる");
       CreateVocab("ている", "is-doing", "ている");
       _sentence = CreateSentence("毎日走っている");
-      _sentence.MarkAsAParsingCase();
+      _sentence.Edit(it => it.MarkAsAParsingCase());
    }
 
    ParsingCase TheCase => _sentence.ParsingCase!;
@@ -80,8 +81,11 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
    {
       public and_named_and_given_its_why()
       {
-         _sentence.NameTheParsingCase("the progressive");
-         _sentence.SayWhyItIsAParsingCase("ている was matched as て and いる");
+         _sentence.Edit(it =>
+         {
+            it.NameTheParsingCase("the progressive");
+            it.SayWhyItIsAParsingCase("ている was matched as て and いる");
+         });
       }
 
       [XF] public void it_has_the_name() => TheCase.Name.Must().Be("the progressive");
@@ -109,8 +113,11 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
 
       public and_written_as_the_corpus_stores_it_and_read_back()
       {
-         _sentence.NameTheParsingCase("the progressive");
-         _sentence.SetTheVerdictOnTheDisplayedVocab(Verdict.Broken);
+         _sentence.Edit(it =>
+         {
+            it.NameTheParsingCase("the progressive");
+            it.SetTheVerdictOnTheDisplayedVocab(Verdict.Broken);
+         });
          var serializer = GetService<NoteSerializer>();
          _readBack = serializer.DeserializeSentence(serializer.Serialize(_sentence));
       }
@@ -154,7 +161,7 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
 
       public class and_what_it_parses_to_is_accepted : after_a_vocab_is_added_that_the_breakdown_displays
       {
-         public and_what_it_parses_to_is_accepted() => _sentence.AcceptWhatItParsesToAsAParsingCase();
+         public and_what_it_parses_to_is_accepted() => _sentence.Edit(it => it.AcceptWhatItParsesToAsAParsingCase());
 
          [XF] public void it_parses_as_expected_again() => Comparison.Differences.Must().BeEmpty();
          [XF] public void its_displayed_vocab_are_still_unverified() => TheCase.VerdictOnTheDisplayedVocab.Must().Be(Verdict.Unverified);
@@ -171,7 +178,7 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
 
    public class whose_displayed_vocab_a_person_has_verified : When_a_sentence_is_marked_as_a_parsing_case
    {
-      public whose_displayed_vocab_a_person_has_verified() => _sentence.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified);
+      public whose_displayed_vocab_a_person_has_verified() => _sentence.Edit(it => it.SetTheVerdictOnTheDisplayedVocab(Verdict.Verified));
 
       [XF] public void they_are_verified() => TheCase.VerdictOnTheDisplayedVocab.Must().Be(Verdict.Verified);
       [XF] public void its_editable_verdict_field_reads_verified() => SentenceEditableFields.VerdictOnTheDisplayedVocab.Read(_sentence).Must().Be(Verdict.Verified);
@@ -187,7 +194,7 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
 
          public class and_what_it_then_parses_to_is_accepted : and_then_a_vocab_is_added_that_the_breakdown_displays
          {
-            public and_what_it_then_parses_to_is_accepted() => _sentence.AcceptWhatItParsesToAsAParsingCase();
+            public and_what_it_then_parses_to_is_accepted() => _sentence.Edit(it => it.AcceptWhatItParsesToAsAParsingCase());
 
             [XF] public void it_no_longer_fails() => Comparison.Fails.Must().BeFalse();
             [XF] public void its_displayed_vocab_are_still_verified() => TheCase.VerdictOnTheDisplayedVocab.Must().Be(Verdict.Verified);
@@ -226,7 +233,7 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
          public and_another_sentence_with_the_same_words_is_marked_as_a_parsing_case()
          {
             _markedInEditMode = CreateSentence("毎日走っている");
-            _markedInEditMode.MarkAsAParsingCase();
+            _markedInEditMode.Edit(it => it.MarkAsAParsingCase());
          }
 
          [XF] public void it_expects_the_same_breakdown_as_the_one_marked_outside_edit_mode() =>
@@ -236,7 +243,7 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
 
    public class and_then_stops_being_one : When_a_sentence_is_marked_as_a_parsing_case
    {
-      public and_then_stops_being_one() => _sentence.StopBeingAParsingCase();
+      public and_then_stops_being_one() => _sentence.Edit(it => it.StopBeingAParsingCase());
 
       [XF] public void it_is_no_parsing_case() => _sentence.ParsingCase.Must().BeNull();
       [XF] public void comparing_it_fails() => Invoking(() => _sentence.CompareWithWhatTheParsingCaseExpects()).Must().Throw<StateAssertionFailedException>();

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 
@@ -11,7 +12,7 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Search.When_searching_note
 
 public class by_being_a_parsing_case : NoteSearchSpecification
 {
-   protected by_being_a_parsing_case() => GetService<JPCollection>().Sentences.All().Single(it => it.GetQuestion() == SentenceAboutHome).MarkAsAParsingCase();
+   protected by_being_a_parsing_case() => GetService<JPCollection>().Sentences.All().Single(it => it.GetQuestion() == SentenceAboutHome).Edit(it => it.MarkAsAParsingCase());
 
    public class for_notes_that_are_parsing_cases : by_being_a_parsing_case
    {

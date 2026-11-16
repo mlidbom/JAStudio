@@ -18,7 +18,7 @@ public class When_a_kanjis_mnemonic_is_shown : SpecificationStartingWithAnEmptyC
    public When_a_kanjis_mnemonic_is_shown()
    {
       _kanji = CreateKanji("川", "river", "セン", "かわ");
-      _kanji.SourceData.MeaningMnemonic.Set(SourceMnemonic);
+      _kanji.Edit(it => it.SourceData.MeaningMnemonic.Set(SourceMnemonic));
    }
 
    public class and_the_corpus_has_no_mnemonic_for_it : When_a_kanjis_mnemonic_is_shown
@@ -29,7 +29,7 @@ public class When_a_kanjis_mnemonic_is_shown : SpecificationStartingWithAnEmptyC
 
    public class and_the_corpus_has_a_mnemonic_for_it : When_a_kanjis_mnemonic_is_shown
    {
-      public and_the_corpus_has_a_mnemonic_for_it() => _kanji.Mnemonic.Set("The corpus's mnemonic");
+      public and_the_corpus_has_a_mnemonic_for_it() => _kanji.Edit(it => it.Mnemonic.Set("The corpus's mnemonic"));
 
       [XF] public void the_corpus_mnemonic_is_shown() => _kanji.ShownMnemonic.Must().Be("The corpus's mnemonic");
    }

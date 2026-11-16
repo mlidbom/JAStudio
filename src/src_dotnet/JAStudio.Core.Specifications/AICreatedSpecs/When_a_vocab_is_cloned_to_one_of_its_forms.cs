@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 
 // ReSharper disable InconsistentNaming
@@ -22,7 +23,7 @@ public class When_a_vocab_is_cloned_to_one_of_its_forms : SpecificationStartingW
 
       public that_is_decided_as_usually_written_in_kana()
       {
-         _vocab.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.Yes);
+         _vocab.Edit(it => it.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.Yes));
          _clone = _vocab.Cloner.CloneToForm("其れなり").Vocab;
       }
 
@@ -35,7 +36,7 @@ public class When_a_vocab_is_cloned_to_one_of_its_forms : SpecificationStartingW
 
       public that_is_decided_as_not_usually_written_in_kana()
       {
-         _vocab.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.No);
+         _vocab.Edit(it => it.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.No));
          _clone = _vocab.Cloner.CloneToForm("其れなり").Vocab;
       }
 

@@ -2,6 +2,7 @@ using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using static Compze.Must.MustActions;
@@ -23,8 +24,11 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
       Teyoroshii = VocabNote.Create(NoteServices, "てよろしい", "may", "てよろしい");
       Teii = VocabNote.Create(NoteServices, "ていい", "may", "ていい");
       Ndeii = VocabNote.Create(NoteServices, "んでいい", "may", "んでいい");
-      Teyoroshii.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(new WordReference("ていい"));
-      Teyoroshii.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(new WordReference("んでいい"));
+      Teyoroshii.Edit(it =>
+      {
+         it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(new WordReference("ていい"));
+         it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(new WordReference("んでいい"));
+      });
    }
 
    protected static string[] PerfectSynonymsOf(VocabNote vocab) => SortedNamesOf(vocab.RelatedNotes.PerfectSynonyms.Words);
@@ -47,8 +51,11 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
    {
       public emptying_the_answer_of_てよろしい_and_then_giving_it_a_source_answer()
       {
-         Teyoroshii.CorpusAnswer.Empty();
-         Teyoroshii.SourceData.Answer.Set("may, be allowed to");
+         Teyoroshii.Edit(it =>
+         {
+            it.CorpusAnswer.Empty();
+            it.SourceData.Answer.Set("may, be allowed to");
+         });
       }
 
       [XF] public void ていい_and_んでいい_show_the_source_answer_of_てよろしい() =>

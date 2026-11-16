@@ -31,7 +31,7 @@ public class When_a_note_is_written_to_its_Anki_study_note : SpecificationStarti
    VocabNote CreateVocabWithTheDisambiguation(string question, string disambiguation)
    {
       var vocab = CreateVocab(question, "to enter", "いる");
-      vocab.Question.SetDisambiguation(disambiguation);
+      vocab.Edit(it => it.Question.SetDisambiguation(disambiguation));
       return vocab;
    }
 }

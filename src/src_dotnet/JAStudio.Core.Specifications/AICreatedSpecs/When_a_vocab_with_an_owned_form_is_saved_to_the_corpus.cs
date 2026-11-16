@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text.Json;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 
@@ -18,9 +19,12 @@ public class When_a_vocab_with_an_owned_form_is_saved_to_the_corpus : Specificat
    public When_a_vocab_with_an_owned_form_is_saved_to_the_corpus()
    {
       var vocab = CreateVocab("走る", "to run", "はしる");
-      vocab.Forms.Add("駆ける");
-      vocab.Forms.Own("駆ける");
-      vocab.Forms.Add("奔る");
+      vocab.Edit(it =>
+      {
+         it.Forms.Add("駆ける");
+         it.Forms.Own("駆ける");
+         it.Forms.Add("奔る");
+      });
       var serializer = GetService<NoteSerializer>();
       _json = serializer.Serialize(vocab);
       _readBack = serializer.DeserializeVocab(_json);

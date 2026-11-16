@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Search;
@@ -15,9 +16,9 @@ public class by_having_audio : NoteSearchSpecification
    protected by_having_audio()
    {
       var collection = GetService<JPCollection>();
-      collection.Sentences.All().Single(it => it.GetQuestion() == SentenceAboutSchool).Audio
-                .ReplaceTheTextToSpeechAudioWith(new AudioReference("jastudio-tts-azure-daichineural-1.mp3") { IsTextToSpeech = true });
-      collection.Vocab.All().Single(it => it.GetQuestion() == VocabToGo).Audio.Add(new AudioReference("行く_b.mp3"));
+      collection.Sentences.All().Single(it => it.GetQuestion() == SentenceAboutSchool)
+                .Edit(it => it.Audio.ReplaceTheTextToSpeechAudioWith(new AudioReference("jastudio-tts-azure-daichineural-1.mp3") { IsTextToSpeech = true }));
+      collection.Vocab.All().Single(it => it.GetQuestion() == VocabToGo).Edit(it => it.Audio.Add(new AudioReference("行く_b.mp3")));
    }
 
    public class for_notes_that_have_audio : by_having_audio

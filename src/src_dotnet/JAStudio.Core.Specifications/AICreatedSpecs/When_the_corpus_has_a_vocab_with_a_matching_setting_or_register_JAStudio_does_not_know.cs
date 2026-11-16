@@ -2,6 +2,7 @@ using System;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
@@ -24,10 +25,13 @@ public class When_the_corpus_has_a_vocab_with_a_matching_setting_or_register_JAS
    public When_the_corpus_has_a_vocab_with_a_matching_setting_or_register_JAStudio_does_not_know()
    {
       var vocab = CreateVocab("あれる", "get-_/is-_", "あれる");
-      vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Required);
-      vocab.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired));
-      vocab.MatchingConfiguration.Flags.IsInflectingWord.SetTo(true);
-      vocab.Register.Humble.SetTo(true);
+      vocab.Edit(it =>
+      {
+         it.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Required);
+         it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired));
+         it.MatchingConfiguration.Flags.IsInflectingWord.SetTo(true);
+         it.Register.Humble.SetTo(true);
+      });
       _serializer = GetService<NoteSerializer>();
       _json = _serializer.Serialize(vocab);
    }

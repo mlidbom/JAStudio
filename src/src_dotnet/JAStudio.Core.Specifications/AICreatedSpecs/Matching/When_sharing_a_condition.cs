@@ -7,6 +7,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -90,7 +91,7 @@ public abstract class When_sharing_a_condition : SpecificationStartingWithAnEmpt
       public used_in_a_vocabs_match_condition()
       {
          _vocab = CreateVocab("ます", "polite ending", "ます");
-         _vocab.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(_followsAVerb));
+         _vocab.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(_followsAVerb)));
       }
 
       [XF] public void the_match_condition_is_written_as_code_with_the_shared_conditions_name() =>

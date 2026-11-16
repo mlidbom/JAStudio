@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -33,8 +34,11 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
       {
          public after_its_parts_of_speech_are_removed_and_its_data_is_generated_again()
          {
-            _vocab.PartsOfSpeech.Set([]);
-            _vocab.UpdateGeneratedData();
+            _vocab.Edit(it =>
+            {
+               it.PartsOfSpeech.Set([]);
+               it.UpdateGeneratedData();
+            });
          }
 
          [XF] public void it_has_no_parts_of_speech() => _vocab.PartsOfSpeech.All().Must().BeEmpty();

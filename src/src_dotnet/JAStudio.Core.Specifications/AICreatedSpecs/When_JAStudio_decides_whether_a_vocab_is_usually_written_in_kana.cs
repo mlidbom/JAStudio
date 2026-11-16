@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 
 // ReSharper disable InconsistentNaming
@@ -37,8 +38,11 @@ public class When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana : 
       {
          public after_it_is_decided_as_yes_and_its_data_is_generated_again()
          {
-            _vocab.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.Yes);
-            _vocab.UpdateGeneratedData();
+            _vocab.Edit(it =>
+            {
+               it.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.Yes);
+               it.UpdateGeneratedData();
+            });
          }
 
          [XF] public void it_stays_yes() => _vocab.UsuallyWrittenInKana.Decision.Must().Be(UsuallyWrittenInKanaDecision.Yes);
@@ -53,7 +57,7 @@ public class When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana : 
       public for_a_vocab_whose_question_is_all_kana_decided_as_no()
       {
          _vocab = CreateVocab("すごい", "amazing");
-         _vocab.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.No);
+         _vocab.Edit(it => it.UsuallyWrittenInKana.Decide(UsuallyWrittenInKanaDecision.No));
       }
 
       [XF] public void it_does_not_show_the_uk_meta_tag() => TheMetaTagsHtmlOf(_vocab).Must().NotContain(TheUkMetaTagsTooltip);
@@ -62,8 +66,11 @@ public class When_JAStudio_decides_whether_a_vocab_is_usually_written_in_kana : 
       {
          public after_its_data_is_generated_again_without_readings()
          {
-            _vocab.SetReadings([]);
-            _vocab.UpdateGeneratedData();
+            _vocab.Edit(it =>
+            {
+               it.SetReadings([]);
+               it.UpdateGeneratedData();
+            });
          }
 
          [XF] public void it_stays_no() => _vocab.UsuallyWrittenInKana.Decision.Must().Be(UsuallyWrittenInKanaDecision.No);

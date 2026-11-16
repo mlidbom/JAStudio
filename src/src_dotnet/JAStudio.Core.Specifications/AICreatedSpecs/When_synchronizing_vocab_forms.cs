@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 
 // ReSharper disable InconsistentNaming
@@ -17,7 +18,7 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
       {
          _vocabA = CreateVocab("食べる", "to eat", "たべる");
          _vocabB = CreateVocab("食う", "to eat (casual)", "くう");
-         _vocabA.Forms.Add("食う");
+         _vocabA.Edit(it => it.Forms.Add("食う"));
       }
 
       [XF] public void the_other_vocab_gains_this_vocabs_question_as_a_form() =>
@@ -25,7 +26,7 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
 
       public class after_removing_it : after_adding_a_form_that_matches_another_vocabs_question
       {
-         public after_removing_it() => _vocabA.Forms.Remove("食う");
+         public after_removing_it() => _vocabA.Edit(it => it.Forms.Remove("食う"));
 
          [XF] public void the_other_vocab_no_longer_has_this_vocabs_question_as_a_form() =>
             _vocabB.Forms.EnteredFormsSet().Must().Satisfy(it => !it.Contains("食べる"));
@@ -39,7 +40,7 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
       public given_a_vocab_with_an_owned_and_a_not_owned_entered_form()
       {
          _vocab = CreateVocab("走る", "to run", "はしる");
-         _vocab.Forms.SetEnteredForms([EnteredForm.Owned("駆ける"), EnteredForm.NotOwned("ダッシュする")]);
+         _vocab.Edit(it => it.Forms.SetEnteredForms([EnteredForm.Owned("駆ける"), EnteredForm.NotOwned("ダッシュする")]));
       }
 
       [XF] public void the_owned_entered_form_is_an_owned_form() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
@@ -67,7 +68,7 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
          _vocab1 = CreateVocab("食べる", "to eat", "たべる");
          _vocab2 = CreateVocab("食う", "to eat (casual)", "くう");
          _vocab3 = CreateVocab("召し上がる", "to eat (honorific)", "めしあがる");
-         _vocab1.Forms.SetEnteredForms([EnteredForm.NotOwned("食う"), EnteredForm.NotOwned("召し上がる")]);
+         _vocab1.Edit(it => it.Forms.SetEnteredForms([EnteredForm.NotOwned("食う"), EnteredForm.NotOwned("召し上がる")]));
       }
 
       [XF] public void VocabForQuestionAndEnteredForms_includes_the_first_form_vocab() =>

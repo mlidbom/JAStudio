@@ -1,6 +1,7 @@
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using static Compze.Must.MustActions;
 
@@ -39,7 +40,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       public after_updating_a_vocabs_readings()
       {
          _vocab = CreateVocab("本", "book", "ほん");
-         _vocab.SetReadings(["ほん", "もと"]);
+         _vocab.Edit(it => it.SetReadings(["ほん", "もと"]));
       }
 
       [XF] public void it_has_two_readings() => _vocab.GetReadings().Count.Must().Be(2);
@@ -94,14 +95,14 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       public after_adding_a_form()
       {
          _vocab = CreateVocab("走る", "to run", "はしる");
-         _vocab.Forms.Add("駆ける");
+         _vocab.Edit(it => it.Forms.Add("駆ける"));
       }
 
       [XF] public void the_form_appears_in_the_entered_forms() => _vocab.Forms.EnteredFormsList().Must().Contain("駆ける");
 
       public class after_removing_it : after_adding_a_form
       {
-         public after_removing_it() => _vocab.Forms.Remove("駆ける");
+         public after_removing_it() => _vocab.Edit(it => it.Forms.Remove("駆ける"));
 
          [XF] public void the_form_no_longer_appears_in_the_entered_forms() =>
             _vocab.Forms.EnteredFormsList().Must().Satisfy(it => !it.Contains("駆ける"));
@@ -158,9 +159,12 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       public given_a_vocab_with_its_corpus_fields_set()
       {
          _vocab = CreateVocab("食べる", "to eat", "たべる");
-         _vocab.CorpusAnswer.Set("to consume");
-         _vocab.Mnemonic.Set("Remember 'taberu' sounds like 'table' where you eat");
-         _vocab.Explanation.Set("Common verb");
+         _vocab.Edit(it =>
+         {
+            it.CorpusAnswer.Set("to consume");
+            it.Mnemonic.Set("Remember 'taberu' sounds like 'table' where you eat");
+            it.Explanation.Set("Common verb");
+         });
       }
 
       [XF] public void the_corpus_answer_is_stored() => _vocab.CorpusAnswer.Value.Must().Be("to consume");
@@ -178,7 +182,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
       public class after_setting_a_corpus_answer : given_a_vocab_with_a_source_answer
       {
-         public after_setting_a_corpus_answer() => _vocab.CorpusAnswer.Set("written work");
+         public after_setting_a_corpus_answer() => _vocab.Edit(it => it.CorpusAnswer.Set("written work"));
 
          [XF] public void the_answer_shown_is_the_corpus_answer() => _vocab.GetAnswer().Must().Be("written work");
          [XF] public void the_source_answer_is_kept() => _vocab.SourceData.Answer.Value.Must().Be("book");

@@ -1,6 +1,7 @@
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 
@@ -17,10 +18,13 @@ public class for_a_sentence : SpecificationStartingWithAnEmptyCollection, IAIGen
       public given_one_with_tags_a_person_manages_and_a_jastudio_maintained_tag()
       {
          _sentence = CreateTestSentence("これは本です。", "This is a book.");
-         _sentence.Tags.Set(Tag.FromName("source::anime::natsume"));
-         _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
-         _sentence.Tags.Set(Tag.FromName("-::counting"));
-         _sentence.Tags.Set(Tags.Source.Jastudio);
+         _sentence.Edit(it =>
+         {
+            it.Tags.Set(Tag.FromName("source::anime::natsume"));
+            it.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
+            it.Tags.Set(Tag.FromName("-::counting"));
+            it.Tags.Set(Tags.Source.Jastudio);
+         });
       }
 
       [XF] public void the_tags_not_maintained_by_jastudio_are_those_a_person_manages_in_alphabetical_order_the_source_tag_JAStudio_sets_included() =>
@@ -37,20 +41,20 @@ public class for_a_sentence : SpecificationStartingWithAnEmptyCollection, IAIGen
       public given_one_tagged_with_a_tag_JAStudio_maintains()
       {
          _sentence = CreateTestSentence("これは本です。", "This is a book.");
-         _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
+         _sentence.Edit(it => it.Tags.Set(Tags.Sentence.Uses.HiddenMatches));
       }
 
       [XF] public void the_tag_is_present() => _sentence.Tags.Must().Contain(Tags.Sentence.Uses.HiddenMatches);
 
       public class after_unsetting_the_tag : given_one_tagged_with_a_tag_JAStudio_maintains
       {
-         public after_unsetting_the_tag() => _sentence.Tags.Unset(Tags.Sentence.Uses.HiddenMatches);
+         public after_unsetting_the_tag() => _sentence.Edit(it => it.Tags.Unset(Tags.Sentence.Uses.HiddenMatches));
 
          [XF] public void the_tag_is_not_present() => _sentence.Tags.Must().Satisfy(it => !it.Contains(Tags.Sentence.Uses.HiddenMatches));
 
          public class after_setting_it_again : after_unsetting_the_tag
          {
-            public after_setting_it_again() => _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
+            public after_setting_it_again() => _sentence.Edit(it => it.Tags.Set(Tags.Sentence.Uses.HiddenMatches));
 
             [XF] public void the_tag_is_present_again() => _sentence.Tags.Must().Contain(Tags.Sentence.Uses.HiddenMatches);
          }

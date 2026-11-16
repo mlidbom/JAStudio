@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 
 // ReSharper disable InconsistentNaming
@@ -19,7 +20,7 @@ public abstract class When_filling_a_vocabs_parts_of_speech_from_the_dictionary 
    protected When_filling_a_vocabs_parts_of_speech_from_the_dictionary(string question, string reading)
    {
       _vocab = CreateVocab(question, "", reading);
-      _vocab.PartsOfSpeech.SetAutomaticallyFromDictionary();
+      _vocab.Edit(it => it.PartsOfSpeech.SetAutomaticallyFromDictionary());
    }
 
    /// <summary>The names of the vocab's parts of speech, in alphabetical order.</summary>

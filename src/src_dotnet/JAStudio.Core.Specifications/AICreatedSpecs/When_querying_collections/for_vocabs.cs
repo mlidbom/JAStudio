@@ -1,6 +1,7 @@
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -40,7 +41,7 @@ public class for_vocabs : SpecificationStartingWithAnEmptyCollection, IAIGenerat
       public given_a_vocab_with_a_form_added()
       {
          var vocab = CreateVocab("食べる", "to eat", "たべる");
-         vocab.Forms.Add("食う");
+         vocab.Edit(it => it.Forms.Add("食う"));
       }
 
       [XF] public void WithQuestion_does_not_find_by_form_value() =>

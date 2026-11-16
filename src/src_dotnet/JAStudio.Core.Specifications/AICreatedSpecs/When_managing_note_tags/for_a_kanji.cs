@@ -16,8 +16,11 @@ public class for_a_kanji : SpecificationStartingWithAnEmptyCollection, IAIGenera
       public given_one_with_multiple_tags()
       {
          _kanji = CreateKanji("食", "eat", "ショク", "た");
-         _kanji.Tags.Set(Tags.Kanji.IsRadical);
-         _kanji.Tags.Set(Tags.Kanji.InVocabMainForm);
+         _kanji.Edit(it =>
+         {
+            it.Tags.Set(Tags.Kanji.IsRadical);
+            it.Tags.Set(Tags.Kanji.InVocabMainForm);
+         });
       }
 
       [XF] public void the_IsRadical_tag_is_present() => _kanji.Tags.Must().Contain(Tags.Kanji.IsRadical);

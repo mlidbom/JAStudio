@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text.Json;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 
@@ -21,7 +22,7 @@ public class When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_cor
    protected When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_corpus(UsuallyWrittenInKanaDecision decision)
    {
       var vocab = CreateVocab("毎月", "every month", "まいつき");
-      vocab.UsuallyWrittenInKana.Decide(decision);
+      vocab.Edit(it => it.UsuallyWrittenInKana.Decide(decision));
       var serializer = GetService<NoteSerializer>();
       var json = serializer.Serialize(vocab);
       _json = JsonDocument.Parse(json).RootElement;

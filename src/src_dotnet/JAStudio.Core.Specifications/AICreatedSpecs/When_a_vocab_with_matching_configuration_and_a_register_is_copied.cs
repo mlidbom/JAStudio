@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
@@ -16,9 +17,12 @@ public class When_a_vocab_with_matching_configuration_and_a_register_is_copied :
    public When_a_vocab_with_matching_configuration_and_a_register_is_copied()
    {
       _vocab = CreateVocab("あれる", "get-_/is-_", "あれる");
-      _vocab.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.GodanPotential.WhenForbidden));
-      _vocab.MatchingConfiguration.Flags.IsInflectingWord.SetTo(true);
-      _vocab.Register.Humble.SetTo(true);
+      _vocab.Edit(it =>
+      {
+         it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.GodanPotential.WhenForbidden));
+         it.MatchingConfiguration.Flags.IsInflectingWord.SetTo(true);
+         it.Register.Humble.SetTo(true);
+      });
    }
 
    public class by_cloning_it_with_a_disambiguation : When_a_vocab_with_matching_configuration_and_a_register_is_copied

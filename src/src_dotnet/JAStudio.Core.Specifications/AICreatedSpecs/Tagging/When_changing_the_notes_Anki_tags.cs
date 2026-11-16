@@ -28,7 +28,7 @@ public class When_changing_the_notes_Anki_tags : SpecificationStartingWithAnEmpt
    public When_changing_the_notes_Anki_tags()
    {
       var goingHome = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
-      goingHome.Tags.Set(Tag.FromName("source::anime::natsume"));
+      goingHome.Edit(it => it.Tags.Set(Tag.FromName("source::anime::natsume")));
       var goingToTheStation = WithAStudyNote(CreateTestSentence("駅に行く", "Go to the station"));
       Anki = GetService<PretendAnki>();
       Anki.Tag(goingHome, "marked", "tmp::a", "tmp::a::b");

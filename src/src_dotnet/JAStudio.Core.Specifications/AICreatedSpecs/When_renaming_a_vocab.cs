@@ -26,22 +26,22 @@ public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection,
    {
       ToHang = CreateVocab("かける", "to hang", ["かける"], ["掛ける"]);
       ToBeHanging = CreateVocab("掛かる", "to be hanging", "かかる");
-      ToBeHanging.RelatedNotes.ErgativeTwins.Add(new WordReference("かける"));
+      ToBeHanging.Edit(it => it.RelatedNotes.ErgativeTwins.Add(new WordReference("かける")));
       ToStartTalkingTo = CreateVocab("話しかける", "to start talking to", "はなしかける");
-      ToStartTalkingTo.CompoundParts.SetPrimary(Words("話す", "かける"));
+      ToStartTalkingTo.Edit(it => it.CompoundParts.SetPrimary(Words("話す", "かける")));
       Multiplication = CreateVocab("掛け算", "multiplication", "かけざん");
-      Multiplication.RelatedNotes.DerivedFrom.Set(new WordReference("かける"));
+      Multiplication.Edit(it => it.RelatedNotes.DerivedFrom.Set(new WordReference("かける")));
       ToHook = CreateVocab("引っ掛ける", "to hook", "ひっかける");
-      ToHook.CompoundParts.SetPrimary(Words("引く", "掛ける"));
+      ToHook.Edit(it => it.CompoundParts.SetPrimary(Words("引く", "掛ける")));
       Hang = CreateKanji("掛", "hang", "カイ", "か");
-      Hang.PrimaryVocab.PutLast(new WordReference("かける"));
+      Hang.Edit(it => it.PrimaryVocab.PutLast(new WordReference("かける")));
    }
 
    protected static string[] ErgativeTwinsOf(VocabNote vocab) => SortedNamesOf(vocab.RelatedNotes.ErgativeTwins.Words);
 
    public class after_changing_its_question_to_懸ける : When_renaming_a_vocab
    {
-      public after_changing_its_question_to_懸ける() => ToHang.Question.SetText("懸ける");
+      public after_changing_its_question_to_懸ける() => ToHang.Edit(it => it.Question.SetText("懸ける"));
 
       [XF] public void 掛かる_has_懸ける_as_its_ergative_twin() => ErgativeTwinsOf(ToBeHanging).Must().SequenceEqual(["懸ける"]);
       [XF] public void 懸ける_keeps_掛かる_as_its_ergative_twin() => ErgativeTwinsOf(ToHang).Must().SequenceEqual(["掛かる"]);
@@ -58,7 +58,7 @@ public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection,
 
    public class after_giving_it_the_disambiguation_hang : When_renaming_a_vocab
    {
-      public after_giving_it_the_disambiguation_hang() => ToHang.Question.SetDisambiguation("hang");
+      public after_giving_it_the_disambiguation_hang() => ToHang.Edit(it => it.Question.SetDisambiguation("hang"));
 
       [XF] public void 掛かる_has_かける_hang_as_its_ergative_twin() => ErgativeTwinsOf(ToBeHanging).Must().SequenceEqual(["かける:hang"]);
       [XF] public void 話しかける_has_the_compound_parts_話す_and_かける_hang() => NamesOf(ToStartTalkingTo.CompoundParts.Primary()).Must().SequenceEqual(["話す", "かける:hang"]);

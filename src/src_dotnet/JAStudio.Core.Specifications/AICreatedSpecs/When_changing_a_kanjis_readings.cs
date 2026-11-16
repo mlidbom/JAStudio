@@ -24,21 +24,21 @@ public class When_changing_a_kanjis_readings : SpecificationStartingWithAnEmptyC
 
    public class after_adding_an_on_reading_in_katakana : When_changing_a_kanjis_readings
    {
-      public after_adding_an_on_reading_in_katakana() => On.Add("ケツ");
+      public after_adding_an_on_reading_in_katakana() => _kanji.Edit(it => it.Readings.On.Add("ケツ"));
 
       [XF] public void the_on_reading_is_kept_in_hiragana() => On.AllKana().Must().SequenceEqual(["けつ"]);
       [XF] public void it_is_secondary() => On.PrimaryKana().Must().BeEmpty();
 
       public class and_then_adding_it_in_hiragana : after_adding_an_on_reading_in_katakana
       {
-         public and_then_adding_it_in_hiragana() => On.Add("けつ");
+         public and_then_adding_it_in_hiragana() => _kanji.Edit(it => it.Readings.On.Add("けつ"));
 
          [XF] public void the_kanji_has_the_reading_once() => On.AllKana().Must().SequenceEqual(["けつ"]);
       }
 
       public class and_then_making_it_primary_by_its_katakana : after_adding_an_on_reading_in_katakana
       {
-         public and_then_making_it_primary_by_its_katakana() => On.MakePrimary("ケツ");
+         public and_then_making_it_primary_by_its_katakana() => _kanji.Edit(it => it.Readings.On.MakePrimary("ケツ"));
 
          [XF] public void it_is_primary() => On.PrimaryKana().Must().SequenceEqual(["けつ"]);
       }
@@ -46,7 +46,7 @@ public class When_changing_a_kanjis_readings : SpecificationStartingWithAnEmptyC
 
    public class after_adding_a_kun_reading_in_katakana : When_changing_a_kanjis_readings
    {
-      public after_adding_a_kun_reading_in_katakana() => Kun.Add("ページ");
+      public after_adding_a_kun_reading_in_katakana() => _kanji.Edit(it => it.Readings.Kun.Add("ページ"));
 
       [XF] public void the_kun_reading_is_kept_in_katakana() => Kun.AllKana().Must().SequenceEqual(["ページ"]);
    }
@@ -55,9 +55,12 @@ public class When_changing_a_kanjis_readings : SpecificationStartingWithAnEmptyC
    {
       public after_adding_two_kun_readings_and_making_the_second_primary()
       {
-         Kun.Add("かしら");
-         Kun.Add("ページ");
-         Kun.MakePrimary("ページ");
+         _kanji.Edit(it =>
+         {
+            it.Readings.Kun.Add("かしら");
+            it.Readings.Kun.Add("ページ");
+            it.Readings.Kun.MakePrimary("ページ");
+         });
       }
 
       [XF] public void the_kanji_has_both_in_the_order_they_were_added() => Kun.AllKana().Must().SequenceEqual(["かしら", "ページ"]);
@@ -65,7 +68,7 @@ public class When_changing_a_kanjis_readings : SpecificationStartingWithAnEmptyC
 
       public class and_then_making_it_secondary : after_adding_two_kun_readings_and_making_the_second_primary
       {
-         public and_then_making_it_secondary() => Kun.MakeSecondary("ページ");
+         public and_then_making_it_secondary() => _kanji.Edit(it => it.Readings.Kun.MakeSecondary("ページ"));
 
          [XF] public void the_kanji_has_no_primary_reading() => _kanji.Readings.PrimaryKana().Must().BeEmpty();
          [XF] public void the_kanji_still_has_both_readings() => Kun.AllKana().Must().SequenceEqual(["かしら", "ページ"]);
@@ -73,7 +76,7 @@ public class When_changing_a_kanjis_readings : SpecificationStartingWithAnEmptyC
 
       public class and_then_removing_it : after_adding_two_kun_readings_and_making_the_second_primary
       {
-         public and_then_removing_it() => Kun.Remove("ページ");
+         public and_then_removing_it() => _kanji.Edit(it => it.Readings.Kun.Remove("ページ"));
 
          [XF] public void only_the_first_is_left() => Kun.AllKana().Must().SequenceEqual(["かしら"]);
          [XF] public void the_kanji_has_no_primary_reading() => _kanji.Readings.PrimaryKana().Must().BeEmpty();
@@ -82,6 +85,6 @@ public class When_changing_a_kanjis_readings : SpecificationStartingWithAnEmptyC
 
    public class making_primary_a_reading_the_kanji_does_not_have : When_changing_a_kanjis_readings
    {
-      [XF] public void throws() => Invoking(() => Kun.MakePrimary("かしら")).Must().Throw<ArgumentAssertionFailedException>();
+      [XF] public void throws() => Invoking(() => _kanji.Edit(it => it.Readings.Kun.MakePrimary("かしら"))).Must().Throw<ArgumentAssertionFailedException>();
    }
 }

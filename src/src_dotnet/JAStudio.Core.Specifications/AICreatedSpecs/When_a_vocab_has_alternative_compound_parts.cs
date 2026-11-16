@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text.Json;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using static JAStudio.Core.Specifications.WordReferenceNames;
@@ -22,8 +23,11 @@ public class When_a_vocab_has_alternative_compound_parts : SpecificationStarting
    public When_a_vocab_has_alternative_compound_parts()
    {
       _vocab = CreateVocab("忘れられない", "can't forget", "わすれられない");
-      _vocab.CompoundParts.SetPrimary(Words("忘れる", "られない"));
-      _vocab.CompoundParts.SetAlternative(Words("忘れられる", "ない", "られない"));
+      _vocab.Edit(it =>
+      {
+         it.CompoundParts.SetPrimary(Words("忘れる", "られない"));
+         it.CompoundParts.SetAlternative(Words("忘れられる", "ない", "られない"));
+      });
    }
 
    [XF] public void the_primary_parts_keep_their_order() => NamesOf(_vocab.CompoundParts.Primary()).Must().SequenceEqual(["忘れる", "られない"]);
@@ -38,7 +42,7 @@ public class When_a_vocab_has_alternative_compound_parts : SpecificationStarting
 
    public class after_the_part_entered_as_both_stops_being_a_primary_part : When_a_vocab_has_alternative_compound_parts
    {
-      public after_the_part_entered_as_both_stops_being_a_primary_part() => _vocab.CompoundParts.SetPrimary(Words("忘れる"));
+      public after_the_part_entered_as_both_stops_being_a_primary_part() => _vocab.Edit(it => it.CompoundParts.SetPrimary(Words("忘れる")));
 
       [XF] public void it_is_an_alternative_part_again_so_typing_the_primary_parts_never_drops_an_alternative_part_on_the_way() =>
          NamesOf(_vocab.CompoundParts.Alternative()).Must().Contain("られない");

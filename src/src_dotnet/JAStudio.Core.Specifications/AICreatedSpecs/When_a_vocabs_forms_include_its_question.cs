@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -19,7 +20,7 @@ public class When_a_vocabs_forms_include_its_question : SpecificationStartingWit
       public because_they_were_set_including_it()
       {
          _vocab = CreateVocab("走る", "to run", "はしる");
-         _vocab.Forms.SetEnteredForms([EnteredForm.NotOwned("走る"), EnteredForm.NotOwned("駆ける")]);
+         _vocab.Edit(it => it.Forms.SetEnteredForms([EnteredForm.NotOwned("走る"), EnteredForm.NotOwned("駆ける")]));
       }
 
       [XF] public void the_question_is_not_among_the_entered_forms() => _vocab.Forms.EnteredFormsList().Must().SequenceEqual(["駆ける"]);

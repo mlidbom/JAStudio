@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -26,10 +27,13 @@ public class When_a_vocab_with_matching_configuration_and_a_register_is_saved_to
    public When_a_vocab_with_matching_configuration_and_a_register_is_saved_to_the_corpus()
    {
       _vocab = CreateVocab("あれる", "get-_/is-_", "あれる");
-      _vocab.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.GodanPotential.WhenForbidden));
-      _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Forbidden);
-      _vocab.MatchingConfiguration.Flags.IsInflectingWord.SetTo(true);
-      _vocab.Register.Humble.SetTo(true);
+      _vocab.Edit(it =>
+      {
+         it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.GodanPotential.WhenForbidden));
+         it.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Forbidden);
+         it.MatchingConfiguration.Flags.IsInflectingWord.SetTo(true);
+         it.Register.Humble.SetTo(true);
+      });
       var serializer = GetService<NoteSerializer>();
       var json = serializer.Serialize(_vocab);
       _json = JsonDocument.Parse(json).RootElement;

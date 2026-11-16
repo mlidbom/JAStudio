@@ -1,6 +1,7 @@
 using Compze.Internals.SystemCE;
 using System;
 using System.Linq;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiReadings;
 
 namespace JAStudio.Core.Specifications.Fixtures;
@@ -14,8 +15,16 @@ static class KanjiReadingsNotation
    const string PrimaryStart = "<primary>";
    const string PrimaryEnd = "</primary>";
 
+   /// <summary>Gives <paramref name="kanji"/> the on readings <paramref name="onNotation"/> writes and the kun readings <paramref name="kunNotation"/> writes.</summary>
+   public static void AddTo(KanjiNote kanji, string onNotation, string kunNotation) =>
+      kanji.Edit(it =>
+      {
+         AddTo(it.Readings.On, onNotation);
+         AddTo(it.Readings.Kun, kunNotation);
+      });
+
    /// <summary>Adds the readings <paramref name="notation"/> writes to <paramref name="readings"/>, in order, making the primary ones primary.</summary>
-   public static void AddTo(KanjiReadingList readings, string notation)
+   static void AddTo(KanjiReadingList readings, string notation)
    {
       foreach(var written in notation.Split([',', '、'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
       {

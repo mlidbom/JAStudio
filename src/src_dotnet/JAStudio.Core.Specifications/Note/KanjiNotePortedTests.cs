@@ -1,3 +1,4 @@
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Specifications.Fixtures;
 using Xunit;
@@ -15,9 +16,9 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
    public void InsideRadicalPopulation()
    {
       var inside = GetService<KanjiCollection>().WithKanji("内")!;
-      inside.Mnemonic.Set("<rad>head</rad> <rad>person</rad>");
+      inside.Edit(it => it.Mnemonic.Set("<rad>head</rad> <rad>person</rad>"));
 
-      inside.PopulateRadicalsFromMnemonicTags();
+      inside.Edit(it => it.PopulateRadicalsFromMnemonicTags());
 
       Assert.Equal(["冂", "人"], inside.Radicals.All);
    }
@@ -30,9 +31,9 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
    public void BootstrapMnemonic(string kanji, string radicals, string expectedMnemonic)
    {
       var kanjiNote = GetService<KanjiCollection>().WithKanji(kanji)!;
-      kanjiNote.Radicals.Set(StringExtensions.ExtractCommaSeparatedValues(radicals));
+      kanjiNote.Edit(it => it.Radicals.Set(StringExtensions.ExtractCommaSeparatedValues(radicals)));
 
-      kanjiNote.BootstrapMnemonicFromRadicals();
+      kanjiNote.Edit(it => it.BootstrapMnemonicFromRadicals());
 
       Assert.Equal(expectedMnemonic, kanjiNote.Mnemonic.Value);
    }

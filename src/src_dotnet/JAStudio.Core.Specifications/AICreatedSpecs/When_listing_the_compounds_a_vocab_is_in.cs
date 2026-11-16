@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using static JAStudio.Core.Specifications.WordReferenceNames;
 
@@ -14,7 +15,7 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
    VocabNote CreateCompound(string question, params string[] primaryCompoundParts)
    {
       var compound = CreateVocab(question, "a compound");
-      compound.CompoundParts.SetPrimary(Words(primaryCompoundParts));
+      compound.Edit(it => it.CompoundParts.SetPrimary(Words(primaryCompoundParts)));
       return compound;
    }
 
@@ -42,7 +43,7 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
 
       public class with_a_compound_that_has_its_other_form_only_as_an_alternative_part : given_a_vocab_with_another_form
       {
-         public with_a_compound_that_has_its_other_form_only_as_an_alternative_part() => CreateCompound("時間割", "割").CompoundParts.SetAlternative(Words("じかん"));
+         public with_a_compound_that_has_its_other_form_only_as_an_alternative_part() => CreateCompound("時間割", "割").Edit(it => it.CompoundParts.SetAlternative(Words("じかん")));
 
          [XF] public void the_compound_is_listed() => QuestionsOfTheCompoundsListedFor(_vocab).Must().SequenceEqual(["時間割"]);
       }
@@ -93,7 +94,7 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
       public given_a_disambiguated_vocab()
       {
          _vocab = CreateVocab("方", "way of doing");
-         _vocab.Question.SetDisambiguation("かた");
+         _vocab.Edit(it => it.Question.SetDisambiguation("かた"));
       }
 
       public class with_a_compound_that_has_its_question_without_the_disambiguation_as_a_part : given_a_disambiguated_vocab

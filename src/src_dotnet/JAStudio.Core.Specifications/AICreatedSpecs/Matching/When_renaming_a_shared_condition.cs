@@ -4,6 +4,7 @@ using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -25,7 +26,7 @@ public class When_renaming_a_shared_condition : When_sharing_a_condition
    public When_renaming_a_shared_condition()
    {
       _ます = CreateVocab("ます", "polite ending", "ます");
-      _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb, PrecedingToken.Meets(_isAVerb)));
+      _ます.Edit(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb, PrecedingToken.Meets(_isAVerb))));
    }
 
    void RenameIsAVerb(string newName) => _sharedConditions.Rename(_isAVerb, newName);

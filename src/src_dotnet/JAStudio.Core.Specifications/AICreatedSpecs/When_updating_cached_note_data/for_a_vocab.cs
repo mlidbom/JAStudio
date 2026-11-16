@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -17,8 +18,11 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       {
          _vocab = CreateVocab("食べる", "to eat", "たべる");
          _vocab.GetQuestion();
-         _vocab.Question.SetText("飲む");
-         _vocab.UpdateGeneratedData();
+         _vocab.Edit(it =>
+         {
+            it.Question.SetText("飲む");
+            it.UpdateGeneratedData();
+         });
       }
 
       [XF] public void the_old_question_no_longer_finds_it() =>
@@ -36,7 +40,7 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       public after_adding_a_form()
       {
          var vocab = CreateVocab("食べる", "to eat", "たべる");
-         vocab.Forms.Add("taberu-form");
+         vocab.Edit(it => it.Forms.Add("taberu-form"));
       }
 
       [XF] public void WithQuestion_does_not_find_the_form() =>
@@ -53,8 +57,11 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       public after_adding_and_then_removing_a_form()
       {
          _vocab = CreateVocab("食べる", "to eat", "たべる");
-         _vocab.Forms.Add("食う");
-         _vocab.Forms.Remove("食う");
+         _vocab.Edit(it =>
+         {
+            it.Forms.Add("食う");
+            it.Forms.Remove("食う");
+         });
       }
 
       [XF] public void the_removed_form_is_no_longer_present() =>
@@ -71,11 +78,14 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       public after_multiple_updates()
       {
          _vocab = CreateVocab("走る", "to run", "はしる");
-         _vocab.Forms.Add("駆ける");
-         _vocab.Forms.Add("ダッシュする");
-         _vocab.Question.SetText("疾走する");
-         _vocab.UpdateGeneratedData();
-         _vocab.Forms.Remove("駆ける");
+         _vocab.Edit(it =>
+         {
+            it.Forms.Add("駆ける");
+            it.Forms.Add("ダッシュする");
+            it.Question.SetText("疾走する");
+            it.UpdateGeneratedData();
+            it.Forms.Remove("駆ける");
+         });
       }
 
       [XF] public void the_new_question_finds_it() =>

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.Json;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using static Compze.Must.MustActions;
@@ -23,7 +24,7 @@ public class When_a_vocabs_parts_of_speech_are_saved_to_the_corpus : Specificati
    public When_a_vocabs_parts_of_speech_are_saved_to_the_corpus()
    {
       var vocab = CreateVocab("走る", "to run", "はしる");
-      vocab.PartsOfSpeech.Set([PartOfSpeech.Intransitive, PartOfSpeech.GodanVerb]);
+      vocab.Edit(it => it.PartsOfSpeech.Set([PartOfSpeech.Intransitive, PartOfSpeech.GodanVerb]));
       _serializer = GetService<NoteSerializer>();
       _json = _serializer.Serialize(vocab);
    }

@@ -84,10 +84,13 @@ public class NoteSerializerRoundtripTests : SpecificationUsingACollection
    public void KanjiNote_WithRichData_RoundtripsCorrectly()
    {
       var kanji = CreateKanji("試", "test/try", "<primary>ため</primary>", "<primary>し</primary>");
-      kanji.CorpusAnswer.Set("custom answer");
-      kanji.Mnemonic.Set("my mnemonic");
-      kanji.Radicals.Set(["言", "弋", "工"]);
-      kanji.SimilarMeaning.Add("験");
+      kanji.Edit(it =>
+      {
+         it.CorpusAnswer.Set("custom answer");
+         it.Mnemonic.Set("my mnemonic");
+         it.Radicals.Set(["言", "弋", "工"]);
+         it.SimilarMeaning.Add("験");
+      });
 
       var json = _serializer.Serialize(kanji);
       var roundtripped = _serializer.DeserializeKanji(json);
