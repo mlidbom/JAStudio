@@ -16,7 +16,7 @@ public sealed class EditablePartsOfSpeechField : EditableField<VocabNote, IReadO
    public override IReadOnlyList<string> Read(VocabNote note) => [.. note.PartsOfSpeech.All().Select(it => it.Name)];
 
    /// <summary>Replaces the vocab's parts of speech with those named in <paramref name="value"/>, or, when one is unknown, changes nothing and throws.</summary>
-   public override void Write(VocabNote note, IReadOnlyList<string> value) => note.PartsOfSpeech.Set([.. value.Select(PartOfSpeechNamed)]);
+   protected override void WriteToTheEditedNote(VocabNote note, IReadOnlyList<string> value) => note.PartsOfSpeech.Set([.. value.Select(PartOfSpeechNamed)]);
 
    static PartOfSpeech PartOfSpeechNamed(string name) =>
       //refactor: This repeats PartOfSpeech.Named's lookup only for a better error. PartOfSpeech.Named should list the known parts of speech itself, and be used here.

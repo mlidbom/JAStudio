@@ -19,7 +19,7 @@ public sealed class EditableFormsField : EditableField<VocabNote, IReadOnlyList<
    public override IReadOnlyList<EnteredForm> Read(VocabNote note) => [.. note.Forms.EnteredForms().OrderBy(it => it.Text)];
 
    /// <summary>Makes <paramref name="value"/> the vocab's entered forms, but for its question, which is always a form, and so never an entered one.</summary>
-   public override void Write(VocabNote note, IReadOnlyList<EnteredForm> value)
+   protected override void WriteToTheEditedNote(VocabNote note, IReadOnlyList<EnteredForm> value)
    {
       var forms = note.Forms;
       var entered = value.Where(it => it.Text != note.GetQuestion()).ToList();

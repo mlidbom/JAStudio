@@ -11,5 +11,5 @@ public sealed class EditableUsuallyWrittenInKanaField : EditableField<VocabNote,
    public EditableUsuallyWrittenInKanaField() : base("usuallyWrittenInKana", "Usually written in kana", changesHowSentencesParse: false) {}
 
    public override UsuallyWrittenInKanaDecision Read(VocabNote note) => note.UsuallyWrittenInKana.Decision;
-   public override void Write(VocabNote note, UsuallyWrittenInKanaDecision value) => note.UsuallyWrittenInKana.Decide(value);
+   protected override void WriteToTheEditedNote(VocabNote note, UsuallyWrittenInKanaDecision value) => note.UsuallyWrittenInKana.Decide(value);
 }

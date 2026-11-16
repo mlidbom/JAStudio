@@ -23,8 +23,11 @@ public abstract class EditableField<TNote, TValue> : IEditableField<TNote> where
    /// <summary>The field's value on <paramref name="note"/>.</summary>
    public abstract TValue Read(TNote note);
 
-   /// <summary>Writes <paramref name="value"/> to the field on <paramref name="note"/>, which saves the note.</summary>
-   public abstract void Write(TNote note, TValue value);
+   /// <summary>Writes <paramref name="value"/> to the field on <paramref name="note"/>, as an edit of it (<see cref="EditingANote"/>), which saves the note.</summary>
+   public void Write(TNote note, TValue value) => note.Edit(it => WriteToTheEditedNote(it, value));
+
+   /// <summary>Writes <paramref name="value"/> to the field on <paramref name="note"/>, the note an edit gives <see cref="Write"/>.</summary>
+   protected abstract void WriteToTheEditedNote(TNote note, TValue value);
 
    public object ReadValue(TNote note) => Read(note);
    public void WriteValue(TNote note, object value) => Write(note, (TValue)value);

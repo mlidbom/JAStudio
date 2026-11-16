@@ -24,5 +24,5 @@ public sealed class EditableTextListField<TNote> : EditableField<TNote, IReadOnl
    }
 
    public override IReadOnlyList<string> Read(TNote note) => _read(note);
-   public override void Write(TNote note, IReadOnlyList<string> value) => _write(note, [.. value]);
+   protected override void WriteToTheEditedNote(TNote note, IReadOnlyList<string> value) => _write(note, [.. value]);
 }

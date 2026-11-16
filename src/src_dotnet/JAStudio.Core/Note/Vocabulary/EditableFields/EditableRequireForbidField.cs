@@ -25,5 +25,5 @@ public sealed class EditableRequireForbidField : EditableField<VocabNote, Requir
    }
 
    public override RequireForbidChoice Read(VocabNote note) => _read(note);
-   public override void Write(VocabNote note, RequireForbidChoice value) => _write(note, value);
+   protected override void WriteToTheEditedNote(VocabNote note, RequireForbidChoice value) => _write(note, value);
 }

@@ -10,7 +10,7 @@ namespace JAStudio.Core.Note.EditableFields;
 /// an operation that adds an item and one that removes it (<see cref="Add"/>, <see cref="Remove"/>). Its value is the items in a fixed order.
 /// </summary>
 /// <remarks>
-/// Writing a whole set (<see cref="Write"/>) adds each item the note's set lacks and removes each item it has that isn't in the new set, through those<br/>
+/// Writing a whole set (<see cref="EditableField{TNote,TValue}.Write"/>) adds each item the note's set lacks and removes each item it has that isn't in the new set, through those<br/>
 /// same operations, so whatever they do besides, such as adding the vocab to its new synonym's synonyms too, happens as when a person makes the change.
 /// </remarks>
 public class EditableSetField<TNote, TItem> : EditableField<TNote, IReadOnlyList<TItem>>, IFieldEditedOneItemAtATime<TNote, TItem> where TNote : JPNote where TItem : notnull
@@ -47,22 +47,27 @@ public class EditableSetField<TNote, TItem> : EditableField<TNote, IReadOnlyList
    /// </summary>
    public bool Accepts(TNote note, TItem item) => _accepts(note, item);
 
-   /// <summary>Adds <paramref name="item"/>, which the set must accept (<see cref="Accepts"/>), to the set on <paramref name="note"/>, and saves the note.</summary>
-   public void Add(TNote note, TItem item)
-   {
-      Contract.Argument.Assert(Accepts(note, item), () => $"{item} can't be added to \"{Label}\".");
-      _add(note, item);
-   }
+   /// <summary>
+   /// Adds <paramref name="item"/>, which the set must accept (<see cref="Accepts"/>), to the set on <paramref name="note"/>, as an edit of it<br/>
+   /// (<see cref="EditingANote"/>), and saves the note.
+   /// </summary>
+   public void Add(TNote note, TItem item) => note.Edit(it => AddToTheEditedNote(it, item));
 
-   /// <summary>Removes <paramref name="item"/> from the set on <paramref name="note"/>, and saves the note.</summary>
-   public void Remove(TNote note, TItem item) => _remove(note, item);
+   /// <summary>Removes <paramref name="item"/> from the set on <paramref name="note"/>, as an edit of it (<see cref="EditingANote"/>), and saves the note.</summary>
+   public void Remove(TNote note, TItem item) => note.Edit(it => _remove(it, item));
 
    public override IReadOnlyList<TItem> Read(TNote note) => [.. _inOrder(_itemsOn(note))];
 
-   public override void Write(TNote note, IReadOnlyList<TItem> value)
+   protected override void WriteToTheEditedNote(TNote note, IReadOnlyList<TItem> value)
    {
       var itemsNow = Read(note);
-      foreach(var item in itemsNow.Except(value)) Remove(note, item);
-      foreach(var item in value.Except(itemsNow)) Add(note, item);
+      foreach(var item in itemsNow.Except(value)) _remove(note, item);
+      foreach(var item in value.Except(itemsNow)) AddToTheEditedNote(note, item);
+   }
+
+   void AddToTheEditedNote(TNote note, TItem item)
+   {
+      Contract.Argument.Assert(Accepts(note, item), () => $"{item} can't be added to \"{Label}\".");
+      _add(note, item);
    }
 }

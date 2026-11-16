@@ -15,5 +15,5 @@ public sealed class EditableVerdictOnTheDisplayedVocabField : EditableField<Sent
    public EditableVerdictOnTheDisplayedVocabField() : base("parsingCase.verdictOnTheDisplayedVocab", "Verdict on the displayed vocab", changesHowSentencesParse: false) {}
 
    public override Verdict Read(SentenceNote note) => note.ParsingCase?.VerdictOnTheDisplayedVocab ?? Verdict.Unverified;
-   public override void Write(SentenceNote note, Verdict value) => note.SetTheVerdictOnTheDisplayedVocab(value);
+   protected override void WriteToTheEditedNote(SentenceNote note, Verdict value) => note.SetTheVerdictOnTheDisplayedVocab(value);
 }

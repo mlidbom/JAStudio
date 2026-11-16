@@ -18,5 +18,5 @@ public sealed class EditableFlagField<TNote> : EditableField<TNote, bool> where 
    public Func<TNote, FlagField> FlagOn { get; }
 
    public override bool Read(TNote note) => FlagOn(note).IsSet();
-   public override void Write(TNote note, bool value) => FlagOn(note).SetTo(value);
+   protected override void WriteToTheEditedNote(TNote note, bool value) => FlagOn(note).SetTo(value);
 }

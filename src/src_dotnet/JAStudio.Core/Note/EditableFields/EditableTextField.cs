@@ -31,5 +31,5 @@ public sealed class EditableTextField<TNote> : EditableField<TNote, string> wher
    public TextFieldFormat Format { get; }
 
    public override string Read(TNote note) => _read(note);
-   public override void Write(TNote note, string value) => _write(note, value);
+   protected override void WriteToTheEditedNote(TNote note, string value) => _write(note, value);
 }

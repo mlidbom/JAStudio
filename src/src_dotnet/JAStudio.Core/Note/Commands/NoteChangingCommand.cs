@@ -22,8 +22,8 @@ public sealed class NoteChangingCommand<TNote> : INoteCommand<TNote> where TNote
    public string? TextTaken => null;
    public bool CreatesAVocab => false;
 
-   /// <summary>Runs the command on <paramref name="note"/>, which saves the note.</summary>
-   public void Run(TNote note) => _run(note);
+   /// <summary>Runs the command on <paramref name="note"/>, as an edit of it (<see cref="EditingANote"/>), which saves the note.</summary>
+   public void Run(TNote note) => note.Edit(_run);
 
    public void RunOn(TNote note, string? text)
    {

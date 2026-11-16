@@ -31,11 +31,13 @@ public sealed class EditableListField<TNote, TItem> : EditableField<TNote, IRead
 
    public bool HoldsEachItemOnce => false;
 
-   public void Add(TNote note, TItem item) => _add(note, item);
+   /// <summary>Adds <paramref name="item"/> after the others on <paramref name="note"/>, as an edit of it (<see cref="EditingANote"/>), and saves the note.</summary>
+   public void Add(TNote note, TItem item) => note.Edit(it => _add(it, item));
 
-   public void Remove(TNote note, TItem item) => _remove(note, item);
+   /// <summary>Removes <paramref name="item"/> once from <paramref name="note"/>, as an edit of it (<see cref="EditingANote"/>), and saves the note.</summary>
+   public void Remove(TNote note, TItem item) => note.Edit(it => _remove(it, item));
 
    public override IReadOnlyList<TItem> Read(TNote note) => _itemsOn(note);
 
-   public override void Write(TNote note, IReadOnlyList<TItem> value) => _set(note, value);
+   protected override void WriteToTheEditedNote(TNote note, IReadOnlyList<TItem> value) => _set(note, value);
 }

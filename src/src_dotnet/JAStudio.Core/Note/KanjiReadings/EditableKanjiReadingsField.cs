@@ -19,5 +19,5 @@ public sealed class EditableKanjiReadingsField : EditableField<KanjiNote, IReadO
    public KanjiReadingList ReadingsOn(KanjiNote kanji) => kanji.Readings.OfKind(_kind);
 
    public override IReadOnlyList<KanjiReading> Read(KanjiNote note) => ReadingsOn(note).All();
-   public override void Write(KanjiNote note, IReadOnlyList<KanjiReading> value) => ReadingsOn(note).ReplaceWith(value);
+   protected override void WriteToTheEditedNote(KanjiNote note, IReadOnlyList<KanjiReading> value) => ReadingsOn(note).ReplaceWith(value);
 }

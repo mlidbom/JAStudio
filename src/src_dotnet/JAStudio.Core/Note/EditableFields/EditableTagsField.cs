@@ -16,7 +16,7 @@ public sealed class EditableTagsField<TNote> : EditableField<TNote, IReadOnlyLis
    public override IReadOnlyList<string> Read(TNote note) => [.. note.Tags.NotMaintainedByJAStudio().Select(it => it.Name)];
 
    /// <summary>Sets the tags named in <paramref name="value"/> and unsets the others a person manages, or, when one can't be such a tag, changes nothing and throws.</summary>
-   public override void Write(TNote note, IReadOnlyList<string> value)
+   protected override void WriteToTheEditedNote(TNote note, IReadOnlyList<string> value)
    {
       foreach(var name in value) ThrowIfItCannotBeATagAPersonManages(name);
       note.Tags.ReplaceTheTagsNotMaintainedByJAStudio([.. value.Select(Tag.FromName)]);
