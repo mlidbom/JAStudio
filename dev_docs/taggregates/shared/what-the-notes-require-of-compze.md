@@ -36,9 +36,10 @@
 3. **Loading from stored state, through the tevent appliers, without the tevent store.** A snapshot is a short list of
    tevents, not one: the root's, which also loads its components, and one adopted through each slot. A vocab loads
    from about eleven, and the corpus from about 570,000 at each start.
-   - **The first tevent carries a snapshot marker of its own,** not the creation marker. A note is created in several
-     ways, each a creation tevent that says what that creation set, and none of them is that it was loaded. And the
-     snapshot tevent alone must set every property, which can then be checked of its type.
+   - **The loaded tevents are not creation tevents.** A note is created in several ways, each a creation tevent that
+     says what that creation set, and none of them is that it was loaded. And the snapshot alone must set every
+     property, which can be checked since the load knows which tevents are the snapshot. Compze needs no marker of its
+     own for them: the load is given the note's id (settled by Compze's own reviews). A note may give them a marker.
    - **Called from the note class's own factory:** protected, and typed on the class's own tevents.
    - **The slot adopts a tevent for loading as it does for publishing.**
    - **The whole snapshot is version 1.** JAStudio stores no version in a note's file.

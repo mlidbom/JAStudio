@@ -4,8 +4,8 @@
 > Agreed by the four sessions that explored the question as two teams (`taggregates-fable` and `taggregates-opus` in
 > JAStudio, `jastudio-rep-fable` and `jastudio-rep-opus` in Compze), then **reviewed by two reviewers who took no part
 > in it, one Opus and one Fable, and changed by their review.** Kept by `taggregates-fable`, which represents JAStudio.
-> Compze's side is in Compze's `dev_docs/taggregate-improvements/shared/`, written before the review and not changed
-> by it: where the two differ, this folder is the later one.
+> Compze's side is in Compze's `dev_docs/taggregate-improvements/shared/`. It was reviewed by two reviewers of its
+> own and revised, and the two folders were brought in step on 2026-11-16.
 
 **The question (Magnus, 2026-11-16).** Should JAStudio's notes be Compze Taggregates, so that every change to a note is
 a tevent, and whatever follows a change subscribes to exactly the tevents it concerns? The storage stays as it is: a
@@ -81,8 +81,9 @@ cost of Taggregates.
   team's standalone prototype loaded a root with four components in 0.6 µs, against 0.2 µs for plain objects.
 - **By setting each part's state directly,** as the constructors do today. About what loading costs today, by
   assumption, not measured. It gives up the one code path, so the round-trip specification matters more.
-- **JAStudio's load time today was not measured,** so what either costs of a start isn't known. The "15 to 40 times
-  faster" of the teams' documents is against 0.6.0-alpha, not against plain objects.
+- **JAStudio's load time today was not measured,** so what either costs of a start isn't known. The teams' "15 to 40
+  times faster" was against 0.6.0-alpha, not plain objects, and from Debug builds: in Release, by Compze's revised
+  figures, a vocab with components and shared tomponents loads 9 to 12 times faster than with 0.6.0-alpha.
 
 **The same as today, so no cost of Taggregates:**
 
@@ -106,8 +107,8 @@ that would go, of which the notifiers' 17 MB is measured. Likely about even or l
   porting them is mechanical is not shown. In no prototype: `ForWrapped`, `ForGenericTevent`, `BeforeHandlers` and
   `AfterHandlers` in a class's declaration, the query models, and the assertion that a declaration is the instance's
   own class's.
-- **The branches hold the earlier loading API,** public on `ITaggregate` with a version argument, not the protected one
-  the teams then agreed on.
+- **The branches hold the earlier loading API,** public on `ITaggregate` with a version argument and a snapshot
+  marker. What is agreed now is protected, typed on the class, and given the note's id, with no marker in Compze.
 - **"About 936 B" and "about 520 B in a final design" are subtractions,** not measurements.
 - **Compze's full suite ran on the combined branch only.** On the branch with slots of the class, only its unit tests.
 - **The Compze-side figures of bytes allocated and of time are from Debug builds of Compze.** In Release a
@@ -118,8 +119,9 @@ that would go, of which the notifiers' 17 MB is measured. Likely about even or l
 - **Which of the three options,** or the next step first: `VocabNoteForms` written both ways, and the conversion sized.
 - **In Compze,** as Compze's shared folder lists: routing for each class, which changes how every taggregate is
   written, and whether it is worth doing for Compze's own sake if JAStudio doesn't use it; declaration or convention;
-  `ITaggregateTevent` as a plain `ITevent`; the names; a source generator later; and whether a taggregate refuses use
-  after a throw.
+  `ITaggregateTevent` as a plain `ITevent`; the names; a source generator later; whether a taggregate refuses
+  publishing and committing after any exception has escaped `Publish`, the hook's included; and how far the assertion
+  of one thread reaches. JAStudio's race between a background reparse and an edit needs it to reach over the hook.
 - **Two choices the teams settled by bytes, which the review puts back, the simple one first:**
   - *How an instance reaches its class's declaration:* a constructor argument, which can't be forgotten, at 8 B for
     each teventive, about 9 MB for the corpus; or a virtual property, at no bytes, which fails at the first tevent when
