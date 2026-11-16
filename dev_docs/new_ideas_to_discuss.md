@@ -94,6 +94,16 @@ piece of code, or that would otherwise be lost in a long response.
     for Compze's internal use.
   - *Smaller, in Compze:* `ITaggregateTevent` is an `IExactlyOnceTevent`, which a note's tevents aren't; and each
     tevent needs an interface and a class that repeats it, which a source generator could write.
+  - *Worked out with a Compze session the same day,* at Magnus's word: what Compze.Teventive should change, and how, is
+    in Compze's `dev_docs/taggregate-improvements/fable/`, starting at its `README.md`, for Magnus to decide on. In
+    short: a static declaration of the tevent appliers for each class; a note loaded from a compacted-history, the
+    tevents its own code makes from its stored state; a protected hook that tells the note's class it has published;
+    and `ITaggregateTevent` as a plain `ITevent`.
+  - *What that dialog found about the notes:* the same class of part several times in a note is the normal case (six
+    word sets and four media reference lists in a vocab, three reading lists in a kanji), so the notes need Compze's
+    shared tomponents throughout, and a vocab loads from about eleven tevents. No part needs a tevent handler of its
+    own. A sentence's root needs one: a change to its configuration reparses it
+    (`CachingSentenceConfigurationField`).
 - **(Claude, 2026-11-15) The card that says JAStudio is still loading could be JAStudio's own page.** While the
   collection loads, Anki's card shows a text (`Mine.AppStillLoadingMessage`), and JAStudio has Anki draw its cards
   again when the load is done (`ISRSWindows.Refresh`), by poking the reviewer's and the previewer's private members.
