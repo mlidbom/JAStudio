@@ -1,6 +1,8 @@
 import typing, abc
 from System import Action_1, Guid, IDisposable, Action, Func_2
+from Compze.Teventive import ITaggregate
 from JAStudio.Core.Note.Media import AllAudioOfANote, AudioReferenceList, MediaReference, MediaReferenceList_1, ImageReference
+from Compze.Teventive.TaggregateStores import ITaggregateReference_1
 from Compze.Teventive.Taggregates.BaseClasses import Taggregate_5
 from JAStudio.Core.Note.Tevents import INoteTevent, NoteTevent, INoteTevent_1, NoteTevent_1
 from System.Collections.Generic import IEnumerable_1, HashSet_1, Dictionary_2, IReadOnlyList_1, List_1
@@ -58,7 +60,7 @@ class EditingANote(abc.ABC):
 
 
 
-class IHasTextToSpeechAudio(typing.Protocol):
+class IHasTextToSpeechAudio(ITaggregate, typing.Protocol):
     @property
     def AllAudio(self) -> AllAudioOfANote: ...
     @property
@@ -67,6 +69,8 @@ class IHasTextToSpeechAudio(typing.Protocol):
     def TextToSpeak(self) -> str: ...
     @abc.abstractmethod
     def Edit(self, edit: Action_1[IHasTextToSpeechAudio]) -> None: ...
+    @abc.abstractmethod
+    def Reference(self) -> ITaggregateReference_1[IHasTextToSpeechAudio]: ...
     @staticmethod
     def SpeakableTextOf(question: str) -> str: ...
 
@@ -363,6 +367,21 @@ class NoteTypes(abc.ABC):
     Vocab : str
     @staticmethod
     def IdFactoryFromName(noteTypeName: str) -> Func_2[Guid, NoteId]: ...
+
+
+class ReferringToANote(abc.ABC):
+    # Skipped Reference due to it being static, abstract and generic.
+
+    Reference : Reference_MethodGroup
+    class Reference_MethodGroup:
+        def __getitem__(self, t:typing.Type[Reference_1_T1]) -> Reference_1[Reference_1_T1]: ...
+
+        Reference_1_T1 = typing.TypeVar('Reference_1_T1')
+        class Reference_1(typing.Generic[Reference_1_T1]):
+            Reference_1_TNote = ReferringToANote.Reference_MethodGroup.Reference_1_T1
+            def __call__(self, note: Reference_1_TNote) -> ITaggregateReference_1[Reference_1_TNote]:...
+
+
 
 
 class SentenceId(NoteId):

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Commands;
 
@@ -24,8 +25,8 @@ public sealed class CommandOfANote
    }
 
    /// <summary>Each of <paramref name="commands"/> on <paramref name="note"/>.</summary>
-   public static IReadOnlyList<CommandOfANote> EachOf<TNote>(IEnumerable<INoteCommand<TNote>> commands, TNote note) where TNote : JPNote =>
-      [.. commands.Select(it => new CommandOfANote(it.Name, it.Label, it.TextTaken, it.CreatesAVocab, text => it.RunOn(note, text)))];
+   public static IReadOnlyList<CommandOfANote> EachOf<TNote>(IEnumerable<INoteCommand<TNote>> commands, ITaggregateReference<TNote> note) where TNote : JPNote =>
+      [.. commands.Select(it => new CommandOfANote(it.Name, it.Label, it.TextTaken, it.CreatesAVocab, text => it.RunOn(note.Current, text)))];
 
    /// <summary>See <see cref="INoteCommand{TNote}.Name"/>.</summary>
    public string Name { get; }

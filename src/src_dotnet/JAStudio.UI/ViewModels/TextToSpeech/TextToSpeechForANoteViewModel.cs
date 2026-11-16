@@ -5,13 +5,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Compze.Teventive.TaggregateStores;
+using JAStudio.Audio;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 using JAStudio.TextToSpeech;
-using JAStudio.Audio;
 using JAStudio.UI.Views.TextToSpeech;
 
 namespace JAStudio.UI.ViewModels.TextToSpeech;
@@ -29,7 +30,7 @@ namespace JAStudio.UI.ViewModels.TextToSpeech;
 /// </remarks>
 partial class TextToSpeechForANoteViewModel : ObservableObject
 {
-   readonly IHasTextToSpeechAudio _note;
+   readonly ITaggregateReference<IHasTextToSpeechAudio> _note;
    readonly IAudioPlayer _player;
    readonly UsingASpeech _usingASpeech;
    readonly IFatalErrorHandler _fatalErrorHandler;
@@ -37,13 +38,16 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    readonly JPCollection _collection;
    int _generationsUnderWay;
 
+   /// <summary>The note as it is now.</summary>
+   IHasTextToSpeechAudio Note => _note.Current;
+
    /// <param name="note">The note to generate TTS audio for.</param>
    /// <param name="chosenVoices">The voices to offer, in priority order. The first is the default.</param>
    /// <param name="player">Plays the attempts and the note's current audio.</param>
    /// <param name="services">The application's services.</param>
    public TextToSpeechForANoteViewModel(IHasTextToSpeechAudio note, IReadOnlyList<TextToSpeechVoice> chosenVoices, IAudioPlayer player, TemporaryServiceCollection services)
    {
-      _note = note;
+      _note = note.Reference();
       _player = player;
       _usingASpeech = new UsingASpeech(services);
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
@@ -61,7 +65,7 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    /// <summary>Raised when the note's TTS audio is discarded (<see cref="DiscardTheTextToSpeechAudio"/>).</summary>
    public event Action? DiscardedTheTextToSpeechAudio;
 
-   public string Title => $"Text-to-speech audio for {_note.TextToSpeak}";
+   public string Title => $"Text-to-speech audio for {Note.TextToSpeak}";
 
    /// <summary>The text the voices speak: the note's text to speak at first, and editable. Editing it changes only what's spoken, not the note.</summary>
    [ObservableProperty] public partial string TextToSpeak { get; set; }
@@ -101,7 +105,7 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    public partial CurrentAudioViewModel CurrentAudio { get; private set; }
 
    /// <summary>Whether the note has TTS audio to discard.</summary>
-   public bool CanDiscardTheTextToSpeechAudio => _note.Audio.TextToSpeech.Count > 0;
+   public bool CanDiscardTheTextToSpeechAudio => Note.Audio.TextToSpeech.Count > 0;
 
    /// <summary>
    /// Discards the note's TTS audio, leaving it with none, and deleting its file from the media layer unless another note uses it<br/>
@@ -110,13 +114,13 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    /// </summary>
    internal void DiscardTheTextToSpeechAudio()
    {
-      _collection.DiscardTheTextToSpeechAudioOf(_note);
+      _collection.DiscardTheTextToSpeechAudioOf(Note);
       ReadTheCurrentAudioAgain();
       DiscardedTheTextToSpeechAudio?.Invoke();
    }
 
    /// <summary>Reads the note's TTS audio again into <see cref="CurrentAudio"/>, as after a speech was used for it.</summary>
-   internal void ReadTheCurrentAudioAgain() => CurrentAudio = CurrentAudioViewModel.Of(_note, _media);
+   internal void ReadTheCurrentAudioAgain() => CurrentAudio = CurrentAudioViewModel.Of(Note, _media);
 
    /// <summary>The latest attempt with <paramref name="voice"/> speaking the <see cref="TextToSpeak"/> as it is now, or null when there's none.</summary>
    internal SpeechAttemptViewModel? LatestAttemptWith(TextToSpeechVoice voice) => Attempts.LastOrDefault(it => it.IsOf(voice, TextToSpeak));
@@ -199,7 +203,7 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    internal string UseTheSelectedAttempt()
    {
       var attempt = SelectedAttempt ?? throw new InvalidOperationException("No attempt is selected to use.");
-      var fileName = _usingASpeech.Use(_note, attempt.Speech);
+      var fileName = _usingASpeech.Use(Note, attempt.Speech);
       ReadTheCurrentAudioAgain();
       UsedAnAttempt?.Invoke(attempt);
       return fileName;

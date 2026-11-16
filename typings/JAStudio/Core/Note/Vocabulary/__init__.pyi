@@ -213,7 +213,7 @@ class VocabMetaTag(IEquatable_1[VocabMetaTag]):
 
 
 
-class VocabNote(JPNote, ISnapshotable_2[VocabNote, VocabDto], IHasTextToSpeechAudio):
+class VocabNote(JPNote, IHasTextToSpeechAudio, ISnapshotable_2[VocabNote, VocabDto]):
     @typing.overload
     def __init__(self, services: NoteServices, data: VocabDto) -> None: ...
     @typing.overload

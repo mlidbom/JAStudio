@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Commands;
+using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -19,9 +22,11 @@ namespace JAStudio.Mcp.Tools.Editing;
 /// </summary>
 public sealed class EditableNote
 {
-   EditableNote(JPNote note, IReadOnlyList<EditableFieldOfANote> fields, IReadOnlyList<CommandOfANote> commands)
+   readonly ITaggregateReference<JPNote> _note;
+
+   EditableNote(ITaggregateReference<JPNote> note, IReadOnlyList<EditableFieldOfANote> fields, IReadOnlyList<CommandOfANote> commands)
    {
-      Note = note;
+      _note = note;
       Fields = fields;
       Commands = commands;
    }
@@ -29,9 +34,9 @@ public sealed class EditableNote
    /// <summary><paramref name="note"/>, with its editable fields and commands: those of its type, such as <see cref="VocabEditableFields"/> and <see cref="VocabCommands"/>.</summary>
    public static EditableNote Of(JPNote note) => note switch
    {
-      VocabNote vocab => new EditableNote(vocab, EditableFieldOfANote.EachOf(VocabEditableFields.All, vocab), CommandOfANote.EachOf(VocabCommands.All, vocab)),
-      KanjiNote kanji => new EditableNote(kanji, EditableFieldOfANote.EachOf(KanjiEditableFields.All, kanji), CommandOfANote.EachOf(KanjiCommands.All, kanji)),
-      SentenceNote sentence => new EditableNote(sentence, EditableFieldOfANote.EachOf(SentenceEditableFields.All, sentence), CommandOfANote.EachOf(SentenceCommands.All, sentence)),
+      VocabNote vocab => Of(vocab.Reference(), VocabEditableFields.All, VocabCommands.All),
+      KanjiNote kanji => Of(kanji.Reference(), KanjiEditableFields.All, KanjiCommands.All),
+      SentenceNote sentence => Of(sentence.Reference(), SentenceEditableFields.All, SentenceCommands.All),
       _ => throw new ArgumentOutOfRangeException(nameof(note), note.GetType(), "JAStudio has no notes of this type.")
    };
 
@@ -39,7 +44,9 @@ public sealed class EditableNote
    public static EditableNote WithTheId(string noteId, JPCollection collection) =>
       Of(collection.NoteFromNoteId(NoteId.Parse(noteId)) ?? throw new ArgumentException($"No note has the id {noteId}.", nameof(noteId)));
 
-   public JPNote Note { get; }
+   /// <summary>The note as it is now.</summary>
+   public JPNote Note => _note.Current;
+
    public IReadOnlyList<EditableFieldOfANote> Fields { get; }
    public IReadOnlyList<CommandOfANote> Commands { get; }
 
@@ -52,6 +59,9 @@ public sealed class EditableNote
    public CommandOfANote CommandNamed(string name) =>
       Commands.SingleOrDefault(it => it.Name == name)
       ?? throw new ArgumentException($"A {TypeName(Note)} has no command named '{name}'. Its commands are: {NamesOf(Commands.Select(it => it.Name))}.");
+
+   static EditableNote Of<TNote>(ITaggregateReference<TNote> note, IEnumerable<IEditableField<TNote>> fields, IEnumerable<INoteCommand<TNote>> commands) where TNote : JPNote =>
+      new(note, EditableFieldOfANote.EachOf(fields, note), CommandOfANote.EachOf(commands, note));
 
    static string NamesOf(IEnumerable<string> names) => string.Join(", ", names.Select(it => $"\"{it}\""));
 

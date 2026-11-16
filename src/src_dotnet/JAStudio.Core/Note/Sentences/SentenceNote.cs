@@ -4,15 +4,16 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Compze.Teventive;
 using Compze.Teventive.Taggregates;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences.Tevents;
 using JAStudio.Core.Storage.Converters;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Sentences;
@@ -133,6 +134,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
    public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
 
    void IHasTextToSpeechAudio.Edit(Action<IHasTextToSpeechAudio> edit) => this.Edit(it => edit(it));
+   ITaggregateReference<IHasTextToSpeechAudio> IHasTextToSpeechAudio.Reference() => this.Reference();
 
    public override string GetAnswer() => Answer.Get();
 

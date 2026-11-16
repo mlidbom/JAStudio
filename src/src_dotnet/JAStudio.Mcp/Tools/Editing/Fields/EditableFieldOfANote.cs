@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
 
@@ -26,8 +27,8 @@ public sealed class EditableFieldOfANote
    }
 
    /// <summary>Each of <paramref name="fields"/> on <paramref name="note"/>.</summary>
-   public static IReadOnlyList<EditableFieldOfANote> EachOf<TNote>(IEnumerable<IEditableField<TNote>> fields, TNote note) where TNote : JPNote =>
-      [.. fields.Select(it => new EditableFieldOfANote(it.Name, it.Label, it.ChangesHowSentencesParse, it.ValueType, () => it.ReadValue(note), value => it.WriteValue(note, value)))];
+   public static IReadOnlyList<EditableFieldOfANote> EachOf<TNote>(IEnumerable<IEditableField<TNote>> fields, ITaggregateReference<TNote> note) where TNote : JPNote =>
+      [.. fields.Select(it => new EditableFieldOfANote(it.Name, it.Label, it.ChangesHowSentencesParse, it.ValueType, () => it.ReadValue(note.Current), value => it.WriteValue(note.Current, value)))];
 
    /// <summary>See <see cref="IEditableField{TNote}.Name"/>.</summary>
    public string Name { get; }

@@ -208,7 +208,7 @@ class SentenceEditableFields(abc.ABC):
     def All(cls) -> IReadOnlyList_1[IEditableField_1[SentenceNote]]: ...
 
 
-class SentenceNote(JPNote, ISnapshotable_2[SentenceNote, SentenceDto], IHasTextToSpeechAudio):
+class SentenceNote(JPNote, IHasTextToSpeechAudio, ISnapshotable_2[SentenceNote, SentenceDto]):
     @typing.overload
     def __init__(self, services: NoteServices, data: SentenceDto) -> None: ...
     @typing.overload

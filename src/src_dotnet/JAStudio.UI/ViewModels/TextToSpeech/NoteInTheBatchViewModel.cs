@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Note;
 using JAStudio.Core.Storage.Media;
 using JAStudio.TextToSpeech;
@@ -27,13 +28,16 @@ partial class NoteInTheBatchViewModel : ObservableObject
    /// <param name="makeItsTextToSpeech">Makes the text-to-speech for the note alone, offering the voices the dialog offers at the time.</param>
    public NoteInTheBatchViewModel(IHasTextToSpeechAudio note, MediaFileIndex media, Func<TextToSpeechForANoteViewModel> makeItsTextToSpeech)
    {
-      Note = note;
+      _note = note.Reference();
       _media = media;
       _makeItsTextToSpeech = makeItsTextToSpeech;
       CurrentAudio = CurrentAudioViewModel.Of(note, media);
    }
 
-   IHasTextToSpeechAudio Note { get; }
+   readonly ITaggregateReference<IHasTextToSpeechAudio> _note;
+
+   /// <summary>The note as it is now.</summary>
+   IHasTextToSpeechAudio Note => _note.Current;
 
    /// <summary>The note's text as TTS speaks it, as the list shows it (<see cref="IHasTextToSpeechAudio.TextToSpeak"/>).</summary>
    public string Text => Note.TextToSpeak;

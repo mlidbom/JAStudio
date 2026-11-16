@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.Input;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
@@ -28,12 +30,15 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 sealed partial class SentencePageViewModel : NotePageViewModel
 {
    readonly SentenceElementMenus _elementMenus;
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentence;
+
+   /// <summary>The sentence as it is now.</summary>
+   SentenceNote Sentence => _sentence.Current;
 
    public SentencePageViewModel(SentenceNote sentence, TemporaryServiceCollection services, INotePageHost host) : base(host)
    {
       _elementMenus = new SentenceElementMenus(services, sentence, host);
-      _sentence = sentence;
+      _sentence = sentence.Reference();
       var settings = services.Resolve<Settings>();
       var media = services.Resolve<MediaFileIndex>();
       var isInEditMode = settings.ShowBreakdownInEditMode();
@@ -143,7 +148,7 @@ sealed partial class SentencePageViewModel : NotePageViewModel
 
    /// <summary>Makes the sentence a parsing case that expects what it parses to now, for a sentence that isn't one.</summary>
    [RelayCommand]
-   void MarkAsAParsingCase() => SentenceCommands.MarkAsAParsingCase.Run(_sentence);
+   void MarkAsAParsingCase() => SentenceCommands.MarkAsAParsingCase.Run(Sentence);
 
    public override void PlayTheNotesAudio() => Audio?.Play();
 

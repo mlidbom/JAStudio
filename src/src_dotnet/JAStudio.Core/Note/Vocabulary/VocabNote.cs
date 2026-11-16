@@ -5,15 +5,16 @@ using System.Linq;
 using Compze.Contracts;
 using Compze.Teventive;
 using Compze.Teventive.Taggregates;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
-using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Converters;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.SysUtils;
 
@@ -166,6 +167,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
 
    void IHasTextToSpeechAudio.Edit(Action<IHasTextToSpeechAudio> edit) => this.Edit(it => edit(it));
+   ITaggregateReference<IHasTextToSpeechAudio> IHasTextToSpeechAudio.Reference() => this.Reference();
 
    /// <summary>The file of the vocab's <see cref="AllAudioOfANote.Preferred"/> audio in the media layer, or null when it has no audio, or the media layer hasn't its file.</summary>
    public AudioAttachment? PreferredAudio => AllAudio.PreferredFileIn(Services.MediaFileIndex);

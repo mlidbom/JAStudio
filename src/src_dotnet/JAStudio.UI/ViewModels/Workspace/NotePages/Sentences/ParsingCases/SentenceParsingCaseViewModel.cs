@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.Input;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.TaskRunners;
@@ -22,16 +24,19 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences.ParsingCases;
 /// </remarks>
 sealed partial class SentenceParsingCaseViewModel
 {
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentence;
    readonly JapaneseConfig _config;
    readonly IFatalErrorHandler _fatalErrorHandler;
+
+   /// <summary>The sentence as it is now.</summary>
+   SentenceNote Sentence => _sentence.Current;
 
    /// <param name="sentence">The sentence, a parsing case.</param>
    /// <param name="comparison">How <paramref name="sentence"/> parses now, compared with what its parsing case expects.</param>
    /// <param name="services">The application's services.</param>
    public SentenceParsingCaseViewModel(SentenceNote sentence, ParsingCaseComparison comparison, TemporaryServiceCollection services)
    {
-      _sentence = sentence;
+      _sentence = sentence.Reference();
       _config = services.CoreApp.Config;
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       var parsingCase = comparison.Case;
@@ -85,5 +90,5 @@ sealed partial class SentenceParsingCaseViewModel
 
    /// <summary>Makes what the sentence parses to now what its parsing case expects. The verdict stays.</summary>
    [RelayCommand]
-   void AcceptWhatItParsesTo() => SentenceCommands.AcceptWhatItParsesToAsAParsingCase.Run(_sentence);
+   void AcceptWhatItParsesTo() => SentenceCommands.AcceptWhatItParsesToAsAParsingCase.Run(Sentence);
 }

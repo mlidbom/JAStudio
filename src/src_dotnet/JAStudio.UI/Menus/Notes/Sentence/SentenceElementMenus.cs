@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Teventive.TaggregateStores;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 using JAStudio.Core.Note;
@@ -29,9 +30,12 @@ namespace JAStudio.UI.Menus.Notes.Sentence;
 sealed class SentenceElementMenus
 {
    readonly TemporaryServiceCollection _services;
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentence;
    readonly INotePageHost _host;
    readonly NoteContextMenu _noteMenus;
+
+   /// <summary>The sentence as it is now.</summary>
+   SentenceNote Sentence => _sentence.Current;
 
    /// <param name="services">The application's services.</param>
    /// <param name="sentence">The sentence the elements show a part of.</param>
@@ -39,7 +43,7 @@ sealed class SentenceElementMenus
    public SentenceElementMenus(TemporaryServiceCollection services, SentenceNote sentence, INotePageHost host)
    {
       _services = services;
-      _sentence = sentence;
+      _sentence = sentence.Reference();
       _host = host;
       _noteMenus = new NoteContextMenu(services);
    }
@@ -89,21 +93,21 @@ sealed class SentenceElementMenus
    /// <summary>Unmarks <paramref name="match"/> when the sentence marks it incorrect, or marks it incorrect at its position when it's valid. Neither when it's invalid otherwise.</summary>
    SpecMenuItem? MarkingIncorrectOrUnmarking(Match match)
    {
-      var incorrectMatches = _sentence.Configuration.IncorrectMatches;
+      var incorrectMatches = Sentence.Configuration.IncorrectMatches;
       if(incorrectMatches.Contains(match))
-         return SpecMenuItem.Command(ShortcutFinger.Home2(TheLabelOfUnmarking("Unmark incorrect", incorrectMatches, match)), () => _sentence.Edit(it => it.Configuration.IncorrectMatches.Remove(match)));
+         return SpecMenuItem.Command(ShortcutFinger.Home2(TheLabelOfUnmarking("Unmark incorrect", incorrectMatches, match)), () => Sentence.Edit(it => it.Configuration.IncorrectMatches.Remove(match)));
 
-      return match.IsValid ? SpecMenuItem.Command(ShortcutFinger.Home2("Mark incorrect here"), () => _sentence.Edit(it => it.Configuration.IncorrectMatches.Add(match))) : null;
+      return match.IsValid ? SpecMenuItem.Command(ShortcutFinger.Home2("Mark incorrect here"), () => Sentence.Edit(it => it.Configuration.IncorrectMatches.Add(match))) : null;
    }
 
    /// <summary>Unhides <paramref name="match"/> when the sentence hides it, or hides it at its position when it's shown. Neither when it's hidden otherwise.</summary>
    SpecMenuItem? HidingOrUnhiding(Match match)
    {
-      var hiddenMatches = _sentence.Configuration.HiddenMatches;
+      var hiddenMatches = Sentence.Configuration.HiddenMatches;
       if(hiddenMatches.Contains(match))
-         return SpecMenuItem.Command(ShortcutFinger.Home3(TheLabelOfUnmarking("Unhide", hiddenMatches, match)), () => _sentence.Edit(it => it.Configuration.HiddenMatches.Remove(match)));
+         return SpecMenuItem.Command(ShortcutFinger.Home3(TheLabelOfUnmarking("Unhide", hiddenMatches, match)), () => Sentence.Edit(it => it.Configuration.HiddenMatches.Remove(match)));
 
-      return match.IsValidForDisplay ? SpecMenuItem.Command(ShortcutFinger.Home3("Hide here"), () => _sentence.Edit(it => it.Configuration.HiddenMatches.Add(match))) : null;
+      return match.IsValidForDisplay ? SpecMenuItem.Command(ShortcutFinger.Home3("Hide here"), () => Sentence.Edit(it => it.Configuration.HiddenMatches.Add(match))) : null;
    }
 
    /// <summary>
@@ -119,10 +123,10 @@ sealed class SentenceElementMenus
    /// </summary>
    SpecMenuItem? HighlightingOrRemovingTheHighlight(Match match)
    {
-      if(_sentence.Configuration.Highlights(match))
-         return SpecMenuItem.Command(ShortcutFinger.Home4("Remove the highlight"), () => _sentence.Edit(it => it.Configuration.RemoveTheHighlightOf(match)));
+      if(Sentence.Configuration.Highlights(match))
+         return SpecMenuItem.Command(ShortcutFinger.Home4("Remove the highlight"), () => Sentence.Edit(it => it.Configuration.RemoveTheHighlightOf(match)));
 
-      return match is MissingMatch ? null : SpecMenuItem.Command(ShortcutFinger.Home4("Highlight"), () => _sentence.Edit(it => it.Configuration.Highlight(match)));
+      return match is MissingMatch ? null : SpecMenuItem.Command(ShortcutFinger.Home4("Highlight"), () => Sentence.Edit(it => it.Configuration.Highlight(match)));
    }
 
    /// <summary>
@@ -172,10 +176,10 @@ sealed class SentenceElementMenus
       selection.Length > 0 ? [TheSentencesMenu(), TheSelectionsMenu(selection)] : [TheSentencesMenu()];
 
    /// <summary>The sentence's menu, as a right-click on no element gives it with nothing selected.</summary>
-   SpecMenuItem TheSentencesMenu() => SpecMenuItem.Submenu(ShortcutFinger.Down2("Sentence"), _noteMenus.BuildSentenceContextMenuSpec(_sentence.GetId(), "", ""));
+   SpecMenuItem TheSentencesMenu() => SpecMenuItem.Submenu(ShortcutFinger.Down2("Sentence"), _noteMenus.BuildSentenceContextMenuSpec(Sentence.GetId(), "", ""));
 
    /// <summary>What can be done with <paramref name="selection"/>: the submenu the sentence's menu has for the text selected.</summary>
-   SpecMenuItem TheSelectionsMenu(string selection) => _noteMenus.BuildSelectionMenuSpec(ShortcutFinger.Down3("Selection:"), selection, _sentence);
+   SpecMenuItem TheSelectionsMenu(string selection) => _noteMenus.BuildSelectionMenuSpec(ShortcutFinger.Down3("Selection:"), selection, Sentence);
 
    /// <summary>A link to <paramref name="vocab"/>, by its question, which the items opening it and its menu are labelled with.</summary>
    static NoteLinkViewModel TheLinkTo(VocabNote vocab) => new(vocab.GetQuestion(), vocab.GetId());

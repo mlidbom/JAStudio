@@ -1,4 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
+using Compze.Teventive.TaggregateStores;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.TaskRunners;
@@ -13,13 +15,16 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences.ParsingCases;
 /// </summary>
 sealed partial class VerdictChoiceViewModel
 {
-   readonly SentenceNote _sentence;
+   readonly ITaggregateReference<SentenceNote> _sentence;
    readonly IFatalErrorHandler _fatalErrorHandler;
+
+   /// <summary>The sentence as it is now.</summary>
+   SentenceNote Sentence => _sentence.Current;
 
    public VerdictChoiceViewModel(Verdict verdict, SentenceNote sentence, IFatalErrorHandler fatalErrorHandler)
    {
       Verdict = verdict;
-      _sentence = sentence;
+      _sentence = sentence.Reference();
       _fatalErrorHandler = fatalErrorHandler;
       IsChosen = SentenceEditableFields.VerdictOnTheDisplayedVocab.Read(sentence) == verdict;
    }
@@ -46,6 +51,6 @@ sealed partial class VerdictChoiceViewModel
    [RelayCommand]
    void Choose()
    {
-      if(!IsChosen) _fatalErrorHandler.HandleExceptionsFrom(() => SentenceEditableFields.VerdictOnTheDisplayedVocab.Write(_sentence, Verdict));
+      if(!IsChosen) _fatalErrorHandler.HandleExceptionsFrom(() => SentenceEditableFields.VerdictOnTheDisplayedVocab.Write(Sentence, Verdict));
    }
 }
