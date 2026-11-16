@@ -141,7 +141,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       MetaData = new VocabNoteMetaData(this, data, Guard);
       Register = new VocabNoteRegister(data?.Register ?? [], Guard);
       UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(data?.UsuallyWrittenInKana, Guard);
-      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, Services.SharedConditions, new NoteGuard(AssertCanBeChanged, FlushAfterTheMatchingConfigurationChanged));
+      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, Services.SharedConditions, new NoteGuard(AssertMayBeChanged, FlushAfterTheMatchingConfigurationChanged));
    }
 
    public override void UpdateInCache()

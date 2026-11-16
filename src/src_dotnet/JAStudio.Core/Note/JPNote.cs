@@ -65,8 +65,20 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    {
       Services = services;
       RecursiveFlushGuard = new NoteFlushGuard(this);
-      Guard = new NoteGuard(AssertCanBeChanged, Flush);
+      Guard = new NoteGuard(AssertMayBeChanged, Flush);
       Tags = new NoteTags(this);
+   }
+
+   /// <summary>
+   /// Fails when the note may not be changed now: when it is a note a taggregate store serves to readers (<see cref="Taggregate{TSelf,TTevent,TTeventImplementation,TWrapperTevent,TWrapperTeventImplementation}.AssertCanBeChanged"/>),<br/>
+   /// and when it is a note of the collection that no edit on this thread is editing (<see cref="EditingANote.AssertIsBeingEdited"/>). A note being<br/>
+   /// created isn't in the collection yet.
+   /// </summary>
+   /// <remarks>wip: the second goes when a taggregate store keeps the notes (dev_docs/taggregates/shared/the-migration.md, step 7).</remarks>
+   protected void AssertMayBeChanged()
+   {
+      AssertCanBeChanged();
+      if(_persisted) EditingANote.AssertIsBeingEdited(this);
    }
 
    public override NoteId Id => (NoteId)base.Id;

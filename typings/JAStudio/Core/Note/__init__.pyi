@@ -1,4 +1,5 @@
 import typing, abc
+from System import Action_1, Guid, IDisposable, Action, Func_2
 from JAStudio.Core.Note.Media import AllAudioOfANote, AudioReferenceList, MediaReference, MediaReferenceList_1, ImageReference
 from Compze.Teventive.Taggregates.BaseClasses import Taggregate_5
 from JAStudio.Core.Note.Tevents import INoteTevent, NoteTevent, INoteTevent_1, NoteTevent_1
@@ -6,7 +7,6 @@ from System.Collections.Generic import IEnumerable_1, HashSet_1, Dictionary_2, I
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.Note.Collection import JPCollection
 from Compze.Abstractions import TaggregateId, EntityId, EntityId_1
-from System import Guid, IDisposable, Action, Func_2
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
 from JAStudio.Core.Studying import CardStudyingStatus, SRSAvailability, StudyNoteIds
 from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDto
@@ -43,6 +43,21 @@ class DifficultyCalculator:
     def IsOtherCharacter(ch: str) -> bool: ...
 
 
+class EditingANote(abc.ABC):
+    # Skipped Edit due to it being static, abstract and generic.
+
+    Edit : Edit_MethodGroup
+    class Edit_MethodGroup:
+        def __getitem__(self, t:typing.Type[Edit_1_T1]) -> Edit_1[Edit_1_T1]: ...
+
+        Edit_1_T1 = typing.TypeVar('Edit_1_T1')
+        class Edit_1(typing.Generic[Edit_1_T1]):
+            Edit_1_TNote = EditingANote.Edit_MethodGroup.Edit_1_T1
+            def __call__(self, note: Edit_1_TNote, edit: Action_1[Edit_1_TNote]) -> None:...
+
+
+
+
 class IHasTextToSpeechAudio(typing.Protocol):
     @property
     def AllAudio(self) -> AllAudioOfANote: ...
@@ -50,6 +65,8 @@ class IHasTextToSpeechAudio(typing.Protocol):
     def Audio(self) -> AudioReferenceList: ...
     @property
     def TextToSpeak(self) -> str: ...
+    @abc.abstractmethod
+    def Edit(self, edit: Action_1[IHasTextToSpeechAudio]) -> None: ...
     @staticmethod
     def SpeakableTextOf(question: str) -> str: ...
 
