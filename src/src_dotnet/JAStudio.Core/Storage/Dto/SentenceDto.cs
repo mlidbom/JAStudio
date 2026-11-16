@@ -51,16 +51,16 @@ public partial class SentenceDto : CorpusNoteDto
          data.ParserVersion);
    }
 
-   public static SentenceConfiguration CreateConfiguration(SentenceConfigDto? data, Action saveCallback)
+   public static SentenceConfiguration CreateConfiguration(SentenceConfigDto? data, Action<Action> makeAChangeToAWordExclusionSet)
    {
       if(data == null)
          return new SentenceConfiguration(
             [],
-            WordExclusionSet.Empty(saveCallback),
-            WordExclusionSet.Empty(saveCallback));
+            WordExclusionSet.Empty(makeAChangeToAWordExclusionSet),
+            WordExclusionSet.Empty(makeAChangeToAWordExclusionSet));
       return new SentenceConfiguration(
          [.. data.HighlightedWords],
-         new WordExclusionSet(saveCallback, [.. data.IncorrectMatches.Select(FromWordExclusionDto)]),
-         new WordExclusionSet(saveCallback, [.. data.HiddenMatches.Select(FromWordExclusionDto)]));
+         new WordExclusionSet(makeAChangeToAWordExclusionSet, [.. data.IncorrectMatches.Select(FromWordExclusionDto)]),
+         new WordExclusionSet(makeAChangeToAWordExclusionSet, [.. data.HiddenMatches.Select(FromWordExclusionDto)]));
    }
 }

@@ -33,8 +33,8 @@ public class SentenceConfiguration
    {
       return new SentenceConfiguration(
          highlighted,
-         new WordExclusionSet(() => {}, incorrectMatches),
-         new WordExclusionSet(() => {}, hiddenMatches));
+         new WordExclusionSet(incorrectMatches),
+         new WordExclusionSet(hiddenMatches));
    }
 
    public static SentenceConfiguration Empty() =>

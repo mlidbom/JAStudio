@@ -14,7 +14,11 @@ public class CachingSentenceConfigurationField
    {
       _sentence = sentence;
       _guard = guard;
-      Configuration = SentenceDto.CreateConfiguration(data, () => _guard.Update(() => _sentence.UpdateParsedWords(force: true)));
+      Configuration = SentenceDto.CreateConfiguration(data, change => _guard.Update(() =>
+      {
+         change();
+         _sentence.UpdateParsedWords(force: true);
+      }));
    }
 
    public SentenceConfiguration Configuration { get; private set; }

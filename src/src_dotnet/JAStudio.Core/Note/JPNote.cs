@@ -58,7 +58,7 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    {
       Services = services;
       RecursiveFlushGuard = new NoteFlushGuard(this);
-      Guard = new NoteGuard(Flush);
+      Guard = new NoteGuard(AssertCanBeChanged, Flush);
       Tags = new NoteTags(this);
    }
 

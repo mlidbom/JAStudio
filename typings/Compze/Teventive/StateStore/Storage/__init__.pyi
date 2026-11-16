@@ -27,6 +27,7 @@ class TaggregateSnapshot:
 
 
 class TaggregateToDelete:
+    def __init__(self, taggregateClass: typing.Type[typing.Any], id: TaggregateId) -> None: ...
     @property
     def Id(self) -> TaggregateId: ...
     @property

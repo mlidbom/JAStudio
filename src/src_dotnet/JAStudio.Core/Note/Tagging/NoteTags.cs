@@ -23,12 +23,12 @@ public class NoteTags : IEnumerable<Tag>
    public void Set(Tag tag)
    {
       Contract.Argument.Assert(!tag.IsAnAnkiTag, () => $"{tag.Name} is an Anki tag, which goes to the note's study-note in Anki.");
-      if(_tags.Add(tag)) _note.Flush();
+      if(!_tags.Contains(tag)) _note.Guard.Update(() => _tags.Add(tag));
    }
 
    public void Unset(Tag tag)
    {
-      if(_tags.Remove(tag)) _note.Flush();
+      if(_tags.Contains(tag)) _note.Guard.Update(() => _tags.Remove(tag));
    }
 
    public void Toggle(Tag tag, bool on)
@@ -51,16 +51,18 @@ public class NoteTags : IEnumerable<Tag>
       var inTheBranch = _tags.Where(branch.Contains).ToList();
       if(inTheBranch.Count == 0) return;
 
-      _tags.ExceptWith(inTheBranch);
-      _tags.UnionWith(inTheBranch.Select(it => Tag.FromName(branch.TheNameRenamedTo(renamed, it.Name))));
-      _note.Flush();
+      _note.Guard.Update(() =>
+      {
+         _tags.ExceptWith(inTheBranch);
+         _tags.UnionWith(inTheBranch.Select(it => Tag.FromName(branch.TheNameRenamedTo(renamed, it.Name))));
+      });
    }
 
    /// <summary>Removes the note's tags in <paramref name="branch"/>: the tag at its path and every tag below it, writing the note once.</summary>
    public void RemoveTheBranch(TagBranch branch)
    {
-      if(_tags.RemoveWhere(branch.Contains) > 0)
-         _note.Flush();
+      if(_tags.Any(branch.Contains))
+         _note.Guard.Update(() => _tags.RemoveWhere(branch.Contains));
    }
 
    public IEnumerator<Tag> GetEnumerator() => _tags.GetEnumerator();

@@ -3,7 +3,7 @@ from JAStudio.Core.Storage.Dto import SentenceConfigDto, SentenceDto, CorpusNote
 from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, IHasTextToSpeechAudio, NoteServices, NoteFlushGuard
 from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1, HashSet_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
-from System import IEquatable_1, Guid, Action
+from System import IEquatable_1, Guid, Action_1, Action
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Note.Commands import NoteChangingCommand_1, NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
@@ -348,7 +348,10 @@ class SentenceSourceData:
 
 
 class WordExclusionSet:
-    def __init__(self, saveCallback: Action, exclusions: List_1[WordExclusion]) -> None: ...
+    @typing.overload
+    def __init__(self, exclusions: List_1[WordExclusion]) -> None: ...
+    @typing.overload
+    def __init__(self, makeTheChange: Action_1[Action], exclusions: List_1[WordExclusion]) -> None: ...
     def AddGlobal(self, vocab: str) -> None: ...
     def Contains(self, match: Match) -> bool: ...
     def ContainsItsFormEverywhereInTheSentence(self, match: Match) -> bool: ...
@@ -375,7 +378,7 @@ class WordExclusionSet:
         @typing.overload
         def __call__(self) -> WordExclusionSet:...
         @typing.overload
-        def __call__(self, saveCallback: Action) -> WordExclusionSet:...
+        def __call__(self, makeTheChange: Action_1[Action]) -> WordExclusionSet:...
 
     # Skipped Remove due to it being static, abstract and generic.
 

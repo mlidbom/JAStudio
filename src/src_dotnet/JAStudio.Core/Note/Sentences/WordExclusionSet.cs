@@ -9,23 +9,27 @@ namespace JAStudio.Core.Note.Sentences;
 
 public class WordExclusionSet
 {
-   readonly Action _saveCallback;
+   /// <summary>Makes a change to the set: a sentence's set makes it as a change of the sentence, under its guard, reparsing it after.</summary>
+   readonly Action<Action> _makeTheChange;
+
    readonly HashSet<WordExclusion> _exclusions;
    HashSet<string> _excludedWords;
 
-   public WordExclusionSet(Action saveCallback, List<WordExclusion> exclusions)
+   /// <param name="makeTheChange">Makes a change to the set, given as an action: a sentence's set makes it as a change of the sentence.</param>
+   /// <param name="exclusions">The set's exclusions.</param>
+   public WordExclusionSet(Action<Action> makeTheChange, List<WordExclusion> exclusions)
    {
-      _saveCallback = saveCallback;
+      _makeTheChange = makeTheChange;
       _exclusions = [.. exclusions];
       _excludedWords = ExtractWords();
    }
 
-   public static WordExclusionSet Empty()
-   {
-      return new WordExclusionSet(() => {}, []);
-   }
+   /// <summary>A set of no sentence's, which simply makes each change.</summary>
+   public WordExclusionSet(List<WordExclusion> exclusions) : this(change => change(), exclusions) {}
 
-   public static WordExclusionSet Empty(Action saveCallback) => new(saveCallback, []);
+   public static WordExclusionSet Empty() => new([]);
+
+   public static WordExclusionSet Empty(Action<Action> makeTheChange) => new(makeTheChange, []);
 
    public bool IsEmpty() => _exclusions.Count == 0;
 
@@ -35,31 +39,28 @@ public class WordExclusionSet
 
    public HashSet<string> Words() => _excludedWords;
 
-   public void Reset()
+   public void Reset() => _makeTheChange(() =>
    {
       _exclusions.Clear();
       _excludedWords.Clear();
-      _saveCallback();
-   }
+   });
 
    public void AddGlobal(string vocab)
    {
       Add(WordExclusion.Global(vocab));
    }
 
-   public void Add(WordExclusion exclusion)
+   public void Add(WordExclusion exclusion) => _makeTheChange(() =>
    {
       _exclusions.Add(exclusion);
       _excludedWords = ExtractWords();
-      _saveCallback();
-   }
+   });
 
-   public void Remove(WordExclusion exclusion)
+   public void Remove(WordExclusion exclusion) => _makeTheChange(() =>
    {
       _exclusions.Remove(exclusion);
       _excludedWords = ExtractWords();
-      _saveCallback();
-   }
+   });
 
    /// <summary>Adds <paramref name="match"/>, at its position in the sentence only (<see cref="Match.ToExclusion"/>).</summary>
    public void Add(Match match) => Add(match.ToExclusion());
@@ -82,25 +83,21 @@ public class WordExclusionSet
       var exclusionsExcludingIt = ExclusionsExcluding(match);
       Contract.Argument.Assert(exclusionsExcludingIt.Count > 0, () => $"The set contains no {match.ExclusionForm} at {match.StartIndex} to remove: {this}");
 
-      _exclusions.ExceptWith(exclusionsExcludingIt);
-      _excludedWords = ExtractWords();
-      _saveCallback();
+      _makeTheChange(() =>
+      {
+         _exclusions.ExceptWith(exclusionsExcludingIt);
+         _excludedWords = ExtractWords();
+      });
    }
 
    /// <summary>The exclusions that exclude <paramref name="match"/>: its form at its position, and its form everywhere in the sentence.</summary>
    List<WordExclusion> ExclusionsExcluding(Match match) => [.. _exclusions.Where(it => it.ExcludesFormAtIndex(match.ExclusionForm, match.StartIndex))];
 
-   public void RemoveString(string toRemove)
+   public void RemoveString(string toRemove) => _makeTheChange(() =>
    {
-      var toRemoveList = _exclusions.Where(ex => ex.Word == toRemove).ToList();
-      foreach(var exclusion in toRemoveList)
-      {
-         _exclusions.Remove(exclusion);
-      }
-
+      _exclusions.RemoveWhere(it => it.Word == toRemove);
       _excludedWords = ExtractWords();
-      _saveCallback();
-   }
+   });
 
    /// <remarks>A loop, not LINQ's <c>Any</c>, whose lambda would allocate a closure at every call, exclusions or not: parsing calls it millions of times a pass.</remarks>
    public bool ExcludesAtIndex(string word, int index)
