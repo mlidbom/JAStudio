@@ -17,11 +17,12 @@
 - **A part of a note that holds more than one property, or has behavior of its own, has a group,** which is itself a
   tevent: `IVocabTevent.Forms`, `IVocabTevent.Question`. A note's plain properties, such as its text fields, are
   updated at the note's root.
-- **A domain tevent says what happened beyond the value,** and is also the `PropertyUpdated` tevent it causes:
-  `IVocabTevent.Forms.Added : PropertyUpdated.EnteredForms`, with the form added and the whole resulting list.
-- **A domain tevent exists only where something reacts to more than the new value.** This domain is mostly edits of
-  values, so most tevents are `PropertyUpdated` only, and honestly so. The tevents aren't stored, so a domain tevent can be
-  added the day something needs it.
+- **A collection property's tevent may also say which element changed,** nested in the property's own tevent:
+  `IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added`, with the form added and the whole resulting list. It is an
+  update of a property that happens to be a collection, not a domain tevent (Magnus).
+- **A domain tevent says what happened in the domain,** and is also the `PropertyUpdated` tevent it causes:
+  `IVocabTevent.Question.Renamed`. This domain is mostly edits of values, so most tevents are `PropertyUpdated` only, and
+  honestly so. The tevents aren't stored, so a domain tevent can be added the day something needs it.
 
 So a subscriber says exactly what it follows:
 
@@ -30,7 +31,7 @@ So a subscriber says exactly what it follows:
 observe.ForTevent((IVocabTevent.Forms it) => ...);
 
 //A form added: the vocab whose question it is get this vocab's question in turn, in the same unit of work.
-handle.ForTevent((IVocabTevent.Forms.Added it, ITaggregateStoreUpdater notes) => ...);
+handle.ForTevent((IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added it, ITaggregateStoreUpdater notes) => ...);
 
 //A vocab renamed: the word-references to its old name, in other notes, are renamed.
 handle.ForTevent((IVocabTevent.Question.Renamed it, ITaggregateStoreUpdater notes) => ...);
@@ -51,8 +52,8 @@ IVocabTevent : INoteTevent
       Renamed : PropertyUpdated.Text, PropertyUpdated.Disambiguation  { From }
    Forms
       PropertyUpdated.EnteredForms    { EnteredForms }
-      Added   : PropertyUpdated.EnteredForms  { Form }
-      Removed : PropertyUpdated.EnteredForms  { Form }
+         Added    { Form }
+         Removed  { Form }
 ```
 
 - **The domain tevents, and what reacts to each:**
@@ -60,8 +61,9 @@ IVocabTevent : INoteTevent
   - `Question.Renamed`: the word-references to the vocab's old name are renamed. It carries the old name because nothing
     else has it: inside a unit of work, the vocab read is its own copy, already renamed. Changing the disambiguation
     renames the vocab too, so `Renamed` sets both properties.
-  - `Forms.Added` and `Forms.Removed`: the vocab whose question the form is get or lose this vocab's question in turn.
-- **Owning a form, or no longer owning it, is `PropertyUpdated.EnteredForms` only** for now: nothing reacts to more.
+- **A form added or removed reaches other vocab:** the vocab whose question the form is get or lose this vocab's question
+  in turn, a handler of `EnteredForms.Added` and `EnteredForms.Removed`. Owning a form, or no longer owning it, is
+  `PropertyUpdated.EnteredForms` only for now: nothing reacts to more.
 - **A text field is a plain string of the vocab,** with its `PropertyUpdated` tevent. Today each of the notes' 27 text fields
   is a `WritableStringValue` object: trimming, changing nothing when the value is equal, and an `IObservable<string>` that
   only `PerfectSynonyms` follows. With tevents each is a line of the setter, or a subscription, so the class goes as the
@@ -113,7 +115,7 @@ public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTev
    public void Add(string form)
    {
       if(IsTheQuestion(form) || EnteredFormsSet().Contains(form)) return; //A tevent is published only when something changes.
-      Publish(new VocabTevent.Forms.Added(form, [.. _enteredForms, EnteredForm.NotOwned(form)]));
+      Publish(new VocabTevent.Forms.EnteredFormAdded(form, [.. _enteredForms, EnteredForm.NotOwned(form)]));
    }
 
    public void Own(string form) => Publish(new VocabTevent.Forms.EnteredFormsUpdated(WithTheForm(EnteredForm.Owned(form))));
@@ -123,7 +125,7 @@ public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTev
 - **A domain method decides, and publishes the result; an applier only sets it.** Loading a vocab, which runs no applier,
   and changing it can't disagree.
 - **"Publish only when it changed" is written once,** as a helper such as `PublishIfChanged`, not in each of 27 setters.
-- **What reaches other vocab leaves the domain call:** a participation handler of `Forms.Added` gets the vocab whose
+- **What reaches other vocab leaves the domain call:** a participation handler of `EnteredForms.Added` gets the vocab whose
   question the form is for update, in the same unit of work. Their own `Add` then finds the form there and publishes
   nothing, so it stops, as today's code does.
 - **The `Created` tevent reaches the question's applier** although the vocab's root publishes it: a component is routed to

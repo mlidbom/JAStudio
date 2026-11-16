@@ -9,7 +9,7 @@ namespace JAStudio.Core.Note.Vocabulary.Tevents;
 
 /// <summary>
 /// The tevent appliers apply only <c>PropertyUpdated</c> tevents, each the whole new value of one property. A domain tevent, such as<br/>
-/// <see cref="Forms.Added"/>, is also the <c>PropertyUpdated</c> tevent it causes, and exists only where something reacts to more than the new value.
+/// <see cref="Question.Renamed"/>, is also the <c>PropertyUpdated</c> tevent it causes.
 /// </summary>
 public interface IVocabTevent : INoteTevent
 {
@@ -44,17 +44,13 @@ public interface IVocabTevent : INoteTevent
    {
       public new static class PropertyUpdated
       {
-         public interface EnteredForms : Forms { IReadOnlyList<EnteredForm> EnteredForms { get; } }
-      }
+         public interface EnteredForms : Forms
+         {
+            IReadOnlyList<EnteredForm> EnteredForms { get; }
 
-      public interface Added : PropertyUpdated.EnteredForms
-      {
-         string Form { get; }
-      }
-
-      public interface Removed : PropertyUpdated.EnteredForms
-      {
-         string Form { get; }
+            public interface Added : EnteredForms { string Form { get; } }
+            public interface Removed : EnteredForms { string Form { get; } }
+         }
       }
    }
 }

@@ -38,13 +38,13 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
          public IReadOnlyList<EnteredForm> EnteredForms { get; } = enteredForms;
       }
 
-      public class Added(string form, IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.Added
+      public class EnteredFormAdded(string form, IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added
       {
          public string Form { get; } = form;
          public IReadOnlyList<EnteredForm> EnteredForms { get; } = enteredForms;
       }
 
-      public class Removed(string form, IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.Removed
+      public class EnteredFormRemoved(string form, IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed
       {
          public string Form { get; } = form;
          public IReadOnlyList<EnteredForm> EnteredForms { get; } = enteredForms;
