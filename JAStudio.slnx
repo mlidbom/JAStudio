@@ -36,6 +36,7 @@
       <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Tessaging/Compze.Tessaging.csproj" />
       <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Tessaging.Abstractions/Compze.Tessaging.Abstractions.csproj" />
       <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Teventive/Compze.Teventive.csproj" />
+      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Teventive.StateStore/Compze.Teventive.StateStore.csproj" />
       <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Threading/Compze.Threading.csproj" />
       <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Threading.Interprocess/Compze.Threading.Interprocess.csproj" />
       <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.TypeIdentifiers/Compze.TypeIdentifiers.csproj" />
