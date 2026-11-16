@@ -186,7 +186,10 @@ that would go, of which the notifiers' 17 MB is measured. Likely about even or l
   `ITaggregateTevent` as a plain `ITevent`; the names; a source generator later; whether a taggregate refuses
   publishing and committing after any exception has escaped `Publish`, the hook's included; and how far the assertion
   of one thread reaches. JAStudio's race between a background reparse and an edit needs it to reach over the hook.
-- **Two choices the teams settled by bytes, which the review puts back, the simple one first:**
+- **Two choices the teams settled by bytes, which the review puts back, the simple one first.** Handed to Compze's
+  representative on 2026-11-16, since they are Compze's design: `jastudio-rep-opus` puts them to Magnus. Read again
+  in the prototypes' code that day, the variants the teams chose are no more complex than the others, so "the simple
+  one first" says more than the code supports:
   - *How an instance reaches its class's declaration:* a constructor argument, which can't be forgotten, at 8 B for
     each teventive, about 9 MB for the corpus; or a virtual property, at no bytes, which fails at the first tevent when
     a subclass forgets it.

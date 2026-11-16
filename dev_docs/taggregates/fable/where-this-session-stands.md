@@ -25,10 +25,10 @@
   it is in the answers document's last section (commit c4b3be359).
 - **Compze took all of the check in** (its commit f3622f9fd), and fixed the lookup in the prototype: 0.05 to
   0.18 µs and no allocation outside a unit of work.
-- **One item waits for Magnus's answer,** kept by the `unanswered` script for this session: 14, the two choices in
-  tevent routing per class that were settled by bytes. **Item 13 is watched:** when `jastudio-rep-opus` says the
+- **Nothing waits for Magnus's answer in this session. Item 13 is watched:** when `jastudio-rep-opus` says the
   store prototype has the ambient unit of work, tell Magnus and put to him again whether to write `VocabNoteForms`
-  against it. Items 7, 8, 10, 11 and 12 are dropped.
+  against it. Items 7, 8, 10, 11 and 12 are dropped. Item 14, the two choices in tevent routing per class that were
+  settled by bytes, was handed to `jastudio-rep-opus` on Magnus's word, as pure Compze design.
 - **Magnus dropped 11 and 12 as ways of weighing the best design against the size of its refactoring** (2026-11-16):
   the smaller route's only advantage was being smaller, and counting the places that edit a note sizes the work
   without deciding anything. Don't bring either back as a reason.
