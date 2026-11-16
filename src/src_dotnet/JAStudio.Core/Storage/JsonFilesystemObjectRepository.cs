@@ -4,12 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Compze.Internals.Logging;
+using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.SysUtils.IO;
 using MemoryPack;
 
 namespace JAStudio.Core.Storage;
 
-public class JsonFilesystemObjectRepository<TData> where TData : class, IIdentifiableByGuid
+public partial class JsonFilesystemObjectRepository<TData> where TData : class, IIdentifiableByGuid
 {
    readonly string _directory;
    readonly JsonSerializerOptions _jsonOptions;
@@ -30,22 +31,28 @@ public class JsonFilesystemObjectRepository<TData> where TData : class, IIdentif
       var hasAttribute = type.GetCustomAttributes(typeof(MemoryPackableAttribute), inherit: false).Length > 0;
       if(!hasAttribute)
          throw new InvalidOperationException(
-            $"Type {type.FullName} must be decorated with [MemoryPackable] to be used with {nameof(JsonFilesystemObjectRepository<TData>)}");
+            $"Type {type.FullName} must be decorated with [MemoryPackable] to be used with {nameof(JsonFilesystemObjectRepository<>)}");
    }
 
-   public void Save(TData data)
+   public void Save(TData data) => PrepareSaving(data).Commit();
+
+   public void Delete(Guid id) => PrepareDeleting(id).Commit();
+
+   /// <summary>
+   /// Writes <paramref name="data"/>'s file under a temporary name beside the file it replaces or creates, for the returned write to give it<br/>
+   /// its name. So what can fail, serializing and writing, fails here, and a crash before the commit leaves the file as it was.
+   /// </summary>
+   public IPreparedWrite PrepareSaving(TData data)
    {
       var path = FilePath(data.Id);
       EnsureDirectoryExists(Path.GetDirectoryName(path)!);
-      File.WriteAllText(path, JsonSerializer.Serialize(data, _jsonOptions));
+      var temporaryPath = Path.ChangeExtension(path, ".being-written");
+      File.WriteAllText(temporaryPath, JsonSerializer.Serialize(data, _jsonOptions));
+      return new PreparedSaving(temporaryPath, path);
    }
 
-   public void Delete(Guid id)
-   {
-      var path = FilePath(id);
-      if(File.Exists(path))
-         File.Delete(path);
-   }
+   /// <summary>The deletion of the file of the object <paramref name="id"/>, for the returned write to make, if it has one.</summary>
+   public IPreparedWrite PrepareDeleting(Guid id) => new PreparedDeleting(FilePath(id));
 
    public List<TData> LoadAll()
    {
@@ -127,7 +134,7 @@ public class JsonFilesystemObjectRepository<TData> where TData : class, IIdentif
       foreach(var id in map.Keys.Where(id => !changes.CurrentIds.Contains(id)).ToList())
          map.Remove(id);
 
-      return map.Values.ToList();
+      return [.. map.Values];
    }
 
    List<TData> LoadAllFromJsonAndSaveSnapshot()

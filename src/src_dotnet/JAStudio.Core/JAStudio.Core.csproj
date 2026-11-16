@@ -41,6 +41,7 @@
       <PackageReference Include="Compze.Internals.Logging" />
       <PackageReference Include="Compze.Internals.SystemCE" />
       <PackageReference Include="Compze.Teventive" />
+      <PackageReference Include="Compze.Teventive.StateStore" />
       <PackageReference Include="Compze.Threading" />
       <PackageReference Include="Compze.Underscore" />
    </ItemGroup>
