@@ -15,3 +15,7 @@ put the rationale on the same line as the directive.
 **Approved exception — BDD specification files:** put `// ReSharper disable InconsistentNaming` after the
 usings, as the existing specifications do. BDD class and method names are `lower_case_with_underscores` by
 design, which ReSharper's naming rule flags.
+
+**Approved exception — files of tevent interfaces** (Magnus, 2026-11-16): the same line after the usings, as in
+`IVocabTevent.cs`. Nested tevent interfaces are named without an `I`, by Compze's semantic-events convention, so that
+`IVocabTevent.Forms.Added` reads as what happened.
