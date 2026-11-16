@@ -86,9 +86,19 @@ each build and pass:
    - Until increment 3, nothing commits the notes, so the tevents each note publishes pile up on it, one per edit.
    - An imported sentence and a cloned vocab are made from a DTO, so they publish no `Created`. Nothing needs them
      to yet. Increment 4 decides how a new note enters the store.
-2. **JAStudio's storage behind `ITaggregateStorage`:** `LoadAll` from the repository's DTOs, and `Prepare` writing
-   each changed note's file under a temporary name, renamed at `Commit`. The files stay byte for byte as they are.
-3. **The store keeps the notes.** Composed with the three note classes, each with its factory and a comparison of
+2. **Done (`206ee4ddd`). JAStudio's storage behind `ITaggregateStorage`: `Storage/CorpusNoteFiles`.**
+   - `LoadAll` gives each note's DTO, through the binary snapshot cache as before.
+   - `Prepare` writes each changed note's file under a temporary name beside it, `<id>.being-written`, and `Commit`
+     renames it into place. A deletion waits for `Commit`.
+   - `JsonFilesystemObjectRepository.Save` is the same two steps, committed at once, so the files stay byte for byte
+     as they are: saving every note changes none.
+   - **The cost:** saving every note takes about 50 s instead of 12, about 0.6 ms a file against 0.15. An edit
+     writes one file.
+   - Nothing uses it yet.
+3. **Increments 3 and 4 are one step:** once the store keeps the notes, its committed instances are read only, so
+   every edit outside a unit of work fails. What they need first is
+   [how JAStudio code edits a note](#open-to-settle-before-the-store-keeps-the-notes).
+   **The store keeps the notes.** Composed with the three note classes, each with its factory and a comparison of
    serialized DTOs. The caches' indexes become the store's indexes, each a function of a note's state, as today's
    `keysOf(snapshot)` already is. Loading and reloading go through the store.
 4. **Every edit runs in a unit of work, on the note's copy.** The UI, the MCP server's tools, the importers, the batches
@@ -96,7 +106,10 @@ each build and pass:
    reference: about twelve classes outside the notes, and 92 specification files that hold a note in a field.
    `JPCollection.NoteUpdated` is raised once a unit of work has committed.
 
-**Open, to settle with `jastudio-rep-opus` before increment 4:**
+### Open, to settle before the store keeps the notes
+
+With `jastudio-rep-opus`, and for Magnus to look at, as he did at the tevents' structure: it decides how every edit
+in JAStudio is written.
 - **How code that has a note gets it for update.** A lookup returns a note. Inside a unit of work, the code then needs
   that note's copy: `note.ForUpdate()`, through the note's own reference, would keep the call sites short.
 - **The short way for a specification to run an edit,** given the 92 files.
