@@ -97,7 +97,7 @@ each build and pass:
    - Nothing uses it yet.
 3. **Increments 3 and 4 are one step:** once the store keeps the notes, its committed instances are read only, so
    every edit outside a unit of work fails. What they need first is
-   [how JAStudio code edits a note](#open-to-settle-before-the-store-keeps-the-notes).
+   [how JAStudio code edits a note](how-jastudio-edits-a-note.md).
    **The store keeps the notes.** Composed with the three note classes, each with its factory and a comparison of
    serialized DTOs. The caches' indexes become the store's indexes, each a function of a note's state, as today's
    `keysOf(snapshot)` already is. Loading and reloading go through the store.
@@ -108,11 +108,8 @@ each build and pass:
 
 ### Open, to settle before the store keeps the notes
 
-With `jastudio-rep-opus`, and for Magnus to look at, as he did at the tevents' structure: it decides how every edit
-in JAStudio is written.
-- **How code that has a note gets it for update.** A lookup returns a note. Inside a unit of work, the code then needs
-  that note's copy: `note.ForUpdate()`, through the note's own reference, would keep the call sites short.
-- **The short way for a specification to run an edit,** given the 92 files.
+[How JAStudio code edits a note](how-jastudio-edits-a-note.md): proposed, with `jastudio-rep-opus`, for Magnus to look
+at, as he did at the tevents' structure. It decides how every edit in JAStudio is written.
 
 ## The order
 
