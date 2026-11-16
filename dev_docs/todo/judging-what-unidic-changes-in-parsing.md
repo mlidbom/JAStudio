@@ -4,6 +4,24 @@
 > judging: it's to be designed with him. This is part of [switching to UniDic](switching-to-unidic.md), and replaces what
 > that plan said was to be fixed and accepted among the parsing cases, and its step 3.
 
+## While the notes are migrated to Compze's state store (Magnus, 2026-11-16)
+
+Until the branch `migrating-the-notes-to-the-state-store` is merged into `main`, this work keeps off what that migration
+rewrites, so that merging the two isn't merge hell. Its plan, with numbered steps, is
+`dev_docs/taggregates/shared/the-migration.md` on its branch.
+
+- **Keep off, or keep small and get it to `main` fast:** the note model (`JPNote`, edits through `NoteGuard.Update`, a
+  note's parts and fields, new data stored on a note such as a field on `SentenceNote.ParsingCase`), the DTOs and
+  converters under `JAStudio.Core/Storage`, the vocab caches matching looks vocab up through (its step 8), and the
+  sentences' model (its step 9).
+- **Safe:** the tokenizer and parsing code, the parsing case comparison and breakdown types, view models and views, MCP
+  tools that only read, tooling, and the judging itself: verdicts and accepting are edits to the corpus's data, and the
+  migration changes no file of the corpus.
+- **When UniDic's rebuilt corpus lands on `main`,** the migration's check that a full rebuild matches its baseline breaks
+  until it takes a new one: tell its session, `taggregates-opus`.
+- **Merge `main` into `unidic` often.** Merged on 2026-11-16 at 198 commits behind, with 10 files conflicting; the
+  migration's own commits then shared one file with `unidic`, `AppBootStrapper.cs`.
+
 ## The rule (Magnus, 2026-11-15)
 
 - **The goal is that parsing is not worse, not that it's unchanged.** "The goal is not necessarily the tests passing as
