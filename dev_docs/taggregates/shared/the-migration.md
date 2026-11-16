@@ -55,12 +55,14 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `63a5dcce5`, whose index lookups give id order, and before it `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
+  JAStudio's worktree of Compze is at `79884ea33`, where every taggregate of a class comes from a bulk reader,
+  `ITaggregateStoreBulkReader`, in id order. Before it, `63a5dcce5`, whose index lookups give id order, and `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
   and `ITaggregateStoreReader`: the three additions JAStudio's switch asked for, specified under "Three gaps for JAStudio's
   switch, specified" in Compze's `the-taggregate-store.md`.
   - a storage built with a container service, `store.StoredIn((ITaggregateStorage storage) => storage)`, resolved at the
     store's first use;
-  - every taggregate of a class, `IStateStore.All<TTaggregate>()`, inside a unit of work as it has changed them;
+  - every taggregate of a class, then `IStateStore.All<TTaggregate>()`, now the bulk reader's `All`, inside a unit of work
+    as it has changed them;
   - a reload that runs a change to the storage first, `IStateStore.ReloadFromStorageAfter(change)`, while every unit of
     work waits.
 - **JAStudio:** steps 1 to 6 below are done, and so are step 7's increments 1 to 4: **the state store keeps the notes**,

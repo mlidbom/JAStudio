@@ -125,8 +125,8 @@ Each a commit that builds and passes the whole suite, so the switch to the store
      notes" logs each note a unit of work saves.
    - **Open with Magnus on Compze's side, which may change this** (`jastudio-rep-opus`, 2026-11-16): whether a store
      index promises id order, decided yes and built, so `NoteIndex.NotesWith`'s sort is gone; whether every taggregate of a class
-     moves from `IStateStore.All` to a bulk reader beside the shared reader, which would change what `StoredNotes`
-     depends on; and the end-of-spike API review, in which `ReloadFromStorageAfter` may go, leaving JAStudio to hold its
+     moves from `IStateStore.All` to a bulk reader beside the shared reader, decided yes (item 34) and built at spike
+     `79884ea33`, so `StoredNotes` reads the store through `ITaggregateStoreBulkReader`; and the end-of-spike API review, in which `ReloadFromStorageAfter` may go, leaving JAStudio to hold its
      own units of work back around a fast-forward.
 
 ## The three decisions
