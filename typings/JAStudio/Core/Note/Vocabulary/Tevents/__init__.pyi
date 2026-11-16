@@ -1,6 +1,5 @@
 import typing, abc
 from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, NoteTevent_1
-from Compze.Tessaging.TessageTypes import IPublisherTevent_1
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.Vocabulary import EnteredForm, WordReference
@@ -16,122 +15,74 @@ class IVocabTevent(IVocabTevent_0, metaclass =IVocabTevent_GenericClasses): ...
 
 class IVocabTevent_0(INoteTevent, typing.Protocol):
 
-    class CorpusAnswer_GenericClasses(abc.ABCMeta):
-        Generic_CorpusAnswer_GenericClasses_CorpusAnswer_1_TTevent = typing.TypeVar('Generic_CorpusAnswer_GenericClasses_CorpusAnswer_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_CorpusAnswer_GenericClasses_CorpusAnswer_1_TTevent]) -> typing.Type[IVocabTevent.CorpusAnswer_1[Generic_CorpusAnswer_GenericClasses_CorpusAnswer_1_TTevent]]: ...
+    class CorpusAnswerUpdated(IVocabTevent_0, typing.Protocol):
+        @property
+        def CorpusAnswer(self) -> str: ...
 
-    CorpusAnswer : CorpusAnswer_GenericClasses
 
-    CorpusAnswer_1_TTevent = typing.TypeVar('CorpusAnswer_1_TTevent', covariant=True)
-    class CorpusAnswer_1(typing.Generic[CorpusAnswer_1_TTevent], IVocabTevent_0, IPublisherTevent_1[CorpusAnswer_1_TTevent], typing.Protocol):
-        CorpusAnswer_1_TTevent = IVocabTevent_0.CorpusAnswer_1_TTevent
+    class Created(IVocabTevent.Question.TextUpdated, ITaggregateCreatedTevent, typing.Protocol):
         pass
 
 
-    class Created(IVocabTevent.Question.PropertyUpdated.Text, ITaggregateCreatedTevent, typing.Protocol):
-        pass
+    class ExplanationLongUpdated(IVocabTevent_0, typing.Protocol):
+        @property
+        def ExplanationLong(self) -> str: ...
 
 
-    class Explanation_GenericClasses(abc.ABCMeta):
-        Generic_Explanation_GenericClasses_Explanation_1_TTevent = typing.TypeVar('Generic_Explanation_GenericClasses_Explanation_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_Explanation_GenericClasses_Explanation_1_TTevent]) -> typing.Type[IVocabTevent.Explanation_1[Generic_Explanation_GenericClasses_Explanation_1_TTevent]]: ...
-
-    Explanation : Explanation_GenericClasses
-
-    Explanation_1_TTevent = typing.TypeVar('Explanation_1_TTevent', covariant=True)
-    class Explanation_1(typing.Generic[Explanation_1_TTevent], IVocabTevent_0, IPublisherTevent_1[Explanation_1_TTevent], typing.Protocol):
-        Explanation_1_TTevent = IVocabTevent_0.Explanation_1_TTevent
-        pass
-
-
-    class ExplanationLong_GenericClasses(abc.ABCMeta):
-        Generic_ExplanationLong_GenericClasses_ExplanationLong_1_TTevent = typing.TypeVar('Generic_ExplanationLong_GenericClasses_ExplanationLong_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_ExplanationLong_GenericClasses_ExplanationLong_1_TTevent]) -> typing.Type[IVocabTevent.ExplanationLong_1[Generic_ExplanationLong_GenericClasses_ExplanationLong_1_TTevent]]: ...
-
-    ExplanationLong : ExplanationLong_GenericClasses
-
-    ExplanationLong_1_TTevent = typing.TypeVar('ExplanationLong_1_TTevent', covariant=True)
-    class ExplanationLong_1(typing.Generic[ExplanationLong_1_TTevent], IVocabTevent_0, IPublisherTevent_1[ExplanationLong_1_TTevent], typing.Protocol):
-        ExplanationLong_1_TTevent = IVocabTevent_0.ExplanationLong_1_TTevent
-        pass
+    class ExplanationUpdated(IVocabTevent_0, typing.Protocol):
+        @property
+        def Explanation(self) -> str: ...
 
 
     class Forms(IVocabTevent_0, typing.Protocol):
 
-        class Added(IVocabTevent.Forms.PropertyUpdated.EnteredForms, typing.Protocol):
+        class Added(IVocabTevent.Forms.EnteredFormsUpdated, typing.Protocol):
             @property
             def Form(self) -> str: ...
 
 
-        class PropertyUpdated(abc.ABC):
-
-            class EnteredForms(IVocabTevent.Forms, typing.Protocol):
-                @property
-                def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
+        class EnteredFormsUpdated(IVocabTevent.Forms, typing.Protocol):
+            @property
+            def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
 
 
-
-        class Removed(IVocabTevent.Forms.PropertyUpdated.EnteredForms, typing.Protocol):
+        class Removed(IVocabTevent.Forms.EnteredFormsUpdated, typing.Protocol):
             @property
             def Form(self) -> str: ...
 
 
 
-    class Mnemonic_GenericClasses(abc.ABCMeta):
-        Generic_Mnemonic_GenericClasses_Mnemonic_1_TTevent = typing.TypeVar('Generic_Mnemonic_GenericClasses_Mnemonic_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_Mnemonic_GenericClasses_Mnemonic_1_TTevent]) -> typing.Type[IVocabTevent.Mnemonic_1[Generic_Mnemonic_GenericClasses_Mnemonic_1_TTevent]]: ...
-
-    Mnemonic : Mnemonic_GenericClasses
-
-    Mnemonic_1_TTevent = typing.TypeVar('Mnemonic_1_TTevent', covariant=True)
-    class Mnemonic_1(typing.Generic[Mnemonic_1_TTevent], IVocabTevent_0, IPublisherTevent_1[Mnemonic_1_TTevent], typing.Protocol):
-        Mnemonic_1_TTevent = IVocabTevent_0.Mnemonic_1_TTevent
-        pass
+    class MnemonicUpdated(IVocabTevent_0, typing.Protocol):
+        @property
+        def Mnemonic(self) -> str: ...
 
 
     class Question(IVocabTevent_0, typing.Protocol):
 
-        class PropertyUpdated(abc.ABC):
-
-            class Disambiguation(IVocabTevent.Question, typing.Protocol):
-                @property
-                def Disambiguation(self) -> str: ...
+        class DisambiguationUpdated(IVocabTevent.Question, typing.Protocol):
+            @property
+            def Disambiguation(self) -> str: ...
 
 
-            class Text(IVocabTevent.Question, typing.Protocol):
-                @property
-                def Text(self) -> str: ...
-
-
-
-        class Renamed(IVocabTevent.Question.PropertyUpdated.Disambiguation, IVocabTevent.Question.PropertyUpdated.Text, typing.Protocol):
+        class Renamed(IVocabTevent.Question.DisambiguationUpdated, IVocabTevent.Question.TextUpdated, typing.Protocol):
             @property
             def From(self) -> WordReference: ...
 
 
-
-    class References_GenericClasses(abc.ABCMeta):
-        Generic_References_GenericClasses_References_1_TTevent = typing.TypeVar('Generic_References_GenericClasses_References_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_References_GenericClasses_References_1_TTevent]) -> typing.Type[IVocabTevent.References_1[Generic_References_GenericClasses_References_1_TTevent]]: ...
-
-    References : References_GenericClasses
-
-    References_1_TTevent = typing.TypeVar('References_1_TTevent', covariant=True)
-    class References_1(typing.Generic[References_1_TTevent], IVocabTevent_0, IPublisherTevent_1[References_1_TTevent], typing.Protocol):
-        References_1_TTevent = IVocabTevent_0.References_1_TTevent
-        pass
+        class TextUpdated(IVocabTevent.Question, typing.Protocol):
+            @property
+            def Text(self) -> str: ...
 
 
-    class TechnicalNotes_GenericClasses(abc.ABCMeta):
-        Generic_TechnicalNotes_GenericClasses_TechnicalNotes_1_TTevent = typing.TypeVar('Generic_TechnicalNotes_GenericClasses_TechnicalNotes_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_TechnicalNotes_GenericClasses_TechnicalNotes_1_TTevent]) -> typing.Type[IVocabTevent.TechnicalNotes_1[Generic_TechnicalNotes_GenericClasses_TechnicalNotes_1_TTevent]]: ...
 
-    TechnicalNotes : TechnicalNotes_GenericClasses
+    class ReferencesUpdated(IVocabTevent_0, typing.Protocol):
+        @property
+        def References(self) -> str: ...
 
-    TechnicalNotes_1_TTevent = typing.TypeVar('TechnicalNotes_1_TTevent', covariant=True)
-    class TechnicalNotes_1(typing.Generic[TechnicalNotes_1_TTevent], IVocabTevent_0, IPublisherTevent_1[TechnicalNotes_1_TTevent], typing.Protocol):
-        TechnicalNotes_1_TTevent = IVocabTevent_0.TechnicalNotes_1_TTevent
-        pass
+
+    class TechnicalNotesUpdated(IVocabTevent_0, typing.Protocol):
+        @property
+        def TechnicalNotes(self) -> str: ...
 
 
 
@@ -154,22 +105,14 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
     @property
     def UtcTimeStamp(self) -> DateTime: ...
 
-    class CorpusAnswer_GenericClasses(abc.ABCMeta):
-        Generic_CorpusAnswer_GenericClasses_CorpusAnswer_1_TTevent = typing.TypeVar('Generic_CorpusAnswer_GenericClasses_CorpusAnswer_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_CorpusAnswer_GenericClasses_CorpusAnswer_1_TTevent]) -> typing.Type[VocabTevent.CorpusAnswer_1[Generic_CorpusAnswer_GenericClasses_CorpusAnswer_1_TTevent]]: ...
-
-    CorpusAnswer : CorpusAnswer_GenericClasses
-
-    CorpusAnswer_1_TTevent = typing.TypeVar('CorpusAnswer_1_TTevent')
-    class CorpusAnswer_1(typing.Generic[CorpusAnswer_1_TTevent], VocabTevent_0, IVocabTevent.CorpusAnswer_1[CorpusAnswer_1_TTevent]):
-        CorpusAnswer_1_TTevent = VocabTevent_0.CorpusAnswer_1_TTevent
-        def __init__(self, tevent: CorpusAnswer_1_TTevent) -> None: ...
+    class CorpusAnswerUpdated(VocabTevent_0, IVocabTevent.CorpusAnswerUpdated):
+        def __init__(self, corpusAnswer: str) -> None: ...
+        @property
+        def CorpusAnswer(self) -> str: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property
         def TaggregateVersion(self) -> int: ...
-        @property
-        def Tevent(self) -> CorpusAnswer_1_TTevent: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 
@@ -186,42 +129,26 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def UtcTimeStamp(self) -> DateTime: ...
 
 
-    class Explanation_GenericClasses(abc.ABCMeta):
-        Generic_Explanation_GenericClasses_Explanation_1_TTevent = typing.TypeVar('Generic_Explanation_GenericClasses_Explanation_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_Explanation_GenericClasses_Explanation_1_TTevent]) -> typing.Type[VocabTevent.Explanation_1[Generic_Explanation_GenericClasses_Explanation_1_TTevent]]: ...
-
-    Explanation : Explanation_GenericClasses
-
-    Explanation_1_TTevent = typing.TypeVar('Explanation_1_TTevent')
-    class Explanation_1(typing.Generic[Explanation_1_TTevent], VocabTevent_0, IVocabTevent.Explanation_1[Explanation_1_TTevent]):
-        Explanation_1_TTevent = VocabTevent_0.Explanation_1_TTevent
-        def __init__(self, tevent: Explanation_1_TTevent) -> None: ...
+    class ExplanationLongUpdated(VocabTevent_0, IVocabTevent.ExplanationLongUpdated):
+        def __init__(self, explanationLong: str) -> None: ...
+        @property
+        def ExplanationLong(self) -> str: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property
         def TaggregateVersion(self) -> int: ...
-        @property
-        def Tevent(self) -> Explanation_1_TTevent: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 
 
-    class ExplanationLong_GenericClasses(abc.ABCMeta):
-        Generic_ExplanationLong_GenericClasses_ExplanationLong_1_TTevent = typing.TypeVar('Generic_ExplanationLong_GenericClasses_ExplanationLong_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_ExplanationLong_GenericClasses_ExplanationLong_1_TTevent]) -> typing.Type[VocabTevent.ExplanationLong_1[Generic_ExplanationLong_GenericClasses_ExplanationLong_1_TTevent]]: ...
-
-    ExplanationLong : ExplanationLong_GenericClasses
-
-    ExplanationLong_1_TTevent = typing.TypeVar('ExplanationLong_1_TTevent')
-    class ExplanationLong_1(typing.Generic[ExplanationLong_1_TTevent], VocabTevent_0, IVocabTevent.ExplanationLong_1[ExplanationLong_1_TTevent]):
-        ExplanationLong_1_TTevent = VocabTevent_0.ExplanationLong_1_TTevent
-        def __init__(self, tevent: ExplanationLong_1_TTevent) -> None: ...
+    class ExplanationUpdated(VocabTevent_0, IVocabTevent.ExplanationUpdated):
+        def __init__(self, explanation: str) -> None: ...
+        @property
+        def Explanation(self) -> str: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property
         def TaggregateVersion(self) -> int: ...
-        @property
-        def Tevent(self) -> ExplanationLong_1_TTevent: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 
@@ -248,7 +175,7 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
             def UtcTimeStamp(self) -> DateTime: ...
 
 
-        class EnteredFormsUpdated(VocabTevent.Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms):
+        class EnteredFormsUpdated(VocabTevent.Forms, IVocabTevent.Forms.EnteredFormsUpdated):
             def __init__(self, enteredForms: IReadOnlyList_1[EnteredForm]) -> None: ...
             @property
             def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
@@ -275,22 +202,14 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
 
 
 
-    class Mnemonic_GenericClasses(abc.ABCMeta):
-        Generic_Mnemonic_GenericClasses_Mnemonic_1_TTevent = typing.TypeVar('Generic_Mnemonic_GenericClasses_Mnemonic_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_Mnemonic_GenericClasses_Mnemonic_1_TTevent]) -> typing.Type[VocabTevent.Mnemonic_1[Generic_Mnemonic_GenericClasses_Mnemonic_1_TTevent]]: ...
-
-    Mnemonic : Mnemonic_GenericClasses
-
-    Mnemonic_1_TTevent = typing.TypeVar('Mnemonic_1_TTevent')
-    class Mnemonic_1(typing.Generic[Mnemonic_1_TTevent], VocabTevent_0, IVocabTevent.Mnemonic_1[Mnemonic_1_TTevent]):
-        Mnemonic_1_TTevent = VocabTevent_0.Mnemonic_1_TTevent
-        def __init__(self, tevent: Mnemonic_1_TTevent) -> None: ...
+    class MnemonicUpdated(VocabTevent_0, IVocabTevent.MnemonicUpdated):
+        def __init__(self, mnemonic: str) -> None: ...
+        @property
+        def Mnemonic(self) -> str: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property
         def TaggregateVersion(self) -> int: ...
-        @property
-        def Tevent(self) -> Mnemonic_1_TTevent: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 
@@ -320,42 +239,26 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
 
 
 
-    class References_GenericClasses(abc.ABCMeta):
-        Generic_References_GenericClasses_References_1_TTevent = typing.TypeVar('Generic_References_GenericClasses_References_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_References_GenericClasses_References_1_TTevent]) -> typing.Type[VocabTevent.References_1[Generic_References_GenericClasses_References_1_TTevent]]: ...
-
-    References : References_GenericClasses
-
-    References_1_TTevent = typing.TypeVar('References_1_TTevent')
-    class References_1(typing.Generic[References_1_TTevent], VocabTevent_0, IVocabTevent.References_1[References_1_TTevent]):
-        References_1_TTevent = VocabTevent_0.References_1_TTevent
-        def __init__(self, tevent: References_1_TTevent) -> None: ...
+    class ReferencesUpdated(VocabTevent_0, IVocabTevent.ReferencesUpdated):
+        def __init__(self, references: str) -> None: ...
+        @property
+        def References(self) -> str: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property
         def TaggregateVersion(self) -> int: ...
-        @property
-        def Tevent(self) -> References_1_TTevent: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 
 
-    class TechnicalNotes_GenericClasses(abc.ABCMeta):
-        Generic_TechnicalNotes_GenericClasses_TechnicalNotes_1_TTevent = typing.TypeVar('Generic_TechnicalNotes_GenericClasses_TechnicalNotes_1_TTevent')
-        def __getitem__(self, types : typing.Type[Generic_TechnicalNotes_GenericClasses_TechnicalNotes_1_TTevent]) -> typing.Type[VocabTevent.TechnicalNotes_1[Generic_TechnicalNotes_GenericClasses_TechnicalNotes_1_TTevent]]: ...
-
-    TechnicalNotes : TechnicalNotes_GenericClasses
-
-    TechnicalNotes_1_TTevent = typing.TypeVar('TechnicalNotes_1_TTevent')
-    class TechnicalNotes_1(typing.Generic[TechnicalNotes_1_TTevent], VocabTevent_0, IVocabTevent.TechnicalNotes_1[TechnicalNotes_1_TTevent]):
-        TechnicalNotes_1_TTevent = VocabTevent_0.TechnicalNotes_1_TTevent
-        def __init__(self, tevent: TechnicalNotes_1_TTevent) -> None: ...
+    class TechnicalNotesUpdated(VocabTevent_0, IVocabTevent.TechnicalNotesUpdated):
+        def __init__(self, technicalNotes: str) -> None: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property
         def TaggregateVersion(self) -> int: ...
         @property
-        def Tevent(self) -> TechnicalNotes_1_TTevent: ...
+        def TechnicalNotes(self) -> str: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 

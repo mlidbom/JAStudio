@@ -2,27 +2,26 @@
 
 > **Status: step 6 of [the migration](the-migration.md), revised 2026-11-16 after Magnus's look, with `jastudio-rep-opus`.**
 > Interfaces and their classes only. Nothing publishes or subscribes to them yet. Branch
-> `migrating-the-notes-to-the-state-store`, in `src/src_dotnet/JAStudio.Core/`: `Note/Tevents/`,
-> `Note/NoteFields/Tevents/` and `Note/Vocabulary/Tevents/`, a file with every interface of a taggregate's tevents and
-> one with their classes.
+> `migrating-the-notes-to-the-state-store`, in `src/src_dotnet/JAStudio.Core/`: `Note/Tevents/` and
+> `Note/Vocabulary/Tevents/`, a file with every interface of a taggregate's tevents and one with their classes.
 
 ## The headline
 
-**A note's tevents mirror the note's parts, and keep domain tevents apart from `PropertyUpdated` tevents** (Magnus,
-2026-11-16).
+**A note's tevents mirror the note's data, and keep domain tevents apart from the tevents that update a property**
+(Magnus, 2026-11-16).
 
 - **Every note tevent is an `INoteTevent`,** and each note class has a root of its own below it, such as `IVocabTevent`.
-- **Each part of a note that changes has a group below its note's root,** which is itself a tevent: `IVocabTevent.Forms`.
-- **A part's `PropertyUpdated` tevents say which of its properties got which value,** carrying the whole new value:
-  `IVocabTevent.Forms.PropertyUpdated.EnteredForms`. The part's tevent appliers apply only these, so however many domain
-  tevents later set a property, no applier changes.
-- **A domain tevent says what happened beyond the value,** and is also the `PropertyUpdated` tevent it causes:
-  `IVocabTevent.Forms.Added : PropertyUpdated.EnteredForms`, with the form added and the whole resulting list.
+- **A property's tevent, named `…Updated`, carries the property's whole new value:** `IVocabTevent.MnemonicUpdated`,
+  `IVocabTevent.Forms.EnteredFormsUpdated`. The tevent appliers apply only these, so however many domain tevents later set
+  a property, no applier changes.
+- **A part of a note that holds more than one property, or has behavior of its own, has a group,** which is itself a
+  tevent: `IVocabTevent.Forms`, `IVocabTevent.Question`. A note's plain properties, such as its text fields, are
+  updated at the note's root.
+- **A domain tevent says what happened beyond the value,** and is also the `…Updated` tevent it causes:
+  `IVocabTevent.Forms.Added : EnteredFormsUpdated`, with the form added and the whole resulting list.
 - **A domain tevent exists only where something reacts to more than the new value.** This domain is mostly edits of
-  values, so most tevents are `PropertyUpdated` only, and honestly so. The tevents aren't stored, so a domain tevent can be
+  values, so most tevents are `…Updated` only, and honestly so. The tevents aren't stored, so a domain tevent can be
   added the day something needs it.
-- **A part that several notes have,** such as a text field a person edits, is a shared tomponent with a hierarchy of its own,
-  `IStringValueTevent`, which each of its places in a note adopts under the place's name: `IVocabTevent.Mnemonic<T>`.
 
 So a subscriber says exactly what it follows:
 
@@ -36,39 +35,48 @@ handle.ForTevent((IVocabTevent.Forms.Added it, ITaggregateStoreUpdater notes) =>
 //A vocab renamed: the word-references to its old name, in other notes, are renamed.
 handle.ForTevent((IVocabTevent.Question.Renamed it, ITaggregateStoreUpdater notes) => ...);
 
-//A vocab's mnemonic set, and nothing else about it.
-observe.ForTevent((IVocabTevent.Mnemonic<IStringValueTevent.PropertyUpdated.Value> it) => ...);
+//A vocab's mnemonic, and nothing else about it.
+observe.ForTevent((IVocabTevent.MnemonicUpdated it) => ...);
 ```
 
 ## The vocab's tevents so far
 
 ```
 IVocabTevent : INoteTevent
-   Created : ITaggregateCreatedTevent, Question.PropertyUpdated.Text
+   CorpusAnswerUpdated, ExplanationUpdated, ExplanationLongUpdated, MnemonicUpdated, TechnicalNotesUpdated, ReferencesUpdated
+   Created : ITaggregateCreatedTevent, Question.TextUpdated
    Question
-      PropertyUpdated.Text            { Text }
-      PropertyUpdated.Disambiguation  { Disambiguation }
-      Renamed : PropertyUpdated.Text, PropertyUpdated.Disambiguation  { From }
+      TextUpdated            { Text }
+      DisambiguationUpdated  { Disambiguation }
+      Renamed : TextUpdated, DisambiguationUpdated  { From }
    Forms
-      PropertyUpdated.EnteredForms    { EnteredForms }
-      Added   : PropertyUpdated.EnteredForms  { Form }
-      Removed : PropertyUpdated.EnteredForms  { Form }
-   CorpusAnswer<T>, Explanation<T>, ExplanationLong<T>, Mnemonic<T>, TechnicalNotes<T>, References<T>   where T : IStringValueTevent
-
-IStringValueTevent
-   PropertyUpdated.Value  { Value }
+      EnteredFormsUpdated    { EnteredForms }
+      Added   : EnteredFormsUpdated  { Form }
+      Removed : EnteredFormsUpdated  { Form }
 ```
 
 - **The domain tevents, and what reacts to each:**
   - `Created`, a new vocab.
   - `Question.Renamed`: the word-references to the vocab's old name are renamed. It carries the old name because nothing
-    else has it: inside a unit of work, the vocab read is its own copy, already renamed. Changing the disambiguation renames
-    the vocab too, so `Renamed` sets both properties.
+    else has it: inside a unit of work, the vocab read is its own copy, already renamed. Changing the disambiguation
+    renames the vocab too, so `Renamed` sets both properties.
   - `Forms.Added` and `Forms.Removed`: the vocab whose question the form is get or lose this vocab's question in turn.
-- **Owning a form, or no longer owning it, is `PropertyUpdated.EnteredForms` only** for now: nothing reacts to more.
-- **`PropertyUpdated` is a static class,** a name for the group, as in Compze's sample. As an interface its tevents
-  would derive from it and so inherit their own names, and a property named as its tevent then hides that (CS0108). That
-  is a consequence of naming nested tevents without an `I`. The part's group, `Forms`, stays a tevent.
+- **Owning a form, or no longer owning it, is `EnteredFormsUpdated` only** for now: nothing reacts to more.
+- **A text field is a plain string of the vocab,** with its `…Updated` tevent. Today each of the notes' 27 text fields
+  is a `WritableStringValue` object: trimming, changing nothing when the value is equal, and an `IObservable<string>` that
+  only `PerfectSynonyms` follows. With tevents each is a line of the setter, or a subscription, so the class goes as the
+  fields are converted (Magnus, 2026-11-16). A first version made each field a shared tomponent with a place of its own:
+  that copied the old class, and was dropped.
+
+## Why `…Updated`, not a `PropertyUpdated` level
+
+Compze's event-naming page nests a part's property tevents in a level of their own:
+`IUserEvent.IProfile.IPropertyUpdated.IName`. With nested names without an `I`, that breaks as soon as a note has
+properties of its own and parts with properties, as every note does. A nested type of an interface is inherited by every
+interface that extends it. So `IVocabTevent.Question` inherits the vocab's own `PropertyUpdated` and hides it with its
+own (CS0108), and `Created`, which is both, sees two `PropertyUpdated`s (ReSharper's `PossibleInterfaceMemberAmbiguity`
+on every tevent). As interfaces, each property tevent would also inherit its own name, and its property would hide it.
+Naming each property tevent `…Updated`, in its part, avoids all of it, and says as much.
 
 ## How `VocabNoteForms` will publish and apply them
 
@@ -80,17 +88,16 @@ naming pass.
 ```csharp
 public class VocabNote : JPNote
 {
-   //The vocab's table extends every note's, and names the vocab's parts: a part is routed to only when its owner's table names it.
+   //The vocab's table extends every note's, applies the vocab's own properties, and names its parts: a part is routed to
+   //only when its owner's table names it.
    static readonly TeventRouting<VocabNote> Appliers = NoteAppliers.Extend<VocabNote>(it => it
+      .For<IVocabTevent.MnemonicUpdated>(static (vocab, tevent) => vocab.Mnemonic = tevent.Mnemonic)   //and the other five text fields
       .Component(static vocab => vocab.Question)
-      .Component(static vocab => vocab.Forms)
-      .SharedTomponent(static vocab => Slots.Mnemonic));   //and the other five text fields
+      .Component(static vocab => vocab.Forms));
 
-   //The places of the shared tomponents: statics of the class, as a place describes the class, not one vocab.
-   static class Slots
-   {
-      public static readonly SharedTomponentSlot<...> Mnemonic = new(typeof(VocabTevent.Mnemonic<>));
-   }
+   public string Mnemonic { get; private set; } = "";
+
+   public void SetMnemonic(string mnemonic) => PublishIfChanged(Mnemonic, mnemonic.Trim(), static it => new VocabTevent.MnemonicUpdated(it));
 }
 
 public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteForms, IVocabTevent.Forms, VocabTevent.Forms>
@@ -99,7 +106,7 @@ public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTev
 
    //The one applier: every tevent about the forms states the whole new list.
    static readonly TeventRouting<VocabNoteForms> Appliers = TeventRouting<VocabNoteForms>.DeclareAppliers(it => it
-      .For<IVocabTevent.Forms.PropertyUpdated.EnteredForms>(static (forms, tevent) => forms._enteredForms = [.. tevent.EnteredForms]));
+      .For<IVocabTevent.Forms.EnteredFormsUpdated>(static (forms, tevent) => forms._enteredForms = [.. tevent.EnteredForms]));
 
    public void Add(string form)
    {
@@ -113,6 +120,7 @@ public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTev
 
 - **A domain method decides, and publishes the result; an applier only sets it.** Loading a vocab, which runs no applier,
   and changing it can't disagree.
+- **"Publish only when it changed" is written once,** as a helper such as `PublishIfChanged`, not in each of 27 setters.
 - **What reaches other vocab leaves the domain call:** a participation handler of `Forms.Added` gets the vocab whose
   question the form is for update, in the same unit of work. Their own `Add` then finds the form there and publishes
   nothing, so it stops, as today's code does.
@@ -122,19 +130,17 @@ public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTev
 
 ## The calls, as they stand
 
-1. **Domain tevents apart from `PropertyUpdated`, with appliers on `PropertyUpdated` only** (Magnus). `jastudio-rep-opus`
+1. **Domain tevents apart from property tevents, with appliers on property tevents only** (Magnus). `jastudio-rep-opus`
    agrees, and drew the line: a domain tevent only where something reacts to more than the value, and a rename is one.
-2. **A list's `PropertyUpdated` carries the whole new list:** one applier, and every tevent states the result.
-3. **Nested tevent interfaces are named without an `I`,** by Compze's convention: `IVocabTevent.Forms.Added`. A file of
-   tevent interfaces disables ReSharper's naming inspection after its usings, an exception Magnus approved
+2. **A list's `…Updated` carries the whole new list:** one applier, and every tevent states the result.
+3. **Nested tevent interfaces are named without an `I`,** by Compze's convention. A file of tevent interfaces disables
+   ReSharper's naming inspection after its usings, an exception Magnus approved
    (`.claude/rules/02-universal-local/080-never-suppress-diagnostics.md`).
-4. **One file for a taggregate's tevent interfaces, and one for their classes** (Magnus: the whole nested model in one
-   file). It is in the shared code standards now, as an exception to one file per type.
-5. **A doc comment only where the names don't say it** (Magnus): the convention on the root, why `Renamed` carries the old
-   name, why a vocab's wrapper takes any note tevent, and what a text field's tevents are.
-6. **Each text field is a place of the shared tomponent `IStringValueTevent`:** one interface and one class per field, and
-   a line among the vocab's `Slots`. A vocab has six, the three note types 27 in all. The analyzer with a code fix that
-   Magnus has decided on for Compze would write the classes.
+4. **One file for a taggregate's tevent interfaces, and one for their classes** (Magnus). It is in the shared code
+   standards now, as an exception to one file per type.
+5. **A doc comment only where the names don't say it** (Magnus).
+6. **Plain properties, not wrapping objects,** for data that is only a value (Magnus). What else the notes hold is being
+   gone through the same way.
 7. **No tevent for loading:** a vocab is restored from its stored data and publishes nothing, as Magnus decided.
 
 ## Not designed here yet

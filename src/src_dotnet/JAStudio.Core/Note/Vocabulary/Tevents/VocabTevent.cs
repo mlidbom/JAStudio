@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JAStudio.Core.Note.NoteFields.Tevents;
 using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.Tevents;
@@ -9,6 +8,13 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
    protected VocabTevent() {}
 
    VocabTevent(VocabId vocabId) : base(vocabId) {}
+
+   public class CorpusAnswerUpdated(string corpusAnswer) : VocabTevent, IVocabTevent.CorpusAnswerUpdated { public string CorpusAnswer { get; } = corpusAnswer; }
+   public class ExplanationUpdated(string explanation) : VocabTevent, IVocabTevent.ExplanationUpdated { public string Explanation { get; } = explanation; }
+   public class ExplanationLongUpdated(string explanationLong) : VocabTevent, IVocabTevent.ExplanationLongUpdated { public string ExplanationLong { get; } = explanationLong; }
+   public class MnemonicUpdated(string mnemonic) : VocabTevent, IVocabTevent.MnemonicUpdated { public string Mnemonic { get; } = mnemonic; }
+   public class TechnicalNotesUpdated(string technicalNotes) : VocabTevent, IVocabTevent.TechnicalNotesUpdated { public string TechnicalNotes { get; } = technicalNotes; }
+   public class ReferencesUpdated(string references) : VocabTevent, IVocabTevent.ReferencesUpdated { public string References { get; } = references; }
 
    public class Created(VocabId vocabId, string question) : VocabTevent(vocabId), IVocabTevent.Created
    {
@@ -27,7 +33,7 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
 
    public abstract class Forms : VocabTevent, IVocabTevent.Forms
    {
-      public class EnteredFormsUpdated(IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms
+      public class EnteredFormsUpdated(IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.EnteredFormsUpdated
       {
          public IReadOnlyList<EnteredForm> EnteredForms { get; } = enteredForms;
       }
@@ -43,36 +49,6 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
          public string Form { get; } = form;
          public IReadOnlyList<EnteredForm> EnteredForms { get; } = enteredForms;
       }
-   }
-
-   public class CorpusAnswer<TTevent>(TTevent tevent) : VocabTevent, IVocabTevent.CorpusAnswer<TTevent> where TTevent : IStringValueTevent
-   {
-      public TTevent Tevent { get; } = tevent;
-   }
-
-   public class Explanation<TTevent>(TTevent tevent) : VocabTevent, IVocabTevent.Explanation<TTevent> where TTevent : IStringValueTevent
-   {
-      public TTevent Tevent { get; } = tevent;
-   }
-
-   public class ExplanationLong<TTevent>(TTevent tevent) : VocabTevent, IVocabTevent.ExplanationLong<TTevent> where TTevent : IStringValueTevent
-   {
-      public TTevent Tevent { get; } = tevent;
-   }
-
-   public class Mnemonic<TTevent>(TTevent tevent) : VocabTevent, IVocabTevent.Mnemonic<TTevent> where TTevent : IStringValueTevent
-   {
-      public TTevent Tevent { get; } = tevent;
-   }
-
-   public class TechnicalNotes<TTevent>(TTevent tevent) : VocabTevent, IVocabTevent.TechnicalNotes<TTevent> where TTevent : IStringValueTevent
-   {
-      public TTevent Tevent { get; } = tevent;
-   }
-
-   public class References<TTevent>(TTevent tevent) : VocabTevent, IVocabTevent.References<TTevent> where TTevent : IStringValueTevent
-   {
-      public TTevent Tevent { get; } = tevent;
    }
 }
 
