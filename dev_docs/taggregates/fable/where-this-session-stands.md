@@ -104,6 +104,48 @@ first-in-first-out for each observer) may already hold part of it.
   Prototypes on Compze's branches `taggregates-opus/combined` (604c00df4) and
   `taggregate-experiments-fable-static-slots` (fb75d60a0), in worktrees under `C:\Dev\Compze.worktrees\`.
 
+## Held until Magnus gives the go-ahead: five questions from `jastudio-rep-opus` about a redesign
+
+Received 2026-11-16, just before the compaction. `jastudio-rep-opus` then asked me to hold: Magnus gives the go-ahead
+himself. Nothing is answered or sent yet.
+
+**The direction, from Magnus, which the two Compze sessions are designing:**
+
+- **A taggregate store in Compze:** `ITaggregateStore`, for state and not history, with an `ITaggregateStoreUpdater`
+  session for each unit of work, mirroring `ITeventStore` and `ITeventStoreUpdater`. In memory, and backed by JSON
+  files, which might replace JAStudio's note storage behind a narrow interface.
+- **System.Transactions as the unit of work,** through `ExecuteUnitOfWork` of Compze.DependencyInjection.
+- **Tevents reach subscribers through Tessaging's in-process engine** (`LocalTessagingEngine`): participation handlers
+  synchronously inside the unit of work, observers after the commit, off-thread, first-in-first-out for each observer.
+- **Snapshots carry no tevents:** each note class has a serializable snapshot type and restores from it directly.
+- **The hook and the queue in the taggregate go:** the session dispatches and orders.
+- **Isolation:** getting a note for update builds a private copy from its committed state; commit makes the copy the
+  committed instance; rollback discards it; readers get the committed instance; a lock for each note serializes writers.
+- **A failed cascade rolls the unit of work back.** Routing for each class and the bug fixes stay as agreed.
+
+**The questions,** to answer from JAStudio's code, marking guesses, in this or the shared folder, with the gist in a
+message to `jastudio-rep-opus`, and passed on to `taggregates-opus` if it should take part:
+
+1. **Identity.** Every commit swaps in a new instance. What holds note references across edits: indexes, collections,
+   view models, other notes? Could they hold ids and look notes up?
+2. **Files.** One JSON file for each note? Written atomically? Does it matter if a crash leaves some notes of one unit
+   of work written and some not?
+3. **Subscribers.** Which reactions must happen inside the unit of work, before the edit returns, and which can run
+   after the commit, off-thread? Does anything need to see a change synchronously on the UI thread?
+4. **Version.** Would a version number in each note's file be acceptable, changing a line at every edit?
+5. **Adoption.** Would a dependency on Compze.Tessaging and on a taggregate store package be a problem?
+
+**Checked so far, for 1 and 2:**
+
+- **A note's file is written with `File.WriteAllText`,** not through a temporary file and a rename
+  (`JsonFilesystemObjectRepository.cs`, line 40).
+- **Twelve files outside the notes hold a note in a field:** view models of the note pages, the search results, the
+  listed notes and the parsing cases, a menu, and in JAStudio's MCP server `NoteVersions` and `EditableNote`. The
+  caches' indexes hold the notes themselves, in sets that compare by id. Other notes refer to a note by a
+  word-reference or an id. The note tabs and the vocab's editors look the note up each time.
+- **`JPCollection.ReloadFromBackend` already replaces every note object,** and its remarks say that whoever holds one
+  must look it up again by its id.
+
 ## A trap met twice in this session
 
 A Python script sent through the Bash tool in a heredoc: a doubled backslash arrives as one. `'\\n'` became a line
