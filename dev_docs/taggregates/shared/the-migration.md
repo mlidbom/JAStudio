@@ -45,13 +45,44 @@ cache.
 - **At the end:** Compze publishes the store's packages, on Magnus's approval, and the branch goes back to package
   references before it merges into `main`.
 
-## Where it stands, 2026-11-16
+## Where it stands, 2026-11-16, evening
 
-- **Compze:** step 1 is pushed, `a0552017d`, and JAStudio's worktree of Compze is there. Step 2 is under way.
+- **Compze:** step 2a, the in-memory state store, is in, with three additions JAStudio asked for:
+  - a factory that takes a container service: `store.Taggregate((NoteServices services) => new VocabNote(services))`;
+  - reloading while running: `IStateStore.ReloadFromStorage()`, which keeps every reference and reports the
+    taggregates added, changed and removed;
+  - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
+  JAStudio's worktree of Compze is at `772979289`. Steps 2b and 2c, and then 3 and 4, follow.
 - **JAStudio:** steps 1 to 6 below are done and pushed, each with the whole suite passing and `full-build.ps1` clean.
-  Neither a full rebuild nor saving every note changes a file of the corpus.
-- **Waiting for Magnus:** his look at step 6,
-  [the-structure-of-the-notes-tevents.md](the-structure-of-the-notes-tevents.md), before the rest is built on it.
+  Neither a full rebuild nor saving every note changes a file of the corpus. Magnus has looked at step 6 and it is
+  revised by his word: [the-structure-of-the-notes-tevents.md](the-structure-of-the-notes-tevents.md).
+- **Waiting for Magnus:** whether a note's text fields become plain strings with a `PropertyUpdated` tevent in the
+  note's hierarchy, instead of the shared tomponent `IStringValueTevent` (recommended). It changes step 10, not step 7.
+
+## Step 7, as it will be built
+
+Step 7 moves the notes into the store with every part publishing the interim tevent. It is cut into increments that
+each build and pass:
+
+1. **The notes become snapshotable taggregates, still kept by JAStudio's collection.** `JPNote` derives from Compze's
+   `Taggregate`, each note class implements `ISnapshotable<TNote, TDto>` with its DTO, `RestoreFrom` rebuilding the
+   parts from the DTO after `RestoreIdentity`, and a new note publishes its `Created` tevent. A kanji and a sentence get
+   roots of their own, `IKanjiTevent` and `ISentenceTevent`, with `Created` only. `NoteGuard.Update` publishes the
+   interim tevent when the note's DTO changed.
+2. **JAStudio's storage behind `ITaggregateStorage`:** `LoadAll` from the repository's DTOs, and `Prepare` writing
+   each changed note's file under a temporary name, renamed at `Commit`. The files stay byte for byte as they are.
+3. **The store keeps the notes.** Composed with the three note classes, each with its factory and a comparison of
+   serialized DTOs. The caches' indexes become the store's indexes, each a function of a note's state, as today's
+   `keysOf(snapshot)` already is. Loading and reloading go through the store.
+4. **Every edit runs in a unit of work, on the note's copy.** The UI, the MCP server's tools, the importers, the batches
+   (the full rebuild, a unit of work per note) and the specifications. Whatever holds a note across edits holds its
+   reference: about twelve classes outside the notes, and 92 specification files that hold a note in a field.
+   `JPCollection.NoteUpdated` is raised once a unit of work has committed.
+
+**Open, to settle with `jastudio-rep-opus` before increment 4:**
+- **How code that has a note gets it for update.** A lookup returns a note. Inside a unit of work, the code then needs
+  that note's copy: `note.ForUpdate()`, through the note's own reference, would keep the call sites short.
+- **The short way for a specification to run an edit,** given the 92 files.
 
 ## The order
 
