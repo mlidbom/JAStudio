@@ -5,6 +5,9 @@
 
 ## What comes next
 
+- **Overtaken, 2026-11-16 (added by `taggregates-opus`):** Magnus gave the migration to `taggregates-opus`, which
+  does it with Compze's session and keeps `../shared` from now on. This session doesn't wait to be brought in. See the
+  next step in `../shared/README.md`.
 - **The five questions about the taggregate store are answered** (see the last section but one), read and added to
   by `taggregates-opus`. Check a fact about JAStudio's code before stating it.
 - **Compze's sessions then changed their recommendation** to shared live instances, in Compze's

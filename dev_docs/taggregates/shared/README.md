@@ -3,7 +3,9 @@
 > **Status: exploration, 2026-11-16. Nothing is built, in JAStudio or on any branch of Compze that anyone uses.**
 > Agreed by the four sessions that explored the question as two teams (`taggregates-fable` and `taggregates-opus` in
 > JAStudio, `jastudio-rep-fable` and `jastudio-rep-opus` in Compze), then **reviewed by two reviewers who took no part
-> in it, one Opus and one Fable, and changed by their review.** Kept by `taggregates-fable`, which represents JAStudio.
+> in it, one Opus and one Fable, and changed by their review.** Kept by `taggregates-fable`, which represented
+> JAStudio while the question was explored, and from 2026-11-16 by `taggregates-opus`, JAStudio's session in the
+> migration (see the next step, below).
 > Compze's side is in Compze's `dev_docs/taggregate-improvements/shared/`. It was reviewed by two reviewers of its
 > own and revised, and the two folders were brought in step on 2026-11-16.
 
@@ -67,11 +69,22 @@ what JAStudio requires of it, is in
   fast-forward, and a wait for observers to be at rest, which JAStudio's specifications need.
 - **To be measured:** what looking a vocab up costs the threads that parse, which do it all the time.
 
-**The next step is Compze's: a spike of the store, made in Compze** (Magnus, 2026-11-16). When its session starts
-the spike it brings JAStudio's session in, and the two iterate until it works well. What JAStudio brings to it: no
-real part of a note has been written as a teventive yet, so that the design reads well for one is not shown.
-`VocabNoteForms` is the hard case to try it on, with forms a person entered, forms it computes, a value it computes
-from other vocab, and an index of vocab by form.
+**The next step: the migration, with Compze's store built beside it** (Magnus, 2026-11-16).
+
+- **Who:** `taggregates-opus` in JAStudio, and the Compze session that builds the store. The two iterate until it works
+  well in JAStudio, and it is done when Magnus, `taggregates-opus` and the Compze session all sign off.
+- **What:** the whole migration of JAStudio's notes onto the store, to the point where everything the sessions can test
+  themselves works: the specifications, the headless JAStudio, the MCP server, and a full rebuild of the real corpus.
+  Not one part of a note tried on its own.
+- **Where:** in JAStudio's worktree `C:\Dev\JAStudio.wt2`, on a branch of its own, started from `main` once this
+  folder's thinking is merged there. Ideas tried more than one way get branches of their own, kept as a record of what
+  each showed.
+- **When Magnus looks:** once the basic structure is there, such as how a note's tevent interface hierarchy is built,
+  and before the rest is built on it.
+- **What JAStudio brings to it:** no real part of a note has been written as a teventive yet, so that the design reads
+  well for one is not shown. `VocabNoteForms` is the hard case, with forms a person entered, forms it computes, a value
+  it computes from other vocab, and an index of vocab by form. And the nine requirements and the parsing measurements
+  in [answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md).
 
 **The question (Magnus, 2026-11-16).** Should JAStudio's notes be Compze Taggregates, so that every change to a note is
 a tevent, and whatever follows a change subscribes to exactly the tevents it concerns? The storage stays as it is: a

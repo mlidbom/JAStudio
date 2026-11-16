@@ -3,6 +3,9 @@
 > **Superseded where they differ by what the four sessions agreed after comparing the two teams' work:** `../shared/`,
 > and Compze's `dev_docs/taggregate-improvements/shared/`.
 
+> **Next, 2026-11-16:** this session does the migration of the notes onto Compze's taggregate store, with Compze's
+> session. See the next step in `../shared/README.md`.
+
 > **Status: design and exploration, 2026-11-16. Nothing is implemented.** Written by the session taggregates-opus, in
 > JAStudio, in a dialogue with the session jastudio-rep-opus, in Compze. The Compze changes they agreed on are written
 > up in Compze: `C:\Dev\Compze\dev_docs\taggregate-improvements\opus\`. Another pair of sessions explores the same
