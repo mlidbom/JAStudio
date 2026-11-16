@@ -14,7 +14,7 @@ note's file holds its state, not its history. The exploration was narrowed to wh
 
 1. **The idea fits JAStudio.** A note's stored state can be loaded through the same tevent appliers that editing uses,
    and the hand-written wiring between a note's parts, and from the editors to what must follow their changes, becomes
-   subscriptions. Compze.Teventive's model of tevents already does what the notes need: nine behaviors that the notes
+   subscriptions. Compze.Teventive's model of tevents already does what the notes need: the behaviors that the notes
    would stand on were run against Compze.Teventive 0.6.0-alpha, and all hold.
 2. **Compze.Teventive 0.6.0-alpha can't hold the corpus.** Each instance builds its own tevent dispatchers, though how
    a tevent is routed depends only on the class and the tevent's type. Both teams measured it, with different models:

@@ -51,7 +51,7 @@ Different models, measured separately, against Compze.Teventive 0.6.0-alpha. Byt
 - **The order of a note's tevents:** see below.
 - **That the flaw in publishing ends in a stack overflow** when the observer publishes each time it is notified of the
   tevent it reacts to. The opus team had met the overflow only by breaking its own fix.
-- **Nine behaviors the notes stand on, run against 0.6.0-alpha,** as candidates for specifications.
+- **Eight behaviors the notes stand on, run against 0.6.0-alpha,** as candidates for specifications.
 - **That a loaded tevent needs no wrapper object.**
 - **What `ITaggregateTevent` as a plain `ITevent` would change in Compze:** about five of 24 taggregate hierarchies in
   its tests and sample need one line each.
@@ -63,7 +63,7 @@ Different models, measured separately, against Compze.Teventive 0.6.0-alpha. Byt
 | A publish from inside the hook: a call of the hook from inside itself (opus), or a queue (fable) | The queue | With the nested call a note's tevents published as A, B, C reach subscribers as A, C, B. The opus team wrote the specification, and its prototype failed it. It then built the queue into its prototype, where the specification and Compze's full suite pass |
 | The loaded tevent: a snapshot marker of its own (opus), or the creation tevent (fable) | The marker | A restored note wasn't created; a note has several kinds of creation tevent; and only a snapshot tevent must set every property. Each team had first conceded this to the other |
 | Loading: public on `ITaggregate` (opus), or protected and typed on the class (fable) | Protected, typed on the class | Only the note class's own factory loads, and the type is checked when compiling |
-| Versions of the loaded tevents: one given by the caller (opus), or 1 to k (fable) | One, given by the caller | With 1 to k the version would depend on how many slots a class has |
+| Versions of the loaded tevents: one given by the caller (opus), or 1 to k (fable) | One for the whole snapshot: version 1, with no parameter until a tevent store has snapshots | With 1 to k the version would depend on how many slots a class has |
 | A slot: an object for each instance (opus), or a static of the owner's class (fable) | The static | About 48 B for each slot, ten slots in a vocab |
 | Tevent handlers in components: needed (opus), or not (fable) | Not needed by JAStudio | Reactions that reach other notes belong after the commit; inside a note it is one tevent that both parts apply, or the root's handler |
 | When JAStudio starts: after routing has landed (opus), or one note type earlier (fable) | After routing with slots has landed | No note type is written twice |

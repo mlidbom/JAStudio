@@ -37,7 +37,7 @@
      snapshot tevent alone must set every property, which can then be checked of its type.
    - **Called from the note class's own factory:** protected, and typed on the class's own tevents.
    - **The slot adopts a tevent for loading as it does for publishing.**
-   - **One version for the whole snapshot, given by the caller.** JAStudio passes 1 and stores none.
+   - **The whole snapshot is version 1.** JAStudio stores no version in a note's file.
 4. **A note's class hears of a publish without an observer for each note.** A protected hook, called when a publish
    and everything the tevent handlers published in response is applied and the invariants hold. `JPNote` overrides it
    once, and reaches its collection through the note's own services: nothing static.
