@@ -7,6 +7,13 @@
 > Compze's side is in Compze's `dev_docs/taggregate-improvements/shared/`. It was reviewed by two reviewers of its
 > own and revised, and the two folders were brought in step on 2026-11-16.
 
+> **Since these conclusions were written, Magnus has set a new direction in Compze:** a taggregate store that holds the
+> live taggregates, with a session for each unit of work, in place of the hook and the queue inside each taggregate
+> and of loading through tevents. The two Compze sessions are designing it. Requirements 3 to 5 and 7 of
+> [what-the-notes-require-of-compze.md](what-the-notes-require-of-compze.md) are written for the design before it.
+> What JAStudio's code says to that design is in
+> [answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md).
+
 **The question (Magnus, 2026-11-16).** Should JAStudio's notes be Compze Taggregates, so that every change to a note is
 a tevent, and whatever follows a change subscribes to exactly the tevents it concerns? The storage stays as it is: a
 note's file holds its state, not its history. The exploration was narrowed to what that needs of Compze.
@@ -137,6 +144,7 @@ that would go, of which the notifiers' 17 MB is measured. Likely about even or l
 | What the two reviews found, and what they changed | [what-the-two-reviews-changed.md](what-the-two-reviews-changed.md) |
 | What the notes would require of Compze as Taggregates | [what-the-notes-require-of-compze.md](what-the-notes-require-of-compze.md) |
 | How the two teams' measurements and positions compared | [how-the-two-teams-compared.md](how-the-two-teams-compared.md) |
+| Answers about JAStudio for the taggregate store that Compze is designing | [answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md) |
 | The shared conclusions for Compze, from before the review | Compze: `dev_docs/taggregate-improvements/shared/` |
 | Each team's own documents | `dev_docs/taggregates/fable/` and `opus/`; Compze: `dev_docs/taggregate-improvements/fable/` and `opus/` |
 | The prototypes in Compze's base classes | Compze: branches `taggregates-opus/combined` (604c00df4) and `taggregate-experiments-fable-static-slots` (fb75d60a0) |

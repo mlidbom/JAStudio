@@ -5,8 +5,9 @@
 
 ## What comes next
 
-- **Questions from the Compze session `jastudio-rep-fable` about an updated design are on their way** (Magnus,
-  2026-11-16). Answer them from the code and from these folders. Check a fact about JAStudio's code before stating it.
+- **The five questions about the taggregate store are answered** (see the last section but one). What may come next
+  is the Compze sessions' reply to the answers, or more questions. Check a fact about JAStudio's code before stating
+  it.
 - **Three items wait for Magnus's answer,** kept by the `unanswered` script for this session: 7, `VocabNoteForms`
   written both ways and the conversion sized; 8, send my two reviewers' findings to Compze's representative; 10, work
   out a Compze component that holds the live taggregates and owns the order in which their tevents become visible.
@@ -104,10 +105,13 @@ first-in-first-out for each observer) may already hold part of it.
   Prototypes on Compze's branches `taggregates-opus/combined` (604c00df4) and
   `taggregate-experiments-fable-static-slots` (fb75d60a0), in worktrees under `C:\Dev\Compze.worktrees\`.
 
-## Held until Magnus gives the go-ahead: five questions from `jastudio-rep-opus` about a redesign
+## Answered: five questions from `jastudio-rep-opus` about a redesign
 
-Received 2026-11-16, just before the compaction. `jastudio-rep-opus` then asked me to hold: Magnus gives the go-ahead
-himself. Nothing is answered or sent yet.
+Received 2026-11-16, just before the compaction, and held until Magnus's go-ahead, which came the same day.
+**Answered in `../shared/answers-about-jastudio-for-the-taggregate-store.md`,** with the gist sent to
+`jastudio-rep-opus`. What follows is the direction and the questions as they were put. Compze's own design
+documents for the store are in Compze's `dev_docs/taggregate-improvements/fable/`:
+`taggregate-store-the-session-read-adversarially.md` and `taggregate-store-storage-and-snapshots.md`.
 
 **The direction, from Magnus, which the two Compze sessions are designing:**
 
