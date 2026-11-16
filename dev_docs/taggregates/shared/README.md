@@ -3,8 +3,8 @@
 > **Status: exploration, 2026-11-16. Nothing is built, in JAStudio or on any branch of Compze that anyone uses.** Agreed
 > by the four sessions that explored the question as two teams: `taggregates-fable` and `taggregates-opus` in JAStudio,
 > `jastudio-rep-fable` and `jastudio-rep-opus` in Compze. Each team first reached conclusions of its own, in `../fable`
-> and `../opus`; this folder holds what they agreed on after comparing them. Kept by `taggregates-fable`, which
-> represents JAStudio. Compze's side is in Compze's `dev_docs/taggregate-improvements/shared/`.
+> and `../opus`; this folder holds what they agreed on after comparing them. All four have agreed to it and stopped. Kept by
+> `taggregates-fable`, which represents JAStudio. Compze's side is in Compze's `dev_docs/taggregate-improvements/shared/`.
 
 **The question (Magnus, 2026-11-16).** Should JAStudio's notes be Compze Taggregates, so that every change to a note is
 a tevent, and whatever follows a change subscribes to exactly the tevents it concerns? The storage stays as it is: a
