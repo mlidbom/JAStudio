@@ -23,6 +23,11 @@ Different models, measured separately, against Compze.Teventive 0.6.0-alpha. Byt
 | Fable: a root with four text values and four components | 350 B | 5,629 B | 472 B on a prototype outside Compze |
 | Fable's Compze session: four components and four shared tomponents in one of them | 350 B | 10,204 B | 584 B |
 
+- **Both teams' work together, in Compze's own base classes:** a vocab with four components, and four shared
+  tomponents of one class in one of them, loaded from a snapshot of five tevents, keeps 9,952 B registered for each
+  instance as today, 832 B declared for each class with a slot object for each slot, and 640 B with slots that belong
+  to the class, of which about 120 B is the prototype's scaffolding: about 170 B over plain objects in a final design.
+  It loads in 4.8 µs against 36.6. Branch `taggregate-experiments-fable-static-slots`, built on the combined branch.
 - **A shared tomponent, measured by the fable team only:** 552 B before it has seen a tevent and 971 B after its first,
   against 48 to 56 B with a slot that is a static of its owner's class.
 - **For the corpus:** the opus team's 0.6 to 0.9 GB counts components only. With the shared tomponents the notes need,
