@@ -52,9 +52,6 @@ public class VocabNoteForms
       _matchedFormsList = new LazyCE<List<string>>(ComputeMatchedForms);
       _matchedFormsSet = new LazyCE<HashSet<string>>(() => [.. _matchedFormsList.Value]);
       _ownedForms = new LazyCE<HashSet<string>>(ComputeOwnedForms);
-      //bug: ComputeNotOwnedByOtherVocab reads other vocab's questions and forms, but only this vocab's own changes reset it. When another vocab
-      //   named by one of these forms adds or drops this vocab's question as a form, the cached set stays as it was until this vocab changes or the
-      //   collection is reloaded, and SentenceCollection.WithVocabOwnedForm lists sentences by the stale set.
       _notOwnedByOtherVocab = new LazyCE<HashSet<string>>(ComputeNotOwnedByOtherVocab);
    }
 
