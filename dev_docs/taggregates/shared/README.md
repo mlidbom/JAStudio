@@ -16,7 +16,7 @@
 **The direction (Magnus, 2026-11-16).** A Compze component holds a process's live taggregates and routes their
 tevents: an `ITaggregateStore` that keeps state and no history, with a session for each unit of work, and the unit of
 work a System.Transactions transaction. Compze's two sessions have designed it and prototyped it in memory:
-Compze's `dev_docs/taggregate-improvements/shared/the-taggregate-store.md` (commit 4450f76db). What JAStudio's code
+Compze's `dev_docs/taggregate-improvements/shared/the-taggregate-store.md` (as of commit 9defe6c46). What JAStudio's code
 says to it, and what JAStudio's side says to its recommendation, is in
 [answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md).
 
@@ -44,9 +44,9 @@ says to it, and what JAStudio's side says to its recommendation, is in
 
 **New for JAStudio with the store,** each in the answers document:
 
-- **Its indexes become derived state that the store keeps in step with the notes.** How is open between the two
-  sides. Compze's design changes them at the commit, with a unit of work reading its own changes in them. JAStudio's
-  side asks, under shared live instances, that they follow each change as today, and are put right after a rollback.
+- **Its indexes become derived state that the store keeps in step with the notes.** Under shared live instances
+  they follow each change, as today: the store's session tells JAStudio which notes changed when a publish has
+  settled, and which notes a rollback restored, and JAStudio refiles them under its own lock. Agreed by both sides.
 - **What Anki says of a note's cards moves out of the note.** It is not stored, and changes without an edit.
 - **What can't be undone happens after the commit:** telling Anki to delete a study-note or suspend cards, and
   deleting media files. Today it happens in the middle of the edit.

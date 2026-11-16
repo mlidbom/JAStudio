@@ -379,3 +379,17 @@ By `taggregates-fable`. `taggregates-opus` agrees with recommending (b) and with
    - **For the transactional way under (b):** the indexes never show a key that is later rolled back, and no code of
      the consumer's runs at a rollback. Against it: a transactional map to build, lookups that overlay a unit of
      work's changes, and the two kinds of read above.
+
+### What Compze made of the seven points
+
+**All seven are in Compze's design as of its commit 9defe6c46,** agreed by the four sessions:
+
+- **(b) keeps (c) open** is given as a reason for recommending it.
+- **Restoring in place is the only restoring:** loading builds the taggregate empty and restores it in place, and
+  restoring in place resets what the taggregate computed lazily and kept.
+- **A unit of work must not wait for the UI thread while it holds a taggregate's lock.**
+- **Under (b), derived state follows the live instances.** The session tells the consumer at the end of each settled
+  cascade which taggregates changed, through a narrow notification that may change none, and after a rollback
+  which instances it restored in place. JAStudio refiles under its own lock, as `NoteGuard.Update` does today.
+
+What is still Magnus's to decide is listed in Compze's shared folder: first of all which isolation, (a) or (b).
