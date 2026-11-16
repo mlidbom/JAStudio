@@ -70,8 +70,8 @@ That is Compze's to design, and the Compze session `jastudio-rep-fable` has writ
 - **Publishing:** the notification becomes a queue, so that tevents arrive in the order published and the hook is
   never called from inside itself. `Commit` takes its list out before it calls back.
 
-Where the prototype suggests something else than those proposals: loading needs no wrapper, since a taggregate's own
-tevent appliers are routed by the tevent's own type.
+One finding of the prototype changed those proposals: loading needs no wrapper object, since a taggregate's own tevent
+appliers can be routed by the tevent's own type. The Compze session took it in.
 
 ## What is verified, and how
 
@@ -80,7 +80,7 @@ tevent appliers are routed by the tevent's own type.
 | What a Taggregate, a component and a shared tomponent cost for each instance | Measured, 80,000 instances, Compze.Teventive 0.6.0-alpha from nuget.org |
 | The eight behaviors the notes rely on, loading through the internal member, the two flaws | Run against the same package |
 | What the cost is made of, what the changes would break in Compze | Read in Compze's code by the Compze session, which ran nothing |
-| That routing for each class takes the cost away | Measured on a prototype outside Compze, with the same models |
+| That routing for each class takes the cost away | Measured on a prototype outside Compze, with the same models, and on a second prototype by the Compze session, which agrees |
 | The assertion of one thread at a time, the start-up cost of `TaggregateTypeValidator` | Not run |
 | How many components and shared tomponents a note would have | Counted from today's constructors, by judgment of which part becomes what |
 
@@ -90,13 +90,20 @@ tevent appliers are routed by the tevent's own type.
 - **The experiments:** the branch `taggregates-fable-experiments`, checked out in the worktree
   `C:\Dev\JAStudio.worktrees\taggregates-fable-experiments`, under `experiments/taggregates-fable/`. No code in this
   checkout is changed.
-- **Compze's side:** `C:\Dev\Compze\dev_docs\taggregate-improvements\fable\`, written by the Compze session.
+- **Compze's side:** `C:\Dev\Compze\dev_docs\taggregate-improvements\fable\`, written by the Compze session, on Compze's branch
+  `taggregate-improvements`. Its own prototype and runs are on Compze's branch `taggregate-experiments-fable`, in the
+  worktree `C:/Dev/Compze.worktrees/taggregate-experiments-fable`.
 
 ## What Magnus has to decide
 
 All of it is in Compze, and listed in the Compze session's `README.md`: whether to do routing for each class, which
 changes how every taggregate is written; `ITaggregateTevent` as a plain `ITevent`, a change to a public interface; the
 small additions to `Taggregate` and their names; and the generator, now, later or never. The two flaws need no decision.
+By the Compze session's search, of 24 taggregate hierarchies in Compze's tests and sample about five are delivered
+between endpoints, and would each need one line to say so once `ITaggregateTevent` is a plain `ITevent`.
+
+**Where the exploration stands (2026-11-16):** the two sessions have agreed that they have nothing more to add, and
+have stopped.
 
 ## Left on JAStudio's side, deferred
 

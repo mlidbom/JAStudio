@@ -82,7 +82,7 @@ than plain objects for a vocab, 230 for a sentence, 280 for a kanji. About 26 MB
 
 The Compze session built a prototype of its own, with what this one leaves out: tevent handlers, the queue of
 notifications, `Commit`, loading from a compacted-history, slots in a component, and the assertion. It is on Compze's
-branch `taggregate-experiments-fable`, in the worktree `C:\Dev\Compze.worktrees	aggregate-experiments-fable`, and its
+branch `taggregate-experiments-fable`, in the worktree `C:/Dev/Compze.worktrees/taggregate-experiments-fable`, and its
 numbers are in Compze's `dev_docs/taggregate-improvements/fable/what-was-run-and-measured.md`. By its measurement:
 
 - **A vocab with four components, and four shared tomponents in one of them,** keeps 10,204 B as today's Taggregate,
