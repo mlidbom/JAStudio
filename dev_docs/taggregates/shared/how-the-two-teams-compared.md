@@ -69,6 +69,15 @@ Different models, measured separately, against Compze.Teventive 0.6.0-alpha. Byt
 | When JAStudio starts: after routing has landed (opus), or one note type earlier (fable) | After routing with slots has landed | No note type is written twice |
 | How much of a note is shared tomponents: "eventually" (opus), or from the first note type (fable) | From the first note type | Every note type has parts of one class several times, and media reference lists that all three share |
 
-Left to the Compze sessions, with no requirement of JAStudio's: how an instance reaches its class's declaration,
-whether loading skips the wrapper object from the start, and whether a taggregate refuses further use after an applier,
-a handler or an invariant threw. See Compze's shared folder.
+Settled between the two Compze sessions, with no requirement of JAStudio's:
+
+- **How an instance reaches its class's declaration:** a virtual property that returns the class's static table (opus),
+  not a constructor argument kept in every teventive (fable). It costs an instance nothing, and an assertion that the
+  table is the instance's own class's makes a forgotten one fail loudly.
+- **Loading without a wrapper object:** an optimization to offer later, after measuring.
+- **The order in Compze:** the two flaws first, then the small additions, then routing in increments, with slots before
+  anything of JAStudio's moves; `ITaggregateTevent` as a plain `ITevent` is independent of the rest.
+- **Whether a taggregate refuses further use after an applier, a handler or an invariant threw:** proposed, for Magnus
+  to decide.
+
+See Compze's shared folder.
