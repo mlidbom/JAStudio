@@ -33,10 +33,17 @@ Each a commit that builds and passes the whole suite, so the switch to the store
 
 1. **Done (`f706ab16e`). `note.Edit(it => ...)` before the store:** `EditingANote.Edit`, which until the store keeps
    the notes runs the edit on the note itself. Its contract is already the final one: change only `it`.
-2. **Every edit site calls `Edit`,** an area at a time: commands and editable fields, the UI's direct changes, the MCP
-   tools, the batches, the importer, the shortcuts, text-to-speech, the shared conditions, the cross-note changes in the
-   domain, then the specifications.
-   - **The product code is done (`f706ab16e`, `3cc42bf2e`).** What changed in how it reads:
+2. **Done (`edf320634`). Every edit site calls `Edit`,** an area at a time: commands and editable fields, the UI's
+   direct changes, the MCP tools, the batches, the importer, the shortcuts, text-to-speech, the shared conditions, the
+   cross-note changes in the domain, then the specifications.
+   - **Checked since, by `JPNote`'s guard:** a change to a note of the collection outside an edit of it fails
+     (`EditingANote.AssertIsBeingEdited`, specified by `When_a_note_is_changed`). It goes when the store's read-only
+     committed notes refuse such changes themselves. With it, the whole suite passes, a full rebuild of the corpus and
+     saving every note change no file, and copies lose only `JPNote`'s record of what was saved (step 4).
+   - **`Edit` is a classic extension method,** not a C# 14 extension block: the Python stub generator writes an
+     extension block's compiler-generated types into the stub, and loses the whole namespace's types.
+   - **The specifications (`3c9a67540`, `a6ffb7350`, `604131b4b`)** edit the notes they change, as product code does.
+   - **The product code (`f706ab16e`, `3cc42bf2e`).** What changed in how it reads:
      - The editors that changed a part of the note directly hold an `EditedNotePart<TPart>`: the part read on the
        current note, and changed in an edit of it. A flag's check box writes its editable field.
      - `IHasTextToSpeechAudio.Edit`, for code that knows the note only as one with TTS audio.
@@ -47,8 +54,7 @@ Each a commit that builds and passes the whole suite, so the switch to the store
    - **The sites were found by a check, not by reading.** In the working tree, `JPNote`'s guard asserted that a note of
      the collection changes only in an edit of it (`EditingANote.AssertIsBeingEdited`), and a run of the whole suite
      that recorded each failing stack instead of throwing listed every site at once, grouped by the code that should
-     edit. The specifications are converted next, and then the check is committed: until the store's read-only
-     committed notes take over, it keeps every new change in an edit.
+     edit. Code no specification runs was found by reading: the menus and editors of the survey.
    - **For the switch:** renaming a vocab and using a shared condition wherever its definition is edit every vocab, and
      renaming also edits every kanji. Each edit copies its note once the store keeps them, about 28,000 copies: measure
      it then. And some operations are several edits in a row, such as the MCP server's `edit_a_note`, which writes the
