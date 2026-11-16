@@ -55,7 +55,7 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `cd3898468`. Steps 2b, 2c and 4 follow.
+  JAStudio's worktree of Compze is at `cfdc0a7e8`, with `SnapshotRoundTrip.DifferencesOf` and the ambient units of work.
 - **JAStudio:** steps 1 to 6 below are done, and so is step 7's increment 1, on step 3's routing. Each passed the whole
   suite, with `full-build.ps1` clean, and is pushed. Neither a full rebuild nor saving every note changes a file of the
   corpus. Magnus has looked at step 6, and it is revised by his word:
@@ -96,8 +96,8 @@ each build and pass:
      writes one file.
    - Nothing uses it yet.
 3. **Increments 3 and 4 are one step:** once the store keeps the notes, its committed instances are read only, so
-   every edit outside a unit of work fails. What they need first is
-   [how JAStudio code edits a note](how-jastudio-edits-a-note.md).
+   every edit outside a unit of work fails. They are built in the order of
+   [how JAStudio code edits a note](how-jastudio-edits-a-note.md), "The order it is built in", where the progress is.
    **The store keeps the notes.** Composed with the three note classes, each with its factory and a comparison of
    serialized DTOs. The caches' indexes become the store's indexes, each a function of a note's state, as today's
    `keysOf(snapshot)` already is. Loading and reloading go through the store.
@@ -106,7 +106,7 @@ each build and pass:
    reference: about twelve classes outside the notes, and 92 specification files that hold a note in a field.
    `JPCollection.NoteUpdated` is raised once a unit of work has committed.
 
-### Open, to settle before the store keeps the notes
+### Settled before the store keeps the notes
 
 [How JAStudio code edits a note](how-jastudio-edits-a-note.md): agreed by Magnus and `jastudio-rep-opus`, 2026-11-16.
 It decides how every edit in JAStudio is written, and the order increments 3 and 4 are built in.

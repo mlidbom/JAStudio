@@ -31,11 +31,28 @@ vocab.Edit(it => it.CorpusAnswer.Set("to run"));
 
 Each a commit that builds and passes the whole suite, so the switch to the store at the end is small.
 
-1. **`note.Edit(it => ...)` before the store:** until the store keeps the notes, it runs the edit on the note itself.
-   Its contract is already the final one: change only `it`.
+1. **Done (`f706ab16e`). `note.Edit(it => ...)` before the store:** `EditingANote.Edit`, which until the store keeps
+   the notes runs the edit on the note itself. Its contract is already the final one: change only `it`.
 2. **Every edit site calls `Edit`,** an area at a time: commands and editable fields, the UI's direct changes, the MCP
    tools, the batches, the importer, the shortcuts, text-to-speech, the shared conditions, the cross-note changes in the
    domain, then the specifications.
+   - **The product code is done (`f706ab16e`, `3cc42bf2e`).** What changed in how it reads:
+     - The editors that changed a part of the note directly hold an `EditedNotePart<TPart>`: the part read on the
+       current note, and changed in an edit of it. A flag's check box writes its editable field.
+     - `IHasTextToSpeechAudio.Edit`, for code that knows the note only as one with TTS audio.
+     - What creating a note does to it after adding it runs in an edit of it, so the behavior is unchanged: moving it
+       before the note is added would skip filling a clone's parts of speech from the dictionary.
+     - A cross-note change edits the other note: the mutual relationships, the perfect synonyms, the forms, renaming the
+       word references and the shared conditions' rewrites.
+   - **The sites were found by a check, not by reading.** In the working tree, `JPNote`'s guard asserted that a note of
+     the collection changes only in an edit of it (`EditingANote.AssertIsBeingEdited`), and a run of the whole suite
+     that recorded each failing stack instead of throwing listed every site at once, grouped by the code that should
+     edit. The specifications are converted next, and then the check is committed: until the store's read-only
+     committed notes take over, it keeps every new change in an edit.
+   - **For the switch:** renaming a vocab and using a shared condition wherever its definition is edit every vocab, and
+     renaming also edits every kanji. Each edit copies its note once the store keeps them, about 28,000 copies: measure
+     it then. And some operations are several edits in a row, such as the MCP server's `edit_a_note`, which writes the
+     fields, reparses and updates the generated data: one unit of work around each operation would commit it whole.
 3. **The holders, and the specifications' fields, hold references:** `ITaggregateReference<TNote>`, made over the
    collection until the store keeps the notes.
 4. **The switch:** the store is composed with `CorpusNoteFiles`, the three note classes and their indexes; the
