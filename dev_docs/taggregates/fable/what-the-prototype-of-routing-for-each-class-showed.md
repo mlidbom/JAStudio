@@ -70,10 +70,29 @@ than plain objects for a vocab, 230 for a sentence, 280 for a kanji. About 26 MB
 4. **`Commit` can hand over the list itself and start a new one,** in place of copying: the taggregate forgets the
    list before it calls back, so a tevent published from inside the callback goes into a new list.
 5. **Static fields are initialized in the order written,** so a slot is declared above the declaration that enters it.
-   Written the other way round, the entry is null: the declaration should assert that, with a message.
+   Written the other way round, the entry is null: the declaration should assert that, with a message. The Compze
+   session adds that with nullable reference types on, the compiler warns of it too (CS8604).
 6. **A component's entry has to know the component's root tevent interface.** The prototype takes it as a type
-   argument. In Compze it can come from the component class's own type arguments.
+   argument. The Compze session's prototype needs none: its entry takes a lambda that returns an interface which the
+   component's base class implements with that tevent interface as its type argument, and C# infers it, so
+   `.Component(vocab => vocab.Forms)` compiles as it stands.
 7. **The lambdas capture nothing when written `static`,** which the compiler checks.
+
+## A second prototype agrees
+
+The Compze session built a prototype of its own, with what this one leaves out: tevent handlers, the queue of
+notifications, `Commit`, loading from a compacted-history, slots in a component, and the assertion. It is on Compze's
+branch `taggregate-experiments-fable`, in the worktree `C:\Dev\Compze.worktrees	aggregate-experiments-fable`, and its
+numbers are in Compze's `dev_docs/taggregate-improvements/fable/what-was-run-and-measured.md`. By its measurement:
+
+- **A vocab with four components, and four shared tomponents in one of them,** keeps 10,204 B as today's Taggregate,
+  584 B on its prototype and 350 B as plain objects, and loads in 2.6 to 2.8 µs against 34 to 40.
+- **For each teventive on its prototype:** a root 168 B, a component 56 B, a shared tomponent 48 B. With the parts
+  counted as here, that is about 30 MB over plain objects for the corpus, beside this prototype's 26 MB.
+
+It took the finding that loading needs no wrapper as a refinement of its design: matching stays on the wrapper's type,
+which follows from the class and the tevent's own type, and the wrapper object is made only for an entry that asks for
+it and for what is committed and handed over.
 
 ## What the prototype doesn't have
 
