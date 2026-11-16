@@ -68,3 +68,12 @@ No code is changed in this checkout, or on Compze's `main`.
 - **A round-trip specification:** load each note, save it, and compare the files. It is the guard against a snapshot
   tevent that misses a property, which would lose data at the next save without a word.
 - **The Python stub generator** would meet a generic base class from Compze under `JPNote`. Not checked.
+
+## Found along the way, in JAStudio
+
+- **A vocab's forms that no other vocab owns go stale** (`VocabNoteForms`, `_notOwnedByOtherVocab`). The set is computed
+  from other vocab's questions and forms, but only the vocab's own changes reset it. When another vocab adds or drops
+  this vocab's question as a form, `SentenceCollection.WithVocabOwnedForm` lists sentences by the stale set until the
+  vocab changes or the collection is loaded again. Found by the opus team by reading the code, not reproduced, and not
+  fixed or marked at the code, since this exploration changes no code: see `../opus/found-along-the-way.md`. It is
+  what tevents are for: data derived from other notes, which only hearing of their changes keeps current.

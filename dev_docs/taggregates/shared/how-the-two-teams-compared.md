@@ -77,7 +77,7 @@ Settled between the two Compze sessions, with no requirement of JAStudio's:
 - **Loading without a wrapper object:** an optimization to offer later, after measuring.
 - **The order in Compze:** the two flaws first, then the small additions, then routing in increments, with slots before
   anything of JAStudio's moves; `ITaggregateTevent` as a plain `ITevent` is independent of the rest.
-- **Whether a taggregate refuses further use after an applier, a handler or an invariant threw:** proposed, for Magnus
-  to decide.
+- **Whether a taggregate refuses further use after an applier, a handler or an invariant threw:** for Magnus to
+  decide. It is built and specified on the combined branch, where later `Publish` and `Commit` then refuse.
 
 See Compze's shared folder.
