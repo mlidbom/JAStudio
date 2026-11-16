@@ -130,6 +130,11 @@ that is running. 11 places:
 `PerfectSynonyms` follows its own vocab's `CorpusAnswer` through a subscription made in its constructor. On a copy that
 still works, since a copy builds its parts.
 
+**Participation handlers run as each publish cascade ends, not at the commit** (Magnus, 2026-11-16; spike `b5d9ae9ed`).
+A tevent reaches them once its note is at rest, inside the domain call, as these changes happen today: code later in
+the unit of work sees what they did, and a handler's failure comes out of the call, not out of the commit. So step 11
+moves each of these places into a handler without changing when it happens.
+
 **A note looked up inside a unit of work that then rolls back is the discarded copy,** holding changes that never
 committed. Only a holder of instances could keep one, and the holders hold references (`jastudio-rep-opus`).
 
