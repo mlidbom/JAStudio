@@ -45,7 +45,7 @@ cache.
 - **At the end:** Compze publishes the store's packages, on Magnus's approval, and the branch goes back to package
   references before it merges into `main`.
 
-## Where it stands, 2026-11-16, late evening
+## Where it stands, 2026-11-16, night
 
 - **Compze:** steps 2a and 3 are in.
   - Step 2a is the in-memory state store, with three additions JAStudio asked for:
@@ -55,9 +55,18 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `2a919c6b4`, step 2b: the tevent store joins the shared `ITaggregateStoreUpdater` and `ITaggregateStoreReader`.
-- **JAStudio:** steps 1 to 6 below are done, and so is step 7's increment 1, on step 3's routing. Each passed the whole
-  suite, with `full-build.ps1` clean, and is pushed. Neither a full rebuild nor saving every note changes a file of the
+  JAStudio's worktree of Compze is at `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
+  and `ITaggregateStoreReader`: the three additions JAStudio's switch asked for, specified under "Three gaps for JAStudio's
+  switch, specified" in Compze's `the-taggregate-store.md`.
+  - a storage built with a container service, `store.StoredIn((ITaggregateStorage storage) => storage)`, resolved at the
+    store's first use;
+  - every taggregate of a class, `IStateStore.All<TTaggregate>()`, inside a unit of work as it has changed them;
+  - a reload that runs a change to the storage first, `IStateStore.ReloadFromStorageAfter(change)`, while every unit of
+    work waits.
+- **JAStudio:** steps 1 to 6 below are done, and so are step 7's increments 1 to 4: **the state store keeps the notes**,
+  every edit runs in a unit of work on the note's copy, and the holders hold references. Each passed the whole suite,
+  with `full-build.ps1` clean, and is pushed. How it was built is in [how JAStudio code edits a note](how-jastudio-edits-a-note.md),
+  "The order it is built in", step 4. The copies of all 79,896 notes lose nothing. Neither a full rebuild nor saving every note changes a file of the
   corpus. Magnus has looked at step 6, and it is revised by his word:
   [the-structure-of-the-notes-tevents.md](the-structure-of-the-notes-tevents.md). He also decided that text fields
   become plain strings, which changes step 10: [what-the-notes-hold.md](what-the-notes-hold.md).
@@ -95,13 +104,13 @@ each build and pass:
    - **The cost:** saving every note takes about 50 s instead of 12, about 0.6 ms a file against 0.15. An edit
      writes one file.
    - Nothing uses it yet.
-3. **Increments 3 and 4 are one step:** once the store keeps the notes, its committed instances are read only, so
+3. **Done. Increments 3 and 4 are one step:** once the store keeps the notes, its committed instances are read only, so
    every edit outside a unit of work fails. They are built in the order of
    [how JAStudio code edits a note](how-jastudio-edits-a-note.md), "The order it is built in", where the progress is.
    **The store keeps the notes.** Composed with the three note classes, each with its factory and a comparison of
    serialized DTOs. The caches' indexes become the store's indexes, each a function of a note's state, as today's
    `keysOf(snapshot)` already is. Loading and reloading go through the store.
-4. **Every edit runs in a unit of work, on the note's copy.** The UI, the MCP server's tools, the importers, the batches
+4. **Done. Every edit runs in a unit of work, on the note's copy.** The UI, the MCP server's tools, the importers, the batches
    (the full rebuild, a unit of work per note) and the specifications. Whatever holds a note across edits holds its
    reference: about twelve classes outside the notes, and 92 specification files that hold a note in a field.
    `JPCollection.NoteUpdated` is raised once a unit of work has committed.

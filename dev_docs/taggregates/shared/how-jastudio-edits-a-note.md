@@ -80,29 +80,49 @@ Each a commit that builds and passes the whole suite, so the switch to the store
    - **The specifications:** 174 note fields in 84 files hold references, through a property of the field's old name.
      Those that hold a note never added to the collection, or one they delete, hold the note itself: a reference has
      nothing to give them.
-4. **The switch:** the store is composed with `CorpusNoteFiles`, the three note classes and their indexes; the
-   collections read through it; `Edit` gets the copy; `NoteUpdated` is raised after the commit; JAStudio's caches go; a
-   restored note starts from its snapshot's hash (the `wip:` at `JPNote._persisted`). Then the corpus checks: saving
-   every note, a full rebuild, and `find_what_copies_of_the_notes_lose`. As planned, 2026-11-16:
-   - **Composed in `AppBootstrapper`:** `registrar.StateStore(...)` with the three note classes, built empty by their
-     factories with `NoteServices`; and the store's indexes, one for each of the caches' today, each keyed by what the
-     cache's snapshot class takes from the note. The question index is shared by the three. The environment's registrar
-     declares the storage: `CorpusNoteFiles` in the hosts, none in the specifications, which keep the notes in memory.
-     And a `LocalTessagingEngine`, which dispatches the notes' tevents.
-   - **`JPCollection.InAUnitOfWork`** runs JAStudio's units of work: `ExecuteUnitOfWork`, which joins the one running.
-     `Edit` gets the note's copy through it with `GetForUpdate`, `Add` saves a new note with `Save`, and `Delete`
-     deletes with `Delete`.
-   - **`NoteUpdated` is raised by JAStudio, not by an observer:** once the outermost unit of work has committed, for each
-     note it added, edited or deleted, synchronously, on the thread that made the change, as today. Every change goes
-     through `Edit`, `Add` and `Delete`, which know their notes, so each note is notified once, after the commit, and
-     the subscribers need no marshalling to the UI thread, nor the specifications a wait for the observers.
-   - **The collections' lookups** read the store's indexes, and give `reference.Current`. The lookup recording that the
-     reparse uses wraps them, as it wraps the caches' today.
-   - **Loading:** the shared conditions first, as today, since restoring a vocab's match-condition names them. Then
-     the store's first use loads every note.
-   - **Waits on Compze** (asked of `jastudio-rep-opus`, 2026-11-16): a storage built from the container's services,
-     since the standalone host resolves the corpus folder; every taggregate of a class, for the searches; and a reload
-     that runs a change to the storage, such as a git fast-forward, while no unit of work can save over it.
+4. **Done. The switch: the state store keeps the notes,** on Compze's spike at `21012570a`. The whole suite passes; on
+   the corpus, a full rebuild and saving every note change no file, and the copies of all 79,896 notes lose nothing.
+   - **Composed in `AppBootstrapper.ComposeTheStateStoreOfTheNotes`:** the three note classes, built empty with
+     `NoteServices` and compared by `CorpusNoteDto.HoldTheSameState` for the reload's report; the indexes; and a
+     `LocalTessagingEngine`. The storage is the environment's `ITaggregateStorage`: `CorpusNoteFiles` in the hosts,
+     `NotesStoredInMemory` in the specifications, which read what is stored, and change it as a change on disk would.
+   - **The indexes are declared beside the collections:** `VocabIndexes`, `KanjiIndexes` and `SentenceIndexes`, one key
+     type for each index, since the store has one index for each class and key type: `VocabIndexes.Form` and so on.
+     `NoteIndex` reads one for a collection, through its `LookupRecorder`; `StoredNotes` gives every note and the one
+     with an id. The caches, their snapshot classes and `INoteRepository` are gone.
+   - **A lookup gives the notes in the order of their ids,** the order the corpus loads in, which the caches gave them
+     in. Without it, a full rebuild changed 1,172 sentences: two vocab matched to one form, stored the other way around,
+     and three that parse otherwise, since `WordInfo.Lookup` takes the first vocab with a form, and its godan check then
+     depends on which comes first. That dependence is marked `review:` at the code.
+   - **`NoteUnitsOfWork` runs JAStudio's units of work,** through `JPCollection.InAUnitOfWork`: the one running on the
+     thread, or else a new one of the store's. `Edit` gets the note's copy (`NoteUnitOfWork.ForUpdate`), and a note
+     being created, in no store yet, is edited itself. `Add` saves, and `Delete` deletes, then deletes the study-note and
+     the media files once committed (`NoteUnitOfWork.OnceCommitted`).
+   - **`NoteUpdated` is raised once the outermost unit of work has committed,** for each note it added or changed whose
+     copy became the committed note, synchronously, on the changing thread. A rollback raises none. A unit of work the
+     store began without JAStudio can't be joined, so a change in one fails (`jastudio-rep-opus`'s advice). A reload
+     raises it for the notes it found changed on disk.
+   - **Loading and reloading go through the store:** `IStateStore.ReloadFromStorageAfter`, with the corpus change, then
+     the shared conditions, run while every unit of work waits; meanwhile the dictionary, the study-notes and the media
+     index load. The notes load in 5.0 s. When the change fails, the notes stay as they were.
+   - **A restored note starts from its snapshot's hash,** so its `Flush` publishes a change from it. `_persisted`, the
+     scaffold assertion and `NoteFlushGuard` are gone: the store's committed notes refuse every change.
+   - **What the copies showed:**
+     - The factories and the cloner returned the note they had created, which their edit after adding it left stale.
+       They return the note as it is now. `VocabCloner.CreateImperative` changed its clone outside any edit, which has
+       failed since step 2; it edits it now.
+     - Renaming a shared condition changes how every vocab using it is stored, through the condition they share, while
+       neither changes. The rename now publishes the change outright
+       (`VocabNote.SaveAfterASharedConditionItsMatchConditionUsesWasRenamed`).
+     - A vocab's alternative compound parts are stored as entered, those also primary included, so that one that
+       stops being primary comes back as an alternative: the note in memory kept it before, and a copy didn't. No stored
+       vocab has such a part yet, so no file changes.
+     - A kanji's radicals from its mnemonic are added in the order the mnemonic names them, not the collection's.
+   - **The cost, measured warm:** a full rebuild takes 2.5 s and 53 processor-seconds, against 1.5 s and 36 for the
+     code before, which ran cold; a unit of work, a copy and its hash for each note. 804 MB stay on the managed heap
+     after a full collection. Step 12 measures it against `main`.
+   - **"Force flush all cached notes" is gone from the workspace's menu:** there is no cache to flush. "Log when flushing
+     notes" logs each note a unit of work saves.
 
 ## The three decisions
 
@@ -177,11 +197,15 @@ committed. Only a holder of instances could keep one, and the holders hold refer
 
 ## `JPCollection.NoteUpdated`, after the commit
 
-Raised for each note a unit of work changed, with the new committed note, once it has committed. Today it is raised
-inside the change, on the changing thread, often the UI thread. Its subscribers are four UI and web classes that show
-changed notes, and the saving, which the store's storage takes over. **Raised on the engine's thread, the four must
-move to the UI thread themselves** (`jastudio-rep-opus`). Compze's observers run after the commit, on the engine's own thread,
-so a specification that asserts on what an observer does waits for the observers: the wait the plan lists last.
+Raised for each note a unit of work changed, with the new committed note, once it has committed. Its subscribers are four
+UI and web classes that show changed notes; the saving, which used to subscribe, is the store's storage now.
+
+**Built so that JAStudio raises it, not a Compze observer** (proposed to Magnus, 2026-11-16, his answer pending):
+`NoteUnitsOfWork` raises it once the outermost unit of work has committed, synchronously, on the thread that made the
+change, as before the switch. So the subscribers need no move to the UI thread, nor the specifications a wait for the
+observers. The cost: a change made in a unit of work JAStudio didn't begin would be notified to no one, so
+`NoteUnitsOfWork` refuses one. Raised by an observer instead, it would come on the engine's own thread, and the four
+would each move to the UI thread themselves (`jastudio-rep-opus`).
 
 ## What `jastudio-rep-opus` answered, 2026-11-16
 
