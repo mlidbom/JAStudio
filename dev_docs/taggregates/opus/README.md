@@ -1,5 +1,8 @@
 # Taggregates for JAStudio's notes: what Compze needs
 
+> **Superseded where they differ by what the four sessions agreed after comparing the two teams' work:** `../shared/`,
+> and Compze's `dev_docs/taggregate-improvements/shared/`.
+
 > **Status: design and exploration, 2026-11-16. Nothing is implemented.** Written by the session taggregates-opus, in
 > JAStudio, in a dialogue with the session jastudio-rep-opus, in Compze. The Compze changes they agreed on are written
 > up in Compze: `C:\Dev\Compze\dev_docs\taggregate-improvements\opus\`. Another pair of sessions explores the same

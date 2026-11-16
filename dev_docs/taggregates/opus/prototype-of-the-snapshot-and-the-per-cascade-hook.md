@@ -10,6 +10,15 @@ routing decided once per class, is jastudio-rep-opus's prototype: see Compze's
   unit tests, 38 of them new.
 - **Combined with change 2,** and measured: see [the prototypes combined](the-prototypes-combined.md).
 
+> **Changed by the cross-team comparison (2026-11-16):** the hook no longer calls itself from inside itself. A cascade
+> published from inside it is queued and handed on after those before it, as the fable team proposed: the nested call
+> delivered edit, mark, reaction for tevents published as edit, reaction, mark. A throwing hook leaves the rest
+> queued, and a cascade that threw from an applier, a handler or the invariants makes the taggregate refuse further
+> publishing and committing. Commit 4b42470ba, merged into `taggregates-opus/combined` at 604c00df4, where Compze's
+> full suite passes. What the four sessions agreed in the end is in `../shared/` and Compze's
+> `dev_docs/taggregate-improvements/shared/`: it supersedes what this document says where they differ, such as loading
+> being protected and typed on the class instead of a member of `ITaggregate`.
+
 ## What it adds to Compze.Teventive
 
 ### `ITaggregate.LoadFromSnapshot(IEnumerable<ITaggregateTevent> snapshot, int version)`
