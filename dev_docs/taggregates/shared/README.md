@@ -7,12 +7,53 @@
 > Compze's side is in Compze's `dev_docs/taggregate-improvements/shared/`. It was reviewed by two reviewers of its
 > own and revised, and the two folders were brought in step on 2026-11-16.
 
-> **Since these conclusions were written, Magnus has set a new direction in Compze:** a taggregate store that holds the
-> live taggregates, with a session for each unit of work, in place of the hook and the queue inside each taggregate
-> and of loading through tevents. The two Compze sessions are designing it. Requirements 3 to 5 and 7 of
-> [what-the-notes-require-of-compze.md](what-the-notes-require-of-compze.md) are written for the design before it.
-> What JAStudio's code says to that design is in
-> [answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md).
+> **Since these conclusions were written, Magnus has set a new direction in Compze: a taggregate store.** It changes
+> what the Taggregates option is and what it takes of JAStudio: see the next section. The conclusions below are as
+> they were before it, and conclusions 1 to 4 stand.
+
+## What the taggregate store changes in these conclusions
+
+**The direction (Magnus, 2026-11-16).** A Compze component holds a process's live taggregates and routes their
+tevents: an `ITaggregateStore` that keeps state and no history, with a session for each unit of work, and the unit of
+work a System.Transactions transaction. Compze's two sessions have designed it and prototyped it in memory:
+Compze's `dev_docs/taggregate-improvements/shared/the-taggregate-store.md` (commit 4450f76db). What JAStudio's code
+says to it, and what JAStudio's side says to its recommendation, is in
+[answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md).
+
+**One decision of Magnus's is reopened by JAStudio's facts: how a unit of work's changes are kept from other code.**
+
+- **He chose a private copy of a note for each unit of work.** Every commit then puts a new object in place of the
+  note, so every place in JAStudio that edits a note changes: the UI, the MCP server's tools, the importers, the
+  batches and nearly every specification. Not counted, and larger than the 51 `NoteGuard.Update` sites.
+- **Compze's two sessions now recommend shared live instances,** and JAStudio's side agrees. The note object stays
+  for good and the places that edit stay as written. Other threads read changes that are not yet committed, as they
+  do in JAStudio today. A unit of work that fails restores each note it changed, in place.
+
+**What becomes of what this document says below:**
+
+| Below | With the store |
+|---|---|
+| Conclusion 5, the two flaws in Compze.Teventive | Can't arise for a taggregate in a store: nothing calls out from inside a publish or a commit |
+| Conclusion 6, nothing moves before routing for each class has landed | Stands, and the store comes before it in Compze's order |
+| A queue in the collection's dispatching | Compze's: tevents are dispatched when the unit of work commits, in the order published |
+| Loading one note from its file, to replace a note that refuses use | Gone: a publish that fails rolls its unit of work back, and no note is replaced |
+| How a note is loaded | Decided by Magnus: from a snapshot type of the note class's own, with no tevents. JAStudio's DTOs are such types |
+| Two threads changing one note | They wait for each other, on a lock for each note |
+| A save that fails | Rolls the unit of work back, where today the note stays changed in memory and counts as saved |
+| The stored note | Each file written whole, and several as all or nothing, where today a crash can leave half a file |
+
+**New for JAStudio with the store,** each in the answers document:
+
+- **Its indexes become derived state of the store,** changed with the commit, and read by a unit of work with its
+  own changes in them.
+- **What Anki says of a note's cards moves out of the note.** It is not stored, and changes without an edit.
+- **What can't be undone happens after the commit:** telling Anki to delete a study-note or suspend cards, and
+  deleting media files. Today it happens in the middle of the edit.
+- **Under shared live instances, each part of a note is restorable in place.**
+- **Not designed yet in Compze:** loading the whole corpus again while running, as JAStudio does around a git
+  fast-forward, and a wait for observers to be at rest, which JAStudio's specifications need.
+
+**The next step that conclusion 4 names stands, and now needs the store:** `VocabNoteForms` written both ways.
 
 **The question (Magnus, 2026-11-16).** Should JAStudio's notes be Compze Taggregates, so that every change to a note is
 a tevent, and whatever follows a change subscribes to exactly the tevents it concerns? The storage stays as it is: a

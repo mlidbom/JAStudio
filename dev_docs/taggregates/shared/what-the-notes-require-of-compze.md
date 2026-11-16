@@ -4,6 +4,13 @@
 > requirement with the fact about JAStudio behind it. The conclusions are in [README.md](README.md). How Compze would
 > meet each is Compze's to design: see Compze's `dev_docs/taggregate-improvements/shared/`.
 >
+> **Written before the taggregate store (Magnus's direction, 2026-11-16), which replaces four of the requirements:**
+> 3, loading through the tevent appliers, by a snapshot type with no tevents; 4 and 5, the hook and committing from
+> inside it, by a session for each unit of work that dispatches at its commit; and 7, two threads failing at once,
+> by a lock for each note that makes them wait. Requirements 1, 2, 6 and 8 stand, and 9 is now needed. What the store
+> in turn requires is in
+> [answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md).
+>
 > **It says what the notes would require if they become Taggregates.** Whether they should is not settled: the
 > review that followed found it never weighed, and found what JAStudio itself would have to design, which this list
 > doesn't hold. Both are in [README.md](README.md).

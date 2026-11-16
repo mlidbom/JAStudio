@@ -6,6 +6,10 @@
 > question 1, the note object that stays, and under question 3, lookups that read a unit of work's own writes.
 > What is a guess, or was not traced, is marked. The recommendations are the two JAStudio sessions', and nothing here
 > is decided.
+>
+> **The answers were given to a design in which a note got for update is a private copy. They changed Compze's
+> recommendation:** its two sessions now recommend shared live instances, under which most of the answer to question
+> 1 is no longer needed. See [the last section](#after-the-answers-compze-now-recommends-shared-live-instances).
 
 **What is being designed in Compze (Magnus's direction, 2026-11-16).** A taggregate store, `ITaggregateStore`, that
 holds state and no history, with an `ITaggregateStoreUpdater` session for each unit of work. A unit of work is a
@@ -287,3 +291,63 @@ In memory a restored note can be version 1, as `jastudio-rep-fable`'s design has
 4. **What a unit of work costs,** since a full rebuild would run 80,000 of them: a scope, a transaction, one get for
    update and a commit. Not measured. And System.Transactions on macOS and Linux, which JAStudio is to run on: fine
    for transactions within one process as far as I know, not run.
+
+## After the answers: Compze now recommends shared live instances
+
+**Compze's design for the store is in its `dev_docs/taggregate-improvements/shared/the-taggregate-store.md`** (commit
+4450f76db). After these answers its two sessions recommend, as Magnus's decision to make, a different isolation
+from the one he chose:
+
+| | (a) A private copy for each unit of work, which Magnus chose | (b) Shared live instances, which Compze's sessions now recommend |
+|---|---|---|
+| The note object JAStudio's code holds | Replaced at every commit | The same object for good |
+| The places that edit a note | Every one changes | Stay as written: a change joins the unit of work under way, or is one of its own |
+| What other threads read meanwhile | Committed state only | Changes not yet committed, some of them later undone |
+| A unit of work that fails | Its copies are discarded | Each note it changed is restored in place, from a snapshot taken at its first change |
+
+A third way, (c), keeps the object and shows other threads committed state only: a note's state held as one
+immutable value for each transaction. It is how every taggregate is written that changes, and it is not designed.
+
+### What becomes of the answers above
+
+- **Question 1:** the handles, the indexes following a swap, and the cost of every place that edits a note all
+  belong to (a). Under (b) none of them arises. What stays: what Anki says of a note's cards moves out of the note;
+  values a note computes lazily and keeps must be safe to read from many threads; and a note must be restorable
+  outside any store.
+- **Question 3:** unchanged, and taken up: the indexes as derived state that is itself transactional, written
+  inside the unit of work and applied at its commit; lookups inside a unit of work that read its own writes, for
+  which the session lists the notes it holds, by type; and what can't be undone, such as telling Anki, after the
+  commit and before the edit returns (`IUnitOfWorkResolver.OnCommittedSuccessfully`).
+- **Questions 2, 4 and 5:** unchanged, and taken up. The version is kept in memory only. No type identifiers are
+  needed for tevents that stay in the process. A unit of work that gets a note, changes it and commits was measured
+  by Compze at 8.5 to 12.5 µs and 9.5 KB.
+- **Not designed yet in Compze:** loading everything again while running, and a wait for the observers to be at
+  rest that needs no testing host.
+
+### What JAStudio's side says to (b)
+
+By `taggregates-fable`. `taggregates-opus` has been told of it, and its reply, if any, is taken in here.
+
+1. **I agree with recommending (b).** It is how JAStudio's notes are read today: a note is changed in place, and
+   threads that parse read it meanwhile. (b) adds what today lacks: writers of one note wait for each other, an edit
+   that fails is undone in every note it touched, and the files are written whole.
+2. **(b) keeps (c) open, and (a) doesn't.** Under both (b) and (c) the note object stays and the places that edit
+   stay as written. Going from (b) to (c) later would change Compze and the insides of the notes, not their callers.
+3. **Restoring in place should be the only restoring, used by loading too:** build the note empty, then restore it
+   in place from its snapshot. Compze's document gives (b)'s price as a second and harder restoring that the
+   implementor writes for every part, and that runs rarely, when something has already gone wrong. As the only
+   restoring it is written once for each part, and every start runs it 80,000 times. It asks that a part's state can
+   be set after the part is built, which the tevent appliers need anyway.
+4. **Restoring in place must also reset what a note computed and kept:** the seven lazy values in `VocabNoteForms`
+   and the one in `RelatedVocab`. The specification helper that compares two snapshots doesn't see them.
+5. **A unit of work must not wait for the UI thread while it holds a note's lock.** JAStudio's progress presenters
+   call the UI thread and wait for it when a task or a batch starts (`DialogProgressPresenter`,
+   `ScopeProgressPresenter`, through `IUIThreadDispatcher.InvokeSynchronouslyOnUIThread`). A background unit of work
+   that did so while holding a note, with the UI thread waiting for that note, stands still until the lock times
+   out. Today's batches start their progress before they touch a note, so a unit of work for each note is safe. A
+   whole rebuild as one transaction is not.
+6. **In a rebuild, a unit of work for each note before batches of hundreds.** A batch holds every note it changed
+   until it commits. So a UI edit that needs two notes can wait for a batch that waits for it, until the timeout,
+   and other threads look up the batch's notes by their old keys until it commits. A unit of work for each note
+   never waits while it holds one. By Compze's figures that costs about 0.8 s of one core and 0.76 GB of garbage for
+   80,000 notes. For JAStudio to measure and choose.
