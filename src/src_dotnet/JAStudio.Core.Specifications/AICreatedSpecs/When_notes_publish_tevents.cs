@@ -20,9 +20,9 @@ using JAStudio.Core.Note.Vocabulary.Tevents;
 namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id. Most of a note's parts change its state directly<br/>
-/// still, and a note whose stored data they changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store<br/>
-/// would save it.
+/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a vocab's text field publishes the<br/>
+/// <c>PropertyUpdated</c> tevent of its new value. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
+/// changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store would save it.
 /// </summary>
 public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
@@ -105,17 +105,19 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
       {
          readonly IReadOnlyList<INoteTevent> _published;
 
-         public when_its_answer_is_changed() => _published = TheTeventsPublishedAs(it => it.CorpusAnswer.Set("to dash"));
+         public when_its_answer_is_changed() => _published = TheTeventsPublishedAs(it => it.SetCorpusAnswer(" to dash "));
 
-         [XF] public void it_publishes_that_a_part_without_tevents_changed() =>
-            _published.Must().Satisfy(it => it is [INoteTevent.PartWithoutTeventsChanged]);
+         [XF] public void it_publishes_that_its_corpus_answer_was_updated_to_the_new_answer_trimmed() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.PropertyUpdated.CorpusAnswer { CorpusAnswer: "to dash" }]);
+
+         [XF] public void the_committed_vocab_has_the_new_answer() => _vocab.CorpusAnswer.Must().Be("to dash");
       }
 
       public class when_its_answer_is_set_to_the_answer_it_has : given_a_vocab_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;
 
-         public when_its_answer_is_set_to_the_answer_it_has() => _published = TheTeventsPublishedAs(it => it.CorpusAnswer.Set("to run"));
+         public when_its_answer_is_set_to_the_answer_it_has() => _published = TheTeventsPublishedAs(it => it.SetCorpusAnswer("to run"));
 
          [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
       }

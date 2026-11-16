@@ -30,7 +30,7 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
    TextFieldEditorViewModel CorpusAnswer => Text.CorpusFields.Single(it => it.Label == "Answer");
 
    /// <summary>A change to the vocab made elsewhere, as by Anki or a note menu, which makes the editor refresh.</summary>
-   void ChangeTheMnemonicElsewhere() => _vocab.Edit(it => it.Mnemonic.Set("changed elsewhere"));
+   void ChangeTheMnemonicElsewhere() => _vocab.Edit(it => it.SetMnemonic("changed elsewhere"));
 
    void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !_editor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
@@ -38,7 +38,7 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
    {
       public after_typing_an_answer() => CorpusAnswer.Text = "to dash";
 
-      [XF] public void the_answer_is_written_to_the_vocabs_corpus_answer() => _vocab.CorpusAnswer.Value.Must().Be("to dash");
+      [XF] public void the_answer_is_written_to_the_vocabs_corpus_answer() => _vocab.CorpusAnswer.Must().Be("to dash");
       [XF] public void the_answer_shown_is_it() => _vocab.GetAnswer().Must().Be("to dash");
    }
 
@@ -50,7 +50,7 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
          CorpusAnswer.Text = "to dash ";
       }
 
-      [XF] public void the_vocab_stores_the_answer_trimmed() => _vocab.CorpusAnswer.Value.Must().Be("to dash");
+      [XF] public void the_vocab_stores_the_answer_trimmed() => _vocab.CorpusAnswer.Must().Be("to dash");
 
       public class and_a_change_made_elsewhere : after_typing_an_answer_followed_by_a_space
       {

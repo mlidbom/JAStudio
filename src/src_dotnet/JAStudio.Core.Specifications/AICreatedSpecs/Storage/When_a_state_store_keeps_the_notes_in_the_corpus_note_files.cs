@@ -85,7 +85,7 @@ public class When_a_state_store_keeps_the_notes_in_the_corpus_note_files : Speci
       public when_a_changed_vocab_is_prepared_to_be_saved()
       {
          _theFileBefore = TheFileOf(Vocab);
-         Vocab.Edit(it => it.CorpusAnswer.Set("to dash"));
+         Vocab.Edit(it => it.SetCorpusAnswer("to dash"));
          _write = NoteFiles.Prepare([SnapshotOf(Vocab)], []);
       }
 
@@ -151,7 +151,7 @@ public class When_a_state_store_keeps_the_notes_in_the_corpus_note_files : Speci
       {
          public and_the_vocabs_file_is_changed()
          {
-            Vocab.Edit(it => it.CorpusAnswer.Set("to dash"));
+            Vocab.Edit(it => it.SetCorpusAnswer("to dash"));
             NoteFiles.Prepare([SnapshotOf(Vocab)], []).Commit();
          }
 

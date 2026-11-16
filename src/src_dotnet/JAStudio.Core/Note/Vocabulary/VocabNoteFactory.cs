@@ -75,7 +75,7 @@ public class VocabNoteFactory
       var note = Create(question, "", readings, initializer);
       note.Edit(it =>
       {
-         it.CorpusAnswer.Set(corpusAnswer);
+         it.SetCorpusAnswer(corpusAnswer);
          it.Tags.Set(Tags.Source.Jastudio);
       });
       return note.Reference().Current;

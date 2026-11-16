@@ -15,10 +15,10 @@ static class VocabNoteConverter
              {
                 Id = note.GetId().Value,
                 Question = note.Question.ToDto(),
-                CorpusAnswer = note.CorpusAnswer.Value,
-                Explanation = note.Explanation.Value,
-                ExplanationLong = note.ExplanationLong.Value,
-                Mnemonic = note.Mnemonic.Value,
+                CorpusAnswer = note.CorpusAnswer,
+                Explanation = note.Explanation,
+                ExplanationLong = note.ExplanationLong,
+                Mnemonic = note.Mnemonic,
                 CompoundParts = new VocabCompoundPartsDto { Primary = ToDtos(note.CompoundParts.Primary()), Alternative = ToDtos(note.CompoundParts.EnteredAlternatives()) },
                 Readings = note.GetReadings(),
                 PartsOfSpeech = note.PartsOfSpeech.ToDto(),
@@ -28,8 +28,8 @@ static class VocabNoteConverter
                 Images = [..note.Images.All.Select(ImageReferenceDto.From)],
                 Forms = [.. note.Forms.EnteredForms().Select(it => new EnteredFormDto { Text = it.Text, IsOwned = it.IsOwned })],
                 SentenceCount = note.MetaData.SentenceCount,
-                TechnicalNotes = note.TechnicalNotes.Value,
-                References = note.References.Value,
+                TechnicalNotes = note.TechnicalNotes,
+                References = note.References,
                 Matching = note.MatchingConfiguration.ToDto(),
                 RelatedVocab = new VocabRelatedDto
                                {

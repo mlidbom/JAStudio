@@ -57,7 +57,7 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
       {
          Teyoroshii.Edit(it =>
          {
-            it.CorpusAnswer.Empty();
+            it.SetCorpusAnswer(string.Empty);
             it.SourceData.Answer.Set("may, be allowed to");
          });
       }

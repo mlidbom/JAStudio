@@ -39,9 +39,9 @@
                     </div>
 
                     <div id="middleSection">
-                        @if(!string.IsNullOrEmpty(_note.References.Value))
+                        @if(!string.IsNullOrEmpty(_note.References))
                         {
-                            <div class="referenceLink">@((MarkupString)_note.References.Value)</div>
+                            <div class="referenceLink">@((MarkupString)_note.References)</div>
                         }
 
                         @if(!_hasAudio)
@@ -74,9 +74,9 @@
                         <VocabSentencesMarkedIncorrect Note="_note"/>
                     </div>
 
-                    @if(!string.IsNullOrEmpty(_note.ExplanationLong.Value))
+                    @if(!string.IsNullOrEmpty(_note.ExplanationLong))
                     {
-                        <div id="__explanation_long" class="user">@((MarkupString)_note.ExplanationLong.Value)</div>
+                        <div id="__explanation_long" class="user">@((MarkupString)_note.ExplanationLong)</div>
                     }
                 </div>
             </div>
@@ -118,8 +118,8 @@
     string ContainerClasses()
     {
         var classes = "";
-        if(!string.IsNullOrEmpty(_note!.Explanation.Value)) classes += " has__explanation";
-        if(!string.IsNullOrEmpty(_note.ExplanationLong.Value)) classes += " has__explanation_long";
+        if(!string.IsNullOrEmpty(_note!.Explanation)) classes += " has__explanation";
+        if(!string.IsNullOrEmpty(_note.ExplanationLong)) classes += " has__explanation_long";
         return classes;
     }
 }

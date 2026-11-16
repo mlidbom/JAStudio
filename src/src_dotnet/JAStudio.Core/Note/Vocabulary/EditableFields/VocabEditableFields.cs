@@ -36,11 +36,11 @@ public static class VocabEditableFields
    public static readonly EditablePartsOfSpeechField PartsOfSpeech = new();
 
    /// <summary>The corpus's own answer, which takes the place of the source's (<see cref="SourceAnswer"/>).</summary>
-   public static readonly EditableTextField<VocabNote> Answer = new("corpusAnswer", "Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer);
+   public static readonly EditableTextField<VocabNote> Answer = new("corpusAnswer", "Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer, (it, text) => it.SetCorpusAnswer(text));
 
-   public static readonly EditableTextField<VocabNote> Explanation = new("explanation", "Explanation", TextFieldFormat.Paragraphs, it => it.Explanation);
-   public static readonly EditableTextField<VocabNote> LongExplanation = new("explanationLong", "Long explanation", TextFieldFormat.Paragraphs, it => it.ExplanationLong);
-   public static readonly EditableTextField<VocabNote> Mnemonic = new("mnemonic", "Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic);
+   public static readonly EditableTextField<VocabNote> Explanation = new("explanation", "Explanation", TextFieldFormat.Paragraphs, it => it.Explanation, (it, text) => it.SetExplanation(text));
+   public static readonly EditableTextField<VocabNote> LongExplanation = new("explanationLong", "Long explanation", TextFieldFormat.Paragraphs, it => it.ExplanationLong, (it, text) => it.SetExplanationLong(text));
+   public static readonly EditableTextField<VocabNote> Mnemonic = new("mnemonic", "Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic, (it, text) => it.SetMnemonic(text));
 
    /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Primary"/> compound parts, each by its <see cref="WordReference.DisambiguationName"/>, as <c>出す:masu</c>.</summary>
    public static readonly EditableTextListField<VocabNote> CompoundParts =
@@ -53,7 +53,7 @@ public static class VocabEditableFields
           it => DisambiguationNamesOf(it.CompoundParts.Alternative()),
           (it, parts) => it.CompoundParts.SetAlternative(WordReference.TheWordsNamedBy(parts)));
 
-   public static readonly EditableTextField<VocabNote> TechnicalNotes = new("technicalNotes", "Technical notes", TextFieldFormat.Paragraphs, it => it.TechnicalNotes);
+   public static readonly EditableTextField<VocabNote> TechnicalNotes = new("technicalNotes", "Technical notes", TextFieldFormat.Paragraphs, it => it.TechnicalNotes, (it, text) => it.SetTechnicalNotes(text));
 
    /// <summary>The answer the vocab's source gave it (<see cref="VocabNote.SourceData"/>).</summary>
    public static readonly EditableTextField<VocabNote> SourceAnswer = new("sourceData.answer", "Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer);

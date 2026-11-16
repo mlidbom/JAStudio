@@ -1,9 +1,9 @@
 @using JAStudio.Core.Note.Vocabulary
 
-@if(!string.IsNullOrEmpty(Note.TechnicalNotes.Value))
+@if(!string.IsNullOrEmpty(Note.TechnicalNotes))
 {
     <div id="technical_notes" class="user">
-        <span class="heading">Technical notes:</span> @((MarkupString)Note.TechnicalNotes.Value)
+        <span class="heading">Technical notes:</span> @((MarkupString)Note.TechnicalNotes)
     </div>
 }
 

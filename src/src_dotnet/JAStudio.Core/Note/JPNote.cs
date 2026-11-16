@@ -194,6 +194,18 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    }
 
    /// <summary>
+   /// Publishes the tevent <paramref name="teventOf"/> makes of <paramref name="updated"/>, the new value of a property of the note, unless the<br/>
+   /// property holds it already, as <paramref name="current"/>: a tevent says that something changed.
+   /// </summary>
+   /// <returns>Whether it published the tevent.</returns>
+   protected bool PublishIfChanged(string current, string updated, Func<string, NoteTevent> teventOf)
+   {
+      if(updated == current) return false;
+      Publish(teventOf(updated));
+      return true;
+   }
+
+   /// <summary>
    /// Publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/> whether or not the note changed since it was restored: for a change to what the<br/>
    /// note stores that the note's state doesn't show, since an object the note shares with others changed, such as a shared-condition its<br/>
    /// match-condition uses by name getting another name. Every instance of the note, its copies included, then stores it by the new name.

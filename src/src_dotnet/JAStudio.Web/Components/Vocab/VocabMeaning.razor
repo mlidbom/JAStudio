@@ -1,6 +1,6 @@
 @using JAStudio.Core.Note.Vocabulary
 
-@if(Note.CorpusAnswer.HasValue())
+@if(Note.CorpusAnswer is not "")
 {
     <div class="meaning user">@((MarkupString)Note.GetAnswer())</div>
 } else

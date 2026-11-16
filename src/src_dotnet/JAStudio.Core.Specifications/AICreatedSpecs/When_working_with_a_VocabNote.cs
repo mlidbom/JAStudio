@@ -165,15 +165,15 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
          _vocabReference = CreateVocab("食べる", "to eat", "たべる").Reference();
          _vocab.Edit(it =>
          {
-            it.CorpusAnswer.Set("to consume");
-            it.Mnemonic.Set("Remember 'taberu' sounds like 'table' where you eat");
-            it.Explanation.Set("Common verb");
+            it.SetCorpusAnswer("to consume");
+            it.SetMnemonic("Remember 'taberu' sounds like 'table' where you eat");
+            it.SetExplanation("Common verb");
          });
       }
 
-      [XF] public void the_corpus_answer_is_stored() => _vocab.CorpusAnswer.Value.Must().Be("to consume");
-      [XF] public void the_mnemonic_is_stored() => _vocab.Mnemonic.Value.Must().Be("Remember 'taberu' sounds like 'table' where you eat");
-      [XF] public void the_explanation_is_stored() => _vocab.Explanation.Value.Must().Be("Common verb");
+      [XF] public void the_corpus_answer_is_stored() => _vocab.CorpusAnswer.Must().Be("to consume");
+      [XF] public void the_mnemonic_is_stored() => _vocab.Mnemonic.Must().Be("Remember 'taberu' sounds like 'table' where you eat");
+      [XF] public void the_explanation_is_stored() => _vocab.Explanation.Must().Be("Common verb");
    }
 
    public class given_a_vocab_with_a_source_answer : When_working_with_a_VocabNote
@@ -187,7 +187,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
       public class after_setting_a_corpus_answer : given_a_vocab_with_a_source_answer
       {
-         public after_setting_a_corpus_answer() => _vocab.Edit(it => it.CorpusAnswer.Set("written work"));
+         public after_setting_a_corpus_answer() => _vocab.Edit(it => it.SetCorpusAnswer("written work"));
 
          [XF] public void the_answer_shown_is_the_corpus_answer() => _vocab.GetAnswer().Must().Be("written work");
          [XF] public void the_source_answer_is_kept() => _vocab.SourceData.Answer.Value.Must().Be("book");

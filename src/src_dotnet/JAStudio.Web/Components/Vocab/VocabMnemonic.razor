@@ -1,9 +1,9 @@
 @using JAStudio.Core.Note.Vocabulary
 
-@if(!string.IsNullOrEmpty(Note.Mnemonic.Value))
+@if(!string.IsNullOrEmpty(Note.Mnemonic))
 {
     <div>
-        <div class="mnemonic override">@((MarkupString)Note.Mnemonic.Value)</div>
+        <div class="mnemonic override">@((MarkupString)Note.Mnemonic)</div>
     </div>
 }
 

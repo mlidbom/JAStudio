@@ -9,7 +9,6 @@ using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note.Media;
-using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Vocabulary.Tevents;
@@ -23,7 +22,13 @@ namespace JAStudio.Core.Note.Vocabulary;
 public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>, ITeventRouted
 {
    static readonly TeventRouting<VocabNote> Appliers = NoteAppliers.Extend<VocabNote>(it => it
-     .For<IVocabTevent.Question.PropertyUpdated.Text>(static (vocab, tevent) => vocab.Question.Apply(tevent)));
+     .For<IVocabTevent.Question.PropertyUpdated.Text>(static (vocab, tevent) => vocab.Question.Apply(tevent))
+     .For<IVocabTevent.PropertyUpdated.CorpusAnswer>(static (vocab, tevent) => vocab.CorpusAnswer = tevent.CorpusAnswer)
+     .For<IVocabTevent.PropertyUpdated.Explanation>(static (vocab, tevent) => vocab.Explanation = tevent.Explanation)
+     .For<IVocabTevent.PropertyUpdated.ExplanationLong>(static (vocab, tevent) => vocab.ExplanationLong = tevent.ExplanationLong)
+     .For<IVocabTevent.PropertyUpdated.Mnemonic>(static (vocab, tevent) => vocab.Mnemonic = tevent.Mnemonic)
+     .For<IVocabTevent.PropertyUpdated.TechnicalNotes>(static (vocab, tevent) => vocab.TechnicalNotes = tevent.TechnicalNotes)
+     .For<IVocabTevent.PropertyUpdated.References>(static (vocab, tevent) => vocab.References = tevent.References));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
@@ -32,16 +37,38 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    /// <summary>
    /// The corpus's own answer for the vocab: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
    /// </summary>
-   public WritableStringValue CorpusAnswer { get; private set; }
+   public string CorpusAnswer { get; private set; }
 
    /// <summary>The corpus's explanation of the vocab, shown on its card.</summary>
-   public WritableStringValue Explanation { get; private set; }
+   public string Explanation { get; private set; }
 
    /// <summary>The corpus's longer explanation of the vocab, shown on its card.</summary>
-   public WritableStringValue ExplanationLong { get; private set; }
+   public string ExplanationLong { get; private set; }
 
    /// <summary>The corpus's own mnemonic for the vocab, shown on its card.</summary>
-   public WritableStringValue Mnemonic { get; private set; }
+   public string Mnemonic { get; private set; }
+
+   /// <summary>
+   /// Gives the vocab <paramref name="answer"/>, trimmed, as its <see cref="CorpusAnswer"/>, and its perfect synonyms the answer the vocab then<br/>
+   /// shows (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms"/>). An answer the vocab has already changes nothing, which is what ends the pushing<br/>
+   /// of an answer around the web of perfect synonyms.
+   /// </summary>
+   public void SetCorpusAnswer(string answer)
+   {
+      //wip: step 11 of dev_docs/taggregates/shared/the-migration.md moves the push to a participation handler of IVocabTevent.PropertyUpdated.CorpusAnswer.
+      if(PublishIfChanged(CorpusAnswer, answer.Trim(), static it => new VocabTevent.CorpusAnswerUpdated(it)))
+         RelatedNotes.PerfectSynonyms.PushAnswerToOtherSynonyms();
+   }
+
+   /// <summary>Gives the vocab <paramref name="explanation"/>, trimmed, as its <see cref="Explanation"/>.</summary>
+   public void SetExplanation(string explanation) => PublishIfChanged(Explanation, explanation.Trim(), static it => new VocabTevent.ExplanationUpdated(it));
+
+   /// <summary>Gives the vocab <paramref name="explanationLong"/>, trimmed, as its <see cref="ExplanationLong"/>.</summary>
+   public void SetExplanationLong(string explanationLong) =>
+      PublishIfChanged(ExplanationLong, explanationLong.Trim(), static it => new VocabTevent.ExplanationLongUpdated(it));
+
+   /// <summary>Gives the vocab <paramref name="mnemonic"/>, trimmed, as its <see cref="Mnemonic"/>.</summary>
+   public void SetMnemonic(string mnemonic) => PublishIfChanged(Mnemonic, mnemonic.Trim(), static it => new VocabTevent.MnemonicUpdated(it));
 
    /// <summary>What the vocab's source gave it when it was imported.</summary>
    public VocabSourceData SourceData { get; private set; }
@@ -83,8 +110,18 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
 
    public VocabCloner Cloner { get; }
 
-   public WritableStringValue TechnicalNotes { get; private set; }
-   public WritableStringValue References { get; private set; }
+   /// <summary>The corpus's technical notes on the vocab, shown on its card.</summary>
+   public string TechnicalNotes { get; private set; }
+
+   /// <summary>The corpus's references for the vocab, shown on its card.</summary>
+   public string References { get; private set; }
+
+   /// <summary>Gives the vocab <paramref name="technicalNotes"/>, trimmed, as its <see cref="TechnicalNotes"/>.</summary>
+   public void SetTechnicalNotes(string technicalNotes) =>
+      PublishIfChanged(TechnicalNotes, technicalNotes.Trim(), static it => new VocabTevent.TechnicalNotesUpdated(it));
+
+   /// <summary>Gives the vocab <paramref name="references"/>, trimmed, as its <see cref="References"/>.</summary>
+   public void SetReferences(string references) => PublishIfChanged(References, references.Trim(), static it => new VocabTevent.ReferencesUpdated(it));
 
    List<string> _readings;
 
@@ -122,16 +159,16 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
                   nameof(CompoundParts), nameof(RelatedNotes), nameof(MetaData), nameof(Register), nameof(UsuallyWrittenInKana), nameof(MatchingConfiguration))]
    void BuildThePartsFrom(VocabDto? data)
    {
-      CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
-      Explanation = new WritableStringValue(data?.Explanation ?? string.Empty, Guard);
-      ExplanationLong = new WritableStringValue(data?.ExplanationLong ?? string.Empty, Guard);
-      Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, Guard);
+      CorpusAnswer = data?.CorpusAnswer ?? string.Empty;
+      Explanation = data?.Explanation ?? string.Empty;
+      ExplanationLong = data?.ExplanationLong ?? string.Empty;
+      Mnemonic = data?.Mnemonic ?? string.Empty;
       SourceData = new VocabSourceData(data?.SourceData, Guard);
       Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], Guard);
       Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], Guard);
       AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
-      TechnicalNotes = new WritableStringValue(data?.TechnicalNotes ?? string.Empty, Guard);
-      References = new WritableStringValue(data?.References ?? string.Empty, Guard);
+      TechnicalNotes = data?.TechnicalNotes ?? string.Empty;
+      References = data?.References ?? string.Empty;
       _readings = data?.Readings != null ? [..data.Readings] : [];
 
       Question = new VocabNoteQuestion(this, data, Guard);
@@ -170,7 +207,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    public override IEnumerable<MediaReference> MediaReferences => [..SourceData.Audio.All, ..SourceData.Images.All, ..Audio.All, ..Images.All];
 
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
-   public override string GetAnswer() => CorpusAnswer.HasValue() ? CorpusAnswer.Value : SourceData.Answer.Value;
+   public override string GetAnswer() => CorpusAnswer is not "" ? CorpusAnswer : SourceData.Answer.Value;
 
    /// <summary>
    /// Makes the source's answer the corpus's own (<see cref="CorpusAnswer"/>), written as the corpus writes a vocab's answers: in lower case, without<br/>
@@ -178,8 +215,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    /// </summary>
    public void AcceptMeaning()
    {
-      Contract.State.Assert(!CorpusAnswer.HasValue(), () => $"The vocab {GetQuestion()} has an answer of its own already: {CorpusAnswer.Value}");
-      CorpusAnswer.Set(WrittenAsTheCorpusWritesAVocabsAnswers(SourceData.Answer.Value));
+      Contract.State.Assert(CorpusAnswer is "", () => $"The vocab {GetQuestion()} has an answer of its own already: {CorpusAnswer}");
+      SetCorpusAnswer(WrittenAsTheCorpusWritesAVocabsAnswers(SourceData.Answer.Value));
 
       static string WrittenAsTheCorpusWritesAVocabsAnswers(string sourceAnswer) =>
          sourceAnswer.Replace(" SOURCE", "")
@@ -199,16 +236,16 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    ];
 
    /// <summary>
-   /// Flushes the vocab after a change to its <see cref="MatchingConfiguration"/>, once the <see cref="Forms"/> have dropped what they derived from it:<br/>
-   /// the snapshot the flush takes must reflect the change.
-   /// </summary>
-   /// <summary>
    /// Saves the vocab after a shared-condition its match-condition uses was renamed (<see cref="Matching.Conditions.Sharing.SharedConditions.Rename"/>): the match-condition holds<br/>
    /// the shared-condition itself, so neither changed, but the corpus stores it by the shared-condition's name, as every instance of the vocab now<br/>
    /// does. So the edit's copy shows no change to flush.
    /// </summary>
    internal void SaveAfterASharedConditionItsMatchConditionUsesWasRenamed() => PublishThatWhatItStoresChanged();
 
+   /// <summary>
+   /// Flushes the vocab after a change to its <see cref="MatchingConfiguration"/>, once the <see cref="Forms"/> have dropped what they derived from it:<br/>
+   /// the snapshot the flush takes must reflect the change.
+   /// </summary>
    void FlushAfterTheMatchingConfigurationChanged()
    {
       Forms.OnMatchingConfigurationChanged();
@@ -255,7 +292,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    public static VocabNote Create(NoteServices services, string question, string answer, List<string> readings, List<string> forms)
    {
       var note = new VocabNote(services, question);
-      note.CorpusAnswer.Set(answer);
+      note.SetCorpusAnswer(answer);
       note.SetReadings(readings);
 
       if(forms.Any())

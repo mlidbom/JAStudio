@@ -47,7 +47,7 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
       {
          var serializer = GetService<NoteSerializer>();
          var copy = serializer.DeserializeVocab(serializer.Serialize(_vocab行く));
-         copy.CorpusAnswer.Set(answer);
+         copy.SetCorpusAnswer(answer);
          return copy;
       }
 

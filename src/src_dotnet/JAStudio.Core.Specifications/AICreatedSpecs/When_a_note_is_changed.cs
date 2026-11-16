@@ -31,11 +31,11 @@ public class When_a_note_is_changed : SpecificationStartingWithAnEmptyCollection
       OtherVocabReference = CreateVocab("歩く", "to walk", "あるく").Reference();
    }
 
-   protected void ChangeTheVocabsAnswer() => Vocab.CorpusAnswer.Set("to dash");
+   protected void ChangeTheVocabsAnswer() => Vocab.SetCorpusAnswer("to dash");
 
    public class in_an_edit_of_it : When_a_note_is_changed
    {
-      public in_an_edit_of_it() => Vocab.Edit(it => it.CorpusAnswer.Set("to dash"));
+      public in_an_edit_of_it() => Vocab.Edit(it => it.SetCorpusAnswer("to dash"));
 
       [XF] public void the_change_is_made() => Vocab.GetAnswer().Must().Be("to dash");
    }
@@ -64,7 +64,7 @@ public class When_a_note_is_changed : SpecificationStartingWithAnEmptyCollection
       public before_it_is_added_to_the_collection()
       {
          _beingCreated = new VocabNote(NoteServices, "泳ぐ");
-         _beingCreated.CorpusAnswer.Set("to swim");
+         _beingCreated.SetCorpusAnswer("to swim");
       }
 
       [XF] public void the_change_is_made_outside_any_edit() => _beingCreated.GetAnswer().Must().Be("to swim");

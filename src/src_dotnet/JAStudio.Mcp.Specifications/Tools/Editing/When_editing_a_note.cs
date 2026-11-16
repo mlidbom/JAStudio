@@ -60,9 +60,9 @@ public class When_editing_a_note : McpServerSpecification
       [XF] public void the_edit_reports_the_readings_after() => _edit.Changes[0].After.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray("いった", "おこなった")));
       [XF] public void the_edit_reports_the_yield_last_token_rule_before_as_unset() => _edit.Changes[2].Before.Must().Satisfy(it => JsonNode.DeepEquals(it, JsonValue.Create("unset")));
       [XF] public void the_vocab_has_the_readings() => Vocab.GetReadings().Must().SequenceEqual(["いった", "おこなった"]);
-      [XF] public void the_vocab_has_the_answer() => Vocab.CorpusAnswer.Value.Must().Be("went/left");
+      [XF] public void the_vocab_has_the_answer() => Vocab.CorpusAnswer.Must().Be("went/left");
       [XF] public void the_vocab_requires_yielding_its_last_token() => Vocab.MatchingConfiguration.RequiresForbids.YieldLastToken.Choice.Must().Be(RequireForbidChoice.Required);
-      [XF] public void the_vocab_is_saved_with_the_answer() => VocabStored().CorpusAnswer.Value.Must().Be("went/left");
+      [XF] public void the_vocab_is_saved_with_the_answer() => VocabStored().CorpusAnswer.Must().Be("went/left");
       [XF] public void the_sentences_that_may_contain_the_vocab_are_reparsed_since_the_yield_last_token_rule_changes_how_sentences_parse() => _edit.SentencesReparsed.Must().BeTrue();
    }
 
@@ -209,7 +209,7 @@ public class When_editing_a_note : McpServerSpecification
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
       [XF] public void the_error_names_the_unknown_field() => TextOf(_result).Must().Contain("A vocab has no editable field named 'answer'");
       [XF] public void the_error_lists_the_editable_fields_of_a_vocab() => TextOf(_result).Must().Contain("\"corpusAnswer\"");
-      [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Value.Must().Be("went");
+      [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Must().Be("went");
    }
 
    public class of_a_vocab_giving_a_flag_a_text : When_editing_a_note
@@ -219,7 +219,7 @@ public class When_editing_a_note : McpServerSpecification
       public of_a_vocab_giving_a_flag_a_text() => _result = Edit(new JsonObject { ["corpusAnswer"] = "went/left", ["matching.flags.isPoisonWord"] = "yes" });
 
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
-      [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Value.Must().Be("went");
+      [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Must().Be("went");
    }
 
    /// <summary>The sentence is marked as a parsing case first.</summary>

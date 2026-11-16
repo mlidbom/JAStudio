@@ -123,7 +123,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
             SpecMenuItem.Submenu(ShortcutFinger.Up1("Misc"),
                                  new List<SpecMenuItem>
                                  {
-                                    NoteCommandMenuItem.Running(ShortcutFinger.Home1, VocabCommands.AcceptMeaning, vocab, enabled: !vocab.CorpusAnswer.HasValue()),
+                                    NoteCommandMenuItem.Running(ShortcutFinger.Home1, VocabCommands.AcceptMeaning, vocab, enabled: vocab.CorpusAnswer is ""),
                                     NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.GenerateAnswer, vocab),
                                     SpecMenuItem.Command(ShortcutFinger.Home3("Reparse potentially matching sentences: (Only reparse all sentences is sure to catch everything)"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseSentencesForVocab(vocab))),
                                     NoteCommandMenuItem.Running(ShortcutFinger.Home4, VocabCommands.RepopulatePartsOfSpeech, vocab),
@@ -132,10 +132,10 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
             SpecMenuItem.Submenu(ShortcutFinger.Up2("Remove"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.Command(ShortcutFinger.Home1("Explanation"), () => vocab.Edit(it => it.Explanation.Empty()), enabled: vocab.Explanation.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home2("Long explanation"), () => vocab.Edit(it => it.ExplanationLong.Empty()), enabled: vocab.ExplanationLong.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home3("Mnemonic"), () => vocab.Edit(it => it.Mnemonic.Empty()), enabled: vocab.Mnemonic.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home4("Corpus answer"), () => vocab.Edit(it => it.CorpusAnswer.Empty()), enabled: vocab.CorpusAnswer.HasValue())
+                                    SpecMenuItem.Command(ShortcutFinger.Home1("Explanation"), () => vocab.Edit(it => it.SetExplanation(string.Empty)), enabled: vocab.Explanation is not ""),
+                                    SpecMenuItem.Command(ShortcutFinger.Home2("Long explanation"), () => vocab.Edit(it => it.SetExplanationLong(string.Empty)), enabled: vocab.ExplanationLong is not ""),
+                                    SpecMenuItem.Command(ShortcutFinger.Home3("Mnemonic"), () => vocab.Edit(it => it.SetMnemonic(string.Empty)), enabled: vocab.Mnemonic is not ""),
+                                    SpecMenuItem.Command(ShortcutFinger.Home4("Corpus answer"), () => vocab.Edit(it => it.SetCorpusAnswer(string.Empty)), enabled: vocab.CorpusAnswer is not "")
                                  })
          }
       );

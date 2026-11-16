@@ -139,11 +139,11 @@ public class When_the_Anki_add_on_asks_JAStudio : IAsyncDisposable
       {
          public that_acts_on_the_note_Anki_shows()
          {
-            _vocab.Edit(it => it.Mnemonic.Set("a mnemonic to remove"));
+            _vocab.Edit(it => it.SetMnemonic("a mnemonic to remove"));
             Post($"/anki/note-view-shortcuts/run?key=0&noteId={_vocab.GetId()}").EnsureSuccessStatusCode();
          }
 
-         [XF] public void it_acts_on_that_note() => _vocab.Mnemonic.Value.Must().Be("");
+         [XF] public void it_acts_on_that_note() => _vocab.Mnemonic.Must().Be("");
       }
 
       public class that_toggles_a_setting_while_Anki_shows_no_note : to_run_a_note_view_shortcut

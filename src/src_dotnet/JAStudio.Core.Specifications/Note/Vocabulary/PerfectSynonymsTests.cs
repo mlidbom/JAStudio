@@ -28,7 +28,7 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
 
       firstReference.Current.Edit(it => it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(secondReference.Current.Question.Reference));
 
-      firstReference.Current.Edit(it => it.CorpusAnswer.Set("new answer"));
+      firstReference.Current.Edit(it => it.SetCorpusAnswer("new answer"));
       Assert.Equal("new answer", secondReference.Current.GetAnswer());
 
       var thirdReference = GetService<VocabNoteFactory>().Create("third", "third_answer", []).Reference();
@@ -36,7 +36,7 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
       Assert.Equal("third_answer", firstReference.Current.GetAnswer());
       Assert.Equal("third_answer", secondReference.Current.GetAnswer());
 
-      thirdReference.Current.Edit(it => it.CorpusAnswer.Set("third_new"));
+      thirdReference.Current.Edit(it => it.SetCorpusAnswer("third_new"));
       Assert.Equal("third_new", firstReference.Current.GetAnswer());
       Assert.Equal("third_new", secondReference.Current.GetAnswer());
 
@@ -49,7 +49,7 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
       Assert.Equal([firstReference.Current.GetQuestion()], SortedNamesOf(secondReference.Current.RelatedNotes.PerfectSynonyms.Words));
       Assert.Empty(SortedNamesOf(thirdReference.Current.RelatedNotes.PerfectSynonyms.Words));
 
-      firstReference.Current.Edit(it => it.CorpusAnswer.Set("first_latest"));
+      firstReference.Current.Edit(it => it.SetCorpusAnswer("first_latest"));
       Assert.Equal("first_latest", firstReference.Current.GetAnswer());
       Assert.Equal("first_latest", secondReference.Current.GetAnswer());
       Assert.Equal("third_new", thirdReference.Current.GetAnswer());

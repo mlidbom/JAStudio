@@ -30,13 +30,9 @@ public class PerfectSynonyms
 
    /// <summary>
    /// The answer shown is the vocab's <see cref="VocabNote.CorpusAnswer"/>, or its source's while it has none (<see cref="VocabNote.GetAnswer"/>), so a<br/>
-   /// change to either may change it.
+   /// change to either may change it. A change to the <see cref="VocabNote.CorpusAnswer"/> pushes it itself (<see cref="VocabNote.SetCorpusAnswer"/>).
    /// </summary>
-   void PushTheAnswerToTheOtherSynonymsWheneverItChanges()
-   {
-      _vocab.CorpusAnswer.Subscribe(_ => PushAnswerToOtherSynonyms());
-      _vocab.SourceData.Answer.Subscribe(_ => PushAnswerToOtherSynonyms());
-   }
+   void PushTheAnswerToTheOtherSynonymsWheneverItChanges() => _vocab.SourceData.Answer.Subscribe(_ => PushAnswerToOtherSynonyms());
 
    VocabCollection Collection => _vocab.Services.Collection.Vocab;
 
@@ -52,10 +48,10 @@ public class PerfectSynonyms
    public List<VocabNote> Notes() => Collection.NamedExactlyByAny(Words);
 
    /// <summary>Gives every perfect synonym this vocab's answer.</summary>
-   void PushAnswerToOtherSynonyms()
+   internal void PushAnswerToOtherSynonyms()
    {
       foreach(var synonym in Notes())
-         synonym.Edit(it => it.CorpusAnswer.Set(_vocab.GetAnswer()));
+         synonym.Edit(it => it.SetCorpusAnswer(_vocab.GetAnswer()));
    }
 
    /// <summary>

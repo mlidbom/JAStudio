@@ -35,7 +35,7 @@ public class When_a_vocab_would_get_the_question_of_another_vocab : Specificatio
       public creating_its_masu_form_when_the_masu_form_exists_already()
       {
          _masuFormReference = _vocab.Cloner.CreateMasuForm().Vocab.Reference();
-         _masuForm.Edit(it => it.CorpusAnswer.Set("eat (polite)"));
+         _masuForm.Edit(it => it.SetCorpusAnswer("eat (polite)"));
          _numberOfVocabBefore = NumberOfVocab;
          _givenBack = _vocab.Cloner.CreateMasuForm();
       }
@@ -43,7 +43,7 @@ public class When_a_vocab_would_get_the_question_of_another_vocab : Specificatio
       [XF] public void gives_back_the_masu_form_that_exists() => _givenBack.Vocab.Must().Be(_masuForm);
       [XF] public void says_the_masu_form_existed_already() => _givenBack.ExistedAlready.Must().BeTrue();
       [XF] public void creates_no_vocab() => NumberOfVocab.Must().Be(_numberOfVocabBefore);
-      [XF] public void leaves_the_masu_form_unchanged() => _masuForm.CorpusAnswer.Value.Must().Be("eat (polite)");
+      [XF] public void leaves_the_masu_form_unchanged() => _masuForm.CorpusAnswer.Must().Be("eat (polite)");
    }
 
    public class cloning_it_to_a_form_that_another_vocab_has_as_its_question : When_a_vocab_would_get_the_question_of_another_vocab

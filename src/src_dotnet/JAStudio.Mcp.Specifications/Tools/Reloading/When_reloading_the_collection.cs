@@ -31,7 +31,7 @@ public class When_reloading_the_collection : McpServerSpecification
    {
       var serializer = GetService<NoteSerializer>();
       var copy = serializer.DeserializeVocab(serializer.Serialize(vocab));
-      copy.CorpusAnswer.Set(answer);
+      copy.SetCorpusAnswer(answer);
       return copy;
    }
 

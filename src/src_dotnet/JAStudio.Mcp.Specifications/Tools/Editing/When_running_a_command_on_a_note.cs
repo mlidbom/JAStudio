@@ -42,13 +42,13 @@ public class When_running_a_command_on_a_note : McpServerSpecification
       {
          Vocab.Edit(it =>
          {
-            it.CorpusAnswer.Set("");
+            it.SetCorpusAnswer("");
             it.SourceData.Answer.Set("To study, Learning");
          });
          _run = ResultOf<NoteCommandRun>(Run(Vocab, "acceptMeaning"));
       }
 
-      [XF] public void the_vocab_has_the_sources_answer_as_its_own_written_as_the_corpus_writes_answers() => Vocab.CorpusAnswer.Value.Must().Be("to-study/learning");
+      [XF] public void the_vocab_has_the_sources_answer_as_its_own_written_as_the_corpus_writes_answers() => Vocab.CorpusAnswer.Must().Be("to-study/learning");
       [XF] public void the_run_reports_the_answer_changed() => _run.Changes.Single().Field.Must().Be("corpusAnswer");
       [XF] public void the_run_reports_no_vocab_created() => _run.VocabCreated.Must().BeEmpty();
    }
@@ -61,7 +61,7 @@ public class When_running_a_command_on_a_note : McpServerSpecification
 
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
       [XF] public void the_error_says_the_vocab_has_an_answer_of_its_own() => TextOf(_result).Must().Contain("has an answer of its own already");
-      [XF] public void the_answer_is_unchanged() => Vocab.CorpusAnswer.Value.Must().Be("study");
+      [XF] public void the_answer_is_unchanged() => Vocab.CorpusAnswer.Must().Be("study");
    }
 
    public class creating_the_suru_verb_of_a_vocab : When_running_a_command_on_a_note

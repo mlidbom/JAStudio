@@ -35,7 +35,7 @@ public class When_a_note_is_referred_to : SpecificationStartingWithAnEmptyCollec
 
    public class once_the_note_was_edited : When_a_note_is_referred_to
    {
-      public once_the_note_was_edited() => Vocab.Edit(it => it.CorpusAnswer.Set("to dash"));
+      public once_the_note_was_edited() => Vocab.Edit(it => it.SetCorpusAnswer("to dash"));
 
       [XF] public void the_reference_gives_the_note_as_it_is_now() => Reference.Current.GetAnswer().Must().Be("to dash");
    }
@@ -51,7 +51,7 @@ public class When_a_note_is_referred_to : SpecificationStartingWithAnEmptyCollec
 
    public class getting_the_note_for_update_in_an_edit_of_another_note : When_a_note_is_referred_to
    {
-      public getting_the_note_for_update_in_an_edit_of_another_note() => OtherVocab.Edit(_ => Reference.ForUpdate().CorpusAnswer.Set("to dash"));
+      public getting_the_note_for_update_in_an_edit_of_another_note() => OtherVocab.Edit(_ => Reference.ForUpdate().SetCorpusAnswer("to dash"));
 
       [XF] public void the_change_to_it_is_committed_with_the_edit() => Reference.Current.GetAnswer().Must().Be("to dash");
    }
