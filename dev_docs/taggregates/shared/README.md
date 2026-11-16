@@ -9,7 +9,7 @@
 
 > **Since these conclusions were written, Magnus has set a new direction in Compze: a taggregate store.** It changes
 > what the Taggregates option is and what it takes of JAStudio: see the next section. The conclusions below are as
-> they were before it, and conclusions 1 to 4 stand.
+> they were before it. Conclusion 1 stands, and the next section says what becomes of the others.
 
 ## What the taggregate store changes in these conclusions
 
@@ -37,6 +37,8 @@ what JAStudio requires of it, is in
 
 | Below | With the store |
 |---|---|
+| Conclusions 2 and 3: whether JAStudio should is not established, and a smaller route was never examined | The smaller route is set aside (Magnus, 2026-11-16). What it had over the store was that it is smaller: no change in Compze, nothing for each note, one part at a time. The size of a refactoring doesn't decide what is best. And it gives less: state can still change without a tevent, and other threads still read a note in the middle of a change |
+| Conclusion 4, the next step: `VocabNoteForms` written both ways, and the conversion sized | What is still not shown is that the design reads well for a real part of a note: see the end of this section. Sizing the conversion decides nothing: it is for planning the work |
 | Conclusion 5, the two flaws in Compze.Teventive | Can't arise for a taggregate in a store: nothing calls out from inside a publish or a commit |
 | Conclusion 6, nothing moves before routing for each class has landed | Stands, and the store comes before it in Compze's order |
 | A queue in the collection's dispatching | Compze's: tevents are dispatched when the unit of work commits, in the order published |
@@ -65,7 +67,9 @@ what JAStudio requires of it, is in
   fast-forward, and a wait for observers to be at rest, which JAStudio's specifications need.
 - **To be measured:** what looking a vocab up costs the threads that parse, which do it all the time.
 
-**The next step that conclusion 4 names stands, and now needs the store:** `VocabNoteForms` written both ways.
+**The next step: one real part of a note, `VocabNoteForms`, written against Compze's store prototype.** No real part
+of a note has been written as a teventive yet, so that the design reads well for one is not shown. It waits for
+Compze (Magnus, 2026-11-16): the prototype lacks one thing it needs, an ambient unit of work.
 
 **The question (Magnus, 2026-11-16).** Should JAStudio's notes be Compze Taggregates, so that every change to a note is
 a tevent, and whatever follows a change subscribes to exactly the tevents it concerns? The storage stays as it is: a

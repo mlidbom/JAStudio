@@ -23,12 +23,15 @@
   `jastudio-rep-opus`: a ninth requirement, that a note is built with its services, where the design uses `new()`;
   what parsing does, measured on the real corpus, against the prototype's lookup cost; and two corrections. All of
   it is in the answers document's last section (commit c4b3be359).
-- **The unanswered list was rewritten on Magnus's word** to what I would ask today: 11, whether adoption is
-  decided or the smaller route is still to be weighed; 12, count the places that edit a note; 13, write
-  `VocabNoteForms` against Compze's store prototype when it is ready; 14, the two choices settled by bytes.
-- **What may still come:** Compze's reply to the check.
-- **Four items wait for Magnus's answer,** kept by the `unanswered` script for this session: 11 to 14, described
-  below. The earlier items 7, 8 and 10 are dropped.
+- **Compze took all of the check in** (its commit f3622f9fd), and fixed the lookup in the prototype: 0.05 to
+  0.18 µs and no allocation outside a unit of work.
+- **One item waits for Magnus's answer,** kept by the `unanswered` script for this session: 14, the two choices in
+  tevent routing per class that were settled by bytes. **Item 13 is watched:** when `jastudio-rep-opus` says the
+  store prototype has the ambient unit of work, tell Magnus and put to him again whether to write `VocabNoteForms`
+  against it. Items 7, 8, 10, 11 and 12 are dropped.
+- **Magnus dropped 11 and 12 as ways of weighing the best design against the size of its refactoring** (2026-11-16):
+  the smaller route's only advantage was being smaller, and counting the places that edit a note sizes the work
+  without deciding anything. Don't bring either back as a reason.
 
 ## The sessions, and who speaks for what
 
