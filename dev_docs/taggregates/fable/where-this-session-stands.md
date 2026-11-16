@@ -25,9 +25,13 @@
   it is in the answers document's last section (commit c4b3be359).
 - **Compze took all of the check in** (its commit f3622f9fd), and fixed the lookup in the prototype: 0.05 to
   0.18 µs and no allocation outside a unit of work.
-- **Nothing waits for Magnus's answer in this session. Item 13 is watched:** when `jastudio-rep-opus` says the
-  store prototype has the ambient unit of work, tell Magnus and put to him again whether to write `VocabNoteForms`
-  against it. Items 7, 8, 10, 11 and 12 are dropped. Item 14, the two choices in tevent routing per class that were
+- **Nothing waits for Magnus's answer in this session, and nothing is watched.** Magnus dropped item 13
+  (2026-11-16): this session doesn't write `VocabNoteForms` against the prototype by itself. Compze's session starts
+  a spike of the store when it gets there, and brings this session in to discuss and iterate. Until it does, this
+  session waits, and doesn't start that conversation. What to bring to the spike: that it tries a real part of a
+  note, `VocabNoteForms` with its index of vocab by form and its value computed from other vocab, not a model with
+  two strings; the nine requirements; and the parsing measurements.
+  Items 7, 8, 10, 11 and 12 are dropped. Item 14, the two choices in tevent routing per class that were
   settled by bytes, was handed to `jastudio-rep-opus` on Magnus's word, as pure Compze design.
 - **Magnus dropped 11 and 12 as ways of weighing the best design against the size of its refactoring** (2026-11-16):
   the smaller route's only advantage was being smaller, and counting the places that edit a note sizes the work

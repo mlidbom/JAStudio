@@ -67,9 +67,11 @@ what JAStudio requires of it, is in
   fast-forward, and a wait for observers to be at rest, which JAStudio's specifications need.
 - **To be measured:** what looking a vocab up costs the threads that parse, which do it all the time.
 
-**The next step: one real part of a note, `VocabNoteForms`, written against Compze's store prototype.** No real part
-of a note has been written as a teventive yet, so that the design reads well for one is not shown. It waits for
-Compze (Magnus, 2026-11-16): the prototype lacks one thing it needs, an ambient unit of work.
+**The next step is Compze's: a spike of the store, made in Compze** (Magnus, 2026-11-16). When its session starts
+the spike it brings JAStudio's session in, and the two iterate until it works well. What JAStudio brings to it: no
+real part of a note has been written as a teventive yet, so that the design reads well for one is not shown.
+`VocabNoteForms` is the hard case to try it on, with forms a person entered, forms it computes, a value it computes
+from other vocab, and an index of vocab by form.
 
 **The question (Magnus, 2026-11-16).** Should JAStudio's notes be Compze Taggregates, so that every change to a note is
 a tevent, and whatever follows a change subscribes to exactly the tevents it concerns? The storage stays as it is: a
