@@ -150,7 +150,7 @@ public class VocabNoteForms
    /// Computed at each call, from the other vocab as they are then. Kept, it would go stale when another vocab's forms change, and a vocab<br/>
    /// can't keep what it computes from other notes once the notes are kept in Compze's state store, where a committed vocab is never changed.
    /// </remarks>
-   public HashSet<string> NotOwnedByOtherVocab()
+   internal HashSet<string> NotOwnedByOtherVocab()
    {
       return
       [

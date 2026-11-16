@@ -23,7 +23,7 @@ namespace JAStudio.Core.Studying;
 /// review-naming:studying: a name of Claude's, 2026-11-16, for what <see cref="JPNote"/> held itself until then, as its card statuses and its<br/>
 /// <see cref="JPNote.AnkiTags"/>.
 /// </remarks>
-public partial class WhatTheSRSHoldsOfTheStudyNotes
+partial class WhatTheSRSHoldsOfTheStudyNotes
 {
    readonly ConcurrentDictionary<NoteId, OfOneStudyNote> _ofTheStudyNoteOfEachNote = new();
 

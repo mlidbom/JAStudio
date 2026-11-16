@@ -16,7 +16,7 @@ namespace JAStudio.Core.Note.Tagging;
 public sealed class AnkiTags : IEnumerable<Tag>
 {
    /// <summary>The Anki tags of a note whose study-note has none, or that has no study-note.</summary>
-   public static readonly AnkiTags None = new([]);
+   internal static readonly AnkiTags None = new([]);
 
    readonly IReadOnlyList<Tag> _tags;
 

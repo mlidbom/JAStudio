@@ -57,7 +57,7 @@ public class RelatedVocab
    /// Computed at each call, from the other vocab as they are then. Kept, it went stale whenever a compound was added, and a vocab can't keep what<br/>
    /// it computes from other notes once the notes are kept in Compze's state store, where a committed vocab is never changed.
    /// </remarks>
-   public HashSet<NoteId> InCompoundIds() => [.. InCompounds().Select(it => it.GetId())];
+   internal HashSet<NoteId> InCompoundIds() => [.. InCompounds().Select(it => it.GetId())];
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, in every relationship.</summary>
    internal void Rename(WordReference oldName, WordReference newName)

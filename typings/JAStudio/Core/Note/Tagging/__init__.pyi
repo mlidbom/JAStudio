@@ -14,7 +14,6 @@ class AnkiTagChanges:
 
 
 class AnkiTags(IEnumerable_1[Tag]):
-    None : AnkiTags
     def Contains(self, tag: Tag) -> bool: ...
     def GetEnumerator(self) -> IEnumerator_1[Tag]: ...
 

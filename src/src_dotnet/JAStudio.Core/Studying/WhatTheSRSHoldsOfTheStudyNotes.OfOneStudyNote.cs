@@ -4,7 +4,7 @@ using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Studying;
 
-public partial class WhatTheSRSHoldsOfTheStudyNotes
+partial class WhatTheSRSHoldsOfTheStudyNotes
 {
    /// <summary>
    /// What the spaced repetition system holds of one study-note that JAStudio reads: whether each of its cards is active, that is unsuspended,<br/>
@@ -21,11 +21,11 @@ public partial class WhatTheSRSHoldsOfTheStudyNotes
 
       public bool IsNothing => _isActiveByCardType.Count == 0 && !AnkiTags.Any();
 
-      public bool HasSuspendedCards => _isActiveByCardType.Values.Any(isActive => !isActive);
+      public bool HasSuspendedCards => _isActiveByCardType.Values.Any(it => !it);
 
       public bool IsStudying(string? cardType) =>
          cardType == null
-            ? _isActiveByCardType.Values.Any(isActive => isActive)
+            ? _isActiveByCardType.Values.Any(it => it)
             : _isActiveByCardType.TryGetValue(cardType, out var isActive) && isActive;
 
       public OfOneStudyNote WithTheCard(string cardType, bool isActive) =>
