@@ -35,7 +35,7 @@ note's file holds its state, not its history. The exploration was narrowed to wh
 |---|---|---|
 | **Nothing** | | The hand-written wiring stays, and "this note changed, somehow" stays all that listeners hear |
 | **Tevents from today's change points:** each `NoteGuard.Update` site also dispatches a tevent, after today's check that the note did change, on one `IMutableTeventDispatcher` for the whole collection | Listeners across the corpus subscribe to exactly what changed, by meaning. No change in Compze, nothing kept for each note, no snapshot to get wrong, no generic base class under `JPNote`. It can be done one part at a time | State can still change without a tevent, since nothing enforces it. Loading and editing stay two code paths. One part of a note following another stays wired by hand |
-| **The notes as Taggregates,** after Compze's changes | All of the above, and state that changes only in tevent appliers, loading through the code that edits, and one part following another by a tevent | Everything under "What the Taggregates option costs JAStudio", and Compze's changes first |
+| **The notes as Taggregates,** after Compze's changes | All of the above, and state that changes only in tevent appliers, loading through the code that edits, and one part following another by a tevent | Everything under "What the Taggregates option takes of JAStudio", and Compze's changes first |
 
 **The middle option is a step toward the third, and may prove to be where to stop.** What carries over, if it uses
 the Taggregate tevent types from the start: the tevent interfaces, which are the description of what can happen to a
@@ -47,35 +47,55 @@ subscription to a shared meaning works on such a dispatcher, and a dispatch allo
 `WritableStringValue`s, and about 21 slots. What it serves today: four subscribers to `JPCollection.NoteUpdated` in
 product code besides the save, `PerfectSynonyms`' two subscriptions, and six places that reparse by hand.
 
-## What the Taggregates option costs JAStudio
+## What the Taggregates option takes of JAStudio
 
-Found by the review. None of it was in the conclusions before.
+Found by the review, and corrected on 2026-11-16 after Magnus's questions: the review's list held things that are no
+cost of Taggregates.
 
-- **Starting takes longer than with plain objects.** Loading through tevents is about 20 times slower than building
-  plain objects: for the about 570,000 tevents of a start, roughly 0.35 s of one core and 0.4 GB of garbage, by the
-  Fable reviewer's Release figures. JAStudio's load time today was not measured, so whether that matters isn't known.
-  The "15 to 40 times faster" of the teams' documents is against 0.6.0-alpha, not against plain objects.
-- **The heap against today's notes was not measured.** The 20 to 30 MB is against plain objects. Today's notes carry
-  objects that would go, of which the notifiers' 17 MB is measured. Likely about even or lower.
-- **No-change publishes.** Today `JPNote.Flush` saves and notifies only when the note's hash changed. As tevents, each
-  publishing method has to compare first, which needs value equality on generated values such as a parsing result.
-  Otherwise a full rebuild saves and dispatches every sentence, and its second run updates every note, which the
-  specification `When_running_a_full_rebuild` forbids.
-- **Order across notes.** Compze's queue keeps the order of one note's tevents. A subscriber that reacts to note A's
-  tevent by changing note B makes later subscribers hear B's tevents before the rest of A's: run by the Fable reviewer.
-  JAStudio's collection needs a queue of its own.
-- **One writer at a time in each note, enforced.** The assertion of one thread is held until the hook returns, so it
-  covers the save and every subscriber: run. A full rebuild whose subscribers reach other notes, or an edit while a
-  reparse updates the same vocab, would throw. That is the assertion doing its job, and JAStudio has to give each note
-  one writer at a time and defer reactions that reach other notes during a full rebuild.
-- **Failures.** A save that fails inside the commit leaves the note changed, nothing uncommitted and no subscriber
-  told: the prototype's fixed `Commit` hands a tevent over once, where 0.6.0-alpha hands it to the next commit again.
-  And a taggregate that refuses use after a throw can't be loaded again by itself: JAStudio can load only the whole
-  collection, while view models hold the notes.
-- **More to write for each note type:** a creation tevent for each way a note is built, and a third form of a stored
-  note beside its DTO and the note: the snapshot tevent.
+**What it takes:**
+
+- **The conversion itself,** sized above.
+- **No tevent without a change.** The rule is Magnus's: setting a value to what it already is publishes nothing. Most
+  setters compare today. Some rely on the note's hash instead, such as `SentenceNote.SetParsingResult`, and
+  `ParsingResult` and `ParsedMatch` are classes without value equality. So the generated values need equality. Without
+  it a full rebuild publishes for every sentence, and its second run updates every note, which the specification
+  `When_running_a_full_rebuild` forbids.
+- **A queue in the collection's dispatching,** for subscribers that build something from the sequence of tevents. It
+  is a first-in-first-out list: a tevent that arrives while another is being dispatched waits until that one has
+  reached every subscriber. Without it, when a subscriber reacts to note A's tevent by changing note B, the later
+  subscribers hear of B's change before A's: run by the Fable reviewer. Today's `NoteUpdated` nests the same way,
+  harmlessly, since its subscribers read the note again.
+- **Loading one note from its file,** so that a note that refuses use after a throw can be replaced. `INoteRepository`
+  has `LoadAll` and nothing for one note. A small addition: whoever holds the old object has to get the new one, and
+  the note tabs already look notes up by id after a reload.
+- **A creation tevent for each way a note is built.**
 - **Wiring inside a note doesn't go away. It moves into the tevent types:** a rename's tevent inherits a tevent of the
   forms.
+
+**A choice, not a cost: how a note is loaded.**
+
+- **Through the tevent appliers,** as both teams chose, so that loading and editing are one code path. It needs a
+  snapshot tevent, a third form of a stored note beside its DTO and the note. In the prototype in Compze's base classes
+  it is about 20 times slower than building plain objects: roughly 0.35 s of one core and 0.4 GB of garbage for the
+  about 570,000 tevents of a start, by the Fable reviewer's Release figures. It needn't cost that much: the fable
+  team's standalone prototype loaded a root with four components in 0.6 µs, against 0.2 µs for plain objects.
+- **By setting each part's state directly,** as the constructors do today. About what loading costs today, by
+  assumption, not measured. It gives up the one code path, so the round-trip specification matters more.
+- **JAStudio's load time today was not measured,** so what either costs of a start isn't known. The "15 to 40 times
+  faster" of the teams' documents is against 0.6.0-alpha, not against plain objects.
+
+**The same as today, so no cost of Taggregates:**
+
+- **Two threads changing one note.** It is unsafe today, and nothing detects it. The assertion of one thread makes it
+  throw. It is held until the hook returns, so a second thread that arrives while the first is still saving and
+  notifying throws too, where today it gets through: run by the Fable reviewer.
+- **A save that fails.** Today `JPNote.Flush` records the note's new hash before the save runs, so after a failed save
+  the note is changed in memory and counts as saved, and the next flush doesn't try again. The prototype's fixed
+  `Commit` leaves the same. The reviewer's finding compared 0.6.0-alpha, which hands the tevent to the next commit
+  again, with the prototype.
+
+**Not measured:** the heap against today's notes. The 20 to 30 MB is against plain objects. Today's notes carry objects
+that would go, of which the notifiers' 17 MB is measured. Likely about even or lower.
 
 ## How far the evidence goes
 

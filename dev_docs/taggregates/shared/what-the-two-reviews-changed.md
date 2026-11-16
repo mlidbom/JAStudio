@@ -57,3 +57,16 @@ set in `VocabNoteForms` is plausible by reading, and was not reproduced.
 The three programs on the branch `taggregates-fable-experiments`; the measurement of slots of the class, as built and
 against a Release build; Compze's unit tests on a copy of that branch, 496 of 496; and the Fable reviewer's own checks
 of the four findings marked run above, kept on the same branch under `experiments/taggregates-fable/ReviewChecks`.
+
+## What Magnus's questions then corrected
+
+On 2026-11-16 Magnus asked of each cost whether it was a cost of Taggregates. Three were not, and one was a choice:
+
+- **The slower start** follows from loading through the tevent appliers, which is a choice. Setting each part's state
+  directly would cost about what loading costs today.
+- **One writer at a time in each note** is as unsafe today, undetected.
+- **A save that fails** leaves the same today: the note changed in memory and counted as saved.
+- **A refused note** needs only that one note can be loaded from its file, a small addition.
+- **No tevent without a change** is the rule, not a risk: what it takes is value equality on the generated values.
+
+The README's list is changed accordingly, under "What the Taggregates option takes of JAStudio".
