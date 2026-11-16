@@ -11,7 +11,10 @@ class INoteTevent_GenericClasses(abc.ABCMeta):
 class INoteTevent(INoteTevent_0, metaclass =INoteTevent_GenericClasses): ...
 
 class INoteTevent_0(ITaggregateTevent, typing.Protocol):
-    pass
+
+    class PartWithoutTeventsChanged(INoteTevent_0, typing.Protocol):
+        pass
+
 
 
 INoteTevent_1_TTevent = typing.TypeVar('INoteTevent_1_TTevent', covariant=True)
@@ -32,6 +35,16 @@ class NoteTevent_0(TaggregateTevent, INoteTevent_0):
     def TaggregateVersion(self) -> int: ...
     @property
     def UtcTimeStamp(self) -> DateTime: ...
+
+    class PartWithoutTeventsChanged(NoteTevent_0, INoteTevent.PartWithoutTeventsChanged):
+        def __init__(self) -> None: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
 
 
 NoteTevent_1_TTevent = typing.TypeVar('NoteTevent_1_TTevent')

@@ -52,9 +52,9 @@ class PretendAnki(ISRSMedia, ISRSTagOperations, ISRSStudyNotes):
     DeleteTheStudyNoteOf : DeleteTheStudyNoteOf_MethodGroup
     class DeleteTheStudyNoteOf_MethodGroup:
         @typing.overload
-        def __call__(self, noteId: NoteId) -> None:...
-        @typing.overload
         def __call__(self, note: JPNote) -> None:...
+        @typing.overload
+        def __call__(self, noteId: NoteId) -> None:...
 
 
 

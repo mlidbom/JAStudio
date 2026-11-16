@@ -29,17 +29,17 @@ class LocalNoteUpdater:
     ReparseSentencesForVocab : ReparseSentencesForVocab_MethodGroup
     class ReparseSentencesForVocab_MethodGroup:
         @typing.overload
-        def __call__(self, vocab: IReadOnlyCollection_1[VocabNote]) -> None:...
-        @typing.overload
         def __call__(self, vocab: VocabNote) -> None:...
+        @typing.overload
+        def __call__(self, vocab: IReadOnlyCollection_1[VocabNote]) -> None:...
 
     # Skipped ReparseSentencesForVocabWithoutProgressDialog due to it being static, abstract and generic.
 
     ReparseSentencesForVocabWithoutProgressDialog : ReparseSentencesForVocabWithoutProgressDialog_MethodGroup
     class ReparseSentencesForVocabWithoutProgressDialog_MethodGroup:
         @typing.overload
-        def __call__(self, vocab: IReadOnlyCollection_1[VocabNote]) -> None:...
-        @typing.overload
         def __call__(self, vocab: VocabNote) -> None:...
+        @typing.overload
+        def __call__(self, vocab: IReadOnlyCollection_1[VocabNote]) -> None:...
 
 
