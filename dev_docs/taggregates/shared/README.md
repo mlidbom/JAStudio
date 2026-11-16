@@ -16,8 +16,8 @@
 **The direction (Magnus, 2026-11-16).** A Compze component holds a process's live taggregates and routes their
 tevents: an `ITaggregateStore` that keeps state and no history, with a session for each unit of work, and the unit of
 work a System.Transactions transaction. Compze's two sessions have designed it and prototyped it in memory:
-Compze's `dev_docs/taggregate-improvements/shared/the-taggregate-store.md` (as of commit 9defe6c46). What JAStudio's code
-says to it, and what JAStudio's side says to its recommendation, is in
+Compze's `dev_docs/taggregate-improvements/shared/the-taggregate-store.md` (as of commit 9defe6c46). What
+JAStudio's code says to it, and what JAStudio's side says to its recommendation, is in
 [answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md).
 
 **One decision of Magnus's is reopened by JAStudio's facts: how a unit of work's changes are kept from other code.**
