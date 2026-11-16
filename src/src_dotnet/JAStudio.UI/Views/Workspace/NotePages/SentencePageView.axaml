@@ -63,6 +63,38 @@
             </StackPanel>
         </DataTemplate>
 
+        <!-- A word of the breakdown itself: the word as written, with what it matched, its audio, meta tags and answer. -->
+        <DataTemplate x:Key="BreakdownEntryWithoutPartsAndKanji" x:DataType="sentences:BreakdownEntryViewModel">
+            <controls:BesideOrBelowPanel Classes="breakdownEntry">
+                <StackPanel Orientation="Horizontal">
+                <ContentControl Content="{Binding Audio}" ContentTemplate="{StaticResource AudioButton}" MinWidth="26" />
+                <Border Classes="studyBar" Classes.reading="{Binding IsStudyingReading}" Classes.listening="{Binding IsStudyingListening}"
+                        VerticalAlignment="Center">
+                    <Panel>
+                        <TextBlock Classes="word noteLink" Classes.highlighted="{Binding IsHighlighted}"
+                                   Tag="{Binding WordLinkedToItsVocab}" Text="{Binding WordLinkedToItsVocab.Text}"
+                                   IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                   PointerReleased="OnNoteLinkReleased" />
+                        <TextBlock Classes="word" Classes.highlighted="{Binding IsHighlighted}" Text="{Binding Word}"
+                                   IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNull}}" />
+                    </Panel>
+                </Border>
+                <TextBlock Text="{Binding VocabForm}" IsVisible="{Binding VocabForm, Converter={x:Static ObjectConverters.IsNotNull}}"
+                           FontSize="{StaticResource WordSize}" Foreground="{StaticResource NotePage.Green}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
+                           FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                <ItemsControl ItemsSource="{Binding MetaTags}" ItemTemplate="{StaticResource MetaTags}" Margin="10,0,0,0" VerticalAlignment="Center">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                </StackPanel>
+                <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
+            </controls:BesideOrBelowPanel>
+        </DataTemplate>
+
         <!-- A word of the breakdown: the word as written, with what it matched, and below it the compound's parts and the word's kanji. -->
         <DataTemplate x:Key="BreakdownEntry" x:DataType="sentences:BreakdownEntryViewModel">
             <StackPanel Margin="0,0,0,2">
@@ -75,34 +107,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <controls:BesideOrBelowPanel Background="{StaticResource NotePage.EntryBackground}">
-                    <StackPanel Orientation="Horizontal">
-                    <ContentControl Content="{Binding Audio}" ContentTemplate="{StaticResource AudioButton}" MinWidth="26" />
-                    <Border Classes="studyBar" Classes.reading="{Binding IsStudyingReading}" Classes.listening="{Binding IsStudyingListening}"
-                            VerticalAlignment="Center">
-                        <Panel>
-                            <TextBlock Classes="word noteLink" Classes.highlighted="{Binding IsHighlighted}"
-                                       Tag="{Binding WordLinkedToItsVocab}" Text="{Binding WordLinkedToItsVocab.Text}"
-                                       IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                       PointerReleased="OnNoteLinkReleased" />
-                            <TextBlock Classes="word" Classes.highlighted="{Binding IsHighlighted}" Text="{Binding Word}"
-                                       IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNull}}" />
-                        </Panel>
-                    </Border>
-                    <TextBlock Text="{Binding VocabForm}" IsVisible="{Binding VocabForm, Converter={x:Static ObjectConverters.IsNotNull}}"
-                               FontSize="{StaticResource WordSize}" Foreground="{StaticResource NotePage.Green}" Margin="7,0,0,0" VerticalAlignment="Center" />
-                    <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
-                               FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
-                    <ItemsControl ItemsSource="{Binding MetaTags}" ItemTemplate="{StaticResource MetaTags}" Margin="10,0,0,0" VerticalAlignment="Center">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                    </StackPanel>
-                    <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
-                </controls:BesideOrBelowPanel>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource BreakdownEntryWithoutPartsAndKanji}" />
 
                 <ItemsControl ItemsSource="{Binding CompoundParts}">
                     <ItemsControl.ItemTemplate>
@@ -310,6 +315,13 @@
             <Setter Property="BorderBrush" Value="{StaticResource NotePage.WarningRed}" />
             <Setter Property="Background" Value="{StaticResource NotePage.DiffersBackground}" />
         </Style>
+        <Style Selector="controls|BesideOrBelowPanel.breakdownEntry">
+            <Setter Property="Background" Value="{StaticResource NotePage.EntryBackground}" />
+        </Style>
+        <!-- A displayed word that differs from what its parsing case expects is red all over, not only on its bar. -->
+        <Style Selector="Border.breakdownSide.differs controls|BesideOrBelowPanel.breakdownEntry">
+            <Setter Property="Background" Value="{StaticResource NotePage.DiffersBackground}" />
+        </Style>
         <Style Selector="TextBlock.noWord">
             <Setter Property="Foreground" Value="{StaticResource NotePage.SectionTitle}" />
             <Setter Property="FontStyle" Value="Italic" />
@@ -449,7 +461,10 @@
                 <ItemsControl ItemsSource="{Binding Entries}" ItemTemplate="{StaticResource BreakdownEntry}"
                               IsVisible="{Binding !ShowsTheExpectedBesideTheBreakdown}" />
 
-                <!-- For a parsing case that parses otherwise than it expects: the breakdown beside the one the case expects, row by row. -->
+                <!--
+                    For a parsing case that parses otherwise than it expects: the breakdown beside the one the case expects, row by row, the words alone.
+                    What it parses to is what is judged, so the marks are on its side: a row that differs is red there, and says how on hover.
+                -->
                 <StackPanel IsVisible="{Binding ShowsTheExpectedBesideTheBreakdown}">
                     <Grid ColumnDefinitions="*,8,*" Margin="0,0,0,4">
                         <TextBlock Grid.Column="0" Classes="breakdownSide" Text="it parses to" />
@@ -459,17 +474,15 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="parsingCases:BreakdownRowBesideTheExpectedViewModel">
                                 <Grid ColumnDefinitions="*,8,*">
-                                    <Border Grid.Column="0" Classes="breakdownSide" Classes.differs="{Binding Differs}">
+                                    <Border Grid.Column="0" Classes="breakdownSide" Classes.differs="{Binding Differs}" ToolTip.Tip="{Binding WhatDiffers}">
                                         <Panel>
-                                            <ContentControl Content="{Binding Displayed}" ContentTemplate="{StaticResource BreakdownEntry}" VerticalAlignment="Top" />
+                                            <ContentControl Content="{Binding Displayed}" ContentTemplate="{StaticResource BreakdownEntryWithoutPartsAndKanji}"
+                                                            VerticalAlignment="Top" Margin="0,0,0,2" />
                                             <TextBlock Classes="noWord" Text="not displayed" IsVisible="{Binding Displayed, Converter={x:Static ObjectConverters.IsNull}}" />
                                         </Panel>
                                     </Border>
-                                    <Border Grid.Column="2" Classes="breakdownSide" Classes.differs="{Binding Differs}">
-                                        <Panel>
-                                            <ContentControl Content="{Binding Expected}" ContentTemplate="{StaticResource ExpectedBreakdownEntry}" VerticalAlignment="Top" />
-                                            <TextBlock Classes="noWord" Text="not expected" IsVisible="{Binding Expected, Converter={x:Static ObjectConverters.IsNull}}" />
-                                        </Panel>
+                                    <Border Grid.Column="2" Classes="breakdownSide">
+                                        <ContentControl Content="{Binding Expected}" ContentTemplate="{StaticResource ExpectedBreakdownEntry}" VerticalAlignment="Top" />
                                     </Border>
                                 </Grid>
                             </DataTemplate>

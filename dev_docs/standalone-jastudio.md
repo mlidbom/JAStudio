@@ -13,9 +13,29 @@ and serves JAStudio's MCP server.
 
 ## Running it
 
-Run the Rider run configuration **Standalone JAStudio** (`.run/Standalone JAStudio.run.xml`). It builds and starts
-`JAStudio.StandaloneHost` on the add-on folder of the checkout Rider has open, `$PROJECT_DIR$/src`. Started by hand,
-it takes that folder as its one argument.
+Run the Rider run configuration **Standalone JAStudio** (`.run/Standalone JAStudio.run.xml`). It builds
+`JAStudio.StandaloneHost`, copies the build to the folder it runs from, and starts the copy on the add-on folder of the
+checkout Rider has open, `$PROJECT_DIR$/src`. Started by hand, it takes that folder as its one argument.
+
+**It runs from a copy of its build,** `JAStudio.StandaloneHost/bin/copy-it-runs-from`, which
+`copy-the-build-to-run-it-from.ps1` beside the project makes, through the run configuration **Copy the build of the
+standalone JAStudio**. Run from its build output, it would lock the files it has loaded for as long as it runs, and
+every build of the solution that recompiled them would fail on them (2026-11-15). So builds don't touch what runs, and
+each start runs the newest build. The headless JAStudio and the MCP gateway run from copies for the same reason (see
+`jastudio-mcp.md`). The copy takes about 0.3 s. While a standalone JAStudio of the checkout runs from the copy, the
+script refuses to replace it, saying so.
+
+Two things about Rider found while setting this up (2026-11-16):
+
+- **A shell-script configuration's interpreter must be a path to an existing file.** Before running the configuration as
+  a step before launch, Rider checks it, and fails with only "cannot start before run task" when it isn't. A bare
+  `pwsh` failed, and so would pwsh installed from the Microsoft Store, which is reachable only through an alias in the
+  user's folder. So the copy runs in Windows PowerShell, at the same path on every Windows.
+- **Rider took in a change made on disk to an existing run configuration only after the solution was reopened.** A
+  new configuration file it found at once.
+- **A rebuild in Rider still stops the running standalone JAStudio before it builds,** running from the copy or not:
+  Rider stops a running configuration whose project it rebuilds. What the copy changed is every other build: one from
+  the command line, such as the Definition of Done's or another session's, succeeds and leaves it running.
 
 ## What is the same as inside Anki
 

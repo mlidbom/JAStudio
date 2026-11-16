@@ -47,8 +47,6 @@ sealed partial class SentencePageViewModel : NotePageViewModel
       SourceAnswer = sentence.SourceData.Answer.Value;
       Comments = sentence.Comments.HasValue() ? sentence.Comments.Value : null;
       SourceComments = sentence.SourceData.Comments.HasValue() ? sentence.SourceData.Comments.Value : null;
-      ViewToggles = SentenceViewToggleViewModel.TheOnesOnIn(services.CoreApp.Config);
-
       var breakdown = new SentenceViewModel(sentence, settings, services.CoreApp.Collection.Vocab);
       var kanjiLists = services.Resolve<SentenceKanjiListViewModel>();
       var entryOf = breakdown.DisplayedMatches.ToDictionary(it => it, it => new BreakdownEntryViewModel(it, settings, kanjiLists));
@@ -61,17 +59,21 @@ sealed partial class SentencePageViewModel : NotePageViewModel
          ParsingCase = new SentenceParsingCaseViewModel(sentence, comparison, services);
          ShowsTheExpectedBesideTheBreakdown = !comparison.ParsesAsExpected && !isInEditMode && services.CoreApp.Config.ShowWhatAParsingCaseExpectsBesideTheBreakdown.Value;
          if(ShowsTheExpectedBesideTheBreakdown)
-            RowsBesideTheExpected = [.. BreakdownBesideTheExpected.Of(breakdown.Analysis.MatchesDisplayedOutsideEditMode, parsingCase.Expected.BreakdownUnder(settings.BreakdownParsingOptions()))
-                                                                  .Rows
-                                                                  .Select(RowBesideTheExpected)];
+         {
+            var expected = parsingCase.Expected.NamingTheVocabIn(services.CoreApp.Collection).BreakdownUnder(settings.BreakdownParsingOptions());
+            RowsBesideTheExpected = [.. BreakdownBesideTheExpected.Of(breakdown.Analysis.MatchesDisplayedOutsideEditMode, expected).Rows.Select(RowBesideTheExpected)];
+         }
       }
+
+      var viewToggles = SentenceViewToggleViewModel.TheOnesOnIn(services.CoreApp.Config);
+      ViewToggles = ShowsTheExpectedBesideTheBreakdown ? [.. viewToggles.Where(it => !it.ShowsMoreBelowTheWords)] : viewToggles;
 
       return;
 
       BreakdownRowBesideTheExpectedViewModel RowBesideTheExpected(BreakdownBesideTheExpected.Row row) =>
          new(row.Displayed is {} displayed ? entryOf[displayed] : null,
              row.Expected is {} expected ? new ExpectedBreakdownEntryViewModel(expected, services.CoreApp.Collection) : null,
-             row.IsTheSameWord);
+             row.Differences);
 
       string QuestionAsShown(string question) =>
          isInEditMode ? question.Replace(SentenceQuestionField.WordBreakTag, ShownWordBreakTag) : question;
@@ -114,7 +116,10 @@ sealed partial class SentencePageViewModel : NotePageViewModel
    /// <summary>The comments the sentence came with from its source, with their markup, when there are any.</summary>
    public string? SourceComments { get; }
 
-   /// <summary>The sentence view toggles that are on, which the breakdown's title shows.</summary>
+   /// <summary>
+   /// The sentence view toggles that are on, which the breakdown's title shows. Beside what a parsing case expects, the breakdown shows only the<br/>
+   /// words, so the toggles that show more below them, such as the kanji, are left out.
+   /// </summary>
    public IReadOnlyList<SentenceViewToggleViewModel> ViewToggles { get; }
 
    /// <summary>The words of the breakdown, in the order they are in the sentence.</summary>
