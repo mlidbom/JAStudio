@@ -91,7 +91,7 @@ Each a commit that builds and passes the whole suite, so the switch to the store
      `NoteIndex` reads one for a collection, through its `LookupRecorder`; `StoredNotes` gives every note and the one
      with an id. The caches, their snapshot classes and `INoteRepository` are gone.
    - **A lookup gives the notes in the order of their ids,** the order the corpus loads in, which the caches gave them
-     in: the store's index promises it since spike `63a5dcce5` (Magnus, 2026-11-16), and JAStudio sorted them before. Without it, a full rebuild changed 1,172 sentences: two vocab matched to one form, stored the other way around,
+     in. The store's index promised it from spike `63a5dcce5` to `e86642f24`; since `f0ed1ccf6` it gives no order (Magnus, item 37), and `NoteIndex.NotesWith` sorts by id, as it did before, specified by `When_several_vocab_share_a_form`. Without it, a full rebuild changed 1,172 sentences: two vocab matched to one form, stored the other way around,
      and three that parse otherwise, since `WordInfo.Lookup` takes the first vocab with a form, and its godan check then
      depends on which comes first. That dependence is marked `review:` at the code.
    - **`NoteUnitsOfWork` runs JAStudio's units of work,** through `JPCollection.InAUnitOfWork`: the one running on the

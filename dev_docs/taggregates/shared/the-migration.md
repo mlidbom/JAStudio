@@ -55,8 +55,9 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `e86642f24`, where every taggregate of a class comes from a bulk reader,
-  `ITaggregateStoreBulkReader`, in no particular order (Magnus, items 34 and 36). Before it, `63a5dcce5`, whose index lookups give id order, and `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
+  JAStudio's worktree of Compze is at `f0ed1ccf6`, where every taggregate of a class comes from a bulk reader,
+  `ITaggregateStoreBulkReader`, and neither it nor an index lookup gives an order (Magnus, items 34, 36 and 37): JAStudio's
+  `NoteIndex` sorts lookups by id. Before it, `63a5dcce5`, whose index lookups gave id order, and `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
   and `ITaggregateStoreReader`: the three additions JAStudio's switch asked for, specified under "Three gaps for JAStudio's
   switch, specified" in Compze's `the-taggregate-store.md`.
   - a storage built with a container service, `store.StoredIn((ITaggregateStorage storage) => storage)`, resolved at the
