@@ -328,14 +328,14 @@ public class JPCollection
    StudyNotesReadFromTheSRS GiveEachNoteItsStudyNoteFrom(IReadOnlyList<StudyNoteInTheSRS> studyNotesRead, IReadOnlyDictionary<long, NoteId> studyNoteIdsHeldWhenTheReadBegan)
    {
       List<JPNote> notesWhoseStudyNoteThenIsGone = [.. NoteServices.StudyNoteIds.TakeIn(NoteIdOfEachStudyNoteThatHoldsOne(), studyNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>()];
-      notesWhoseStudyNoteThenIsGone.ForEach(it => it.ReadItsStudyNoteFrom([], []));
+      notesWhoseStudyNoteThenIsGone.ForEach(it => NoteServices.WhatTheSRSHoldsOfTheStudyNotes.Forget(it.GetId()));
 
       List<JPNote> notesWhoseStudyNoteChanged = [];
       foreach(var studyNote in studyNotesRead)
       {
          if(studyNote.NoteId is not {} noteId || NoteFromNoteId(noteId) is not {} note) continue;
 
-         var itsStudyNoteDiffers = note.ReadItsStudyNoteFrom(studyNote.CardStudyingStatuses, studyNote.Tags) || ItIsANewStudyNote(studyNote.StudyNoteId, noteId);
+         var itsStudyNoteDiffers = NoteServices.WhatTheSRSHoldsOfTheStudyNotes.TakeIn(noteId, studyNote.CardStudyingStatuses, studyNote.Tags) || ItIsANewStudyNote(studyNote.StudyNoteId, noteId);
          if(itsStudyNoteDiffers) notesWhoseStudyNoteChanged.Add(note);
       }
 

@@ -35,6 +35,7 @@ public class NoteServices
    public JapaneseConfig Config => _resolver.Resolve<JapaneseConfig>();
    public TaskRunner TaskRunner => _resolver.Resolve<TaskRunner>();
    public StudyNoteIds StudyNoteIds => _resolver.Resolve<StudyNoteIds>();
+   public WhatTheSRSHoldsOfTheStudyNotes WhatTheSRSHoldsOfTheStudyNotes => _resolver.Resolve<WhatTheSRSHoldsOfTheStudyNotes>();
    public MediaFileIndex MediaFileIndex => _resolver.Resolve<MediaFileIndex>();
    public SharedConditions SharedConditions => _resolver.Resolve<SharedConditions>();
 }

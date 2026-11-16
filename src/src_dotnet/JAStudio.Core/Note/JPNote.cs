@@ -28,14 +28,11 @@ public abstract class JPNote
    /// </summary>
    UInt128? _hashOfTheLastPersistedSnapshot;
 
-   // Dictionary tracks card suspend status: true = active/unsuspended, false = suspended
-   Dictionary<string, bool> _cardStatus = new();
-
    /// <summary>The note's own tags: the corpus's, stored with the note and edited in JAStudio.</summary>
    public NoteTags Tags { get; }
 
    /// <summary>The tags the note's study-note has in Anki, below <c>anki::</c>: the student's, read from Anki and never stored or changed in JAStudio.</summary>
-   public AnkiTags AnkiTags { get; } = new();
+   public AnkiTags AnkiTags => Services.WhatTheSRSHoldsOfTheStudyNotes.AnkiTagsOf(_id);
 
    /// <summary>Every tag the note shows: its own <see cref="Tags"/> and its <see cref="AnkiTags"/>. These are what a person browses and searches.</summary>
    public IEnumerable<Tag> AllTags => Tags.Concat(AnkiTags);
@@ -51,27 +48,8 @@ public abstract class JPNote
       _id = id;
    }
 
-   public void SetStudyingStatus(CardStudyingStatus status)
-   {
-      // Update card status: true = active/unsuspended, false = suspended
-      _cardStatus[status.CardType] = !status.IsSuspended;
-   }
-
-   /// <summary>
-   /// Gives the note what Anki holds of its study-note, in place of what it had: the studying statuses of its cards, <paramref name="cardStatuses"/>, and its<br/>
-   /// tags, <paramref name="tagsInAnki"/>, as its <see cref="AnkiTags"/>. Neither when it has no study-note. Whether either differs from before.
-   /// </summary>
-   /// <remarks>The card statuses are swapped in whole, so that whoever reads them meanwhile, such as the UI, sees either those before or those after.</remarks>
-   internal bool ReadItsStudyNoteFrom(IEnumerable<CardStudyingStatus> cardStatuses, IEnumerable<string> tagsInAnki)
-   {
-      var cardStatusesBefore = _cardStatus;
-      _cardStatus = cardStatuses.ToDictionary(it => it.CardType, it => !it.IsSuspended);
-      var theTagsDiffer = AnkiTags.ReadFrom(tagsInAnki);
-      return theTagsDiffer || !TheSameCardStatusesAs(cardStatusesBefore);
-
-      bool TheSameCardStatusesAs(Dictionary<string, bool> other) =>
-         other.Count == _cardStatus.Count && other.All(it => _cardStatus.TryGetValue(it.Key, out var isActive) && isActive == it.Value);
-   }
+   /// <summary>Holds <paramref name="status"/> as the studying status of the card it is of, of the note's study-note (<see cref="WhatTheSRSHoldsOfTheStudyNotes"/>).</summary>
+   public void SetStudyingStatus(CardStudyingStatus status) => Services.WhatTheSRSHoldsOfTheStudyNotes.SetStudyingStatus(_id, status);
 
    /// <summary>
    /// The fields JAStudio writes into the note's Anki study-note, by their names in Anki: the <see cref="StudyNoteFieldsBesidesTheId"/>, and the id of<br/>
@@ -95,17 +73,11 @@ public abstract class JPNote
 
    public abstract void UpdateInCache();
 
-   public bool IsStudying(string? cardType = null)
-   {
-      if(cardType == null)
-      {
-         // Return true if ANY card is active/unsuspended
-         return _cardStatus.Any(kvp => kvp.Value);
-      }
-
-      // Return true if specific card type is active/unsuspended
-      return _cardStatus.TryGetValue(cardType, out var isActive) && isActive;
-   }
+   /// <summary>
+   /// Whether the note is studied: through the card of <paramref name="cardType"/>, such as <see cref="CardTypes.Reading"/>, or through any of its<br/>
+   /// cards when it's null. A card that isn't suspended is studied.
+   /// </summary>
+   public bool IsStudying(string? cardType = null) => Services.WhatTheSRSHoldsOfTheStudyNotes.IsStudying(_id, cardType);
 
    /// <summary>
    /// Whether the note has a study-note in the SRS, the spaced repetition system, which holds its cards and their review history: in Anki, an Anki<br/>
@@ -121,14 +93,12 @@ public abstract class JPNote
    {
       Services.SRSStudyNotes.SuspendAllCardsForNote(_id);
       SetTheStatusOfEveryKnownCard(isActive: false);
-      Flush();
    }
 
    public void UnsuspendAllCards()
    {
       Services.SRSStudyNotes.UnsuspendAllCardsForNote(_id);
       SetTheStatusOfEveryKnownCard(isActive: true);
-      Flush();
    }
 
    /// <summary>
@@ -137,16 +107,11 @@ public abstract class JPNote
    /// </summary>
    void SetTheStatusOfEveryKnownCard(bool isActive)
    {
-      foreach(var cardType in _cardStatus.Keys.ToList())
-         _cardStatus[cardType] = isActive;
+      Services.WhatTheSRSHoldsOfTheStudyNotes.SetTheStatusOfEveryKnownCard(_id, isActive);
       Services.Collection.NotifyThatTheStudyNoteChangedFor(this);
    }
 
-   public bool HasSuspendedCards()
-   {
-      // Return true if ANY card is suspended (value == false)
-      return _cardStatus.Any(kvp => !kvp.Value);
-   }
+   public bool HasSuspendedCards() => Services.WhatTheSRSHoldsOfTheStudyNotes.HasSuspendedCards(_id);
 
    public bool HasActiveCards() => IsStudying();
 

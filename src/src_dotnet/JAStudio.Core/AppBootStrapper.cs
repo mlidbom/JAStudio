@@ -84,6 +84,7 @@ public static class AppBootstrapper
          Singleton.For<Settings>().CreatedBy((JapaneseConfig config) => new Settings(config)),
          Singleton.For<AnalysisServices>().CreatedBy((VocabCollection vocab, DictLookup dictLookup, Settings settings) => new AnalysisServices(vocab, dictLookup, settings)),
          Singleton.For<StudyNoteIds>().CreatedBy(() => new StudyNoteIds()),
+         Singleton.For<WhatTheSRSHoldsOfTheStudyNotes>().CreatedBy(() => new WhatTheSRSHoldsOfTheStudyNotes()),
          Singleton.For<LocalNoteUpdater>().CreatedBy((TaskRunner taskRunner, VocabCollection vocab, KanjiCollection kanji, SentenceCollection sentences, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, FileSystemNoteRepository fileSystemNoteRepository) =>
                                                         new LocalNoteUpdater(taskRunner, vocab, kanji, sentences, config, dictLookup, vocabNoteFactory, fileSystemNoteRepository)),
          Singleton.For<TaskRunner>().CreatedBy((DialogProgressPresenter dialogPresenter) => new TaskRunner(dialogPresenter)),
