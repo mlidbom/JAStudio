@@ -30,11 +30,22 @@ sealed class NoteIndex<TNote, TKey>
    }
 
    /// <summary>
-   /// The notes filed under <paramref name="key"/>, as they are now, inside a unit of work as it has changed them, in the order of their ids, as<br/>
-   /// the store's index gives them: the order the corpus's notes load in. What takes the first of several, as the tokenizer's godan check does<br/>
-   /// (<see cref="LanguageServices.JanomeEx.Tokenizing.PreProcessingStage.WordInfo"/>), depends on it.
+   /// The notes filed under <paramref name="key"/>, as they are now, inside a unit of work as it has changed them, in the order of their ids.
    /// </summary>
-   public List<TNote> NotesWith(TKey key) => _lookupRecorder.LookedUp([.. _index.Value.Lookup(key).Select(it => it.Current)]);
+   /// <remarks>
+   /// The store's index gives them in no particular order, and JAStudio puts them in one, so that what a lookup gives is a function of the notes'<br/>
+   /// state alone, and a full rebuild reproduces the corpus exactly. Two things depend on it: what takes the first of several, as the tokenizer's<br/>
+   /// godan check does (<see cref="LanguageServices.JanomeEx.Tokenizing.PreProcessingStage.WordInfo"/>), and the order a sentence's parsing result<br/>
+   /// stores the vocab matched to one form in. The id order is the order the corpus's notes load in, which the corpus was built with.
+   /// </remarks>
+   public List<TNote> NotesWith(TKey key)
+   {
+      List<TNote> notes = [.. _index.Value.Lookup(key).Select(it => it.Current)];
+      if(notes.Count > 1) notes.Sort(InTheOrderOfTheirIds);
+      return _lookupRecorder.LookedUp(notes);
+   }
+
+   static int InTheOrderOfTheirIds(TNote one, TNote other) => one.Id.Value.CompareTo(other.Id.Value);
 
    /// <summary>Whether any note is filed under <paramref name="key"/>.</summary>
    public bool HasNotesWith(TKey key) => _index.Value.HasAny(key);
