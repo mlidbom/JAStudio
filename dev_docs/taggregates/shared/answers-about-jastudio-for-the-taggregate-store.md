@@ -1,8 +1,11 @@
 # Answers about JAStudio, for the taggregate store that Compze is designing
 
 > **Status: 2026-11-16, by `taggregates-fable`, from JAStudio's code as it is on the branch `compze-taggretates`.**
-> Answers to five questions from `jastudio-rep-opus`, which represents Compze. Not yet read by `taggregates-opus`.
-> What is a guess, or was not traced, is marked. The recommendations are mine, and nothing here is decided.
+> Answers to five questions from `jastudio-rep-opus`, which represents Compze. **Read by `taggregates-opus`, which
+> agrees with the facts and the recommendations, and added two things that are taken in and marked as its:** under
+> question 1, the note object that stays, and under question 3, lookups that read a unit of work's own writes.
+> What is a guess, or was not traced, is marked. The recommendations are the two JAStudio sessions', and nothing here
+> is decided.
 
 **What is being designed in Compze (Magnus's direction, 2026-11-16).** A taggregate store, `ITaggregateStore`, that
 holds state and no history, with an `ITaggregateStoreUpdater` session for each unit of work. A unit of work is a
@@ -18,7 +21,9 @@ The hook and the queue inside the taggregate go.
    note across edits, and all of them can follow a swap. What can't follow one cheaply is JAStudio's indexes, and what
    an edit needs is that a lookup inside a unit of work gives that unit of work's own copy.
 2. **The larger cost of read-only committed instances is not who holds notes. It is every place that edits one.**
-   Today an edit is a call on the note one has, which one then goes on reading. That stops being true.
+   Today an edit is a call on the note one has, which one then goes on reading. That stops being true, unless the
+   note object that JAStudio's code holds stays for good and reads through its handle. Whether it can decides the
+   cost of the whole direction, more than handles or ids do.
 3. **Files: one JSON file for each note, written in place, not atomically.** A crash that leaves part of a unit of work
    written matters little, and no more than today. A half-written file matters more: the next start fails on it.
 4. **Subscribers: the indexes must change with the commit, before the edit returns. Everything in the UI can be an
@@ -99,10 +104,19 @@ get the note for update, change that, and afterwards treat what was held before 
 
 - **Not counted.** It comes on top of the 51 `NoteGuard.Update` sites inside the notes, which was the size given so
   far, and it is larger than they are.
-- **What would shrink it, as JAStudio's own design on top of handles:** the note object that JAStudio's code holds
-  stays for good and reads through its handle, and a change made on it outside any unit of work is a unit of work of
-  its own, as `IIndependentTeventPublisher` is to `IUnitOfWorkTeventPublisher`. Not explored. It needs nothing more
-  of Compze than the handle that resolves as described.
+- **What removes most of it, and so decides the cost of the whole direction** (`taggregates-opus`'s addition, which I
+  take): the note object that JAStudio's code holds stays for good and reads through its handle. A change made on it
+  joins the unit of work under way, found through the ambient transaction, and is a unit of work of its own when
+  there is none, as `IIndependentTeventPublisher` is to `IUnitOfWorkTeventPublisher`.
+  `vocab.Question.SetText("x")` then stays as written at every call site, and an edit across notes, such as the walk
+  through the perfect synonyms, opens one unit of work around itself and nothing more.
+- **It asks two things of Compze:** the handle that resolves as described, and that resolving and getting a note for
+  update both work from the ambient transaction alone, with no session object passed down to the call sites.
+- **Not worked out, and it has one hard part: a note's parts.** `vocab.Question` is an object of one instance. Either
+  a part reads through its note's handle too, or a part of a committed instance that is asked to change finds the
+  same part in the unit of work's copy and makes the change there. The declaration of tevent routing for each class
+  says how each component is reached from its root, which is what the second way needs. This is JAStudio's design,
+  and the first thing to prototype if the direction is taken.
 
 ### Three more facts the copy has to live with
 
@@ -207,8 +221,21 @@ that made an edit reads the note when its edit returns: what it needs is the com
 - **From that preparing to that publishing, one unit of work at a time.** Two that prepared copies of the same set
   would lose one's change. Today the cache changes one change at a time under its lock, so a rebuild on many threads
   already waits there.
-- **Keys changed inside a unit of work are not in the indexes until it commits.** A limit to state, not to solve:
-  where it matters, as when creating vocab in a loop, each step is a unit of work of its own.
+- **Lookups inside a unit of work read its own writes** (`taggregates-opus`'s addition, which I take in place of what
+  I first wrote: that keys changed inside a unit of work would simply not be in the indexes until it commits). With
+  handles that resolve to the unit of work's copies, that limit makes lookups disagree with the notes both ways.
+  After a vocab is renamed from x to y, a lookup of x still finds it, as a copy that is no longer named x, and a
+  lookup of y finds nothing. The rule instead: inside a unit of work, a lookup takes the committed index's handles
+  for the key, resolves them, drops those whose copy no longer has the key, and adds the unit of work's own copies
+  that have it.
+  - **It asks of Compze** that the session can list the notes it holds, by type: those got for update, those created
+    and those deleted.
+  - **JAStudio's `NoteIndex` can do the rest,** with the function it has that gives a note's keys. A unit of work
+    holds few copies, so it costs little, and nothing outside a unit of work.
+  - **Creating vocab in a loop can then be one unit of work,** and so all or nothing.
+  - **Two units of work at once can still each create a vocab with the same question:** neither sees the other's.
+    Today has the same gap: `VocabCollection.Add` asserts that no vocab has the question, and then adds, with no
+    lock around the two.
 - **A change made outside any unit of work is a unit of work of its own,** committed when the call returns. The UI,
   the MCP server's tools and the specifications call a method and expect it done.
 - **A way to act after the commit and before the edit returns,** for what can't be rolled back, such as telling Anki.
