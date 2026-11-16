@@ -190,7 +190,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
          public after_setting_a_corpus_answer() => _vocab.Edit(it => it.SetCorpusAnswer("written work"));
 
          [XF] public void the_answer_shown_is_the_corpus_answer() => _vocab.GetAnswer().Must().Be("written work");
-         [XF] public void the_source_answer_is_kept() => _vocab.SourceData.Answer.Value.Must().Be("book");
+         [XF] public void the_source_answer_is_kept() => _vocab.SourceData.Answer.Must().Be("book");
       }
    }
 

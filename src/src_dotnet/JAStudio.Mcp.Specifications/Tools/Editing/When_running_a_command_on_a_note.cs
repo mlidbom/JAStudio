@@ -43,7 +43,7 @@ public class When_running_a_command_on_a_note : McpServerSpecification
          Vocab.Edit(it =>
          {
             it.SetCorpusAnswer("");
-            it.SourceData.Answer.Set("To study, Learning");
+            it.SourceData.SetAnswer("To study, Learning");
          });
          _run = ResultOf<NoteCommandRun>(Run(Vocab, "acceptMeaning"));
       }

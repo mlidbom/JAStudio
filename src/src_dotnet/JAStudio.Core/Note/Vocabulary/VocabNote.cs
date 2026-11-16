@@ -28,7 +28,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
      .For<IVocabTevent.PropertyUpdated.ExplanationLong>(static (vocab, tevent) => vocab.ExplanationLong = tevent.ExplanationLong)
      .For<IVocabTevent.PropertyUpdated.Mnemonic>(static (vocab, tevent) => vocab.Mnemonic = tevent.Mnemonic)
      .For<IVocabTevent.PropertyUpdated.TechnicalNotes>(static (vocab, tevent) => vocab.TechnicalNotes = tevent.TechnicalNotes)
-     .For<IVocabTevent.PropertyUpdated.References>(static (vocab, tevent) => vocab.References = tevent.References));
+     .For<IVocabTevent.PropertyUpdated.References>(static (vocab, tevent) => vocab.References = tevent.References)
+     .Component(static vocab => vocab.SourceData));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
@@ -163,7 +164,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       Explanation = data?.Explanation ?? string.Empty;
       ExplanationLong = data?.ExplanationLong ?? string.Empty;
       Mnemonic = data?.Mnemonic ?? string.Empty;
-      SourceData = new VocabSourceData(data?.SourceData, Guard);
+      SourceData = new VocabSourceData(this, data?.SourceData, Guard);
       Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], Guard);
       Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], Guard);
       AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
@@ -207,7 +208,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    public override IEnumerable<MediaReference> MediaReferences => [..SourceData.Audio.All, ..SourceData.Images.All, ..Audio.All, ..Images.All];
 
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
-   public override string GetAnswer() => CorpusAnswer is not "" ? CorpusAnswer : SourceData.Answer.Value;
+   public override string GetAnswer() => CorpusAnswer is not "" ? CorpusAnswer : SourceData.Answer;
 
    /// <summary>
    /// Makes the source's answer the corpus's own (<see cref="CorpusAnswer"/>), written as the corpus writes a vocab's answers: in lower case, without<br/>
@@ -216,7 +217,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    public void AcceptMeaning()
    {
       Contract.State.Assert(CorpusAnswer is "", () => $"The vocab {GetQuestion()} has an answer of its own already: {CorpusAnswer}");
-      SetCorpusAnswer(WrittenAsTheCorpusWritesAVocabsAnswers(SourceData.Answer.Value));
+      SetCorpusAnswer(WrittenAsTheCorpusWritesAVocabsAnswers(SourceData.Answer));
 
       static string WrittenAsTheCorpusWritesAVocabsAnswers(string sourceAnswer) =>
          sourceAnswer.Replace(" SOURCE", "")
@@ -283,7 +284,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       if(dictLookup.FoundWords())
       {
          var generated = dictLookup.FormatAnswer();
-         SourceData.Answer.Set(generated);
+         SourceData.SetAnswer(generated);
       }
 
       UpdateGeneratedData();

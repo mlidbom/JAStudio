@@ -21,7 +21,7 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
 /// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a vocab's text field publishes the<br/>
-/// <c>PropertyUpdated</c> tevent of its new value. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
+/// <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>) included. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
 /// changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store would save it.
 /// </summary>
 public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
@@ -111,6 +111,18 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
             _published.Must().Satisfy(it => it is [IVocabTevent.PropertyUpdated.CorpusAnswer { CorpusAnswer: "to dash" }]);
 
          [XF] public void the_committed_vocab_has_the_new_answer() => _vocab.CorpusAnswer.Must().Be("to dash");
+      }
+
+      public class when_its_source_answer_is_changed : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_source_answer_is_changed() => _published = TheTeventsPublishedAs(it => it.SourceData.SetAnswer(" to sprint "));
+
+         [XF] public void it_publishes_that_its_source_answer_was_updated_to_the_new_answer_trimmed() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.SourceData.PropertyUpdated.Answer { Answer: "to sprint" }]);
+
+         [XF] public void the_committed_vocab_has_the_new_source_answer() => _vocab.SourceData.Answer.Must().Be("to sprint");
       }
 
       public class when_its_answer_is_set_to_the_answer_it_has : given_a_vocab_in_the_collection

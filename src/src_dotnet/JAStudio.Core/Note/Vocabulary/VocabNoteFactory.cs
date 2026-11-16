@@ -41,7 +41,7 @@ public class VocabNoteFactory
    public VocabNote Create(string question, string sourceAnswer, List<string> readings, Action<VocabNote>? initializer = null)
    {
       var note = new VocabNote(_noteServices, question);
-      note.SourceData.Answer.Set(sourceAnswer);
+      note.SourceData.SetAnswer(sourceAnswer);
       note.SetReadings(readings);
 
       if(initializer != null)

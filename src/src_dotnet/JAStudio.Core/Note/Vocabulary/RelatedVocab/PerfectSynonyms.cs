@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core.Note.Collection;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
@@ -25,14 +24,7 @@ public class PerfectSynonyms
    {
       _vocab = vocab;
       _words = new WordSet(words, guard);
-      PushTheAnswerToTheOtherSynonymsWheneverItChanges();
    }
-
-   /// <summary>
-   /// The answer shown is the vocab's <see cref="VocabNote.CorpusAnswer"/>, or its source's while it has none (<see cref="VocabNote.GetAnswer"/>), so a<br/>
-   /// change to either may change it. A change to the <see cref="VocabNote.CorpusAnswer"/> pushes it itself (<see cref="VocabNote.SetCorpusAnswer"/>).
-   /// </summary>
-   void PushTheAnswerToTheOtherSynonymsWheneverItChanges() => _vocab.SourceData.Answer.Subscribe(_ => PushAnswerToOtherSynonyms());
 
    VocabCollection Collection => _vocab.Services.Collection.Vocab;
 
@@ -47,7 +39,10 @@ public class PerfectSynonyms
    /// <summary>The vocab notes the <see cref="Words"/> name exactly: the vocab's perfect synonyms.</summary>
    public List<VocabNote> Notes() => Collection.NamedExactlyByAny(Words);
 
-   /// <summary>Gives every perfect synonym this vocab's answer.</summary>
+   /// <summary>
+   /// Gives every perfect synonym this vocab's answer. The answer shown is the vocab's <see cref="VocabNote.CorpusAnswer"/>, or its source's while it has<br/>
+   /// none (<see cref="VocabNote.GetAnswer"/>), so a change to either pushes it: <see cref="VocabNote.SetCorpusAnswer"/> and <see cref="VocabSourceData.SetAnswer"/>.
+   /// </summary>
    internal void PushAnswerToOtherSynonyms()
    {
       foreach(var synonym in Notes())

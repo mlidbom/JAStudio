@@ -40,6 +40,16 @@ public interface IVocabTevent : INoteTevent
       }
    }
 
+   public interface SourceData : IVocabTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface Answer : SourceData { string Answer { get; } }
+         public interface Mnemonic : SourceData { string Mnemonic { get; } }
+         public interface ReadingMnemonic : SourceData { string ReadingMnemonic { get; } }
+      }
+   }
+
    public interface Forms : IVocabTevent
    {
       public new static class PropertyUpdated

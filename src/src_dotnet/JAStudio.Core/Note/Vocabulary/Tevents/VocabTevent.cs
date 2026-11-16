@@ -31,6 +31,17 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
       }
    }
 
+   public abstract class SourceData : VocabTevent, IVocabTevent.SourceData
+   {
+      public class SourceAnswerUpdated(string answer) : SourceData, IVocabTevent.SourceData.PropertyUpdated.Answer { public string Answer { get; } = answer; }
+      public class SourceMnemonicUpdated(string mnemonic) : SourceData, IVocabTevent.SourceData.PropertyUpdated.Mnemonic { public string Mnemonic { get; } = mnemonic; }
+
+      public class SourceReadingMnemonicUpdated(string readingMnemonic) : SourceData, IVocabTevent.SourceData.PropertyUpdated.ReadingMnemonic
+      {
+         public string ReadingMnemonic { get; } = readingMnemonic;
+      }
+   }
+
    public abstract class Forms : VocabTevent, IVocabTevent.Forms
    {
       public class EnteredFormsUpdated(IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms

@@ -56,14 +56,14 @@ public static class VocabEditableFields
    public static readonly EditableTextField<VocabNote> TechnicalNotes = new("technicalNotes", "Technical notes", TextFieldFormat.Paragraphs, it => it.TechnicalNotes, (it, text) => it.SetTechnicalNotes(text));
 
    /// <summary>The answer the vocab's source gave it (<see cref="VocabNote.SourceData"/>).</summary>
-   public static readonly EditableTextField<VocabNote> SourceAnswer = new("sourceData.answer", "Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer);
+   public static readonly EditableTextField<VocabNote> SourceAnswer = new("sourceData.answer", "Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer, (it, text) => it.SourceData.SetAnswer(text));
 
    /// <summary>The mnemonic the vocab's source gave it, never shown on a card.</summary>
-   public static readonly EditableTextField<VocabNote> SourceMnemonic = new("sourceData.mnemonic", "Mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.Mnemonic);
+   public static readonly EditableTextField<VocabNote> SourceMnemonic = new("sourceData.mnemonic", "Mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.Mnemonic, (it, text) => it.SourceData.SetMnemonic(text));
 
    /// <summary>The reading mnemonic the vocab's source gave it, never shown on a card.</summary>
    public static readonly EditableTextField<VocabNote> SourceReadingMnemonic =
-      new("sourceData.readingMnemonic", "Reading mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.ReadingMnemonic);
+      new("sourceData.readingMnemonic", "Reading mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.ReadingMnemonic, (it, text) => it.SourceData.SetReadingMnemonic(text));
 
    public static readonly EditableRequireForbidField YieldLastToken = RequireForbidRule("yieldLastTokenToOverlappingCompound", "Yield to overlapping following compound", it => it.YieldLastToken);
    public static readonly EditableRequireForbidField DictionaryFormStart = RequireForbidRule("dictionaryFormStart", "Dictionary form (start)", it => it.DictionaryFormStart);

@@ -94,6 +94,27 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
 
 
 
+    class SourceData(IVocabTevent_0, typing.Protocol):
+
+        class PropertyUpdated(abc.ABC):
+
+            class Answer(IVocabTevent.SourceData, typing.Protocol):
+                @property
+                def Answer(self) -> str: ...
+
+
+            class Mnemonic(IVocabTevent.SourceData, typing.Protocol):
+                @property
+                def Mnemonic(self) -> str: ...
+
+
+            class ReadingMnemonic(IVocabTevent.SourceData, typing.Protocol):
+                @property
+                def ReadingMnemonic(self) -> str: ...
+
+
+
+
 
 IVocabTevent_1_TTevent = typing.TypeVar('IVocabTevent_1_TTevent', covariant=True)
 class IVocabTevent_1(typing.Generic[IVocabTevent_1_TTevent], INoteTevent_1[IVocabTevent_1_TTevent], typing.Protocol):
@@ -258,6 +279,51 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def TaggregateVersion(self) -> int: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class SourceData(VocabTevent_0, IVocabTevent.SourceData):
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+        class SourceAnswerUpdated(VocabTevent.SourceData, IVocabTevent.SourceData.PropertyUpdated.Answer):
+            def __init__(self, answer: str) -> None: ...
+            @property
+            def Answer(self) -> str: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class SourceMnemonicUpdated(VocabTevent.SourceData, IVocabTevent.SourceData.PropertyUpdated.Mnemonic):
+            def __init__(self, mnemonic: str) -> None: ...
+            @property
+            def Mnemonic(self) -> str: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class SourceReadingMnemonicUpdated(VocabTevent.SourceData, IVocabTevent.SourceData.PropertyUpdated.ReadingMnemonic):
+            def __init__(self, readingMnemonic: str) -> None: ...
+            @property
+            def ReadingMnemonic(self) -> str: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
 
 
     class TechnicalNotesUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.TechnicalNotes):
