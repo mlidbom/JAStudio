@@ -9,12 +9,12 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
 
    VocabTevent(VocabId vocabId) : base(vocabId) {}
 
-   public class CorpusAnswerUpdated(string corpusAnswer) : VocabTevent, IVocabTevent.CorpusAnswerUpdated { public string CorpusAnswer { get; } = corpusAnswer; }
-   public class ExplanationUpdated(string explanation) : VocabTevent, IVocabTevent.ExplanationUpdated { public string Explanation { get; } = explanation; }
-   public class ExplanationLongUpdated(string explanationLong) : VocabTevent, IVocabTevent.ExplanationLongUpdated { public string ExplanationLong { get; } = explanationLong; }
-   public class MnemonicUpdated(string mnemonic) : VocabTevent, IVocabTevent.MnemonicUpdated { public string Mnemonic { get; } = mnemonic; }
-   public class TechnicalNotesUpdated(string technicalNotes) : VocabTevent, IVocabTevent.TechnicalNotesUpdated { public string TechnicalNotes { get; } = technicalNotes; }
-   public class ReferencesUpdated(string references) : VocabTevent, IVocabTevent.ReferencesUpdated { public string References { get; } = references; }
+   public class CorpusAnswerUpdated(string corpusAnswer) : VocabTevent, IVocabTevent.PropertyUpdated.CorpusAnswer { public string CorpusAnswer { get; } = corpusAnswer; }
+   public class ExplanationUpdated(string explanation) : VocabTevent, IVocabTevent.PropertyUpdated.Explanation { public string Explanation { get; } = explanation; }
+   public class ExplanationLongUpdated(string explanationLong) : VocabTevent, IVocabTevent.PropertyUpdated.ExplanationLong { public string ExplanationLong { get; } = explanationLong; }
+   public class MnemonicUpdated(string mnemonic) : VocabTevent, IVocabTevent.PropertyUpdated.Mnemonic { public string Mnemonic { get; } = mnemonic; }
+   public class TechnicalNotesUpdated(string technicalNotes) : VocabTevent, IVocabTevent.PropertyUpdated.TechnicalNotes { public string TechnicalNotes { get; } = technicalNotes; }
+   public class ReferencesUpdated(string references) : VocabTevent, IVocabTevent.PropertyUpdated.References { public string References { get; } = references; }
 
    public class Created(VocabId vocabId, string question) : VocabTevent(vocabId), IVocabTevent.Created
    {
@@ -33,7 +33,7 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
 
    public abstract class Forms : VocabTevent, IVocabTevent.Forms
    {
-      public class EnteredFormsUpdated(IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.EnteredFormsUpdated
+      public class EnteredFormsUpdated(IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms
       {
          public IReadOnlyList<EnteredForm> EnteredForms { get; } = enteredForms;
       }

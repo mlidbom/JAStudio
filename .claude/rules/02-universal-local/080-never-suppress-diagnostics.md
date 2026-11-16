@@ -18,4 +18,6 @@ design, which ReSharper's naming rule flags.
 
 **Approved exception — files of tevent interfaces** (Magnus, 2026-11-16): the same line after the usings, as in
 `IVocabTevent.cs`. Nested tevent interfaces are named without an `I`, by Compze's semantic-events convention, so that
-`IVocabTevent.Forms.Added` reads as what happened.
+`IVocabTevent.Forms.Added` reads as what happened. And `// ReSharper disable PossibleInterfaceMemberAmbiguity`, which a
+part's `PropertyUpdated` level hiding its note's sets off on every tevent: "I'm pretty sure that I routinely just suppress
+that warning and have never encountered a real problem" (Magnus, 2026-11-16).

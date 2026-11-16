@@ -15,74 +15,83 @@ class IVocabTevent(IVocabTevent_0, metaclass =IVocabTevent_GenericClasses): ...
 
 class IVocabTevent_0(INoteTevent, typing.Protocol):
 
-    class CorpusAnswerUpdated(IVocabTevent_0, typing.Protocol):
-        @property
-        def CorpusAnswer(self) -> str: ...
-
-
-    class Created(IVocabTevent.Question.TextUpdated, ITaggregateCreatedTevent, typing.Protocol):
+    class Created(IVocabTevent.Question.PropertyUpdated.Text, ITaggregateCreatedTevent, typing.Protocol):
         pass
-
-
-    class ExplanationLongUpdated(IVocabTevent_0, typing.Protocol):
-        @property
-        def ExplanationLong(self) -> str: ...
-
-
-    class ExplanationUpdated(IVocabTevent_0, typing.Protocol):
-        @property
-        def Explanation(self) -> str: ...
 
 
     class Forms(IVocabTevent_0, typing.Protocol):
 
-        class Added(IVocabTevent.Forms.EnteredFormsUpdated, typing.Protocol):
+        class Added(IVocabTevent.Forms.PropertyUpdated.EnteredForms, typing.Protocol):
             @property
             def Form(self) -> str: ...
 
 
-        class EnteredFormsUpdated(IVocabTevent.Forms, typing.Protocol):
-            @property
-            def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
+        class PropertyUpdated(abc.ABC):
+
+            class EnteredForms(IVocabTevent.Forms, typing.Protocol):
+                @property
+                def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
 
 
-        class Removed(IVocabTevent.Forms.EnteredFormsUpdated, typing.Protocol):
+
+        class Removed(IVocabTevent.Forms.PropertyUpdated.EnteredForms, typing.Protocol):
             @property
             def Form(self) -> str: ...
 
 
 
-    class MnemonicUpdated(IVocabTevent_0, typing.Protocol):
-        @property
-        def Mnemonic(self) -> str: ...
+    class PropertyUpdated(abc.ABC):
+
+        class CorpusAnswer(IVocabTevent_0, typing.Protocol):
+            @property
+            def CorpusAnswer(self) -> str: ...
+
+
+        class Explanation(IVocabTevent_0, typing.Protocol):
+            @property
+            def Explanation(self) -> str: ...
+
+
+        class ExplanationLong(IVocabTevent_0, typing.Protocol):
+            @property
+            def ExplanationLong(self) -> str: ...
+
+
+        class Mnemonic(IVocabTevent_0, typing.Protocol):
+            @property
+            def Mnemonic(self) -> str: ...
+
+
+        class References(IVocabTevent_0, typing.Protocol):
+            @property
+            def References(self) -> str: ...
+
+
+        class TechnicalNotes(IVocabTevent_0, typing.Protocol):
+            @property
+            def TechnicalNotes(self) -> str: ...
+
 
 
     class Question(IVocabTevent_0, typing.Protocol):
 
-        class DisambiguationUpdated(IVocabTevent.Question, typing.Protocol):
-            @property
-            def Disambiguation(self) -> str: ...
+        class PropertyUpdated(abc.ABC):
+
+            class Disambiguation(IVocabTevent.Question, typing.Protocol):
+                @property
+                def Disambiguation(self) -> str: ...
 
 
-        class Renamed(IVocabTevent.Question.DisambiguationUpdated, IVocabTevent.Question.TextUpdated, typing.Protocol):
+            class Text(IVocabTevent.Question, typing.Protocol):
+                @property
+                def Text(self) -> str: ...
+
+
+
+        class Renamed(IVocabTevent.Question.PropertyUpdated.Disambiguation, IVocabTevent.Question.PropertyUpdated.Text, typing.Protocol):
             @property
             def From(self) -> WordReference: ...
 
-
-        class TextUpdated(IVocabTevent.Question, typing.Protocol):
-            @property
-            def Text(self) -> str: ...
-
-
-
-    class ReferencesUpdated(IVocabTevent_0, typing.Protocol):
-        @property
-        def References(self) -> str: ...
-
-
-    class TechnicalNotesUpdated(IVocabTevent_0, typing.Protocol):
-        @property
-        def TechnicalNotes(self) -> str: ...
 
 
 
@@ -105,7 +114,7 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
     @property
     def UtcTimeStamp(self) -> DateTime: ...
 
-    class CorpusAnswerUpdated(VocabTevent_0, IVocabTevent.CorpusAnswerUpdated):
+    class CorpusAnswerUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.CorpusAnswer):
         def __init__(self, corpusAnswer: str) -> None: ...
         @property
         def CorpusAnswer(self) -> str: ...
@@ -129,7 +138,7 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def UtcTimeStamp(self) -> DateTime: ...
 
 
-    class ExplanationLongUpdated(VocabTevent_0, IVocabTevent.ExplanationLongUpdated):
+    class ExplanationLongUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.ExplanationLong):
         def __init__(self, explanationLong: str) -> None: ...
         @property
         def ExplanationLong(self) -> str: ...
@@ -141,7 +150,7 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def UtcTimeStamp(self) -> DateTime: ...
 
 
-    class ExplanationUpdated(VocabTevent_0, IVocabTevent.ExplanationUpdated):
+    class ExplanationUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.Explanation):
         def __init__(self, explanation: str) -> None: ...
         @property
         def Explanation(self) -> str: ...
@@ -175,7 +184,7 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
             def UtcTimeStamp(self) -> DateTime: ...
 
 
-        class EnteredFormsUpdated(VocabTevent.Forms, IVocabTevent.Forms.EnteredFormsUpdated):
+        class EnteredFormsUpdated(VocabTevent.Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms):
             def __init__(self, enteredForms: IReadOnlyList_1[EnteredForm]) -> None: ...
             @property
             def EnteredForms(self) -> IReadOnlyList_1[EnteredForm]: ...
@@ -202,7 +211,7 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
 
 
 
-    class MnemonicUpdated(VocabTevent_0, IVocabTevent.MnemonicUpdated):
+    class MnemonicUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.Mnemonic):
         def __init__(self, mnemonic: str) -> None: ...
         @property
         def Mnemonic(self) -> str: ...
@@ -239,7 +248,7 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
 
 
 
-    class ReferencesUpdated(VocabTevent_0, IVocabTevent.ReferencesUpdated):
+    class ReferencesUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.References):
         def __init__(self, references: str) -> None: ...
         @property
         def References(self) -> str: ...
@@ -251,7 +260,7 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def UtcTimeStamp(self) -> DateTime: ...
 
 
-    class TechnicalNotesUpdated(VocabTevent_0, IVocabTevent.TechnicalNotesUpdated):
+    class TechnicalNotesUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.TechnicalNotes):
         def __init__(self, technicalNotes: str) -> None: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
