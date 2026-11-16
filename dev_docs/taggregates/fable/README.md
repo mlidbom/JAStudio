@@ -1,5 +1,11 @@
 # The notes as Compze Taggregates: what Compze.Teventive has to change
 
+> **Read `../shared` first.** This folder is the fable team's own conclusions, as they stood before the two teams
+> compared theirs. Where the two differ, `../shared` is what was agreed: a loaded note's first tevent carries a snapshot
+> marker of its own, not the creation marker; an instance reaches its class's declaration through a virtual property;
+> and JAStudio moves nothing onto Taggregates before routing for each class has landed. What changed, and why, is in
+> `../shared/how-the-two-teams-compared.md`.
+
 > **Status: exploration, started 2026-11-16. Nothing is built, in JAStudio or in Compze.** The findings and conclusions
 > of the JAStudio session `taggregates-fable`, worked out in a dialog with the Compze session `jastudio-rep-fable`, and
 > kept current as the exploration goes on. Another team explores the same question in `../opus`. These conclusions are
