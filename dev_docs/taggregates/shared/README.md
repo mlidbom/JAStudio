@@ -16,18 +16,22 @@
 **The direction (Magnus, 2026-11-16).** A Compze component holds a process's live taggregates and routes their
 tevents: an `ITaggregateStore` that keeps state and no history, with a session for each unit of work, and the unit of
 work a System.Transactions transaction. Compze's two sessions have designed it and prototyped it in memory:
-Compze's `dev_docs/taggregate-improvements/shared/the-taggregate-store.md` (as of commit 9defe6c46). What
-JAStudio's code says to it, and what JAStudio's side says to its recommendation, is in
+Compze's `dev_docs/taggregate-improvements/shared/the-taggregate-store.md`. What JAStudio's code says to it, and
+what JAStudio requires of it, is in
 [answers-about-jastudio-for-the-taggregate-store.md](answers-about-jastudio-for-the-taggregate-store.md).
 
-**One decision of Magnus's is reopened by JAStudio's facts: how a unit of work's changes are kept from other code.**
+**How a unit of work's changes are kept from other code: decided by Magnus, 2026-11-16. A private copy.**
 
-- **He chose a private copy of a note for each unit of work.** Every commit then puts a new object in place of the
-  note, so every place in JAStudio that edits a note changes: the UI, the MCP server's tools, the importers, the
-  batches and nearly every specification. Not counted, and larger than the 51 `NoteGuard.Update` sites.
-- **Compze's two sessions now recommend shared live instances,** and JAStudio's side agrees. The note object stays
-  for good and the places that edit stay as written. Other threads read changes that are not yet committed, as they
-  do in JAStudio today. A unit of work that fails restores each note it changed, in place.
+- **A note that is got for update is a private copy,** and the commit puts the copy in place of the committed note,
+  which is read only. Other threads read committed notes only, never one in the middle of a change. Today they can:
+  `VocabNote.SetReadings` clears and refills its list in place while the threads that parse may read it.
+- **What it costs JAStudio:** every place that edits a note gets an explicit unit of work: the UI, the MCP server's
+  tools, the importers, the batches and nearly every specification. Not counted, and larger than the 51
+  `NoteGuard.Update` sites. A change outside a transaction is refused.
+- **For a while the four sessions recommended shared live instances instead,** which would have left those places as
+  written. Two independent reviews went against it, and JAStudio's sessions found no reason to hold on to it: its
+  appeal was that it spared JAStudio the refactoring, which by Magnus's standards for code is no reason. The record
+  is in [shared-live-instances-recommended-and-dropped.md](shared-live-instances-recommended-and-dropped.md).
 
 **What becomes of what this document says below:**
 
@@ -44,15 +48,22 @@ JAStudio's code says to it, and what JAStudio's side says to its recommendation,
 
 **New for JAStudio with the store,** each in the answers document:
 
-- **Its indexes become derived state that the store keeps in step with the notes.** Under shared live instances
-  they follow each change, as today: the store's session tells JAStudio which notes changed when a publish has
-  settled, and which notes a rollback restored, and JAStudio refiles them under its own lock. Agreed by both sides.
+- **Whatever holds a note over time holds a typed reference to it,** the stable object for the note's identity.
+  Lookups return references, and reading and getting for update go through them.
+- **Its indexes become indexes that Compze provides,** each defined by the keys a note's state gives, as `NoteIndex`
+  is today. They change with the commit, and inside a unit of work a lookup shows that unit of work's own changes.
+- **What reaches other notes becomes participation handlers:** the perfect synonyms' answer, and the renaming of
+  word-references. Today they are calls in the middle of the edit.
+- **Each note class has a snapshot type that round-trips,** which is a hard requirement: every edit builds its copy
+  through it, so a property it misses is lost at the next edit. JAStudio's DTOs are those types.
 - **What Anki says of a note's cards moves out of the note.** It is not stored, and changes without an edit.
+- **What a note computes from other notes and keeps moves out of it too,** such as the stale set of
+  `VocabNoteForms` described at the end of this document.
 - **What can't be undone happens after the commit:** telling Anki to delete a study-note or suspend cards, and
   deleting media files. Today it happens in the middle of the edit.
-- **Under shared live instances, each part of a note is restorable in place.**
 - **Not designed yet in Compze:** loading the whole corpus again while running, as JAStudio does around a git
   fast-forward, and a wait for observers to be at rest, which JAStudio's specifications need.
+- **To be measured:** what looking a vocab up costs the threads that parse, which do it all the time.
 
 **The next step that conclusion 4 names stands, and now needs the store:** `VocabNoteForms` written both ways.
 
