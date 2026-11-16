@@ -4,11 +4,6 @@ using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.Tevents;
 
-/// <summary>
-/// The classes of the <see cref="IVocabTevent"/>s that a vocab publishes: a tevent's subscribers know only its interfaces, so a class says nothing<br/>
-/// the interfaces don't. A part's tevents derive from its group's class, such as <see cref="Forms"/>, which the part's component is typed on.
-/// </summary>
-/// <remarks>rationale:violation-approved:Magnus-2026-11-16: every class of a vocab's tevents in this one file, as their interfaces are in theirs.</remarks>
 public abstract class VocabTevent : NoteTevent, IVocabTevent
 {
    protected VocabTevent() {}
@@ -32,7 +27,6 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
 
    public abstract class Forms : VocabTevent, IVocabTevent.Forms
    {
-      /// <summary>The entered forms set as a whole, as a person edits them, or a form's ownership changed: nothing reacts to more than the new forms.</summary>
       public class EnteredFormsUpdated(IReadOnlyList<EnteredForm> enteredForms) : Forms, IVocabTevent.Forms.PropertyUpdated.EnteredForms
       {
          public IReadOnlyList<EnteredForm> EnteredForms { get; } = enteredForms;
@@ -82,5 +76,4 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
    }
 }
 
-/// <summary>The class of the wrapper <see cref="IVocabTevent{TTevent}"/>.</summary>
 public class VocabTevent<TTevent>(TTevent tevent) : NoteTevent<TTevent>(tevent), IVocabTevent<TTevent> where TTevent : INoteTevent;

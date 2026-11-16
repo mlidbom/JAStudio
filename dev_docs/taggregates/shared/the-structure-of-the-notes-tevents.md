@@ -125,14 +125,17 @@ public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTev
 1. **Domain tevents apart from `PropertyUpdated`, with appliers on `PropertyUpdated` only** (Magnus). `jastudio-rep-opus`
    agrees, and drew the line: a domain tevent only where something reacts to more than the value, and a rename is one.
 2. **A list's `PropertyUpdated` carries the whole new list:** one applier, and every tevent states the result.
-3. **Nested tevent interfaces are named without an `I`,** by Compze's convention: `IVocabTevent.Forms.Added`. ReSharper's
-   naming rule flags each at suggestion level. Nothing is suppressed, until Magnus decides on a file-level disable.
+3. **Nested tevent interfaces are named without an `I`,** by Compze's convention: `IVocabTevent.Forms.Added`. A file of
+   tevent interfaces disables ReSharper's naming inspection after its usings, an exception Magnus approved
+   (`.claude/rules/02-universal-local/080-never-suppress-diagnostics.md`).
 4. **One file for a taggregate's tevent interfaces, and one for their classes** (Magnus: the whole nested model in one
-   file), marked as an approved exception to one file per type.
-5. **Each text field is a place of the shared tomponent `IStringValueTevent`:** one interface and one class per field, and
+   file). It is in the shared code standards now, as an exception to one file per type.
+5. **A doc comment only where the names don't say it** (Magnus): the convention on the root, why `Renamed` carries the old
+   name, why a vocab's wrapper takes any note tevent, and what a text field's tevents are.
+6. **Each text field is a place of the shared tomponent `IStringValueTevent`:** one interface and one class per field, and
    a line among the vocab's `Slots`. A vocab has six, the three note types 27 in all. The analyzer with a code fix that
    Magnus has decided on for Compze would write the classes.
-6. **No tevent for loading:** a vocab is restored from its stored data and publishes nothing, as Magnus decided.
+7. **No tevent for loading:** a vocab is restored from its stored data and publishes nothing, as Magnus decided.
 
 ## Not designed here yet
 
