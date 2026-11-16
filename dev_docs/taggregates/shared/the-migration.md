@@ -55,7 +55,7 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
+  JAStudio's worktree of Compze is at `63a5dcce5`, whose index lookups give id order, and before it `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
   and `ITaggregateStoreReader`: the three additions JAStudio's switch asked for, specified under "Three gaps for JAStudio's
   switch, specified" in Compze's `the-taggregate-store.md`.
   - a storage built with a container service, `store.StoredIn((ITaggregateStorage storage) => storage)`, resolved at the

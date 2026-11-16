@@ -30,19 +30,11 @@ sealed class NoteIndex<TNote, TKey>
    }
 
    /// <summary>
-   /// The notes filed under <paramref name="key"/>, as they are now, inside a unit of work as it has changed them, in the order of their ids: the<br/>
-   /// order the corpus's notes load in, which JAStudio's own cache gave them in, so that what takes the first of several, as the tokenizer's<br/>
-   /// godan check does (<see cref="LanguageServices.JanomeEx.Tokenizing.PreProcessingStage.WordInfo"/>), takes the same one whatever order the store<br/>
-   /// files them in.
+   /// The notes filed under <paramref name="key"/>, as they are now, inside a unit of work as it has changed them, in the order of their ids, as<br/>
+   /// the store's index gives them: the order the corpus's notes load in. What takes the first of several, as the tokenizer's godan check does<br/>
+   /// (<see cref="LanguageServices.JanomeEx.Tokenizing.PreProcessingStage.WordInfo"/>), depends on it.
    /// </summary>
-   public List<TNote> NotesWith(TKey key)
-   {
-      List<TNote> notes = [.. _index.Value.Lookup(key).Select(it => it.Current)];
-      if(notes.Count > 1) notes.Sort(InTheOrderOfTheirIds);
-      return _lookupRecorder.LookedUp(notes);
-   }
-
-   static int InTheOrderOfTheirIds(TNote one, TNote other) => one.Id.Value.CompareTo(other.Id.Value);
+   public List<TNote> NotesWith(TKey key) => _lookupRecorder.LookedUp([.. _index.Value.Lookup(key).Select(it => it.Current)]);
 
    /// <summary>Whether any note is filed under <paramref name="key"/>.</summary>
    public bool HasNotesWith(TKey key) => _index.Value.HasAny(key);

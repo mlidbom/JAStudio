@@ -91,7 +91,7 @@ Each a commit that builds and passes the whole suite, so the switch to the store
      `NoteIndex` reads one for a collection, through its `LookupRecorder`; `StoredNotes` gives every note and the one
      with an id. The caches, their snapshot classes and `INoteRepository` are gone.
    - **A lookup gives the notes in the order of their ids,** the order the corpus loads in, which the caches gave them
-     in. Without it, a full rebuild changed 1,172 sentences: two vocab matched to one form, stored the other way around,
+     in: the store's index promises it since spike `63a5dcce5` (Magnus, 2026-11-16), and JAStudio sorted them before. Without it, a full rebuild changed 1,172 sentences: two vocab matched to one form, stored the other way around,
      and three that parse otherwise, since `WordInfo.Lookup` takes the first vocab with a form, and its godan check then
      depends on which comes first. That dependence is marked `review:` at the code.
    - **`NoteUnitsOfWork` runs JAStudio's units of work,** through `JPCollection.InAUnitOfWork`: the one running on the
@@ -124,7 +124,7 @@ Each a commit that builds and passes the whole suite, so the switch to the store
    - **"Force flush all cached notes" is gone from the workspace's menu:** there is no cache to flush. "Log when flushing
      notes" logs each note a unit of work saves.
    - **Open with Magnus on Compze's side, which may change this** (`jastudio-rep-opus`, 2026-11-16): whether a store
-     index promises id order, which would let `NoteIndex.NotesWith`'s sort go; whether every taggregate of a class
+     index promises id order, decided yes and built, so `NoteIndex.NotesWith`'s sort is gone; whether every taggregate of a class
      moves from `IStateStore.All` to a bulk reader beside the shared reader, which would change what `StoredNotes`
      depends on; and the end-of-spike API review, in which `ReloadFromStorageAfter` may go, leaving JAStudio to hold its
      own units of work back around a fast-forward.
