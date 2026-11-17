@@ -42,8 +42,12 @@ cache.
 - **Checked, 2026-11-16:** at Compze's `e29fd6673`, which is `main`, JAStudio builds clean and all 2,823 of its .NET
   specifications pass.
 - **The same SDK** in both repositories' `global.json`, 11.0.100, and both are `net11.0`.
-- **At the end:** Compze publishes the store's packages, on Magnus's approval, and the branch goes back to package
-  references before it merges into `main`.
+- **Merged into `main` building Compze from the worktree** (Magnus, 2026-11-17: "We can live without CI. Turn the CI auto
+  build off for now. There are no other contributors and no other users. Building here is plenty during this major
+  refactoring."), so that the changes to the corpus that follow the migration are made on `main`, in one line of the
+  corpus's history. CI runs only by hand meanwhile (`.github/workflows/ci.yml`), since its machines have no Compze
+  worktree. Once Compze publishes the store's packages, on Magnus's approval, JAStudio goes back to package references,
+  and CI's triggers come back.
 
 ## Where it stands, 2026-11-17
 
