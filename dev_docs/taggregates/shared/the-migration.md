@@ -102,8 +102,9 @@ cache.
   waiting for me. The events are not stored so the choices can be changed.").
 - **Step 12 is done,** as [below](#step-12-as-measured): against `main`, the branch takes about 15% less memory, and
   about 1.7 seconds longer to load, since Compze's index keeps no keys (`53d24b46c`); before, 2% less and 2.4 s longer.
-- **Every step of [the order](#the-order) is done,** 13 and the last with the switch. What is left is the end: Magnus's
-  decisions, the spike's review in Compze, the release, and the sign-offs.
+- **Merged into `main`, and running in Anki** (2026-11-17). Magnus, after starting it: "Everything seems to be working
+  perfectly." What is left is the end: Magnus's decisions, the spike's review in Compze, the release, and his end
+  refactoring of the structure.
 - **Compze's types are in JAStudio's Python stubs** since the notes derive from `Taggregate`. After each Compze step,
   `src/src_dotnet/regenerate-stubs.ps1 -OnlyTargetTypes -RefreshCompzeStubs` regenerates them: `full-build.ps1`
   regenerates JAStudio's alone.
