@@ -12,17 +12,6 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
 {
    public KanjiNotePortedTests() : base(DataNeeded.Kanji) {}
 
-   [Fact]
-   public void InsideRadicalPopulation()
-   {
-      var insideReference = GetService<KanjiCollection>().WithKanji("内")!.Reference();
-      insideReference.Current.Edit(it => it.SetMnemonic("<rad>head</rad> <rad>person</rad>"));
-
-      insideReference.Current.Edit(it => it.PopulateRadicalsFromMnemonicTags());
-
-      Assert.Equal(["冂", "人"], insideReference.Current.Radicals.All);
-   }
-
    [Theory]
    [InlineData("内", "冂, 人", "<rad>head</rad> <rad>person</rad> <kan>inside</kan> <compound-reading><read>U</read>ber-<read>chi</read>mp</compound-reading> ...")]
    [InlineData("病", "疒,丙", "<rad>sick</rad> <rad>dynamite</rad> <kan>illness</kan> <read>BO</read> <read>yu</read>ck <compound-reading><read>yu</read>ck-<read>mi</read>ce</compound-reading> ...")]

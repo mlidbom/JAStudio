@@ -333,34 +333,6 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
       SetMnemonic(Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this));
    }
 
-   /// <summary>
-   /// Adds to the radicals the kanji the mnemonic names in its <c>&lt;rad&gt;</c> tags, in the order it names them, those it hasn't already: each<br/>
-   /// kanji whose answer has a tag's text as a word of its own, and the kanji one tag names in the order of their characters.
-   /// </summary>
-   public void PopulateRadicalsFromMnemonicTags()
-   {
-      foreach(var radical in DetectRadicalsFromMnemonic().Where(it => !Radicals.Contains(it)))
-         Radicals.Add(radical);
-
-      List<string> DetectRadicalsFromMnemonic()
-      {
-         var radicalNames = Regex.Matches(Mnemonic, "<rad>(.*?)</rad>")
-                                 .Select(m => m.Groups[1].Value)
-                                 .ToList();
-
-         var everyKanji = Services.Collection.Kanji.All();
-         return
-         [
-            .. radicalNames.SelectMany(name => everyKanji.Where(kanji => KanjiAnswerContainsRadicalNameAsASeparateWord(name, kanji))
-                                                         .Select(kanji => kanji.GetQuestion())
-                                                         .Order(StringComparer.Ordinal))
-                           .Distinct()
-         ];
-
-         static bool KanjiAnswerContainsRadicalNameAsASeparateWord(string radicalName, KanjiNote kanji) => Regex.IsMatch(kanji.GetAnswer(), @"\b" + Regex.Escape(radicalName) + @"\b");
-      }
-   }
-
    /// <summary>Creates a kanji with no readings and adds it to the collection.</summary>
    public static KanjiNote Create(NoteServices services, string question, string answer)
    {

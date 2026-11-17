@@ -16,9 +16,6 @@ public static class KanjiCommands
 {
    public static readonly NoteChangingCommand<KanjiNote> AcceptMeaning = new("acceptMeaning", "Accept meaning", it => it.AcceptMeaning());
 
-   /// <summary>Makes the kanji's radicals those whose answer has a word its mnemonic marks as a radical, with a <c>&lt;rad&gt;</c> tag.</summary>
-   public static readonly NoteChangingCommand<KanjiNote> PopulateRadicalsFromMnemonicTags = new("populateRadicalsFromMnemonicTags", "Populate radicals from mnemonic tags", it => it.PopulateRadicalsFromMnemonicTags());
-
    /// <summary>Makes the kanji's mnemonic the default one, made from its radicals.</summary>
    public static readonly NoteChangingCommand<KanjiNote> BootstrapMnemonicFromRadicals = new("bootstrapMnemonicFromRadicals", "Bootstrap mnemonic from radicals", it => it.BootstrapMnemonicFromRadicals());
 
@@ -29,5 +26,5 @@ public static class KanjiCommands
    public static readonly NoteChangingCommandTakingAText<KanjiNote> AddSimilarMeaning = new("addSimilarMeaning", "Similar meaning", "the kanji with a similar meaning", (it, kanji) => it.SimilarMeaning.Add(kanji));
 
    /// <summary>Every command above, in the same order.</summary>
-   public static IReadOnlyList<INoteCommand<KanjiNote>> All { get; } = [AcceptMeaning, PopulateRadicalsFromMnemonicTags, BootstrapMnemonicFromRadicals, AddSimilarMeaning];
+   public static IReadOnlyList<INoteCommand<KanjiNote>> All { get; } = [AcceptMeaning, BootstrapMnemonicFromRadicals, AddSimilarMeaning];
 }
