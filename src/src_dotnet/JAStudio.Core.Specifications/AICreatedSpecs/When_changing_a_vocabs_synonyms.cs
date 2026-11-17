@@ -44,6 +44,17 @@ public class When_changing_a_vocabs_synonyms : SpecificationStartingWithAnEmptyC
       }
    }
 
+   public class adding_行く_to_向かう_and_then_removing_向かう_from_行く : When_changing_a_vocabs_synonyms
+   {
+      public adding_行く_to_向かう_and_then_removing_向かう_from_行く()
+      {
+         ToHeadFor.Edit(it => it.RelatedNotes.Synonyms.Add(new WordReference("行く")));
+         ToGo.Edit(it => it.RelatedNotes.Synonyms.Remove(new WordReference("向かう")));
+      }
+
+      [XF] public void neither_has_a_synonym() => new { 行く = SynonymsOf(ToGo), 向かう = SynonymsOf(ToHeadFor) }.Must().DeepEqual(new { 行く = Array.Empty<string>(), 向かう = Array.Empty<string>() });
+   }
+
    public class adding_向かう_to_行く_in_a_unit_of_work_that_then_fails : When_changing_a_vocabs_synonyms
    {
       public adding_向かう_to_行く_in_a_unit_of_work_that_then_fails() =>

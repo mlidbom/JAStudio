@@ -1,7 +1,10 @@
+using System;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
+using static Compze.Must.MustActions;
 
 // ReSharper disable InconsistentNaming
 
@@ -46,6 +49,32 @@ public class When_relating_kanji_to_other_kanji : SpecificationStartingWithAnEmp
 
          [XF] public void 走_has_歩_and_赴_in_the_order_they_were_added() => Run.SimilarMeaning.Kanji.Must().SequenceEqual(["歩", "赴"]);
       }
+   }
+
+   public class after_歩_adds_走_to_its_kanji_with_a_similar_meaning_and_走_then_removes_歩_from_its_own : When_relating_kanji_to_other_kanji
+   {
+      public after_歩_adds_走_to_its_kanji_with_a_similar_meaning_and_走_then_removes_歩_from_its_own()
+      {
+         Walk.Edit(it => it.SimilarMeaning.Add("走"));
+         Run.Edit(it => it.SimilarMeaning.Remove("歩"));
+      }
+
+      [XF] public void neither_has_a_kanji_with_a_similar_meaning() =>
+         new { 走 = Run.SimilarMeaning.Kanji, 歩 = Walk.SimilarMeaning.Kanji }.Must().Satisfy(it => it.走.Count == 0 && it.歩.Count == 0);
+   }
+
+   public class after_adding_歩_to_走_s_kanji_with_a_similar_meaning_in_a_unit_of_work_that_then_fails : When_relating_kanji_to_other_kanji
+   {
+      public after_adding_歩_to_走_s_kanji_with_a_similar_meaning_in_a_unit_of_work_that_then_fails() =>
+         Invoking(() => GetService<JPCollection>().InAUnitOfWork(unitOfWork =>
+                 {
+                    unitOfWork.ForUpdate(Run).SimilarMeaning.Add("歩");
+                    throw new InvalidOperationException("The unit of work fails.");
+                 }))
+           .Must().Throw<InvalidOperationException>();
+
+      [XF] public void neither_has_a_kanji_with_a_similar_meaning() =>
+         new { 走 = Run.SimilarMeaning.Kanji, 歩 = Walk.SimilarMeaning.Kanji }.Must().Satisfy(it => it.走.Count == 0 && it.歩.Count == 0);
    }
 
    public class after_adding_a_kanji_the_corpus_has_no_note_for_to_走_s_kanji_with_a_similar_meaning : When_relating_kanji_to_other_kanji

@@ -212,8 +212,8 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
          public when_it_is_given_a_kanji_of_similar_meaning_that_has_no_note() => _published = TheTeventsPublishedAs(it => it.SimilarMeaning.Add("駆"));
 
-         [XF] public void it_publishes_the_kanji_it_has_a_similar_meaning_to() =>
-            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.SimilarMeaning { SimilarMeaning: ["駆"] }]);
+         [XF] public void it_publishes_that_the_kanji_was_added_with_the_kanji_it_has_a_similar_meaning_to() =>
+            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.SimilarMeaning.Added { Kanji: "駆", SimilarMeaning: ["駆"] }]);
 
          [XF] public void the_committed_kanji_has_it() => _kanji.SimilarMeaning.Kanji.Must().SequenceEqual(["駆"]);
 

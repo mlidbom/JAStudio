@@ -1,8 +1,6 @@
 from JAStudio.Core.Note import KanjiNote
 from System.Collections.Generic import IEnumerable_1, IReadOnlyList_1, List_1
 from JAStudio.Core.Note.Vocabulary import WordReference, VocabNote
-from System import Func_2
-from JAStudio.Core.Note.Tevents import NoteTevent
 
 class KanjiPrimaryVocab:
     def __init__(self, kanji: KanjiNote, words: IEnumerable_1[WordReference]) -> None: ...
@@ -35,7 +33,6 @@ class KanjiRadicals:
 
 
 class MutualKanjiRelationship:
-    def __init__(self, owner: KanjiNote, kanji: IEnumerable_1[str], teventOf: Func_2[IReadOnlyList_1[str], NoteTevent], theSameRelationshipOf: Func_2[KanjiNote, MutualKanjiRelationship]) -> None: ...
     @property
     def Kanji(self) -> IReadOnlyList_1[str]: ...
     def Add(self, kanji: str) -> None: ...

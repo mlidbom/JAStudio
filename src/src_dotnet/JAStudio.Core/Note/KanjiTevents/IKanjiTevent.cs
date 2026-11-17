@@ -14,6 +14,12 @@ namespace JAStudio.Core.Note.KanjiTevents;
 /// The tevent appliers apply only <c>PropertyUpdated</c> tevents, each the whole new value of one property, as a vocab's do
 /// (<see cref="Vocabulary.Tevents.IVocabTevent"/>).
 /// </summary>
+/// <remarks>
+/// A kanji's relationship to other kanji goes both ways (<see cref="KanjiRelationships.MutualKanjiRelationship"/>), and publishes the kanji it changed,<br/>
+/// with its whole new list: <c>Added</c> and <c>Removed</c> when an edit of the kanji changed it, which a participation handler mirrors in the other<br/>
+/// kanji, and <c>AddedAsTheMirrorOf</c> and <c>RemovedAsTheMirrorOf</c> when that mirror changed it, which nothing mirrors back. The kanji of a<br/>
+/// mirror's tevent is the one whose edit it mirrors.
+/// </remarks>
 public interface IKanjiTevent : INoteTevent
 {
    public new static class PropertyUpdated
@@ -23,8 +29,27 @@ public interface IKanjiTevent : INoteTevent
       public interface KanjiReferences : IKanjiTevent { string KanjiReferences { get; } }
       public interface Radicals : IKanjiTevent { IReadOnlyList<string> Radicals { get; } }
       public interface PrimaryVocab : IKanjiTevent { IReadOnlyList<WordReference> PrimaryVocab { get; } }
-      public interface SimilarMeaning : IKanjiTevent { IReadOnlyList<string> SimilarMeaning { get; } }
-      public interface ConfusedWith : IKanjiTevent { IReadOnlyList<string> ConfusedWith { get; } }
+
+      public interface SimilarMeaning : IKanjiTevent
+      {
+         IReadOnlyList<string> SimilarMeaning { get; }
+
+         public interface Added : SimilarMeaning { string Kanji { get; } }
+         public interface Removed : SimilarMeaning { string Kanji { get; } }
+         public interface AddedAsTheMirrorOf : SimilarMeaning { string Kanji { get; } }
+         public interface RemovedAsTheMirrorOf : SimilarMeaning { string Kanji { get; } }
+      }
+
+      public interface ConfusedWith : IKanjiTevent
+      {
+         IReadOnlyList<string> ConfusedWith { get; }
+
+         public interface Added : ConfusedWith { string Kanji { get; } }
+         public interface Removed : ConfusedWith { string Kanji { get; } }
+         public interface AddedAsTheMirrorOf : ConfusedWith { string Kanji { get; } }
+         public interface RemovedAsTheMirrorOf : ConfusedWith { string Kanji { get; } }
+      }
+
       public interface Images : IKanjiTevent { IReadOnlyList<ImageReference> Images { get; } }
    }
 

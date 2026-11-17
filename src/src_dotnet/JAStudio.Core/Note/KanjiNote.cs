@@ -116,8 +116,8 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
       Images = new MediaReferenceList<ImageReference>(this, data?.Images.Select(it => it.ToReference()) ?? [], static it => new KanjiTevent.ImagesUpdated(it));
       Radicals = new KanjiRadicals(this, data?.Radicals ?? []);
       PrimaryVocab = new KanjiPrimaryVocab(this, data?.PrimaryVocab.Select(WordReference.FromDto) ?? []);
-      SimilarMeaning = new MutualKanjiRelationship(this, data?.SimilarMeaning ?? [], static it => new KanjiTevent.SimilarMeaningUpdated(it), it => it.SimilarMeaning);
-      ConfusedWith = new MutualKanjiRelationship(this, data?.ConfusedWith ?? [], static it => new KanjiTevent.ConfusedWithUpdated(it), it => it.ConfusedWith);
+      SimilarMeaning = MutualKanjiRelationship.SimilarMeaningOf(this, data?.SimilarMeaning ?? []);
+      ConfusedWith = MutualKanjiRelationship.ConfusedWithOf(this, data?.ConfusedWith ?? []);
    }
 
 

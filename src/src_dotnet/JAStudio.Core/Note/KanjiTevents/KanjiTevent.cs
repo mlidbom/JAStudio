@@ -35,9 +35,49 @@ public abstract class KanjiTevent : NoteTevent, IKanjiTevent
       public IReadOnlyList<string> SimilarMeaning { get; } = similarMeaning;
    }
 
+   public class SimilarMeaningAdded(string kanji, IReadOnlyList<string> similarMeaning) : SimilarMeaningUpdated(similarMeaning), IKanjiTevent.PropertyUpdated.SimilarMeaning.Added
+   {
+      public string Kanji { get; } = kanji;
+   }
+
+   public class SimilarMeaningRemoved(string kanji, IReadOnlyList<string> similarMeaning) : SimilarMeaningUpdated(similarMeaning), IKanjiTevent.PropertyUpdated.SimilarMeaning.Removed
+   {
+      public string Kanji { get; } = kanji;
+   }
+
+   public class SimilarMeaningAddedAsTheMirrorOf(string kanji, IReadOnlyList<string> similarMeaning) : SimilarMeaningUpdated(similarMeaning), IKanjiTevent.PropertyUpdated.SimilarMeaning.AddedAsTheMirrorOf
+   {
+      public string Kanji { get; } = kanji;
+   }
+
+   public class SimilarMeaningRemovedAsTheMirrorOf(string kanji, IReadOnlyList<string> similarMeaning) : SimilarMeaningUpdated(similarMeaning), IKanjiTevent.PropertyUpdated.SimilarMeaning.RemovedAsTheMirrorOf
+   {
+      public string Kanji { get; } = kanji;
+   }
+
    public class ConfusedWithUpdated(IReadOnlyList<string> confusedWith) : KanjiTevent, IKanjiTevent.PropertyUpdated.ConfusedWith
    {
       public IReadOnlyList<string> ConfusedWith { get; } = confusedWith;
+   }
+
+   public class ConfusedWithAdded(string kanji, IReadOnlyList<string> confusedWith) : ConfusedWithUpdated(confusedWith), IKanjiTevent.PropertyUpdated.ConfusedWith.Added
+   {
+      public string Kanji { get; } = kanji;
+   }
+
+   public class ConfusedWithRemoved(string kanji, IReadOnlyList<string> confusedWith) : ConfusedWithUpdated(confusedWith), IKanjiTevent.PropertyUpdated.ConfusedWith.Removed
+   {
+      public string Kanji { get; } = kanji;
+   }
+
+   public class ConfusedWithAddedAsTheMirrorOf(string kanji, IReadOnlyList<string> confusedWith) : ConfusedWithUpdated(confusedWith), IKanjiTevent.PropertyUpdated.ConfusedWith.AddedAsTheMirrorOf
+   {
+      public string Kanji { get; } = kanji;
+   }
+
+   public class ConfusedWithRemovedAsTheMirrorOf(string kanji, IReadOnlyList<string> confusedWith) : ConfusedWithUpdated(confusedWith), IKanjiTevent.PropertyUpdated.ConfusedWith.RemovedAsTheMirrorOf
+   {
+      public string Kanji { get; } = kanji;
    }
 
    public class ImagesUpdated(IReadOnlyList<ImageReference> images) : KanjiTevent, IKanjiTevent.PropertyUpdated.Images

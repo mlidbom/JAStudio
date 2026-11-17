@@ -40,10 +40,23 @@ sealed class KanjiSet
 
    public void Remove(string kanji) => SetTheKanji([.. Kanji.Where(it => it != kanji)]);
 
+   /// <summary>Adds <paramref name="kanji"/>, unless the set has it, publishing the tevent <paramref name="teventOf"/> makes of it and the new list, instead of the set's own.</summary>
+   public void Add(string kanji, Func<string, IReadOnlyList<string>, NoteTevent> teventOf)
+   {
+      if(Contains(kanji)) return;
+      SetTheKanji([.. Kanji, kanji], kanjiNow => teventOf(kanji, kanjiNow));
+   }
+
+   /// <summary>Removes <paramref name="kanji"/>, publishing the tevent <paramref name="teventOf"/> makes of it and the new list, instead of the set's own.</summary>
+   public void Remove(string kanji, Func<string, IReadOnlyList<string>, NoteTevent> teventOf) =>
+      SetTheKanji([.. Kanji.Where(it => it != kanji)], kanjiNow => teventOf(kanji, kanjiNow));
+
    /// <summary>Makes <paramref name="kanji"/> the set's kanji: what the set's tevent's applier does.</summary>
    public void Apply(IReadOnlyList<string> kanji) => Kanji = kanji;
 
-   void SetTheKanji(IReadOnlyList<string> kanji) => _owner.PublishIfTheListChanged(Kanji, kanji, _teventOf);
+   void SetTheKanji(IReadOnlyList<string> kanji) => SetTheKanji(kanji, _teventOf);
+
+   void SetTheKanji(IReadOnlyList<string> kanji, Func<IReadOnlyList<string>, NoteTevent> teventOf) => _owner.PublishIfTheListChanged(Kanji, kanji, teventOf);
 
    public override string ToString() => string.Join(", ", Kanji);
 }

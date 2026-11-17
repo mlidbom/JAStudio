@@ -16,6 +16,7 @@ using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.KanjiRelationships;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
@@ -163,5 +164,6 @@ public static class AppBootstrapper
       VocabNoteQuestion.RenameTheWordReferencesThrough(handle);
       VocabNoteForms.MirrorTheFormsThrough(handle);
       RelatedVocab.MirrorTheMutualRelationshipsThrough(handle);
+      MutualKanjiRelationship.MirrorTheRelationshipsThrough(handle);
    }
 }
