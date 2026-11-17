@@ -5,14 +5,15 @@ using Compze.Contracts;
 using Compze.Contracts.Exceptions;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
+using Compze.Tessaging.TessageBus;
 using Compze.Teventive.TaggregateStores;
 
 namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
 /// Runs the units of work in which JAStudio changes notes (<see cref="NoteUnitOfWork"/>): each in a unit of work of the state store's, which a<br/>
-/// unit of work begun while it runs joins, such as one editing another note. Once the outermost has committed, each note it changed is notified,<br/>
-/// synchronously, on the thread that made the change.
+/// unit of work begun while it runs joins, such as one editing another note. Once the work in the outermost is done, it publishes which notes it<br/>
+/// added or changed, and once it has committed, each note it changed is notified, synchronously, on the thread that made the change.
 /// </summary>
 /// <remarks>
 /// A unit of work of the state store's that JAStudio didn't begin, such as one a Compze tessage handler begins, can't be joined: the notes changed<br/>
@@ -53,11 +54,12 @@ sealed class NoteUnitsOfWork
       Contract.State.Assert(Transaction.Current == null, () => "A note is changed in a unit of work JAStudio didn't begin, whose changed notes no one would be notified of: change notes only in JAStudio's units of work, such as note.Edit(it => ...).");
       var unitOfWork = _scopes.Value.ExecuteUnitOfWork(unitOfWorkResolver =>
       {
-         var begun = new NoteUnitOfWork(unitOfWorkResolver.Resolve<ITaggregateStoreUpdater>());
+         var begun = new NoteUnitOfWork(unitOfWorkResolver.Resolve<ITaggregateStoreUpdater>(), unitOfWorkResolver.Resolve<IUnitOfWorkTeventPublisher>());
          _running.Value = begun;
          try
          {
             work(begun);
+            begun.PublishWhichNotesItAddedOrChanged();
          }
          finally
          {

@@ -17,6 +17,7 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.SysUtils;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note;
 
@@ -124,6 +125,8 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
    internal override void Delete() => Publish(new KanjiTevent.Deleted());
+
+   internal override INoteChangedInAUnitOfWork ChangedInAUnitOfWork() => new NoteChangedInAUnitOfWork.Kanji(Id);
 
    protected override Type WrapperTeventImplementation => typeof(KanjiTevent<IKanjiTevent>);
 

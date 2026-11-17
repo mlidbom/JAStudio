@@ -167,6 +167,9 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    /// </summary>
    internal abstract void Delete();
 
+   /// <summary>The tevent that says that the note was added or changed in a unit of work: its class's <see cref="INoteChangedInAUnitOfWork"/>.</summary>
+   internal abstract INoteChangedInAUnitOfWork ChangedInAUnitOfWork();
+
    /// <summary>
    /// Publishes the tevent <paramref name="teventOf"/> makes of <paramref name="updated"/>, the new value of a property of the note or of one of<br/>
    /// its parts, unless the property holds it already, as <paramref name="current"/>: a tevent says that something changed.
