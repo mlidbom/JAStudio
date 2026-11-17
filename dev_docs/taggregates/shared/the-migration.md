@@ -55,7 +55,9 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `962a05221`, where the JSON store starts from a MemoryPack cache of its own
+  JAStudio's worktree of Compze is at `c5c910e06`, where the storage seam is internal: JAStudio uses none of it, its
+  specifications keeping the JSON store's files in memory (`KeptInMemory`, `77c3cdaf8`). Before it, `962a05221`, where the
+  JSON store starts from a MemoryPack cache of its own
   package, `Compze.Teventive.StateStore.MemoryPack` (`CachedWithMemoryPack`). Before it, `4ccdfb6b7`, where Compze's JSON
   store (`StoredInFiles`), which JAStudio now keeps its notes in, reads a class's folder anew at each load: a store that started on an empty folder lost every taggregate at
   its next reload (found by `taggregates-opus`). Before it, `d248ebd66`, where only Compze's own file storage hands the
