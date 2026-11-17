@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.SysUtils.Json;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -25,6 +26,13 @@ public sealed class WordExclusion
    public static WordExclusion Global(string exclusion) => new(exclusion.Trim(), NoIndex);
 
    public static WordExclusion AtIndex(string exclusion, int index) => new(exclusion.Trim(), index);
+
+   /// <summary>
+   /// <paramref name="exclusions"/> in a fixed order, by their <see cref="Word"/>s compared ordinally, then their <see cref="Index"/>es, so that the same<br/>
+   /// set of exclusions is always listed, and stored, the same way: a set's own order depends on how it was built.
+   /// </summary>
+   public static IEnumerable<WordExclusion> InAFixedOrder(IEnumerable<WordExclusion> exclusions) =>
+      exclusions.OrderBy(it => it.Word, StringComparer.Ordinal).ThenBy(it => it.Index);
 
    /// <summary>
    /// Creates a WordExclusion from a string in the format "word:index" or "word" for global exclusions.

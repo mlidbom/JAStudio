@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Sentences.ParsingCases;
@@ -80,12 +79,12 @@ public static class SentenceEditableFields
       HighlightedVocab, IncorrectMatches, HiddenMatches, ParsingCaseName, ParsingCaseWhy, VerdictOnTheDisplayedVocab
    ];
 
-   /// <summary>One of the sentence's sets of <see cref="WordExclusion"/>s, which <paramref name="exclusions"/> finds, in the order of their words, then their indexes.</summary>
+   /// <summary>One of the sentence's sets of <see cref="WordExclusion"/>s, which <paramref name="exclusions"/> finds, in a fixed order (<see cref="WordExclusion.InAFixedOrder"/>).</summary>
    static EditableSetField<SentenceNote, WordExclusion> WordExclusions(string name, string label, Func<SentenceNoteConfiguration, WordExclusionSet> exclusions) =>
       new(name,
           label,
           it => exclusions(it.Configuration).Get(),
           (it, exclusion) => exclusions(it.Configuration).Add(exclusion),
           (it, exclusion) => exclusions(it.Configuration).Remove(exclusion),
-          inOrder: all => all.OrderBy(it => it.Word, StringComparer.Ordinal).ThenBy(it => it.Index));
+          inOrder: WordExclusion.InAFixedOrder);
 }

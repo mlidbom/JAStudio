@@ -34,8 +34,8 @@ static class SentenceNoteConverter
       new()
       {
          HighlightedWords = config.HighlightedWords.ToList(),
-         IncorrectMatches = config.IncorrectMatches.Get().Select(ToWordExclusionDto).ToList(),
-         HiddenMatches = config.HiddenMatches.Get().Select(ToWordExclusionDto).ToList(),
+         IncorrectMatches = [.. WordExclusion.InAFixedOrder(config.IncorrectMatches.Get()).Select(ToWordExclusionDto)],
+         HiddenMatches = [.. WordExclusion.InAFixedOrder(config.HiddenMatches.Get()).Select(ToWordExclusionDto)],
       };
 
    static WordExclusionDto ToWordExclusionDto(WordExclusion exclusion) =>
