@@ -391,7 +391,9 @@ to anything that happens".
     are about the files (`NotesKept.InTheirFiles`): the corpus repository's MCP specifications, the reloads, a created
     note's file, and every note of the specifications' collection, whose files hold exactly what `NoteSerializer` writes
     and load back unchanged. With every specification on files, the suite took 149 to 186 s rather than 56 to 59 s:
-    most specifications start with about 900 notes, and Compze makes about five file operations of each note's commit.
+    the 74 specifications that start with the specifications' collection, 1,035 notes, each added in a unit of work of
+    its own, wrote about 5,000 files each, Compze making about five file operations of each note's commit. The other
+    2,400 or so start empty and create the few notes they need.
   - **Writing every note, changed or not** (`save_every_note`, and the workspace's "Write file system repository"), is
     `CorpusNoteFiles.Write`, which writes a note's file as Compze does, since Compze's storage is out of reach: a
     `todo:compze:` until Compze can rewrite every taggregate.
