@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
 using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleInterfaceMemberAmbiguity
@@ -18,6 +19,8 @@ public interface IKanjiTevent : INoteTevent
       public interface CorpusAnswer : IKanjiTevent { string CorpusAnswer { get; } }
       public interface Mnemonic : IKanjiTevent { string Mnemonic { get; } }
       public interface KanjiReferences : IKanjiTevent { string KanjiReferences { get; } }
+      public interface Radicals : IKanjiTevent { IReadOnlyList<string> Radicals { get; } }
+      public interface PrimaryVocab : IKanjiTevent { IReadOnlyList<WordReference> PrimaryVocab { get; } }
       public interface SimilarMeaning : IKanjiTevent { IReadOnlyList<string> SimilarMeaning { get; } }
       public interface ConfusedWith : IKanjiTevent { IReadOnlyList<string> ConfusedWith { get; } }
    }

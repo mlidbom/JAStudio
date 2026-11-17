@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Note.KanjiTevents;
 
@@ -15,6 +16,16 @@ public abstract class KanjiTevent : NoteTevent, IKanjiTevent
    public class KanjiReferencesUpdated(string kanjiReferences) : KanjiTevent, IKanjiTevent.PropertyUpdated.KanjiReferences
    {
       public string KanjiReferences { get; } = kanjiReferences;
+   }
+
+   public class RadicalsUpdated(IReadOnlyList<string> radicals) : KanjiTevent, IKanjiTevent.PropertyUpdated.Radicals
+   {
+      public IReadOnlyList<string> Radicals { get; } = radicals;
+   }
+
+   public class PrimaryVocabUpdated(IReadOnlyList<WordReference> primaryVocab) : KanjiTevent, IKanjiTevent.PropertyUpdated.PrimaryVocab
+   {
+      public IReadOnlyList<WordReference> PrimaryVocab { get; } = primaryVocab;
    }
 
    public class SimilarMeaningUpdated(IReadOnlyList<string> similarMeaning) : KanjiTevent, IKanjiTevent.PropertyUpdated.SimilarMeaning

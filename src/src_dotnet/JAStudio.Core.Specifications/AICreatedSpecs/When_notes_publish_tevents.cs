@@ -131,6 +131,43 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void the_committed_kanji_has_the_new_source_answer() => _kanji.SourceData.Answer.Must().Be("running");
       }
 
+      public class when_it_is_given_the_same_radical_twice : given_a_kanji_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_given_the_same_radical_twice() => _published = TheTeventsPublishedAs(it =>
+         {
+            it.Radicals.Add("土");
+            it.Radicals.Add("土");
+         });
+
+         [XF] public void each_publishes_the_radicals_it_has_in_their_order() =>
+            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.Radicals { Radicals: ["土"] }, IKanjiTevent.PropertyUpdated.Radicals { Radicals: ["土", "土"] }]);
+
+         [XF] public void the_committed_kanji_has_it_twice() => _kanji.Radicals.All.Must().SequenceEqual(["土", "土"]);
+      }
+
+      public class when_a_vocab_is_made_its_last_primary_vocab : given_a_kanji_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_a_vocab_is_made_its_last_primary_vocab() => _published = TheTeventsPublishedAs(it => it.PrimaryVocab.PutLast(new WordReference("走る")));
+
+         [XF] public void it_publishes_its_primary_vocab() =>
+            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.PrimaryVocab primaryVocab] && primaryVocab.PrimaryVocab.SequenceEqual(new[] { new WordReference("走る") }));
+
+         [XF] public void the_committed_kanji_has_it() => _kanji.PrimaryVocab.Words.Must().SequenceEqual([new WordReference("走る")]);
+
+         public class and_then_made_its_last_again : when_a_vocab_is_made_its_last_primary_vocab
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_made_its_last_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.PrimaryVocab.PutLast(new WordReference("走る")));
+
+            [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
+      }
+
       public class when_it_is_given_a_kanji_of_similar_meaning_that_has_no_note : given_a_kanji_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;
