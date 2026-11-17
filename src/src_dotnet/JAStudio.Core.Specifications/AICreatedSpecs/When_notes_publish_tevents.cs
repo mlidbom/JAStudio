@@ -160,6 +160,19 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void the_committed_sentence_has_the_new_answer() => _sentence.CorpusAnswer.Must().Be("I go home.");
       }
 
+      public class when_it_is_reparsed_to_the_result_it_has : given_a_sentence_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_reparsed_to_the_result_it_has()
+         {
+            _sentence.Edit(it => it.UpdateParsedWords(force: true));
+            _published = TheTeventsPublishedAs(it => it.UpdateParsedWords(force: true));
+         }
+
+         [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
+      }
+
       public class when_its_source_question_is_changed : given_a_sentence_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;

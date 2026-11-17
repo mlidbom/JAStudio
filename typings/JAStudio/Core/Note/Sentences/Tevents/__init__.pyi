@@ -1,6 +1,8 @@
 import typing, abc
 from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, NoteTevent_1
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
+from JAStudio.Core.Note.Sentences.ParsingCases import ParsingCase
+from JAStudio.Core.Note.Sentences import ParsingResult
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from JAStudio.Core.Note import SentenceId
@@ -32,6 +34,16 @@ class ISentenceTevent_0(INoteTevent_0, typing.Protocol):
         class CorpusQuestion(ISentenceTevent_0, typing.Protocol):
             @property
             def CorpusQuestion(self) -> str: ...
+
+
+        class ParsingCase(ISentenceTevent_0, typing.Protocol):
+            @property
+            def ParsingCase(self) -> ParsingCase: ...
+
+
+        class ParsingResult(ISentenceTevent_0, typing.Protocol):
+            @property
+            def ParsingResult(self) -> ParsingResult: ...
 
 
         class Reading(ISentenceTevent_0, typing.Protocol):
@@ -131,6 +143,30 @@ class SentenceTevent_0(NoteTevent_0, ISentenceTevent_0):
         def __init__(self, sentenceId: SentenceId, question: str) -> None: ...
         @property
         def Question(self) -> str: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class ParsingCaseUpdated(SentenceTevent_0, ISentenceTevent.PropertyUpdated.ParsingCase):
+        def __init__(self, parsingCase: ParsingCase) -> None: ...
+        @property
+        def ParsingCase(self) -> ParsingCase: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class ParsingResultUpdated(SentenceTevent_0, ISentenceTevent.PropertyUpdated.ParsingResult):
+        def __init__(self, parsingResult: ParsingResult) -> None: ...
+        @property
+        def ParsingResult(self) -> ParsingResult: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property

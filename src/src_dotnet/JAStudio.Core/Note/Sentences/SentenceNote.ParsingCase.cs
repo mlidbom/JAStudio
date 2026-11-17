@@ -3,6 +3,7 @@ using System.Linq;
 using Compze.Contracts;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Sentences.ParsingCases;
+using JAStudio.Core.Note.Sentences.Tevents;
 using JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
 using JAStudio.Core.UI.Web.Sentence;
 
@@ -37,14 +38,14 @@ public partial class SentenceNote
    public void MarkAsAParsingCase()
    {
       Contract.State.Assert(ParsingCase == null, () => $"The sentence {GetQuestion()} is a parsing case already.");
-      Guard.Update(() => ParsingCase = ParsingCase.Expecting(CreateParsingCaseResult()));
+      SetTheParsingCase(ParsingCase.Expecting(CreateParsingCaseResult()));
    }
 
    /// <summary>Makes the sentence an ordinary sentence again: what it was expected to parse to, and the verdict on it, are gone.</summary>
    public void StopBeingAParsingCase()
    {
       AssertIsAParsingCase();
-      Guard.Update(() => ParsingCase = null);
+      SetTheParsingCase(null);
    }
 
    /// <summary>Makes what the sentence parses to now what its parsing case expects. The verdict stays: accepting claims nothing about the result's being right.</summary>
@@ -69,8 +70,10 @@ public partial class SentenceNote
    void ChangeTheParsingCase(System.Func<ParsingCase, ParsingCase> change)
    {
       AssertIsAParsingCase();
-      Guard.Update(() => ParsingCase = change(ParsingCase!));
+      SetTheParsingCase(change(ParsingCase!));
    }
+
+   void SetTheParsingCase(ParsingCase? parsingCase) => PublishIfChanged(ParsingCase, parsingCase, static it => new SentenceTevent.ParsingCaseUpdated(it));
 
    void AssertIsAParsingCase() => Contract.State.Assert(ParsingCase != null, () => $"The sentence {GetQuestion()} isn't a parsing case.");
 }

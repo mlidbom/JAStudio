@@ -27,6 +27,8 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
      .For<ISentenceTevent.PropertyUpdated.Comments>(static (sentence, tevent) => sentence.Comments = tevent.Comments)
      .For<ISentenceTevent.PropertyUpdated.SourceName>(static (sentence, tevent) => sentence.SourceName = tevent.SourceName)
      .For<ISentenceTevent.PropertyUpdated.Reading>(static (sentence, tevent) => sentence.Reading = tevent.Reading)
+     .For<ISentenceTevent.PropertyUpdated.ParsingResult>(static (sentence, tevent) => sentence._parsingResult = tevent.ParsingResult)
+     .For<ISentenceTevent.PropertyUpdated.ParsingCase>(static (sentence, tevent) => sentence.ParsingCase = tevent.ParsingCase)
      .Component(static sentence => sentence.SourceData));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
@@ -164,7 +166,8 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
 
    public ParsingResult GetParsingResult() => _parsingResult;
 
-   public void SetParsingResult(ParsingResult value) => Guard.Update(() => _parsingResult = value);
+   /// <summary>Gives the sentence <paramref name="value"/> as its parsing result: a reparse that comes to the result it has changes nothing.</summary>
+   public void SetParsingResult(ParsingResult value) => PublishIfChanged(_parsingResult, value, static it => new SentenceTevent.ParsingResultUpdated(it));
 
    public List<string> GetWords()
    {

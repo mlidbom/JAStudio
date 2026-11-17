@@ -40,7 +40,7 @@ class CachingSentenceConfigurationField:
     def ResetHighlightedWords(self) -> None: ...
 
 
-class ParsedMatch:
+class ParsedMatch(IEquatable_1[ParsedMatch]):
     def __init__(self, variant: str, startIndex: int, isDisplayed: bool, word: str, vocabId: NoteId) -> None: ...
     BaseVariant : str
     SurfaceVariant : str
@@ -58,7 +58,19 @@ class ParsedMatch:
     def VocabId(self) -> NoteId: ...
     @staticmethod
     def FromMatch(match: Match) -> ParsedMatch: ...
+    def GetHashCode(self) -> int: ...
+    def __eq__(self, left: ParsedMatch, right: ParsedMatch) -> bool: ...
+    def __ne__(self, left: ParsedMatch, right: ParsedMatch) -> bool: ...
     def ToString(self) -> str: ...
+    # Skipped Equals due to it being static, abstract and generic.
+
+    Equals : Equals_MethodGroup
+    class Equals_MethodGroup:
+        @typing.overload
+        def __call__(self, other: ParsedMatch) -> bool:...
+        @typing.overload
+        def __call__(self, obj: typing.Any) -> bool:...
+
 
 
 class ParsedWordReported(IEquatable_1[ParsedWordReported]):
@@ -152,13 +164,23 @@ class ParsedWordsChange(IEquatable_1[ParsedWordsChange]):
 
 
 
-class ParsingResult:
+class ParsingResult(IEquatable_1[ParsingResult]):
     @property
     def ParsedWords(self) -> List_1[ParsedMatch]: ...
     @property
     def ParserVersion(self) -> str: ...
     @property
     def Sentence(self) -> str: ...
+    def GetHashCode(self) -> int: ...
+    # Skipped Equals due to it being static, abstract and generic.
+
+    Equals : Equals_MethodGroup
+    class Equals_MethodGroup:
+        @typing.overload
+        def __call__(self, other: ParsingResult) -> bool:...
+        @typing.overload
+        def __call__(self, obj: typing.Any) -> bool:...
+
 
 
 class SentenceCommands(abc.ABC):

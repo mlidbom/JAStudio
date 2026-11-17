@@ -1,3 +1,4 @@
+using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Sentences.Tevents;
@@ -17,6 +18,16 @@ public abstract class SentenceTevent : NoteTevent, ISentenceTevent
    public class CommentsUpdated(string comments) : SentenceTevent, ISentenceTevent.PropertyUpdated.Comments { public string Comments { get; } = comments; }
    public class SourceNameUpdated(string sourceName) : SentenceTevent, ISentenceTevent.PropertyUpdated.SourceName { public string SourceName { get; } = sourceName; }
    public class ReadingUpdated(string reading) : SentenceTevent, ISentenceTevent.PropertyUpdated.Reading { public string Reading { get; } = reading; }
+
+   public class ParsingResultUpdated(ParsingResult parsingResult) : SentenceTevent, ISentenceTevent.PropertyUpdated.ParsingResult
+   {
+      public ParsingResult ParsingResult { get; } = parsingResult;
+   }
+
+   public class ParsingCaseUpdated(ParsingCase? parsingCase) : SentenceTevent, ISentenceTevent.PropertyUpdated.ParsingCase
+   {
+      public ParsingCase? ParsingCase { get; } = parsingCase;
+   }
 
    public class Created(SentenceId sentenceId, string question) : SentenceTevent(sentenceId), ISentenceTevent.Created
    {

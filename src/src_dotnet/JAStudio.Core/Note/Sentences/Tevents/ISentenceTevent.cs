@@ -19,6 +19,8 @@ public interface ISentenceTevent : INoteTevent
       public interface Comments : ISentenceTevent { string Comments { get; } }
       public interface SourceName : ISentenceTevent { string SourceName { get; } }
       public interface Reading : ISentenceTevent { string Reading { get; } }
+      public interface ParsingResult : ISentenceTevent { Sentences.ParsingResult ParsingResult { get; } }
+      public interface ParsingCase : ISentenceTevent { ParsingCases.ParsingCase? ParsingCase { get; } }
    }
 
    /// <remarks>Carries the question the sentence's source gave it, which a new sentence is created with.</remarks>

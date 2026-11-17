@@ -6,13 +6,13 @@ namespace JAStudio.Core.Note.Sentences;
 
 /// <summary>
 /// A match a sentence's stored parsing result holds: a word of the sentence, where it starts, by which variant it matched, whether the sentence<br/>
-/// breakdown displays it, and the vocab it matched, if any.
+/// breakdown displays it, and the vocab it matched, if any. A value: two with the same parts are equal.
 /// </summary>
 /// <remarks>
 /// A sentence holds about 13, and the corpus over 600,000, so what they repeat is shared: <see cref="Variant"/> is one of the two constants,<br/>
 /// and <see cref="ParsedForm"/> an interned string, one for each form. Loaded, each held its own copies: 31 MB of strings (2026-11-12).
 /// </remarks>
-public class ParsedMatch
+public sealed record ParsedMatch
 {
    /// <summary>The <see cref="Variant"/> of a word matched by its surface form, as the sentence has it.</summary>
    public const string SurfaceVariant = "S";
