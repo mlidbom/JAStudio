@@ -16,10 +16,10 @@ Push-Location $ScriptDir
 try {
     $Sep = [IO.Path]::DirectorySeparatorChar
 
-    # 1. Build .NET
+    # 1. Build .NET, every project compiled: an incremental build skips the projects that didn't change, and with them their warnings,
+    #    so a warning could stand in the code while the build reported none. It costs about 6 seconds (1.8 s against 7.5 s, 2026-11-18).
     Write-Host "`n=== Building .NET ($Configuration) ===" -ForegroundColor Cyan
-    #dotnet clean "JAStudio.slnx" -c $Configuration
-    dotnet build "JAStudio.slnx" -c $Configuration
+    dotnet build "JAStudio.slnx" -c $Configuration --no-incremental
     if ($LASTEXITCODE -ne 0) { throw "dotnet build failed" }
 
     # 2. Regenerate Python type stubs
