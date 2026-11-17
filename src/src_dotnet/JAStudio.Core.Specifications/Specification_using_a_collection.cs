@@ -4,13 +4,25 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Specifications.Fixtures;
+using JAStudio.Core.TaskRunners;
 using JAStudio.Core.TestUtils;
 
 namespace JAStudio.Core.Specifications;
 
 public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded.All) : IDisposable
 {
-   public virtual void Dispose() => _appScope.Dispose();
+   /// <summary>Disposes the app once the work the specification started in the background has finished, and fails the specification if that work failed.</summary>
+   public virtual void Dispose()
+   {
+      try
+      {
+         GetService<RethrowingFatalErrorHandler>().WaitUntilTheStartedWorkHasFinished();
+      }
+      finally
+      {
+         _appScope.Dispose();
+      }
+   }
 
    readonly CollectionFactory.AppScope _appScope = CollectionFactory.InjectCollectionWithSelectData(data);
 
