@@ -145,14 +145,14 @@ public class When_editing_a_note : McpServerSpecification
       public of_a_vocab_writing_its_synonyms()
       {
          _synonymReference = CreateVocab("行く", "to go", "いく").Reference();
-         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray(new JsonObject { ["text"] = "行く" }) }));
+         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray("行く") }));
       }
 
       [XF] public void the_vocab_has_the_synonym() => Vocab.RelatedNotes.Synonyms.Words.Must().SequenceEqual([new WordReference("行く")]);
       [XF] public void the_synonym_has_the_vocab_as_its_synonym_too_as_when_a_person_adds_it() => _synonym.RelatedNotes.Synonyms.Words.Must().SequenceEqual([new WordReference("行った")]);
 
-      [XF] public void the_edit_reports_the_synonyms_after_as_word_references_with_an_empty_disambiguation() =>
-         _edit.Changes.Single().After.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray(new JsonObject { ["text"] = "行く", ["disambiguation"] = "" })));
+      [XF] public void the_edit_reports_the_synonyms_after_by_their_names() =>
+         _edit.Changes.Single().After.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray("行く")));
    }
 
    /// <summary>Another vocab, 往った, with the answer "gone".</summary>
@@ -165,7 +165,7 @@ public class When_editing_a_note : McpServerSpecification
       public of_a_vocab_writing_its_perfect_synonyms()
       {
          _perfectSynonymReference = CreateVocab("往った", "gone", "いった").Reference();
-         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.perfectSynonyms"] = new JsonArray(new JsonObject { ["text"] = "往った" }) }));
+         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.perfectSynonyms"] = new JsonArray("往った") }));
       }
 
       [XF] public void the_perfect_synonym_gets_the_vocabs_answer() => _perfectSynonym.GetAnswer().Must().Be("went");
@@ -223,17 +223,18 @@ public class When_editing_a_note : McpServerSpecification
       [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Must().Be("went");
    }
 
-   public class of_a_vocab_giving_a_relationship_its_words_as_texts : When_editing_a_note
+   public class of_a_vocab_giving_a_relationship_its_words_as_objects_rather_than_by_their_names : When_editing_a_note
    {
       readonly CallToolResult _result;
 
-      public of_a_vocab_giving_a_relationship_its_words_as_texts() => _result = Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray("去る") });
+      public of_a_vocab_giving_a_relationship_its_words_as_objects_rather_than_by_their_names() =>
+         _result = Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray(new JsonObject { ["text"] = "去る" }) });
 
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
-      [XF] public void the_error_says_the_field_takes_words_with_their_text_and_disambiguation() =>
-         TextOf(_result).Must().Contain("""The field 'relatedVocab.synonyms' takes a list of words, each {"text": "...", "disambiguation": "..."}""");
+      [XF] public void the_error_says_the_field_takes_words_by_their_names() =>
+         TextOf(_result).Must().Contain("""The field 'relatedVocab.synonyms' takes a list of words, each its name: its text, and after a colon its disambiguation if it has one, such as "入る:masu", or "走る" with none""");
 
-      [XF] public void the_error_quotes_the_words_it_was_given_as_written() => TextOf(_result).Must().Contain("""not ["去る"].""");
+      [XF] public void the_error_quotes_the_words_it_was_given_as_written() => TextOf(_result).Must().Contain("""not [{"text":"去る"}].""");
    }
 
    public class of_a_vocab_giving_its_match_condition_as_code_instead_of_json : When_editing_a_note
