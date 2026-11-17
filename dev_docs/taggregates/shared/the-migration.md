@@ -221,8 +221,13 @@ Each step is an increment that builds and passes JAStudio's whole suite, and is 
 13. **The notes stored through the store,** each file written whole, and several as all or nothing.
 
 **Last, what the store's design doesn't have yet:** loading the whole corpus again while running, as around a git
-fast-forward; a wait until observers have caught up, which JAStudio's specifications need; and a short way for a
-specification to run an edit.
+fast-forward.
+
+Two more were on this list, and JAStudio doesn't need them from Compze (2026-11-17):
+- **A wait until observers have caught up.** JAStudio uses no observers. What it does after a commit has to run
+  synchronously, on the thread that made the change: the notifications the UI and caches follow, and calls into
+  Anki. Compze's observers run off-thread, so that work stays in `NoteUnitOfWork.OnceCommitted`.
+- **A short way for a specification to run an edit.** That is `note.Edit(it => ...)`, in JAStudio.
 
 ## What proves each step
 
