@@ -7,11 +7,11 @@ namespace JAStudio.Core.Note.Sentences;
 
 public class SentenceConfiguration
 {
-   public List<string> HighlightedWords { get; }
+   public IReadOnlyList<string> HighlightedWords { get; }
    public WordExclusionSet IncorrectMatches { get; }
    public WordExclusionSet HiddenMatches { get; }
 
-   public SentenceConfiguration(List<string> highlightedWords, WordExclusionSet incorrectMatches, WordExclusionSet hiddenMatches)
+   public SentenceConfiguration(IReadOnlyList<string> highlightedWords, WordExclusionSet incorrectMatches, WordExclusionSet hiddenMatches)
    {
       HighlightedWords = highlightedWords;
       IncorrectMatches = incorrectMatches;

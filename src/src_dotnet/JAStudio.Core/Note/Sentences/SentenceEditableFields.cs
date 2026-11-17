@@ -81,7 +81,7 @@ public static class SentenceEditableFields
    ];
 
    /// <summary>One of the sentence's sets of <see cref="WordExclusion"/>s, which <paramref name="exclusions"/> finds, in the order of their words, then their indexes.</summary>
-   static EditableSetField<SentenceNote, WordExclusion> WordExclusions(string name, string label, Func<CachingSentenceConfigurationField, WordExclusionSet> exclusions) =>
+   static EditableSetField<SentenceNote, WordExclusion> WordExclusions(string name, string label, Func<SentenceNoteConfiguration, WordExclusionSet> exclusions) =>
       new(name,
           label,
           it => exclusions(it.Configuration).Get(),

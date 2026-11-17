@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note;
 using MemoryPack;
@@ -36,9 +34,6 @@ public partial class SentenceDto : CorpusNoteDto
    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
    public ParsingCaseDto? ParsingCase { get; init; }
 
-   static WordExclusion FromWordExclusionDto(WordExclusionDto d) =>
-      d.Index == -1 ? WordExclusion.Global(d.Word) : WordExclusion.AtIndex(d.Word, d.Index);
-
    static ParsedMatch FromParsedMatchDto(ParsedMatchDto d) =>
       new(d.Variant, d.StartIndex, d.IsDisplayed, d.ParsedForm, d.VocabId.HasValue ? VocabId.Shared(d.VocabId.Value) : null);
 
@@ -49,18 +44,5 @@ public partial class SentenceDto : CorpusNoteDto
          [.. data.ParsedWords.Select(FromParsedMatchDto)],
          data.Sentence,
          data.ParserVersion);
-   }
-
-   public static SentenceConfiguration CreateConfiguration(SentenceConfigDto? data, Action<Action> makeAChangeToAWordExclusionSet)
-   {
-      if(data == null)
-         return new SentenceConfiguration(
-            [],
-            WordExclusionSet.Empty(makeAChangeToAWordExclusionSet),
-            WordExclusionSet.Empty(makeAChangeToAWordExclusionSet));
-      return new SentenceConfiguration(
-         [.. data.HighlightedWords],
-         new WordExclusionSet(makeAChangeToAWordExclusionSet, [.. data.IncorrectMatches.Select(FromWordExclusionDto)]),
-         new WordExclusionSet(makeAChangeToAWordExclusionSet, [.. data.HiddenMatches.Select(FromWordExclusionDto)]));
    }
 }

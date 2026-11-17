@@ -1,7 +1,8 @@
 import typing, abc
 from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, NoteTevent_1
+from System.Collections.Generic import IReadOnlySet_1, IReadOnlyList_1
+from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
-from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from JAStudio.Core.Note.Sentences.ParsingCases import ParsingCase
 from JAStudio.Core.Note.Sentences import ParsingResult
@@ -16,6 +17,27 @@ class ISentenceTevent_GenericClasses(abc.ABCMeta):
 class ISentenceTevent(ISentenceTevent_0, metaclass =ISentenceTevent_GenericClasses): ...
 
 class ISentenceTevent_0(INoteTevent_0, typing.Protocol):
+
+    class Configuration(ISentenceTevent_0, typing.Protocol):
+
+        class PropertyUpdated(abc.ABC):
+
+            class HiddenMatches(ISentenceTevent.Configuration, typing.Protocol):
+                @property
+                def HiddenMatches(self) -> IReadOnlySet_1[WordExclusion]: ...
+
+
+            class HighlightedWords(ISentenceTevent.Configuration, typing.Protocol):
+                @property
+                def HighlightedWords(self) -> IReadOnlyList_1[str]: ...
+
+
+            class IncorrectMatches(ISentenceTevent.Configuration, typing.Protocol):
+                @property
+                def IncorrectMatches(self) -> IReadOnlySet_1[WordExclusion]: ...
+
+
+
 
     class Created(ISentenceTevent.SourceData.PropertyUpdated.Question, ITaggregateCreatedTevent, typing.Protocol):
         pass
@@ -147,6 +169,51 @@ class SentenceTevent_0(NoteTevent_0, ISentenceTevent_0):
         def TaggregateVersion(self) -> int: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class Configuration(SentenceTevent_0, ISentenceTevent.Configuration):
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+        class HiddenMatchesUpdated(SentenceTevent.Configuration, ISentenceTevent.Configuration.PropertyUpdated.HiddenMatches):
+            def __init__(self, hiddenMatches: IReadOnlySet_1[WordExclusion]) -> None: ...
+            @property
+            def HiddenMatches(self) -> IReadOnlySet_1[WordExclusion]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class HighlightedWordsUpdated(SentenceTevent.Configuration, ISentenceTevent.Configuration.PropertyUpdated.HighlightedWords):
+            def __init__(self, highlightedWords: IReadOnlyList_1[str]) -> None: ...
+            @property
+            def HighlightedWords(self) -> IReadOnlyList_1[str]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class IncorrectMatchesUpdated(SentenceTevent.Configuration, ISentenceTevent.Configuration.PropertyUpdated.IncorrectMatches):
+            def __init__(self, incorrectMatches: IReadOnlySet_1[WordExclusion]) -> None: ...
+            @property
+            def IncorrectMatches(self) -> IReadOnlySet_1[WordExclusion]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
 
 
     class CorpusAnswerUpdated(SentenceTevent_0, ISentenceTevent.PropertyUpdated.CorpusAnswer):

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Tevents;
@@ -62,6 +63,24 @@ public abstract class SentenceTevent : NoteTevent, ISentenceTevent
       public class SourceScreenshotsUpdated(IReadOnlyList<ImageReference> screenshots) : SourceData, ISentenceTevent.SourceData.PropertyUpdated.Screenshots
       {
          public IReadOnlyList<ImageReference> Screenshots { get; } = screenshots;
+      }
+   }
+
+   public abstract class Configuration : SentenceTevent, ISentenceTevent.Configuration
+   {
+      public class HighlightedWordsUpdated(IReadOnlyList<string> highlightedWords) : Configuration, ISentenceTevent.Configuration.PropertyUpdated.HighlightedWords
+      {
+         public IReadOnlyList<string> HighlightedWords { get; } = highlightedWords;
+      }
+
+      public class IncorrectMatchesUpdated(IReadOnlySet<WordExclusion> incorrectMatches) : Configuration, ISentenceTevent.Configuration.PropertyUpdated.IncorrectMatches
+      {
+         public IReadOnlySet<WordExclusion> IncorrectMatches { get; } = incorrectMatches;
+      }
+
+      public class HiddenMatchesUpdated(IReadOnlySet<WordExclusion> hiddenMatches) : Configuration, ISentenceTevent.Configuration.PropertyUpdated.HiddenMatches
+      {
+         public IReadOnlySet<WordExclusion> HiddenMatches { get; } = hiddenMatches;
       }
    }
 }

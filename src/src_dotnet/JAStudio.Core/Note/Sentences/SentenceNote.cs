@@ -31,11 +31,12 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
      .For<ISentenceTevent.PropertyUpdated.ParsingCase>(static (sentence, tevent) => sentence.ParsingCase = tevent.ParsingCase)
      .For<ISentenceTevent.PropertyUpdated.Audio>(static (sentence, tevent) => sentence.Audio.Apply(tevent.Audio))
      .For<ISentenceTevent.PropertyUpdated.Screenshots>(static (sentence, tevent) => sentence.Screenshots.Apply(tevent.Screenshots))
-     .Component(static sentence => sentence.SourceData));
+     .Component(static sentence => sentence.SourceData)
+     .Component(static sentence => sentence.Configuration));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
-   public CachingSentenceConfigurationField Configuration { get; private set; }
+   public SentenceNoteConfiguration Configuration { get; private set; }
 
    /// <summary>The corpus's own question for the sentence. While it's empty the source's question is shown instead (<see cref="Question"/>).</summary>
    public string CorpusQuestion { get; private set; }
@@ -125,7 +126,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
       Screenshots = new MediaReferenceList<ImageReference>(this, data?.Screenshots.Select(it => it.ToReference()) ?? [], static it => new SentenceTevent.ScreenshotsUpdated(it));
       AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
 
-      Configuration = new CachingSentenceConfigurationField(this, data?.Configuration, Guard);
+      Configuration = new SentenceNoteConfiguration(this, data?.Configuration);
       _parsingResult = SentenceDto.CreateParsingResult(data?.ParsingResult);
       ParsingCase = data?.ParsingCase?.ToParsingCase();
    }

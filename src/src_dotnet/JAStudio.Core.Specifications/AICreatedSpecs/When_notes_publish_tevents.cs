@@ -6,6 +6,7 @@ using Compze.Must;
 using Compze.Teventive;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiTevents;
 using JAStudio.Core.Note.Media;
@@ -281,6 +282,54 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
             _published.Must().Satisfy(it => it is [ISentenceTevent.PropertyUpdated.Screenshots { Screenshots: [{ FileName: "home.png" }] }]);
 
          [XF] public void the_committed_sentence_has_it() => _sentence.Screenshots.All.Must().SequenceEqual([new ImageReference("home.png")]);
+      }
+
+      public class when_a_word_is_highlighted : given_a_sentence_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_a_word_is_highlighted() => _published = TheTeventsPublishedAs(it => it.Configuration.AddHighlightedWord(" 家 "));
+
+         [XF] public void it_publishes_its_highlighted_words_with_the_word_trimmed_first() =>
+            _published.Must().Satisfy(it => it is [ISentenceTevent.Configuration.PropertyUpdated.HighlightedWords { HighlightedWords: ["家"] }, ..]);
+
+         [XF] public void the_committed_sentence_highlights_it() => _sentence.Configuration.HighlightedWords.Must().SequenceEqual(["家"]);
+
+         public class and_then_the_highlighted_words_are_reset : when_a_word_is_highlighted
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedWhenReset;
+
+            public and_then_the_highlighted_words_are_reset() => _publishedWhenReset = TheTeventsPublishedAs(it => it.Configuration.ResetHighlightedWords());
+
+            [XF] public void it_publishes_that_it_highlights_no_words_first() =>
+               _publishedWhenReset.Must().Satisfy(it => it is [ISentenceTevent.Configuration.PropertyUpdated.HighlightedWords { HighlightedWords: [] }, ..]);
+
+            [XF] public void the_committed_sentence_highlights_nothing() => _sentence.Configuration.HighlightedWords.Must().BeEmpty();
+         }
+      }
+
+      public class when_a_word_is_marked_an_incorrect_match_everywhere_in_it : given_a_sentence_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_a_word_is_marked_an_incorrect_match_everywhere_in_it() => _published = TheTeventsPublishedAs(it => it.Configuration.IncorrectMatches.AddGlobal("帰る"));
+
+         [XF] public void it_publishes_its_incorrect_matches_then_its_parsing_result_without_the_word() =>
+            _published.Must().Satisfy(it => it is [ISentenceTevent.Configuration.PropertyUpdated.IncorrectMatches { IncorrectMatches: var incorrectMatches },
+                                                   ISentenceTevent.PropertyUpdated.ParsingResult { ParsingResult: var parsingResult }]
+                                          && incorrectMatches.SetEquals([WordExclusion.Global("帰る")])
+                                          && parsingResult.ParsedWords.All(word => word.ParsedForm != "帰る"));
+
+         [XF] public void the_committed_sentence_has_it() => _sentence.Configuration.IncorrectMatches.Get().Must().SequenceEqual([WordExclusion.Global("帰る")]);
+
+         public class and_then_marked_again : when_a_word_is_marked_an_incorrect_match_everywhere_in_it
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_marked_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.Configuration.IncorrectMatches.AddGlobal("帰る"));
+
+            [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
       }
 
       public class when_its_source_question_is_changed : given_a_sentence_in_the_collection

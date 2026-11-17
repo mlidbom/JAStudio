@@ -3,11 +3,12 @@ from MemoryPack import IMemoryPackable_1, IMemoryPackFormatterRegister, MemoryPa
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from System.Collections.Generic import List_1, Dictionary_2
 from JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns import BreakdownUnderOptions, BreakdownWord
-from System import Guid, Action_1, Action
+from System import Guid
 from JAStudio.Core.Storage import IIdentifiableByGuid
 from System.Text.Json.Nodes import JsonObject
 from JAStudio.Core.Note.Sentences.ParsingCases import ParsingCase, ParsingCaseResult
-from JAStudio.Core.Note.Sentences import SentenceConfiguration, ParsingResult
+from JAStudio.Core.Note.Sentences import ParsingResult
+from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion
 
 class AudioReferenceDto(IMemoryPackable_1[AudioReferenceDto]):
     def __init__(self) -> None: ...
@@ -413,8 +414,6 @@ class SentenceDto(CorpusNoteDto, IMemoryPackable_1[SentenceDto]):
     @Tags.setter
     def Tags(self, value: List_1[str]) -> List_1[str]: ...
     @staticmethod
-    def CreateConfiguration(data: SentenceConfigDto, makeAChangeToAWordExclusionSet: Action_1[Action]) -> SentenceConfiguration: ...
-    @staticmethod
     def CreateParsingResult(data: SentenceParsingResultDto) -> ParsingResult: ...
 
 
@@ -660,6 +659,7 @@ class WordExclusionDto(IMemoryPackable_1[WordExclusionDto]):
     def Word(self) -> str: ...
     @Word.setter
     def Word(self, value: str) -> str: ...
+    def ToExclusion(self) -> WordExclusion: ...
 
 
 class WordReferenceDto(IMemoryPackable_1[WordReferenceDto]):

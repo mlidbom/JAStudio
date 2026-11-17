@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 
@@ -40,6 +41,16 @@ public interface ISentenceTevent : INoteTevent
          public interface ExternalId : SourceData { string ExternalId { get; } }
          public interface Audio : SourceData { IReadOnlyList<AudioReference> Audio { get; } }
          public interface Screenshots : SourceData { IReadOnlyList<ImageReference> Screenshots { get; } }
+      }
+   }
+
+   public interface Configuration : ISentenceTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface HighlightedWords : Configuration { IReadOnlyList<string> HighlightedWords { get; } }
+         public interface IncorrectMatches : Configuration { IReadOnlySet<WordExclusion> IncorrectMatches { get; } }
+         public interface HiddenMatches : Configuration { IReadOnlySet<WordExclusion> HiddenMatches { get; } }
       }
    }
 }

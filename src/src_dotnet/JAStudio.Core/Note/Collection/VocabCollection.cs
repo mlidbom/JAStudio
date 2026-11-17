@@ -166,7 +166,7 @@ public class VocabCollection
    public List<VocabNote> WithReading(string reading) => _byReading.NotesWith(new(reading));
    public List<VocabNote> WithStem(string stem) => _byStem.NotesWith(new(stem));
 
-   public List<VocabNote> WithAnyFormIn(List<string> forms) => [.. forms.SelectMany(WithForm).Distinct()];
+   public List<VocabNote> WithAnyFormIn(IEnumerable<string> forms) => [.. forms.SelectMany(WithForm).Distinct()];
 
    /// <inheritdoc cref="SentenceCollection.Add"/>
    /// <remarks>Its question must be one no vocab has.</remarks>
