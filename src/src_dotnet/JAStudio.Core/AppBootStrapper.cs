@@ -157,5 +157,9 @@ public static class AppBootstrapper
    /// or rolled back, with the change. A handler gets the notes it changes through the unit of work running (<see cref="NoteUnitOfWork"/>), so<br/>
    /// that they are notified once it has committed.
    /// </summary>
-   static void DeclareWhatReachesOtherNotes(TessageBusHandlerRegistrar handle) => PerfectSynonyms.ShareTheAnswerThrough(handle);
+   static void DeclareWhatReachesOtherNotes(TessageBusHandlerRegistrar handle)
+   {
+      PerfectSynonyms.ShareTheAnswerThrough(handle);
+      VocabNoteQuestion.RenameTheWordReferencesThrough(handle);
+   }
 }

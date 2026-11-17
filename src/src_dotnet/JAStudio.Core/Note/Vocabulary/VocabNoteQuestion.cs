@@ -1,6 +1,8 @@
 using Compze.Contracts;
+using Compze.Tessaging.TessageBus;
 using Compze.Teventive;
 using Compze.Teventive.Taggregates.BaseClasses;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
@@ -27,6 +29,17 @@ public class VocabNoteQuestion : TeventiveComponent<VocabNote, INoteTevent, Note
      .For<IVocabTevent.Question.PropertyUpdated.Text>(static (question, _) => question._vocab.Forms.OnQuestionChanged()));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
+   /// <summary>
+   /// Declares, through <paramref name="handle"/>, the participation handler by which a vocab renamed keeps the names other notes refer to it by:<br/>
+   /// every word-reference that named it by its old name is renamed to its new one, in the unit of work that renamed it<br/>
+   /// (<see cref="JPCollection.RenameTheWordReferences"/>). A vocab without a question had no name to be referred to by.
+   /// </summary>
+   internal static void RenameTheWordReferencesThrough(TessageBusHandlerRegistrar handle) => handle
+     .ForTevent(static (IVocabTevent.Question.Renamed it, JPCollection collection) =>
+      {
+         if(it.From.Text != string.Empty) collection.RenameTheWordReferences(it.From, new WordReference(it.Text, it.Disambiguation));
+      });
 
    /// <summary>Separates the <see cref="Text"/> from the <see cref="Disambiguation"/> in a <see cref="DisambiguationName"/>, so neither may contain it.</summary>
    public const string DisambiguationMarker = ":";
@@ -102,19 +115,15 @@ public class VocabNoteQuestion : TeventiveComponent<VocabNote, INoteTevent, Note
                                () => $"Another vocab is named {question.DisambiguationName}, and no two vocab may share a question. A disambiguation tells two vocab with the same text apart.");
 
    /// <summary>
-   /// Renames the vocab <paramref name="newName"/>, unless that is its name, publishing <see cref="IVocabTevent.Question.Renamed"/>. Its entered forms then<br/>
-   /// drop its new question (<see cref="VocabNoteForms.DropTheQuestionFromTheEnteredForms"/>), and the word-references that named it by its old name are<br/>
-   /// renamed, so they keep naming it (<see cref="Collection.JPCollection.RenameTheWordReferences"/>). A vocab without a question had no name to be<br/>
-   /// referred to by.
+   /// Renames the vocab <paramref name="newName"/>, unless that is its name, publishing <see cref="IVocabTevent.Question.Renamed"/>, so that the<br/>
+   /// word-references that named it by its old name are renamed too (<see cref="RenameTheWordReferencesThrough"/>). Its entered forms then drop its<br/>
+   /// new question (<see cref="VocabNoteForms.DropTheQuestionFromTheEnteredForms"/>).
    /// </summary>
    void RenameTo(WordReference newName)
    {
       var oldName = Reference;
-      if(!_vocab.PublishIfChanged(oldName, newName, it => new VocabTevent.Question.Renamed(oldName, it.Text, it.Disambiguation))) return;
-
-      _vocab.Forms.DropTheQuestionFromTheEnteredForms();
-      //wip: step 11 of dev_docs/taggregates/shared/the-migration.md moves this to a participation handler of IVocabTevent.Question.Renamed.
-      if(oldName.Text != string.Empty) _vocab.Services.Collection.RenameTheWordReferences(oldName, Reference);
+      if(_vocab.PublishIfChanged(oldName, newName, it => new VocabTevent.Question.Renamed(oldName, it.Text, it.Disambiguation)))
+         _vocab.Forms.DropTheQuestionFromTheEnteredForms();
    }
 
    internal VocabQuestionDto ToDto() => new() { Text = Text, Disambiguation = Disambiguation };

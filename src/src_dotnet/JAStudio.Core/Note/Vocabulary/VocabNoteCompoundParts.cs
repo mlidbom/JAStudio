@@ -93,7 +93,7 @@ public class VocabNoteCompoundParts : TeventiveComponent<VocabNote, INoteTevent,
    /// Whether <paramref name="part"/> is one of the parts entered, primary or alternative, counting an alternative part that's also a primary one,<br/>
    /// which <see cref="Alternative"/> leaves out.
    /// </summary>
-   bool HasEnteredThePart(WordReference part) => _primary.Contains(part) || _enteredAlternatives.Contains(part);
+   internal bool HasEnteredThePart(WordReference part) => _primary.Contains(part) || _enteredAlternatives.Contains(part);
 
    /// <summary>The vocab notes the primary compound parts refer to, in the order of the parts.</summary>
    public List<VocabNote> PrimaryPartsNotes() =>

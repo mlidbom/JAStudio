@@ -42,9 +42,10 @@ public class KanjiCollection
    public List<KanjiNote> WithRadical(string radical) => _byRadical.NotesWith(new(radical));
 
    /// <summary>Renames the word-reference <paramref name="oldName"/> to <paramref name="newName"/> in every kanji's primary vocab, after the vocab that had the one name got the other.</summary>
+   /// <remarks>Gets for update only the kanji that have <paramref name="oldName"/> as a primary vocab, rather than copying and locking every kanji.</remarks>
    internal void RenameThePrimaryVocab(WordReference oldName, WordReference newName)
    {
-      foreach(var kanji in All())
+      foreach(var kanji in All().Where(it => it.PrimaryVocab.Contains(oldName)))
          kanji.Edit(it => it.PrimaryVocab.Rename(oldName, newName));
    }
 

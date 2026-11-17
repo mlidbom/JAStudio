@@ -259,6 +259,9 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       CompoundParts.Rename(oldName, newName);
    }
 
+   /// <summary>Whether the vocab holds <paramref name="word"/> as a word-reference, in its related vocab or its compound parts: whether <see cref="RenameTheReferences"/> renames it.</summary>
+   internal bool HoldsTheWordReference(WordReference word) => RelatedNotes.HoldsTheWord(word) || CompoundParts.HasEnteredThePart(word);
+
    public List<string> GetReadings() => [.. _readings];
 
    /// <summary>Gives the vocab <paramref name="readings"/>, in their order, as its readings.</summary>

@@ -75,7 +75,10 @@ public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTeven
    /// </remarks>
    internal HashSet<NoteId> InCompoundIds() => [.. InCompounds().Select(it => it.GetId())];
 
-   /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, in every relationship.</summary>
+   /// <summary>
+   /// Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, in every relationship:<br/>
+   /// those <see cref="HoldsTheWord"/> looks in.
+   /// </summary>
    internal void Rename(WordReference oldName, WordReference newName)
    {
       ErgativeTwins.Rename(oldName, newName);
@@ -86,6 +89,16 @@ public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTeven
       DerivedFrom.Rename(oldName, newName);
       ConfusedWith.Rename(oldName, newName);
    }
+
+   /// <summary>Whether any relationship has <paramref name="word"/>: those <see cref="Rename"/> renames in.</summary>
+   internal bool HoldsTheWord(WordReference word) =>
+      ErgativeTwins.Contains(word)
+   || Synonyms.Contains(word)
+   || PerfectSynonyms.Contains(word)
+   || Antonyms.Contains(word)
+   || SeeAlso.Contains(word)
+   || DerivedFrom.Word == word
+   || ConfusedWith.Contains(word);
 
    /// <summary>
    /// The vocab notes this vocab is part of, directly or through compounds of compounds, most relevant first:<br/>

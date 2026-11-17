@@ -113,9 +113,10 @@ public class VocabCollection
    /// <remarks>
    /// A reference that only refers to the vocab through one of its forms is a spelling, not the vocab's name, and stays: the vocab may well keep that form.
    /// </remarks>
+   /// <remarks>Gets for update only the vocab that hold <paramref name="oldName"/>, rather than copying and locking every vocab.</remarks>
    internal void RenameTheReferences(WordReference oldName, WordReference newName)
    {
-      foreach(var vocab in All())
+      foreach(var vocab in All().Where(it => it.HoldsTheWordReference(oldName)))
          vocab.Edit(it => it.RenameTheReferences(oldName, newName));
    }
 

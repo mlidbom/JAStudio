@@ -1,8 +1,11 @@
+using System;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using static Compze.Must.MustActions;
 using static JAStudio.Core.Specifications.WordReferenceNames;
 
 // ReSharper disable InconsistentNaming
@@ -61,6 +64,68 @@ public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection,
 
       [XF] public void 引っ掛ける_s_compound_part_掛ける_still_refers_to_the_vocab_through_its_form() =>
          ToHook.CompoundParts.PrimaryPartsNotes().Must().SequenceEqual([ToHang]);
+   }
+
+   public class after_changing_its_question_to_懸ける_in_a_unit_of_work_that_then_fails : When_renaming_a_vocab
+   {
+      public after_changing_its_question_to_懸ける_in_a_unit_of_work_that_then_fails() =>
+         Invoking(() => GetService<JPCollection>().InAUnitOfWork(unitOfWork =>
+                 {
+                    unitOfWork.ForUpdate(ToHang).Question.SetText("懸ける");
+                    throw new InvalidOperationException("The unit of work fails.");
+                 }))
+           .Must().Throw<InvalidOperationException>();
+
+      [XF] public void it_keeps_the_question_かける() => ToHang.GetQuestion().Must().Be("かける");
+      [XF] public void 掛かる_keeps_かける_as_its_ergative_twin() => ErgativeTwinsOf(ToBeHanging).Must().SequenceEqual(["かける"]);
+      [XF] public void the_kanji_掛_keeps_かける_as_its_primary_vocab() => Hang.PrimaryVocab.Words.Must().SequenceEqual([new WordReference("かける")]);
+   }
+
+   /// <summary>
+   /// Five more vocab, each with かける in one relationship to words, the only one it has かける in: 吊るす as a synonym, 外す as an antonym, 掛け軸 as<br/>
+   /// a see-also, 賭ける as a word it's confused with, and ぶら下げる as a perfect synonym, which is a synonym too.
+   /// </summary>
+   public class and_five_more_vocab_have_it_each_in_one_other_relationship_to_words : When_renaming_a_vocab
+   {
+      readonly ITaggregateReference<VocabNote> _synonymReference;
+      readonly ITaggregateReference<VocabNote> _antonymReference;
+      readonly ITaggregateReference<VocabNote> _seeAlsoReference;
+      readonly ITaggregateReference<VocabNote> _confusedWithReference;
+      readonly ITaggregateReference<VocabNote> _perfectSynonymReference;
+
+      public and_five_more_vocab_have_it_each_in_one_other_relationship_to_words()
+      {
+         var toHang = new WordReference("かける");
+         _synonymReference = CreateVocab("吊るす", "to hang", "つるす").Reference();
+         _synonymReference.Current.Edit(it => it.RelatedNotes.Synonyms.Add(toHang));
+         _antonymReference = CreateVocab("外す", "to unhook", "はずす").Reference();
+         _antonymReference.Current.Edit(it => it.RelatedNotes.Antonyms.Add(toHang));
+         _seeAlsoReference = CreateVocab("掛け軸", "hanging scroll", "かけじく").Reference();
+         _seeAlsoReference.Current.Edit(it => it.RelatedNotes.SeeAlso.Add(toHang));
+         _confusedWithReference = CreateVocab("賭ける", "to bet", "かける").Reference();
+         _confusedWithReference.Current.Edit(it => it.RelatedNotes.ConfusedWith.Add(toHang));
+         _perfectSynonymReference = CreateVocab("ぶら下げる", "to hang", "ぶらさげる").Reference();
+         _perfectSynonymReference.Current.Edit(it => it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(toHang));
+
+         ToHang.Edit(it => it.Question.SetText("懸ける"));
+      }
+
+      [XF] public void after_changing_its_question_to_懸ける_each_has_懸ける_instead() =>
+         new
+         {
+            SynonymsOf吊るす = SortedNamesOf(_synonymReference.Current.RelatedNotes.Synonyms.Words),
+            AntonymsOf外す = SortedNamesOf(_antonymReference.Current.RelatedNotes.Antonyms.Words),
+            SeeAlsoOf掛け軸 = SortedNamesOf(_seeAlsoReference.Current.RelatedNotes.SeeAlso.Words),
+            ConfusedWithOf賭ける = SortedNamesOf(_confusedWithReference.Current.RelatedNotes.ConfusedWith.Words),
+            PerfectSynonymsOfぶら下げる = SortedNamesOf(_perfectSynonymReference.Current.RelatedNotes.PerfectSynonyms.Words)
+         }.Must().DeepEqual(new
+         {
+            SynonymsOf吊るす = new[] { "懸ける" },
+            AntonymsOf外す = new[] { "懸ける" },
+            SeeAlsoOf掛け軸 = new[] { "懸ける" },
+            ConfusedWithOf賭ける = new[] { "懸ける" },
+            PerfectSynonymsOfぶら下げる = new[] { "懸ける" }
+         });
    }
 
    public class after_giving_it_the_disambiguation_hang : When_renaming_a_vocab
