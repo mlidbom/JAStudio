@@ -20,6 +20,7 @@
    <ItemGroup>
      <PackageReference Include="AspNetCore.SassCompiler" />
      <PackageReference Include="MudBlazor" />
+     <PackageReference Include="System.IO.Hashing" />
    </ItemGroup>
 
    <ItemGroup>

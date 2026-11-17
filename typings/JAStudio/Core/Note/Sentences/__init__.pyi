@@ -1,6 +1,6 @@
 import typing, clr, abc
 from System import IEquatable_1, Guid, Action_2
-from JAStudio.Core.Note import NoteId, JPNote, IHasTextToSpeechAudio, NoteServices, NoteGuard
+from JAStudio.Core.Note import NoteId, JPNote, IHasTextToSpeechAudio, NoteServices
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
 from JAStudio.Core.Note.Collection import JPCollection
 from System.Collections.Generic import IReadOnlyList_1, List_1, IEnumerable_1, IReadOnlySet_1, HashSet_1
@@ -254,8 +254,6 @@ class SentenceNote(JPNote, IHasTextToSpeechAudio, ISnapshotable_2[SentenceNote, 
     def CorpusQuestion(self) -> str: ...
     @CorpusQuestion.setter
     def CorpusQuestion(self, value: str) -> str: ...
-    @property
-    def Guard(self) -> NoteGuard: ...
     @property
     def Id(self) -> NoteId: ...
     @property

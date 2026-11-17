@@ -26,11 +26,11 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a note's text field publishes the<br/>
-/// <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>,<br/>
-/// <see cref="SentenceSourceData"/>) included, as do the parts converted so far, such as a vocab's <see cref="VocabNoteRegister"/>, the flags<br/>
-/// and rules of its <see cref="VocabNote.MatchingConfiguration"/>, its related vocab, a kanji's relationships to other kanji, and the notes' media. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
-/// changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store would save it.
+/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and each part of a note publishes the<br/>
+/// <c>PropertyUpdated</c> tevent of what it changed, with the whole new value, and only when it changes: a text field, its source data's<br/>
+/// (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>, <see cref="SentenceSourceData"/>), a list or set of words, kanji, media or tags, a<br/>
+/// vocab's <see cref="VocabNote.Forms"/> and <see cref="VocabNote.MatchingConfiguration"/>, a sentence's <see cref="SentenceNote.Configuration"/>.<br/>
+/// A domain tevent, such as a vocab's rename, is also the <c>PropertyUpdated</c> tevent it causes.
 /// </summary>
 public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {

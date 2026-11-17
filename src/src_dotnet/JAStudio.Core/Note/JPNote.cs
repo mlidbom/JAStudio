@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO.Hashing;
 using System.Linq;
 using Compze.Internals.SystemCE;
 using Compze.Teventive;
@@ -13,7 +12,6 @@ using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
-using MemoryPack;
 
 namespace JAStudio.Core.Note;
 
@@ -22,28 +20,18 @@ namespace JAStudio.Core.Note;
 /// the state store that <see cref="AppBootstrapper"/> composes.
 /// </summary>
 /// <remarks>
-/// wip: most of a note's parts still change its state directly, and <see cref="Flush"/> publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/><br/>
-/// for them (dev_docs/taggregates/shared/the-migration.md).
+/// Each part of a note publishes the whole new value of what it changed, through <see cref="PublishIfChanged{TValue}"/> and its kin, and an applier<br/>
+/// sets it: a unit of work writes a note that published a tevent when it commits.
 /// </remarks>
 public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INoteTevent<INoteTevent>, NoteTevent<INoteTevent>>, ITeventRouted
 {
    /// <summary>The tevent appliers of every note, which each note class's own extend.</summary>
    protected static readonly TeventRouting<JPNote> NoteAppliers = TeventRouting<JPNote>.DeclareAppliers(it => it
-     .IgnoreUnhandled<INoteTevent.PartWithoutTeventsChanged>()
      .For<INoteTevent.PropertyUpdated.Tags>(static (note, tevent) => note.Tags.Apply(tevent.Tags)));
 
    TeventRouting ITeventRouted.TeventAppliers => NoteAppliers;
 
-   public NoteGuard Guard { get; }
    public NoteServices Services { get; }
-
-   /// <summary>
-   /// The 128-bit hash of the note's serialized <see cref="ToDto"/> as it was restored, or as it was when <see cref="Flush"/> last published<br/>
-   /// its change, to tell whether the note changed since. Null for a note being created, never stored, whose created tevent publishes it whole.<br/>
-   /// The hash, not the snapshot: the snapshots took 177 MB right after a start, 2.2 KB a note (2026-11-12). Two snapshots with the same<br/>
-   /// 128-bit hash, which would make a change go unsaved, won't happen.
-   /// </summary>
-   UInt128? _hashOfTheStateLastPublished;
 
    /// <summary>The note's own tags: the corpus's, stored with the note and edited in JAStudio.</summary>
    public NoteTags Tags { get; private set; }
@@ -58,7 +46,6 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    protected JPNote(NoteServices services)
    {
       Services = services;
-      Guard = new NoteGuard(AssertCanBeChanged, Flush);
       Tags = new NoteTags(this);
    }
 
@@ -66,14 +53,12 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
 
    /// <summary>
    /// Gives this empty note, being restored from <paramref name="data"/>, what every note stores: its id, <paramref name="id"/>, which the note's<br/>
-   /// class makes of <paramref name="data"/>'s, and its <see cref="Tags"/>. A note's restoring calls it first. The note starts from the state<br/>
-   /// <paramref name="data"/> holds, so that <see cref="Flush"/> publishes a change from it.
+   /// class makes of <paramref name="data"/>'s, and its <see cref="Tags"/>. A note's restoring calls it first.
    /// </summary>
    protected void RestoreTheNoteFrom(NoteId id, CorpusNoteDto data)
    {
       RestoreIdentity(id);
       Tags = new NoteTags(this, data.Tags);
-      _hashOfTheStateLastPublished = HashOf(data);
    }
 
    /// <summary>Holds <paramref name="status"/> as the studying status of the card it is of, of the note's study-note (<see cref="WhatTheSRSHoldsOfTheStudyNotes"/>).</summary>
@@ -174,25 +159,6 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    public abstract IEnumerable<MediaReference> MediaReferences { get; }
 
    public abstract CorpusNoteDto ToDto();
-
-   static UInt128 HashOf(CorpusNoteDto snapshot) => XxHash128.HashToUInt128(MemoryPackSerializer.Serialize(snapshot));
-
-   /// <summary>
-   /// When the note's stored data changed since it was restored, or since this last published a change, publishes<br/>
-   /// <see cref="INoteTevent.PartWithoutTeventsChanged"/>: a unit of work writes a note that published a change when it commits. A note being<br/>
-   /// created, never stored, has nothing to compare with: its created tevent publishes it.
-   /// </summary>
-   public void Flush()
-   {
-      if(_hashOfTheStateLastPublished is not {} hashOfTheStateLastPublished) return;
-
-      var hashOfTheStateNow = HashOf(ToDto());
-      if(hashOfTheStateNow == hashOfTheStateLastPublished)
-         return;
-
-      _hashOfTheStateLastPublished = hashOfTheStateNow;
-      Publish(new NoteTevent.PartWithoutTeventsChanged());
-   }
 
    /// <summary>
    /// Publishes the tevent <paramref name="teventOf"/> makes of <paramref name="updated"/>, the new value of a property of the note or of one of<br/>

@@ -11,8 +11,6 @@ public abstract class NoteTevent : TaggregateTevent, INoteTevent
 
    protected NoteTevent(NoteId noteId) : base(noteId) {}
 
-   public class PartWithoutTeventsChanged : NoteTevent, INoteTevent.PartWithoutTeventsChanged;
-
    public class TagsUpdated(IReadOnlySet<Tag> tags) : NoteTevent, INoteTevent.PropertyUpdated.Tags { public IReadOnlySet<Tag> Tags { get; } = tags; }
 }
 

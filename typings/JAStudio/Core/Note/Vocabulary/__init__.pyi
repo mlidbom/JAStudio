@@ -1,7 +1,7 @@
 import typing, clr, abc
 from System import IEquatable_1, IComparable_1, Func_1, Guid, Array_1, Action_1
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1, List_1, IReadOnlySet_1, HashSet_1
-from JAStudio.Core.Note import JPNote, IHasTextToSpeechAudio, NoteServices, NoteGuard, NoteId
+from JAStudio.Core.Note import JPNote, IHasTextToSpeechAudio, NoteServices, NoteId
 from Compze.Teventive.Taggregates import ISnapshotable_2
 from JAStudio.Core.Storage.Dto import VocabDto, CorpusNoteDto, VocabSourceDataDto
 from JAStudio.Core.Note.Media import AllAudioOfANote, AudioReferenceList, MediaReferenceList_1, ImageReference, MediaReference
@@ -259,8 +259,6 @@ class VocabNote(JPNote, IHasTextToSpeechAudio, ISnapshotable_2[VocabNote, VocabD
     def Forms(self) -> VocabNoteForms: ...
     @Forms.setter
     def Forms(self, value: VocabNoteForms) -> VocabNoteForms: ...
-    @property
-    def Guard(self) -> NoteGuard: ...
     @property
     def Id(self) -> NoteId: ...
     @property

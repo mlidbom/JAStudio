@@ -14,10 +14,6 @@ class INoteTevent(INoteTevent_0, metaclass =INoteTevent_GenericClasses): ...
 
 class INoteTevent_0(ITaggregateTevent, typing.Protocol):
 
-    class PartWithoutTeventsChanged(INoteTevent_0, typing.Protocol):
-        pass
-
-
     class PropertyUpdated(abc.ABC):
 
         class Tags(INoteTevent_0, typing.Protocol):
@@ -45,16 +41,6 @@ class NoteTevent_0(TaggregateTevent, INoteTevent_0):
     def TaggregateVersion(self) -> int: ...
     @property
     def UtcTimeStamp(self) -> DateTime: ...
-
-    class PartWithoutTeventsChanged(NoteTevent_0, INoteTevent.PartWithoutTeventsChanged):
-        def __init__(self) -> None: ...
-        @property
-        def TaggregateId(self) -> TaggregateId: ...
-        @property
-        def TaggregateVersion(self) -> int: ...
-        @property
-        def UtcTimeStamp(self) -> DateTime: ...
-
 
     class TagsUpdated(NoteTevent_0, INoteTevent.PropertyUpdated.Tags):
         def __init__(self, tags: IReadOnlySet_1[Tag]) -> None: ...

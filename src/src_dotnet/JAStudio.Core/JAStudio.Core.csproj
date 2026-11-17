@@ -27,7 +27,6 @@
       <PackageReference Include="MemoryPack" />
       <PackageReference Include="Newtonsoft.Json" />
       <PackageReference Include="Microsoft.Data.Sqlite" />
-      <PackageReference Include="System.IO.Hashing" />
       <PackageReference Include="ZstdSharp.Port" />
       <PackageReference Include="Microsoft.Extensions.Hosting" />
    </ItemGroup>
