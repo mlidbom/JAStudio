@@ -82,8 +82,9 @@ cache.
 - **Step 11 is done,** as [below](#step-11-as-it-is-built): what a change to one note does to other notes is a
   participation handler of the change's tevent, in the unit of work that made it. Magnus looks at the structure at the
   end, rather than holding the work up (2026-11-17: "I'd rather refactor at the end than hold everything up with you
-  waiting for me. The events are not stored so the choices can be changed."). Step 12, measuring memory and load time,
-  is next.
+  waiting for me. The events are not stored so the choices can be changed.").
+- **Step 12 is done,** as [below](#step-12-as-measured): against `main`, the branch takes 2% less memory, and about 2.4
+  seconds longer to load, almost all of it in filing the state store's indexes.
 - **Compze's types are in JAStudio's Python stubs** since the notes derive from `Taggregate`. After each Compze step,
   `src/src_dotnet/regenerate-stubs.ps1 -OnlyTargetTypes -RefreshCompzeStubs` regenerates them: `full-build.ps1`
   regenerates JAStudio's alone.
@@ -259,6 +260,42 @@ What a change to one note does to other notes leaves the domain method, into Com
   in `NoteUnitOfWork.OnceCommitted`. Suspending a note's cards tells Anki inside an edit, in the workspace's bulk action,
   but it changes no note, so its unit of work has nothing to roll back.
 
+## Step 12, as measured
+
+Measured 2026-11-17: the branch at `237b5bca6` against `main` at `59cd15125`, whose code is the branch's base,
+`4d12d9122`. Both run in the headless JAStudio as Debug builds, on this worktree's corpus checkout at `3949c927f`, which
+both record, with the same add-on folder and Anki profile. Both write the same snapshot caches (`snapshot.bin`), byte for
+byte, so a run of one loads what the other wrote.
+
+- **Loading takes the branch about 2.4 seconds longer.** `dev_scripts/compare-load-times.ps1` alternates the two, run by
+  run. Other processes used under 8 processor-seconds in any run, on 32 hardware threads:
+
+  | | main | the branch |
+  |---|---|---|
+  | Populating JAStudio's data, warm, from the snapshot caches: median of 5 | 2.73 s (2.66–2.83) | 5.08 s (4.90–5.31) |
+  | The same, cold, from every note's file: 2 runs | 6.3 and 6.6 s | 9.0 and 9.3 s |
+  | Until the MCP server listens, warm | 3.6 s | 6.0 s |
+  | The process's processor time until then, warm | about 14.5 s | about 21 s |
+
+  The session's very first cold run took `main` 19.6 s: the notes' files weren't in the operating system's file cache
+  yet. The cold runs above found them there, as any start after an earlier one does.
+- **Where the branch's time goes** (dotTrace, a warm start): Compze's `TaggregateStateStore.LoadEverything` takes 4.2 s,
+  all of it on one thread:
+  - filing JAStudio's indexes, one after another, `TaggregateIndex.FileExactly`: 2.8 s. Of it, grouping each index's
+    taggregates by key into its `ConcurrentDictionary` takes 1.1 s, and making each taggregate's keys an
+    `ImmutableHashSet` 0.8 s;
+  - restoring the 79,896 taggregates from their snapshots, one after another: 0.75 s;
+  - reading the snapshot caches: 0.5 s.
+
+  `main` reads the caches in 0.9 s, then builds the vocab's and the sentences' caches at the same time, in 1.1 and 1.3 s.
+- **Memory: 2% less,** as [memory-use.md](../../memory-use.md#on-the-state-store-against-main-2026-11-17) details: after
+  the most thorough collection, 850 MB on the managed heap against 878 MB, and a working set of 941 MB against 958 MB.
+  What the text fields' notifiers and `main`'s index sets took is gone, and the state store's indexes take about as
+  much. Their largest part, about 105 MB, is each taggregate's keys in each index, kept as an `ImmutableHashSet`.
+- **Put to `jastudio-rep-opus`:** each taggregate's keys as an array would take about 80 MB less, and most of the 0.8 s.
+  Filing the indexes and restoring the taggregates in parallel would take off most of the rest, at the price of running
+  JAStudio's key functions on several threads at once.
+
 ## The order
 
 Each step is an increment that builds and passes JAStudio's whole suite, and is committed.
@@ -303,7 +340,7 @@ Each step is an increment that builds and passes JAStudio's whole suite, and is 
 
 **After Compze's step 3, routing per class:**
 
-12. **Memory and load time measured** with the whole corpus loaded, against `main`.
+12. **Done. Memory and load time measured** with the whole corpus loaded, against `main`.
 
 **After Compze's step 4, snapshots and the JSON store:**
 

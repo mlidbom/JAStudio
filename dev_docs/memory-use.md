@@ -81,3 +81,37 @@ as the 10 KB was.
 The rest of the 1.1 GB is the vocab, which take more each than a sentence, the kanji, the indexes that find notes by
 word, and the dictionary's and the UI's caches. The `byte[]`s aren't MeCab's dictionary: only 9 arrays are over 200 KB,
 2.3 MB in all.
+
+## On the state store, against main (2026-11-17)
+
+Step 12 of [the migration of the notes to Compze's state store](taggregates/shared/the-migration.md#step-12-as-measured)
+compared the branch `migrating-the-notes-to-the-state-store` (`237b5bca6`) with `main` (`59cd15125`): each started warm
+in the headless JAStudio, on the same corpus checkout, with 49,338 sentences, 28,004 vocab and 2,554 kanji.
+
+| | main | the branch |
+|---|---|---|
+| The managed heap after the most thorough collection (`describe_memory`) | 878 MB | 850 MB |
+| The process's working set then | 958 MB | 941 MB |
+| Its private memory then | 1,058 MB | 1,035 MB |
+| The heap's objects (`describe_what_the_heap_holds`) | 12.70 million | 12.61 million |
+| The heap without the `byte[]`s that come and go | 727 MB | 712 MB |
+
+**So the state store takes about 2% less.** What went and what came are of about the same size, by the types that take
+the most in each heap:
+
+| What | main | the branch |
+|---|---|---|
+| The text fields' `WritableStringValue`s and their notifiers, `SimpleObservable<string>` | 46 MB, 719,064 of each | gone |
+| The sentence indexes' `HashSet<SentenceNote>`s | 41 MB, 109,500 | gone |
+| The vocab indexes' `HashSet<VocabNote>`s, and the dictionaries holding them | 48 MB, 220,044 | gone |
+| `int[]`s and `string[]`s | 35 and 19 MB | 15 and 6 MB |
+| Each taggregate's keys in each index, an `ImmutableHashSet` each (Compze's `TaggregateIndex`, `_committedKeysById`) | | about 105 MB, for about 1.6 million keys |
+| The taggregates by key, arrays of `ITaggregateReference`s | | 21 MB |
+| The maps from each key to them, `ConcurrentDictionary` nodes | | about 15 MB |
+| The store's taggregates by id, and its references to them | | about 13 MB |
+| The strings, and the stored parsing results' `ParsedMatch`es | 146 and 31 MB | the same |
+
+**What would take less: each taggregate's keys as an array.** An `ImmutableHashSet` takes about 56 bytes a key, and a
+sentence's words (`SentenceIndexes.Word`) and matched vocab (`SentenceIndexes.MatchedVocab`) take 33 MB each. An array
+takes 8 bytes a key and a header: about 25 MB in all instead of 105. It's Compze's code: put to `jastudio-rep-opus`
+(2026-11-17).
