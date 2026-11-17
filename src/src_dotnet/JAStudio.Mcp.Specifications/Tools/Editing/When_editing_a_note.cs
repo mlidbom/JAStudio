@@ -236,6 +236,19 @@ public class When_editing_a_note : McpServerSpecification
       [XF] public void the_error_quotes_the_words_it_was_given_as_written() => TextOf(_result).Must().Contain("""not ["去る"].""");
    }
 
+   public class of_a_vocab_giving_its_match_condition_as_code_instead_of_json : When_editing_a_note
+   {
+      readonly CallToolResult _result;
+
+      public of_a_vocab_giving_its_match_condition_as_code_instead_of_json() => _result = Edit(new JsonObject { ["matching.condition"] = "IsMatchedByItsSurface" });
+
+      [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
+      [XF] public void the_error_says_a_match_condition_is_json_as_the_corpus_stores_it_with_an_example() =>
+         TextOf(_result).Must().Contain("""A match-condition is a JSON object, as the corpus stores it, such as {"allOf": [{"fact": "matchedByItsSurface"}]}, and this isn't JSON""");
+
+      [XF] public void the_error_quotes_the_text_it_was_given() => TextOf(_result).Must().Contain(": IsMatchedByItsSurface");
+   }
+
    /// <summary>The sentence is marked as a parsing case first.</summary>
    public class of_a_sentence_that_is_a_parsing_case_writing_its_name_and_its_verdict : When_editing_a_note
    {

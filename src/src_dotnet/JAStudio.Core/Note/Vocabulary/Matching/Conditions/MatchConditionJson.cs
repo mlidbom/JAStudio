@@ -49,5 +49,18 @@ public static class MatchConditionJson
    public static AllOfGroup<CandidateWordVariant> VocabsMatchConditionFromJsonText(string text, SharedConditions sharedConditions) =>
       VocabsMatchConditionFrom(text.Trim().Length == 0 ? null : JsonObjectIn(text), sharedConditions);
 
-   static JsonObject JsonObjectIn(string text) => JsonNode.Parse(text) as JsonObject ?? throw new FormatException($"A match-condition is a JSON object: {text}");
+   /// <exception cref="FormatException">When <paramref name="text"/> isn't a JSON object, such as text that isn't JSON at all.</exception>
+   static JsonObject JsonObjectIn(string text)
+   {
+      try
+      {
+         return JsonNode.Parse(text) as JsonObject ?? throw new FormatException($"{WhatAMatchConditionIs}: {text}");
+      }
+      catch(JsonException exception)
+      {
+         throw new FormatException($"{WhatAMatchConditionIs}, and this isn't JSON ({exception.Message}): {text}", exception);
+      }
+   }
+
+   const string WhatAMatchConditionIs = """A match-condition is a JSON object, as the corpus stores it, such as {"allOf": [{"fact": "matchedByItsSurface"}]}""";
 }
