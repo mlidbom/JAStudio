@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts.Exceptions;
+using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
@@ -64,6 +67,33 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
 
       [XF] public void ていい_and_んでいい_show_the_source_answer_of_てよろしい() =>
          new[] { Teii.GetAnswer(), Ndeii.GetAnswer() }.Must().SequenceEqual(["may, be allowed to", "may, be allowed to"]);
+   }
+
+   public class giving_てよろしい_another_answer : When_changing_a_vocabs_perfect_synonyms
+   {
+      readonly List<string> _notesNotifiedAsUpdated = [];
+
+      public giving_てよろしい_another_answer()
+      {
+         using var _ = GetService<JPCollection>().NoteUpdated.Subscribe(it => _notesNotifiedAsUpdated.Add(it.GetQuestion()));
+         Teyoroshii.Edit(it => it.SetCorpusAnswer("may, be allowed to"));
+      }
+
+      [XF] public void ていい_and_んでいい_get_the_answer() => new[] { Teii.GetAnswer(), Ndeii.GetAnswer() }.Must().SequenceEqual(["may, be allowed to", "may, be allowed to"]);
+      [XF] public void all_three_are_notified_as_updated_by_the_unit_of_work_that_gave_it() => _notesNotifiedAsUpdated.Order().Must().SequenceEqual(["ていい", "てよろしい", "んでいい"]);
+   }
+
+   public class giving_てよろしい_another_answer_in_a_unit_of_work_that_then_fails : When_changing_a_vocabs_perfect_synonyms
+   {
+      public giving_てよろしい_another_answer_in_a_unit_of_work_that_then_fails() =>
+         Invoking(() => GetService<JPCollection>().InAUnitOfWork(unitOfWork =>
+                 {
+                    unitOfWork.ForUpdate(Teyoroshii).SetCorpusAnswer("may, be allowed to");
+                    throw new InvalidOperationException("The unit of work fails.");
+                 }))
+           .Must().Throw<InvalidOperationException>();
+
+      [XF] public void all_three_keep_their_answer() => new[] { Teyoroshii.GetAnswer(), Teii.GetAnswer(), Ndeii.GetAnswer() }.Must().SequenceEqual(["may", "may", "may"]);
    }
 
    public class deleting_ていい : When_changing_a_vocabs_perfect_synonyms

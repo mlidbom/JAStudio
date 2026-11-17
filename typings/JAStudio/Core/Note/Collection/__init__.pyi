@@ -10,6 +10,7 @@ from JAStudio.Core.Note.Vocabulary import VocabNoteFactory, VocabNoteGeneratedDa
 from JAStudio.Core.Note.Search import NoteCondition
 from JAStudio.Core.Note.Tagging import TagBranch, Tag, TagTree
 from JAStudio.Core.Note.Search.TagProperties import TagPathsInUse
+from JAStudio.Core.Note.Tevents import INoteTevent
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Sentences.ParsingCases import ComparedParsingCase
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
@@ -139,6 +140,18 @@ class NoteUnitOfWork:
         class ForUpdate_1(typing.Generic[ForUpdate_1_T1]):
             ForUpdate_1_TNote = NoteUnitOfWork.ForUpdate_MethodGroup.ForUpdate_1_T1
             def __call__(self, note: ForUpdate_1_TNote) -> ForUpdate_1_TNote:...
+
+
+    # Skipped NoteThatPublished due to it being static, abstract and generic.
+
+    NoteThatPublished : NoteThatPublished_MethodGroup
+    class NoteThatPublished_MethodGroup:
+        def __getitem__(self, t:typing.Type[NoteThatPublished_1_T1]) -> NoteThatPublished_1[NoteThatPublished_1_T1]: ...
+
+        NoteThatPublished_1_T1 = typing.TypeVar('NoteThatPublished_1_T1')
+        class NoteThatPublished_1(typing.Generic[NoteThatPublished_1_T1]):
+            NoteThatPublished_1_TNote = NoteUnitOfWork.NoteThatPublished_MethodGroup.NoteThatPublished_1_T1
+            def __call__(self, tevent: INoteTevent) -> NoteThatPublished_1_TNote:...
 
 
 

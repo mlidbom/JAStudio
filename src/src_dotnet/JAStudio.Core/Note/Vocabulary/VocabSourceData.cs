@@ -63,15 +63,10 @@ public class VocabSourceData : TeventiveComponent<VocabNote, INoteTevent, NoteTe
    public string ReadingMnemonic { get; private set; }
 
    /// <summary>
-   /// Gives the vocab <paramref name="answer"/>, trimmed, as its source's <see cref="Answer"/>, and its perfect synonyms the answer the vocab then shows<br/>
-   /// (<see cref="RelatedVocab.PerfectSynonyms"/>), which is this one while the vocab has no <see cref="VocabNote.CorpusAnswer"/>.
+   /// Gives the vocab <paramref name="answer"/>, trimmed, as its source's <see cref="Answer"/>, and so its perfect synonyms the answer the vocab then<br/>
+   /// shows (<see cref="RelatedVocab.PerfectSynonyms.ShareTheAnswerThrough"/>), which is this one while the vocab has no <see cref="VocabNote.CorpusAnswer"/>.
    /// </summary>
-   public void SetAnswer(string answer)
-   {
-      //wip: step 11 of dev_docs/taggregates/shared/the-migration.md moves the push to a participation handler of IVocabTevent.SourceData.PropertyUpdated.Answer.
-      if(_vocab.PublishIfChanged(Answer, answer.Trim(), static it => new VocabTevent.SourceData.SourceAnswerUpdated(it)))
-         _vocab.RelatedNotes.PerfectSynonyms.PushAnswerToOtherSynonyms();
-   }
+   public void SetAnswer(string answer) => _vocab.PublishIfChanged(Answer, answer.Trim(), static it => new VocabTevent.SourceData.SourceAnswerUpdated(it));
 
    /// <summary>Gives the vocab <paramref name="mnemonic"/>, trimmed, as its source's <see cref="Mnemonic"/>.</summary>
    public void SetMnemonic(string mnemonic) => _vocab.PublishIfChanged(Mnemonic, mnemonic.Trim(), static it => new VocabTevent.SourceData.SourceMnemonicUpdated(it));

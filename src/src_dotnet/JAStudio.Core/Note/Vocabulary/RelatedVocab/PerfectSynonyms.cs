@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts;
+using Compze.Tessaging.TessageBus;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
@@ -18,6 +20,18 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 /// <remarks>A perfect synonym is the vocab its word names exactly (<see cref="VocabCollection.NamedExactlyBy"/>), never one it would only match by a form.</remarks>
 public class PerfectSynonyms
 {
+   /// <summary>
+   /// Declares, through <paramref name="handle"/>, the participation handlers by which perfect synonyms share one answer: a change to a vocab's<br/>
+   /// <see cref="VocabNote.CorpusAnswer"/>, or to its source's (<see cref="VocabSourceData.Answer"/>), gives each of its perfect synonyms the answer the<br/>
+   /// vocab then shows, in the unit of work that changed it (<see cref="PushAnswerToOtherSynonyms"/>).
+   /// </summary>
+   internal static void ShareTheAnswerThrough(TessageBusHandlerRegistrar handle) => handle
+     .ForTevent(static (IVocabTevent.PropertyUpdated.CorpusAnswer it, JPCollection collection) => PushTheAnswerOfTheVocabThatPublished(it, collection))
+     .ForTevent(static (IVocabTevent.SourceData.PropertyUpdated.Answer it, JPCollection collection) => PushTheAnswerOfTheVocabThatPublished(it, collection));
+
+   static void PushTheAnswerOfTheVocabThatPublished(INoteTevent tevent, JPCollection collection) =>
+      collection.TheRunningUnitOfWork.NoteThatPublished<VocabNote>(tevent).RelatedNotes.PerfectSynonyms.PushAnswerToOtherSynonyms();
+
    readonly VocabNote _vocab;
    readonly WordSet _words;
 
@@ -41,10 +55,11 @@ public class PerfectSynonyms
    public List<VocabNote> Notes() => Collection.NamedExactlyByAny(Words);
 
    /// <summary>
-   /// Gives every perfect synonym this vocab's answer. The answer shown is the vocab's <see cref="VocabNote.CorpusAnswer"/>, or its source's while it has<br/>
-   /// none (<see cref="VocabNote.GetAnswer"/>), so a change to either pushes it: <see cref="VocabNote.SetCorpusAnswer"/> and <see cref="VocabSourceData.SetAnswer"/>.
+   /// Gives every perfect synonym this vocab's answer, each in an edit that joins the unit of work running. The answer shown is the vocab's<br/>
+   /// <see cref="VocabNote.CorpusAnswer"/>, or its source's while it has none (<see cref="VocabNote.GetAnswer"/>), so a change to either pushes it<br/>
+   /// (<see cref="ShareTheAnswerThrough"/>).
    /// </summary>
-   internal void PushAnswerToOtherSynonyms()
+   void PushAnswerToOtherSynonyms()
    {
       foreach(var synonym in Notes())
          synonym.Edit(it => it.SetCorpusAnswer(_vocab.GetAnswer()));

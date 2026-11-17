@@ -61,16 +61,11 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    public string Mnemonic { get; private set; }
 
    /// <summary>
-   /// Gives the vocab <paramref name="answer"/>, trimmed, as its <see cref="CorpusAnswer"/>, and its perfect synonyms the answer the vocab then<br/>
-   /// shows (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms"/>). An answer the vocab has already changes nothing, which is what ends the pushing<br/>
-   /// of an answer around the web of perfect synonyms.
+   /// Gives the vocab <paramref name="answer"/>, trimmed, as its <see cref="CorpusAnswer"/>, and so its perfect synonyms the answer the vocab then<br/>
+   /// shows (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.ShareTheAnswerThrough"/>). An answer the vocab has already changes nothing, which<br/>
+   /// is what ends the pushing of an answer around the web of perfect synonyms.
    /// </summary>
-   public void SetCorpusAnswer(string answer)
-   {
-      //wip: step 11 of dev_docs/taggregates/shared/the-migration.md moves the push to a participation handler of IVocabTevent.PropertyUpdated.CorpusAnswer.
-      if(PublishIfChanged(CorpusAnswer, answer.Trim(), static it => new VocabTevent.CorpusAnswerUpdated(it)))
-         RelatedNotes.PerfectSynonyms.PushAnswerToOtherSynonyms();
-   }
+   public void SetCorpusAnswer(string answer) => PublishIfChanged(CorpusAnswer, answer.Trim(), static it => new VocabTevent.CorpusAnswerUpdated(it));
 
    /// <summary>Gives the vocab <paramref name="explanation"/>, trimmed, as its <see cref="Explanation"/>.</summary>
    public void SetExplanation(string explanation) => PublishIfChanged(Explanation, explanation.Trim(), static it => new VocabTevent.ExplanationUpdated(it));

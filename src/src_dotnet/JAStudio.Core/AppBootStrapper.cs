@@ -5,6 +5,7 @@ using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Microsoft;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using Compze.Tessaging.Engine.Wiring;
+using Compze.Tessaging.TessageBus;
 using Compze.Teventive.StateStore;
 using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.Batches;
@@ -19,6 +20,7 @@ using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
+using JAStudio.Core.Note.Vocabulary.RelatedVocab;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
@@ -131,7 +133,8 @@ public static class AppBootstrapper
    /// <summary>
    /// Composes the state store that keeps the notes: the three classes of note, which it builds empty with <see cref="NoteServices"/> to restore
    /// from their snapshots, their DTOs; the indexes the collections look notes up by; and its storage, which the environment registers, such as
-   /// <see cref="CorpusNoteFiles"/>. And the engine that dispatches the notes' tevents.
+   /// <see cref="CorpusNoteFiles"/>. And the engine that dispatches the notes' tevents, to the participation handlers through which a change to<br/>
+   /// one note reaches others (<see cref="DeclareWhatReachesOtherNotes"/>).
    /// </summary>
    static void ComposeTheStateStoreOfTheNotes(IComponentRegistrar registrar)
    {
@@ -145,6 +148,14 @@ public static class AppBootstrapper
          KanjiIndexes.DeclareIn(store);
          SentenceIndexes.DeclareIn(store);
       });
-      registrar.LocalTessagingEngine(_ => {});
+      registrar.LocalTessagingEngine(engine => engine.RegisterTessageBusHandlers(DeclareWhatReachesOtherNotes));
    }
+
+   /// <summary>
+   /// Declares the participation handlers through which a change to one note reaches other notes. Compze runs each inside the unit of work that<br/>
+   /// made the change, synchronously, as the note that changed ends publishing the tevent the handler handles: what a handler changes is committed,<br/>
+   /// or rolled back, with the change. A handler gets the notes it changes through the unit of work running (<see cref="NoteUnitOfWork"/>), so<br/>
+   /// that they are notified once it has committed.
+   /// </summary>
+   static void DeclareWhatReachesOtherNotes(TessageBusHandlerRegistrar handle) => PerfectSynonyms.ShareTheAnswerThrough(handle);
 }

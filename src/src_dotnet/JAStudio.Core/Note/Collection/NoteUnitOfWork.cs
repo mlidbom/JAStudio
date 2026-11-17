@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Compze.Teventive.TaggregateStores;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -33,6 +34,12 @@ public sealed class NoteUnitOfWork
       MayChange(copy);
       return copy;
    }
+
+   /// <summary>
+   /// The note that published <paramref name="tevent"/>, as this unit of work holds it: what a participation handler of the tevent changes other notes<br/>
+   /// from. Compze runs the handler inside the unit of work as the note ends publishing it, so the note is this unit of work's copy, or a new note it added.
+   /// </summary>
+   public TNote NoteThatPublished<TNote>(INoteTevent tevent) where TNote : JPNote => _store.Get<TNote>(tevent.TaggregateId);
 
    /// <summary>Adds <paramref name="note"/>, a note just created, to the collection when this unit of work commits.</summary>
    public void Add(JPNote note)
