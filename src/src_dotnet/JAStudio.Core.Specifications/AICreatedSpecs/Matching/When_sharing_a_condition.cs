@@ -128,16 +128,18 @@ public abstract class When_sharing_a_condition : SpecificationStartingWithAnEmpt
 
       public class after_its_file_was_deleted_and_the_collection_reloaded : used_in_a_vocabs_match_condition
       {
-         readonly FormatException _theReloadsFailure;
+         readonly InvalidOperationException _theReloadsFailure;
 
          public after_its_file_was_deleted_and_the_collection_reloaded()
          {
             File.Delete(Path.Combine(TheFolderOfTheSharedConditions, "Word.FollowsAVerb.json"));
-            _theReloadsFailure = Invoking(() => GetService<JPCollection>().ReloadFromBackend()).Must().Throw<FormatException>().Which;
+            _theReloadsFailure = Invoking(() => GetService<JPCollection>().ReloadFromBackend()).Must().Throw<InvalidOperationException>().Which;
          }
 
          [XF] public void the_reload_fails_since_the_vocab_as_stored_uses_a_shared_condition_there_is_none_of() =>
-            _theReloadsFailure.Message.Must().Contain("FollowsAVerb");
+            _theReloadsFailure.Message.Must().Contain("There's no shared-condition Word.FollowsAVerb");
+
+         [XF] public void the_failure_names_the_vocabs_file() => _theReloadsFailure.Message.Must().Contain($"{_vocab.GetId().Value}.json");
       }
    }
 

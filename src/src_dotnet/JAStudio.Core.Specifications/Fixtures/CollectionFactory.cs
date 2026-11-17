@@ -1,10 +1,9 @@
 using System;
+using System.Collections.Concurrent;
+using Compze.Contracts;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
-using JAStudio.Core.Note;
-using JAStudio.Core.Note.Sentences;
-using JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
 using JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 using JAStudio.Core.TestUtils;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,48 +23,35 @@ public enum DataNeeded
    All = Kanji | Vocabulary | Sentences
 }
 
+/// <summary>
+/// Starts the specifications' JAStudios, each with a collection of its own, holding the notes <see cref="DataNeeded"/> says: loaded from the files of<br/>
+/// <see cref="TheSpecificationsCorpus"/>, made once for each <see cref="DataNeeded"/>, as JAStudio loads the corpus when it starts.
+/// </summary>
 public static class CollectionFactory
 {
+   static readonly ConcurrentDictionary<DataNeeded, Lazy<TheSpecificationsCorpus>> Corpora = new();
+
    public static AppScope InjectCollectionWithSelectData(DataNeeded data, NotesKept notesKept = NotesKept.InMemory)
+   {
+      Contract.Argument.Assert(data == DataNeeded.None || notesKept == NotesKept.InMemory, () => "The specifications' corpus is loaded only into notes kept in memory.");
+      var jastudio = StartAnApp(notesKept);
+      if(data != DataNeeded.None) TheCorpusWith(data).LoadInto(jastudio.CoreApp);
+      return jastudio;
+   }
+
+   /// <summary>A JAStudio of the specifications, its notes kept as <paramref name="notesKept"/> says, with no notes.</summary>
+   internal static AppScope StartAnApp(NotesKept notesKept)
    {
       var plan = AppBootstrapper.PrepareForTests(notesKept);
       var host = Host.CreateDefaultBuilder()
                      .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
                      .Build();
       host.StartAsync().GetAwaiter().GetResult();
-
-      var resolver = host.Services.GetRequiredService<IRootResolver>();
-      var app = resolver.Resolve<CoreApp>();
-
-      if(data == DataNeeded.None)
-         return new AppScope(host, app);
-
-      var noteServices = app.Services.NoteServices;
-
-      if(data.HasFlag(DataNeeded.Kanji))
-      {
-         foreach(var kanjiSpec in KanjiSpec.TestKanjiList)
-         {
-            var kanji = KanjiNote.Create(noteServices, kanjiSpec.Question, kanjiSpec.Answer);
-            KanjiReadingsNotation.AddTo(kanji, kanjiSpec.OnReadings, kanjiSpec.KunReadings);
-         }
-      }
-
-      if(data.HasFlag(DataNeeded.Vocabulary))
-      {
-         ParsingCasesFolder.StrippedDownCorpus.AddTheVocabTo(app);
-      }
-
-      if(data.HasFlag(DataNeeded.Sentences))
-      {
-         foreach(var sentence in SentenceSpec.TestSentenceList)
-         {
-            SentenceNote.CreateTestNote(noteServices, sentence.Question, sentence.Answer);
-         }
-      }
-
-      return new AppScope(host, app);
+      return new AppScope(host, host.Services.GetRequiredService<IRootResolver>().Resolve<CoreApp>());
    }
+
+   static TheSpecificationsCorpus TheCorpusWith(DataNeeded data) =>
+      Corpora.GetOrAdd(data, it => new Lazy<TheSpecificationsCorpus>(() => TheSpecificationsCorpus.With(it))).Value;
 
    public sealed class AppScope(IHost host, CoreApp coreApp) : IDisposable
    {

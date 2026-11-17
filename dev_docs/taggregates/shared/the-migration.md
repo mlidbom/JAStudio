@@ -387,22 +387,23 @@ to anything that happens".
   and each note's file where it always was. JAStudio's own storage, `JsonFilesystemObjectRepository` and its
   `snapshot.bin` caches, is gone.
   - **Each environment declares where the notes are kept** (`IEnvironmentSpecificDependenciesRegistrar.DeclareWhereTheNotesAreKept`):
-    the hosts in the corpus checkout's files. The specifications keep them in memory (`NotesStoredInMemory`) unless they
-    are about the files (`NotesKept.InTheirFiles`): the corpus repository's MCP specifications, the reloads, a created
-    note's file, and every note of the specifications' collection, whose files hold exactly what `NoteSerializer` writes
-    and load back unchanged. With every specification on files, the suite took 149 to 186 s rather than 56 to 59 s:
+    the hosts in the corpus checkout's files. The specifications keep the same files in memory (`NotesKept.InMemory`,
+    Compze's `KeptInMemory`, `77c3cdaf8`), composed as the hosts compose theirs, MemoryPack cache included, and read
+    and change them through Compze's `ITaggregateFilesInMemory` (`SpecificationUsingACollection.TheStoredFileOf` and
+    `WriteTheFileOf`); on the disk only where a specification needs them there (`NotesKept.InTheirFiles`): the corpus
+    repository's MCP specifications, which run git on them. `NotesStoredInMemory`, JAStudio's own storage for the
+    specifications, is gone, and with it JAStudio's last use of Compze's storage seam (`ITaggregateStorage` and the
+    rest). Before the files were kept in memory, with every specification on files, the suite took 149 to 186 s rather than 56 to 59 s:
     the 74 specifications that start with the specifications' collection, 1,035 notes, each added in a unit of work of
     its own, wrote about 5,000 files each, Compze making about five file operations of each note's commit. The other
     2,400 or so start empty and create the few notes they need.
-  - **Next: the specifications load their mini corpus as the application loads the corpus** (Magnus, 2026-11-17: "The
-    tests should load their mini corpus the same way as the real app if possible. I definitely agree"). Once
-    `jastudio-rep-opus`'s JSON store with its files kept in memory lands, which replaces `NotesStoredInMemory` (Magnus's
-    decision), the specifications' collection is prepared once per test process as files: the stripped-down corpus's
-    vocab files as they are, and the sample kanji and sentences serialized once. Each specification that needs it loads
-    them as a start does, rather than adding 1,035 notes in a unit of work each. How, by `jastudio-rep-opus`'s design:
-    the files written through `ITaggregateFilesInMemory.WriteAllText` before the store's first use are what it loads,
-    each app having files of its own; so the 1,035 paths and texts are prepared once, and written into each app's files
-    before its first use, about a megabyte, a millisecond or so.
+  - **Done. The specifications load their mini corpus as the application loads the corpus** (Magnus, 2026-11-17: "The
+    tests should load their mini corpus the same way as the real app if possible. I definitely agree").
+    `TheSpecificationsCorpus` is made once per test process for each `DataNeeded`, by a JAStudio that creates the notes:
+    the stripped-down corpus's vocab, loaded from its files as below, and the sample kanji and sentences. Its files, the
+    notes' and the shared-conditions', are then written into each specification's JAStudio, and the collection is loaded
+    again, as a start loads it, rather than adding 1,035 notes in a unit of work each. The parsing cases' JAStudio loads
+    the stripped-down corpus's vocab the same way (`CorpusFolder.AddTheVocabTo`).
   - **Writing every note, changed or not** (`save_every_note`, and the workspace's "Write file system repository"), is
     `CorpusNoteFiles.Write`, which writes a note's file as Compze does, since Compze's storage is out of reach: a
     `todo:compze:` until Compze can rewrite every taggregate.

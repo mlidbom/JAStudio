@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Compze.Teventive.StateStore;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.SysUtils.IO;
@@ -26,15 +27,17 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    DirectoryInfo SharedConditionsFolder => new(Path.Combine(_folder.FullName, "shared-conditions"));
 
    /// <summary>
-   /// Adds the vocab of this folder to <paramref name="app"/>'s collection, read as JAStudio reads the corpus's notes. This folder's shared-conditions come<br/>
-   /// first, since the vocab's match-conditions use them by name: copied to <paramref name="app"/>'s own corpus folder, and loaded from there as JAStudio<br/>
-   /// loads them, by reloading the collection.
+   /// Loads the vocab of this folder into <paramref name="app"/>'s collection, as JAStudio loads the corpus when it starts: its files, and the<br/>
+   /// shared-conditions' files, which the vocab's match-conditions use by name, are written into <paramref name="app"/>'s own corpus checkout, the vocab's<br/>
+   /// into the state store's files, kept in memory, and the collection is loaded again.
    /// </summary>
    public void AddTheVocabTo(CoreApp app)
    {
-      CopyTheSharedConditionsTo(new CorpusFolder(new DirectoryInfo(app.Services.Resolve<IEnvironmentPaths>().DatabaseDir)));
+      var corpusCheckoutOfTheApp = new DirectoryInfo(app.Services.Resolve<IEnvironmentPaths>().DatabaseDir);
+      CopyTheSharedConditionsTo(new CorpusFolder(corpusCheckoutOfTheApp));
+      var storesFiles = app.Services.Resolve<ITaggregateFilesInMemory>();
+      foreach(var file in VocabFiles()) storesFiles.WriteAllText(Path.Combine(corpusCheckoutOfTheApp.FullName, Path.GetRelativePath(_folder.FullName, file.FullName)), File.ReadAllText(file.FullName));
       app.Collection.ReloadFromBackend();
-      foreach(var vocab in ReadTheVocab(app.Services.Resolve<NoteSerializer>())) app.Collection.Vocab.Add(vocab);
    }
 
    /// <summary>

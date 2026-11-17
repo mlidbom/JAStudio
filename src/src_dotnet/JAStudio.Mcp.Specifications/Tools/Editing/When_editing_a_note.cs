@@ -11,7 +11,6 @@ using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Storage;
-using JAStudio.Core.Storage.Dto;
 using JAStudio.Mcp.Tools.Editing.Fields;
 using ModelContextProtocol.Protocol;
 
@@ -38,7 +37,8 @@ public class When_editing_a_note : McpServerSpecification
    protected CallToolResult Edit(JPNote note, JsonObject changes) =>
       CallTool("edit_a_note", new Dictionary<string, object?> { ["noteId"] = note.GetId().ToString(), ["changes"] = changes });
 
-   protected VocabNote VocabStored() => new(GetService<NoteServices>(), GetService<NotesStoredInMemory>().SnapshotOf<VocabDto>(Vocab.GetId()));
+   /// <summary>The vocab as its file holds it.</summary>
+   protected VocabNote VocabStored() => GetService<NoteSerializer>().DeserializeVocab(TheStoredFileOf(Vocab));
 
    protected List<ParsedMatch> TheSentencesParsedWords() => [.. Sentence.GetParsingResult().ParsedWords];
 

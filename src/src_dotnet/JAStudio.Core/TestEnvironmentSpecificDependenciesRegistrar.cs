@@ -43,12 +43,11 @@ class TestEnvironmentSpecificDependenciesRegistrar(NotesKept notesKept) : IEnvir
          Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),
          Singleton.For<TeventsObserved>().Instance(_teventsObserved)
       );
-      if(_notesKept == NotesKept.InMemory) registrar.Register(Singleton.For<NotesStoredInMemory>().CreatedBy(() => new NotesStoredInMemory()));
    }
 
    public void DeclareWhereTheNotesAreKept(StateStoreBuilder store)
    {
-      if(_notesKept == NotesKept.InMemory) store.StoredIn((NotesStoredInMemory storage) => storage);
+      if(_notesKept == NotesKept.InMemory) CorpusNoteFiles.DeclareKeptInMemoryIn(store);
       else CorpusNoteFiles.DeclareIn(store);
    }
 

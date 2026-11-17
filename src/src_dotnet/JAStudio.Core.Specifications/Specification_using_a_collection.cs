@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using Compze.Tessaging.Engine;
 using Compze.Tessaging.TessageTypes;
+using Compze.Teventive.StateStore;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Specifications.Fixtures;
+using JAStudio.Core.Storage;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.TestUtils;
 
@@ -36,6 +38,17 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
    protected TService GetService<TService>() where TService : class => _appScope.CoreApp.Services.Resolve<TService>();
 
    protected NoteServices NoteServices => GetService<NoteServices>();
+
+   /// <summary>The text of <paramref name="note"/>'s file, as the state store last wrote it, or as <see cref="WriteTheFileOf"/> wrote it.</summary>
+   protected string TheStoredFileOf(JPNote note) => GetService<ITaggregateFilesInMemory>().ReadAllText(PathOfTheFileOf(note));
+
+   /// <summary>
+   /// Writes <paramref name="note"/>'s file as it is now, behind the state store's back, as an edit to the corpus checkout on the disk would: what the<br/>
+   /// next reload of the collection sees.
+   /// </summary>
+   protected void WriteTheFileOf(JPNote note) => GetService<ITaggregateFilesInMemory>().WriteAllText(PathOfTheFileOf(note), GetService<NoteSerializer>().Serialize(note));
+
+   string PathOfTheFileOf(JPNote note) => GetService<CorpusNoteFiles>().FileOf(note).FullName;
 
    /// <summary>The tevents observed so far (<see cref="TeventsObserved"/>), once every tevent published so far has been.</summary>
    protected IReadOnlyList<ITevent> TeventsObservedSoFar()

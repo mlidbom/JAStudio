@@ -1,11 +1,9 @@
 import typing
 from System import IDisposable
 from System.IO import DirectoryInfo, FileInfo
-from JAStudio.Core.Note import JPNote, NoteServices, KanjiNote, NoteId
+from JAStudio.Core.Note import JPNote, NoteServices, KanjiNote
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
-from Compze.Teventive.StateStore.Storage import ITaggregateStorage, TaggregateSnapshot, IPreparedWrite, TaggregateToDelete
-from System.Collections.Generic import IReadOnlyList_1
 
 class CorpusCheckoutLock(IDisposable):
     def Dispose(self) -> None: ...
@@ -38,36 +36,5 @@ class NoteSerializer:
         def __call__(self, note: SentenceNote) -> str:...
         @typing.overload
         def __call__(self, note: JPNote) -> str:...
-
-
-
-class NotesStoredInMemory(ITaggregateStorage):
-    def __init__(self) -> None: ...
-    def LoadAll(self) -> IReadOnlyList_1[TaggregateSnapshot]: ...
-    def Prepare(self, toSave: IReadOnlyList_1[TaggregateSnapshot], toDelete: IReadOnlyList_1[TaggregateToDelete]) -> IPreparedWrite: ...
-    def Store(self, note: JPNote) -> None: ...
-    # Skipped SnapshotOf due to it being static, abstract and generic.
-
-    SnapshotOf : SnapshotOf_MethodGroup
-    class SnapshotOf_MethodGroup:
-        def __getitem__(self, t:typing.Type[SnapshotOf_1_T1]) -> SnapshotOf_1[SnapshotOf_1_T1]: ...
-
-        SnapshotOf_1_T1 = typing.TypeVar('SnapshotOf_1_T1')
-        class SnapshotOf_1(typing.Generic[SnapshotOf_1_T1]):
-            SnapshotOf_1_TSnapshot = NotesStoredInMemory.SnapshotOf_MethodGroup.SnapshotOf_1_T1
-            def __call__(self, noteId: NoteId) -> SnapshotOf_1_TSnapshot:...
-
-
-    # Skipped Snapshots due to it being static, abstract and generic.
-
-    Snapshots : Snapshots_MethodGroup
-    class Snapshots_MethodGroup:
-        def __getitem__(self, t:typing.Type[Snapshots_1_T1]) -> Snapshots_1[Snapshots_1_T1]: ...
-
-        Snapshots_1_T1 = typing.TypeVar('Snapshots_1_T1')
-        class Snapshots_1(typing.Generic[Snapshots_1_T1]):
-            Snapshots_1_TSnapshot = NotesStoredInMemory.Snapshots_MethodGroup.Snapshots_1_T1
-            def __call__(self) -> IReadOnlyList_1[Snapshots_1_TSnapshot]:...
-
 
 

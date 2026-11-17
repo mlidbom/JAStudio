@@ -1,11 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Must;
+using Compze.Teventive.StateStore;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
-using JAStudio.Core.Specifications.Fixtures;
-using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
@@ -24,7 +24,7 @@ public class When_every_note_of_a_collection_is_kept_in_the_corpus_note_files : 
    readonly NoteSerializer _serializer;
    readonly IReadOnlyList<JPNote> _notes;
 
-   public When_every_note_of_a_collection_is_kept_in_the_corpus_note_files() : base(DataNeeded.All, NotesKept.InTheirFiles)
+   public When_every_note_of_a_collection_is_kept_in_the_corpus_note_files()
    {
       _noteFiles = GetService<CorpusNoteFiles>();
       _serializer = GetService<NoteSerializer>();
@@ -40,10 +40,12 @@ public class When_every_note_of_a_collection_is_kept_in_the_corpus_note_files : 
       _notes.Select(it => it.GetType().Name).Distinct().Order().Must().SequenceEqual([nameof(KanjiNote), nameof(SentenceNote), nameof(VocabNote)]);
 
    [XF] public void each_notes_file_holds_exactly_what_JAStudio_writes_of_it() =>
-      _notes.Where(it => File.ReadAllText(_noteFiles.FileOf(it).FullName) != _serializer.Serialize(it)).Select(it => it.GetQuestion()).Must().BeEmpty();
+      _notes.Where(it => TheStoredFileOf(it) != _serializer.Serialize(it)).Select(it => it.GetQuestion()).Must().BeEmpty();
 
    [XF] public void the_notes_folders_hold_a_file_for_each_note_and_no_other() =>
-      new[] { "kanji", "vocab", "sentences" }.Sum(it => Directory.GetFiles(Path.Combine(_noteFiles.CorpusCheckout.FullName, it), "*", SearchOption.AllDirectories).Length).Must().Be(_notes.Count);
+      GetService<ITaggregateFilesInMemory>().Paths.Count(IsInAFolderOfNotes).Must().Be(_notes.Count);
+
+   bool IsInAFolderOfNotes(string path) => new[] { "kanji", "vocab", "sentences" }.Any(it => path.StartsWith(Path.Combine(_noteFiles.CorpusCheckout.FullName, it) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase));
 
    public class loading_the_collection_again_from_the_files : When_every_note_of_a_collection_is_kept_in_the_corpus_note_files
    {

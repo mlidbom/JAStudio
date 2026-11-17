@@ -4,7 +4,6 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
-using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
@@ -21,7 +20,7 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
    protected readonly VocabNote _vocab行く;
    readonly int _teventsObservedInTheSetup;
 
-   protected When_reloading_the_collection() : base(NotesKept.InTheirFiles)
+   protected When_reloading_the_collection()
    {
       _collection = GetService<JPCollection>();
       _vocab行く = CreateVocab("行く", "to go", "いく");
@@ -46,7 +45,7 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
 
       public after_a_notes_file_changed_on_disk()
       {
-         GetService<CorpusNoteFiles>().Write(ACopyOf行くWithTheAnswer("to walk"));
+         WriteTheFileOf(ACopyOf行くWithTheAnswer("to walk"));
 
          _notesChangedOnDisk = _collection.ReloadFromBackend();
       }

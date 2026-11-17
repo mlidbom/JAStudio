@@ -36,13 +36,25 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
    /// container holds, and starts from a cache of them, which reads only the files changed since it was written. Each note's file is declared,<br/>
    /// rather than left to Compze's default, which is the same, since <see cref="Write"/> writes the same file.
    /// </summary>
-   internal static void DeclareIn(StateStoreBuilder store) =>
+   internal static void DeclareIn(StateStoreBuilder store) => DeclareIn(store, keptInMemory: false);
+
+   /// <summary>
+   /// As <see cref="DeclareIn(StateStoreBuilder)"/>, with the files kept in memory rather than on the disk, for the specifications: the corpus<br/>
+   /// checkout is then only where the files' paths begin. They're read and changed through Compze's <see cref="ITaggregateFilesInMemory"/>.
+   /// </summary>
+   internal static void DeclareKeptInMemoryIn(StateStoreBuilder store) => DeclareIn(store, keptInMemory: true);
+
+   static void DeclareIn(StateStoreBuilder store, bool keptInMemory) =>
       store.StoredInFiles((CorpusNoteFiles files) => files.CorpusCheckout,
                           NoteSerializer.JsonOptions,
-                          files => files.Of<VocabNote>(VocabFolder, FileIn)
-                                        .Of<KanjiNote>(KanjiFolder, FileIn)
-                                        .Of<SentenceNote>(SentencesFolder, FileIn)
-                                        .CachedWithMemoryPack());
+                          files =>
+                          {
+                             files.Of<VocabNote>(VocabFolder, FileIn)
+                                  .Of<KanjiNote>(KanjiFolder, FileIn)
+                                  .Of<SentenceNote>(SentencesFolder, FileIn)
+                                  .CachedWithMemoryPack();
+                             if(keptInMemory) files.KeptInMemory();
+                          });
 
    /// <summary>The file of <paramref name="note"/>, whether it has been written or not.</summary>
    public FileInfo FileOf(JPNote note) => FileIn(note, new DirectoryInfo(Path.Combine(CorpusCheckout.FullName, FolderOf(note))));
@@ -55,7 +67,8 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
    /// <remarks>
    /// It writes outside any unit of work, so a unit of work committing the same note meanwhile may write over it, or it over the unit of work's.<br/>
    /// todo:compze: it writes the file as Compze's storage does, exactly what <see cref="NoteSerializer.JsonOptions"/> make of the snapshot, in UTF-8<br/>
-   ///    with no byte order mark. Once Compze has a way to have its storage write every taggregate, changed or not, use it instead.
+   ///    with no byte order mark, and to the disk, even where the files are kept in memory (<see cref="DeclareKeptInMemoryIn"/>). Once Compze<br/>
+   ///    has a way to have its storage write every taggregate, changed or not, use it instead.
    /// </remarks>
    public void Write(JPNote note)
    {

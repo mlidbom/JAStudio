@@ -85,8 +85,8 @@ Each a commit that builds and passes the whole suite, so the switch to the store
    - **Composed in `AppBootstrapper.ComposeTheStateStoreOfTheNotes`:** the three note classes, built empty with
      `NoteServices` and compared by `CorpusNoteDto.HoldTheSameState` for the reload's report; the indexes; and a
      `LocalTessagingEngine`. The storage is what the environment declares: in the hosts, Compze's JSON store in the
-     corpus checkout, as `CorpusNoteFiles` declares it; in the specifications, `NotesStoredInMemory`, unless they are
-     about the notes' files (`NotesKept.InTheirFiles`).
+     corpus checkout, as `CorpusNoteFiles` declares it; in the specifications, the same, with the files kept in memory,
+     unless they need them on the disk (`NotesKept.InTheirFiles`).
    - **The indexes are declared beside the collections:** `VocabIndexes`, `KanjiIndexes` and `SentenceIndexes`, one key
      type for each index, since the store has one index for each class and key type: `VocabIndexes.Form` and so on.
      `NoteIndex` reads one for a collection, through its `LookupRecorder`; `StoredNotes` gives every note and the one
