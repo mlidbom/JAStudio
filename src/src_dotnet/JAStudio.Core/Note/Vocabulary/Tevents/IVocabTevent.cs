@@ -181,8 +181,10 @@ public interface IVocabTevent : INoteTevent
       }
 
       /// <summary>
-      /// A shared-condition its match-condition uses was renamed. The match-condition holds the shared-condition itself, so neither the vocab nor what it<br/>
-      /// matches changed, but the corpus stores the shared-condition by its new name: the tevent has the vocab written again.
+      /// A shared-condition its match-condition uses was renamed (<see cref="Matching.Conditions.Sharing.SharedConditions.Rename"/>), so the vocab's file<br/>
+      /// changes, though nothing of the vocab's own does: the match-condition holds the shared-condition object itself, which<br/>
+      /// <see cref="Matching.Conditions.Sharing.SharedConditions"/> owns and renamed in place, while the file stores it by its name. The tevent sets<br/>
+      /// nothing: it has the state store write the vocab again, which it does only for a vocab that published a tevent.
       /// </summary>
       /// <remarks>review-naming:matching: SharedConditionRenamed, a tevent that sets no property (Claude, 2026-11-17).</remarks>
       public interface SharedConditionRenamed : MatchingConfiguration;

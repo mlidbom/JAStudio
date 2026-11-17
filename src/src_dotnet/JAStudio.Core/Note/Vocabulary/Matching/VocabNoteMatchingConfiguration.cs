@@ -81,8 +81,8 @@ public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INot
 
    /// <summary>
    /// Has the vocab written again after a shared-condition its <see cref="MatchCondition"/> uses was renamed (<see cref="SharedConditions.Rename"/>), by<br/>
-   /// publishing <see cref="IVocabTevent.MatchingConfiguration.SharedConditionRenamed"/>. The match-condition holds the shared-condition itself, so neither<br/>
-   /// changed, but the corpus stores it by the shared-condition's name.
+   /// publishing <see cref="IVocabTevent.MatchingConfiguration.SharedConditionRenamed"/>. The match-condition holds the shared-condition object itself,<br/>
+   /// which <see cref="SharedConditions"/> renamed in place, so nothing of the vocab's own changed; but its file stores the shared-condition by its name.
    /// </summary>
    internal void SaveAfterASharedConditionItUsesWasRenamed() => Publish(new VocabTevent.MatchingConfiguration.SharedConditionRenamed());
 
