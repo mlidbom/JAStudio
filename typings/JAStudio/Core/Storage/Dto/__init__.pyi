@@ -4,7 +4,6 @@ from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from System.Collections.Generic import List_1, Dictionary_2
 from JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns import BreakdownUnderOptions, BreakdownWord
 from System import Guid
-from JAStudio.Core.Storage import IIdentifiableByGuid
 from System.Text.Json.Nodes import JsonObject
 from JAStudio.Core.Note.Sentences.ParsingCases import ParsingCase, ParsingCaseResult
 from JAStudio.Core.Note.Sentences import ParsingResult
@@ -83,7 +82,7 @@ class BreakdownWordDto(IMemoryPackable_1[BreakdownWordDto]):
     def ToBreakdownWord(self) -> BreakdownWord: ...
 
 
-class CorpusNoteDto(IMemoryPackFormatterRegister, IIdentifiableByGuid, abc.ABC):
+class CorpusNoteDto(IMemoryPackFormatterRegister, abc.ABC):
     @property
     def Id(self) -> Guid: ...
     @Id.setter

@@ -1,70 +1,62 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Must;
-using Compze.Teventive.StateStore.Storage;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
+using JAStudio.Core.Specifications.Fixtures;
+using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
-using JAStudio.Core.Storage.Dto;
 
 // ReSharper disable InconsistentNaming
 
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Storage;
 
 /// <summary>
-/// Every note of the specifications' collection, written to <see cref="CorpusNoteFiles"/> and loaded back, from the notes' files and then from<br/>
-/// the snapshot caches the first load writes: each note loads as it was written, as JAStudio writes a note's file (<see cref="NoteSerializer"/>).
+/// Every note of the specifications' collection, which the state store wrote to its file in the specification's corpus checkout<br/>
+/// (<see cref="CorpusNoteFiles"/>) as the unit of work that created it, or last changed it, committed.
 /// </summary>
-public class When_every_note_of_a_collection_is_kept_in_the_corpus_note_files : SpecificationUsingACollection, IAIGeneratedSpec, IDisposable
+public class When_every_note_of_a_collection_is_kept_in_the_corpus_note_files : SpecificationUsingACollection, IAIGeneratedSpec
 {
-   readonly DirectoryInfo _corpusCheckout = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), $"JAStudio_every_note_in_the_files_{Guid.NewGuid():N}"));
+   readonly CorpusNoteFiles _noteFiles;
    readonly NoteSerializer _serializer;
-   readonly IReadOnlyList<JPNote> _written;
+   readonly IReadOnlyList<JPNote> _notes;
 
-   public When_every_note_of_a_collection_is_kept_in_the_corpus_note_files()
+   public When_every_note_of_a_collection_is_kept_in_the_corpus_note_files() : base(DataNeeded.All, NotesKept.InTheirFiles)
    {
+      _noteFiles = GetService<CorpusNoteFiles>();
       _serializer = GetService<NoteSerializer>();
-      _written = [.. NoteServices.Collection.Kanji.All(), .. NoteServices.Collection.Vocab.All(), .. NoteServices.Collection.Sentences.All()];
-      new CorpusNoteFiles(_corpusCheckout.FullName).Prepare([.. _written.Select(it => new TaggregateSnapshot(it.GetType(), it.Id, it.ToDto()))], []).Commit();
+      _notes = EveryNoteHeld();
    }
 
-   public new void Dispose()
+   IReadOnlyList<JPNote> EveryNoteHeld() => [.. NoteServices.Collection.Kanji.All(), .. NoteServices.Collection.Vocab.All(), .. NoteServices.Collection.Sentences.All()];
+
+   /// <summary>Each note, as JAStudio writes a note's file (<see cref="NoteSerializer"/>), by its id.</summary>
+   IReadOnlyDictionary<NoteId, string> AsJAStudioWritesThem(IEnumerable<JPNote> notes) => notes.ToDictionary(it => it.GetId(), _serializer.Serialize);
+
+   [XF] public void the_collection_holds_notes_of_each_class() =>
+      _notes.Select(it => it.GetType().Name).Distinct().Order().Must().SequenceEqual([nameof(KanjiNote), nameof(SentenceNote), nameof(VocabNote)]);
+
+   [XF] public void each_notes_file_holds_exactly_what_JAStudio_writes_of_it() =>
+      _notes.Where(it => File.ReadAllText(_noteFiles.FileOf(it).FullName) != _serializer.Serialize(it)).Select(it => it.GetQuestion()).Must().BeEmpty();
+
+   [XF] public void the_notes_folders_hold_a_file_for_each_note_and_no_other() =>
+      new[] { "kanji", "vocab", "sentences" }.Sum(it => Directory.GetFiles(Path.Combine(_noteFiles.CorpusCheckout.FullName, it), "*", SearchOption.AllDirectories).Length).Must().Be(_notes.Count);
+
+   public class loading_the_collection_again_from_the_files : When_every_note_of_a_collection_is_kept_in_the_corpus_note_files
    {
-      base.Dispose();
-      _corpusCheckout.Delete(recursive: true);
-   }
+      readonly IReadOnlyDictionary<NoteId, string> _heldBefore;
+      readonly IReadOnlyList<JPNote> _notesChangedOnDisk;
 
-   IReadOnlyList<TaggregateSnapshot> LoadEveryNote() => new CorpusNoteFiles(_corpusCheckout.FullName).LoadAll();
+      public loading_the_collection_again_from_the_files()
+      {
+         _heldBefore = AsJAStudioWritesThem(_notes);
+         _notesChangedOnDisk = NoteServices.Collection.ReloadFromBackend();
+      }
 
-   /// <summary>The id of each note that <paramref name="loaded"/> holds otherwise than it was written, or that only one of the two has.</summary>
-   IReadOnlyList<Guid> TheNotesLoadedOtherwiseThanWritten(IReadOnlyList<TaggregateSnapshot> loaded)
-   {
-      var written = _written.ToDictionary(it => it.GetId().Value, _serializer.Serialize);
-      var asLoaded = loaded.ToDictionary(it => it.Id.Value, it => _serializer.Serialize(RestoredFrom(it.Snapshot)));
-      return [.. written.Keys.Union(asLoaded.Keys).Where(id => written.GetValueOrDefault(id) != asLoaded.GetValueOrDefault(id))];
-   }
-
-   JPNote RestoredFrom(object snapshot) => snapshot switch
-   {
-      KanjiDto kanji => new KanjiNote(NoteServices, kanji),
-      VocabDto vocab => new VocabNote(NoteServices, vocab),
-      SentenceDto sentence => new SentenceNote(NoteServices, sentence),
-      _ => throw new ArgumentException($"A {snapshot.GetType().FullName} isn't a note's DTO.", nameof(snapshot))
-   };
-
-   public class loading_every_note_from_the_files : When_every_note_of_a_collection_is_kept_in_the_corpus_note_files
-   {
-      [XF] public void gives_each_note_as_it_was_written() => TheNotesLoadedOtherwiseThanWritten(LoadEveryNote()).Must().BeEmpty();
-   }
-
-   public class loading_every_note_again_from_the_snapshot_caches : When_every_note_of_a_collection_is_kept_in_the_corpus_note_files
-   {
-      public loading_every_note_again_from_the_snapshot_caches() => LoadEveryNote();
-
-      [XF] public void gives_each_note_as_it_was_written() => TheNotesLoadedOtherwiseThanWritten(LoadEveryNote()).Must().BeEmpty();
+      [XF] public void finds_no_note_changed_on_disk() => _notesChangedOnDisk.Must().BeEmpty();
+      [XF] public void holds_each_note_as_it_held_it_before() => AsJAStudioWritesThem(EveryNoteHeld()).Must().DeepEqual(_heldBefore);
    }
 }

@@ -84,8 +84,9 @@ Each a commit that builds and passes the whole suite, so the switch to the store
    the corpus, a full rebuild and saving every note change no file, and the copies of all 79,896 notes lose nothing.
    - **Composed in `AppBootstrapper.ComposeTheStateStoreOfTheNotes`:** the three note classes, built empty with
      `NoteServices` and compared by `CorpusNoteDto.HoldTheSameState` for the reload's report; the indexes; and a
-     `LocalTessagingEngine`. The storage is the environment's `ITaggregateStorage`: `CorpusNoteFiles` in the hosts,
-     `NotesStoredInMemory` in the specifications, which read what is stored, and change it as a change on disk would.
+     `LocalTessagingEngine`. The storage is what the environment declares: in the hosts, Compze's JSON store in the
+     corpus checkout, as `CorpusNoteFiles` declares it; in the specifications, `NotesStoredInMemory`, unless they are
+     about the notes' files (`NotesKept.InTheirFiles`).
    - **The indexes are declared beside the collections:** `VocabIndexes`, `KanjiIndexes` and `SentenceIndexes`, one key
      type for each index, since the store has one index for each class and key type: `VocabIndexes.Form` and so on.
      `NoteIndex` reads one for a collection, through its `LookupRecorder`; `StoredNotes` gives every note and the one

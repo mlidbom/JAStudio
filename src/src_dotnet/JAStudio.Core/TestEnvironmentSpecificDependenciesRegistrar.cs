@@ -2,7 +2,7 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.Tessaging.TessageBus;
 using Compze.Tessaging.TessageTypes;
-using Compze.Teventive.StateStore.Storage;
+using Compze.Teventive.StateStore;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Storage;
@@ -13,9 +13,11 @@ using JAStudio.Core.TestUtils;
 
 namespace JAStudio.Core;
 
-class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDependenciesRegistrar
+/// <summary>The specifications' environment, with its notes kept as <see cref="NotesKept"/> says.</summary>
+class TestEnvironmentSpecificDependenciesRegistrar(NotesKept notesKept) : IEnvironmentSpecificDependenciesRegistrar
 {
    readonly TeventsObserved _teventsObserved = new();
+   readonly NotesKept _notesKept = notesKept;
 
    public void WireEnvironmentSpecificServices(IComponentRegistrar registrar)
    {
@@ -23,14 +25,11 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
       var ankiRawNotes = new InMemoryAnkiRawNotes();
       var pretendAnki = new PretendAnki();
       var fatalErrorHandler = new RethrowingFatalErrorHandler();
-      var notesStoredInMemory = new NotesStoredInMemory();
 
       registrar.Register(
          Singleton.For<InMemoryAnkiRawNotes>().Instance(ankiRawNotes),
          Singleton.For<IAnkiRawNotes>().Instance(ankiRawNotes),
          Singleton.For<IEnvironmentPaths>().Instance(paths),
-         Singleton.For<NotesStoredInMemory>().Instance(notesStoredInMemory),
-         Singleton.For<ITaggregateStorage>().Instance(notesStoredInMemory),
          Singleton.For<PretendAnki>().Instance(pretendAnki),
          Singleton.For<ISRSStudyNotes>().Instance(pretendAnki),
          Singleton.For<ISRSTagOperations>().Instance(pretendAnki),
@@ -44,6 +43,13 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),
          Singleton.For<TeventsObserved>().Instance(_teventsObserved)
       );
+      if(_notesKept == NotesKept.InMemory) registrar.Register(Singleton.For<NotesStoredInMemory>().CreatedBy(() => new NotesStoredInMemory()));
+   }
+
+   public void DeclareWhereTheNotesAreKept(StateStoreBuilder store)
+   {
+      if(_notesKept == NotesKept.InMemory) store.StoredIn((NotesStoredInMemory storage) => storage);
+      else CorpusNoteFiles.DeclareIn(store);
    }
 
    public void ObserveTevents(TeventObservationRegistrar observe) => observe.ForTevent<ITevent>((tevent, _) => _teventsObserved.Add(tevent));

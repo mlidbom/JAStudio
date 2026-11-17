@@ -1,11 +1,9 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using Compze.Teventive.StateStore.Storage;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
-using JAStudio.Core.Storage;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
@@ -30,7 +28,6 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
    public void WireEnvironmentSpecificServices(IComponentRegistrar registrar) =>
       registrar.Register(
          Singleton.For<IEnvironmentPaths>().Instance(new HeadlessEnvironmentPaths(_setup)),
-         Singleton.For<ITaggregateStorage>().CreatedBy(ITaggregateStorage (IEnvironmentPaths paths) => new CorpusNoteFiles(paths.DatabaseDir)),
          Singleton.For<AnkiCollectionDatabase>().Instance(new AnkiCollectionFile(_setup.AnkiCollectionFile)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new HeadlessAnkiRawNotes(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),

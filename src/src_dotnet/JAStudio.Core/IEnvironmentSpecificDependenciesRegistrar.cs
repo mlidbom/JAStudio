@@ -1,5 +1,7 @@
 using Compze.DependencyInjection.Abstractions;
 using Compze.Tessaging.TessageBus;
+using Compze.Teventive.StateStore;
+using JAStudio.Core.Storage;
 
 namespace JAStudio.Core;
 
@@ -16,4 +18,10 @@ public interface IEnvironmentSpecificDependenciesRegistrar
    /// which records every tevent for the specifications to assert on. An observer gets a tevent once the unit of work that published it has committed.
    /// </summary>
    void ObserveTevents(TeventObservationRegistrar observe) {}
+
+   /// <summary>
+   /// Declares where <paramref name="store"/>, the state store that keeps the notes, keeps them: unless the environment says otherwise, in their files<br/>
+   /// in the corpus checkout (<see cref="CorpusNoteFiles"/>).
+   /// </summary>
+   void DeclareWhereTheNotesAreKept(StateStoreBuilder store) => CorpusNoteFiles.DeclareIn(store);
 }

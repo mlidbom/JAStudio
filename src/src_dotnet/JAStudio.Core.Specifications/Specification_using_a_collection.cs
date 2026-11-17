@@ -12,7 +12,7 @@ using JAStudio.Core.TestUtils;
 
 namespace JAStudio.Core.Specifications;
 
-public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded.All) : IDisposable
+public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded.All, NotesKept notesKept = NotesKept.InMemory) : IDisposable
 {
    /// <summary>
    /// Disposes the app once the work the specification started in the background has finished, and every tevent published has been observed, and<br/>
@@ -31,7 +31,7 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
       }
    }
 
-   readonly CollectionFactory.AppScope _appScope = CollectionFactory.InjectCollectionWithSelectData(data);
+   readonly CollectionFactory.AppScope _appScope = CollectionFactory.InjectCollectionWithSelectData(data, notesKept);
 
    protected TService GetService<TService>() where TService : class => _appScope.CoreApp.Services.Resolve<TService>();
 

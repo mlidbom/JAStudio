@@ -2,10 +2,12 @@ import typing, clr, abc
 from JAStudio.Core.UI.Web.Kanji import KanjiNoteRenderer
 from JAStudio.Core.UI.Web.Sentence import SentenceNoteRenderer
 from JAStudio.Core.UI.Web.Vocab import VocabNoteRenderer
+from JAStudio.Core.TestUtils import NotesKept
 from System import IEquatable_1, IDisposable
 from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
+from Compze.Teventive.StateStore import StateStoreBuilder
 from Compze.Tessaging.TessageBus import TeventObservationRegistrar
 from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
 from System.IO import DirectoryInfo
@@ -27,7 +29,7 @@ class AnkiHTMLRenderers:
 
 class AppBootstrapper(abc.ABC):
     @staticmethod
-    def PrepareForTests() -> AppBootstrapper.BootstrapPlan: ...
+    def PrepareForTests(notesKept: NotesKept = ...) -> AppBootstrapper.BootstrapPlan: ...
     @staticmethod
     def PrepareProduction(deps: IEnvironmentSpecificDependenciesRegistrar) -> AppBootstrapper.BootstrapPlan: ...
 
@@ -85,6 +87,7 @@ class IEnvironmentPaths(typing.Protocol):
 
 
 class IEnvironmentSpecificDependenciesRegistrar(typing.Protocol):
+    def DeclareWhereTheNotesAreKept(self, store: StateStoreBuilder) -> None: ...
     def ObserveTevents(self, observe: TeventObservationRegistrar) -> None: ...
     @abc.abstractmethod
     def WireEnvironmentSpecificServices(self, registrar: IComponentRegistrar) -> None: ...

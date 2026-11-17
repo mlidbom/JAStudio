@@ -156,7 +156,7 @@ date rather than over the code.
   vocab they create themselves, as the AI-created ones do: with the real vocab, a change to an unrelated vocab could
   break them, and what they specify would be harder to see.
 - **Loading:** the corpus has about 28,000 vocab, and every specification builds a collection of its own. The full mode
-  might load them once a run, from the snapshot the corpus keeps for fast loading (`vocab/snapshot.bin`).
+  might load them once a run, rather than once a specification.
 
 ## 4. Parsing specifications that expect the exact parsing result
 

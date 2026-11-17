@@ -1,77 +1,78 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Compze.Teventive.StateStore.Storage;
+using System.Text.Json;
+using Compze.Teventive.StateStore;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Storage;
 
 /// <summary>
-/// The notes' files in a corpus checkout, a file for each note, as the storage of a state store that keeps the notes: it loads every note's<br/>
-/// snapshot, its DTO, from its file, and writes the files of the notes a unit of work changed, each as JAStudio has always written it.
+/// The notes' files in a corpus checkout, a JSON file for each note, where the state store that keeps the notes stores them: Compze's storage of<br/>
+/// taggregates in files (<see cref="StateStoreBuilder.StoredInFiles{TService}"/>), each file holding exactly what<br/>
+/// <see cref="NoteSerializer.JsonOptions"/> make of the note's snapshot, its DTO. Also writes a note's file outside any unit of work<br/>
+/// (<see cref="Write"/>), for the tools that check how the notes are stored.
 /// </summary>
 /// <remarks>
+/// Each class of note has a folder of its own in the corpus checkout, <c>vocab</c>, <c>kanji</c> and <c>sentences</c>, and each note's file in it is<br/>
+/// <c>&lt;first two hex digits of its id&gt;/&lt;id&gt;.json</c>, as JAStudio has always stored them. Compze keeps files of its own, the journals of<br/>
+/// its commits, in <c>.state-store</c> in the corpus checkout, which the corpus repository ignores.<br/>
 /// review-naming: CorpusNoteFiles is a name taggregates-opus chose (2026-11-16).
 /// </remarks>
-public partial class CorpusNoteFiles : ITaggregateStorage
+public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
 {
-   readonly JsonFilesystemObjectRepository<KanjiDto> _kanji;
-   readonly JsonFilesystemObjectRepository<VocabDto> _vocab;
-   readonly JsonFilesystemObjectRepository<SentenceDto> _sentences;
+   const string VocabFolder = "vocab";
+   const string KanjiFolder = "kanji";
+   const string SentencesFolder = "sentences";
 
-   /// <summary>The notes' files in the corpus checkout <paramref name="corpusCheckoutFolder"/>.</summary>
-   public CorpusNoteFiles(string corpusCheckoutFolder)
-   {
-      _kanji = new JsonFilesystemObjectRepository<KanjiDto>(Path.Combine(corpusCheckoutFolder, "kanji"), NoteSerializer.JsonOptions);
-      _vocab = new JsonFilesystemObjectRepository<VocabDto>(Path.Combine(corpusCheckoutFolder, "vocab"), NoteSerializer.JsonOptions);
-      _sentences = new JsonFilesystemObjectRepository<SentenceDto>(Path.Combine(corpusCheckoutFolder, "sentences"), NoteSerializer.JsonOptions);
-   }
-
-   public IReadOnlyList<TaggregateSnapshot> LoadAll() =>
-   [
-      .. _kanji.LoadAll().Select(it => new TaggregateSnapshot(typeof(KanjiNote), new KanjiId(it.Id), it)),
-      .. _vocab.LoadAll().Select(it => new TaggregateSnapshot(typeof(VocabNote), new VocabId(it.Id), it)),
-      .. _sentences.LoadAll().Select(it => new TaggregateSnapshot(typeof(SentenceNote), new SentenceId(it.Id), it))
-   ];
+   /// <summary>The corpus checkout whose notes' files these are, such as <see cref="IEnvironmentPaths.DatabaseDir"/>.</summary>
+   public DirectoryInfo CorpusCheckout { get; } = corpusCheckout;
 
    /// <summary>
-   /// Writes each file of <paramref name="toSave"/> under a temporary name, for committing to give it its name. When writing one fails, those<br/>
-   /// already written are discarded, and the failure goes on to the state store, which rolls the unit of work back.
+   /// Declares that <paramref name="store"/> keeps the notes in their files in the corpus checkout of the <see cref="CorpusNoteFiles"/> the<br/>
+   /// container holds. Each note's file is declared, rather than left to Compze's default, which is the same, since <see cref="Write"/> writes<br/>
+   /// the same file.
    /// </summary>
-   public IPreparedWrite Prepare(IReadOnlyList<TaggregateSnapshot> toSave, IReadOnlyList<TaggregateToDelete> toDelete)
-   {
-      var prepared = new List<IPreparedWrite>();
-      try
-      {
-         foreach(var note in toSave) prepared.Add(PrepareSaving(note));
-         foreach(var note in toDelete) prepared.Add(PrepareDeleting(note));
-      }
-      catch
-      {
-         new PreparedWrites(prepared).Discard();
-         throw;
-      }
+   internal static void DeclareIn(StateStoreBuilder store) =>
+      store.StoredInFiles((CorpusNoteFiles files) => files.CorpusCheckout,
+                          NoteSerializer.JsonOptions,
+                          files => files.Of<VocabNote>(VocabFolder, FileIn)
+                                        .Of<KanjiNote>(KanjiFolder, FileIn)
+                                        .Of<SentenceNote>(SentencesFolder, FileIn));
 
-      return new PreparedWrites(prepared);
+   /// <summary>The file of <paramref name="note"/>, whether it has been written or not.</summary>
+   public FileInfo FileOf(JPNote note) => FileIn(note, new DirectoryInfo(Path.Combine(CorpusCheckout.FullName, FolderOf(note))));
+
+   /// <summary>
+   /// Writes <paramref name="note"/>'s file as the state store writes it, as the note is now, changed or not, which a unit of work does only for the<br/>
+   /// notes it changes: to see what loading and saving does to the notes' files, as after a change to how they are stored, or to change a note's<br/>
+   /// file as an edit on disk would.
+   /// </summary>
+   /// <remarks>
+   /// It writes outside any unit of work, so a unit of work committing the same note meanwhile may write over it, or it over the unit of work's.<br/>
+   /// todo:compze: it writes the file as Compze's storage does, exactly what <see cref="NoteSerializer.JsonOptions"/> make of the snapshot, in UTF-8<br/>
+   ///    with no byte order mark. Once Compze has a way to have its storage write every taggregate, changed or not, use it instead.
+   /// </remarks>
+   public void Write(JPNote note)
+   {
+      var file = FileOf(note);
+      file.Directory?.Create();
+      var snapshot = note.ToDto();
+      File.WriteAllText(file.FullName, JsonSerializer.Serialize(snapshot, snapshot.GetType(), NoteSerializer.JsonOptions));
    }
 
-   IPreparedWrite PrepareSaving(TaggregateSnapshot note) => note.Snapshot switch
+   static string FolderOf(JPNote note) => note switch
    {
-      KanjiDto kanji => _kanji.PrepareSaving(kanji),
-      VocabDto vocab => _vocab.PrepareSaving(vocab),
-      SentenceDto sentence => _sentences.PrepareSaving(sentence),
-      _ => throw new ArgumentException($"{note.TaggregateClass.FullName}'s snapshot is a {note.Snapshot.GetType().FullName}, which isn't a note's DTO.")
+      VocabNote => VocabFolder,
+      KanjiNote => KanjiFolder,
+      SentenceNote => SentencesFolder,
+      _ => throw new ArgumentOutOfRangeException(nameof(note), note.GetType(), "A kind of note the corpus doesn't store.")
    };
 
-   IPreparedWrite PrepareDeleting(TaggregateToDelete note)
+   static FileInfo FileIn(JPNote note, DirectoryInfo folderOfItsClass)
    {
-      if(note.TaggregateClass == typeof(KanjiNote)) return _kanji.PrepareDeleting(note.Id.Value);
-      if(note.TaggregateClass == typeof(VocabNote)) return _vocab.PrepareDeleting(note.Id.Value);
-      if(note.TaggregateClass == typeof(SentenceNote)) return _sentences.PrepareDeleting(note.Id.Value);
-      throw new ArgumentException($"{note.TaggregateClass.FullName} isn't a class of note.");
+      var id = note.GetId().Value;
+      return new FileInfo(Path.Combine(folderOfItsClass.FullName, id.ToString("N")[..2], $"{id}.json"));
    }
 }

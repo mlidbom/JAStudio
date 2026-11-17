@@ -1,14 +1,12 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.Tessaging.TessageBus;
-using Compze.Teventive.StateStore.Storage;
 using JAStudio.Anki.AnkisFunctions.ThroughPythonnet;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Storage;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
@@ -24,7 +22,6 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
       var ankisAvailability = new AnkisAvailability();
       registrar.Register(
          Singleton.For<IEnvironmentPaths>().Instance(new AnkiEnvironmentPaths(anki)),
-         Singleton.For<ITaggregateStorage>().CreatedBy(ITaggregateStorage (IEnvironmentPaths paths) => new CorpusNoteFiles(paths.DatabaseDir)),
          Singleton.For<AnkiCollectionDatabase>().Instance(new AnkisOwnConnection(anki.Database)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new AnkiRawNotes(database, anki.Notes)),
          Singleton.For<IFatalErrorHandler>().Instance(new AvaloniaFatalErrorHandler()),

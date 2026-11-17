@@ -55,11 +55,13 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `3ff814272`, with observers created at runtime (`ITeventObservation`), each unit
+  JAStudio's worktree of Compze is at `4ccdfb6b7`, where Compze's JSON store (`StoredInFiles`), which JAStudio now keeps
+  its notes in, reads a class's folder anew at each load: a store that started on an empty folder lost every taggregate at
+  its next reload (found by `taggregates-opus`). Before it, `d248ebd66`, where only Compze's own file storage hands the
+  store a restored taggregate: a storage that kept the snapshots it was given handed back live instances (also found by
+  `taggregates-opus`). Before it, `3ff814272`, with observers created at runtime (`ITeventObservation`), each unit
   of work's tevents observed together (`ForEachUnitOfWork`), what may be observed at runtime declared at composition
-  (`AtRuntime`), and Compze's JSON store (`StoredInFiles`), which JAStudio doesn't use yet. Its store reuses a taggregate
-  that a snapshot from the storage carries, so the specifications' in-memory storage keeps only the snapshot. Before it,
-  `8695d4608`, with the first two. Before it, `5e9f293e4`, where deletion is a tevent: a taggregate that publishes an
+  (`AtRuntime`), and the JSON store. Before it, `8695d4608`, with the first two. Before it, `5e9f293e4`, where deletion is a tevent: a taggregate that publishes an
   `ITaggregateDeletedTevent` is gone from its unit of work at once, and from the store when it commits, and the updater's
   `Delete` is gone (Magnus, item 42). Before it, `3df5ee7f8`, where the engine's await is `AwaitNoTessagesInFlightAsync`
   (Magnus, item 43). Before it, `53d24b46c`, where an index keeps no record of each taggregate's keys (step 12, below).
@@ -379,8 +381,27 @@ to anything that happens".
     later, rather than on the thread that made it. A reload whose change to the corpus checkout fails publishes no
     `ICollectionReloaded`, where `ReloadedFromBackend` was raised anyway; so the live MCP server no longer starts after a
     first load that fails.
-- **Compze's JSON store is to take over `CorpusNoteFiles`** (Magnus's approval, through `jastudio-rep-opus`): it has
-  landed (`679775f97`, `3ff814272`), and JAStudio switches to it next and measures its start against `snapshot.bin`.
+- **Done. Compze's JSON store keeps the notes' files** (Magnus's approval, through `jastudio-rep-opus`): the state store
+  is `StoredInFiles` the corpus checkout, as `CorpusNoteFiles.DeclareIn` declares it, a folder for each class of note
+  and each note's file where it always was. JAStudio's own storage, `JsonFilesystemObjectRepository` and its
+  `snapshot.bin` caches, is gone.
+  - **Each environment declares where the notes are kept** (`IEnvironmentSpecificDependenciesRegistrar.DeclareWhereTheNotesAreKept`):
+    the hosts in the corpus checkout's files. The specifications keep them in memory (`NotesStoredInMemory`) unless they
+    are about the files (`NotesKept.InTheirFiles`): the corpus repository's MCP specifications, the reloads, a created
+    note's file, and every note of the specifications' collection, whose files hold exactly what `NoteSerializer` writes
+    and load back unchanged. With every specification on files, the suite took 149 to 186 s rather than 56 to 59 s:
+    most specifications start with about 900 notes, and Compze makes about five file operations of each note's commit.
+  - **Writing every note, changed or not** (`save_every_note`, and the workspace's "Write file system repository"), is
+    `CorpusNoteFiles.Write`, which writes a note's file as Compze does, since Compze's storage is out of reach: a
+    `todo:compze:` until Compze can rewrite every taggregate.
+  - **On the corpus:** a full rebuild changes no file; saving every note, all 79,896, changes no file; and an edit made
+    through Compze's storage and undone leaves the file byte for byte as it was. Compze's own folder, `.state-store`,
+    holds files only while a commit is made: the corpus repository's `.gitignore` should list it.
+  - **The start is slower** ("Loading the notes" in the headless JAStudio): 4.01, 4.16 and 4.45 s from the `snapshot.bin`
+    caches, 7.69 and 7.81 s from the files once the system has cached them, and 37.65 s the first time they were read,
+    as after the computer starts. The machine's other processes used 0.5 to 0.8 cores, and 2 for the cold start. Magnus
+    approved a cache, MemoryPack, as a package of Compze's own if the JSON store is clearly slower:
+    `jastudio-rep-opus` builds it next.
 - **Specifications wait** with `ILocalTessagingEngine.AwaitNoTessagesInFlightAsync`, so named on Magnus's word (Compze's
   `3df5ee7f8`).
 

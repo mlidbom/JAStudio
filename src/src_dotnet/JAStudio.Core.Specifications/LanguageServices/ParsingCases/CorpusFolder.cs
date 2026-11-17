@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.SysUtils.IO;
@@ -64,7 +63,8 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, CorpusFolder theCorpusOfTheVocab)
    {
       DeleteTheFilesIn(VocabFolder);
-      new CorpusNoteFiles(_folder.FullName).Prepare([.. vocab.Select(it => new TaggregateSnapshot(typeof(VocabNote), it.Id, it.TakeSnapshot()))], []).Commit();
+      var noteFiles = new CorpusNoteFiles(_folder);
+      foreach(var it in vocab) noteFiles.Write(it);
       theCorpusOfTheVocab.CopyTheSharedConditionsTo(this);
    }
 

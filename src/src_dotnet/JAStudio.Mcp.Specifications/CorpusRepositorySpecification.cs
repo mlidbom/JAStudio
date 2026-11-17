@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using JAStudio.Core;
+using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -10,12 +11,12 @@ using JAStudio.Core.Storage;
 namespace JAStudio.Mcp.Specifications;
 
 /// <summary>
-/// An <see cref="McpServerSpecification"/> whose corpus folder is a git repository, as the corpus checkout a real JAStudio works on is.<br/>
-/// The test environment keeps notes in memory, not in files, so specifications write and commit the note files git is to see themselves.
+/// An <see cref="McpServerSpecification"/> whose corpus folder is a git repository, as the corpus checkout a real JAStudio works on is, and where the<br/>
+/// state store keeps the notes in their files, as a real JAStudio does.
 /// </summary>
 public abstract class CorpusRepositorySpecification : McpServerSpecification
 {
-   protected CorpusRepositorySpecification() => Git("init", "--quiet");
+   protected CorpusRepositorySpecification() : base(NotesKept.InTheirFiles) => Git("init", "--quiet");
 
    DirectoryInfo CorpusFolder => new(GetService<IEnvironmentPaths>().DatabaseDir);
 

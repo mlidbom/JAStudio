@@ -1,11 +1,11 @@
-using System.Linq;
+using System.IO;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
+using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Storage;
-using JAStudio.Core.Storage.Dto;
 
 // ReSharper disable InconsistentNaming
 
@@ -20,9 +20,9 @@ public class When_a_note_is_created : SpecificationStartingWithAnEmptyCollection
    readonly ITaggregateReference<JPNote> _sentenceReference;
    JPNote _sentence => _sentenceReference.Current;
 
-   public When_a_note_is_created() => _sentenceReference = CreateSentence("家に帰る").Reference();
+   public When_a_note_is_created() : base(NotesKept.InTheirFiles) => _sentenceReference = CreateSentence("家に帰る").Reference();
 
    [XF] public void it_gets_no_study_note_in_Anki() => _sentence.HasAStudyNote().Must().BeFalse();
    [XF] public void it_is_in_the_collection() => GetService<JPCollection>().NoteFromNoteId(_sentence.GetId()).Must().Be(_sentence);
-   [XF] public void it_is_saved_to_the_corpus() => GetService<NotesStoredInMemory>().Snapshots<SentenceDto>().Select(it => it.Id).Must().Contain(_sentence.GetId().Value);
+   [XF] public void it_is_saved_to_the_corpus() => File.ReadAllText(GetService<CorpusNoteFiles>().FileOf(_sentence).FullName).Must().Be(GetService<NoteSerializer>().Serialize(_sentence));
 }

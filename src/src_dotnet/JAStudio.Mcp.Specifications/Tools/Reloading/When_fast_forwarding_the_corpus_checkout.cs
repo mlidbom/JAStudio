@@ -6,6 +6,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Storage;
 using JAStudio.Mcp.Tools.Reloading;
 using ModelContextProtocol.Protocol;
 
@@ -28,14 +29,21 @@ public abstract class When_fast_forwarding_the_corpus_checkout : CorpusRepositor
    {
       var vocab行く = CreateVocab("行く", "to go", "いく");
       _vocab来る = CreateVocab("来る", "to come", "くる");
-      Write(FileOf(vocab行く), "{}");
-      Write(FileOf(_vocab来る), "{}");
       _commitBefore = CommitEverything();
 
       Git("checkout", "--quiet", "-b", BranchAhead);
-      Write(FileOf(vocab行く), """{"changed": true}""");
+      Write(FileOf(vocab行く), TheFileOf(vocab行く, withTheAnswer: "to walk"));
       _commitAhead = CommitEverything("行く changed");
       Git("checkout", "--quiet", "-");
+   }
+
+   /// <summary>The file of <paramref name="vocab"/> as JAStudio writes it, had its answer been changed to <paramref name="withTheAnswer"/>.</summary>
+   string TheFileOf(VocabNote vocab, string withTheAnswer)
+   {
+      var serializer = GetService<NoteSerializer>();
+      var copy = serializer.DeserializeVocab(serializer.Serialize(vocab));
+      copy.SetCorpusAnswer(withTheAnswer);
+      return serializer.Serialize(copy);
    }
 
    protected CallToolResult FastForwardTo(string commit) =>
@@ -67,7 +75,7 @@ public abstract class When_fast_forwarding_the_corpus_checkout : CorpusRepositor
          var otherClone = new DirectoryInfo(Path.Combine(GetService<IEnvironmentPaths>().AddonRootDir, "another-corpus-clone"));
          Git("clone", "--quiet", ".", otherClone.FullName);
          Git("-C", otherClone.FullName, "checkout", "--quiet", "--detach");
-         File.WriteAllText(Path.Combine(otherClone.FullName, Path.GetRelativePath(GetService<IEnvironmentPaths>().DatabaseDir, FileOf(_vocab来る).FullName)), """{"changed": true}""");
+         File.WriteAllText(Path.Combine(otherClone.FullName, Path.GetRelativePath(GetService<IEnvironmentPaths>().DatabaseDir, FileOf(_vocab来る).FullName)), TheFileOf(_vocab来る, withTheAnswer: "to arrive"));
          Git("-C", otherClone.FullName, "-c", "user.name=Specification", "-c", "user.email=specification@localhost", "commit", "--quiet", "--all", "--message", "来る changed");
          _commitInTheOtherClone = Git("-C", otherClone.FullName, "rev-parse", "HEAD").Trim();
 
@@ -86,7 +94,7 @@ public abstract class When_fast_forwarding_the_corpus_checkout : CorpusRepositor
 
       public to_a_branch_that_is_not_ahead_of_the_checkouts_head()
       {
-         Write(FileOf(_vocab来る), """{"changed": true}""");
+         Write(FileOf(_vocab来る), TheFileOf(_vocab来る, withTheAnswer: "to arrive"));
          _commitOfTheCheckout = CommitEverything("来る changed");
 
          _result = FastForwardTo(BranchAhead);

@@ -6,7 +6,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
 using JAStudio.Core.Specifications.LanguageServices.ParsingCases;
-using JAStudio.Core.Storage;
+using JAStudio.Core.TestUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -26,9 +26,9 @@ public enum DataNeeded
 
 public static class CollectionFactory
 {
-   public static AppScope InjectCollectionWithSelectData(DataNeeded data)
+   public static AppScope InjectCollectionWithSelectData(DataNeeded data, NotesKept notesKept = NotesKept.InMemory)
    {
-      var plan = AppBootstrapper.PrepareForTests();
+      var plan = AppBootstrapper.PrepareForTests(notesKept);
       var host = Host.CreateDefaultBuilder()
                      .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
                      .Build();

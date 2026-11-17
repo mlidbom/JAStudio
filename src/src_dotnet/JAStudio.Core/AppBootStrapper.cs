@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Compze.Contracts;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
@@ -7,7 +8,6 @@ using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using Compze.Tessaging.Engine.Wiring;
 using Compze.Tessaging.TessageBus;
 using Compze.Teventive.StateStore;
-using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing;
@@ -29,6 +29,7 @@ using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
+using JAStudio.Core.TestUtils;
 using JAStudio.Core.UI.Shortcuts;
 using JAStudio.Core.UI.Web;
 using JAStudio.Core.UI.Web.Kanji;
@@ -47,10 +48,11 @@ public static class AppBootstrapper
 
    public static BootstrapPlan PrepareProduction(IEnvironmentSpecificDependenciesRegistrar deps) => Prepare(deps);
 
-   public static BootstrapPlan PrepareForTests()
+   /// <summary>Prepares the application as the specifications run it, with its notes kept as <paramref name="notesKept"/> says.</summary>
+   public static BootstrapPlan PrepareForTests(NotesKept notesKept = NotesKept.InMemory)
    {
       Contract.State.Assert(CoreApp.IsTesting);
-      return Prepare(new TestEnvironmentSpecificDependenciesRegistrar());
+      return Prepare(new TestEnvironmentSpecificDependenciesRegistrar(notesKept));
    }
 
    static BootstrapPlan Prepare(IEnvironmentSpecificDependenciesRegistrar environmentSpecificDependenciesRegistrar)
@@ -95,8 +97,8 @@ public static class AppBootstrapper
          Singleton.For<AnalysisServices>().CreatedBy((VocabCollection vocab, DictLookup dictLookup, Settings settings) => new AnalysisServices(vocab, dictLookup, settings)),
          Singleton.For<StudyNoteIds>().CreatedBy(() => new StudyNoteIds()),
          Singleton.For<WhatTheSRSHoldsOfTheStudyNotes>().CreatedBy(() => new WhatTheSRSHoldsOfTheStudyNotes()),
-         Singleton.For<LocalNoteUpdater>().CreatedBy((TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory) =>
-                                                        new LocalNoteUpdater(taskRunner, collection, config, dictLookup, vocabNoteFactory)),
+         Singleton.For<LocalNoteUpdater>().CreatedBy((TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, CorpusNoteFiles corpusNoteFiles) =>
+                                                        new LocalNoteUpdater(taskRunner, collection, config, dictLookup, vocabNoteFactory, corpusNoteFiles)),
          Singleton.For<TaskRunner>().CreatedBy((DialogProgressPresenter dialogPresenter) => new TaskRunner(dialogPresenter)),
          Singleton.For<DialogProgressPresenter>().CreatedBy((IUIThreadDispatcher dispatcher) => new DialogProgressPresenter(dispatcher)),
          Singleton.For<BackgroundTaskManager>().CreatedBy((IFatalErrorHandler fatalErrorHandler) => new BackgroundTaskManager(fatalErrorHandler)),
@@ -124,7 +126,7 @@ public static class AppBootstrapper
          Singleton.For<KanjiNoteRenderer>().CreatedBy(() => new KanjiNoteRenderer())
       );
 
-      ComposeTheStateStoreOfTheNotes(registrar);
+      ComposeTheStateStoreOfTheNotes(registrar, environmentSpecificDependenciesRegistrar);
       ComposeTheTessagingEngine(registrar, environmentSpecificDependenciesRegistrar);
 
       // Allow ASP.NET Core / Blazor hosts inside this process (CardServer) to spin up a
@@ -136,15 +138,16 @@ public static class AppBootstrapper
 
    /// <summary>
    /// Composes the state store that keeps the notes: the three classes of note, which it builds empty with <see cref="NoteServices"/> to restore
-   /// from their snapshots, their DTOs; the indexes the collections look notes up by; and its storage, which the environment registers, such as
-   /// <see cref="CorpusNoteFiles"/>.
+   /// from their snapshots, their DTOs; the indexes the collections look notes up by; and its storage, which <paramref name="environment"/> declares:
+   /// the notes' files in the corpus checkout (<see cref="CorpusNoteFiles"/>), in <see cref="IEnvironmentPaths.DatabaseDir"/>, unless it says otherwise.
    /// </summary>
-   static void ComposeTheStateStoreOfTheNotes(IComponentRegistrar registrar)
+   static void ComposeTheStateStoreOfTheNotes(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment)
    {
+      registrar.Register(Singleton.For<CorpusNoteFiles>().CreatedBy((IEnvironmentPaths paths) => new CorpusNoteFiles(new DirectoryInfo(paths.DatabaseDir))));
       registrar.StateStore(store =>
       {
-         store.StoredIn((ITaggregateStorage storage) => storage)
-              .Taggregate((NoteServices services) => new VocabNote(services), CorpusNoteDto.HoldTheSameState)
+         environment.DeclareWhereTheNotesAreKept(store);
+         store.Taggregate((NoteServices services) => new VocabNote(services), CorpusNoteDto.HoldTheSameState)
               .Taggregate((NoteServices services) => new KanjiNote(services), CorpusNoteDto.HoldTheSameState)
               .Taggregate((NoteServices services) => new SentenceNote(services), CorpusNoteDto.HoldTheSameState);
          VocabIndexes.DeclareIn(store);

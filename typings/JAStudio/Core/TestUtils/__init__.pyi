@@ -23,6 +23,18 @@ class InMemoryAnkiRawNotes(IAnkiRawNotes):
     def TagAsImported(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
 
 
+class NotesKept(typing.SupportsInt):
+    @typing.overload
+    def __init__(self, value : int) -> None: ...
+    @typing.overload
+    def __init__(self, value : int, force_if_true: bool) -> None: ...
+    def __int__(self) -> int: ...
+    
+    # Values:
+    InMemory : NotesKept # 0
+    InTheirFiles : NotesKept # 1
+
+
 class PretendAnki(ISRSMedia, ISRSTagOperations, ISRSStudyNotes):
     def __init__(self) -> None: ...
     @property

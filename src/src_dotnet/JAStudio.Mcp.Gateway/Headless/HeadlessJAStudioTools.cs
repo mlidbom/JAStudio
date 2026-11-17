@@ -18,7 +18,7 @@ class HeadlessJAStudioTools
                 Builds the headless JAStudio, JAStudio without Anki or a UI, from this source checkout and starts it, stopping the one running first,
                 so that it runs the checkout's code as it is: call it again after changing JAStudio's code. Once it has loaded the collection, its
                 tools, such as search_notes, are offered here too, and they work on the corpus checkout it was started on. A build error fails it
-                with the build's output. It takes about 10 seconds, and about 20 the first time on a corpus checkout, which builds its snapshots.
+                with the build's output. It takes about 15 seconds, and about 45 the first time the notes' files are read after the computer starts.
                 """)]
    public Task<string> StartHeadlessJAStudio(
       [Description("""

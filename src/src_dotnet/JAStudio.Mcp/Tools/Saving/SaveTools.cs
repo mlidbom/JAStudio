@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Storage;
 using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Tools.Corpus;
 using ModelContextProtocol.Server;
@@ -13,11 +14,13 @@ public class SaveTools
 {
    readonly JPCollection _collection;
    readonly CorpusCheckout _corpusCheckout;
+   readonly CorpusNoteFiles _corpusNoteFiles;
 
-   public SaveTools(JPCollection collection, CorpusCheckout corpusCheckout)
+   public SaveTools(JPCollection collection, CorpusCheckout corpusCheckout, CorpusNoteFiles corpusNoteFiles)
    {
       _collection = collection;
       _corpusCheckout = corpusCheckout;
+      _corpusNoteFiles = corpusNoteFiles;
    }
 
    [McpServerTool(Name = "save_every_note", Destructive = false, Idempotent = true)]
@@ -34,9 +37,9 @@ public class SaveTools
    {
       var stopwatch = Stopwatch.StartNew();
       var (vocab, kanji, sentences) = (_collection.Vocab.All(), _collection.Kanji.All(), _collection.Sentences.All());
-      vocab.ForEach(_collection.WriteToTheStorage);
-      kanji.ForEach(_collection.WriteToTheStorage);
-      sentences.ForEach(_collection.WriteToTheStorage);
+      vocab.ForEach(_corpusNoteFiles.Write);
+      kanji.ForEach(_corpusNoteFiles.Write);
+      sentences.ForEach(_corpusNoteFiles.Write);
       var secondsTaken = stopwatch.Elapsed.TotalSeconds;
 
       return new EveryNoteSaved(vocab.Count + kanji.Count + sentences.Count,

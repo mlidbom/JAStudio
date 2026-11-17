@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.Internals.Logging;
-using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using Compze.Abstractions;
 using Compze.Tessaging.TessageBus;
 using Compze.Teventive.StateStore;
-using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.TagProperties;
@@ -54,7 +52,7 @@ public class JPCollection
    /// None of it is stored with the note, so no unit of work changes the note for it. A reload sets every note's without publishing it for each:<br/>
    /// <see cref="ICollectionReloaded"/> tells of the reload.
    /// </remarks>
-   internal void PublishThatTheStudyNoteChangedFor(JPNote note) => _tevents.Value.Publish(new Studying.StudyNotes.StudyNoteChanged(note.GetId()));
+   internal void PublishThatTheStudyNoteChangedFor(JPNote note) => _tevents.Value.Publish(new StudyNoteChanged(note.GetId()));
 
    /// <summary>
    /// Renames every word-reference that names <paramref name="oldName"/> exactly to <paramref name="newName"/>, after the vocab that had the one name got the<br/>
@@ -160,7 +158,6 @@ public class JPCollection
       NoteServices = noteServices;
       _store = new Lazy<IStateStore>(resolver.Resolve<IStateStore>);
       _tevents = new Lazy<IIndependentTeventPublisher>(resolver.Resolve<IIndependentTeventPublisher>);
-      _storage = new Lazy<ITaggregateStorage>(resolver.Resolve<ITaggregateStorage>);
       _mediaFileIndex = mediaFileIndex;
       _mediaStorage = mediaStorage;
       _studyNotesInTheSRS = studyNotesInTheSRS;
@@ -176,7 +173,6 @@ public class JPCollection
 
    readonly Lazy<IStateStore> _store;
    readonly Lazy<IIndependentTeventPublisher> _tevents;
-   readonly Lazy<ITaggregateStorage> _storage;
    readonly MediaFileIndex _mediaFileIndex;
    readonly MediaStorageService _mediaStorage;
    readonly ISRSStudyNotes _studyNotesInTheSRS;
@@ -306,14 +302,6 @@ public class JPCollection
          IsInitialized = true;
       }
    }
-
-   /// <summary>
-   /// Writes <paramref name="note"/> to the storage as it is committed now, changed or not, which a unit of work does only for the notes it changes:<br/>
-   /// to see what loading and saving does to the notes' files, as after a change to how they are stored.
-   /// </summary>
-   /// <remarks>It writes outside any unit of work, so a unit of work committing the same note meanwhile may write over it, or it over the unit of work's.</remarks>
-   public void WriteToTheStorage(JPNote note) =>
-      _storage.Value.Prepare([new TaggregateSnapshot(note.GetType(), note.Id, note.ToDto())], []).Commit();
 
    /// <summary>
    /// Gives each note what the spaced repetition system holds of its study-note, as <paramref name="studyNotesRead"/> from it: its id, the studying<br/>

@@ -1,11 +1,11 @@
-import typing, abc
-from System import IDisposable, Guid
-from Compze.Teventive.StateStore.Storage import ITaggregateStorage, TaggregateSnapshot, IPreparedWrite, TaggregateToDelete
-from System.Collections.Generic import IReadOnlyList_1, List_1
-from System.Text.Json import JsonSerializerOptions
-from JAStudio.Core.Note import NoteServices, KanjiNote, JPNote, NoteId
+import typing
+from System import IDisposable
+from System.IO import DirectoryInfo, FileInfo
+from JAStudio.Core.Note import JPNote, NoteServices, KanjiNote, NoteId
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
+from Compze.Teventive.StateStore.Storage import ITaggregateStorage, TaggregateSnapshot, IPreparedWrite, TaggregateToDelete
+from System.Collections.Generic import IReadOnlyList_1
 
 class CorpusCheckoutLock(IDisposable):
     def Dispose(self) -> None: ...
@@ -13,29 +13,12 @@ class CorpusCheckoutLock(IDisposable):
     def On(corpusCheckoutFolder: str) -> CorpusCheckoutLock: ...
 
 
-class CorpusNoteFiles(ITaggregateStorage):
-    def __init__(self, corpusCheckoutFolder: str) -> None: ...
-    def LoadAll(self) -> IReadOnlyList_1[TaggregateSnapshot]: ...
-    def Prepare(self, toSave: IReadOnlyList_1[TaggregateSnapshot], toDelete: IReadOnlyList_1[TaggregateToDelete]) -> IPreparedWrite: ...
-
-
-class IIdentifiableByGuid(typing.Protocol):
+class CorpusNoteFiles:
+    def __init__(self, corpusCheckout: DirectoryInfo) -> None: ...
     @property
-    def Id(self) -> Guid: ...
-
-
-class JsonFilesystemObjectRepository_GenericClasses(abc.ABCMeta):
-    Generic_JsonFilesystemObjectRepository_GenericClasses_JsonFilesystemObjectRepository_1_TData = typing.TypeVar('Generic_JsonFilesystemObjectRepository_GenericClasses_JsonFilesystemObjectRepository_1_TData')
-    def __getitem__(self, types : typing.Type[Generic_JsonFilesystemObjectRepository_GenericClasses_JsonFilesystemObjectRepository_1_TData]) -> typing.Type[JsonFilesystemObjectRepository_1[Generic_JsonFilesystemObjectRepository_GenericClasses_JsonFilesystemObjectRepository_1_TData]]: ...
-
-JsonFilesystemObjectRepository : JsonFilesystemObjectRepository_GenericClasses
-
-JsonFilesystemObjectRepository_1_TData = typing.TypeVar('JsonFilesystemObjectRepository_1_TData')
-class JsonFilesystemObjectRepository_1(typing.Generic[JsonFilesystemObjectRepository_1_TData]):
-    def __init__(self, directory: str, jsonOptions: JsonSerializerOptions) -> None: ...
-    def LoadAll(self) -> List_1[JsonFilesystemObjectRepository_1_TData]: ...
-    def PrepareDeleting(self, id: Guid) -> IPreparedWrite: ...
-    def PrepareSaving(self, data: JsonFilesystemObjectRepository_1_TData) -> IPreparedWrite: ...
+    def CorpusCheckout(self) -> DirectoryInfo: ...
+    def FileOf(self, note: JPNote) -> FileInfo: ...
+    def Write(self, note: JPNote) -> None: ...
 
 
 class NoteSerializer:

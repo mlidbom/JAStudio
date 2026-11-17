@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.Specifications;
+using JAStudio.Core.TestUtils;
 using JAStudio.Mcp.Gateway.Connections;
 using JAStudio.Mcp.UI;
 using ModelContextProtocol.Client;
@@ -25,12 +26,15 @@ public abstract class McpServerSpecification : SpecificationStartingWithAnEmptyC
    readonly JAStudioMcpServer _server;
    readonly McpClient _client;
 
-   protected McpServerSpecification() : this(jastudio => JAStudioMcpServer.Start(jastudio, port: 0)) {}
+   protected McpServerSpecification() : this(NotesKept.InMemory) {}
+
+   /// <summary>The server of a JAStudio whose notes are kept as <paramref name="notesKept"/> says.</summary>
+   protected McpServerSpecification(NotesKept notesKept) : this(notesKept, jastudio => JAStudioMcpServer.Start(jastudio, port: 0)) {}
 
    /// <summary>The server of a JAStudio whose UI is <paramref name="headlessUI"/>, as the headless JAStudio's is, with the tools that need it.</summary>
-   protected McpServerSpecification(HeadlessUI headlessUI) : this(jastudio => JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, port: 0, headlessUI)) {}
+   protected McpServerSpecification(HeadlessUI headlessUI) : this(NotesKept.InMemory, jastudio => JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, port: 0, headlessUI)) {}
 
-   McpServerSpecification(Func<IRootResolver, JAStudioMcpServer> startTheServer)
+   McpServerSpecification(NotesKept notesKept, Func<IRootResolver, JAStudioMcpServer> startTheServer) : base(notesKept)
    {
       _server = startTheServer(GetService<IRootResolver>());
       _client = ConnectionToTheMcpServer.ClientConnectedTo(_server.Url, CancellationToken.None).GetAwaiter().GetResult();

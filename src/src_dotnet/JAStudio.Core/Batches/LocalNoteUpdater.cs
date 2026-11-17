@@ -15,30 +15,31 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.SysUtils;
 using JAStudio.Core.TaskRunners;
+using JAStudio.Core.Storage;
 
 namespace JAStudio.Core.Batches;
 
 public class LocalNoteUpdater
 {
    readonly TaskRunner _taskRunner;
-   readonly JPCollection _collection;
    readonly VocabCollection _vocab;
    readonly KanjiCollection _kanji;
    readonly SentenceCollection _sentences;
    readonly JapaneseConfig _config;
    readonly DictLookup _dictLookup;
    readonly VocabNoteFactory _vocabNoteFactory;
+   readonly CorpusNoteFiles _corpusNoteFiles;
 
-   internal LocalNoteUpdater(TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory)
+   internal LocalNoteUpdater(TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, CorpusNoteFiles corpusNoteFiles)
    {
       _taskRunner = taskRunner;
-      _collection = collection;
       _vocab = collection.Vocab;
       _kanji = collection.Kanji;
       _sentences = collection.Sentences;
       _config = config;
       _dictLookup = dictLookup;
       _vocabNoteFactory = vocabNoteFactory;
+      _corpusNoteFiles = corpusNoteFiles;
    }
 
    /// <summary>
@@ -349,8 +350,8 @@ public class LocalNoteUpdater
    {
       using var scope = _taskRunner.Current("Writing file system repository");
 
-      Task.WaitAll(scope.RunBatchAsync(_kanji.All(), _collection.WriteToTheStorage, "Writing kanji"),
-                   scope.RunBatchAsync(_vocab.All(), _collection.WriteToTheStorage, "Writing vocab"),
-                   scope.RunBatchAsync(_sentences.All(), _collection.WriteToTheStorage, "Writing sentences"));
+      Task.WaitAll(scope.RunBatchAsync(_kanji.All(), _corpusNoteFiles.Write, "Writing kanji"),
+                   scope.RunBatchAsync(_vocab.All(), _corpusNoteFiles.Write, "Writing vocab"),
+                   scope.RunBatchAsync(_sentences.All(), _corpusNoteFiles.Write, "Writing sentences"));
    }
 }

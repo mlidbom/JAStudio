@@ -3,6 +3,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.TestUtils;
 using JAStudio.Core.Storage;
 using JAStudio.Mcp.Tools.Reloading;
 
@@ -18,11 +19,11 @@ public class When_reloading_the_collection : McpServerSpecification
 {
    readonly ReloadResult _result;
 
-   public When_reloading_the_collection()
+   public When_reloading_the_collection() : base(NotesKept.InTheirFiles)
    {
       var vocab行く = CreateVocab("行く", "to go", "いく");
       CreateVocab("来る", "to come", "くる");
-      GetService<NotesStoredInMemory>().Store(ACopyWithTheAnswer(vocab行く, "to walk"));
+      GetService<CorpusNoteFiles>().Write(ACopyWithTheAnswer(vocab行く, "to walk"));
 
       _result = ResultOf<ReloadResult>(CallTool("reload_the_collection", new Dictionary<string, object?>()));
    }

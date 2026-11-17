@@ -4,6 +4,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
+using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
@@ -20,7 +21,7 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
    protected readonly VocabNote _vocab行く;
    readonly int _teventsObservedInTheSetup;
 
-   protected When_reloading_the_collection()
+   protected When_reloading_the_collection() : base(NotesKept.InTheirFiles)
    {
       _collection = GetService<JPCollection>();
       _vocab行く = CreateVocab("行く", "to go", "いく");
@@ -38,14 +39,14 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
 
    protected IReadOnlyList<string> QuestionsOfTheVocabHeld() => [.. _collection.Vocab.All().Select(it => it.GetQuestion()).Order(StringComparer.Ordinal)];
 
-   /// <summary>Behind the collection's back, as when the corpus checkout changes on disk, 行く's stored data is replaced by a copy whose answer is "to walk".</summary>
+   /// <summary>Behind the collection's back, as when the corpus checkout changes on disk, 行く's file is replaced by a copy's whose answer is "to walk".</summary>
    public class after_a_notes_file_changed_on_disk : When_reloading_the_collection
    {
       readonly IReadOnlyList<JPNote> _notesChangedOnDisk;
 
       public after_a_notes_file_changed_on_disk()
       {
-         GetService<NotesStoredInMemory>().Store(ACopyOf行くWithTheAnswer("to walk"));
+         GetService<CorpusNoteFiles>().Write(ACopyOf行くWithTheAnswer("to walk"));
 
          _notesChangedOnDisk = _collection.ReloadFromBackend();
       }

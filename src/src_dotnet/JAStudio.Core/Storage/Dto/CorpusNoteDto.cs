@@ -5,18 +5,17 @@ using MemoryPack;
 namespace JAStudio.Core.Storage.Dto;
 
 /// <summary>
-/// A corpus note as the corpus stores it: as a JSON file of its own, and in the snapshot cache JAStudio loads the corpus from quickly.<br/>
-/// The note types' DTOs derive from it.
+/// A corpus note as the corpus stores it, as a JSON file of its own (<see cref="CorpusNoteFiles"/>): the note's snapshot. The note types' DTOs<br/>
+/// derive from it.
 /// </summary>
 /// <remarks>
-/// The snapshot cache (MemoryPack) reads members by their position. An old snapshot reads correctly only while new members are added after<br/>
-/// the existing ones; any other change to a DTO's members needs the snapshot caches deleted, as a migration of the corpus files does.
+/// MemoryPack serializes it only to compare two of them (<see cref="HoldTheSameState{TDto}"/>): nothing stores what it makes.
 /// </remarks>
 [MemoryPackable(GenerateType.NoGenerate)]
 [MemoryPackUnion(0, typeof(VocabDto))]
 [MemoryPackUnion(1, typeof(KanjiDto))]
 [MemoryPackUnion(2, typeof(SentenceDto))]
-public abstract partial class CorpusNoteDto : IIdentifiableByGuid
+public abstract partial class CorpusNoteDto
 {
    public Guid Id { get; init; }
    public List<string> Tags { get; init; } = [];
