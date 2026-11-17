@@ -4,6 +4,11 @@
 
    <!-- Every JAStudio project targets .NET 11, and compiles with the newest C# its compiler has, which is the same
         everywhere because global.json pins the SDK. -->
+   <!-- todo: much stricter .NET code analysis (Magnus, 2026-11-17: "We want to be much more strict"). No JAStudio project sets
+        AnalysisMode or AnalysisLevel, so the .NET analyzers run in their default mode, where most of their rules are off. CA1033,
+        for one, which Compze's own build reports on a public, unsealed class implementing ITeventRouted explicitly, as JPNote,
+        its three note classes and the 13 components do. Raise it here for every project, such as AnalysisMode All, and fix
+        each rule that then fires, or decide with Magnus to turn it off. -->
    <PropertyGroup>
       <TargetFramework>net11.0</TargetFramework>
       <LangVersion>latest</LangVersion>
