@@ -6,6 +6,7 @@ from System import IEquatable_1, IDisposable
 from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
+from Compze.Tessaging.TessageBus import TeventObservationRegistrar
 from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
 from System.IO import DirectoryInfo
 from System.Collections.Generic import List_1
@@ -84,6 +85,7 @@ class IEnvironmentPaths(typing.Protocol):
 
 
 class IEnvironmentSpecificDependenciesRegistrar(typing.Protocol):
+    def ObserveTevents(self, observe: TeventObservationRegistrar) -> None: ...
     @abc.abstractmethod
     def WireEnvironmentSpecificServices(self, registrar: IComponentRegistrar) -> None: ...
 

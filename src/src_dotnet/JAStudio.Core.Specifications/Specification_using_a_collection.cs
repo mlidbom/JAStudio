@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
+using Compze.Tessaging.Engine;
+using Compze.Tessaging.TessageTypes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -11,12 +14,16 @@ namespace JAStudio.Core.Specifications;
 
 public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded.All) : IDisposable
 {
-   /// <summary>Disposes the app once the work the specification started in the background has finished, and fails the specification if that work failed.</summary>
+   /// <summary>
+   /// Disposes the app once the work the specification started in the background has finished, and every tevent published has been observed, and<br/>
+   /// fails the specification if that work failed.
+   /// </summary>
    public virtual void Dispose()
    {
       try
       {
          GetService<RethrowingFatalErrorHandler>().WaitUntilTheStartedWorkHasFinished();
+         WaitUntilEveryTeventPublishedHasBeenObserved();
       }
       finally
       {
@@ -29,6 +36,15 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
    protected TService GetService<TService>() where TService : class => _appScope.CoreApp.Services.Resolve<TService>();
 
    protected NoteServices NoteServices => GetService<NoteServices>();
+
+   /// <summary>The tevents observed so far (<see cref="TeventsObserved"/>), once every tevent published so far has been.</summary>
+   protected IReadOnlyList<ITevent> TeventsObservedSoFar()
+   {
+      WaitUntilEveryTeventPublishedHasBeenObserved();
+      return GetService<TeventsObserved>().SoFar();
+   }
+
+   void WaitUntilEveryTeventPublishedHasBeenObserved() => GetService<ILocalTessagingEngine>().AwaitNoTeventsInFlightAsync().WaitUnwrappingException();
 
    protected VocabNote CreateVocab(string question, string answer, params string[] readings) =>
       VocabNote.Create(NoteServices, question, answer, readings);

@@ -1,5 +1,7 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
+using Compze.Tessaging.TessageBus;
+using Compze.Tessaging.TessageTypes;
 using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
@@ -13,6 +15,8 @@ namespace JAStudio.Core;
 
 class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDependenciesRegistrar
 {
+   readonly TeventsObserved _teventsObserved = new();
+
    public void WireEnvironmentSpecificServices(IComponentRegistrar registrar)
    {
       var paths = new TestEnvironmentPaths();
@@ -37,7 +41,10 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),
-         Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource())
+         Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),
+         Singleton.For<TeventsObserved>().Instance(_teventsObserved)
       );
    }
+
+   public void ObserveTevents(TeventObservationRegistrar observe) => observe.ForTevent<ITevent>((tevent, _) => _teventsObserved.Add(tevent));
 }

@@ -123,6 +123,7 @@ public static class AppBootstrapper
       );
 
       ComposeTheStateStoreOfTheNotes(registrar);
+      ComposeTheTessagingEngine(registrar, environmentSpecificDependenciesRegistrar);
 
       // Allow ASP.NET Core / Blazor hosts inside this process (CardServer) to spin up a
       // child container whose singletons delegate back to the parent.
@@ -134,8 +135,7 @@ public static class AppBootstrapper
    /// <summary>
    /// Composes the state store that keeps the notes: the three classes of note, which it builds empty with <see cref="NoteServices"/> to restore
    /// from their snapshots, their DTOs; the indexes the collections look notes up by; and its storage, which the environment registers, such as
-   /// <see cref="CorpusNoteFiles"/>. And the engine that dispatches the notes' tevents, to the participation handlers through which a change to<br/>
-   /// one note reaches others (<see cref="DeclareWhatReachesOtherNotes"/>).
+   /// <see cref="CorpusNoteFiles"/>.
    /// </summary>
    static void ComposeTheStateStoreOfTheNotes(IComponentRegistrar registrar)
    {
@@ -149,8 +149,15 @@ public static class AppBootstrapper
          KanjiIndexes.DeclareIn(store);
          SentenceIndexes.DeclareIn(store);
       });
-      registrar.LocalTessagingEngine(engine => engine.RegisterTessageBusHandlers(DeclareWhatReachesOtherNotes));
    }
+
+   /// <summary>
+   /// Composes the engine that dispatches the tevents: to the participation handlers through which a change to one note reaches others<br/>
+   /// (<see cref="DeclareWhatReachesOtherNotes"/>), and to the observers <paramref name="environment"/> declares.
+   /// </summary>
+   static void ComposeTheTessagingEngine(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment) =>
+      registrar.LocalTessagingEngine(engine => engine.RegisterTessageBusHandlers(DeclareWhatReachesOtherNotes)
+                                                     .ObserveTevents(environment.ObserveTevents));
 
    /// <summary>
    /// Declares the participation handlers through which a change to one note reaches other notes. Compze runs each inside the unit of work that<br/>

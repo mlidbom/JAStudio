@@ -8,6 +8,7 @@ from JAStudio.Core.Storage.Media import AudioAttachment
 from JAStudio.Core.Note import NoteId, JPNote
 from System import Array_1, IDisposable
 from JAStudio.Core import IEnvironmentPaths
+from Compze.Tessaging.TessageTypes import ITevent
 
 class InMemoryAnkiRawNotes(IAnkiRawNotes):
     def __init__(self) -> None: ...
@@ -73,4 +74,9 @@ class TestEnvironmentPaths(IDisposable, IEnvironmentPaths):
     @property
     def UserFilesDir(self) -> str: ...
     def Dispose(self) -> None: ...
+
+
+class TeventsObserved:
+    def __init__(self) -> None: ...
+    def SoFar(self) -> IReadOnlyList_1[ITevent]: ...
 
