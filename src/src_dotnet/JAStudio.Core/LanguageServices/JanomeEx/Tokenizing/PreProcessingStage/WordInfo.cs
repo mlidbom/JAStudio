@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
 
@@ -8,23 +10,11 @@ static class WordInfo
 {
    public static WordInfoEntry? Lookup(VocabCollection vocab, DictLookup dictLookup, string word)
    {
-      var vocabEntries = vocab.WithForm(word);
-      if(vocabEntries.Any())
+      var withTheForm = vocab.WithForm(word);
+      if(withTheForm.Count > 0)
       {
-         // Try to find exact question match first
-         foreach(var v in vocabEntries)
-         {
-            if(v.GetQuestion() == word)
-            {
-               return new VocabWordInfoEntry(word, v);
-            }
-         }
-
-         //review: with no vocab whose question is the word, the first of those with it as a form decides, in the order of their ids: an
-         //   arbitrary one. 唱う is a form of 歌う, 唄う and 詠う; 歌う comes first and is intransitive, 唄う isn't, so whether 呪文を唱える splits
-         //   into 唱う and える depends on which comes first (IchidanGodanPotentialOrImperativeHybridSplitter.IsPotentialGodan). A rule over all
-         //   of them, such as any of them being intransitive, would decide the same however they are ordered. (taggregates-opus, 2026-11-16)
-         return new VocabWordInfoEntry(word, vocabEntries.First());
+         List<VocabNote> withItAsTheirQuestion = [.. withTheForm.Where(it => it.GetQuestion() == word)];
+         return new VocabWordInfoEntry(word, withItAsTheirQuestion.Count > 0 ? withItAsTheirQuestion : withTheForm);
       }
 
       var dictLookupResult = dictLookup.LookupWord(word);

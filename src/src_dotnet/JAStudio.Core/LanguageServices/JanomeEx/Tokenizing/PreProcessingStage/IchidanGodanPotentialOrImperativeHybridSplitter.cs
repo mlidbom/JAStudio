@@ -119,7 +119,7 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
          }
 
          // Intransitive verbs don't take を so this is most likely actually the ichidan verb
-         if(godanDictEntry.IsIntransitive && token.Previous != null && token.Previous.Surface == "を" &&
+         if(godanDictEntry.CanBeIntransitive && token.Previous != null && token.Previous.Surface == "を" &&
             WordInfo.IsIchidan(vocabs, dictLookup, token.BaseForm))
          {
             return false;
@@ -145,7 +145,7 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
          // We check for potential godan before this, so if there is no ichidan verb in the dictionary,
          // the only thing left is an imperative godan
          return true;
-      } else if(godanWordInfo != null && godanWordInfo.IsIntransitive && token.Previous != null && token.Previous.Surface == "を")
+      } else if(godanWordInfo != null && godanWordInfo.CanBeIntransitive && token.Previous != null && token.Previous.Surface == "を")
       {
          return false; // Intransitive verbs don't take を so this is most likely actually the ichidan verb
       } else if(token.Next != null && token.Next.CannotFollowIchidanStem())
