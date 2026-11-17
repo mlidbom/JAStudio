@@ -1,5 +1,7 @@
 import typing, abc
 from Compze.Teventive.Taggregates.Tevents import ITaggregateTevent, ITaggregateTevent_1, TaggregateTevent
+from System.Collections.Generic import IReadOnlySet_1
+from JAStudio.Core.Note.Tagging import Tag
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from Compze.Teventive.Taggregates.BaseClasses import TaggregateTevent_1
@@ -14,6 +16,14 @@ class INoteTevent_0(ITaggregateTevent, typing.Protocol):
 
     class PartWithoutTeventsChanged(INoteTevent_0, typing.Protocol):
         pass
+
+
+    class PropertyUpdated(abc.ABC):
+
+        class Tags(INoteTevent_0, typing.Protocol):
+            @property
+            def Tags(self) -> IReadOnlySet_1[Tag]: ...
+
 
 
 
@@ -42,6 +52,18 @@ class NoteTevent_0(TaggregateTevent, INoteTevent_0):
         def TaggregateId(self) -> TaggregateId: ...
         @property
         def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class TagsUpdated(NoteTevent_0, INoteTevent.PropertyUpdated.Tags):
+        def __init__(self, tags: IReadOnlySet_1[Tag]) -> None: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def Tags(self) -> IReadOnlySet_1[Tag]: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 

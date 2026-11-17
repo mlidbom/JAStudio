@@ -3,18 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Tagging;
 
+/// <summary>
+/// A note's own tags: the corpus's, stored with the note. A change publishes <see cref="INoteTevent.PropertyUpdated.Tags"/>, the whole new set, which every<br/>
+/// note applies (<see cref="Apply"/>).
+/// </summary>
 public class NoteTags : IEnumerable<Tag>
 {
    readonly JPNote _note;
-   readonly HashSet<Tag> _tags = [];
+   IReadOnlySet<Tag> _tags;
 
    public NoteTags(JPNote note, List<string>? tags = null)
    {
       _note = note;
-      foreach(var tagName in tags ?? []) _tags.Add(Tag.FromName(tagName));
+      _tags = (tags ?? []).Select(Tag.FromName).ToHashSet();
    }
 
    public bool Contains(Tag value) => _tags.Contains(value);
@@ -23,13 +28,10 @@ public class NoteTags : IEnumerable<Tag>
    public void Set(Tag tag)
    {
       Contract.Argument.Assert(!tag.IsAnAnkiTag, () => $"{tag.Name} is an Anki tag, which goes to the note's study-note in Anki.");
-      if(!_tags.Contains(tag)) _note.Guard.Update(() => _tags.Add(tag));
+      SetTheTags([.. _tags, tag]);
    }
 
-   public void Unset(Tag tag)
-   {
-      if(_tags.Contains(tag)) _note.Guard.Update(() => _tags.Remove(tag));
-   }
+   public void Unset(Tag tag) => SetTheTags(_tags.Where(it => it != tag));
 
    public void Toggle(Tag tag, bool on)
    {
@@ -51,19 +53,16 @@ public class NoteTags : IEnumerable<Tag>
       var inTheBranch = _tags.Where(branch.Contains).ToList();
       if(inTheBranch.Count == 0) return;
 
-      _note.Guard.Update(() =>
-      {
-         _tags.ExceptWith(inTheBranch);
-         _tags.UnionWith(inTheBranch.Select(it => Tag.FromName(branch.TheNameRenamedTo(renamed, it.Name))));
-      });
+      SetTheTags([.. _tags.Except(inTheBranch), .. inTheBranch.Select(it => Tag.FromName(branch.TheNameRenamedTo(renamed, it.Name)))]);
    }
 
    /// <summary>Removes the note's tags in <paramref name="branch"/>: the tag at its path and every tag below it, writing the note once.</summary>
-   public void RemoveTheBranch(TagBranch branch)
-   {
-      if(_tags.Any(branch.Contains))
-         _note.Guard.Update(() => _tags.RemoveWhere(branch.Contains));
-   }
+   public void RemoveTheBranch(TagBranch branch) => SetTheTags(_tags.Where(it => !branch.Contains(it)));
+
+   /// <summary>Makes <paramref name="tags"/> the note's own tags: what their tevent's applier does.</summary>
+   internal void Apply(IReadOnlySet<Tag> tags) => _tags = tags;
+
+   void SetTheTags(IEnumerable<Tag> tags) => _note.PublishIfTheSetChanged(_tags, tags.ToHashSet(), static it => new NoteTevent.TagsUpdated(it));
 
    public IEnumerator<Tag> GetEnumerator() => _tags.GetEnumerator();
 

@@ -15,7 +15,7 @@ namespace JAStudio.Core.Note.KanjiTevents;
 /// </summary>
 public interface IKanjiTevent : INoteTevent
 {
-   public static class PropertyUpdated
+   public new static class PropertyUpdated
    {
       public interface CorpusAnswer : IKanjiTevent { string CorpusAnswer { get; } }
       public interface Mnemonic : IKanjiTevent { string Mnemonic { get; } }

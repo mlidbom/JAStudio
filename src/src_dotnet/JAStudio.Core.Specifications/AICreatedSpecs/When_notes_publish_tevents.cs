@@ -507,6 +507,28 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
          public when_a_tag_is_set() => _published = TheTeventsPublishedAs(it => it.Tags.Set(Tags.Source.Jastudio));
 
+         [XF] public void it_publishes_its_tags() =>
+            _published.Must().Satisfy(it => it is [INoteTevent.PropertyUpdated.Tags tags] && tags.Tags.Contains(Tags.Source.Jastudio));
+
+         [XF] public void the_committed_vocab_has_it() => _vocab.Tags.ToStringList().Must().Satisfy(it => it.Contains(Tags.Source.Jastudio.Name));
+
+         public class and_then_set_again : when_a_tag_is_set
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_set_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.Tags.Set(Tags.Source.Jastudio));
+
+            [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
+      }
+
+      /// <summary>wip: the forms publish tevents of their own in step 10's sixth increment, and this goes with the interim tevent.</summary>
+      public class when_a_form_is_added : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_a_form_is_added() => _published = TheTeventsPublishedAs(it => it.Forms.Add("奔る"));
+
          [XF] public void it_publishes_that_a_part_without_tevents_changed() =>
             _published.Must().Satisfy(it => it is [INoteTevent.PartWithoutTeventsChanged]);
       }

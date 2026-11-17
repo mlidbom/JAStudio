@@ -14,7 +14,7 @@ namespace JAStudio.Core.Note.Sentences.Tevents;
 /// </summary>
 public interface ISentenceTevent : INoteTevent
 {
-   public static class PropertyUpdated
+   public new static class PropertyUpdated
    {
       public interface CorpusQuestion : ISentenceTevent { string CorpusQuestion { get; } }
       public interface CorpusAnswer : ISentenceTevent { string CorpusAnswer { get; } }

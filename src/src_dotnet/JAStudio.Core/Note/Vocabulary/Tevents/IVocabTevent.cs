@@ -15,7 +15,7 @@ namespace JAStudio.Core.Note.Vocabulary.Tevents;
 /// </summary>
 public interface IVocabTevent : INoteTevent
 {
-   public static class PropertyUpdated
+   public new static class PropertyUpdated
    {
       public interface CorpusAnswer : IVocabTevent { string CorpusAnswer { get; } }
       public interface Explanation : IVocabTevent { string Explanation { get; } }

@@ -29,7 +29,8 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
 {
    /// <summary>The tevent appliers of every note, which each note class's own extend.</summary>
    protected static readonly TeventRouting<JPNote> NoteAppliers = TeventRouting<JPNote>.DeclareAppliers(it => it
-     .IgnoreUnhandled<INoteTevent.PartWithoutTeventsChanged>());
+     .IgnoreUnhandled<INoteTevent.PartWithoutTeventsChanged>()
+     .For<INoteTevent.PropertyUpdated.Tags>(static (note, tevent) => note.Tags.Apply(tevent.Tags)));
 
    TeventRouting ITeventRouted.TeventAppliers => NoteAppliers;
 
