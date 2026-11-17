@@ -153,14 +153,11 @@ public static class AppBootstrapper
    }
 
    /// <summary>
-   /// Composes the engine that dispatches the tevents: to the participation handlers through which a unit of work tells which notes it added or<br/>
-   /// changed (<see cref="NoteUnitOfWork.KeepTrackOfTheNotesThatPublishThrough"/>), and through which a change to one note reaches others<br/>
-   /// (<see cref="DeclareWhatReachesOtherNotes"/>), and to the observers <paramref name="environment"/> declares. The handlers of a tevent run in<br/>
-   /// the order declared, so the unit of work hears of a note's tevent before the changes it causes in other notes.
+   /// Composes the engine that dispatches the tevents: to the participation handlers through which a change to one note reaches others<br/>
+   /// (<see cref="DeclareWhatReachesOtherNotes"/>), and to the observers <paramref name="environment"/> declares.
    /// </summary>
    static void ComposeTheTessagingEngine(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment) =>
-      registrar.LocalTessagingEngine(engine => engine.RegisterTessageBusHandlers(NoteUnitOfWork.KeepTrackOfTheNotesThatPublishThrough)
-                                                     .RegisterTessageBusHandlers(DeclareWhatReachesOtherNotes)
+      registrar.LocalTessagingEngine(engine => engine.RegisterTessageBusHandlers(DeclareWhatReachesOtherNotes)
                                                      .ObserveTevents(environment.ObserveTevents));
 
    /// <summary>

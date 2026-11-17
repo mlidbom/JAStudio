@@ -16,7 +16,6 @@ using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.SysUtils;
-using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -193,8 +192,6 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
    internal override void Delete() => Publish(new VocabTevent.Deleted(Question.Reference));
-
-   internal override INoteChangedInAUnitOfWork ChangedInAUnitOfWork() => new NoteChangedInAUnitOfWork.Vocab(Id);
 
    protected override Type WrapperTeventImplementation => typeof(VocabTevent<IVocabTevent>);
 

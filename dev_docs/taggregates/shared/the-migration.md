@@ -336,25 +336,31 @@ building messaging paths of JAStudio's own: "A subscriber that publishes somethi
 hierarchy lets you stay on the bus and use a consistent model and have only one place you need to think about subscribing
 to anything that happens".
 
-- **The publishing side, being built:**
-  1. **A deleted note is a tevent:** `INoteTevent.Deleted : ITaggregateDeletedTevent`, and one per note type, like their
-     `Created`. The note's own `Delete` publishes it, then `NoteUnitOfWork.Delete` removes it from the store: publish
-     first, since the store's session refuses a taggregate deleted in its unit of work. Leaving the web of perfect
-     synonyms becomes a participation handler of `IVocabTevent.Deleted`. Whether Compze's stores should delete a
-     taggregate on its deleted tevent alone, so the second call goes, `jastudio-rep-opus` has put to Magnus.
-  2. **One summary tevent per note per unit of work:** `INoteChangedInAUnitOfWork { NoteId }`, with one per note type
-     beneath it, for a note added or changed. A participation handler of `INoteTevent` collects the ids; the outermost
-     `NoteUnitOfWork` publishes them through `IUnitOfWorkTeventPublisher` once its work is done, so observers get them
-     after the commit. JAStudio's own: Compze may take the shape over if it proves general (`jastudio-rep-opus`).
-  3. **What isn't a note's tevent, published on its own** through `IIndependentTeventPublisher`: `ICollectionReloaded`,
-     with the notes a reload added, changed and removed; `IStudyNoteChanged { NoteId }`, when what Anki holds of a
-     note's study-note changes; and a configuration change, which replaces `Config.Changed`.
+- **The publishing side, built:**
+  1. **Done. A deleted note is a tevent:** `INoteTevent.Deleted : ITaggregateDeletedTevent`, and one per note type, like
+     their `Created`. The note's own `Delete` publishes it, and that alone deletes it, on Magnus's word (item 42, Compze's
+     `5e9f293e4`): the note is gone from its unit of work at once, and from the store when it commits. Leaving the web of
+     perfect synonyms is a participation handler of `IVocabTevent.Deleted`, which carries the vocab's name, since the
+     vocab can no longer be read by then (`291ea305a`).
+  2. **Done, then taken out: one summary tevent per note per unit of work,** `INoteChangedInAUnitOfWork` (`60284d57e`).
+     Magnus approved Compze's own instead: `observe.ForEachUnitOfWork<INoteTevent>(tevents => ...)`, called once for each
+     committed unit of work that published any matching tevents, in publish order (`jastudio-rep-opus`, 2026-11-17). What
+     follows changes to notes is built on it, once it lands.
+  3. **Done. What isn't a note's tevent, published on its own** through `IIndependentTeventPublisher` (`b2e012aa9`):
+     `ICollectionReloaded`, with the notes a reload added, changed and removed; `IStudyNoteChanged { NoteId }`, when what
+     Anki holds of a note's study-note changes; and `IConfigurationChanged`, which replaces `Config.Changed`. The
+     independent publisher refuses to run inside a unit of work, which found the search results suspending cards in an
+     edit of each note (`c18ec301f`).
+- **Specifications see the tevents** as the test harness's observer records them (`TeventsObserved`, `d8eddcfee`).
 - **The observing side waits for Compze:** observers are declared only at composition, and the view models that follow
-  changes come and go with the UI. `jastudio-rep-opus` has put to Magnus an observation for as long as an object lives,
-  `IDisposable Observe(Action<TeventObservationRegistrar> observe)`, with a declared observer's semantics. A hub of
-  JAStudio's own would re-implement Compze's routing by tevent type, so there is none. Until then the observables stay.
-  The view models that will observe: a note's tab and its page, the search results' rows, the parsing cases. Those that
-  must run on the UI thread observe through an extension that delivers there (Magnus's idea), over `IUIThreadDispatcher`.
+  changes come and go with the UI. Magnus approved observing at runtime, observation only: an `ObserveTevents` that
+  takes the same registrar as composition and returns an `IDisposable`, whose disposal doesn't wait for a running call
+  (`jastudio-rep-opus`, 2026-11-17, names placeholders). A hub of JAStudio's own would re-implement Compze's routing by
+  tevent type, so there is none. Until then the observables stay, each with a todo. The view models that will observe:
+  a note's tab and its page, the search results' rows, the parsing cases. Those that must run on the UI thread observe
+  through an extension that delivers there (Magnus's idea), over `IUIThreadDispatcher`.
+- **Compze's JSON store is to take over `CorpusNoteFiles`** (Magnus's approval, through `jastudio-rep-opus`): when it
+  lands, JAStudio switches to it and measures its start against `snapshot.bin`.
 - **Specifications wait** with `ILocalTessagingEngine.AwaitNoTessagesInFlightAsync`, so named on Magnus's word (Compze's
   `3df5ee7f8`).
 

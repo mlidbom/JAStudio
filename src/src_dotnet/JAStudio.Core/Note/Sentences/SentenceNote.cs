@@ -15,7 +15,6 @@ using JAStudio.Core.Note.Sentences.Tevents;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
-using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Sentences;
 
@@ -135,8 +134,6 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
    internal override void Delete() => Publish(new SentenceTevent.Deleted());
-
-   internal override INoteChangedInAUnitOfWork ChangedInAUnitOfWork() => new NoteChangedInAUnitOfWork.Sentence(Id);
 
    protected override Type WrapperTeventImplementation => typeof(SentenceTevent<ISentenceTevent>);
 

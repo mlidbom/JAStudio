@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Compze.Abstractions;
-using Compze.Tessaging.TessageBus;
 using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Note.Tevents;
 
@@ -10,23 +8,13 @@ namespace JAStudio.Core.Note.Collection;
 /// <summary>
 /// A unit of work in which JAStudio changes notes, as the code that changes them sees it: the state store's unit of work, through which it gets<br/>
 /// the notes it edits or deletes and adds new notes, and what is to be done once it has committed, such as deleting a deleted note's media<br/>
-/// files. It commits or rolls back as a whole. <see cref="NoteUnitsOfWork"/> runs it. Once its work is done, it publishes for each note it added or<br/>
-/// changed that the note was (<see cref="INoteChangedInAUnitOfWork"/>), and once it has committed, each note it changed is notified through<br/>
-/// <see cref="JPCollection.NoteUpdated"/>.
+/// files. It commits or rolls back as a whole. <see cref="NoteUnitsOfWork"/> runs it, and once it has committed, each note it changed is<br/>
+/// notified through <see cref="JPCollection.NoteUpdated"/>.
 /// </summary>
 /// <remarks>review-naming: NoteUnitOfWork, after Compze's TaggregateUnitOfWork, is a name taggregates-opus chose (2026-11-16).</remarks>
 public sealed class NoteUnitOfWork
 {
    readonly ITaggregateStoreUpdater _store;
-   readonly IUnitOfWorkTeventPublisher _tevents;
-
-   /// <summary>
-   /// The ids of the notes that published a tevent in this unit of work, in the order they first did: the notes it added and changed, and those<br/>
-   /// it deleted (<see cref="KeepTrackOfTheNotesThatPublishThrough"/>).
-   /// </summary>
-   readonly List<TaggregateId> _notesThatPublished = [];
-
-   readonly HashSet<TaggregateId> _notesThatPublishedAsASet = [];
 
    /// <summary>The notes this unit of work may change, in the order it first got them: the copies it got for update, and the new notes it added.</summary>
    readonly List<JPNote> _notesItMayChange = [];
@@ -34,34 +22,7 @@ public sealed class NoteUnitOfWork
    readonly HashSet<JPNote> _notesItMayChangeAsInstances = new(ReferenceEqualityComparer.Instance);
    readonly List<Action> _whatToDoOnceCommitted = [];
 
-   internal NoteUnitOfWork(ITaggregateStoreUpdater store, IUnitOfWorkTeventPublisher tevents)
-   {
-      _store = store;
-      _tevents = tevents;
-   }
-
-   /// <summary>
-   /// Declares, through <paramref name="handle"/>, the participation handler by which the unit of work running keeps track of each note that publishes<br/>
-   /// a tevent in it, so that it can tell once its work is done which notes it added or changed (<see cref="PublishWhichNotesItAddedOrChanged"/>).
-   /// </summary>
-   internal static void KeepTrackOfTheNotesThatPublishThrough(TessageBusHandlerRegistrar handle) => handle
-     .ForTevent(static (INoteTevent it, JPCollection collection) => collection.TheRunningUnitOfWork.KeepTrackOf(it.TaggregateId));
-
-   void KeepTrackOf(TaggregateId noteThatPublished)
-   {
-      if(_notesThatPublishedAsASet.Add(noteThatPublished)) _notesThatPublished.Add(noteThatPublished);
-   }
-
-   /// <summary>
-   /// Publishes, for each note this unit of work added or changed, that it was, its class's <see cref="INoteChangedInAUnitOfWork"/>, in the order the<br/>
-   /// notes first published a tevent in it. A note it deleted gets none. <see cref="NoteUnitsOfWork"/> calls it once the work in the outermost unit<br/>
-   /// of work is done: what the participation handlers changed has published too, then.
-   /// </summary>
-   internal void PublishWhichNotesItAddedOrChanged()
-   {
-      foreach(var noteId in _notesThatPublished)
-         if(_store.TryGet<JPNote>(noteId, out var note)) _tevents.Publish(note.ChangedInAUnitOfWork());
-   }
+   internal NoteUnitOfWork(ITaggregateStoreUpdater store) => _store = store;
 
    /// <summary>
    /// This unit of work's copy of <paramref name="note"/>, which it may change, and which every read of the note inside it gets from then on. A note<br/>

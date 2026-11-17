@@ -50,8 +50,8 @@ public class JPCollection
    /// on the thread that changed it: a note added, a note an edit changed, and a note whose file a reload found changed on disk.
    /// </summary>
    /// <remarks>
-   /// todo: goes once its subscribers observe <see cref="Tevents.INoteChangedInAUnitOfWork"/> and <see cref="ICollectionReloaded"/> instead, which waits for Compze's subscriptions for as long as an object lives<br/>
-   /// (Magnus, 2026-11-17).
+   /// todo:compze: goes once its subscribers observe instead each unit of work's <see cref="Tevents.INoteTevent"/>s, as Compze's coming batches of a<br/>
+   /// unit of work's tevents deliver them, and <see cref="ICollectionReloaded"/>, for as long as each subscriber lives (Magnus, 2026-11-17).
    /// </remarks>
    public IObservable<JPNote> NoteUpdated => _noteUpdated;
 
