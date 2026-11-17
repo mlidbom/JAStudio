@@ -168,12 +168,15 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
      surfaces. Every tevent of the matching configuration also drops what the forms derived from it, a route of its
      own, which Compze's routing runs after the applier: it calls every route that matches, in declaration order. The
      match-condition still changes through the guard.
+   - **Done (`caf8388bd`):** the sets of words and kanji. A vocab's `RelatedVocab` is a component: each of its
+     relationships publishes the whole new set of words (`JPNote.PublishIfTheSetChanged`), and `DerivedFrom` its new
+     word. A kanji's similar-meaning and confused-with kanji publish at the kanji's root. The other side of a mutual
+     relationship still changes in an edit of the other note.
    - **Left, by the guarded sites in each file (`grep -rn "Guard\.Update\|_guard\.Update" JAStudio.Core`):**
-     `KanjiPrimaryVocab` 5, `VocabNoteForms` 4, `WordSet` 4, `NoteTags` 4, `CachingSentenceConfigurationField` 4,
+     `KanjiPrimaryVocab` 5, `VocabNoteForms` 4, `NoteTags` 4, `CachingSentenceConfigurationField` 4,
      `MediaReferenceList` 4, `KanjiReadingList` 4, `VocabNoteCompoundParts` 3, `KanjiRadicals` 3,
-     `VocabNoteQuestion` 2, `KanjiSet` 2, and one each in `VocabNotePartsOfSpeech`, `DerivedFrom` and
-     `VocabNoteMatchingConfiguration`. The audio lists and the sentence's configuration change through the guard
-     they're given.
+     `VocabNoteQuestion` 2, and one each in `VocabNotePartsOfSpeech` and `VocabNoteMatchingConfiguration`. The audio
+     lists and the sentence's configuration change through the guard they're given.
 6. **The parts with real behavior:** the question and renaming, the forms, the perfect synonyms, the mutual
    relationships, the matching configuration, the sentence's configuration. The interim tevent goes with the last.
 
@@ -211,6 +214,13 @@ Each step is an increment that builds and passes JAStudio's whole suite, and is 
 11. **What reaches other notes becomes participation handlers:** the perfect synonyms' answer, renaming
     word-references, and the other side of the mutual relationships and of `VocabNoteForms.Add` and `Remove`. What
     can't be undone, such as telling Anki to delete a study-note, moves to after the commit.
+    - **A handler gets the notes it changes through JAStudio's running `NoteUnitOfWork`,** not straight from the store:
+      only the notes the unit of work hands out are notified once it has committed. A handler runs inside the
+      caller's transaction and unit of work, but not always on its thread. So `NoteUnitsOfWork` keeps the running
+      unit of work in an `AsyncLocal`, which flows as the transaction does (`5eaa27b7d`, on `jastudio-rep-opus`'s
+      word).
+    - **After the commit is `NoteUnitOfWork.OnceCommitted`,** synchronous on the thread that made the change, not
+      Compze's observers, which run off-thread.
 
 **After Compze's step 3, routing per class:**
 
