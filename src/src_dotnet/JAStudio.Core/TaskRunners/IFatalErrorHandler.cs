@@ -33,9 +33,6 @@ public interface IFatalErrorHandler
    /// </remarks>
    async void StartAndHandleExceptionsFrom(Func<Task> asyncWork)
    {
-      //review: nothing waits for this work as JAStudio shuts down, so a search running then reads notes, whose Anki tags are read through the
-      //   container, from a disposed container, and the user is shown the ObjectDisposedException. The specifications had it in half the runs, until
-      //   RethrowingFatalErrorHandler kept the work for SpecificationUsingACollection to wait for. Not seen in JAStudio itself.
       try
       {
          await asyncWork();
