@@ -25,10 +25,19 @@ class BulkNoteChanges(TemporaryServiceCollection services)
    /// progress as <paramref name="whatIsDone"/>.
    /// </summary>
    public Task ChangeEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
+      ForEachOf(notes, whatIsDone, note => note.Edit(changeANote));
+
+   /// <summary>
+   /// Does <paramref name="changeTheCards"/> to the cards of each of <paramref name="notes"/> in Anki, such as suspending them, in the background, showing its<br/>
+   /// progress as <paramref name="whatIsDone"/>. Not in an edit of the note: its cards are its study-note's, in Anki, and changing them changes no note.
+   /// </summary>
+   public Task ChangeTheCardsOfEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeTheCards) => ForEachOf(notes, whatIsDone, changeTheCards);
+
+   Task ForEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> doIt) =>
       TaskCE.Run(() =>
       {
          using var scope = _taskRunner.Current(whatIsDone);
-         scope.RunBatch(notes, note => note.Edit(changeANote), whatIsDone);
+         scope.RunBatch(notes, doIt, whatIsDone);
       });
 
    /// <summary>Adds <paramref name="tag"/> to each of <paramref name="notes"/> that lacks it: to the note itself, or, for an Anki tag, to its study-note in Anki.</summary>

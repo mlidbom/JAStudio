@@ -62,10 +62,10 @@ class ActionsOnSelectedResults
                               enabled: withTextToSpeechAudio.Count > 0),
          SpecMenuItem.Separator(),
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Unsuspend all cards"),
-                              () => StartChangingEachOf(withSuspendedCards, "Unsuspending all cards", it => it.UnsuspendAllCards()),
+                              () => StartChangingTheCardsOfEachOf(withSuspendedCards, "Unsuspending all cards", it => it.UnsuspendAllCards()),
                               enabled: withSuspendedCards.Count > 0),
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', "Suspend all cards"),
-                              () => StartChangingEachOf(withActiveCards, "Suspending all cards", it => it.SuspendAllCards()),
+                              () => StartChangingTheCardsOfEachOf(withActiveCards, "Suspending all cards", it => it.SuspendAllCards()),
                               enabled: withActiveCards.Count > 0)
       ];
    }
@@ -96,6 +96,6 @@ class ActionsOnSelectedResults
 
    static List<JPNote> NotesOf(IReadOnlyList<SearchResultViewModel> selected) => [..selected.Select(it => it.Note)];
 
-   void StartChangingEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
-      _fatalErrorHandler.StartAndHandleExceptionsFrom(() => _bulkNoteChanges.ChangeEachOf(notes, whatIsDone, changeANote));
+   void StartChangingTheCardsOfEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeTheCards) =>
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(() => _bulkNoteChanges.ChangeTheCardsOfEachOf(notes, whatIsDone, changeTheCards));
 }
