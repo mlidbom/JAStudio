@@ -139,6 +139,16 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
          public IReadOnlySet<WordReference> PerfectSynonyms { get; } = perfectSynonyms;
       }
 
+      public class PerfectSynonymAdded(WordReference word, IReadOnlySet<WordReference> perfectSynonyms) : PerfectSynonymsUpdated(perfectSynonyms), IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms.Added
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class PerfectSynonymRemoved(WordReference word, IReadOnlySet<WordReference> perfectSynonyms) : PerfectSynonymsUpdated(perfectSynonyms), IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms.Removed
+      {
+         public WordReference Word { get; } = word;
+      }
+
       public class AntonymsUpdated(IReadOnlySet<WordReference> antonyms) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms
       {
          public IReadOnlySet<WordReference> Antonyms { get; } = antonyms;

@@ -44,7 +44,7 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
       Assert.Equal([firstReference.Current.GetQuestion(), thirdReference.Current.GetQuestion()], SortedNamesOf(secondReference.Current.RelatedNotes.PerfectSynonyms.Words));
       Assert.Equal([firstReference.Current.GetQuestion(), secondReference.Current.GetQuestion()], SortedNamesOf(thirdReference.Current.RelatedNotes.PerfectSynonyms.Words));
 
-      firstReference.Current.RelatedNotes.PerfectSynonyms.Remove(thirdReference.Current.Question.Reference);
+      firstReference.Current.Edit(it => it.RelatedNotes.PerfectSynonyms.Remove(thirdReference.Current.Question.Reference));
       Assert.Equal([secondReference.Current.GetQuestion()], SortedNamesOf(firstReference.Current.RelatedNotes.PerfectSynonyms.Words));
       Assert.Equal([firstReference.Current.GetQuestion()], SortedNamesOf(secondReference.Current.RelatedNotes.PerfectSynonyms.Words));
       Assert.Empty(SortedNamesOf(thirdReference.Current.RelatedNotes.PerfectSynonyms.Words));

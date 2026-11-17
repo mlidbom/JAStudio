@@ -96,6 +96,21 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
       [XF] public void all_three_keep_their_answer() => new[] { Teyoroshii.GetAnswer(), Teii.GetAnswer(), Ndeii.GetAnswer() }.Must().SequenceEqual(["may", "may", "may"]);
    }
 
+   public class removing_ていい_from_てよろしい_in_a_unit_of_work_that_then_fails : When_changing_a_vocabs_perfect_synonyms
+   {
+      public removing_ていい_from_てよろしい_in_a_unit_of_work_that_then_fails() =>
+         Invoking(() => GetService<JPCollection>().InAUnitOfWork(unitOfWork =>
+                 {
+                    unitOfWork.ForUpdate(Teyoroshii).RelatedNotes.PerfectSynonyms.Remove(new WordReference("ていい"));
+                    throw new InvalidOperationException("The unit of work fails.");
+                 }))
+           .Must().Throw<InvalidOperationException>();
+
+      [XF] public void the_web_is_unchanged() =>
+         new { てよろしい = PerfectSynonymsOf(Teyoroshii), ていい = PerfectSynonymsOf(Teii), んでいい = PerfectSynonymsOf(Ndeii) }
+           .Must().DeepEqual(new { てよろしい = new[] { "ていい", "んでいい" }, ていい = new[] { "てよろしい", "んでいい" }, んでいい = new[] { "ていい", "てよろしい" } });
+   }
+
    public class deleting_ていい : When_changing_a_vocabs_perfect_synonyms
    {
       public deleting_ていい() => GetService<JPCollection>().Delete(Teii, ItsStudyNote.IsDeleted);

@@ -83,6 +83,10 @@ public interface IVocabTevent : INoteTevent
    /// and <c>AddedAsTheMirrorOf</c> and <c>RemovedAsTheMirrorOf</c> when that mirror changed it, which nothing mirrors back. The word of a mirror's<br/>
    /// tevent names the vocab whose edit it mirrors.
    /// </remarks>
+   /// <remarks>
+   /// The perfect synonyms are one web (<see cref="JAStudio.Core.Note.Vocabulary.RelatedVocab.PerfectSynonyms"/>): <c>Added</c> and <c>Removed</c> come<br/>
+   /// from an edit of the vocab, and a participation handler of each changes the rest of the web, whose changes publish only the whole new set.
+   /// </remarks>
    public interface RelatedVocab : IVocabTevent
    {
       public new static class PropertyUpdated
@@ -107,7 +111,13 @@ public interface IVocabTevent : INoteTevent
             public interface RemovedAsTheMirrorOf : Synonyms { WordReference Word { get; } }
          }
 
-         public interface PerfectSynonyms : RelatedVocab { IReadOnlySet<WordReference> PerfectSynonyms { get; } }
+         public interface PerfectSynonyms : RelatedVocab
+         {
+            IReadOnlySet<WordReference> PerfectSynonyms { get; }
+
+            public interface Added : PerfectSynonyms { WordReference Word { get; } }
+            public interface Removed : PerfectSynonyms { WordReference Word { get; } }
+         }
 
          public interface Antonyms : RelatedVocab
          {

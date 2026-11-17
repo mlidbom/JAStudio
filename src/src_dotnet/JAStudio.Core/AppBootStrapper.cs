@@ -161,6 +161,7 @@ public static class AppBootstrapper
    static void DeclareWhatReachesOtherNotes(TessageBusHandlerRegistrar handle)
    {
       PerfectSynonyms.ShareTheAnswerThrough(handle);
+      PerfectSynonyms.KeepTheWebWholeThrough(handle);
       VocabNoteQuestion.RenameTheWordReferencesThrough(handle);
       VocabNoteForms.MirrorTheFormsThrough(handle);
       RelatedVocab.MirrorTheMutualRelationshipsThrough(handle);

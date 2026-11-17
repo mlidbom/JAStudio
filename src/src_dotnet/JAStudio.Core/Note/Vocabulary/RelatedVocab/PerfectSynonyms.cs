@@ -30,7 +30,19 @@ public class PerfectSynonyms
      .ForTevent(static (IVocabTevent.SourceData.PropertyUpdated.Answer it, JPCollection collection) => PushTheAnswerOfTheVocabThatPublished(it, collection));
 
    static void PushTheAnswerOfTheVocabThatPublished(INoteTevent tevent, JPCollection collection) =>
-      collection.TheRunningUnitOfWork.NoteThatPublished<VocabNote>(tevent).RelatedNotes.PerfectSynonyms.PushAnswerToOtherSynonyms();
+      PerfectSynonymsOfTheVocabThatPublished(tevent, collection).PushAnswerToOtherSynonyms();
+
+   /// <summary>
+   /// Declares, through <paramref name="handle"/>, the participation handlers by which the perfect synonyms stay one web, in the unit of work that changed<br/>
+   /// a vocab's: a perfect synonym added joins its web and the vocab's into one, and gives every vocab in it the vocab's answer (<see cref="JoinTheWebs"/>),<br/>
+   /// and one removed leaves the web, staying a synonym of each vocab in it (<see cref="TakeOutOfTheWeb"/>).
+   /// </summary>
+   internal static void KeepTheWebWholeThrough(TessageBusHandlerRegistrar handle) => handle
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms.Added it, JPCollection collection) => PerfectSynonymsOfTheVocabThatPublished(it, collection).JoinTheWebs())
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms.Removed it, JPCollection collection) => PerfectSynonymsOfTheVocabThatPublished(it, collection).TakeOutOfTheWeb(it.Word));
+
+   static PerfectSynonyms PerfectSynonymsOfTheVocabThatPublished(INoteTevent tevent, JPCollection collection) =>
+      collection.TheRunningUnitOfWork.NoteThatPublished<VocabNote>(tevent).RelatedNotes.PerfectSynonyms;
 
    readonly VocabNote _vocab;
    readonly WordSet _words;
@@ -66,21 +78,40 @@ public class PerfectSynonyms
    }
 
    /// <summary>
-   /// Adds <paramref name="added"/>, which must name a vocab, joining the two webs of perfect synonyms into one, and gives every vocab in it this<br/>
-   /// vocab's answer.
+   /// Adds <paramref name="added"/>, which must name a vocab, as a perfect synonym and a synonym, and so joins the two webs of perfect synonyms into one,<br/>
+   /// and gives every vocab in it this vocab's answer (<see cref="KeepTheWebWholeThrough"/>).
    /// </summary>
    public void AddOverwritingTheAnswerOfTheAddedSynonym(WordReference added)
    {
       Contract.Argument.Assert(Accepts(added),
                                () => $"No vocab is named {added.DisambiguationName}, and a perfect synonym must be a vocab: perfect synonyms share one answer.");
       if(_vocab.Question.IsNamedBy(added)) return;
-      AddKeepingItAsASynonymToo(added);
+      _words.Add(added, words => new VocabTevent.RelatedVocab.PerfectSynonymAdded(added, words));
+      _vocab.RelatedNotes.Synonyms.Add(added);
+   }
+
+   /// <summary>
+   /// Removes <paramref name="removed"/>, keeping it as a synonym, and so takes it out of the web: it's no perfect synonym of any of the others any more,<br/>
+   /// but stays a synonym of each (<see cref="KeepTheWebWholeThrough"/>).
+   /// </summary>
+   public void Remove(WordReference removed)
+   {
+      _words.Remove(removed, words => new VocabTevent.RelatedVocab.PerfectSynonymRemoved(removed, words));
+      _vocab.RelatedNotes.Synonyms.Add(removed);
+   }
+
+   /// <summary>What a participation handler of a perfect synonym added does: connects the whole web, and gives every vocab in it this vocab's answer.</summary>
+   void JoinTheWebs()
+   {
       ConnectTheWholeWeb();
       PushAnswerToOtherSynonyms();
    }
 
-   /// <summary>Removes <paramref name="removed"/> from the web: it's no perfect synonym of any of the others any more, but stays a synonym of each.</summary>
-   public void Remove(WordReference removed)
+   /// <summary>
+   /// What a participation handler of the removing of <paramref name="removed"/> does: the vocab it names leaves the web, and every vocab in the web<br/>
+   /// keeps it only as a synonym.
+   /// </summary>
+   void TakeOutOfTheWeb(WordReference removed)
    {
       foreach(var removedVocab in Collection.NamedExactlyBy(removed))
          EditThePerfectSynonymsOf(removedVocab, it => it.LeaveTheWeb());
