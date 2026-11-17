@@ -323,6 +323,38 @@ byte, so a run of one loads what the other wrote.
   search the search editor started, superseded by a later one, read on after its specification had disposed the
   container. The specifications now wait for the work they started before disposing the app.
 
+## After the order: what follows changes observes tevents
+
+Decided by Magnus, 2026-11-17, on item 21: `JPCollection.NoteUpdated`, a plain observable raised after the outermost unit
+of work commits, goes. "That NoteUpdated should most likely just disappear and the actual code that cares about changes
+does `.For<INoteTevent>(it => ...)` if it truly wants absolutely any change. If it cares about something more specific,
+then it should listen for that. If that tevent interface does not exist, we are probably missing an interface." And on
+building messaging paths of JAStudio's own: "A subscriber that publishes something new, with a well designed inheritence
+hierarchy lets you stay on the bus and use a consistent model and have only one place you need to think about subscribing
+to anything that happens".
+
+- **The publishing side, being built:**
+  1. **A deleted note is a tevent:** `INoteTevent.Deleted : ITaggregateDeletedTevent`, and one per note type, like their
+     `Created`. The note's own `Delete` publishes it, then `NoteUnitOfWork.Delete` removes it from the store: publish
+     first, since the store's session refuses a taggregate deleted in its unit of work. Leaving the web of perfect
+     synonyms becomes a participation handler of `IVocabTevent.Deleted`. Whether Compze's stores should delete a
+     taggregate on its deleted tevent alone, so the second call goes, `jastudio-rep-opus` has put to Magnus.
+  2. **One summary tevent per note per unit of work:** `INoteChangedInAUnitOfWork { NoteId }`, with one per note type
+     beneath it, for a note added or changed. A participation handler of `INoteTevent` collects the ids; the outermost
+     `NoteUnitOfWork` publishes them through `IUnitOfWorkTeventPublisher` once its work is done, so observers get them
+     after the commit. JAStudio's own: Compze may take the shape over if it proves general (`jastudio-rep-opus`).
+  3. **What isn't a note's tevent, published on its own** through `IIndependentTeventPublisher`: `ICollectionReloaded`,
+     with the notes a reload added, changed and removed; `IStudyNoteChanged { NoteId }`, when what Anki holds of a
+     note's study-note changes; and a configuration change, which replaces `Config.Changed`.
+- **The observing side waits for Compze:** observers are declared only at composition, and the view models that follow
+  changes come and go with the UI. `jastudio-rep-opus` has put to Magnus an observation for as long as an object lives,
+  `IDisposable Observe(Action<TeventObservationRegistrar> observe)`, with a declared observer's semantics. A hub of
+  JAStudio's own would re-implement Compze's routing by tevent type, so there is none. Until then the observables stay.
+  The view models that will observe: a note's tab and its page, the search results' rows, the parsing cases. Those that
+  must run on the UI thread observe through an extension that delivers there (Magnus's idea), over `IUIThreadDispatcher`.
+- **Specifications wait** with `ILocalTessagingEngine.AwaitNoTeventsInFlightAsync`, whose name, or
+  `AwaitNoTessagesInFlightAsync`, is Magnus's call through `jastudio-rep-opus`.
+
 ## The order
 
 Each step is an increment that builds and passes JAStudio's whole suite, and is committed.
