@@ -29,6 +29,8 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
      .For<ISentenceTevent.PropertyUpdated.Reading>(static (sentence, tevent) => sentence.Reading = tevent.Reading)
      .For<ISentenceTevent.PropertyUpdated.ParsingResult>(static (sentence, tevent) => sentence._parsingResult = tevent.ParsingResult)
      .For<ISentenceTevent.PropertyUpdated.ParsingCase>(static (sentence, tevent) => sentence.ParsingCase = tevent.ParsingCase)
+     .For<ISentenceTevent.PropertyUpdated.Audio>(static (sentence, tevent) => sentence.Audio.Apply(tevent.Audio))
+     .For<ISentenceTevent.PropertyUpdated.Screenshots>(static (sentence, tevent) => sentence.Screenshots.Apply(tevent.Screenshots))
      .Component(static sentence => sentence.SourceData));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
@@ -118,9 +120,9 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
       CorpusQuestion = data?.CorpusQuestion ?? string.Empty;
       CorpusAnswer = data?.CorpusAnswer ?? string.Empty;
       Comments = data?.Comments ?? string.Empty;
-      SourceData = new SentenceSourceData(this, data?.SourceData, Guard);
-      Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], Guard);
-      Screenshots = new MediaReferenceList<ImageReference>(data?.Screenshots.Select(it => it.ToReference()) ?? [], Guard);
+      SourceData = new SentenceSourceData(this, data?.SourceData);
+      Audio = new AudioReferenceList(this, data?.Audio.Select(it => it.ToReference()) ?? [], static it => new SentenceTevent.AudioUpdated(it));
+      Screenshots = new MediaReferenceList<ImageReference>(this, data?.Screenshots.Select(it => it.ToReference()) ?? [], static it => new SentenceTevent.ScreenshotsUpdated(it));
       AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
 
       Configuration = new CachingSentenceConfigurationField(this, data?.Configuration, Guard);

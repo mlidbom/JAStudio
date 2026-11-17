@@ -31,6 +31,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
      .For<IKanjiTevent.PropertyUpdated.PrimaryVocab>(static (kanji, tevent) => kanji.PrimaryVocab.Apply(tevent.PrimaryVocab))
      .For<IKanjiTevent.PropertyUpdated.SimilarMeaning>(static (kanji, tevent) => kanji.SimilarMeaning.Apply(tevent.SimilarMeaning))
      .For<IKanjiTevent.PropertyUpdated.ConfusedWith>(static (kanji, tevent) => kanji.ConfusedWith.Apply(tevent.ConfusedWith))
+     .For<IKanjiTevent.PropertyUpdated.Images>(static (kanji, tevent) => kanji.Images.Apply(tevent.Images))
      .Component(static kanji => kanji.SourceData));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
@@ -111,7 +112,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
       SourceData = new KanjiSourceData(this, data?.SourceData);
       Readings = new KanjiNoteReadings(data?.Readings, Guard);
       KanjiReferences = data?.References ?? string.Empty;
-      Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], Guard);
+      Images = new MediaReferenceList<ImageReference>(this, data?.Images.Select(it => it.ToReference()) ?? [], static it => new KanjiTevent.ImagesUpdated(it));
       Radicals = new KanjiRadicals(this, data?.Radicals ?? []);
       PrimaryVocab = new KanjiPrimaryVocab(this, data?.PrimaryVocab.Select(WordReference.FromDto) ?? []);
       SimilarMeaning = new MutualKanjiRelationship(this, data?.SimilarMeaning ?? [], static it => new KanjiTevent.SimilarMeaningUpdated(it), it => it.SimilarMeaning);

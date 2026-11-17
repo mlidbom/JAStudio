@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -23,6 +24,7 @@ public interface IKanjiTevent : INoteTevent
       public interface PrimaryVocab : IKanjiTevent { IReadOnlyList<WordReference> PrimaryVocab { get; } }
       public interface SimilarMeaning : IKanjiTevent { IReadOnlyList<string> SimilarMeaning { get; } }
       public interface ConfusedWith : IKanjiTevent { IReadOnlyList<string> ConfusedWith { get; } }
+      public interface Images : IKanjiTevent { IReadOnlyList<ImageReference> Images { get; } }
    }
 
    /// <remarks>Carries the kanji's question, its character, which no tevent changes: a kanji with another character is another kanji.</remarks>

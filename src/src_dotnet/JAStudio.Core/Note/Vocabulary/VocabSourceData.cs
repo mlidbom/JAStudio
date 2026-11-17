@@ -17,28 +17,30 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// The source's mnemonics are never shown: those from WaniKani aren't ours to show, so they're only kept.
 /// </remarks>
 /// <remarks>
-/// A component of its vocab: its text fields publish tevents of their own, <see cref="IVocabTevent.SourceData"/>, which its appliers apply. Its audio<br/>
-/// and images still change through the vocab's <see cref="NoteGuard"/>.
+/// A component of its vocab: its text fields, its audio and its images publish tevents of their own, <see cref="IVocabTevent.SourceData"/>, which its<br/>
+/// appliers apply.
 /// </remarks>
 public class VocabSourceData : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabSourceData, IVocabTevent.SourceData, VocabTevent.SourceData>, ITeventRouted
 {
    static readonly TeventRouting<VocabSourceData> Appliers = TeventRouting<VocabSourceData>.DeclareAppliers(it => it
      .For<IVocabTevent.SourceData.PropertyUpdated.Answer>(static (sourceData, tevent) => sourceData.Answer = tevent.Answer)
      .For<IVocabTevent.SourceData.PropertyUpdated.Mnemonic>(static (sourceData, tevent) => sourceData.Mnemonic = tevent.Mnemonic)
-     .For<IVocabTevent.SourceData.PropertyUpdated.ReadingMnemonic>(static (sourceData, tevent) => sourceData.ReadingMnemonic = tevent.ReadingMnemonic));
+     .For<IVocabTevent.SourceData.PropertyUpdated.ReadingMnemonic>(static (sourceData, tevent) => sourceData.ReadingMnemonic = tevent.ReadingMnemonic)
+     .For<IVocabTevent.SourceData.PropertyUpdated.Audio>(static (sourceData, tevent) => sourceData.Audio.Apply(tevent.Audio))
+     .For<IVocabTevent.SourceData.PropertyUpdated.Images>(static (sourceData, tevent) => sourceData.Images.Apply(tevent.Images)));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
    readonly VocabNote _vocab;
 
-   public VocabSourceData(VocabNote vocab, VocabSourceDataDto? data, NoteGuard guard) : base(vocab)
+   public VocabSourceData(VocabNote vocab, VocabSourceDataDto? data) : base(vocab)
    {
       _vocab = vocab;
       Answer = data?.Answer ?? string.Empty;
       Mnemonic = data?.Mnemonic ?? string.Empty;
       ReadingMnemonic = data?.ReadingMnemonic ?? string.Empty;
-      Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], guard);
-      Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], guard);
+      Audio = new AudioReferenceList(vocab, data?.Audio.Select(it => it.ToReference()) ?? [], static it => new VocabTevent.SourceData.SourceAudioUpdated(it));
+      Images = new MediaReferenceList<ImageReference>(vocab, data?.Images.Select(it => it.ToReference()) ?? [], static it => new VocabTevent.SourceData.SourceImagesUpdated(it));
    }
 
    internal VocabSourceDataDto ToDto() =>

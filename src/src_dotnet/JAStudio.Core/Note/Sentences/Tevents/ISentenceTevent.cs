@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 
 // ReSharper disable InconsistentNaming
@@ -21,6 +23,8 @@ public interface ISentenceTevent : INoteTevent
       public interface Reading : ISentenceTevent { string Reading { get; } }
       public interface ParsingResult : ISentenceTevent { Sentences.ParsingResult ParsingResult { get; } }
       public interface ParsingCase : ISentenceTevent { ParsingCases.ParsingCase? ParsingCase { get; } }
+      public interface Audio : ISentenceTevent { IReadOnlyList<AudioReference> Audio { get; } }
+      public interface Screenshots : ISentenceTevent { IReadOnlyList<ImageReference> Screenshots { get; } }
    }
 
    /// <remarks>Carries the question the sentence's source gave it, which a new sentence is created with.</remarks>
@@ -34,6 +38,8 @@ public interface ISentenceTevent : INoteTevent
          public interface Answer : SourceData { string Answer { get; } }
          public interface Comments : SourceData { string Comments { get; } }
          public interface ExternalId : SourceData { string ExternalId { get; } }
+         public interface Audio : SourceData { IReadOnlyList<AudioReference> Audio { get; } }
+         public interface Screenshots : SourceData { IReadOnlyList<ImageReference> Screenshots { get; } }
       }
    }
 }

@@ -1,8 +1,9 @@
 import typing, clr, abc
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Storage.Media import AudioAttachment, MediaFileIndex
-from System import IEquatable_1
-from JAStudio.Core.Note import NoteGuard
+from System import IEquatable_1, Func_2
+from JAStudio.Core.Note import JPNote
+from JAStudio.Core.Note.Tevents import NoteTevent
 
 class AllAudioOfANote:
     def __init__(self, fromItsSource: AudioReferenceList, theCorpussOwn: AudioReferenceList) -> None: ...
@@ -62,7 +63,7 @@ class AudioReference(MediaReference, IEquatable_1[AudioReference]):
 
 
 class AudioReferenceList(MediaReferenceList_1[AudioReference]):
-    def __init__(self, references: IEnumerable_1[AudioReference], guard: NoteGuard) -> None: ...
+    def __init__(self, note: JPNote, references: IEnumerable_1[AudioReference], teventOf: Func_2[IReadOnlyList_1[AudioReference], NoteTevent]) -> None: ...
     @property
     def All(self) -> IReadOnlyList_1[AudioReference]: ...
     @property
@@ -135,9 +136,11 @@ MediaReferenceList : MediaReferenceList_GenericClasses
 
 MediaReferenceList_1_TReference = typing.TypeVar('MediaReferenceList_1_TReference')
 class MediaReferenceList_1(typing.Generic[MediaReferenceList_1_TReference]):
-    def __init__(self, references: IEnumerable_1[MediaReferenceList_1_TReference], guard: NoteGuard) -> None: ...
+    def __init__(self, note: JPNote, references: IEnumerable_1[MediaReferenceList_1_TReference], teventOf: Func_2[IReadOnlyList_1[MediaReferenceList_1_TReference], NoteTevent]) -> None: ...
     @property
     def All(self) -> IReadOnlyList_1[MediaReferenceList_1_TReference]: ...
+    @All.setter
+    def All(self, value: IReadOnlyList_1[MediaReferenceList_1_TReference]) -> IReadOnlyList_1[MediaReferenceList_1_TReference]: ...
     def Add(self, reference: MediaReferenceList_1_TReference) -> None: ...
     def Remove(self, reference: MediaReferenceList_1_TReference) -> None: ...
 

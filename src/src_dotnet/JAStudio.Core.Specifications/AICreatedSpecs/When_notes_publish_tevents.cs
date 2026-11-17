@@ -8,6 +8,7 @@ using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiTevents;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.Tevents;
 using JAStudio.Core.Note.Tagging;
@@ -25,7 +26,7 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a note's text field publishes the<br/>
 /// <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>,<br/>
 /// <see cref="SentenceSourceData"/>) included, as do the parts converted so far, such as a vocab's <see cref="VocabNoteRegister"/>, the flags<br/>
-/// and rules of its <see cref="VocabNote.MatchingConfiguration"/>, its related vocab, and a kanji's relationships to other kanji. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
+/// and rules of its <see cref="VocabNote.MatchingConfiguration"/>, its related vocab, a kanji's relationships to other kanji, and the notes' media. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
 /// changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store would save it.
 /// </summary>
 public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
@@ -131,6 +132,18 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void the_committed_kanji_has_the_new_source_answer() => _kanji.SourceData.Answer.Must().Be("running");
       }
 
+      public class when_an_image_is_added : given_a_kanji_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_an_image_is_added() => _published = TheTeventsPublishedAs(it => it.Images.Add(new ImageReference("run.png")));
+
+         [XF] public void it_publishes_its_images() =>
+            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.Images { Images: [{ FileName: "run.png" }] }]);
+
+         [XF] public void the_committed_kanji_has_it() => _kanji.Images.All.Must().SequenceEqual([new ImageReference("run.png")]);
+      }
+
       public class when_it_is_given_the_same_radical_twice : given_a_kanji_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;
@@ -234,6 +247,18 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
       }
 
+      public class when_a_screenshot_is_added : given_a_sentence_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_a_screenshot_is_added() => _published = TheTeventsPublishedAs(it => it.Screenshots.Add(new ImageReference("home.png")));
+
+         [XF] public void it_publishes_its_screenshots() =>
+            _published.Must().Satisfy(it => it is [ISentenceTevent.PropertyUpdated.Screenshots { Screenshots: [{ FileName: "home.png" }] }]);
+
+         [XF] public void the_committed_sentence_has_it() => _sentence.Screenshots.All.Must().SequenceEqual([new ImageReference("home.png")]);
+      }
+
       public class when_its_source_question_is_changed : given_a_sentence_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;
@@ -318,6 +343,18 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          public when_its_answer_is_set_to_the_answer_it_has() => _published = TheTeventsPublishedAs(it => it.SetCorpusAnswer("to run"));
 
          [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
+      }
+
+      public class when_audio_is_added_to_what_its_source_gave_it : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_audio_is_added_to_what_its_source_gave_it() => _published = TheTeventsPublishedAs(it => it.SourceData.Audio.Add(new AudioReference("hashiru.mp3")));
+
+         [XF] public void it_publishes_its_sources_audio() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.SourceData.PropertyUpdated.Audio { Audio: [{ FileName: "hashiru.mp3" }] }]);
+
+         [XF] public void the_committed_vocab_has_it() => _vocab.SourceData.Audio.All.Must().SequenceEqual([new AudioReference("hashiru.mp3")]);
       }
 
       public class when_it_is_given_a_synonym_no_vocab_has : given_a_vocab_in_the_collection

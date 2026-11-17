@@ -30,6 +30,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
      .For<IVocabTevent.PropertyUpdated.TechnicalNotes>(static (vocab, tevent) => vocab.TechnicalNotes = tevent.TechnicalNotes)
      .For<IVocabTevent.PropertyUpdated.References>(static (vocab, tevent) => vocab.References = tevent.References)
      .For<IVocabTevent.PropertyUpdated.Readings>(static (vocab, tevent) => vocab._readings = tevent.Readings)
+     .For<IVocabTevent.PropertyUpdated.Audio>(static (vocab, tevent) => vocab.Audio.Apply(tevent.Audio))
+     .For<IVocabTevent.PropertyUpdated.Images>(static (vocab, tevent) => vocab.Images.Apply(tevent.Images))
      .Component(static vocab => vocab.SourceData)
      .Component(static vocab => vocab.RelatedNotes)
      .Component(static vocab => vocab.MetaData)
@@ -170,9 +172,9 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       Explanation = data?.Explanation ?? string.Empty;
       ExplanationLong = data?.ExplanationLong ?? string.Empty;
       Mnemonic = data?.Mnemonic ?? string.Empty;
-      SourceData = new VocabSourceData(this, data?.SourceData, Guard);
-      Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], Guard);
-      Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], Guard);
+      SourceData = new VocabSourceData(this, data?.SourceData);
+      Audio = new AudioReferenceList(this, data?.Audio.Select(it => it.ToReference()) ?? [], static it => new VocabTevent.AudioUpdated(it));
+      Images = new MediaReferenceList<ImageReference>(this, data?.Images.Select(it => it.ToReference()) ?? [], static it => new VocabTevent.ImagesUpdated(it));
       AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
       TechnicalNotes = data?.TechnicalNotes ?? string.Empty;
       References = data?.References ?? string.Empty;

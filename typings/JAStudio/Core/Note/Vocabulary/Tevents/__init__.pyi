@@ -4,6 +4,7 @@ from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from System.Collections.Generic import IReadOnlyList_1, IReadOnlySet_1
 from JAStudio.Core.Note.Vocabulary import EnteredForm, WordReference, UsuallyWrittenInKanaDecision
 from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice
+from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from JAStudio.Core.Note import VocabId
@@ -80,6 +81,11 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
 
     class PropertyUpdated(abc.ABC):
 
+        class Audio(IVocabTevent_0, typing.Protocol):
+            @property
+            def Audio(self) -> IReadOnlyList_1[AudioReference]: ...
+
+
         class CorpusAnswer(IVocabTevent_0, typing.Protocol):
             @property
             def CorpusAnswer(self) -> str: ...
@@ -93,6 +99,11 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
         class ExplanationLong(IVocabTevent_0, typing.Protocol):
             @property
             def ExplanationLong(self) -> str: ...
+
+
+        class Images(IVocabTevent_0, typing.Protocol):
+            @property
+            def Images(self) -> IReadOnlyList_1[ImageReference]: ...
 
 
         class Mnemonic(IVocabTevent_0, typing.Protocol):
@@ -198,6 +209,16 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
                 def Answer(self) -> str: ...
 
 
+            class Audio(IVocabTevent.SourceData, typing.Protocol):
+                @property
+                def Audio(self) -> IReadOnlyList_1[AudioReference]: ...
+
+
+            class Images(IVocabTevent.SourceData, typing.Protocol):
+                @property
+                def Images(self) -> IReadOnlyList_1[ImageReference]: ...
+
+
             class Mnemonic(IVocabTevent.SourceData, typing.Protocol):
                 @property
                 def Mnemonic(self) -> str: ...
@@ -240,6 +261,18 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
     def TaggregateVersion(self) -> int: ...
     @property
     def UtcTimeStamp(self) -> DateTime: ...
+
+    class AudioUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.Audio):
+        def __init__(self, audio: IReadOnlyList_1[AudioReference]) -> None: ...
+        @property
+        def Audio(self) -> IReadOnlyList_1[AudioReference]: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
 
     class CorpusAnswerUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.CorpusAnswer):
         def __init__(self, corpusAnswer: str) -> None: ...
@@ -336,6 +369,18 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
             @property
             def UtcTimeStamp(self) -> DateTime: ...
 
+
+
+    class ImagesUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.Images):
+        def __init__(self, images: IReadOnlyList_1[ImageReference]) -> None: ...
+        @property
+        def Images(self) -> IReadOnlyList_1[ImageReference]: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
 
 
     class MatchingConfiguration(VocabTevent_0, IVocabTevent.MatchingConfiguration):
@@ -603,6 +648,30 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
             def __init__(self, answer: str) -> None: ...
             @property
             def Answer(self) -> str: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class SourceAudioUpdated(VocabTevent.SourceData, IVocabTevent.SourceData.PropertyUpdated.Audio):
+            def __init__(self, audio: IReadOnlyList_1[AudioReference]) -> None: ...
+            @property
+            def Audio(self) -> IReadOnlyList_1[AudioReference]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class SourceImagesUpdated(VocabTevent.SourceData, IVocabTevent.SourceData.PropertyUpdated.Images):
+            def __init__(self, images: IReadOnlyList_1[ImageReference]) -> None: ...
+            @property
+            def Images(self) -> IReadOnlyList_1[ImageReference]: ...
             @property
             def TaggregateId(self) -> TaggregateId: ...
             @property

@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Media;
 
 /// <summary>One list of a note's references to audio files (<see cref="MediaReferenceList{TReference}"/>), such as the audio a vocab's source gave it.</summary>
-public class AudioReferenceList(IEnumerable<AudioReference> references, NoteGuard guard) : MediaReferenceList<AudioReference>(references, guard)
+public class AudioReferenceList(JPNote note, IEnumerable<AudioReference> references, Func<IReadOnlyList<AudioReference>, NoteTevent> teventOf)
+   : MediaReferenceList<AudioReference>(note, references, teventOf)
 {
    /// <summary>The audio made by text-to-speech (<see cref="AudioReference.IsTextToSpeech"/>), in the order it's preferred in.</summary>
    public IReadOnlyList<AudioReference> TextToSpeech => [..All.Where(it => it.IsTextToSpeech)];

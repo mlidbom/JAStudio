@@ -2,6 +2,7 @@ import typing, abc
 from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, NoteTevent_1
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from System.Collections.Generic import IReadOnlyList_1
+from JAStudio.Core.Note.Media import ImageReference
 from JAStudio.Core.Note.Vocabulary import WordReference
 from Compze.Abstractions import TaggregateId
 from System import DateTime
@@ -30,6 +31,11 @@ class IKanjiTevent_0(INoteTevent_0, typing.Protocol):
         class CorpusAnswer(IKanjiTevent_0, typing.Protocol):
             @property
             def CorpusAnswer(self) -> str: ...
+
+
+        class Images(IKanjiTevent_0, typing.Protocol):
+            @property
+            def Images(self) -> IReadOnlyList_1[ImageReference]: ...
 
 
         class KanjiReferences(IKanjiTevent_0, typing.Protocol):
@@ -137,6 +143,18 @@ class KanjiTevent_0(NoteTevent_0, IKanjiTevent_0):
         def __init__(self, kanjiId: KanjiId, question: str) -> None: ...
         @property
         def Question(self) -> str: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class ImagesUpdated(KanjiTevent_0, IKanjiTevent.PropertyUpdated.Images):
+        def __init__(self, images: IReadOnlyList_1[ImageReference]) -> None: ...
+        @property
+        def Images(self) -> IReadOnlyList_1[ImageReference]: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property

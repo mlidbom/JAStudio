@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Tevents;
 
@@ -24,6 +26,13 @@ public abstract class SentenceTevent : NoteTevent, ISentenceTevent
       public ParsingResult ParsingResult { get; } = parsingResult;
    }
 
+   public class AudioUpdated(IReadOnlyList<AudioReference> audio) : SentenceTevent, ISentenceTevent.PropertyUpdated.Audio { public IReadOnlyList<AudioReference> Audio { get; } = audio; }
+
+   public class ScreenshotsUpdated(IReadOnlyList<ImageReference> screenshots) : SentenceTevent, ISentenceTevent.PropertyUpdated.Screenshots
+   {
+      public IReadOnlyList<ImageReference> Screenshots { get; } = screenshots;
+   }
+
    public class ParsingCaseUpdated(ParsingCase? parsingCase) : SentenceTevent, ISentenceTevent.PropertyUpdated.ParsingCase
    {
       public ParsingCase? ParsingCase { get; } = parsingCase;
@@ -43,6 +52,16 @@ public abstract class SentenceTevent : NoteTevent, ISentenceTevent
       public class SourceExternalIdUpdated(string externalId) : SourceData, ISentenceTevent.SourceData.PropertyUpdated.ExternalId
       {
          public string ExternalId { get; } = externalId;
+      }
+
+      public class SourceAudioUpdated(IReadOnlyList<AudioReference> audio) : SourceData, ISentenceTevent.SourceData.PropertyUpdated.Audio
+      {
+         public IReadOnlyList<AudioReference> Audio { get; } = audio;
+      }
+
+      public class SourceScreenshotsUpdated(IReadOnlyList<ImageReference> screenshots) : SourceData, ISentenceTevent.SourceData.PropertyUpdated.Screenshots
+      {
+         public IReadOnlyList<ImageReference> Screenshots { get; } = screenshots;
       }
    }
 }

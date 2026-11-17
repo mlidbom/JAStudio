@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -36,6 +37,11 @@ public abstract class KanjiTevent : NoteTevent, IKanjiTevent
    public class ConfusedWithUpdated(IReadOnlyList<string> confusedWith) : KanjiTevent, IKanjiTevent.PropertyUpdated.ConfusedWith
    {
       public IReadOnlyList<string> ConfusedWith { get; } = confusedWith;
+   }
+
+   public class ImagesUpdated(IReadOnlyList<ImageReference> images) : KanjiTevent, IKanjiTevent.PropertyUpdated.Images
+   {
+      public IReadOnlyList<ImageReference> Images { get; } = images;
    }
 
    public class Created(KanjiId kanjiId, string question) : KanjiTevent(kanjiId), IKanjiTevent.Created

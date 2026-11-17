@@ -17,8 +17,8 @@ namespace JAStudio.Core.Note.Sentences;
 /// of its own. The source's comments are shown beside the sentence's own <see cref="SentenceNote.Comments"/>: neither replaces the other.
 /// </remarks>
 /// <remarks>
-/// A component of its sentence: its text fields publish tevents of their own, <see cref="ISentenceTevent.SourceData"/>, which its appliers apply.<br/>
-/// Its audio and screenshots still change through the sentence's <see cref="NoteGuard"/>.
+/// A component of its sentence: its text fields, its audio and its screenshots publish tevents of their own, <see cref="ISentenceTevent.SourceData"/>,<br/>
+/// which its appliers apply.
 /// </remarks>
 public class SentenceSourceData : TeventiveComponent<SentenceNote, INoteTevent, NoteTevent, SentenceSourceData, ISentenceTevent.SourceData, SentenceTevent.SourceData>, ITeventRouted
 {
@@ -26,21 +26,23 @@ public class SentenceSourceData : TeventiveComponent<SentenceNote, INoteTevent, 
      .For<ISentenceTevent.SourceData.PropertyUpdated.Question>(static (sourceData, tevent) => sourceData.Question = tevent.Question)
      .For<ISentenceTevent.SourceData.PropertyUpdated.Answer>(static (sourceData, tevent) => sourceData.Answer = tevent.Answer)
      .For<ISentenceTevent.SourceData.PropertyUpdated.Comments>(static (sourceData, tevent) => sourceData.Comments = tevent.Comments)
-     .For<ISentenceTevent.SourceData.PropertyUpdated.ExternalId>(static (sourceData, tevent) => sourceData.ExternalId = tevent.ExternalId));
+     .For<ISentenceTevent.SourceData.PropertyUpdated.ExternalId>(static (sourceData, tevent) => sourceData.ExternalId = tevent.ExternalId)
+     .For<ISentenceTevent.SourceData.PropertyUpdated.Audio>(static (sourceData, tevent) => sourceData.Audio.Apply(tevent.Audio))
+     .For<ISentenceTevent.SourceData.PropertyUpdated.Screenshots>(static (sourceData, tevent) => sourceData.Screenshots.Apply(tevent.Screenshots)));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
    readonly SentenceNote _sentence;
 
-   public SentenceSourceData(SentenceNote sentence, SentenceSourceDataDto? data, NoteGuard guard) : base(sentence)
+   public SentenceSourceData(SentenceNote sentence, SentenceSourceDataDto? data) : base(sentence)
    {
       _sentence = sentence;
       Question = data?.Question ?? string.Empty;
       Answer = data?.Answer ?? string.Empty;
       Comments = data?.Comments ?? string.Empty;
       ExternalId = data?.ExternalId ?? string.Empty;
-      Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], guard);
-      Screenshots = new MediaReferenceList<ImageReference>(data?.Screenshots.Select(it => it.ToReference()) ?? [], guard);
+      Audio = new AudioReferenceList(sentence, data?.Audio.Select(it => it.ToReference()) ?? [], static it => new SentenceTevent.SourceData.SourceAudioUpdated(it));
+      Screenshots = new MediaReferenceList<ImageReference>(sentence, data?.Screenshots.Select(it => it.ToReference()) ?? [], static it => new SentenceTevent.SourceData.SourceScreenshotsUpdated(it));
    }
 
    internal SentenceSourceDataDto ToDto() =>

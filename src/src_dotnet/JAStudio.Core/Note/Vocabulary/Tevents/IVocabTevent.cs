@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Matching;
 
@@ -23,6 +24,8 @@ public interface IVocabTevent : INoteTevent
       public interface TechnicalNotes : IVocabTevent { string TechnicalNotes { get; } }
       public interface References : IVocabTevent { string References { get; } }
       public interface Readings : IVocabTevent { IReadOnlyList<string> Readings { get; } }
+      public interface Audio : IVocabTevent { IReadOnlyList<AudioReference> Audio { get; } }
+      public interface Images : IVocabTevent { IReadOnlyList<ImageReference> Images { get; } }
    }
 
    public interface Created : IVocabTevent, ITaggregateCreatedTevent, Question.PropertyUpdated.Text;
@@ -49,6 +52,8 @@ public interface IVocabTevent : INoteTevent
          public interface Answer : SourceData { string Answer { get; } }
          public interface Mnemonic : SourceData { string Mnemonic { get; } }
          public interface ReadingMnemonic : SourceData { string ReadingMnemonic { get; } }
+         public interface Audio : SourceData { IReadOnlyList<AudioReference> Audio { get; } }
+         public interface Images : SourceData { IReadOnlyList<ImageReference> Images { get; } }
       }
    }
 
