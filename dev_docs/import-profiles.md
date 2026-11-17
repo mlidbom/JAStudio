@@ -75,8 +75,9 @@ where "Convert Immersion Kit sentences" used to be. Every change is saved at onc
 | Tags | Tags to add, such as `source::immersion_kit`. The raw notes' own tags come along too. |
 | Media folders | A folder in the media layer for each mapped media field, such as audio to one folder and screenshots to another. Typed in, and checked to be `free/` or a commercial repository, or inside one (`MediaLayerFolders`). |
 | Delete the raw notes afterwards | Yes or no. Magnus wants both options to start with, to compare and check while he gets imports going. |
-| Create Anki notes to study | Yes or no: whether each new corpus note gets a note in the open Anki profile. |
 | Runs automatically | Yes or no: see [When a run starts](#when-a-run-starts). |
+
+A run adds the sentences to the corpus only. Which of them to study in Anki is chosen by hand (Magnus, 2026-11-18).
 
 ## An import run
 

@@ -97,9 +97,6 @@
                                         <CheckBox IsChecked="{Binding DeletesTheRawNotesAfterwards}">
                                             <TextBlock TextWrapping="Wrap" Text="Delete the raw notes from Anki. Otherwise they're tagged jastudio::imported, which later runs leave out." />
                                         </CheckBox>
-                                        <CheckBox IsChecked="{Binding CreatesAnkiNotesToStudy}">
-                                            <TextBlock TextWrapping="Wrap" Text="Give each sentence a note in this Anki profile to study. Otherwise it's added to the corpus only." />
-                                        </CheckBox>
 
                                         <TextBlock Classes="heading" Text="When it runs" />
                                         <CheckBox IsChecked="{Binding RunsAutomatically}">

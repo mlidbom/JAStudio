@@ -93,12 +93,6 @@ class ImportProfileEditorViewModel : ObservableObject
       set => Change(() => Profile.DeletesTheRawNotesAfterwards = value);
    }
 
-   public bool CreatesAnkiNotesToStudy
-   {
-      get => Profile.CreatesAnkiNotesToStudy;
-      set => Change(() => Profile.CreatesAnkiNotesToStudy = value);
-   }
-
    public bool RunsAutomatically
    {
       get => Profile.RunsAutomatically;

@@ -37,9 +37,6 @@ public class ImportProfile
    /// <summary>Whether a run deletes the raw notes from Anki afterwards. Otherwise it tags them <see cref="RawNote.ImportedTag"/>.</summary>
    public bool DeletesTheRawNotesAfterwards { get; set; }
 
-   /// <summary>Whether each imported sentence gets a note in the open Anki profile to study. Otherwise it's added to the corpus only.</summary>
-   public bool CreatesAnkiNotesToStudy { get; set; }
-
    /// <summary>
    /// Whether the profile runs on its own, through <see cref="AutomaticImportRuns"/>, when Anki signals that raw notes of its <see cref="AnkiNoteType"/> may have arrived:<br/>
    /// when Anki finished importing a file, such as an .apkg, or a note of the type was added, as AnkiConnect adds them. Otherwise it runs only by hand.
@@ -57,7 +54,6 @@ public class ImportProfile
       AudioFolder = AudioFolder,
       ScreenshotFolder = ScreenshotFolder,
       DeletesTheRawNotesAfterwards = DeletesTheRawNotesAfterwards,
-      CreatesAnkiNotesToStudy = CreatesAnkiNotesToStudy,
       RunsAutomatically = RunsAutomatically
    };
 }

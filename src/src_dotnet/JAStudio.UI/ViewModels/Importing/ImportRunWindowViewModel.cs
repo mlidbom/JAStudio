@@ -259,7 +259,7 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
       if(!run.CanExecute)
          summary.AppendLine("The raw notes with a red ✗ stop the run: fix them in Anki, and check again.");
       else if(run.HasNotesToImportAndNoProblems)
-         summary.AppendLine($"Running imports {run.With(RawNoteOutcome.WillBeImported).Count} sentences{(run.Profile.CreatesAnkiNotesToStudy ? ", each with an Anki note to study" : " into the corpus only")}, "
+         summary.AppendLine($"Running imports {run.With(RawNoteOutcome.WillBeImported).Count} sentences into the corpus, "
                           + $"then their raw notes are {WhatBecomesOfTheImportedRawNotesOf(run.Profile)}. The other raw notes are left as they are.");
       else
          summary.AppendLine("There's nothing to import.");
