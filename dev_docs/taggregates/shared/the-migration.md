@@ -172,11 +172,14 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
      relationships publishes the whole new set of words (`JPNote.PublishIfTheSetChanged`), and `DerivedFrom` its new
      word. A kanji's similar-meaning and confused-with kanji publish at the kanji's root. The other side of a mutual
      relationship still changes in an edit of the other note.
+   - **Done (`d8856b46f`):** a kanji's radicals and primary vocab, ordered lists at the kanji's root.
+   - **Done (`5ad520b73`):** the nine media lists, the audio, images and screenshots of the notes and of their source
+     data. `MediaReferenceList` takes its note and its tevent instead of a guard, and the source data components no
+     longer take the guard at all.
    - **Left, by the guarded sites in each file (`grep -rn "Guard\.Update\|_guard\.Update" JAStudio.Core`):**
-     `KanjiPrimaryVocab` 5, `VocabNoteForms` 4, `NoteTags` 4, `CachingSentenceConfigurationField` 4,
-     `MediaReferenceList` 4, `KanjiReadingList` 4, `VocabNoteCompoundParts` 3, `KanjiRadicals` 3,
-     `VocabNoteQuestion` 2, and one each in `VocabNotePartsOfSpeech` and `VocabNoteMatchingConfiguration`. The audio
-     lists and the sentence's configuration change through the guard they're given.
+     `NoteTags` 4, `KanjiReadingList` 4, `VocabNoteCompoundParts` 3 and `VocabNotePartsOfSpeech` 1; and, for the
+     sixth increment, `VocabNoteForms` 4, `CachingSentenceConfigurationField` 4, `VocabNoteQuestion` 2 and
+     `VocabNoteMatchingConfiguration` 1.
 6. **The parts with real behavior:** the question and renaming, the forms, the perfect synonyms, the mutual
    relationships, the matching configuration, the sentence's configuration. The interim tevent goes with the last.
 
