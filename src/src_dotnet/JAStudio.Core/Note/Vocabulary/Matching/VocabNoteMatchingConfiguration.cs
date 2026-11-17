@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Teventive;
+using Compze.Teventive.Taggregates.BaseClasses;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
+using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching;
@@ -13,23 +17,39 @@ namespace JAStudio.Core.Note.Vocabulary.Matching;
 /// A vocab's matching configuration: everything configured on the vocab that decides which words in sentences match it, which of its valid matches<br/>
 /// are displayed, and which of two vocab matching the same word wins.
 /// </summary>
-public class VocabNoteMatchingConfiguration
+/// <remarks>
+/// A component of its vocab: its flags, its require/forbid rules and its yield-to-surface rule publish tevents of their own,<br/>
+/// <see cref="IVocabTevent.MatchingConfiguration"/>, which its appliers apply. Its match-condition still changes through the <see cref="NoteGuard"/> it's given.
+/// </remarks>
+public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteMatchingConfiguration, IVocabTevent.MatchingConfiguration, VocabTevent.MatchingConfiguration>, ITeventRouted
 {
+   /// <remarks>Every tevent of the configuration, applied, also discards what the vocab's forms derived from it (<see cref="VocabNoteForms.OnMatchingConfigurationChanged"/>).</remarks>
+   static readonly TeventRouting<VocabNoteMatchingConfiguration> Appliers = TeventRouting<VocabNoteMatchingConfiguration>.DeclareAppliers(it => it
+     .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.NamesOfTheSetFlags>(static (configuration, tevent) => configuration.Flags.Apply(tevent.NamesOfTheSetFlags))
+     .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.DictionaryFormStart>(static (configuration, tevent) => configuration.RequiresForbids.DictionaryFormStart.Apply(tevent.DictionaryFormStart))
+     .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldLastToken>(static (configuration, tevent) => configuration.RequiresForbids.YieldLastToken.Apply(tevent.YieldLastToken))
+     .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldToSurface>(static (configuration, tevent) => configuration.YieldToSurface.Apply(tevent.YieldToSurface))
+     .For<IVocabTevent.MatchingConfiguration>(static (configuration, _) => configuration._vocab.Forms.OnMatchingConfigurationChanged()));
+
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
+   readonly VocabNote _vocab;
    readonly NoteGuard _guard;
    readonly SharedConditions _sharedConditions;
 
-   /// <param name="partsOfSpeech">The vocab's parts of speech, which some rules and flags take into account.</param>
+   /// <param name="vocab">The vocab it's of, whose parts of speech some rules and flags take into account.</param>
    /// <param name="data">The configuration as the corpus stores it, or null for a new vocab.</param>
    /// <param name="sharedConditions">The corpus's shared-conditions, which its match-condition uses by name.</param>
-   /// <param name="guard">Saves the vocab after a change.</param>
-   internal VocabNoteMatchingConfiguration(VocabNotePartsOfSpeech partsOfSpeech, VocabMatchingDto? data, SharedConditions sharedConditions, NoteGuard guard)
+   /// <param name="guard">Saves the vocab after a change to its match-condition.</param>
+   internal VocabNoteMatchingConfiguration(VocabNote vocab, VocabMatchingDto? data, SharedConditions sharedConditions, NoteGuard guard) : base(vocab)
    {
+      _vocab = vocab;
       _guard = guard;
       _sharedConditions = sharedConditions;
       MatchCondition = MatchConditionJson.VocabsMatchConditionFrom(data?.Condition, sharedConditions);
-      RequiresForbids = new VocabMatchingRequireForbidFlags(partsOfSpeech, data?.RequiredOrForbidden ?? new Dictionary<string, RequiredOrForbiddenDto>(), guard);
-      Flags = new VocabMatchingFlags(partsOfSpeech, data?.Flags ?? [], guard);
-      YieldToSurface = new VocabYieldToSurface(data?.YieldToSurface ?? [], guard);
+      RequiresForbids = new VocabMatchingRequireForbidFlags(vocab, vocab.PartsOfSpeech, data?.RequiredOrForbidden ?? new Dictionary<string, RequiredOrForbiddenDto>());
+      Flags = new VocabMatchingFlags(vocab, vocab.PartsOfSpeech, data?.Flags ?? []);
+      YieldToSurface = new VocabYieldToSurface(vocab, data?.YieldToSurface ?? []);
    }
 
    /// <summary>The condition a word must meet to match the vocab: all of its conditions, none when it has none.</summary>

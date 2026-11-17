@@ -489,7 +489,7 @@ class VocabNoteQuestion:
     def ToString(self) -> str: ...
 
 
-class VocabNoteRegister:
+class VocabNoteRegister(TeventiveComponent_6[VocabNote, INoteTevent, NoteTevent, VocabNoteRegister, IVocabTevent.Register, VocabTevent.Register]):
     @property
     def Archaic(self) -> FlagField: ...
     @property

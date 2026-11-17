@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using JAStudio.Core.Note.NoteFields;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching;
@@ -11,8 +10,8 @@ public class IsInflectingWord : FlagField
 {
    readonly VocabNotePartsOfSpeech _partsOfSpeech;
 
-   internal IsInflectingWord(VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyCollection<string> namesOfTheSetFlags, NoteGuard guard)
-      : base("isInflectingWord", namesOfTheSetFlags, guard) =>
+   internal IsInflectingWord(VocabNotePartsOfSpeech partsOfSpeech, FlagFieldList flagsOfItsKind)
+      : base("isInflectingWord", flagsOfItsKind) =>
       _partsOfSpeech = partsOfSpeech;
 
    /// <summary>Whether the vocab is an inflecting word: the flag is set, or the vocab's parts of speech make it one.</summary>

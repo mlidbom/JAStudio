@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching;
@@ -14,22 +15,26 @@ namespace JAStudio.Core.Note.Vocabulary.Matching;
 /// A rule that's set also weighs in when two vocab match the same word: the vocab whose rules weigh more wins<br/>
 /// (<see cref="VocabNoteMatchingConfiguration.CustomRequirementsWeight"/>).
 /// </remarks>
+/// <remarks>A change publishes the rule's own tevent, which the matching configuration's applier applies (<see cref="Apply"/>).</remarks>
 public class RequireForbidFlagField
 {
-   readonly NoteGuard _guard;
+   readonly VocabNote _vocab;
+   readonly Func<RequireForbidChoice, NoteTevent> _teventOf;
 
+   /// <param name="vocab">The vocab it's of.</param>
    /// <param name="name">The rule's <see cref="Name"/>.</param>
    /// <param name="requiredWeight">The <see cref="RequiredWeight"/>.</param>
    /// <param name="forbiddenWeight">The <see cref="ForbiddenWeight"/>.</param>
    /// <param name="storedRules">The vocab's rules that are set, as the corpus stores them: the rule is unset unless it's among them.</param>
-   /// <param name="guard">Saves the vocab after a change.</param>
-   internal RequireForbidFlagField(string name, int requiredWeight, int forbiddenWeight, IReadOnlyDictionary<string, RequiredOrForbiddenDto> storedRules, NoteGuard guard)
+   /// <param name="teventOf">The rule's tevent: that it's now configured as the choice it's given says.</param>
+   internal RequireForbidFlagField(VocabNote vocab, string name, int requiredWeight, int forbiddenWeight, IReadOnlyDictionary<string, RequiredOrForbiddenDto> storedRules, Func<RequireForbidChoice, NoteTevent> teventOf)
    {
+      _vocab = vocab;
+      _teventOf = teventOf;
       Name = name;
       RequiredWeight = requiredWeight;
       ForbiddenWeight = forbiddenWeight;
       Choice = storedRules.TryGetValue(name, out var stored) ? ChoiceStoredAs(stored) : RequireForbidChoice.Unset;
-      _guard = guard;
    }
 
    /// <summary>The rule's name in the corpus, such as <c>godan</c>: the key the vocab's stored rules have it under.</summary>
@@ -55,8 +60,11 @@ public class RequireForbidFlagField
    /// <summary>What the rule weighs now: its <see cref="RequiredWeight"/> while required, its <see cref="ForbiddenWeight"/> while forbidden, else nothing.</summary>
    public int MatchWeight => IsRequired ? RequiredWeight : IsForbidden ? ForbiddenWeight : 0;
 
-   /// <summary>Configures the rule as <paramref name="choice"/> says, and saves the vocab.</summary>
-   public void Choose(RequireForbidChoice choice) => _guard.Update(() => Choice = choice);
+   /// <summary>Configures the rule as <paramref name="choice"/> says: a change publishes the rule's tevent.</summary>
+   public void Choose(RequireForbidChoice choice) => _vocab.PublishIfChanged(Choice, choice, _teventOf);
+
+   /// <summary>Configures the rule as <paramref name="choice"/> says: what the rule's tevent's applier does.</summary>
+   internal void Apply(RequireForbidChoice choice) => Choice = choice;
 
    /// <summary>The rule as the corpus stores it. Only a rule that <see cref="IsConfigured"/> is stored.</summary>
    internal RequiredOrForbiddenDto ToDto() => Choice switch

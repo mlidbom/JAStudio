@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
 using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary.Matching;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleInterfaceMemberAmbiguity
@@ -59,11 +60,30 @@ public interface IVocabTevent : INoteTevent
       }
    }
 
+   public interface Register : IVocabTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface NamesOfTheSetFlags : Register { IReadOnlyList<string> NamesOfTheSetFlags { get; } }
+      }
+   }
+
    public interface UsuallyWrittenInKana : IVocabTevent
    {
       public new static class PropertyUpdated
       {
          public interface Decision : UsuallyWrittenInKana { UsuallyWrittenInKanaDecision Decision { get; } }
+      }
+   }
+
+   public interface MatchingConfiguration : IVocabTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface NamesOfTheSetFlags : MatchingConfiguration { IReadOnlyList<string> NamesOfTheSetFlags { get; } }
+         public interface DictionaryFormStart : MatchingConfiguration { RequireForbidChoice DictionaryFormStart { get; } }
+         public interface YieldLastToken : MatchingConfiguration { RequireForbidChoice YieldLastToken { get; } }
+         public interface YieldToSurface : MatchingConfiguration { IReadOnlyList<string> YieldToSurface { get; } }
       }
    }
 

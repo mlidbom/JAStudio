@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching;
@@ -16,17 +17,16 @@ public class VocabMatchingRequireForbidFlags
 {
    readonly List<RequireForbidFlagField> _all = [];
 
+   /// <param name="vocab">The vocab it's of.</param>
    /// <param name="partsOfSpeech">The vocab's parts of speech, which decide whether it yields its last token to an overlapping compound by default.</param>
    /// <param name="storedRules">The vocab's rules that are set, as the corpus stores them. Each must name one of the rules here.</param>
-   /// <param name="guard">Saves the vocab after a change.</param>
-   internal VocabMatchingRequireForbidFlags(VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyDictionary<string, RequiredOrForbiddenDto> storedRules, NoteGuard guard)
+   internal VocabMatchingRequireForbidFlags(VocabNote vocab, VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyDictionary<string, RequiredOrForbiddenDto> storedRules)
    {
-      DictionaryFormStart = Rule("dictionaryFormStart", requiredWeight: 30, forbiddenWeight: 1);
-      YieldLastToken = Add(new YieldLastTokenToOverlappingCompound(partsOfSpeech, storedRules, guard));
+      DictionaryFormStart = Add(new RequireForbidFlagField(vocab, "dictionaryFormStart", requiredWeight: 30, forbiddenWeight: 1, storedRules,
+                                                           static it => new VocabTevent.MatchingConfiguration.DictionaryFormStartUpdated(it)));
+      YieldLastToken = Add(new YieldLastTokenToOverlappingCompound(vocab, partsOfSpeech, storedRules));
       AssertEveryStoredRuleIsOneOfThese();
       return;
-
-      RequireForbidFlagField Rule(string name, int requiredWeight, int forbiddenWeight) => Add(new RequireForbidFlagField(name, requiredWeight, forbiddenWeight, storedRules, guard));
 
       TRule Add<TRule>(TRule rule) where TRule : RequireForbidFlagField
       {

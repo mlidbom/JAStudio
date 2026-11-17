@@ -13,6 +13,7 @@ using JAStudio.Core.Note.Sentences.Tevents;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Tevents;
 
 // ReSharper disable InconsistentNaming
@@ -22,7 +23,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// <summary>
 /// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a note's text field publishes the<br/>
 /// <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>,<br/>
-/// <see cref="SentenceSourceData"/>) included. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
+/// <see cref="SentenceSourceData"/>) included, as do the parts converted so far, such as a vocab's <see cref="VocabNoteRegister"/> and the flags<br/>
+/// and rules of its <see cref="VocabNote.MatchingConfiguration"/>. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
 /// changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store would save it.
 /// </summary>
 public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
@@ -257,6 +259,92 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          public when_its_answer_is_set_to_the_answer_it_has() => _published = TheTeventsPublishedAs(it => it.SetCorpusAnswer("to run"));
 
          [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
+      }
+
+      public class when_it_is_put_in_two_registers : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_put_in_two_registers() => _published = TheTeventsPublishedAs(it =>
+         {
+            it.Register.Slang.SetTo(true);
+            it.Register.Formal.SetTo(true);
+         });
+
+         [XF] public void each_publishes_the_names_of_the_registers_it_is_in_in_ordinal_order() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.Register.PropertyUpdated.NamesOfTheSetFlags { NamesOfTheSetFlags: ["slang"] },
+                                                   IVocabTevent.Register.PropertyUpdated.NamesOfTheSetFlags { NamesOfTheSetFlags: ["formal", "slang"] }]);
+
+         [XF] public void the_committed_vocab_is_in_both() => (_vocab.Register.Slang.IsSet() && _vocab.Register.Formal.IsSet()).Must().BeTrue();
+         [XF] public void the_committed_vocab_is_in_no_other() => _vocab.Register.Polite.IsSet().Must().BeFalse();
+      }
+
+      public class when_it_is_taken_out_of_a_register_it_is_not_in : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_taken_out_of_a_register_it_is_not_in() => _published = TheTeventsPublishedAs(it => it.Register.Humble.SetTo(false));
+
+         [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
+      }
+
+      public class when_it_is_made_a_poison_word : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_made_a_poison_word() => _published = TheTeventsPublishedAs(it => it.MatchingConfiguration.Flags.IsPoisonWord.SetTo(true));
+
+         [XF] public void it_publishes_the_names_of_its_set_matching_flags() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.MatchingConfiguration.PropertyUpdated.NamesOfTheSetFlags { NamesOfTheSetFlags: ["isPoisonWord"] }]);
+
+         [XF] public void the_committed_vocab_is_a_poison_word() => _vocab.MatchingConfiguration.Flags.IsPoisonWord.IsSet().Must().BeTrue();
+      }
+
+      public class when_it_is_made_to_require_the_dictionary_form_start : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_made_to_require_the_dictionary_form_start() =>
+            _published = TheTeventsPublishedAs(it => it.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Required));
+
+         [XF] public void it_publishes_the_rules_new_choice() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.MatchingConfiguration.PropertyUpdated.DictionaryFormStart { DictionaryFormStart: RequireForbidChoice.Required }]);
+
+         [XF] public void the_committed_vocab_requires_it() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.IsRequired.Must().BeTrue();
+      }
+
+      public class when_it_is_made_to_forbid_yielding_its_last_token : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_made_to_forbid_yielding_its_last_token() =>
+            _published = TheTeventsPublishedAs(it => it.MatchingConfiguration.RequiresForbids.YieldLastToken.Choose(RequireForbidChoice.Forbidden));
+
+         [XF] public void it_publishes_the_rules_new_choice() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldLastToken { YieldLastToken: RequireForbidChoice.Forbidden }]);
+
+         [XF] public void the_committed_vocab_forbids_it() => _vocab.MatchingConfiguration.RequiresForbids.YieldLastToken.IsForbidden.Must().BeTrue();
+      }
+
+      public class when_it_is_made_to_yield_to_a_surface : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_made_to_yield_to_a_surface() => _published = TheTeventsPublishedAs(it => it.MatchingConfiguration.YieldToSurface.Add("走っ"));
+
+         [XF] public void it_publishes_the_surfaces_it_yields_to() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldToSurface { YieldToSurface: ["走っ"] }]);
+
+         [XF] public void the_committed_vocab_yields_to_it() => _vocab.MatchingConfiguration.YieldToSurface.Surfaces.Must().SequenceEqual(["走っ"]);
+
+         public class and_then_to_the_same_surface_again : when_it_is_made_to_yield_to_a_surface
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_to_the_same_surface_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.MatchingConfiguration.YieldToSurface.Add("走っ"));
+
+            [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
       }
 
       public class when_a_tag_is_set : given_a_vocab_in_the_collection

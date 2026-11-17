@@ -32,7 +32,9 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
      .For<IVocabTevent.PropertyUpdated.Readings>(static (vocab, tevent) => vocab._readings = tevent.Readings)
      .Component(static vocab => vocab.SourceData)
      .Component(static vocab => vocab.MetaData)
-     .Component(static vocab => vocab.UsuallyWrittenInKana));
+     .Component(static vocab => vocab.Register)
+     .Component(static vocab => vocab.UsuallyWrittenInKana)
+     .Component(static vocab => vocab.MatchingConfiguration));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
@@ -181,9 +183,9 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       CompoundParts = new VocabNoteCompoundParts(this, data, Guard);
       RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab, Guard);
       MetaData = new VocabNoteMetaData(this, data);
-      Register = new VocabNoteRegister(data?.Register ?? [], Guard);
+      Register = new VocabNoteRegister(this, data?.Register ?? []);
       UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(this, data?.UsuallyWrittenInKana);
-      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, Services.SharedConditions, new NoteGuard(AssertCanBeChanged, FlushAfterTheMatchingConfigurationChanged));
+      MatchingConfiguration = new VocabNoteMatchingConfiguration(this, data?.Matching, Services.SharedConditions, new NoteGuard(AssertCanBeChanged, FlushAfterTheMatchingConfigurationChanged));
    }
 
    public override CorpusNoteDto ToDto() => TakeSnapshot();

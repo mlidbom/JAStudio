@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching;
@@ -11,8 +12,8 @@ public class YieldLastTokenToOverlappingCompound : RequireForbidFlagField
 {
    readonly VocabNotePartsOfSpeech _partsOfSpeech;
 
-   internal YieldLastTokenToOverlappingCompound(VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyDictionary<string, RequiredOrForbiddenDto> storedRules, NoteGuard guard)
-      : base("yieldLastTokenToOverlappingCompound", 0, 0, storedRules, guard) =>
+   internal YieldLastTokenToOverlappingCompound(VocabNote vocab, VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyDictionary<string, RequiredOrForbiddenDto> storedRules)
+      : base(vocab, "yieldLastTokenToOverlappingCompound", 0, 0, storedRules, static it => new VocabTevent.MatchingConfiguration.YieldLastTokenUpdated(it)) =>
       _partsOfSpeech = partsOfSpeech;
 
    /// <summary>Required as configured, or, unless it's forbidden, because the vocab is a complete な-adjective.</summary>

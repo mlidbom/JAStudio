@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary.Matching;
 
 namespace JAStudio.Core.Note.Vocabulary.Tevents;
 
@@ -46,6 +47,37 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
    public abstract class MetaData : VocabTevent, IVocabTevent.MetaData
    {
       public class SentenceCountUpdated(int sentenceCount) : MetaData, IVocabTevent.MetaData.PropertyUpdated.SentenceCount { public int SentenceCount { get; } = sentenceCount; }
+   }
+
+   public abstract class Register : VocabTevent, IVocabTevent.Register
+   {
+      public class NamesOfTheSetFlagsUpdated(IReadOnlyList<string> namesOfTheSetFlags) : Register, IVocabTevent.Register.PropertyUpdated.NamesOfTheSetFlags
+      {
+         public IReadOnlyList<string> NamesOfTheSetFlags { get; } = namesOfTheSetFlags;
+      }
+   }
+
+   public abstract class MatchingConfiguration : VocabTevent, IVocabTevent.MatchingConfiguration
+   {
+      public class NamesOfTheSetFlagsUpdated(IReadOnlyList<string> namesOfTheSetFlags) : MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.NamesOfTheSetFlags
+      {
+         public IReadOnlyList<string> NamesOfTheSetFlags { get; } = namesOfTheSetFlags;
+      }
+
+      public class DictionaryFormStartUpdated(RequireForbidChoice dictionaryFormStart) : MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.DictionaryFormStart
+      {
+         public RequireForbidChoice DictionaryFormStart { get; } = dictionaryFormStart;
+      }
+
+      public class YieldLastTokenUpdated(RequireForbidChoice yieldLastToken) : MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldLastToken
+      {
+         public RequireForbidChoice YieldLastToken { get; } = yieldLastToken;
+      }
+
+      public class YieldToSurfaceUpdated(IReadOnlyList<string> yieldToSurface) : MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldToSurface
+      {
+         public IReadOnlyList<string> YieldToSurface { get; } = yieldToSurface;
+      }
    }
 
    public abstract class UsuallyWrittenInKana : VocabTevent, IVocabTevent.UsuallyWrittenInKana

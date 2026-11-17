@@ -1,27 +1,33 @@
 using System.Collections.Generic;
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching;
 
 /// <summary>The yes-or-no settings of a vocab's matching configuration, such as whether it's a poison word.</summary>
+/// <remarks>
+/// A change publishes <see cref="IVocabTevent.MatchingConfiguration.PropertyUpdated.NamesOfTheSetFlags"/>, which the matching configuration's applier<br/>
+/// applies (<see cref="Apply"/>).
+/// </remarks>
 public class VocabMatchingFlags
 {
    readonly FlagFieldList _all;
 
+   /// <param name="vocab">The vocab it's of.</param>
    /// <param name="partsOfSpeech">The vocab's parts of speech, some of which make it an inflecting word without the flag.</param>
    /// <param name="namesOfTheSetFlags">The names of the flags that the corpus has as set.</param>
-   /// <param name="guard">Saves the vocab after a change.</param>
-   internal VocabMatchingFlags(VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyCollection<string> namesOfTheSetFlags, NoteGuard guard)
+   internal VocabMatchingFlags(VocabNote vocab, VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyCollection<string> namesOfTheSetFlags)
    {
-      IsInflectingWord = new IsInflectingWord(partsOfSpeech, namesOfTheSetFlags, guard);
+      _all = new FlagFieldList(vocab, namesOfTheSetFlags, static it => new VocabTevent.MatchingConfiguration.NamesOfTheSetFlagsUpdated(it));
+      IsInflectingWord = new IsInflectingWord(partsOfSpeech, _all);
       IsPoisonWord = Flag("isPoisonWord");
       MatchWithPrecedingVowel = Flag("matchWithPrecedingVowel");
       QuestionOverridesForm = Flag("questionOverridesForm");
       IsCompositionallyTransparentCompound = Flag("isCompositionallyTransparentCompound");
-      _all = new FlagFieldList(namesOfTheSetFlags, IsInflectingWord, IsPoisonWord, MatchWithPrecedingVowel, QuestionOverridesForm, IsCompositionallyTransparentCompound);
+      _all.AssertEveryNameIsOneOf(IsInflectingWord, IsPoisonWord, MatchWithPrecedingVowel, QuestionOverridesForm, IsCompositionallyTransparentCompound);
       return;
 
-      FlagField Flag(string name) => new(name, namesOfTheSetFlags, guard);
+      FlagField Flag(string name) => new(name, _all);
    }
 
    public IsInflectingWord IsInflectingWord { get; }
@@ -42,8 +48,11 @@ public class VocabMatchingFlags
    public FlagField IsCompositionallyTransparentCompound { get; }
 
    /// <summary>The flags as the corpus stores them: see <see cref="FlagFieldList.NamesOfTheSetFlags"/>.</summary>
-   internal List<string> ToDto() => _all.NamesOfTheSetFlags();
+   internal List<string> ToDto() => [.. _all.NamesOfTheSetFlags];
 
    /// <summary>Sets each flag as <paramref name="other"/> has it.</summary>
    internal void OverwriteWith(VocabMatchingFlags other) => _all.OverwriteWith(other._all);
+
+   /// <summary>Makes the flags named <paramref name="namesOfTheSetFlags"/> those that are set: what the flags' tevent's applier does.</summary>
+   internal void Apply(IReadOnlyList<string> namesOfTheSetFlags) => _all.Apply(namesOfTheSetFlags);
 }

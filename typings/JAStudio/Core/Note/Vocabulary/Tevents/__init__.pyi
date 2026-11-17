@@ -3,6 +3,7 @@ from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, N
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.Vocabulary import EnteredForm, WordReference, UsuallyWrittenInKanaDecision
+from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from JAStudio.Core.Note import VocabId
@@ -36,6 +37,32 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
                     @property
                     def Form(self) -> str: ...
 
+
+
+
+
+    class MatchingConfiguration(IVocabTevent_0, typing.Protocol):
+
+        class PropertyUpdated(abc.ABC):
+
+            class DictionaryFormStart(IVocabTevent.MatchingConfiguration, typing.Protocol):
+                @property
+                def DictionaryFormStart(self) -> RequireForbidChoice: ...
+
+
+            class NamesOfTheSetFlags(IVocabTevent.MatchingConfiguration, typing.Protocol):
+                @property
+                def NamesOfTheSetFlags(self) -> IReadOnlyList_1[str]: ...
+
+
+            class YieldLastToken(IVocabTevent.MatchingConfiguration, typing.Protocol):
+                @property
+                def YieldLastToken(self) -> RequireForbidChoice: ...
+
+
+            class YieldToSurface(IVocabTevent.MatchingConfiguration, typing.Protocol):
+                @property
+                def YieldToSurface(self) -> IReadOnlyList_1[str]: ...
 
 
 
@@ -107,6 +134,17 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
         class Renamed(IVocabTevent.Question.PropertyUpdated.Disambiguation, IVocabTevent.Question.PropertyUpdated.Text, typing.Protocol):
             @property
             def From(self) -> WordReference: ...
+
+
+
+    class Register(IVocabTevent_0, typing.Protocol):
+
+        class PropertyUpdated(abc.ABC):
+
+            class NamesOfTheSetFlags(IVocabTevent.Register, typing.Protocol):
+                @property
+                def NamesOfTheSetFlags(self) -> IReadOnlyList_1[str]: ...
+
 
 
 
@@ -259,6 +297,63 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
 
 
 
+    class MatchingConfiguration(VocabTevent_0, IVocabTevent.MatchingConfiguration):
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+        class DictionaryFormStartUpdated(VocabTevent.MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.DictionaryFormStart):
+            def __init__(self, dictionaryFormStart: RequireForbidChoice) -> None: ...
+            @property
+            def DictionaryFormStart(self) -> RequireForbidChoice: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class NamesOfTheSetFlagsUpdated(VocabTevent.MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.NamesOfTheSetFlags):
+            def __init__(self, namesOfTheSetFlags: IReadOnlyList_1[str]) -> None: ...
+            @property
+            def NamesOfTheSetFlags(self) -> IReadOnlyList_1[str]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class YieldLastTokenUpdated(VocabTevent.MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldLastToken):
+            def __init__(self, yieldLastToken: RequireForbidChoice) -> None: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+            @property
+            def YieldLastToken(self) -> RequireForbidChoice: ...
+
+
+        class YieldToSurfaceUpdated(VocabTevent.MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldToSurface):
+            def __init__(self, yieldToSurface: IReadOnlyList_1[str]) -> None: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+            @property
+            def YieldToSurface(self) -> IReadOnlyList_1[str]: ...
+
+
+
     class MetaData(VocabTevent_0, IVocabTevent.MetaData):
         @property
         def TaggregateId(self) -> TaggregateId: ...
@@ -339,6 +434,27 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def TaggregateVersion(self) -> int: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class Register(VocabTevent_0, IVocabTevent.Register):
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+        class NamesOfTheSetFlagsUpdated(VocabTevent.Register, IVocabTevent.Register.PropertyUpdated.NamesOfTheSetFlags):
+            def __init__(self, namesOfTheSetFlags: IReadOnlyList_1[str]) -> None: ...
+            @property
+            def NamesOfTheSetFlags(self) -> IReadOnlyList_1[str]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
 
 
     class SourceData(VocabTevent_0, IVocabTevent.SourceData):

@@ -1,10 +1,14 @@
 import typing
 from JAStudio.Core.Note.NoteFields import FlagField
+from Compze.Teventive.Taggregates.BaseClasses import TeventiveComponent_6
+from JAStudio.Core.Note.Vocabulary import VocabNote
+from JAStudio.Core.Note.Tevents import INoteTevent, NoteTevent
+from JAStudio.Core.Note.Vocabulary.Tevents import IVocabTevent, VocabTevent
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules import MatchingRule, RequireForbidMatchingRule
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
-from System.Collections.Generic import IReadOnlySet_1
+from System.Collections.Generic import IReadOnlyList_1
 
 class IsInflectingWord(FlagField):
     @property
@@ -72,7 +76,7 @@ class VocabMatchingRequireForbidFlags:
     def YieldLastToken(self) -> YieldLastTokenToOverlappingCompound: ...
 
 
-class VocabNoteMatchingConfiguration:
+class VocabNoteMatchingConfiguration(TeventiveComponent_6[VocabNote, INoteTevent, NoteTevent, VocabNoteMatchingConfiguration, IVocabTevent.MatchingConfiguration, VocabTevent.MatchingConfiguration]):
     @property
     def CustomRequirementsWeight(self) -> int: ...
     @property
@@ -93,7 +97,9 @@ class VocabNoteMatchingConfiguration:
 
 class VocabYieldToSurface:
     @property
-    def Surfaces(self) -> IReadOnlySet_1[str]: ...
+    def Surfaces(self) -> IReadOnlyList_1[str]: ...
+    @Surfaces.setter
+    def Surfaces(self, value: IReadOnlyList_1[str]) -> IReadOnlyList_1[str]: ...
     def Add(self, surface: str) -> None: ...
     def Remove(self, surface: str) -> None: ...
 
