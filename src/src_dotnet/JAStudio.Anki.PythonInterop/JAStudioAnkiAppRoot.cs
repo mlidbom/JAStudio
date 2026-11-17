@@ -113,7 +113,7 @@ public class JAStudioAnkiAppRoot
       var dialogs = new AnkiDialogs();
       var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services), dialogs);
 
-      var liveMcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver, JAStudioHost.Anki);
+      var liveMcpServer = LiveJAStudioMcpServer.Start(resolver, JAStudioHost.Anki);
 
       var root = new JAStudioAnkiAppRoot(host, coreApp, dialogs, cardServer, liveMcpServer) { _uiThread = uiThread };
 

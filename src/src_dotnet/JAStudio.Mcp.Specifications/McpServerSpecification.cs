@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using Compze.DependencyInjection.Abstractions;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Specifications;
 using JAStudio.Core.TestUtils;
 using JAStudio.Mcp.Gateway.Connections;
@@ -16,7 +17,8 @@ namespace JAStudio.Mcp.Specifications;
 
 /// <summary>
 /// A collection that starts empty, served by JAStudio's MCP server, with a client connected to the server over HTTP as the MCP gateway connects<br/>
-/// to it: specifications call the tools as Claude does, through the gateway.
+/// to it: specifications call the tools as Claude does, through the gateway. The collection is loaded before the server starts, as a JAStudio<br/>
+/// loads its collection before it's used, unless a specification is of one not loaded yet (<see cref="TheCollection.NotLoadedYet"/>).
 /// </summary>
 public abstract class McpServerSpecification : SpecificationStartingWithAnEmptyCollection
 {
@@ -26,16 +28,30 @@ public abstract class McpServerSpecification : SpecificationStartingWithAnEmptyC
    readonly JAStudioMcpServer _server;
    readonly McpClient _client;
 
+   /// <summary>Whether the specification's JAStudio has loaded its collection when its server starts.</summary>
+   protected enum TheCollection
+   {
+      Loaded,
+
+      /// <summary>Not loaded yet, as in a live JAStudio whose server has started and whose collection is still loading, or failed to load.</summary>
+      NotLoadedYet
+   }
+
    protected McpServerSpecification() : this(NotesKept.InMemory) {}
 
    /// <summary>The server of a JAStudio whose notes are kept as <paramref name="notesKept"/> says.</summary>
-   protected McpServerSpecification(NotesKept notesKept) : this(notesKept, jastudio => JAStudioMcpServer.Start(jastudio, port: 0)) {}
+   protected McpServerSpecification(NotesKept notesKept) : this(notesKept, TheCollection.Loaded, jastudio => JAStudioMcpServer.Start(jastudio, port: 0)) {}
+
+   /// <summary>The server of a JAStudio whose collection is as <paramref name="collection"/> says.</summary>
+   protected McpServerSpecification(TheCollection collection) : this(NotesKept.InMemory, collection, jastudio => JAStudioMcpServer.Start(jastudio, port: 0)) {}
 
    /// <summary>The server of a JAStudio whose UI is <paramref name="headlessUI"/>, as the headless JAStudio's is, with the tools that need it.</summary>
-   protected McpServerSpecification(HeadlessUI headlessUI) : this(NotesKept.InMemory, jastudio => JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, port: 0, headlessUI)) {}
+   protected McpServerSpecification(HeadlessUI headlessUI) :
+      this(NotesKept.InMemory, TheCollection.Loaded, jastudio => JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, port: 0, headlessUI)) {}
 
-   McpServerSpecification(NotesKept notesKept, Func<IRootResolver, JAStudioMcpServer> startTheServer) : base(notesKept)
+   McpServerSpecification(NotesKept notesKept, TheCollection collection, Func<IRootResolver, JAStudioMcpServer> startTheServer) : base(notesKept)
    {
+      if(collection == TheCollection.Loaded) GetService<JPCollection>().ReloadFromBackend();
       _server = startTheServer(GetService<IRootResolver>());
       _client = ConnectionToTheMcpServer.ClientConnectedTo(_server.Url, CancellationToken.None).GetAwaiter().GetResult();
    }

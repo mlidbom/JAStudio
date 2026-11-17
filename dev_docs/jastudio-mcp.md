@@ -115,8 +115,14 @@ Four projects, plus each host's part, and the specifications of the tools, of th
     with, the gateway, exits.
 - **The live JAStudio, the one Magnus works in,** runs the same server (`LiveJAStudioMcpServer`), inside Anki (started
   from `JAStudioAnkiAppRoot`) and in the standalone JAStudio (`StandaloneJAStudio`):
-  - **It starts once the collection has loaded for the first time,** on a port the system picks, so its tools never see
-    a collection still loading at startup, and stops as the JAStudio stops.
+  - **It starts as the JAStudio starts, before the collection has loaded,** on a port the system picks, so that the
+    tools that diagnose a load that fails are there when one does (Magnus, 2026-11-17). It stops as the JAStudio stops.
+  - **Until a load of the collection has succeeded, the tools that read the notes answer with why there are none to use
+    yet** (`ToolsThatReadTheNotes`, `JPCollection.WhyItHasNoNotesToUseYet`): JAStudio hasn't loaded the collection yet,
+    or its load failed, with the exception. They'd otherwise answer from a collection still loading, or from none. The
+    tools marked `WorksWithoutTheNotes` run anyway: `reload_the_collection`, `fast_forward_the_corpus_checkout`,
+    `list_changed_notes`, `diff_the_changed_notes`, `describe_collection`, which says why too, `describe_memory` and
+    `describe_what_the_heap_holds`.
   - **Anki takes in the server's assemblies** because `JAStudio.Anki.PythonInterop` copies its NuGet assemblies to its
     output (`CopyLocalLockFileAssemblies`), which `copy_runtime_binaries.py` copies Anki's runtime from. That added
     exactly the MCP SDK's assemblies and `JAStudio.Mcp.dll`, and changed none Anki already had (checked 2026-11-09).

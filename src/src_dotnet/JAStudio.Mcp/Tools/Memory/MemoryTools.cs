@@ -7,6 +7,7 @@ namespace JAStudio.Mcp.Tools.Memory;
 
 /// <summary>The tools about the memory of the JAStudio process, for telling what a change, such as to the garbage collector's mode, costs in memory.</summary>
 [McpServerToolType]
+[WorksWithoutTheNotes]
 public class MemoryTools
 {
    [McpServerTool(Name = "describe_memory", Idempotent = false)]

@@ -1,54 +1,34 @@
-using System;
-using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using Compze.Tessaging.TessageBus;
-using Compze.Threading;
-using JAStudio.Core.Note.Collection;
 using JAStudio.Mcp.Discovery;
 
 namespace JAStudio.Mcp.Live;
 
 /// <summary>
-/// JAStudio's MCP server as a live JAStudio runs it, one with a person working in it, inside Anki or standalone: started once the collection has<br/>
-/// loaded for the first time, so that its tools never see a collection still loading at startup, and announced among the <see cref="RunningJAStudios"/><br/>
-/// for as long as it runs, for Claude's MCP gateway to find and connect to.
+/// JAStudio's MCP server as a live JAStudio runs it, one with a person working in it, inside Anki or standalone: started as the JAStudio starts,<br/>
+/// and announced among the <see cref="RunningJAStudios"/> for as long as it runs, for Claude's MCP gateway to find and connect to.
 /// </summary>
+/// <remarks>
+/// It starts before the collection has loaded, so that the tools that diagnose a load that fails are there when it does, such as<br/>
+/// reload_the_collection and list_changed_notes. Until a load has succeeded, the tools that read the notes answer with why there are none to use<br/>
+/// yet (<see cref="ToolsThatReadTheNotes"/>).
+/// </remarks>
 public sealed class LiveJAStudioMcpServer
 {
-   readonly IRootResolver _jastudio;
-   readonly JAStudioHost _host;
-   readonly IMonitor _monitor = IMonitor.New();
-   readonly IDisposable _startingOnceTheCollectionHasLoaded;
-   JAStudioMcpServer? _startedServer;
+   readonly JAStudioMcpServer _server;
 
-   LiveJAStudioMcpServer(IRootResolver jastudio, JAStudioHost host)
-   {
-      _jastudio = jastudio;
-      _host = host;
-      _startingOnceTheCollectionHasLoaded = jastudio.Resolve<ITeventObservation>().ObserveTevents(observe => observe.ForTevent<ICollectionReloaded>(_ => StartUnlessStarted()));
-   }
+   LiveJAStudioMcpServer(JAStudioMcpServer server) => _server = server;
 
    /// <summary>
-   /// Starts the server, on a port the system picks, once <paramref name="jastudio"/>'s collection has loaded for the first time, and announces it as the<br/>
-   /// MCP server of a JAStudio hosted by <paramref name="host"/>: Anki, or the standalone host.
+   /// Starts the server of <paramref name="jastudio"/>, on a port the system picks, and announces it as the MCP server of a JAStudio hosted by<br/>
+   /// <paramref name="host"/>: Anki, or the standalone host.
    /// </summary>
-   public static LiveJAStudioMcpServer StartOnceTheCollectionHasLoaded(IRootResolver jastudio, JAStudioHost host) => new(jastudio, host);
-
-   void StartUnlessStarted() => _monitor.Locked(() =>
+   public static LiveJAStudioMcpServer Start(IRootResolver jastudio, JAStudioHost host)
    {
-      if(_startedServer != null) return;
+      var server = JAStudioMcpServer.Start(jastudio, port: 0);
+      server.AnnounceAs(host);
+      return new LiveJAStudioMcpServer(server);
+   }
 
-      _startedServer = JAStudioMcpServer.Start(_jastudio, port: 0);
-      _startedServer.AnnounceAs(_host);
-   });
-
-   /// <summary>Stops the server, if it started, withdrawing its announcement: as the JAStudio stops. It doesn't start again after that.</summary>
-   public void Stop() => _monitor.Locked(() =>
-   {
-      _startingOnceTheCollectionHasLoaded.Dispose();
-      if(_startedServer == null) return;
-
-      _startedServer.StopAsync().GetAwaiter().GetResult();
-      _startedServer = null;
-   });
+   /// <summary>Stops the server, withdrawing its announcement: as the JAStudio stops.</summary>
+   public void Stop() => _server.StopAsync().GetAwaiter().GetResult();
 }

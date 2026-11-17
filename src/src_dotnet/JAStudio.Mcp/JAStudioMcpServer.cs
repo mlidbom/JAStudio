@@ -9,6 +9,7 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Extensions.Hosting;
 using JAStudio.Core;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.SysUtils.Json;
 using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Discovery;
@@ -123,7 +124,8 @@ public sealed partial class JAStudioMcpServer
 
       var mcpServer = builder.Services.AddMcpServer(options => options.ServerInfo = new Implementation { Name = "JAStudio", Version = "1" })
              .WithHttpTransport(options => options.SessionMode = HttpServerSessionMode.Stateless)
-             .WithRequestFilters(filters => filters.AddCallToolFilter(ToolExceptionReporting.ReportsTheWholeException))
+             .WithRequestFilters(filters => filters.AddCallToolFilter(ToolExceptionReporting.ReportsTheWholeException)
+                                                   .AddCallToolFilter(ToolsThatReadTheNotes.AnswerOnceThereAreNotesToUseIn(jastudio.Resolve<JPCollection>())))
              .WithTools<NoteTools>(ToolResultJsonOptions)
              .WithTools<CollectionTools>(ToolResultJsonOptions)
              .WithTools<TagTools>(ToolResultJsonOptions)

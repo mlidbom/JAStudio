@@ -72,7 +72,7 @@ deletes it when the process ends, however it ends, so a crash leaves no lock beh
 
 ## Its MCP server
 
-As inside Anki, it runs JAStudio's MCP server once the collection has loaded, and announces it among the running
+As inside Anki, it runs JAStudio's MCP server from its start, before the collection has loaded, and announces it among the running
 JAStudios (`RunningJAStudios`), so Claude can connect to it, as `standalone-<branch>`, such as `standalone-unidic`, and
 to several JAStudios at once, such as to compare how two branches parse (Magnus, 2026-11-13). See `jastudio-mcp.md`.
 

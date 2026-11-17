@@ -13,6 +13,7 @@ namespace JAStudio.Mcp.Tools.Reloading;
 /// checked elsewhere, such as in the headless JAStudio's worktree, reaches a running JAStudio without restarting it.
 /// </summary>
 [McpServerToolType]
+[WorksWithoutTheNotes]
 public class ReloadTools
 {
    readonly JPCollection _collection;

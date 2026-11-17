@@ -41,7 +41,8 @@ sealed class StandaloneJAStudio
    /// <summary>
    /// Starts JAStudio's services on <paramref name="addOnFolder"/>, and its card server, on a port the system picks, leaving alone the one the card server<br/>
    /// inside Anki remembers. It becomes Anki's primary JAStudio, which the Anki add-on sends what goes from Anki to JAStudio, unless another JAStudio<br/>
-   /// that runs is (<see cref="PrimaryJAStudioAccessFile"/>). Its MCP server starts once the collection has loaded, and is announced among the<br/>
+   /// that runs is (<see cref="PrimaryJAStudioAccessFile"/>). Its MCP server starts with it, before the collection has loaded<br/>
+   /// (<see cref="LiveJAStudioMcpServer"/>), and is announced among the
    /// <see cref="RunningJAStudios"/>.
    /// </summary>
    public static StandaloneJAStudio StartOn(DirectoryInfo addOnFolder)
@@ -59,7 +60,7 @@ sealed class StandaloneJAStudio
       var beingThePrimaryJAStudio = PrimaryJAStudioAccessFile.OfThisUser.TakeUnlessAnotherJAStudioIsIt(cardServer.Port);
       Console.WriteLine(beingThePrimaryJAStudio != null ? "[StandaloneJAStudio] Anki's primary JAStudio: the Anki add-on sends what goes from Anki to JAStudio here."
                                                         : "[StandaloneJAStudio] Not Anki's primary JAStudio: another JAStudio that runs is.");
-      var mcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver, JAStudioHost.Standalone);
+      var mcpServer = LiveJAStudioMcpServer.Start(resolver, JAStudioHost.Standalone);
       return new StandaloneJAStudio(host, coreApp, cardServer, beingThePrimaryJAStudio, mcpServer);
    }
 

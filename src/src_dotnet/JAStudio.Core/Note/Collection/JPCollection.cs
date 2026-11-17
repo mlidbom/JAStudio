@@ -29,6 +29,13 @@ public class JPCollection
 
    public bool IsInitialized { get; private set; }
 
+   /// <summary>
+   /// Why the collection has no notes to use yet, or null once a load of them has succeeded (<see cref="ReloadFromBackend"/>): JAStudio hasn't<br/>
+   /// loaded it yet, or every load so far failed, as the last one's exception says. JAStudio's MCP server answers its tools that read the notes<br/>
+   /// with it meanwhile.
+   /// </summary>
+   public string? WhyItHasNoNotesToUseYet { get; private set; } = "JAStudio hasn't loaded the collection yet.";
+
    readonly NoteUnitsOfWork _unitsOfWork;
 
    /// <summary>
@@ -262,7 +269,8 @@ public class JPCollection
    public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {
       ForgetTheStudyNoteIds();
-      var reloaded = LoadFromBackendAfter(changeToTheCorpusCheckout);
+      var reloaded = LoadFromBackendTellingWhyItFailedIfNoLoadHasSucceeded(changeToTheCorpusCheckout);
+      WhyItHasNoNotesToUseYet = null;
 
       List<JPNote> notesChangedOnDisk = [.. reloaded.Changed.Select(it => NoteFromNoteId((NoteId)it)).OfType<JPNote>()];
       _tevents.Value.Publish(new CollectionReloaded(NoteIds(reloaded.Added), NoteIds(reloaded.Changed), NoteIds(reloaded.Removed)));
@@ -270,6 +278,23 @@ public class JPCollection
 
       static IReadOnlyList<NoteId> NoteIds(IReadOnlyList<TaggregateId> taggregateIds) => [.. taggregateIds.Cast<NoteId>()];
    });
+
+   /// <summary>
+   /// Loads the notes again after <paramref name="changeToTheCorpusCheckout"/> (<see cref="LoadFromBackendAfter"/>). While no load has succeeded yet,<br/>
+   /// a load that fails leaves its exception as <see cref="WhyItHasNoNotesToUseYet"/>, and goes on failing with it. Once one has, the notes stay usable.
+   /// </summary>
+   ReloadedTaggregates LoadFromBackendTellingWhyItFailedIfNoLoadHasSucceeded(Action changeToTheCorpusCheckout)
+   {
+      try
+      {
+         return LoadFromBackendAfter(changeToTheCorpusCheckout);
+      }
+      catch(Exception exception) when(WhyItHasNoNotesToUseYet != null)
+      {
+         WhyItHasNoNotesToUseYet = $"JAStudio's load of the collection failed, and none has succeeded yet: {exception}";
+         throw;
+      }
+   }
 
    /// <summary>
    /// Loads the notes again after <paramref name="changeToTheCorpusCheckout"/>, the shared-conditions first, since a vocab's match-condition uses them by<br/>

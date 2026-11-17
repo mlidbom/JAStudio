@@ -33,6 +33,7 @@ public class CorpusTools
    }
 
    [McpServerTool(Name = "list_changed_notes", ReadOnly = true, Idempotent = true)]
+   [WorksWithoutTheNotes]
    [Description("""
                 Lists the notes whose files in the corpus checkout differ from the checkout's git HEAD, changed, added or deleted, by note type:
                 what changes to the notes since the last commit changed, such as a full rebuild. Counts every changed note, and lists the
@@ -44,6 +45,7 @@ public class CorpusTools
       ChangedNotes.In(_collection, _corpusCheckout.IdsOfTheNotesWhoseFilesDifferFromHead(), maxNotesListedPerType);
 
    [McpServerTool(Name = "diff_the_changed_notes", ReadOnly = true, Idempotent = true)]
+   [WorksWithoutTheNotes]
    [Description("""
                 Shows how the notes whose files differ between two versions of the corpus differ as notes, rather than as files: each version of
                 a note's file is read into a note, as JAStudio reads notes, and the two notes compared property by property, as JAStudio stores

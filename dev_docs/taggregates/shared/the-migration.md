@@ -378,8 +378,8 @@ to anything that happens".
   `NoteDeleted`, `StudyNoteChanged` and `ReloadedFromBackend`, and `JapaneseConfig.Changed`, are gone.
   - **At runtime,** through Compze's `ITeventObservation.ObserveTevents`, which Magnus approved, observation only: a
     note's tab, the search results, the parsing cases, the note list, the workspace showing its saved state once the
-    notes have loaded, an editor window closing at a reload, a card page in Anki (`ChangesThatOutdateNotePages`), and the
-    live MCP server starting once the collection has loaded. What may be observed at runtime is declared at composition
+    notes have loaded, an editor window closing at a reload, and a card page in Anki (`ChangesThatOutdateNotePages`). The
+    live MCP server started once the collection had loaded, until it started with JAStudio (2026-11-17). What may be observed at runtime is declared at composition
     (`DeclareWhatIsObservedAtRuntime`): `INoteTevent`, `ICollectionReloaded`, `IStudyNoteChanged` and
     `IConfigurationChanged`.
   - **The view models observe on the UI thread** through `TeventsObservedOnTheUIThread` (Magnus's idea), over
