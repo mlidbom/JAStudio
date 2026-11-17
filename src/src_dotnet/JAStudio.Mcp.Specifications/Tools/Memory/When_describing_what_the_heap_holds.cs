@@ -35,6 +35,8 @@ public class When_describing_what_the_heap_holds : McpServerSpecification
    [XF] public void it_lists_only_the_types_whose_name_contains_the_text_given() => _description.TypesTakingTheMost.Select(it => it.Type).Must().Satisfy(types => types.All(type => type.Contains(nameof(ObjectCountedOnTheHeap))));
    //bug: failed in one of three runs of the whole suite on 2026-11-16, and passed alone and in the next run of the whole suite. The quiet test
    //   output didn't say what it counted.
+   //bug: flaky: it failed once in a full run of JAStudio.Mcp.Specifications (2026-11-17), and passed alone and in the next full run. It counts
+   //   objects on the heap the whole test process shares, so specifications running at the same time are the likely cause. The message wasn't kept.
    [XF] public void it_counts_every_object_of_the_type() => _description.TypesTakingTheMost.Single(it => it.Type.EndsWith("+" + nameof(ObjectCountedOnTheHeap), StringComparison.Ordinal)).Objects.Must().Be((long)ObjectsCounted); //todo:compze: Must().Be compares a long with an int as boxed objects, so 1001L and 1001 differ: "Expected 1001 but got 1001". Compare numerically, or refuse to compile; then drop the cast here
    [XF] public void it_counts_the_whole_heap_whatever_types_it_lists() => _description.Objects.Must().BeGreaterThan(ObjectsCounted + CopiesOfTheString);
    [XF] public void it_counts_every_string_of_a_repeated_value_the_copies_and_the_original() => TheRepeatedStringAsDescribed().Copies.Must().Be(CopiesOfTheString + 1L); //todo:compze: Must().Be compares a long with an int as boxed objects, so 1001L and 1001 differ: "Expected 1001 but got 1001". Compare numerically, or refuse to compile; then drop the cast here
