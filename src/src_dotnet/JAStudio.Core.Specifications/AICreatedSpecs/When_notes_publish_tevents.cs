@@ -15,6 +15,7 @@ using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Tevents;
+using JAStudio.Core.Storage.Dto;
 
 // ReSharper disable InconsistentNaming
 
@@ -291,7 +292,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void it_publishes_its_synonyms() =>
             _published.Must().Satisfy(it => it is [IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms synonyms] && synonyms.Synonyms.SetEquals([new WordReference("駆ける")]));
 
-         [XF] public void the_committed_vocab_has_it() => _vocab.RelatedNotes.Synonyms.Words.SetEquals([new WordReference("駆ける")]).Must().BeTrue();
+         [XF] public void the_committed_vocab_has_it() => _vocab.RelatedNotes.Synonyms.Words.Must().SequenceEqual([new WordReference("駆ける")]);
 
          public class and_then_the_same_synonym_again : when_it_is_given_a_synonym_no_vocab_has
          {
@@ -329,8 +330,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
             _published.Must().Satisfy(it => it is [IVocabTevent.Register.PropertyUpdated.NamesOfTheSetFlags { NamesOfTheSetFlags: ["slang"] },
                                                    IVocabTevent.Register.PropertyUpdated.NamesOfTheSetFlags { NamesOfTheSetFlags: ["formal", "slang"] }]);
 
-         [XF] public void the_committed_vocab_is_in_both() => (_vocab.Register.Slang.IsSet() && _vocab.Register.Formal.IsSet()).Must().BeTrue();
-         [XF] public void the_committed_vocab_is_in_no_other() => _vocab.Register.Polite.IsSet().Must().BeFalse();
+         [XF] public void the_committed_vocab_is_in_both_and_in_no_other() => ((VocabDto)_vocab.ToDto()).Register.Must().SequenceEqual(["formal", "slang"]);
       }
 
       public class when_it_is_taken_out_of_a_register_it_is_not_in : given_a_vocab_in_the_collection
@@ -364,7 +364,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void it_publishes_the_rules_new_choice() =>
             _published.Must().Satisfy(it => it is [IVocabTevent.MatchingConfiguration.PropertyUpdated.DictionaryFormStart { DictionaryFormStart: RequireForbidChoice.Required }]);
 
-         [XF] public void the_committed_vocab_requires_it() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.IsRequired.Must().BeTrue();
+         [XF] public void the_committed_vocab_requires_it() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choice.Must().Be(RequireForbidChoice.Required);
       }
 
       public class when_it_is_made_to_forbid_yielding_its_last_token : given_a_vocab_in_the_collection
@@ -377,7 +377,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void it_publishes_the_rules_new_choice() =>
             _published.Must().Satisfy(it => it is [IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldLastToken { YieldLastToken: RequireForbidChoice.Forbidden }]);
 
-         [XF] public void the_committed_vocab_forbids_it() => _vocab.MatchingConfiguration.RequiresForbids.YieldLastToken.IsForbidden.Must().BeTrue();
+         [XF] public void the_committed_vocab_forbids_it() => _vocab.MatchingConfiguration.RequiresForbids.YieldLastToken.Choice.Must().Be(RequireForbidChoice.Forbidden);
       }
 
       public class when_it_is_made_to_yield_to_a_surface : given_a_vocab_in_the_collection
