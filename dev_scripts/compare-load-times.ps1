@@ -152,7 +152,9 @@ foreach($kind in 'cold', 'warm') {
    foreach($name in $dlls.Keys) {
       $populating = @($runs | Where-Object { $_.Checkout -eq $name -and $_.Kind -eq $kind } | ForEach-Object PopulatingSeconds | Sort-Object)
       if($populating.Count -eq 0) { continue }
-      Write-Host "$kind, $name`: populating median $($populating[[math]::Floor($populating.Count / 2)]) s, from $($populating[0]) to $($populating[-1]) s over $($populating.Count) runs"
+      $middle = [math]::Floor($populating.Count / 2)
+      $median = if($populating.Count % 2 -eq 1) { $populating[$middle] } else { ($populating[$middle - 1] + $populating[$middle]) / 2 }
+      Write-Host "$kind, $name`: populating median $([math]::Round($median, 2)) s, from $($populating[0]) to $($populating[-1]) s over $($populating.Count) runs"
    }
 }
 Write-Host "The runs' logs: $LogFolder"
