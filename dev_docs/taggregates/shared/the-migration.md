@@ -78,8 +78,9 @@ cache.
   (`CorpusNoteFiles`). `FileSystemNoteRepository`, which wrote the same files, is gone (`b00768751`), its specifications
   rewritten against `CorpusNoteFiles`.
 - **Step 10 is done,** as [below](#step-10-as-it-is-built): every part of the three notes publishes tevents of its
-  own, and the interim tevent, `NoteGuard` and the flush's hash are gone. Step 11, what reaches other notes as
-  participation handlers, is next.
+  own, and the interim tevent, `NoteGuard` and the flush's hash are gone.
+- **Step 11 has begun,** as [below](#step-11-as-it-is-built): the perfect synonyms share their answer through a
+  participation handler (`ac8c88336`), the pattern for the rest. Magnus looks at it before the rest is built on it.
 - **Compze's types are in JAStudio's Python stubs** since the notes derive from `Taggregate`. After each Compze step,
   `src/src_dotnet/regenerate-stubs.ps1 -OnlyTargetTypes -RefreshCompzeStubs` regenerates them: `full-build.ps1`
   regenerates JAStudio's alone.
@@ -201,6 +202,35 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
      and each part publishes only what changed.
    - **What reaches other notes is still a call from the domain method,** marked `wip:` for step 11: the mirrored forms,
      the renamed word-references, the perfect synonyms' answer and the other side of the mutual relationships.
+
+## Step 11, as it is built
+
+What a change to one note does to other notes leaves the domain method, into Compze participation handlers.
+
+- **When a handler runs:** Compze runs it synchronously, inside the unit of work that made the change, as the note ends
+  publishing the tevent it handles (Compze's `b5d9ae9ed`): inside the domain method's publish, before the method goes on.
+  Not at the commit, as Compze's design first had it. So what a handler changes commits or rolls back with the change,
+  and an exception it throws comes out of the domain call.
+- **Where they are declared:** each by the part whose concept it is, as `PerfectSynonyms.ShareTheAnswerThrough`, given
+  Compze's `TessageBusHandlerRegistrar`. `AppBootStrapper.DeclareWhatReachesOtherNotes` lists them, as it lists the
+  indexes.
+- **How a handler gets its notes:** the note that published, through the running unit of work,
+  `NoteUnitOfWork.NoteThatPublished<TNote>(tevent)`, which is that unit of work's copy. The notes it changes, by `Edit`,
+  which joins the running unit of work. So they are notified once it has committed, as `JPCollection.NoteUpdated`.
+  `NoteUnitsOfWork` keeps the running one in an `AsyncLocal` until the body of the unit of work returns, which is late
+  enough, since every handler runs inside the body.
+- **Done (`ac8c88336`): the perfect synonyms' answer.** Handlers of `IVocabTevent.PropertyUpdated.CorpusAnswer` and
+  `IVocabTevent.SourceData.PropertyUpdated.Answer` give each perfect synonym the answer the vocab then shows.
+  `SetCorpusAnswer` and `SourceData.SetAnswer` only publish. Specified: a unit of work that fails after the change
+  leaves the synonyms' answers as they were.
+- **Next, with the tevents they need there already:**
+  - renaming word-references, a handler of `Question.Renamed`, which carries the old name;
+  - the mirrored forms, handlers of `Forms.PropertyUpdated.EnteredForms.Added` and `.Removed`, which name the form.
+- **Then the other side of the mutual relationships** (`MutualWordRelationship`, `MutualKanjiRelationship`,
+  `PerfectSynonyms`' web, `Synonyms.AddTransitivelyOneLevel`). Their tevents carry only the whole new set, so a handler
+  can't tell what was added. Each needs a domain tevent that names the word added or removed, published by the mutual
+  `Add` and `Remove`, as the forms' are. The other side's change publishes only the whole new set, so that it doesn't
+  set off the handler again.
 
 ## The order
 
