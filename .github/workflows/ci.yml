@@ -1,9 +1,10 @@
 name: CI
 
+# Automatic builds are off (Magnus, 2026-11-17): during the migration of the notes to Compze's state store, JAStudio builds Compze
+# from a local worktree of its unreleased spike (src/src_dotnet/Directory.Build.targets), which CI's machines don't have. Building on
+# Magnus's machine is enough meanwhile. Run it by hand from the Actions tab; put the push and pull_request triggers back once JAStudio
+# builds against Compze's packages again.
 on:
-  push:
-    #branches: [ main, master ]
-  pull_request:
   workflow_dispatch:
 
 permissions:
