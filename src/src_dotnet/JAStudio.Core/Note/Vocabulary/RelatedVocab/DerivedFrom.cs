@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
@@ -6,13 +7,11 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 public class DerivedFrom
 {
    readonly VocabNote _vocab;
-   readonly NoteGuard _guard;
 
-   public DerivedFrom(VocabNote vocab, WordReference? word, NoteGuard guard)
+   public DerivedFrom(VocabNote vocab, WordReference? word)
    {
       _vocab = vocab;
       Word = word;
-      _guard = guard;
    }
 
    /// <summary>The word the vocab is derived from, or null when none is given.</summary>
@@ -22,7 +21,10 @@ public class DerivedFrom
    public List<VocabNote> Notes() => Word is {} word ? _vocab.Services.Collection.Vocab.ReferredToBy(word) : [];
 
    /// <summary>Sets the word the vocab is derived from: null for none.</summary>
-   public void Set(WordReference? word) => _guard.Update(() => Word = word);
+   public void Set(WordReference? word) => _vocab.PublishIfChanged(Word, word, static it => new VocabTevent.RelatedVocab.DerivedFromUpdated(it));
+
+   /// <summary>Makes <paramref name="word"/> the word the vocab is derived from: what its tevent's applier does.</summary>
+   internal void Apply(WordReference? word) => Word = word;
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if it's the word.</summary>
    internal void Rename(WordReference oldName, WordReference newName)

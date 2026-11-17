@@ -1,6 +1,7 @@
 import typing, abc
 from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, NoteTevent_1
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
+from System.Collections.Generic import IReadOnlyList_1
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from JAStudio.Core.Note import KanjiId
@@ -20,6 +21,11 @@ class IKanjiTevent_0(INoteTevent_0, typing.Protocol):
 
     class PropertyUpdated(abc.ABC):
 
+        class ConfusedWith(IKanjiTevent_0, typing.Protocol):
+            @property
+            def ConfusedWith(self) -> IReadOnlyList_1[str]: ...
+
+
         class CorpusAnswer(IKanjiTevent_0, typing.Protocol):
             @property
             def CorpusAnswer(self) -> str: ...
@@ -33,6 +39,11 @@ class IKanjiTevent_0(INoteTevent_0, typing.Protocol):
         class Mnemonic(IKanjiTevent_0, typing.Protocol):
             @property
             def Mnemonic(self) -> str: ...
+
+
+        class SimilarMeaning(IKanjiTevent_0, typing.Protocol):
+            @property
+            def SimilarMeaning(self) -> IReadOnlyList_1[str]: ...
 
 
 
@@ -87,6 +98,18 @@ class KanjiTevent_0(NoteTevent_0, IKanjiTevent_0):
     @property
     def UtcTimeStamp(self) -> DateTime: ...
 
+    class ConfusedWithUpdated(KanjiTevent_0, IKanjiTevent.PropertyUpdated.ConfusedWith):
+        def __init__(self, confusedWith: IReadOnlyList_1[str]) -> None: ...
+        @property
+        def ConfusedWith(self) -> IReadOnlyList_1[str]: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
     class CorpusAnswerUpdated(KanjiTevent_0, IKanjiTevent.PropertyUpdated.CorpusAnswer):
         def __init__(self, corpusAnswer: str) -> None: ...
         @property
@@ -127,6 +150,18 @@ class KanjiTevent_0(NoteTevent_0, IKanjiTevent_0):
         def __init__(self, mnemonic: str) -> None: ...
         @property
         def Mnemonic(self) -> str: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class SimilarMeaningUpdated(KanjiTevent_0, IKanjiTevent.PropertyUpdated.SimilarMeaning):
+        def __init__(self, similarMeaning: IReadOnlyList_1[str]) -> None: ...
+        @property
+        def SimilarMeaning(self) -> IReadOnlyList_1[str]: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property

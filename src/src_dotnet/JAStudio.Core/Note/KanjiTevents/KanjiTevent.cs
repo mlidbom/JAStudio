@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.KanjiTevents;
@@ -14,6 +15,16 @@ public abstract class KanjiTevent : NoteTevent, IKanjiTevent
    public class KanjiReferencesUpdated(string kanjiReferences) : KanjiTevent, IKanjiTevent.PropertyUpdated.KanjiReferences
    {
       public string KanjiReferences { get; } = kanjiReferences;
+   }
+
+   public class SimilarMeaningUpdated(IReadOnlyList<string> similarMeaning) : KanjiTevent, IKanjiTevent.PropertyUpdated.SimilarMeaning
+   {
+      public IReadOnlyList<string> SimilarMeaning { get; } = similarMeaning;
+   }
+
+   public class ConfusedWithUpdated(IReadOnlyList<string> confusedWith) : KanjiTevent, IKanjiTevent.PropertyUpdated.ConfusedWith
+   {
+      public IReadOnlyList<string> ConfusedWith { get; } = confusedWith;
    }
 
    public class Created(KanjiId kanjiId, string question) : KanjiTevent(kanjiId), IKanjiTevent.Created

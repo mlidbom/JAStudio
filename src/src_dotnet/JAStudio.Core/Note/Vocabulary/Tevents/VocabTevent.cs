@@ -49,6 +49,44 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
       public class SentenceCountUpdated(int sentenceCount) : MetaData, IVocabTevent.MetaData.PropertyUpdated.SentenceCount { public int SentenceCount { get; } = sentenceCount; }
    }
 
+   public abstract class RelatedVocab : VocabTevent, IVocabTevent.RelatedVocab
+   {
+      public class ErgativeTwinsUpdated(IReadOnlySet<WordReference> ergativeTwins) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins
+      {
+         public IReadOnlySet<WordReference> ErgativeTwins { get; } = ergativeTwins;
+      }
+
+      public class SynonymsUpdated(IReadOnlySet<WordReference> synonyms) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms
+      {
+         public IReadOnlySet<WordReference> Synonyms { get; } = synonyms;
+      }
+
+      public class PerfectSynonymsUpdated(IReadOnlySet<WordReference> perfectSynonyms) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms
+      {
+         public IReadOnlySet<WordReference> PerfectSynonyms { get; } = perfectSynonyms;
+      }
+
+      public class AntonymsUpdated(IReadOnlySet<WordReference> antonyms) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms
+      {
+         public IReadOnlySet<WordReference> Antonyms { get; } = antonyms;
+      }
+
+      public class SeeAlsoUpdated(IReadOnlySet<WordReference> seeAlso) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso
+      {
+         public IReadOnlySet<WordReference> SeeAlso { get; } = seeAlso;
+      }
+
+      public class DerivedFromUpdated(WordReference? derivedFrom) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.DerivedFrom
+      {
+         public WordReference? DerivedFrom { get; } = derivedFrom;
+      }
+
+      public class ConfusedWithUpdated(IReadOnlySet<WordReference> confusedWith) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.ConfusedWith
+      {
+         public IReadOnlySet<WordReference> ConfusedWith { get; } = confusedWith;
+      }
+   }
+
    public abstract class Register : VocabTevent, IVocabTevent.Register
    {
       public class NamesOfTheSetFlagsUpdated(IReadOnlyList<string> namesOfTheSetFlags) : Register, IVocabTevent.Register.PropertyUpdated.NamesOfTheSetFlags

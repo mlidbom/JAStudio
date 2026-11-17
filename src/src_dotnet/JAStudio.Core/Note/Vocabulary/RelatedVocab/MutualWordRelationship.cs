@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
@@ -19,10 +20,10 @@ public class MutualWordRelationship : WordRelationship
 
    /// <param name="vocab">The vocab whose relationship this is.</param>
    /// <param name="words">The words the vocab has the relationship to.</param>
-   /// <param name="guard">Saves the vocab when the relationship changes.</param>
+   /// <param name="teventOf">The relationship's tevent: that its words are now those it's given.</param>
    /// <param name="theSameRelationshipIn">The same relationship in another vocab's related vocab, such as <c>it => it.Antonyms</c>.</param>
-   public MutualWordRelationship(VocabNote vocab, IEnumerable<WordReference> words, NoteGuard guard, Func<RelatedVocab, MutualWordRelationship> theSameRelationshipIn)
-      : base(vocab, words, guard) => _theSameRelationshipIn = theSameRelationshipIn;
+   public MutualWordRelationship(VocabNote vocab, IEnumerable<WordReference> words, Func<IReadOnlySet<WordReference>, NoteTevent> teventOf, Func<RelatedVocab, MutualWordRelationship> theSameRelationshipIn)
+      : base(vocab, words, teventOf) => _theSameRelationshipIn = theSameRelationshipIn;
 
    /// <summary>Adds <paramref name="word"/>, and this vocab to the same relationship of the vocab <paramref name="word"/> refers to.</summary>
    public override void Add(WordReference word)

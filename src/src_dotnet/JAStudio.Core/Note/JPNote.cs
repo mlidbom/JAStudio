@@ -218,6 +218,18 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    }
 
    /// <summary>
+   /// Publishes the tevent <paramref name="teventOf"/> makes of a copy of <paramref name="updated"/>, the new value of a set property of the note or<br/>
+   /// of one of its parts, unless the property holds the same elements already, as <paramref name="current"/>.
+   /// </summary>
+   /// <returns>Whether it published the tevent.</returns>
+   internal bool PublishIfTheSetChanged<TElement>(IReadOnlySet<TElement> current, IReadOnlySet<TElement> updated, Func<IReadOnlySet<TElement>, NoteTevent> teventOf)
+   {
+      if(updated.SetEquals(current)) return false;
+      Publish(teventOf(updated.ToHashSet()));
+      return true;
+   }
+
+   /// <summary>
    /// Publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/> whether or not the note changed since it was restored: for a change to what the<br/>
    /// note stores that the note's state doesn't show, since an object the note shares with others changed, such as a shared-condition its<br/>
    /// match-condition uses by name getting another name. Every instance of the note, its copies included, then stores it by the new name.

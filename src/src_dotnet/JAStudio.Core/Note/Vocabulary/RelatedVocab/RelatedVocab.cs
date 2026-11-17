@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Teventive;
+using Compze.Teventive.Taggregates.BaseClasses;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
@@ -11,21 +15,33 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 /// A vocab's relationships to other words, each word named by a <see cref="WordReference"/>, and the vocab related to it in other ways that are<br/>
 /// looked up rather than stored, such as the compounds it's part of.
 /// </summary>
-public class RelatedVocab
+/// <remarks>A component of its vocab: each relationship publishes a tevent of its own, <see cref="IVocabTevent.RelatedVocab"/>, which its appliers apply.</remarks>
+public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, RelatedVocab, IVocabTevent.RelatedVocab, VocabTevent.RelatedVocab>, ITeventRouted
 {
+   static readonly TeventRouting<RelatedVocab> Appliers = TeventRouting<RelatedVocab>.DeclareAppliers(it => it
+     .For<IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins>(static (related, tevent) => related.ErgativeTwins.Apply(tevent.ErgativeTwins))
+     .For<IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms>(static (related, tevent) => related.Synonyms.Apply(tevent.Synonyms))
+     .For<IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms>(static (related, tevent) => related.PerfectSynonyms.Apply(tevent.PerfectSynonyms))
+     .For<IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms>(static (related, tevent) => related.Antonyms.Apply(tevent.Antonyms))
+     .For<IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso>(static (related, tevent) => related.SeeAlso.Apply(tevent.SeeAlso))
+     .For<IVocabTevent.RelatedVocab.PropertyUpdated.DerivedFrom>(static (related, tevent) => related.DerivedFrom.Apply(tevent.DerivedFrom))
+     .For<IVocabTevent.RelatedVocab.PropertyUpdated.ConfusedWith>(static (related, tevent) => related.ConfusedWith.Apply(tevent.ConfusedWith)));
+
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
    readonly VocabNote _vocab;
 
-   public RelatedVocab(VocabNote vocab, VocabRelatedDto? data, NoteGuard guard)
+   public RelatedVocab(VocabNote vocab, VocabRelatedDto? data) : base(vocab)
    {
       _vocab = vocab;
 
-      ErgativeTwins = new MutualWordRelationship(vocab, WordsIn(data?.ErgativeTwins), guard, it => it.ErgativeTwins);
-      Synonyms = new Synonyms(vocab, WordsIn(data?.Synonyms), guard);
-      PerfectSynonyms = new PerfectSynonyms(vocab, WordsIn(data?.PerfectSynonyms), guard);
-      Antonyms = new MutualWordRelationship(vocab, WordsIn(data?.Antonyms), guard, it => it.Antonyms);
-      SeeAlso = new MutualWordRelationship(vocab, WordsIn(data?.SeeAlso), guard, it => it.SeeAlso);
-      DerivedFrom = new DerivedFrom(vocab, data?.DerivedFrom is {} derivedFrom ? WordReference.FromDto(derivedFrom) : null, guard);
-      ConfusedWith = new WordRelationship(vocab, WordsIn(data?.ConfusedWith), guard);
+      ErgativeTwins = new MutualWordRelationship(vocab, WordsIn(data?.ErgativeTwins), static it => new VocabTevent.RelatedVocab.ErgativeTwinsUpdated(it), it => it.ErgativeTwins);
+      Synonyms = new Synonyms(vocab, WordsIn(data?.Synonyms));
+      PerfectSynonyms = new PerfectSynonyms(vocab, WordsIn(data?.PerfectSynonyms));
+      Antonyms = new MutualWordRelationship(vocab, WordsIn(data?.Antonyms), static it => new VocabTevent.RelatedVocab.AntonymsUpdated(it), it => it.Antonyms);
+      SeeAlso = new MutualWordRelationship(vocab, WordsIn(data?.SeeAlso), static it => new VocabTevent.RelatedVocab.SeeAlsoUpdated(it), it => it.SeeAlso);
+      DerivedFrom = new DerivedFrom(vocab, data?.DerivedFrom is {} derivedFrom ? WordReference.FromDto(derivedFrom) : null);
+      ConfusedWith = new WordRelationship(vocab, WordsIn(data?.ConfusedWith), static it => new VocabTevent.RelatedVocab.ConfusedWithUpdated(it));
       return;
 
       static IEnumerable<WordReference> WordsIn(List<WordReferenceDto>? stored) => stored?.Select(WordReference.FromDto) ?? [];

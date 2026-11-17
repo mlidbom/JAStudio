@@ -60,6 +60,20 @@ public interface IVocabTevent : INoteTevent
       }
    }
 
+   public interface RelatedVocab : IVocabTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface ErgativeTwins : RelatedVocab { IReadOnlySet<WordReference> ErgativeTwins { get; } }
+         public interface Synonyms : RelatedVocab { IReadOnlySet<WordReference> Synonyms { get; } }
+         public interface PerfectSynonyms : RelatedVocab { IReadOnlySet<WordReference> PerfectSynonyms { get; } }
+         public interface Antonyms : RelatedVocab { IReadOnlySet<WordReference> Antonyms { get; } }
+         public interface SeeAlso : RelatedVocab { IReadOnlySet<WordReference> SeeAlso { get; } }
+         public interface DerivedFrom : RelatedVocab { WordReference? DerivedFrom { get; } }
+         public interface ConfusedWith : RelatedVocab { IReadOnlySet<WordReference> ConfusedWith { get; } }
+      }
+   }
+
    public interface Register : IVocabTevent
    {
       public new static class PropertyUpdated

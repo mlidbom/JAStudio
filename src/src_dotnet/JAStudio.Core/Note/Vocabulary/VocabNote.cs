@@ -31,6 +31,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
      .For<IVocabTevent.PropertyUpdated.References>(static (vocab, tevent) => vocab.References = tevent.References)
      .For<IVocabTevent.PropertyUpdated.Readings>(static (vocab, tevent) => vocab._readings = tevent.Readings)
      .Component(static vocab => vocab.SourceData)
+     .Component(static vocab => vocab.RelatedNotes)
      .Component(static vocab => vocab.MetaData)
      .Component(static vocab => vocab.Register)
      .Component(static vocab => vocab.UsuallyWrittenInKana)
@@ -181,7 +182,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       Forms = new VocabNoteForms(this, data, Guard);
       PartsOfSpeech = new VocabNotePartsOfSpeech(this, data, Guard);
       CompoundParts = new VocabNoteCompoundParts(this, data, Guard);
-      RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab, Guard);
+      RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab);
       MetaData = new VocabNoteMetaData(this, data);
       Register = new VocabNoteRegister(this, data?.Register ?? []);
       UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(this, data?.UsuallyWrittenInKana);

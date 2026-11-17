@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
 using JAStudio.Core.Note.Tevents;
 
@@ -17,6 +18,8 @@ public interface IKanjiTevent : INoteTevent
       public interface CorpusAnswer : IKanjiTevent { string CorpusAnswer { get; } }
       public interface Mnemonic : IKanjiTevent { string Mnemonic { get; } }
       public interface KanjiReferences : IKanjiTevent { string KanjiReferences { get; } }
+      public interface SimilarMeaning : IKanjiTevent { IReadOnlyList<string> SimilarMeaning { get; } }
+      public interface ConfusedWith : IKanjiTevent { IReadOnlyList<string> ConfusedWith { get; } }
    }
 
    /// <remarks>Carries the kanji's question, its character, which no tevent changes: a kanji with another character is another kanji.</remarks>

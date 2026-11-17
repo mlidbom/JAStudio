@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.KanjiRelationships;
 
@@ -22,12 +23,12 @@ public class MutualKanjiRelationship
 
    /// <param name="owner">The kanji whose relationship this is.</param>
    /// <param name="kanji">The kanji it has the relationship to.</param>
-   /// <param name="guard">Saves the kanji when the relationship changes.</param>
+   /// <param name="teventOf">The relationship's tevent: that its kanji are now those it's given.</param>
    /// <param name="theSameRelationshipOf">The same relationship of another kanji, such as <c>it => it.SimilarMeaning</c>.</param>
-   public MutualKanjiRelationship(KanjiNote owner, IEnumerable<string> kanji, NoteGuard guard, Func<KanjiNote, MutualKanjiRelationship> theSameRelationshipOf)
+   public MutualKanjiRelationship(KanjiNote owner, IEnumerable<string> kanji, Func<IReadOnlyList<string>, NoteTevent> teventOf, Func<KanjiNote, MutualKanjiRelationship> theSameRelationshipOf)
    {
       Owner = owner;
-      _kanji = new KanjiSet(kanji, guard);
+      _kanji = new KanjiSet(owner, kanji, teventOf);
       _theSameRelationshipOf = theSameRelationshipOf;
    }
 
@@ -40,6 +41,9 @@ public class MutualKanjiRelationship
    public IReadOnlyList<string> Kanji => _kanji.Kanji;
 
    public bool Contains(string kanji) => _kanji.Contains(kanji);
+
+   /// <summary>Makes <paramref name="kanji"/> the kanji the <see cref="Owner"/> has this relationship to: what the relationship's tevent's applier does.</summary>
+   internal void Apply(IReadOnlyList<string> kanji) => _kanji.Apply(kanji);
 
    /// <summary>The notes of the <see cref="Kanji"/> that the collection has.</summary>
    public List<KanjiNote> Notes() => [.. Kanji.Select(Collection.WithKanji).OfType<KanjiNote>()];

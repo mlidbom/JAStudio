@@ -23,8 +23,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// <summary>
 /// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a note's text field publishes the<br/>
 /// <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>,<br/>
-/// <see cref="SentenceSourceData"/>) included, as do the parts converted so far, such as a vocab's <see cref="VocabNoteRegister"/> and the flags<br/>
-/// and rules of its <see cref="VocabNote.MatchingConfiguration"/>. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
+/// <see cref="SentenceSourceData"/>) included, as do the parts converted so far, such as a vocab's <see cref="VocabNoteRegister"/>, the flags<br/>
+/// and rules of its <see cref="VocabNote.MatchingConfiguration"/>, its related vocab, and a kanji's relationships to other kanji. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
 /// changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store would save it.
 /// </summary>
 public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
@@ -128,6 +128,27 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
             _published.Must().Satisfy(it => it is [IKanjiTevent.SourceData.PropertyUpdated.Answer { Answer: "running" }]);
 
          [XF] public void the_committed_kanji_has_the_new_source_answer() => _kanji.SourceData.Answer.Must().Be("running");
+      }
+
+      public class when_it_is_given_a_kanji_of_similar_meaning_that_has_no_note : given_a_kanji_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_given_a_kanji_of_similar_meaning_that_has_no_note() => _published = TheTeventsPublishedAs(it => it.SimilarMeaning.Add("駆"));
+
+         [XF] public void it_publishes_the_kanji_it_has_a_similar_meaning_to() =>
+            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.SimilarMeaning { SimilarMeaning: ["駆"] }]);
+
+         [XF] public void the_committed_kanji_has_it() => _kanji.SimilarMeaning.Kanji.Must().SequenceEqual(["駆"]);
+
+         public class and_then_the_same_kanji_again : when_it_is_given_a_kanji_of_similar_meaning_that_has_no_note
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_the_same_kanji_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.SimilarMeaning.Add("駆"));
+
+            [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
       }
    }
 
@@ -259,6 +280,39 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          public when_its_answer_is_set_to_the_answer_it_has() => _published = TheTeventsPublishedAs(it => it.SetCorpusAnswer("to run"));
 
          [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
+      }
+
+      public class when_it_is_given_a_synonym_no_vocab_has : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_given_a_synonym_no_vocab_has() => _published = TheTeventsPublishedAs(it => it.RelatedNotes.Synonyms.Add(new WordReference("駆ける")));
+
+         [XF] public void it_publishes_its_synonyms() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms synonyms] && synonyms.Synonyms.SetEquals([new WordReference("駆ける")]));
+
+         [XF] public void the_committed_vocab_has_it() => _vocab.RelatedNotes.Synonyms.Words.SetEquals([new WordReference("駆ける")]).Must().BeTrue();
+
+         public class and_then_the_same_synonym_again : when_it_is_given_a_synonym_no_vocab_has
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_the_same_synonym_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.RelatedNotes.Synonyms.Add(new WordReference("駆ける")));
+
+            [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
+      }
+
+      public class when_the_word_it_is_derived_from_is_set : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_the_word_it_is_derived_from_is_set() => _published = TheTeventsPublishedAs(it => it.RelatedNotes.DerivedFrom.Set(new WordReference("走")));
+
+         [XF] public void it_publishes_the_word() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.RelatedVocab.PropertyUpdated.DerivedFrom derivedFrom] && derivedFrom.DerivedFrom == new WordReference("走"));
+
+         [XF] public void the_committed_vocab_is_derived_from_it() => _vocab.RelatedNotes.DerivedFrom.Word.Must().Be(new WordReference("走"));
       }
 
       public class when_it_is_put_in_two_registers : given_a_vocab_in_the_collection

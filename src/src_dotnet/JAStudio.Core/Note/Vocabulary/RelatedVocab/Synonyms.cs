@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
 /// <summary>A vocab's synonyms: words with about the same meaning, linked both ways (<see cref="MutualWordRelationship"/>).</summary>
 public class Synonyms : MutualWordRelationship
 {
-   public Synonyms(VocabNote vocab, IEnumerable<WordReference> words, NoteGuard guard) : base(vocab, words, guard, it => it.Synonyms) {}
+   public Synonyms(VocabNote vocab, IEnumerable<WordReference> words)
+      : base(vocab, words, static it => new VocabTevent.RelatedVocab.SynonymsUpdated(it), it => it.Synonyms) {}
 
    /// <summary>
    /// Adds <paramref name="synonym"/>, and links the two vocab's synonyms one level deep: the vocab <paramref name="synonym"/> refers to get this vocab's<br/>

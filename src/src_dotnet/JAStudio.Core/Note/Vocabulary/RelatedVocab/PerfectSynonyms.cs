@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
@@ -20,10 +21,10 @@ public class PerfectSynonyms
    readonly VocabNote _vocab;
    readonly WordSet _words;
 
-   public PerfectSynonyms(VocabNote vocab, IEnumerable<WordReference> words, NoteGuard guard)
+   public PerfectSynonyms(VocabNote vocab, IEnumerable<WordReference> words)
    {
       _vocab = vocab;
-      _words = new WordSet(words, guard);
+      _words = new WordSet(vocab, words, static it => new VocabTevent.RelatedVocab.PerfectSynonymsUpdated(it));
    }
 
    VocabCollection Collection => _vocab.Services.Collection.Vocab;
@@ -75,6 +76,9 @@ public class PerfectSynonyms
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if it's a perfect synonym.</summary>
    internal void Rename(WordReference oldName, WordReference newName) => _words.Rename(oldName, newName);
+
+   /// <summary>Makes <paramref name="words"/> the words of the vocab's perfect synonyms: what their tevent's applier does.</summary>
+   internal void Apply(IReadOnlySet<WordReference> words) => _words.Apply(words);
 
    void LeaveTheWeb() => _words.Clear();
 

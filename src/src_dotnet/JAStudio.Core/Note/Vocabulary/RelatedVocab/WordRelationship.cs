@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
@@ -13,11 +15,11 @@ public class WordRelationship
 
    /// <param name="vocab">The vocab whose relationship this is.</param>
    /// <param name="words">The words the vocab has the relationship to.</param>
-   /// <param name="guard">Saves the vocab when the relationship changes.</param>
-   public WordRelationship(VocabNote vocab, IEnumerable<WordReference> words, NoteGuard guard)
+   /// <param name="teventOf">The relationship's tevent: that its words are now those it's given.</param>
+   public WordRelationship(VocabNote vocab, IEnumerable<WordReference> words, Func<IReadOnlySet<WordReference>, NoteTevent> teventOf)
    {
       Vocab = vocab;
-      _words = new WordSet(words, guard);
+      _words = new WordSet(vocab, words, teventOf);
    }
 
    /// <summary>The vocab whose relationship this is.</summary>
@@ -44,6 +46,9 @@ public class WordRelationship
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if the relationship has it.</summary>
    internal void Rename(WordReference oldName, WordReference newName) => _words.Rename(oldName, newName);
+
+   /// <summary>Makes <paramref name="words"/> the relationship's words: what its tevent's applier does.</summary>
+   internal void Apply(IReadOnlySet<WordReference> words) => _words.Apply(words);
 
    /// <summary>Adds <paramref name="word"/> to this vocab's side of the relationship only.</summary>
    protected void AddTheWord(WordReference word) => _words.Add(word);
