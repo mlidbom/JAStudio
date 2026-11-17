@@ -183,7 +183,7 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
      every note shares apply. The note classes' own `PropertyUpdated` levels are declared `new`.
    - **Done (`8fc76fcca`):** a kanji's readings. `KanjiNoteReadings` is a component, with a tevent for each kind of
      reading, and each list keeps its invariants in the methods that compute its new list.
-6. **Done (through the commit that removes the interim tevent). The parts with real behavior.** The perfect synonyms
+6. **Done (through `1890701d8`). The parts with real behavior.** The perfect synonyms
    and the mutual relationships were done in the fifth increment, with the sets of words and kanji.
    - **Done (`8be0b6f5a`):** a vocab's forms and question, both components. Every change to the entered forms publishes
      the whole new list, and adding or removing a form also says which. Setting the question's text or disambiguation
@@ -196,7 +196,7 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
    - **Done (`b2cba9e2f`):** a sentence's configuration. `CachingSentenceConfigurationField`, which cached nothing, is
      `SentenceNoteConfiguration`, a component: its highlighted words, a list, and its incorrect and hidden matches,
      sets, each publish their whole new value, and only a change reparses the sentence.
-   - **Done: the interim tevent is gone,** `INoteTevent.PartWithoutTeventsChanged`, with `NoteGuard`, `JPNote.Flush`
+   - **Done (`1890701d8`): the interim tevent is gone,** `INoteTevent.PartWithoutTeventsChanged`, with `NoteGuard`, `JPNote.Flush`
      and the hash of the note's stored data it compared, 16 bytes a note. A note is written when it published a tevent,
      and each part publishes only what changed.
    - **What reaches other notes is still a call from the domain method,** marked `wip:` for step 11: the mirrored forms,
