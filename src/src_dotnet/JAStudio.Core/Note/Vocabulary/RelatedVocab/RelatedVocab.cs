@@ -19,7 +19,7 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 /// <remarks>A component of its vocab: each relationship publishes a tevent of its own, <see cref="IVocabTevent.RelatedVocab"/>, which its appliers apply.</remarks>
 public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, RelatedVocab, IVocabTevent.RelatedVocab, VocabTevent.RelatedVocab>, ITeventRouted
 {
-   static readonly TeventRouting<RelatedVocab> Appliers = TeventRouting<RelatedVocab>.DeclareAppliers(it => it
+   static readonly TeventRouting<RelatedVocab, IVocabTevent.RelatedVocab> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins>(static (related, tevent) => related.ErgativeTwins.Apply(tevent.ErgativeTwins))
      .For<IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms>(static (related, tevent) => related.Synonyms.Apply(tevent.Synonyms))
      .For<IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms>(static (related, tevent) => related.PerfectSynonyms.Apply(tevent.PerfectSynonyms))

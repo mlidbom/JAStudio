@@ -13,7 +13,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// </summary>
 public class VocabNoteMetaData : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteMetaData, IVocabTevent.MetaData, VocabTevent.MetaData>, ITeventRouted
 {
-   static readonly TeventRouting<VocabNoteMetaData> Appliers = TeventRouting<VocabNoteMetaData>.DeclareAppliers(it => it
+   static readonly TeventRouting<VocabNoteMetaData, IVocabTevent.MetaData> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.MetaData.PropertyUpdated.SentenceCount>(static (metaData, tevent) => metaData.SentenceCount = tevent.SentenceCount));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;

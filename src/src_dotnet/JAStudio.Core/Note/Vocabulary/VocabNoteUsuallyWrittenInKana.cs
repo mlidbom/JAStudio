@@ -19,7 +19,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// <remarks>A component of its vocab, whose decision publishes a tevent of its own, <see cref="IVocabTevent.UsuallyWrittenInKana"/>, which its applier applies.</remarks>
 public class VocabNoteUsuallyWrittenInKana : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteUsuallyWrittenInKana, IVocabTevent.UsuallyWrittenInKana, VocabTevent.UsuallyWrittenInKana>, ITeventRouted
 {
-   static readonly TeventRouting<VocabNoteUsuallyWrittenInKana> Appliers = TeventRouting<VocabNoteUsuallyWrittenInKana>.DeclareAppliers(it => it
+   static readonly TeventRouting<VocabNoteUsuallyWrittenInKana, IVocabTevent.UsuallyWrittenInKana> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.UsuallyWrittenInKana.PropertyUpdated.Decision>(static (usuallyWrittenInKana, tevent) => usuallyWrittenInKana.Decision = tevent.Decision));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;

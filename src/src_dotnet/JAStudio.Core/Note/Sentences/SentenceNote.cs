@@ -12,6 +12,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences.Tevents;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
@@ -21,7 +22,7 @@ namespace JAStudio.Core.Note.Sentences;
 public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<SentenceNote, SentenceDto>, ITeventRouted
 {
    /// <remarks>The created tevent is also the source question's, which the source data's applier applies (<see cref="SentenceSourceData"/>).</remarks>
-   static readonly TeventRouting<SentenceNote> Appliers = NoteAppliers.Extend<SentenceNote>(it => it
+   static readonly TeventRouting<SentenceNote, INoteTevent> Appliers = NoteAppliers.Extend<SentenceNote>(it => it
      .For<ISentenceTevent.PropertyUpdated.CorpusQuestion>(static (sentence, tevent) => sentence.CorpusQuestion = tevent.CorpusQuestion)
      .For<ISentenceTevent.PropertyUpdated.CorpusAnswer>(static (sentence, tevent) => sentence.CorpusAnswer = tevent.CorpusAnswer)
      .For<ISentenceTevent.PropertyUpdated.Comments>(static (sentence, tevent) => sentence.Comments = tevent.Comments)

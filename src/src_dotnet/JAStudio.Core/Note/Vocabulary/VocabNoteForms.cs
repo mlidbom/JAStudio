@@ -34,7 +34,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// </remarks>
 public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteForms, IVocabTevent.Forms, VocabTevent.Forms>, ITeventRouted
 {
-   static readonly TeventRouting<VocabNoteForms> Appliers = TeventRouting<VocabNoteForms>.DeclareAppliers(it => it
+   static readonly TeventRouting<VocabNoteForms, IVocabTevent.Forms> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.Forms.PropertyUpdated.EnteredForms>(static (forms, tevent) => forms.Apply(tevent.EnteredForms)));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;

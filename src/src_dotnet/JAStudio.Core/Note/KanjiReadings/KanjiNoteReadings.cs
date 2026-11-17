@@ -12,7 +12,7 @@ namespace JAStudio.Core.Note.KanjiReadings;
 /// <remarks>A component of its kanji: each kind of reading publishes a tevent of its own, <see cref="IKanjiTevent.Readings"/>, which its appliers apply.</remarks>
 public class KanjiNoteReadings : TeventiveComponent<KanjiNote, INoteTevent, NoteTevent, KanjiNoteReadings, IKanjiTevent.Readings, KanjiTevent.Readings>, ITeventRouted
 {
-   static readonly TeventRouting<KanjiNoteReadings> Appliers = TeventRouting<KanjiNoteReadings>.DeclareAppliers(it => it
+   static readonly TeventRouting<KanjiNoteReadings, IKanjiTevent.Readings> Appliers = DeclareAppliers(it => it
      .For<IKanjiTevent.Readings.PropertyUpdated.On>(static (readings, tevent) => readings.On.Apply(tevent.On))
      .For<IKanjiTevent.Readings.PropertyUpdated.Kun>(static (readings, tevent) => readings.Kun.Apply(tevent.Kun))
      .For<IKanjiTevent.Readings.PropertyUpdated.Nanori>(static (readings, tevent) => readings.Nanori.Apply(tevent.Nanori)));

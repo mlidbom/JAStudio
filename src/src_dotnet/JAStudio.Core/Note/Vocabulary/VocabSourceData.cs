@@ -22,7 +22,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// </remarks>
 public class VocabSourceData : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabSourceData, IVocabTevent.SourceData, VocabTevent.SourceData>, ITeventRouted
 {
-   static readonly TeventRouting<VocabSourceData> Appliers = TeventRouting<VocabSourceData>.DeclareAppliers(it => it
+   static readonly TeventRouting<VocabSourceData, IVocabTevent.SourceData> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.SourceData.PropertyUpdated.Answer>(static (sourceData, tevent) => sourceData.Answer = tevent.Answer)
      .For<IVocabTevent.SourceData.PropertyUpdated.Mnemonic>(static (sourceData, tevent) => sourceData.Mnemonic = tevent.Mnemonic)
      .For<IVocabTevent.SourceData.PropertyUpdated.ReadingMnemonic>(static (sourceData, tevent) => sourceData.ReadingMnemonic = tevent.ReadingMnemonic)

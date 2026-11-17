@@ -22,7 +22,7 @@ namespace JAStudio.Core.Note.Sentences;
 /// </remarks>
 public class SentenceSourceData : TeventiveComponent<SentenceNote, INoteTevent, NoteTevent, SentenceSourceData, ISentenceTevent.SourceData, SentenceTevent.SourceData>, ITeventRouted
 {
-   static readonly TeventRouting<SentenceSourceData> Appliers = TeventRouting<SentenceSourceData>.DeclareAppliers(it => it
+   static readonly TeventRouting<SentenceSourceData, ISentenceTevent.SourceData> Appliers = DeclareAppliers(it => it
      .For<ISentenceTevent.SourceData.PropertyUpdated.Question>(static (sourceData, tevent) => sourceData.Question = tevent.Question)
      .For<ISentenceTevent.SourceData.PropertyUpdated.Answer>(static (sourceData, tevent) => sourceData.Answer = tevent.Answer)
      .For<ISentenceTevent.SourceData.PropertyUpdated.Comments>(static (sourceData, tevent) => sourceData.Comments = tevent.Comments)

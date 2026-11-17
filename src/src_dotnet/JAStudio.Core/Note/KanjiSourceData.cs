@@ -19,7 +19,7 @@ namespace JAStudio.Core.Note;
 /// </remarks>
 public class KanjiSourceData : TeventiveComponent<KanjiNote, INoteTevent, NoteTevent, KanjiSourceData, IKanjiTevent.SourceData, KanjiTevent.SourceData>, ITeventRouted
 {
-   static readonly TeventRouting<KanjiSourceData> Appliers = TeventRouting<KanjiSourceData>.DeclareAppliers(it => it
+   static readonly TeventRouting<KanjiSourceData, IKanjiTevent.SourceData> Appliers = DeclareAppliers(it => it
      .For<IKanjiTevent.SourceData.PropertyUpdated.Answer>(static (sourceData, tevent) => sourceData.Answer = tevent.Answer)
      .For<IKanjiTevent.SourceData.PropertyUpdated.MeaningMnemonic>(static (sourceData, tevent) => sourceData.MeaningMnemonic = tevent.MeaningMnemonic)
      .For<IKanjiTevent.SourceData.PropertyUpdated.ReadingMnemonic>(static (sourceData, tevent) => sourceData.ReadingMnemonic = tevent.ReadingMnemonic)

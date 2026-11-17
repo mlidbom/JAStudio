@@ -13,6 +13,7 @@ using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.KanjiRelationships;
 using JAStudio.Core.Note.KanjiTevents;
 using JAStudio.Core.Note.Media;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Dto;
@@ -22,7 +23,7 @@ namespace JAStudio.Core.Note;
 
 public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRouted
 {
-   static readonly TeventRouting<KanjiNote> Appliers = NoteAppliers.Extend<KanjiNote>(it => it
+   static readonly TeventRouting<KanjiNote, INoteTevent> Appliers = NoteAppliers.Extend<KanjiNote>(it => it
      .For<IKanjiTevent.Created>(static (kanji, tevent) => kanji._question = tevent.Question)
      .For<IKanjiTevent.PropertyUpdated.CorpusAnswer>(static (kanji, tevent) => kanji.CorpusAnswer = tevent.CorpusAnswer)
      .For<IKanjiTevent.PropertyUpdated.Mnemonic>(static (kanji, tevent) => kanji.Mnemonic = tevent.Mnemonic)

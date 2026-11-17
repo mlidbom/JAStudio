@@ -9,6 +9,7 @@ using Compze.Teventive.TaggregateStores;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note.Media;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Vocabulary.Tevents;
@@ -21,7 +22,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 
 public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>, ITeventRouted
 {
-   static readonly TeventRouting<VocabNote> Appliers = NoteAppliers.Extend<VocabNote>(it => it
+   static readonly TeventRouting<VocabNote, INoteTevent> Appliers = NoteAppliers.Extend<VocabNote>(it => it
      .For<IVocabTevent.PropertyUpdated.CorpusAnswer>(static (vocab, tevent) => vocab.CorpusAnswer = tevent.CorpusAnswer)
      .For<IVocabTevent.PropertyUpdated.Explanation>(static (vocab, tevent) => vocab.Explanation = tevent.Explanation)
      .For<IVocabTevent.PropertyUpdated.ExplanationLong>(static (vocab, tevent) => vocab.ExplanationLong = tevent.ExplanationLong)

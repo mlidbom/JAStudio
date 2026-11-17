@@ -26,7 +26,7 @@ namespace JAStudio.Core.Note;
 public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INoteTevent<INoteTevent>, NoteTevent<INoteTevent>>, ITeventRouted
 {
    /// <summary>The tevent appliers of every note, which each note class's own extend.</summary>
-   protected static readonly TeventRouting<JPNote> NoteAppliers = TeventRouting<JPNote>.DeclareAppliers(it => it
+   protected static readonly TeventRouting<JPNote, INoteTevent> NoteAppliers = DeclareAppliers(it => it
      .For<INoteTevent.PropertyUpdated.Tags>(static (note, tevent) => note.Tags.Apply(tevent.Tags))
      .IgnoreUnhandled<INoteTevent.Deleted>());
 

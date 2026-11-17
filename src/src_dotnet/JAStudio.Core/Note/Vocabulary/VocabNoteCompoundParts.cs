@@ -22,7 +22,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// <remarks>A component of its vocab, whose parts publish tevents of their own, <see cref="IVocabTevent.CompoundParts"/>, which its appliers apply.</remarks>
 public class VocabNoteCompoundParts : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteCompoundParts, IVocabTevent.CompoundParts, VocabTevent.CompoundParts>, ITeventRouted
 {
-   static readonly TeventRouting<VocabNoteCompoundParts> Appliers = TeventRouting<VocabNoteCompoundParts>.DeclareAppliers(it => it
+   static readonly TeventRouting<VocabNoteCompoundParts, IVocabTevent.CompoundParts> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.CompoundParts.PropertyUpdated.Primary>(static (compoundParts, tevent) => compoundParts._primary = tevent.Primary)
      .For<IVocabTevent.CompoundParts.PropertyUpdated.EnteredAlternatives>(static (compoundParts, tevent) => compoundParts._enteredAlternatives = tevent.EnteredAlternatives));
 

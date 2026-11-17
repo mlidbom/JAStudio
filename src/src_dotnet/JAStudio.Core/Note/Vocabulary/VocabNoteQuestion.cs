@@ -23,7 +23,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 public class VocabNoteQuestion : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteQuestion, IVocabTevent.Question, VocabTevent.Question>, ITeventRouted
 {
    /// <remarks>A new <see cref="Text"/>, applied, also discards what the vocab's forms derived from it (<see cref="VocabNoteForms.OnQuestionChanged"/>).</remarks>
-   static readonly TeventRouting<VocabNoteQuestion> Appliers = TeventRouting<VocabNoteQuestion>.DeclareAppliers(it => it
+   static readonly TeventRouting<VocabNoteQuestion, IVocabTevent.Question> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.Question.PropertyUpdated.Text>(static (question, tevent) => question.Text = tevent.Text)
      .For<IVocabTevent.Question.PropertyUpdated.Disambiguation>(static (question, tevent) => question.Disambiguation = tevent.Disambiguation)
      .For<IVocabTevent.Question.PropertyUpdated.Text>(static (question, _) => question._vocab.Forms.OnQuestionChanged()));

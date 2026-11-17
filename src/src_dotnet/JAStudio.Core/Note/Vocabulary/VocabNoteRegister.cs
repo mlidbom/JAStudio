@@ -14,7 +14,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// <remarks>A component of its vocab, whose flags publish a tevent of their own, <see cref="IVocabTevent.Register"/>, which its applier applies.</remarks>
 public class VocabNoteRegister : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteRegister, IVocabTevent.Register, VocabTevent.Register>, ITeventRouted
 {
-   static readonly TeventRouting<VocabNoteRegister> Appliers = TeventRouting<VocabNoteRegister>.DeclareAppliers(it => it
+   static readonly TeventRouting<VocabNoteRegister, IVocabTevent.Register> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.Register.PropertyUpdated.NamesOfTheSetFlags>(static (register, tevent) => register._all.Apply(tevent.NamesOfTheSetFlags)));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;

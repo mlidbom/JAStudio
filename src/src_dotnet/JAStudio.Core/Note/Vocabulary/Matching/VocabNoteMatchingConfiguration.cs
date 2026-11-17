@@ -24,7 +24,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching;
 public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteMatchingConfiguration, IVocabTevent.MatchingConfiguration, VocabTevent.MatchingConfiguration>, ITeventRouted
 {
    /// <remarks>Every tevent of the configuration, applied, also discards what the vocab's forms derived from it (<see cref="VocabNoteForms.OnMatchingConfigurationChanged"/>).</remarks>
-   static readonly TeventRouting<VocabNoteMatchingConfiguration> Appliers = TeventRouting<VocabNoteMatchingConfiguration>.DeclareAppliers(it => it
+   static readonly TeventRouting<VocabNoteMatchingConfiguration, IVocabTevent.MatchingConfiguration> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.NamesOfTheSetFlags>(static (configuration, tevent) => configuration.Flags.Apply(tevent.NamesOfTheSetFlags))
      .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.DictionaryFormStart>(static (configuration, tevent) => configuration.RequiresForbids.DictionaryFormStart.Apply(tevent.DictionaryFormStart))
      .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldLastToken>(static (configuration, tevent) => configuration.RequiresForbids.YieldLastToken.Apply(tevent.YieldLastToken))

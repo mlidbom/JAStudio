@@ -21,7 +21,7 @@ namespace JAStudio.Core.Note.Sentences;
 /// </remarks>
 public class SentenceNoteConfiguration : TeventiveComponent<SentenceNote, INoteTevent, NoteTevent, SentenceNoteConfiguration, ISentenceTevent.Configuration, SentenceTevent.Configuration>, ITeventRouted
 {
-   static readonly TeventRouting<SentenceNoteConfiguration> Appliers = TeventRouting<SentenceNoteConfiguration>.DeclareAppliers(it => it
+   static readonly TeventRouting<SentenceNoteConfiguration, ISentenceTevent.Configuration> Appliers = DeclareAppliers(it => it
      .For<ISentenceTevent.Configuration.PropertyUpdated.HighlightedWords>(static (configuration, tevent) => configuration.HighlightedWords = tevent.HighlightedWords)
      .For<ISentenceTevent.Configuration.PropertyUpdated.IncorrectMatches>(static (configuration, tevent) => configuration.IncorrectMatches.Apply(tevent.IncorrectMatches))
      .For<ISentenceTevent.Configuration.PropertyUpdated.HiddenMatches>(static (configuration, tevent) => configuration.HiddenMatches.Apply(tevent.HiddenMatches)));
