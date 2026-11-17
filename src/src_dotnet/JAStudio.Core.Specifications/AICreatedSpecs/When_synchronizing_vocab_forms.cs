@@ -1,8 +1,11 @@
+using System;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using static Compze.Must.MustActions;
 
 // ReSharper disable InconsistentNaming
 
@@ -34,6 +37,45 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
          [XF] public void the_other_vocab_no_longer_has_this_vocabs_question_as_a_form() =>
             _vocabB.Forms.EnteredFormsSet().Must().Satisfy(it => !it.Contains("食べる"));
       }
+   }
+
+   /// <summary>食べる has the form 食う, and 食う the form 食べる, each set as the vocab's whole list of forms, which mirrors nothing.</summary>
+   public class after_removing_a_form_that_is_another_vocabs_question_whose_forms_have_this_vocabs_question : When_synchronizing_vocab_forms
+   {
+      readonly ITaggregateReference<VocabNote> _vocabBReference;
+
+      public after_removing_a_form_that_is_another_vocabs_question_whose_forms_have_this_vocabs_question()
+      {
+         var vocabAReference = CreateVocab("食べる", "to eat", "たべる").Reference();
+         _vocabBReference = CreateVocab("食う", "to eat (casual)", "くう").Reference();
+         vocabAReference.Current.Edit(it => it.Forms.SetEnteredForms([EnteredForm.NotOwned("食う")]));
+         _vocabBReference.Current.Edit(it => it.Forms.SetEnteredForms([EnteredForm.NotOwned("食べる"), EnteredForm.NotOwned("食らう")]));
+         vocabAReference.Current.Edit(it => it.Forms.Remove("食う"));
+      }
+
+      [XF] public void the_other_vocab_has_only_its_other_form_left() => _vocabBReference.Current.Forms.EnteredFormsList().Must().SequenceEqual(["食らう"]);
+   }
+
+   public class after_adding_a_form_that_matches_another_vocabs_question_in_a_unit_of_work_that_then_fails : When_synchronizing_vocab_forms
+   {
+      readonly ITaggregateReference<VocabNote> _vocabAReference;
+      readonly ITaggregateReference<VocabNote> _vocabBReference;
+
+      public after_adding_a_form_that_matches_another_vocabs_question_in_a_unit_of_work_that_then_fails()
+      {
+         _vocabAReference = CreateVocab("食べる", "to eat", "たべる").Reference();
+         _vocabBReference = CreateVocab("食う", "to eat (casual)", "くう").Reference();
+         Invoking(() => GetService<JPCollection>().InAUnitOfWork(unitOfWork =>
+                 {
+                    unitOfWork.ForUpdate(_vocabAReference.Current).Forms.Add("食う");
+                    throw new InvalidOperationException("The unit of work fails.");
+                 }))
+           .Must().Throw<InvalidOperationException>();
+      }
+
+      [XF] public void neither_vocab_has_a_new_form() =>
+         new { 食べる = _vocabAReference.Current.Forms.EnteredFormsList().ToArray(), 食う = _vocabBReference.Current.Forms.EnteredFormsList().ToArray() }
+           .Must().DeepEqual(new { 食べる = Array.Empty<string>(), 食う = Array.Empty<string>() });
    }
 
    public class given_a_vocab_with_an_owned_and_a_not_owned_entered_form : When_synchronizing_vocab_forms

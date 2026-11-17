@@ -3,8 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Compze.Contracts;
 using Compze.Internals.SystemCE;
+using Compze.Tessaging.TessageBus;
 using Compze.Teventive;
 using Compze.Teventive.Taggregates.BaseClasses;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
@@ -28,7 +30,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// <remarks>
 /// A component of its vocab: every change to the entered forms publishes the whole new list, <see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms"/>,<br/>
 /// which its applier applies. Adding a form and removing one also say which form (<see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added"/>,<br/>
-/// <see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed"/>).
+/// <see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed"/>), which mirrors the change in other vocab (<see cref="MirrorTheFormsThrough"/>).
 /// </remarks>
 public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteForms, IVocabTevent.Forms, VocabTevent.Forms>, ITeventRouted
 {
@@ -214,44 +216,47 @@ public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTev
    internal void OnQuestionChanged() => InvalidateCaches();
 
    /// <summary>
-   /// Removes <paramref name="remove"/> from the entered forms, and removes this vocab's question from the entered forms<br/>
-   /// of every vocab whose question is <paramref name="remove"/>.
+   /// Removes <paramref name="remove"/> from the entered forms, and so this vocab's question from the entered forms of every vocab whose question is<br/>
+   /// <paramref name="remove"/> (<see cref="MirrorTheFormsThrough"/>). Removing a form the vocab doesn't have changes nothing.
    /// </summary>
-   public void Remove(string remove)
-   {
+   public void Remove(string remove) =>
       _vocab.PublishIfTheListChanged(_enteredForms, [.. _enteredForms.Where(it => it.Text != remove)], enteredForms => new VocabTevent.Forms.EnteredFormRemoved(remove, enteredForms));
 
-      //wip: step 11 of dev_docs/taggregates/shared/the-migration.md moves this to a participation handler of IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed.
-      var removeNotes = _vocab.Services.Collection.Vocab.WithQuestion(remove)
-                              .Where(voc => voc.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion()))
-                              .ToList();
-
-      foreach(var removeNote in removeNotes)
-      {
-         removeNote.Edit(it => it.Forms.Remove(_vocab.GetQuestion()));
-      }
-   }
-
    /// <summary>
-   /// Adds <paramref name="add"/> to the entered forms, not owned, and adds this vocab's question to the entered forms<br/>
-   /// of every vocab whose question is <paramref name="add"/>. Adding the question, which is always a form, or a form the vocab has, changes nothing.
+   /// Adds <paramref name="add"/> to the entered forms, not owned, and so this vocab's question to the entered forms of every vocab whose question is<br/>
+   /// <paramref name="add"/> (<see cref="MirrorTheFormsThrough"/>). Adding the question, which is always a form, or a form the vocab has, changes nothing.
    /// </summary>
    public void Add(string add)
    {
-      if(IsTheQuestion(add)) return;
+      if(IsTheQuestion(add) || EnteredFormsSet().Contains(add)) return;
 
-      if(!EnteredFormsSet().Contains(add))
-         _vocab.PublishIfTheListChanged(_enteredForms, [.. _enteredForms, EnteredForm.NotOwned(add)], enteredForms => new VocabTevent.Forms.EnteredFormAdded(add, enteredForms));
+      _vocab.PublishIfTheListChanged(_enteredForms, [.. _enteredForms, EnteredForm.NotOwned(add)], enteredForms => new VocabTevent.Forms.EnteredFormAdded(add, enteredForms));
+   }
 
-      //wip: step 11 of dev_docs/taggregates/shared/the-migration.md moves this to a participation handler of IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added.
-      var addNotes = _vocab.Services.Collection.Vocab.WithQuestion(add)
-                           .Where(voc => !voc.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion()))
-                           .ToList();
+   /// <summary>
+   /// Declares, through <paramref name="handle"/>, the participation handlers by which a vocab's forms are mirrored, in the unit of work that changed them:<br/>
+   /// a form added to a vocab adds the vocab's question to the entered forms of every vocab whose question that form is, and a form removed removes it.
+   /// </summary>
+   /// <remarks>
+   /// The other vocab's change is an <see cref="Add"/> or a <see cref="Remove"/> too, so it is mirrored in turn, which ends at the vocab that has the<br/>
+   /// question already, or lacks it. A form is a text, so the vocab whose question it is are every vocab with that text, whatever its disambiguation.
+   /// </remarks>
+   internal static void MirrorTheFormsThrough(TessageBusHandlerRegistrar handle) => handle
+     .ForTevent(static (IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added it, JPCollection collection) =>
+         collection.TheRunningUnitOfWork.NoteThatPublished<VocabNote>(it).Forms.AddTheQuestionToTheFormsOfEachVocabWhoseQuestionIs(it.Form))
+     .ForTevent(static (IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed it, JPCollection collection) =>
+         collection.TheRunningUnitOfWork.NoteThatPublished<VocabNote>(it).Forms.RemoveTheQuestionFromTheFormsOfEachVocabWhoseQuestionIs(it.Form));
 
-      foreach(var addNote in addNotes)
-      {
-         addNote.Edit(it => it.Forms.Add(_vocab.GetQuestion()));
-      }
+   void AddTheQuestionToTheFormsOfEachVocabWhoseQuestionIs(string form)
+   {
+      foreach(var vocab in _vocab.Services.Collection.Vocab.WithQuestion(form).Where(it => !it.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion())))
+         vocab.Edit(it => it.Forms.Add(_vocab.GetQuestion()));
+   }
+
+   void RemoveTheQuestionFromTheFormsOfEachVocabWhoseQuestionIs(string form)
+   {
+      foreach(var vocab in _vocab.Services.Collection.Vocab.WithQuestion(form).Where(it => it.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion())))
+         vocab.Edit(it => it.Forms.Remove(_vocab.GetQuestion()));
    }
 
    /// <summary>
