@@ -123,6 +123,8 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
 
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
+   internal override void Delete() => Publish(new KanjiTevent.Deleted());
+
    protected override Type WrapperTeventImplementation => typeof(KanjiTevent<IKanjiTevent>);
 
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new() { [AnkiFieldNames.Question] = GetQuestion() };

@@ -120,4 +120,19 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
       [XF] public void both_keep_ていい_as_a_synonym() =>
          new { てよろしい = SynonymsOf(Teyoroshii), んでいい = SynonymsOf(Ndeii) }.Must().Satisfy(it => it.てよろしい.Contains("ていい") && it.んでいい.Contains("ていい"));
    }
+
+   public class deleting_ていい_in_a_unit_of_work_that_then_fails : When_changing_a_vocabs_perfect_synonyms
+   {
+      public deleting_ていい_in_a_unit_of_work_that_then_fails() =>
+         Invoking(() => GetService<JPCollection>().InAUnitOfWork(_ =>
+                 {
+                    GetService<JPCollection>().Delete(Teii, ItsStudyNote.IsDeleted);
+                    throw new InvalidOperationException("The unit of work fails.");
+                 }))
+           .Must().Throw<InvalidOperationException>();
+
+      [XF] public void the_web_is_unchanged() =>
+         new { てよろしい = PerfectSynonymsOf(Teyoroshii), ていい = PerfectSynonymsOf(Teii), んでいい = PerfectSynonymsOf(Ndeii) }
+           .Must().DeepEqual(new { てよろしい = new[] { "ていい", "んでいい" }, ていい = new[] { "てよろしい", "んでいい" }, んでいい = new[] { "ていい", "てよろしい" } });
+   }
 }

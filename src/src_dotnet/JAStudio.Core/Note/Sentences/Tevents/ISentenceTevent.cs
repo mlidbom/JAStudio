@@ -31,6 +31,8 @@ public interface ISentenceTevent : INoteTevent
    /// <remarks>Carries the question the sentence's source gave it, which a new sentence is created with.</remarks>
    public interface Created : ISentenceTevent, ITaggregateCreatedTevent, SourceData.PropertyUpdated.Question;
 
+   public new interface Deleted : ISentenceTevent, INoteTevent.Deleted;
+
    public interface SourceData : ISentenceTevent
    {
       public new static class PropertyUpdated

@@ -221,7 +221,7 @@ public class JPCollection
    /// Permanently deletes <paramref name="note"/> from JAStudio: its corpus data, the note in this collection, and its media files in the media layer<br/>
    /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its study-note, if it has one, is kept or<br/>
    /// deleted as <paramref name="itsStudyNote"/> says. A deleted vocab leaves its web of perfect synonyms, whose other vocab keep it as a synonym<br/>
-   /// (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note's study-note in Anki instead leaves<br/>
+   /// (<see cref="Vocabulary.Tevents.IVocabTevent.Deleted"/>). Deleting a note's study-note in Anki instead leaves<br/>
    /// the note in the corpus and in JAStudio: the next read of the study-notes finds it gone, and the note is then no longer studied.
    /// </summary>
    /// <remarks>
@@ -231,7 +231,6 @@ public class JPCollection
    public void Delete(JPNote note, ItsStudyNote itsStudyNote) => InAUnitOfWork(unitOfWork =>
    {
       var theNoteAsItIs = unitOfWork.ForUpdate(note);
-      TakeItOutOfItsWebOfPerfectSynonyms();
       unitOfWork.Delete(theNoteAsItIs);
       unitOfWork.OnceCommitted(() =>
       {
@@ -239,12 +238,6 @@ public class JPCollection
          DeleteTheMediaFilesNoNoteUses(theNoteAsItIs.MediaReferences.Select(it => it.FileName));
          _noteDeleted.OnNext(theNoteAsItIs);
       });
-      return;
-
-      void TakeItOutOfItsWebOfPerfectSynonyms()
-      {
-         if(theNoteAsItIs is VocabNote vocab) vocab.RelatedNotes.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted();
-      }
    });
 
    /// <summary>

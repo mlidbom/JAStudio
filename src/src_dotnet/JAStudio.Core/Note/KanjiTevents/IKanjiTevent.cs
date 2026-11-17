@@ -56,6 +56,8 @@ public interface IKanjiTevent : INoteTevent
    /// <remarks>Carries the kanji's question, its character, which no tevent changes: a kanji with another character is another kanji.</remarks>
    public interface Created : IKanjiTevent, ITaggregateCreatedTevent { string Question { get; } }
 
+   public new interface Deleted : IKanjiTevent, INoteTevent.Deleted;
+
    public interface Readings : IKanjiTevent
    {
       public new static class PropertyUpdated

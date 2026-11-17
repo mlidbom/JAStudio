@@ -33,6 +33,8 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
       public string Text { get; } = question;
    }
 
+   public class Deleted : VocabTevent, IVocabTevent.Deleted;
+
    public abstract class Question : VocabTevent, IVocabTevent.Question
    {
       public class Renamed(WordReference from, string text, string disambiguation) : Question, IVocabTevent.Question.Renamed

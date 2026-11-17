@@ -133,6 +133,8 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
 
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
+   internal override void Delete() => Publish(new SentenceTevent.Deleted());
+
    protected override Type WrapperTeventImplementation => typeof(SentenceTevent<ISentenceTevent>);
 
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new()

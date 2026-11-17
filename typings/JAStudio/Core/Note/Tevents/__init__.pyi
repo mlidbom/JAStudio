@@ -1,5 +1,5 @@
 import typing, abc
-from Compze.Teventive.Taggregates.Tevents import ITaggregateTevent, ITaggregateTevent_1, TaggregateTevent
+from Compze.Teventive.Taggregates.Tevents import ITaggregateTevent, ITaggregateDeletedTevent, ITaggregateTevent_1, TaggregateTevent
 from System.Collections.Generic import IReadOnlySet_1
 from JAStudio.Core.Note.Tagging import Tag
 from Compze.Abstractions import TaggregateId
@@ -13,6 +13,10 @@ class INoteTevent_GenericClasses(abc.ABCMeta):
 class INoteTevent(INoteTevent_0, metaclass =INoteTevent_GenericClasses): ...
 
 class INoteTevent_0(ITaggregateTevent, typing.Protocol):
+
+    class Deleted(ITaggregateDeletedTevent, INoteTevent_0, typing.Protocol):
+        pass
+
 
     class PropertyUpdated(abc.ABC):
 

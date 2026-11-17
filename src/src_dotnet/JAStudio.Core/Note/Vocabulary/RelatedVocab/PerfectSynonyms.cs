@@ -35,11 +35,13 @@ public class PerfectSynonyms
    /// <summary>
    /// Declares, through <paramref name="handle"/>, the participation handlers by which the perfect synonyms stay one web, in the unit of work that changed<br/>
    /// a vocab's: a perfect synonym added joins its web and the vocab's into one, and gives every vocab in it the vocab's answer (<see cref="JoinTheWebs"/>),<br/>
-   /// and one removed leaves the web, staying a synonym of each vocab in it (<see cref="TakeOutOfTheWeb"/>).
+   /// one removed leaves the web, staying a synonym of each vocab in it (<see cref="TakeOutOfTheWeb"/>), and a vocab deleted leaves its web the same<br/>
+   /// way (<see cref="LeaveTheWebAsTheVocabIsDeleted"/>).
    /// </summary>
    internal static void KeepTheWebWholeThrough(TessageBusHandlerRegistrar handle) => handle
      .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms.Added it, JPCollection collection) => PerfectSynonymsOfTheVocabThatPublished(it, collection).JoinTheWebs())
-     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms.Removed it, JPCollection collection) => PerfectSynonymsOfTheVocabThatPublished(it, collection).TakeOutOfTheWeb(it.Word));
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms.Removed it, JPCollection collection) => PerfectSynonymsOfTheVocabThatPublished(it, collection).TakeOutOfTheWeb(it.Word))
+     .ForTevent(static (IVocabTevent.Deleted it, JPCollection collection) => PerfectSynonymsOfTheVocabThatPublished(it, collection).LeaveTheWebAsTheVocabIsDeleted());
 
    static PerfectSynonyms PerfectSynonymsOfTheVocabThatPublished(INoteTevent tevent, JPCollection collection) =>
       collection.TheRunningUnitOfWork.NoteThatPublished<VocabNote>(tevent).RelatedNotes.PerfectSynonyms;
@@ -129,10 +131,10 @@ public class PerfectSynonyms
    void LeaveTheWeb() => _words.Clear();
 
    /// <summary>
-   /// Takes this vocab out of its web, as it's deleted: none of the others has it as a perfect synonym any more, but each keeps it as a synonym,<br/>
-   /// which may name a word no vocab has.
+   /// What a participation handler of the vocab's deletion does: takes it out of its web, so that none of the others has it as a perfect synonym any<br/>
+   /// more, but each keeps it as a synonym, which may name a word no vocab has.
    /// </summary>
-   internal void LeaveTheWebAsTheVocabIsDeleted()
+   void LeaveTheWebAsTheVocabIsDeleted()
    {
       foreach(var synonym in Notes())
          EditThePerfectSynonymsOf(synonym, it => it.RemoveKeepingItAsASynonym(_vocab.Question.Reference));

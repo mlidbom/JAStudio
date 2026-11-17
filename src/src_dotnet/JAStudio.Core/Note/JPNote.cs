@@ -27,7 +27,8 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
 {
    /// <summary>The tevent appliers of every note, which each note class's own extend.</summary>
    protected static readonly TeventRouting<JPNote> NoteAppliers = TeventRouting<JPNote>.DeclareAppliers(it => it
-     .For<INoteTevent.PropertyUpdated.Tags>(static (note, tevent) => note.Tags.Apply(tevent.Tags)));
+     .For<INoteTevent.PropertyUpdated.Tags>(static (note, tevent) => note.Tags.Apply(tevent.Tags))
+     .IgnoreUnhandled<INoteTevent.Deleted>());
 
    TeventRouting ITeventRouted.TeventAppliers => NoteAppliers;
 
@@ -159,6 +160,12 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    public abstract IEnumerable<MediaReference> MediaReferences { get; }
 
    public abstract CorpusNoteDto ToDto();
+
+   /// <summary>
+   /// Publishes that the note is deleted, its class's <see cref="INoteTevent.Deleted"/>, whose participation handlers change what it leaves in other<br/>
+   /// notes. Only <see cref="NoteUnitOfWork.Delete"/> calls it, which then removes the note from the collection.
+   /// </summary>
+   internal abstract void Delete();
 
    /// <summary>
    /// Publishes the tevent <paramref name="teventOf"/> makes of <paramref name="updated"/>, the new value of a property of the note or of one of<br/>

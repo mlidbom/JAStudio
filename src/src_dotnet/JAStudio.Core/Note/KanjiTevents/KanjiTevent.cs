@@ -90,6 +90,8 @@ public abstract class KanjiTevent : NoteTevent, IKanjiTevent
       public string Question { get; } = question;
    }
 
+   public class Deleted : KanjiTevent, IKanjiTevent.Deleted;
+
    public abstract class Readings : KanjiTevent, IKanjiTevent.Readings
    {
       public class OnUpdated(IReadOnlyList<KanjiReading> on) : Readings, IKanjiTevent.Readings.PropertyUpdated.On { public IReadOnlyList<KanjiReading> On { get; } = on; }

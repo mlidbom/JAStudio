@@ -44,6 +44,8 @@ public abstract class SentenceTevent : NoteTevent, ISentenceTevent
       public string Question { get; } = question;
    }
 
+   public class Deleted : SentenceTevent, ISentenceTevent.Deleted;
+
    public abstract class SourceData : SentenceTevent, ISentenceTevent.SourceData
    {
       public class SourceQuestionUpdated(string question) : SourceData, ISentenceTevent.SourceData.PropertyUpdated.Question { public string Question { get; } = question; }

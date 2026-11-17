@@ -33,6 +33,9 @@ public interface IVocabTevent : INoteTevent
 
    public interface Created : IVocabTevent, ITaggregateCreatedTevent, Question.PropertyUpdated.Text;
 
+   /// <remarks>A deleted vocab leaves its web of perfect synonyms (<see cref="JAStudio.Core.Note.Vocabulary.RelatedVocab.PerfectSynonyms"/>).</remarks>
+   public new interface Deleted : IVocabTevent, INoteTevent.Deleted;
+
    public interface Question : IVocabTevent
    {
       public new static class PropertyUpdated

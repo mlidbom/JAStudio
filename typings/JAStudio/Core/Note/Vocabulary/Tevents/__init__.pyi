@@ -39,6 +39,10 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
         pass
 
 
+    class Deleted(INoteTevent.Deleted, IVocabTevent_0, typing.Protocol):
+        pass
+
+
     class Forms(IVocabTevent_0, typing.Protocol):
 
         class PropertyUpdated(abc.ABC):
@@ -449,6 +453,16 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def TaggregateVersion(self) -> int: ...
         @property
         def Text(self) -> str: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class Deleted(VocabTevent_0, IVocabTevent.Deleted):
+        def __init__(self) -> None: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
 

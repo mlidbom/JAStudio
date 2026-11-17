@@ -191,6 +191,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
 
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
+   internal override void Delete() => Publish(new VocabTevent.Deleted());
+
    protected override Type WrapperTeventImplementation => typeof(VocabTevent<IVocabTevent>);
 
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new()

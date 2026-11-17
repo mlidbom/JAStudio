@@ -48,8 +48,19 @@ public sealed class NoteUnitOfWork
       MayChange(note);
    }
 
-   /// <summary>Deletes <paramref name="note"/> from the collection when this unit of work commits.</summary>
-   public void Delete(JPNote note) => _store.Delete<JPNote>(note.Id);
+   /// <summary>
+   /// Deletes <paramref name="note"/>, as it is in this unit of work, from the collection when this unit of work commits. The note first publishes<br/>
+   /// that it is deleted (<see cref="Tevents.INoteTevent.Deleted"/>), so that participation handlers change what it leaves in other notes while it<br/>
+   /// is still there: the store's session refuses a note deleted in it.
+   /// </summary>
+   public void Delete(JPNote note)
+   {
+      var theNoteAsItIs = ForUpdate(note);
+      theNoteAsItIs.Delete();
+      //todo:compze: whether Compze's state store deletes a taggregate on its deleted tevent alone, jastudio-rep-opus put to Magnus (2026-11-17).
+      //   If it comes to, this call goes, and JPNote.Delete is the whole deletion.
+      _store.Delete<JPNote>(theNoteAsItIs.Id);
+   }
 
    /// <summary>Has <paramref name="action"/> done once this unit of work has committed, after its changed notes are notified, and never if it rolls back.</summary>
    public void OnceCommitted(Action action) => _whatToDoOnceCommitted.Add(action);

@@ -13,6 +13,12 @@ public interface INoteTevent : ITaggregateTevent
    {
       public interface Tags : INoteTevent { IReadOnlySet<Tag> Tags { get; } }
    }
+
+   /// <summary>
+   /// The note is deleted: the unit of work that publishes this removes it from the collection when it commits<br/>
+   /// (<see cref="Collection.NoteUnitOfWork.Delete"/>). What a deleted note leaves in other notes is changed by participation handlers of it.
+   /// </summary>
+   public interface Deleted : INoteTevent, ITaggregateDeletedTevent;
 }
 
 public interface INoteTevent<out TTevent> : ITaggregateTevent<TTevent> where TTevent : INoteTevent;

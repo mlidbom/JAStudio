@@ -43,6 +43,10 @@ class ISentenceTevent_0(INoteTevent_0, typing.Protocol):
         pass
 
 
+    class Deleted(INoteTevent.Deleted, ISentenceTevent_0, typing.Protocol):
+        pass
+
+
     class PropertyUpdated(abc.ABC):
 
         class Audio(ISentenceTevent_0, typing.Protocol):
@@ -244,6 +248,16 @@ class SentenceTevent_0(NoteTevent_0, ISentenceTevent_0):
         def __init__(self, sentenceId: SentenceId, question: str) -> None: ...
         @property
         def Question(self) -> str: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class Deleted(SentenceTevent_0, ISentenceTevent.Deleted):
+        def __init__(self) -> None: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property

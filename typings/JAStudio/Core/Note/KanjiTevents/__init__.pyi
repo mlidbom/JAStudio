@@ -22,6 +22,10 @@ class IKanjiTevent_0(INoteTevent_0, typing.Protocol):
         def Question(self) -> str: ...
 
 
+    class Deleted(INoteTevent.Deleted, IKanjiTevent_0, typing.Protocol):
+        pass
+
+
     class PropertyUpdated(abc.ABC):
 
         class ConfusedWith(IKanjiTevent_0, typing.Protocol):
@@ -261,6 +265,16 @@ class KanjiTevent_0(NoteTevent_0, IKanjiTevent_0):
         def __init__(self, kanjiId: KanjiId, question: str) -> None: ...
         @property
         def Question(self) -> str: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class Deleted(KanjiTevent_0, IKanjiTevent.Deleted):
+        def __init__(self) -> None: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property
