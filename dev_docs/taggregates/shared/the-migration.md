@@ -79,8 +79,11 @@ cache.
   rewritten against `CorpusNoteFiles`.
 - **Step 10 is done,** as [below](#step-10-as-it-is-built): every part of the three notes publishes tevents of its
   own, and the interim tevent, `NoteGuard` and the flush's hash are gone.
-- **Step 11 has begun,** as [below](#step-11-as-it-is-built): the perfect synonyms share their answer through a
-  participation handler (`ac8c88336`), the pattern for the rest. Magnus looks at it before the rest is built on it.
+- **Step 11 is done,** as [below](#step-11-as-it-is-built): what a change to one note does to other notes is a
+  participation handler of the change's tevent, in the unit of work that made it. Magnus looks at the structure at the
+  end, rather than holding the work up (2026-11-17: "I'd rather refactor at the end than hold everything up with you
+  waiting for me. The events are not stored so the choices can be changed."). Step 12, measuring memory and load time,
+  is next.
 - **Compze's types are in JAStudio's Python stubs** since the notes derive from `Taggregate`. After each Compze step,
   `src/src_dotnet/regenerate-stubs.ps1 -OnlyTargetTypes -RefreshCompzeStubs` regenerates them: `full-build.ps1`
   regenerates JAStudio's alone.
@@ -219,18 +222,42 @@ What a change to one note does to other notes leaves the domain method, into Com
   which joins the running unit of work. So they are notified once it has committed, as `JPCollection.NoteUpdated`.
   `NoteUnitsOfWork` keeps the running one in an `AsyncLocal` until the body of the unit of work returns, which is late
   enough, since every handler runs inside the body.
+- **What every part is specified by:** that a unit of work that fails after the change leaves the other notes as they
+  were, and, checked by leaving the handlers unregistered, specifications that fail without them. Each was checked in
+  the headless JAStudio as an edit through the MCP server, and undone by the reverse edit, every file back as committed.
 - **Done (`ac8c88336`): the perfect synonyms' answer.** Handlers of `IVocabTevent.PropertyUpdated.CorpusAnswer` and
   `IVocabTevent.SourceData.PropertyUpdated.Answer` give each perfect synonym the answer the vocab then shows.
-  `SetCorpusAnswer` and `SourceData.SetAnswer` only publish. Specified: a unit of work that fails after the change
-  leaves the synonyms' answers as they were.
-- **Next, with the tevents they need there already:**
-  - renaming word-references, a handler of `Question.Renamed`, which carries the old name;
-  - the mirrored forms, handlers of `Forms.PropertyUpdated.EnteredForms.Added` and `.Removed`, which name the form.
-- **Then the other side of the mutual relationships** (`MutualWordRelationship`, `MutualKanjiRelationship`,
-  `PerfectSynonyms`' web, `Synonyms.AddTransitivelyOneLevel`). Their tevents carry only the whole new set, so a handler
-  can't tell what was added. Each needs a domain tevent that names the word added or removed, published by the mutual
-  `Add` and `Remove`, as the forms' are. The other side's change publishes only the whole new set, so that it doesn't
-  set off the handler again.
+  `SetCorpusAnswer` and `SourceData.SetAnswer` only publish.
+- **Done (`b8c32f7c5`): renaming word-references,** a handler of `Question.Renamed`, which takes both names from the
+  tevent. The rename gets for update only the notes that hold the old name (`VocabNote.HoldsTheWordReference`,
+  `RelatedVocab.HoldsTheWord`, `KanjiPrimaryVocab.Contains`), where it copied and locked every vocab and kanji.
+- **Done (`9b35b394e`): the mirrored forms,** handlers of `Forms.PropertyUpdated.EnteredForms.Added` and `.Removed`. The
+  other vocab's change is an `Add` or a `Remove` too, so it mirrors in turn, as before: a form is a text, so the vocab
+  whose question it is are every vocab with that text.
+- **Done (`2040ea4c1`, `d2491b032`): the other side of the mutual relationships,** a vocab's ergative twins, synonyms,
+  antonyms and see-also, and a kanji's similar meaning and confused-with. Each relationship's tevent has four beneath it
+  that name the word, each with the whole new set: `Added` and `Removed` for an edit of the note, whose handlers mirror
+  it in the other note, and `AddedAsTheMirrorOf` and `RemovedAsTheMirrorOf` for that mirror, which no handler follows.
+  `jastudio-rep-opus` reviewed the shape and named the mirror's tevents: a tevent says what happened, not who caused it,
+  and the guard against mirroring back is in the type and the method. A vocab's mirror needs the guard: the word is a
+  text, so mirroring back would resolve the vocab's name to vocab other than the one first named, and add a word no one
+  gave. `MutualWordRelationshipTevents` and `MutualKanjiRelationshipTevents` hold each relationship's factories, once
+  per relationship.
+- **Done (`b2e491cd5`): the perfect synonyms' web.** Its tevent has `Added` and `Removed`. The domain methods change
+  only the vocab; the handler of `Added` connects the whole web and gives it the vocab's answer, and the handler of
+  `Removed` takes the word's vocab out of the web, every vocab in it keeping the word as a synonym. The web's own changes
+  publish only the whole set, so they set off no handler of the web's.
+- **One change in what JAStudio does:** adding what a note has already, such as a form typed into the forms editor that
+  the vocab has, no longer mirrors anything. Before, it added the note to the other side when the other side lacked it.
+- **Left as direct calls, on purpose:**
+  - `Synonyms.AddTransitivelyOneLevel` and the collection's own operations, such as `SharedConditions.Rename` and
+    `JPCollection.Delete`: operations meant to change several notes, each note changed by `Edit` in the one unit of work.
+    A handler would react to nothing that happened to one note.
+  - `PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted`, which `JPCollection.Delete` calls: deleting a note publishes no
+    tevent.
+- **What can't be undone is after the commit already:** `JPCollection.Delete` deletes the study-note and the media files
+  in `NoteUnitOfWork.OnceCommitted`. Suspending a note's cards tells Anki inside an edit, in the workspace's bulk action,
+  but it changes no note, so its unit of work has nothing to roll back.
 
 ## The order
 
@@ -263,7 +290,7 @@ Each step is an increment that builds and passes JAStudio's whole suite, and is 
    indexes become `ITaggregateIndex`es.
 9. **The kanji, then the sentences,** the same way.
 10. **Done. The remaining parts converted,** one at a time, until the interim tevent is gone.
-11. **What reaches other notes becomes participation handlers:** the perfect synonyms' answer, renaming
+11. **Done. What reaches other notes becomes participation handlers:** the perfect synonyms' answer, renaming
     word-references, and the other side of the mutual relationships and of `VocabNoteForms.Add` and `Remove`. What
     can't be undone, such as telling Anki to delete a study-note, moves to after the commit.
     - **A handler gets the notes it changes through JAStudio's running `NoteUnitOfWork`,** not straight from the store:
