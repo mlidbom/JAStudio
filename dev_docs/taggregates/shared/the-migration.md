@@ -157,6 +157,16 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
    are gone: every text field of the notes is a plain string.
 5. **The other simple parts,** one or a few to an increment, in the order of [what the notes hold](what-the-notes-hold.md):
    the sets of words and kanji, the media lists, the register and the flags, the readings, the tags.
+   - **Done (`3d4b9b15b`):** the vocab's readings, a list property at its root (`JPNote.PublishIfTheListChanged`), and
+     `VocabNoteMetaData` and `VocabNoteUsuallyWrittenInKana` as components. `JPNote.PublishIfChanged` is generic.
+   - **Done (`2d16944dd`):** a sentence's parsing result and parsing case. `ParsingResult` and `ParsedMatch` are values,
+     so a reparse that comes to the same result publishes nothing, and the full rebuild writes only what changed.
+   - **Left, by the guarded sites in each file (`grep -rn "Guard\.Update\|_guard\.Update" JAStudio.Core`):**
+     `KanjiPrimaryVocab` 5, `VocabNoteForms` 4, `WordSet` 4, `NoteTags` 4, `CachingSentenceConfigurationField` 4,
+     `MediaReferenceList` 4, `KanjiReadingList` 4, `VocabNoteCompoundParts` 3, `VocabYieldToSurface` 3, `KanjiRadicals` 3,
+     `VocabNoteQuestion` 2, `KanjiSet` 2, and one each in `VocabNotePartsOfSpeech`, `DerivedFrom`,
+     `VocabNoteMatchingConfiguration`, `RequireForbidFlagField` and `FlagField`. The audio lists and the sentence's
+     configuration change through the guard they're given.
 6. **The parts with real behavior:** the question and renaming, the forms, the perfect synonyms, the mutual
    relationships, the matching configuration, the sentence's configuration. The interim tevent goes with the last.
 
