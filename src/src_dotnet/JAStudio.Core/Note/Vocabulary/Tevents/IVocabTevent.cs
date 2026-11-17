@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleInterfaceMemberAmbiguity
@@ -113,7 +115,15 @@ public interface IVocabTevent : INoteTevent
          public interface DictionaryFormStart : MatchingConfiguration { RequireForbidChoice DictionaryFormStart { get; } }
          public interface YieldLastToken : MatchingConfiguration { RequireForbidChoice YieldLastToken { get; } }
          public interface YieldToSurface : MatchingConfiguration { IReadOnlyList<string> YieldToSurface { get; } }
+         public interface MatchCondition : MatchingConfiguration { AllOfGroup<CandidateWordVariant> MatchCondition { get; } }
       }
+
+      /// <summary>
+      /// A shared-condition its match-condition uses was renamed. The match-condition holds the shared-condition itself, so neither the vocab nor what it<br/>
+      /// matches changed, but the corpus stores the shared-condition by its new name: the tevent has the vocab written again.
+      /// </summary>
+      /// <remarks>review-naming:matching: SharedConditionRenamed, a tevent that sets no property (Claude, 2026-11-17).</remarks>
+      public interface SharedConditionRenamed : MatchingConfiguration;
    }
 
    public interface Forms : IVocabTevent

@@ -230,18 +230,6 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
       return true;
    }
 
-   /// <summary>
-   /// Publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/> whether or not the note changed since it was restored: for a change to what the<br/>
-   /// note stores that the note's state doesn't show, since an object the note shares with others changed, such as a shared-condition its<br/>
-   /// match-condition uses by name getting another name. Every instance of the note, its copies included, then stores it by the new name.
-   /// </summary>
-   protected void PublishThatWhatItStoresChanged()
-   {
-      AssertCanBeChanged();
-      _hashOfTheStateLastPublished = HashOf(ToDto());
-      Publish(new NoteTevent.PartWithoutTeventsChanged());
-   }
-
    /// <summary>The number in the note's priority tag (<see cref="Tagging.Tags.PriorityFolder"/>), an Anki tag, or 0 when it has none: the lower, the sooner a vocab lists the sentence.</summary>
    public int PriorityTagValue()
    {

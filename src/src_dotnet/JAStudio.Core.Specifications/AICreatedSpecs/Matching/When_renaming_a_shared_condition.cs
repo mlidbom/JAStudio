@@ -59,6 +59,9 @@ public class When_renaming_a_shared_condition : When_sharing_a_condition
          [XF] public void the_shared_conditions_are_read_back_from_their_files_by_their_names() =>
             _sharedConditions.All.Select(it => $"{it.FullName} = {it.Definition}")
                              .Must().SequenceEqual(["Word.FollowsAVerb = PrecedingToken.IsAVerbOfEitherKind", "Token.IsAVerbOfEitherKind = AnyOf(IsAGodanVerb, IsAnIchidanVerb)"]);
+
+         [XF] public void the_vocab_using_it_is_read_back_from_its_file_using_it_by_the_new_name() =>
+            _ます.MatchingConfiguration.MatchCondition.ToString().Must().Be("AllOf(FollowsAVerb, PrecedingToken.IsAVerbOfEitherKind)");
       }
    }
 }

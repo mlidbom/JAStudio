@@ -191,7 +191,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       MetaData = new VocabNoteMetaData(this, data);
       Register = new VocabNoteRegister(this, data?.Register ?? []);
       UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(this, data?.UsuallyWrittenInKana);
-      MatchingConfiguration = new VocabNoteMatchingConfiguration(this, data?.Matching, Services.SharedConditions, new NoteGuard(AssertCanBeChanged, FlushAfterTheMatchingConfigurationChanged));
+      MatchingConfiguration = new VocabNoteMatchingConfiguration(this, data?.Matching, Services.SharedConditions);
    }
 
    public override CorpusNoteDto ToDto() => TakeSnapshot();
@@ -246,23 +246,6 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       .._readings.Select(KanaUtils.Romanize),
       ..Forms.MatchedFormsWithoutNoiseCharacters()
    ];
-
-   /// <summary>
-   /// Saves the vocab after a shared-condition its match-condition uses was renamed (<see cref="Matching.Conditions.Sharing.SharedConditions.Rename"/>): the match-condition holds<br/>
-   /// the shared-condition itself, so neither changed, but the corpus stores it by the shared-condition's name, as every instance of the vocab now<br/>
-   /// does. So the edit's copy shows no change to flush.
-   /// </summary>
-   internal void SaveAfterASharedConditionItsMatchConditionUsesWasRenamed() => PublishThatWhatItStoresChanged();
-
-   /// <summary>
-   /// Flushes the vocab after a change to its <see cref="MatchingConfiguration"/>, once the <see cref="Forms"/> have dropped what they derived from it:<br/>
-   /// the snapshot the flush takes must reflect the change.
-   /// </summary>
-   void FlushAfterTheMatchingConfigurationChanged()
-   {
-      Forms.OnMatchingConfigurationChanged();
-      Flush();
-   }
 
    public override void UpdateGeneratedData()
    {

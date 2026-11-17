@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
 namespace JAStudio.Core.Note.Vocabulary.Tevents;
 
@@ -147,6 +149,13 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
       {
          public IReadOnlyList<string> YieldToSurface { get; } = yieldToSurface;
       }
+
+      public class MatchConditionUpdated(AllOfGroup<CandidateWordVariant> matchCondition) : MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.MatchCondition
+      {
+         public AllOfGroup<CandidateWordVariant> MatchCondition { get; } = matchCondition;
+      }
+
+      public class SharedConditionRenamed : MatchingConfiguration, IVocabTevent.MatchingConfiguration.SharedConditionRenamed;
    }
 
    public abstract class UsuallyWrittenInKana : VocabTevent, IVocabTevent.UsuallyWrittenInKana

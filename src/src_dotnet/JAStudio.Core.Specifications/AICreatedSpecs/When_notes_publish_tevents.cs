@@ -15,8 +15,10 @@ using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
+using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditions;
 
 // ReSharper disable InconsistentNaming
 
@@ -520,6 +522,31 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
             public and_then_to_the_same_surface_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.MatchingConfiguration.YieldToSurface.Add("走っ"));
 
             [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
+      }
+
+      public class when_its_match_condition_is_set : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_match_condition_is_set() => _published = TheTeventsPublishedAs(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(IsMatchedByItsSurface)));
+
+         /// <summary>The <paramref name="tevents"/>, each a match-condition's tevent with the match-condition as code, or another tevent by its type: data, as a match-condition isn't.</summary>
+         static IEnumerable<string> AsData(IReadOnlyList<INoteTevent> tevents) =>
+            tevents.Select(it => it is IVocabTevent.MatchingConfiguration.PropertyUpdated.MatchCondition updated ? $"MatchCondition: {updated.MatchCondition}" : it.GetType().Name);
+
+         [XF] public void it_publishes_its_new_match_condition() => AsData(_published).Must().SequenceEqual(["MatchCondition: AllOf(IsMatchedByItsSurface)"]);
+
+         [XF] public void the_committed_vocab_has_it() => _vocab.MatchingConfiguration.MatchCondition.ToString().Must().Be("AllOf(IsMatchedByItsSurface)");
+
+         public class and_then_set_to_the_same_again : when_its_match_condition_is_set
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_set_to_the_same_again() =>
+               _publishedTheSecondTime = TheTeventsPublishedAs(it => it.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(IsMatchedByItsSurface)));
+
+            [XF] public void it_publishes_nothing() => AsData(_publishedTheSecondTime).Must().BeEmpty();
          }
       }
 

@@ -113,7 +113,7 @@ Each a commit that builds and passes the whole suite, so the switch to the store
        failed since step 2; it edits it now.
      - Renaming a shared condition changes how every vocab using it is stored, through the condition they share, while
        neither changes. The rename now publishes the change outright
-       (`VocabNote.SaveAfterASharedConditionItsMatchConditionUsesWasRenamed`).
+       (`VocabNoteMatchingConfiguration.SaveAfterASharedConditionItUsesWasRenamed`).
      - A vocab's alternative compound parts are stored as entered, those also primary included, so that one that
        stops being primary comes back as an alternative: the note in memory kept it before, and a copy didn't. No stored
        vocab has such a part yet, so no file changes.

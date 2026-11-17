@@ -4,6 +4,8 @@ from System.Collections.Generic import IReadOnlySet_1, IReadOnlyList_1
 from JAStudio.Core.Note.Vocabulary import WordReference, EnteredForm, PartOfSpeech, UsuallyWrittenInKanaDecision
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
+from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from Compze.Abstractions import TaggregateId
 from System import DateTime
@@ -67,6 +69,11 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
                 def DictionaryFormStart(self) -> RequireForbidChoice: ...
 
 
+            class MatchCondition(IVocabTevent.MatchingConfiguration, typing.Protocol):
+                @property
+                def MatchCondition(self) -> AllOfGroup_1[CandidateWordVariant]: ...
+
+
             class NamesOfTheSetFlags(IVocabTevent.MatchingConfiguration, typing.Protocol):
                 @property
                 def NamesOfTheSetFlags(self) -> IReadOnlyList_1[str]: ...
@@ -81,6 +88,10 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
                 @property
                 def YieldToSurface(self) -> IReadOnlyList_1[str]: ...
 
+
+
+        class SharedConditionRenamed(IVocabTevent.MatchingConfiguration, typing.Protocol):
+            pass
 
 
 
@@ -457,10 +468,32 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
             def UtcTimeStamp(self) -> DateTime: ...
 
 
+        class MatchConditionUpdated(VocabTevent.MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.MatchCondition):
+            def __init__(self, matchCondition: AllOfGroup_1[CandidateWordVariant]) -> None: ...
+            @property
+            def MatchCondition(self) -> AllOfGroup_1[CandidateWordVariant]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
         class NamesOfTheSetFlagsUpdated(VocabTevent.MatchingConfiguration, IVocabTevent.MatchingConfiguration.PropertyUpdated.NamesOfTheSetFlags):
             def __init__(self, namesOfTheSetFlags: IReadOnlyList_1[str]) -> None: ...
             @property
             def NamesOfTheSetFlags(self) -> IReadOnlyList_1[str]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class SharedConditionRenamed(VocabTevent.MatchingConfiguration, IVocabTevent.MatchingConfiguration.SharedConditionRenamed):
+            def __init__(self) -> None: ...
             @property
             def TaggregateId(self) -> TaggregateId: ...
             @property

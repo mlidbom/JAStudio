@@ -18,8 +18,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching;
 /// are displayed, and which of two vocab matching the same word wins.
 /// </summary>
 /// <remarks>
-/// A component of its vocab: its flags, its require/forbid rules and its yield-to-surface rule publish tevents of their own,<br/>
-/// <see cref="IVocabTevent.MatchingConfiguration"/>, which its appliers apply. Its match-condition still changes through the <see cref="NoteGuard"/> it's given.
+/// A component of its vocab: its match-condition, its flags, its require/forbid rules and its yield-to-surface rule publish tevents of their own,<br/>
+/// <see cref="IVocabTevent.MatchingConfiguration"/>, which its appliers apply.
 /// </remarks>
 public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteMatchingConfiguration, IVocabTevent.MatchingConfiguration, VocabTevent.MatchingConfiguration>, ITeventRouted
 {
@@ -29,22 +29,20 @@ public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INot
      .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.DictionaryFormStart>(static (configuration, tevent) => configuration.RequiresForbids.DictionaryFormStart.Apply(tevent.DictionaryFormStart))
      .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldLastToken>(static (configuration, tevent) => configuration.RequiresForbids.YieldLastToken.Apply(tevent.YieldLastToken))
      .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.YieldToSurface>(static (configuration, tevent) => configuration.YieldToSurface.Apply(tevent.YieldToSurface))
+     .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.MatchCondition>(static (configuration, tevent) => configuration.MatchCondition = tevent.MatchCondition)
      .For<IVocabTevent.MatchingConfiguration>(static (configuration, _) => configuration._vocab.Forms.OnMatchingConfigurationChanged()));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
    readonly VocabNote _vocab;
-   readonly NoteGuard _guard;
    readonly SharedConditions _sharedConditions;
 
    /// <param name="vocab">The vocab it's of, whose parts of speech some rules and flags take into account.</param>
    /// <param name="data">The configuration as the corpus stores it, or null for a new vocab.</param>
    /// <param name="sharedConditions">The corpus's shared-conditions, which its match-condition uses by name.</param>
-   /// <param name="guard">Saves the vocab after a change to its match-condition.</param>
-   internal VocabNoteMatchingConfiguration(VocabNote vocab, VocabMatchingDto? data, SharedConditions sharedConditions, NoteGuard guard) : base(vocab)
+   internal VocabNoteMatchingConfiguration(VocabNote vocab, VocabMatchingDto? data, SharedConditions sharedConditions) : base(vocab)
    {
       _vocab = vocab;
-      _guard = guard;
       _sharedConditions = sharedConditions;
       MatchCondition = MatchConditionJson.VocabsMatchConditionFrom(data?.Condition, sharedConditions);
       RequiresForbids = new VocabMatchingRequireForbidFlags(vocab, vocab.PartsOfSpeech, data?.RequiredOrForbidden ?? new Dictionary<string, RequiredOrForbiddenDto>());
@@ -72,14 +70,21 @@ public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INot
    public VocabYieldToSurface YieldToSurface { get; }
 
    /// <summary>
-   /// Makes <paramref name="matchCondition"/> the vocab's <see cref="MatchCondition"/>, and saves the vocab. Each shared-condition it uses must be one of the<br/>
-   /// corpus's (<see cref="SharedConditions.AssertHoldsEachUsedBy"/>).
+   /// Makes <paramref name="matchCondition"/> the vocab's <see cref="MatchCondition"/>, publishing its tevent when it's another than the one it has. Each<br/>
+   /// shared-condition it uses must be one of the corpus's (<see cref="SharedConditions.AssertHoldsEachUsedBy"/>).
    /// </summary>
    public void SetMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition)
    {
       _sharedConditions.AssertHoldsEachUsedBy(matchCondition);
-      _guard.Update(() => MatchCondition = matchCondition);
+      _vocab.PublishIfChanged(MatchCondition, matchCondition, static it => new VocabTevent.MatchingConfiguration.MatchConditionUpdated(it));
    }
+
+   /// <summary>
+   /// Has the vocab written again after a shared-condition its <see cref="MatchCondition"/> uses was renamed (<see cref="SharedConditions.Rename"/>), by<br/>
+   /// publishing <see cref="IVocabTevent.MatchingConfiguration.SharedConditionRenamed"/>. The match-condition holds the shared-condition itself, so neither<br/>
+   /// changed, but the corpus stores it by the shared-condition's name.
+   /// </summary>
+   internal void SaveAfterASharedConditionItUsesWasRenamed() => Publish(new VocabTevent.MatchingConfiguration.SharedConditionRenamed());
 
    /// <summary>
    /// Writes <paramref name="sharedCondition"/>'s definition out in the <see cref="MatchCondition"/> wherever it uses it (<see cref="Condition.WithTheDefinitionWrittenOutOf"/>),<br/>
