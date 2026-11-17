@@ -1,8 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Teventive;
+using Compze.Teventive.Taggregates.BaseClasses;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Sentences;
 
@@ -15,18 +19,23 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// which is also <c>くれ</c> followed by <c>よ</c>.<br/>
 /// Each part is a <see cref="WordReference"/>: the word, with a disambiguation when the vocab it's part of has to be told apart, as <c>出す:masu</c> in <c>見出す</c>.
 /// </summary>
-public class VocabNoteCompoundParts
+/// <remarks>A component of its vocab, whose parts publish tevents of their own, <see cref="IVocabTevent.CompoundParts"/>, which its appliers apply.</remarks>
+public class VocabNoteCompoundParts : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteCompoundParts, IVocabTevent.CompoundParts, VocabTevent.CompoundParts>, ITeventRouted
 {
-   readonly NoteGuard _guard;
-   List<WordReference> _primary;
-   HashSet<WordReference> _enteredAlternatives;
+   static readonly TeventRouting<VocabNoteCompoundParts> Appliers = TeventRouting<VocabNoteCompoundParts>.DeclareAppliers(it => it
+     .For<IVocabTevent.CompoundParts.PropertyUpdated.Primary>(static (compoundParts, tevent) => compoundParts._primary = tevent.Primary)
+     .For<IVocabTevent.CompoundParts.PropertyUpdated.EnteredAlternatives>(static (compoundParts, tevent) => compoundParts._enteredAlternatives = tevent.EnteredAlternatives));
 
-   public VocabNoteCompoundParts(VocabNote vocab, VocabDto? data, NoteGuard guard)
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
+   IReadOnlyList<WordReference> _primary;
+   IReadOnlySet<WordReference> _enteredAlternatives;
+
+   public VocabNoteCompoundParts(VocabNote vocab, VocabDto? data) : base(vocab)
    {
       Vocab = vocab;
-      _guard = guard;
       _primary = data != null ? [.. data.CompoundParts.Primary.Select(WordReference.FromDto)] : [];
-      _enteredAlternatives = data != null ? [.. data.CompoundParts.Alternative.Select(WordReference.FromDto)] : [];
+      _enteredAlternatives = data != null ? data.CompoundParts.Alternative.Select(WordReference.FromDto).ToHashSet() : [];
    }
 
    VocabNote Vocab { get; }
@@ -62,21 +71,19 @@ public class VocabNoteCompoundParts
    public bool LastPrimaryPartIsAPlainWordAmong(IReadOnlySet<string> words) => _primary.Count > 0 && _primary[^1].IsAPlainWordAmong(words);
 
    /// <summary>Replaces the <see cref="Primary"/> parts with <paramref name="parts"/>, in their order.</summary>
-   public void SetPrimary(IEnumerable<WordReference> parts) => _guard.Update(() => _primary = [.. parts]);
+   public void SetPrimary(IEnumerable<WordReference> parts) => Vocab.PublishIfTheListChanged(_primary, [.. parts], static it => new VocabTevent.CompoundParts.PrimaryUpdated(it));
 
    /// <summary>Replaces the <see cref="Alternative"/> parts with <paramref name="parts"/>.</summary>
-   public void SetAlternative(IEnumerable<WordReference> parts) => _guard.Update(() => _enteredAlternatives = [.. parts]);
+   public void SetAlternative(IEnumerable<WordReference> parts) =>
+      Vocab.PublishIfTheSetChanged(_enteredAlternatives, parts.ToHashSet(), static it => new VocabTevent.CompoundParts.EnteredAlternativesUpdated(it));
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, wherever it's a part.</summary>
    internal void Rename(WordReference oldName, WordReference newName)
    {
       if(!HasEnteredThePart(oldName)) return;
 
-      _guard.Update(() =>
-      {
-         _primary = [.. _primary.Select(Renamed)];
-         _enteredAlternatives = [.. _enteredAlternatives.Select(Renamed)];
-      });
+      SetPrimary(_primary.Select(Renamed));
+      SetAlternative(_enteredAlternatives.Select(Renamed));
       return;
 
       WordReference Renamed(WordReference part) => part == oldName ? newName : part;

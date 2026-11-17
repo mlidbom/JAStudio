@@ -26,6 +26,7 @@ public interface IVocabTevent : INoteTevent
       public interface Readings : IVocabTevent { IReadOnlyList<string> Readings { get; } }
       public interface Audio : IVocabTevent { IReadOnlyList<AudioReference> Audio { get; } }
       public interface Images : IVocabTevent { IReadOnlyList<ImageReference> Images { get; } }
+      public interface PartsOfSpeech : IVocabTevent { IReadOnlyList<PartOfSpeech> PartsOfSpeech { get; } }
    }
 
    public interface Created : IVocabTevent, ITaggregateCreatedTevent, Question.PropertyUpdated.Text;
@@ -62,6 +63,15 @@ public interface IVocabTevent : INoteTevent
       public new static class PropertyUpdated
       {
          public interface SentenceCount : MetaData { int SentenceCount { get; } }
+      }
+   }
+
+   public interface CompoundParts : IVocabTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface Primary : CompoundParts { IReadOnlyList<WordReference> Primary { get; } }
+         public interface EnteredAlternatives : CompoundParts { IReadOnlySet<WordReference> EnteredAlternatives { get; } }
       }
    }
 

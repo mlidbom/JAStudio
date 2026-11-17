@@ -2,23 +2,23 @@ using Compze.Internals.SystemCE;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
 /// <summary>
 /// A vocab's <see cref="PartOfSpeech"/>s, such as noun and suru verb: a set, so each at most once, of parts of speech JAStudio knows.<br/>
-/// They decide how the vocab is matched, such as whether it inflects as a godan or an ichidan verb, and the markers its page shows.
+/// They decide how the vocab is matched, such as whether it inflects as a godan or an ichidan verb, and the markers its page shows.<br/>
+/// A change publishes <see cref="IVocabTevent.PropertyUpdated.PartsOfSpeech"/>, which the vocab applies (<see cref="Apply"/>).
 /// </summary>
 public class VocabNotePartsOfSpeech
 {
-   readonly NoteGuard _guard;
    IReadOnlyList<PartOfSpeech> _partsOfSpeech;
 
-   public VocabNotePartsOfSpeech(VocabNote vocab, VocabDto? data, NoteGuard guard)
+   public VocabNotePartsOfSpeech(VocabNote vocab, VocabDto? data)
    {
       Vocab = vocab;
-      _guard = guard;
       _partsOfSpeech = DistinctInAlphabeticalOrder((data?.PartsOfSpeech ?? []).Select(PartOfSpeech.Named));
    }
 
@@ -36,7 +36,11 @@ public class VocabNotePartsOfSpeech
    public void Remove(PartOfSpeech partOfSpeech) => Set(_partsOfSpeech.Where(it => it != partOfSpeech));
 
    /// <summary>Replaces the parts of speech with <paramref name="partsOfSpeech"/>.</summary>
-   public void Set(IEnumerable<PartOfSpeech> partsOfSpeech) => _guard.Update(() => _partsOfSpeech = DistinctInAlphabeticalOrder(partsOfSpeech));
+   public void Set(IEnumerable<PartOfSpeech> partsOfSpeech) =>
+      Vocab.PublishIfTheListChanged(_partsOfSpeech, DistinctInAlphabeticalOrder(partsOfSpeech), static it => new VocabTevent.PartsOfSpeechUpdated(it));
+
+   /// <summary>Makes <paramref name="partsOfSpeech"/>, in alphabetical order, the vocab's parts of speech: what their tevent's applier does.</summary>
+   internal void Apply(IReadOnlyList<PartOfSpeech> partsOfSpeech) => _partsOfSpeech = partsOfSpeech;
 
    public bool IsIchidan() => Contains(PartOfSpeech.IchidanVerb);
    public bool IsGodan() => Contains(PartOfSpeech.GodanVerb);

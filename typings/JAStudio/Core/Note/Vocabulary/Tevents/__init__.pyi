@@ -1,8 +1,8 @@
 import typing, abc
 from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, NoteTevent_1
+from System.Collections.Generic import IReadOnlySet_1, IReadOnlyList_1
+from JAStudio.Core.Note.Vocabulary import WordReference, EnteredForm, PartOfSpeech, UsuallyWrittenInKanaDecision
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
-from System.Collections.Generic import IReadOnlyList_1, IReadOnlySet_1
-from JAStudio.Core.Note.Vocabulary import EnteredForm, WordReference, UsuallyWrittenInKanaDecision
 from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from Compze.Abstractions import TaggregateId
@@ -16,6 +16,22 @@ class IVocabTevent_GenericClasses(abc.ABCMeta):
 class IVocabTevent(IVocabTevent_0, metaclass =IVocabTevent_GenericClasses): ...
 
 class IVocabTevent_0(INoteTevent, typing.Protocol):
+
+    class CompoundParts(IVocabTevent_0, typing.Protocol):
+
+        class PropertyUpdated(abc.ABC):
+
+            class EnteredAlternatives(IVocabTevent.CompoundParts, typing.Protocol):
+                @property
+                def EnteredAlternatives(self) -> IReadOnlySet_1[WordReference]: ...
+
+
+            class Primary(IVocabTevent.CompoundParts, typing.Protocol):
+                @property
+                def Primary(self) -> IReadOnlyList_1[WordReference]: ...
+
+
+
 
     class Created(IVocabTevent.Question.PropertyUpdated.Text, ITaggregateCreatedTevent, typing.Protocol):
         pass
@@ -109,6 +125,11 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
         class Mnemonic(IVocabTevent_0, typing.Protocol):
             @property
             def Mnemonic(self) -> str: ...
+
+
+        class PartsOfSpeech(IVocabTevent_0, typing.Protocol):
+            @property
+            def PartsOfSpeech(self) -> IReadOnlyList_1[PartOfSpeech]: ...
 
 
         class Readings(IVocabTevent_0, typing.Protocol):
@@ -272,6 +293,39 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def TaggregateVersion(self) -> int: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class CompoundParts(VocabTevent_0, IVocabTevent.CompoundParts):
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+        class EnteredAlternativesUpdated(VocabTevent.CompoundParts, IVocabTevent.CompoundParts.PropertyUpdated.EnteredAlternatives):
+            def __init__(self, enteredAlternatives: IReadOnlySet_1[WordReference]) -> None: ...
+            @property
+            def EnteredAlternatives(self) -> IReadOnlySet_1[WordReference]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class PrimaryUpdated(VocabTevent.CompoundParts, IVocabTevent.CompoundParts.PropertyUpdated.Primary):
+            def __init__(self, primary: IReadOnlyList_1[WordReference]) -> None: ...
+            @property
+            def Primary(self) -> IReadOnlyList_1[WordReference]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
 
 
     class CorpusAnswerUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.CorpusAnswer):
@@ -465,6 +519,18 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def __init__(self, mnemonic: str) -> None: ...
         @property
         def Mnemonic(self) -> str: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class PartsOfSpeechUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.PartsOfSpeech):
+        def __init__(self, partsOfSpeech: IReadOnlyList_1[PartOfSpeech]) -> None: ...
+        @property
+        def PartsOfSpeech(self) -> IReadOnlyList_1[PartOfSpeech]: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property

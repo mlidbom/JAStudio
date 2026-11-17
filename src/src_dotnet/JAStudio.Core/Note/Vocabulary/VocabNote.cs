@@ -32,6 +32,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
      .For<IVocabTevent.PropertyUpdated.Readings>(static (vocab, tevent) => vocab._readings = tevent.Readings)
      .For<IVocabTevent.PropertyUpdated.Audio>(static (vocab, tevent) => vocab.Audio.Apply(tevent.Audio))
      .For<IVocabTevent.PropertyUpdated.Images>(static (vocab, tevent) => vocab.Images.Apply(tevent.Images))
+     .For<IVocabTevent.PropertyUpdated.PartsOfSpeech>(static (vocab, tevent) => vocab.PartsOfSpeech.Apply(tevent.PartsOfSpeech))
+     .Component(static vocab => vocab.CompoundParts)
      .Component(static vocab => vocab.SourceData)
      .Component(static vocab => vocab.RelatedNotes)
      .Component(static vocab => vocab.MetaData)
@@ -182,8 +184,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
 
       Question = new VocabNoteQuestion(this, data, Guard);
       Forms = new VocabNoteForms(this, data, Guard);
-      PartsOfSpeech = new VocabNotePartsOfSpeech(this, data, Guard);
-      CompoundParts = new VocabNoteCompoundParts(this, data, Guard);
+      PartsOfSpeech = new VocabNotePartsOfSpeech(this, data);
+      CompoundParts = new VocabNoteCompoundParts(this, data);
       RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab);
       MetaData = new VocabNoteMetaData(this, data);
       Register = new VocabNoteRegister(this, data?.Register ?? []);

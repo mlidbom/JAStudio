@@ -21,6 +21,11 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
    public class AudioUpdated(IReadOnlyList<AudioReference> audio) : VocabTevent, IVocabTevent.PropertyUpdated.Audio { public IReadOnlyList<AudioReference> Audio { get; } = audio; }
    public class ImagesUpdated(IReadOnlyList<ImageReference> images) : VocabTevent, IVocabTevent.PropertyUpdated.Images { public IReadOnlyList<ImageReference> Images { get; } = images; }
 
+   public class PartsOfSpeechUpdated(IReadOnlyList<PartOfSpeech> partsOfSpeech) : VocabTevent, IVocabTevent.PropertyUpdated.PartsOfSpeech
+   {
+      public IReadOnlyList<PartOfSpeech> PartsOfSpeech { get; } = partsOfSpeech;
+   }
+
    public class Created(VocabId vocabId, string question) : VocabTevent(vocabId), IVocabTevent.Created
    {
       public string Text { get; } = question;
@@ -60,6 +65,19 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
    public abstract class MetaData : VocabTevent, IVocabTevent.MetaData
    {
       public class SentenceCountUpdated(int sentenceCount) : MetaData, IVocabTevent.MetaData.PropertyUpdated.SentenceCount { public int SentenceCount { get; } = sentenceCount; }
+   }
+
+   public abstract class CompoundParts : VocabTevent, IVocabTevent.CompoundParts
+   {
+      public class PrimaryUpdated(IReadOnlyList<WordReference> primary) : CompoundParts, IVocabTevent.CompoundParts.PropertyUpdated.Primary
+      {
+         public IReadOnlyList<WordReference> Primary { get; } = primary;
+      }
+
+      public class EnteredAlternativesUpdated(IReadOnlySet<WordReference> enteredAlternatives) : CompoundParts, IVocabTevent.CompoundParts.PropertyUpdated.EnteredAlternatives
+      {
+         public IReadOnlySet<WordReference> EnteredAlternatives { get; } = enteredAlternatives;
+      }
    }
 
    public abstract class RelatedVocab : VocabTevent, IVocabTevent.RelatedVocab

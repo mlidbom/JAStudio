@@ -345,6 +345,32 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
       }
 
+      public class when_it_is_made_a_transitive_godan_verb : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_made_a_transitive_godan_verb() => _published = TheTeventsPublishedAs(it => it.PartsOfSpeech.Set([PartOfSpeech.Transitive, PartOfSpeech.GodanVerb]));
+
+         [XF] public void it_publishes_its_parts_of_speech_in_alphabetical_order() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.PropertyUpdated.PartsOfSpeech partsOfSpeech]
+                                          && partsOfSpeech.PartsOfSpeech.SequenceEqual(new[] { PartOfSpeech.GodanVerb, PartOfSpeech.Transitive }));
+
+         [XF] public void the_committed_vocab_has_them() => _vocab.PartsOfSpeech.All().Must().SequenceEqual([PartOfSpeech.GodanVerb, PartOfSpeech.Transitive]);
+      }
+
+      public class when_its_primary_compound_parts_are_set : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_primary_compound_parts_are_set() => _published = TheTeventsPublishedAs(it => it.CompoundParts.SetPrimary([new WordReference("走"), new WordReference("る")]));
+
+         [XF] public void it_publishes_them_in_their_order() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.CompoundParts.PropertyUpdated.Primary primary]
+                                          && primary.Primary.SequenceEqual(new[] { new WordReference("走"), new WordReference("る") }));
+
+         [XF] public void the_committed_vocab_has_them() => _vocab.CompoundParts.Primary().Must().SequenceEqual([new WordReference("走"), new WordReference("る")]);
+      }
+
       public class when_audio_is_added_to_what_its_source_gave_it : given_a_vocab_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;
