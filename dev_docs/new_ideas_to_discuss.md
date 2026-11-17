@@ -79,3 +79,16 @@ piece of code, or that would otherwise be lost in a long response.
   again when the load is done (`ISRSWindows.Refresh`), by poking the reviewer's and the previewer's private members.
   If the card were a page on the `CardServer` from the start, saying that JAStudio is loading, it could load the
   card itself when the collection has loaded, and that last refresh could go.
+- **(Claude, 2026-11-17) Ichidan verbs split into rare godan verbs, and ichidan stems taken for godan imperatives.**
+  Found while measuring the を check of `IchidanGodanPotentialOrImperativeHybridSplitter` (item 23 of that session's
+  questions). Two experiments on the corpus at `b238707fd4c`: を before such a verb always keeping the ichidan verb, and
+  never keeping it. Never: 483 sentences changed, 8 of them displayed, all 8 worse (耳を傾け as 傾く + え, 口を開けて as
+  口を開く + える). Always: 373 changed, 11 displayed: 3 better, 6 worse, 2 about even. The two problems it showed:
+  - **Hidden wrong matches in about 250 sentences:** an ichidan verb split into a rare or archaic godan verb plus える,
+    such as 忘れる as 忘る + える (49 sentences), 見せる as 見す (28), 求める as 求む (26), 助ける as 助く (23), 辞める as
+    辞む (12), 支える as 支う (10). The ichidan verb is still displayed, but those godan vocab count the sentences
+    (`sentenceCount`) and list them. The same split is right for the potential of a common verb: もらえる as もらう +
+    える (13), いただける, 話せる, 聞ける. What tells the two apart isn't transitivity; perhaps how common the godan verb
+    is, or whether JAStudio's own vocab treats the ichidan verb as a word of its own.
+  - **An ichidan verb's stem before 、 taken for a godan imperative:** 休日などを含め、 as 含む + え, and 仕事を終え、 and
+    それを終え as 終う + え. Imperatives before 、 do occur (待て、), so it needs care.
