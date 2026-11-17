@@ -162,5 +162,6 @@ public static class AppBootstrapper
       PerfectSynonyms.ShareTheAnswerThrough(handle);
       VocabNoteQuestion.RenameTheWordReferencesThrough(handle);
       VocabNoteForms.MirrorTheFormsThrough(handle);
+      RelatedVocab.MirrorTheMutualRelationshipsThrough(handle);
    }
 }

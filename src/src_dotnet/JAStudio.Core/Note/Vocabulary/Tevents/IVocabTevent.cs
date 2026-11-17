@@ -77,15 +77,58 @@ public interface IVocabTevent : INoteTevent
       }
    }
 
+   /// <remarks>
+   /// A relationship that goes both ways (<see cref="JAStudio.Core.Note.Vocabulary.RelatedVocab.MutualWordRelationship"/>) publishes the word it changed, with its whole new set:<br/>
+   /// <c>Added</c> and <c>Removed</c> when an edit of the vocab changed it, which a participation handler mirrors in each vocab the word refers to,<br/>
+   /// and <c>AddedAsTheMirrorOf</c> and <c>RemovedAsTheMirrorOf</c> when that mirror changed it, which nothing mirrors back. The word of a mirror's<br/>
+   /// tevent names the vocab whose edit it mirrors.
+   /// </remarks>
    public interface RelatedVocab : IVocabTevent
    {
       public new static class PropertyUpdated
       {
-         public interface ErgativeTwins : RelatedVocab { IReadOnlySet<WordReference> ErgativeTwins { get; } }
-         public interface Synonyms : RelatedVocab { IReadOnlySet<WordReference> Synonyms { get; } }
+         public interface ErgativeTwins : RelatedVocab
+         {
+            IReadOnlySet<WordReference> ErgativeTwins { get; }
+
+            public interface Added : ErgativeTwins { WordReference Word { get; } }
+            public interface Removed : ErgativeTwins { WordReference Word { get; } }
+            public interface AddedAsTheMirrorOf : ErgativeTwins { WordReference Word { get; } }
+            public interface RemovedAsTheMirrorOf : ErgativeTwins { WordReference Word { get; } }
+         }
+
+         public interface Synonyms : RelatedVocab
+         {
+            IReadOnlySet<WordReference> Synonyms { get; }
+
+            public interface Added : Synonyms { WordReference Word { get; } }
+            public interface Removed : Synonyms { WordReference Word { get; } }
+            public interface AddedAsTheMirrorOf : Synonyms { WordReference Word { get; } }
+            public interface RemovedAsTheMirrorOf : Synonyms { WordReference Word { get; } }
+         }
+
          public interface PerfectSynonyms : RelatedVocab { IReadOnlySet<WordReference> PerfectSynonyms { get; } }
-         public interface Antonyms : RelatedVocab { IReadOnlySet<WordReference> Antonyms { get; } }
-         public interface SeeAlso : RelatedVocab { IReadOnlySet<WordReference> SeeAlso { get; } }
+
+         public interface Antonyms : RelatedVocab
+         {
+            IReadOnlySet<WordReference> Antonyms { get; }
+
+            public interface Added : Antonyms { WordReference Word { get; } }
+            public interface Removed : Antonyms { WordReference Word { get; } }
+            public interface AddedAsTheMirrorOf : Antonyms { WordReference Word { get; } }
+            public interface RemovedAsTheMirrorOf : Antonyms { WordReference Word { get; } }
+         }
+
+         public interface SeeAlso : RelatedVocab
+         {
+            IReadOnlySet<WordReference> SeeAlso { get; }
+
+            public interface Added : SeeAlso { WordReference Word { get; } }
+            public interface Removed : SeeAlso { WordReference Word { get; } }
+            public interface AddedAsTheMirrorOf : SeeAlso { WordReference Word { get; } }
+            public interface RemovedAsTheMirrorOf : SeeAlso { WordReference Word { get; } }
+         }
+
          public interface DerivedFrom : RelatedVocab { WordReference? DerivedFrom { get; } }
          public interface ConfusedWith : RelatedVocab { IReadOnlySet<WordReference> ConfusedWith { get; } }
       }

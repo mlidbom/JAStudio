@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Tessaging.TessageBus;
 using Compze.Teventive;
 using Compze.Teventive.Taggregates.BaseClasses;
 using JAStudio.Core.LanguageServices;
@@ -29,17 +30,65 @@ public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTeven
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
+   static readonly MutualWordRelationshipTevents ErgativeTwinsTevents = new(
+      static words => new VocabTevent.RelatedVocab.ErgativeTwinsUpdated(words),
+      static (word, words) => new VocabTevent.RelatedVocab.ErgativeTwinAdded(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.ErgativeTwinRemoved(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.ErgativeTwinAddedAsTheMirrorOf(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.ErgativeTwinRemovedAsTheMirrorOf(word, words));
+
+   static readonly MutualWordRelationshipTevents AntonymsTevents = new(
+      static words => new VocabTevent.RelatedVocab.AntonymsUpdated(words),
+      static (word, words) => new VocabTevent.RelatedVocab.AntonymAdded(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.AntonymRemoved(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.AntonymAddedAsTheMirrorOf(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.AntonymRemovedAsTheMirrorOf(word, words));
+
+   static readonly MutualWordRelationshipTevents SeeAlsoTevents = new(
+      static words => new VocabTevent.RelatedVocab.SeeAlsoUpdated(words),
+      static (word, words) => new VocabTevent.RelatedVocab.SeeAlsoAdded(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.SeeAlsoRemoved(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.SeeAlsoAddedAsTheMirrorOf(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.SeeAlsoRemovedAsTheMirrorOf(word, words));
+
+   /// <summary>
+   /// Declares, through <paramref name="handle"/>, the participation handlers by which each relationship that goes both ways is mirrored, in the unit of<br/>
+   /// work that changed it: a word added to a vocab's relationship adds the vocab to the same relationship of each vocab the word refers to, and a<br/>
+   /// word removed removes it (<see cref="MutualWordRelationship.MirrorTheAdding"/>, <see cref="MutualWordRelationship.MirrorTheRemoving"/>).
+   /// </summary>
+   internal static void MirrorTheMutualRelationshipsThrough(TessageBusHandlerRegistrar handle) => handle
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins.Added it, JPCollection collection) =>
+         TheRelationshipThatPublished(it, collection, static related => related.ErgativeTwins).MirrorTheAdding(it.Word))
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins.Removed it, JPCollection collection) =>
+         TheRelationshipThatPublished(it, collection, static related => related.ErgativeTwins).MirrorTheRemoving(it.Word))
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms.Added it, JPCollection collection) =>
+         TheRelationshipThatPublished(it, collection, static related => related.Synonyms).MirrorTheAdding(it.Word))
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms.Removed it, JPCollection collection) =>
+         TheRelationshipThatPublished(it, collection, static related => related.Synonyms).MirrorTheRemoving(it.Word))
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms.Added it, JPCollection collection) =>
+         TheRelationshipThatPublished(it, collection, static related => related.Antonyms).MirrorTheAdding(it.Word))
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms.Removed it, JPCollection collection) =>
+         TheRelationshipThatPublished(it, collection, static related => related.Antonyms).MirrorTheRemoving(it.Word))
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso.Added it, JPCollection collection) =>
+         TheRelationshipThatPublished(it, collection, static related => related.SeeAlso).MirrorTheAdding(it.Word))
+     .ForTevent(static (IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso.Removed it, JPCollection collection) =>
+         TheRelationshipThatPublished(it, collection, static related => related.SeeAlso).MirrorTheRemoving(it.Word));
+
+   /// <summary>The relationship <paramref name="relationshipIn"/> picks of the vocab that published <paramref name="tevent"/>, as the unit of work running holds it.</summary>
+   static MutualWordRelationship TheRelationshipThatPublished(INoteTevent tevent, JPCollection collection, Func<RelatedVocab, MutualWordRelationship> relationshipIn) =>
+      relationshipIn(collection.TheRunningUnitOfWork.NoteThatPublished<VocabNote>(tevent).RelatedNotes);
+
    readonly VocabNote _vocab;
 
    public RelatedVocab(VocabNote vocab, VocabRelatedDto? data) : base(vocab)
    {
       _vocab = vocab;
 
-      ErgativeTwins = new MutualWordRelationship(vocab, WordsIn(data?.ErgativeTwins), static it => new VocabTevent.RelatedVocab.ErgativeTwinsUpdated(it), it => it.ErgativeTwins);
+      ErgativeTwins = new MutualWordRelationship(vocab, WordsIn(data?.ErgativeTwins), ErgativeTwinsTevents, it => it.ErgativeTwins);
       Synonyms = new Synonyms(vocab, WordsIn(data?.Synonyms));
       PerfectSynonyms = new PerfectSynonyms(vocab, WordsIn(data?.PerfectSynonyms));
-      Antonyms = new MutualWordRelationship(vocab, WordsIn(data?.Antonyms), static it => new VocabTevent.RelatedVocab.AntonymsUpdated(it), it => it.Antonyms);
-      SeeAlso = new MutualWordRelationship(vocab, WordsIn(data?.SeeAlso), static it => new VocabTevent.RelatedVocab.SeeAlsoUpdated(it), it => it.SeeAlso);
+      Antonyms = new MutualWordRelationship(vocab, WordsIn(data?.Antonyms), AntonymsTevents, it => it.Antonyms);
+      SeeAlso = new MutualWordRelationship(vocab, WordsIn(data?.SeeAlso), SeeAlsoTevents, it => it.SeeAlso);
       DerivedFrom = new DerivedFrom(vocab, data?.DerivedFrom is {} derivedFrom ? WordReference.FromDto(derivedFrom) : null);
       ConfusedWith = new WordRelationship(vocab, WordsIn(data?.ConfusedWith), static it => new VocabTevent.RelatedVocab.ConfusedWithUpdated(it));
       return;

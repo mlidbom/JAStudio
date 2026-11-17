@@ -37,6 +37,12 @@ sealed class WordSet
 
    public void Remove(WordReference word) => SetTheWords(Words.Where(it => it != word));
 
+   /// <summary>Adds <paramref name="word"/>, publishing the tevent <paramref name="teventOf"/> makes of the new set, instead of the set's own.</summary>
+   public void Add(WordReference word, Func<IReadOnlySet<WordReference>, NoteTevent> teventOf) => SetTheWords([.. Words, word], teventOf);
+
+   /// <summary>Removes <paramref name="word"/>, publishing the tevent <paramref name="teventOf"/> makes of the new set, instead of the set's own.</summary>
+   public void Remove(WordReference word, Func<IReadOnlySet<WordReference>, NoteTevent> teventOf) => SetTheWords(Words.Where(it => it != word), teventOf);
+
    public void Clear() => SetTheWords([]);
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if the set has it.</summary>
@@ -49,7 +55,10 @@ sealed class WordSet
    /// <summary>Makes <paramref name="words"/> the set's words: what the set's tevent's applier does.</summary>
    public void Apply(IReadOnlySet<WordReference> words) => Words = words;
 
-   void SetTheWords(IEnumerable<WordReference> words) => _vocab.PublishIfTheSetChanged(Words, words.ToHashSet(), _teventOf);
+   void SetTheWords(IEnumerable<WordReference> words) => SetTheWords(words, _teventOf);
+
+   void SetTheWords(IEnumerable<WordReference> words, Func<IReadOnlySet<WordReference>, NoteTevent> teventOf) =>
+      _vocab.PublishIfTheSetChanged(Words, words.ToHashSet(), teventOf);
 
    public override string ToString() => string.Join(", ", Words.Select(it => it.DisambiguationName));
 }

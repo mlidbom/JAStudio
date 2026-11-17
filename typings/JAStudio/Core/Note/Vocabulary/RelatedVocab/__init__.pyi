@@ -1,10 +1,10 @@
 from JAStudio.Core.Note.Vocabulary import VocabNote, WordReference
-from System.Collections.Generic import List_1, IEnumerable_1, IReadOnlySet_1, HashSet_1
-from System import Func_2
-from JAStudio.Core.Note.Tevents import NoteTevent, INoteTevent
+from System.Collections.Generic import List_1, IReadOnlySet_1, IEnumerable_1, HashSet_1
 from Compze.Teventive.Taggregates.BaseClasses import TeventiveComponent_6
+from JAStudio.Core.Note.Tevents import INoteTevent, NoteTevent
 from JAStudio.Core.Note.Vocabulary.Tevents import IVocabTevent, VocabTevent
 from JAStudio.Core.Storage.Dto import VocabRelatedDto
+from System import Func_2
 
 class DerivedFrom:
     def __init__(self, vocab: VocabNote, word: WordReference) -> None: ...
@@ -18,7 +18,6 @@ class DerivedFrom:
 
 
 class MutualWordRelationship(WordRelationship):
-    def __init__(self, vocab: VocabNote, words: IEnumerable_1[WordReference], teventOf: Func_2[IReadOnlySet_1[WordReference], NoteTevent], theSameRelationshipIn: Func_2[RelatedVocab, MutualWordRelationship]) -> None: ...
     @property
     def Words(self) -> IReadOnlySet_1[WordReference]: ...
     def Add(self, word: WordReference) -> None: ...

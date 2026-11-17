@@ -89,9 +89,49 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
          public IReadOnlySet<WordReference> ErgativeTwins { get; } = ergativeTwins;
       }
 
+      public class ErgativeTwinAdded(WordReference word, IReadOnlySet<WordReference> ergativeTwins) : ErgativeTwinsUpdated(ergativeTwins), IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins.Added
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class ErgativeTwinRemoved(WordReference word, IReadOnlySet<WordReference> ergativeTwins) : ErgativeTwinsUpdated(ergativeTwins), IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins.Removed
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class ErgativeTwinAddedAsTheMirrorOf(WordReference word, IReadOnlySet<WordReference> ergativeTwins) : ErgativeTwinsUpdated(ergativeTwins), IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins.AddedAsTheMirrorOf
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class ErgativeTwinRemovedAsTheMirrorOf(WordReference word, IReadOnlySet<WordReference> ergativeTwins) : ErgativeTwinsUpdated(ergativeTwins), IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins.RemovedAsTheMirrorOf
+      {
+         public WordReference Word { get; } = word;
+      }
+
       public class SynonymsUpdated(IReadOnlySet<WordReference> synonyms) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms
       {
          public IReadOnlySet<WordReference> Synonyms { get; } = synonyms;
+      }
+
+      public class SynonymAdded(WordReference word, IReadOnlySet<WordReference> synonyms) : SynonymsUpdated(synonyms), IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms.Added
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class SynonymRemoved(WordReference word, IReadOnlySet<WordReference> synonyms) : SynonymsUpdated(synonyms), IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms.Removed
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class SynonymAddedAsTheMirrorOf(WordReference word, IReadOnlySet<WordReference> synonyms) : SynonymsUpdated(synonyms), IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms.AddedAsTheMirrorOf
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class SynonymRemovedAsTheMirrorOf(WordReference word, IReadOnlySet<WordReference> synonyms) : SynonymsUpdated(synonyms), IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms.RemovedAsTheMirrorOf
+      {
+         public WordReference Word { get; } = word;
       }
 
       public class PerfectSynonymsUpdated(IReadOnlySet<WordReference> perfectSynonyms) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.PerfectSynonyms
@@ -104,9 +144,49 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
          public IReadOnlySet<WordReference> Antonyms { get; } = antonyms;
       }
 
+      public class AntonymAdded(WordReference word, IReadOnlySet<WordReference> antonyms) : AntonymsUpdated(antonyms), IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms.Added
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class AntonymRemoved(WordReference word, IReadOnlySet<WordReference> antonyms) : AntonymsUpdated(antonyms), IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms.Removed
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class AntonymAddedAsTheMirrorOf(WordReference word, IReadOnlySet<WordReference> antonyms) : AntonymsUpdated(antonyms), IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms.AddedAsTheMirrorOf
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class AntonymRemovedAsTheMirrorOf(WordReference word, IReadOnlySet<WordReference> antonyms) : AntonymsUpdated(antonyms), IVocabTevent.RelatedVocab.PropertyUpdated.Antonyms.RemovedAsTheMirrorOf
+      {
+         public WordReference Word { get; } = word;
+      }
+
       public class SeeAlsoUpdated(IReadOnlySet<WordReference> seeAlso) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso
       {
          public IReadOnlySet<WordReference> SeeAlso { get; } = seeAlso;
+      }
+
+      public class SeeAlsoAdded(WordReference word, IReadOnlySet<WordReference> seeAlso) : SeeAlsoUpdated(seeAlso), IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso.Added
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class SeeAlsoRemoved(WordReference word, IReadOnlySet<WordReference> seeAlso) : SeeAlsoUpdated(seeAlso), IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso.Removed
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class SeeAlsoAddedAsTheMirrorOf(WordReference word, IReadOnlySet<WordReference> seeAlso) : SeeAlsoUpdated(seeAlso), IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso.AddedAsTheMirrorOf
+      {
+         public WordReference Word { get; } = word;
+      }
+
+      public class SeeAlsoRemovedAsTheMirrorOf(WordReference word, IReadOnlySet<WordReference> seeAlso) : SeeAlsoUpdated(seeAlso), IVocabTevent.RelatedVocab.PropertyUpdated.SeeAlso.RemovedAsTheMirrorOf
+      {
+         public WordReference Word { get; } = word;
       }
 
       public class DerivedFromUpdated(WordReference? derivedFrom) : RelatedVocab, IVocabTevent.RelatedVocab.PropertyUpdated.DerivedFrom

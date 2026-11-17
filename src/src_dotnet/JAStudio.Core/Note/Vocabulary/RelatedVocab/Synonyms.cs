@@ -7,8 +7,14 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 /// <summary>A vocab's synonyms: words with about the same meaning, linked both ways (<see cref="MutualWordRelationship"/>).</summary>
 public class Synonyms : MutualWordRelationship
 {
-   public Synonyms(VocabNote vocab, IEnumerable<WordReference> words)
-      : base(vocab, words, static it => new VocabTevent.RelatedVocab.SynonymsUpdated(it), it => it.Synonyms) {}
+   static readonly MutualWordRelationshipTevents Tevents = new(
+      static words => new VocabTevent.RelatedVocab.SynonymsUpdated(words),
+      static (word, words) => new VocabTevent.RelatedVocab.SynonymAdded(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.SynonymRemoved(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.SynonymAddedAsTheMirrorOf(word, words),
+      static (word, words) => new VocabTevent.RelatedVocab.SynonymRemovedAsTheMirrorOf(word, words));
+
+   public Synonyms(VocabNote vocab, IEnumerable<WordReference> words) : base(vocab, words, Tevents, it => it.Synonyms) {}
 
    /// <summary>
    /// Adds <paramref name="synonym"/>, and links the two vocab's synonyms one level deep: the vocab <paramref name="synonym"/> refers to get this vocab's<br/>

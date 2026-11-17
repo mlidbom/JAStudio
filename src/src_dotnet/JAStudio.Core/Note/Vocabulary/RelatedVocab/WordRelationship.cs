@@ -56,5 +56,11 @@ public class WordRelationship
    /// <summary>Removes <paramref name="word"/> from this vocab's side of the relationship only.</summary>
    protected void RemoveTheWord(WordReference word) => _words.Remove(word);
 
+   /// <summary>Adds <paramref name="word"/> to this vocab's side of the relationship only, publishing the tevent <paramref name="teventOf"/> makes of it and the new set.</summary>
+   protected void AddTheWord(WordReference word, Func<WordReference, IReadOnlySet<WordReference>, NoteTevent> teventOf) => _words.Add(word, words => teventOf(word, words));
+
+   /// <summary>Removes <paramref name="word"/> from this vocab's side of the relationship only, publishing the tevent <paramref name="teventOf"/> makes of it and the new set.</summary>
+   protected void RemoveTheWord(WordReference word, Func<WordReference, IReadOnlySet<WordReference>, NoteTevent> teventOf) => _words.Remove(word, words => teventOf(word, words));
+
    public override string ToString() => _words.ToString();
 }

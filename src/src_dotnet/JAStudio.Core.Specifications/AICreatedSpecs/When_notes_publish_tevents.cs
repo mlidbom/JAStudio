@@ -462,8 +462,10 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
          public when_it_is_given_a_synonym_no_vocab_has() => _published = TheTeventsPublishedAs(it => it.RelatedNotes.Synonyms.Add(new WordReference("駆ける")));
 
-         [XF] public void it_publishes_its_synonyms() =>
-            _published.Must().Satisfy(it => it is [IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms synonyms] && synonyms.Synonyms.SetEquals([new WordReference("駆ける")]));
+         [XF] public void it_publishes_that_the_synonym_was_added_with_its_synonyms() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms.Added added]
+                                         && added.Word == new WordReference("駆ける")
+                                         && added.Synonyms.SetEquals([new WordReference("駆ける")]));
 
          [XF] public void the_committed_vocab_has_it() => _vocab.RelatedNotes.Synonyms.Words.Must().SequenceEqual([new WordReference("駆ける")]);
 
