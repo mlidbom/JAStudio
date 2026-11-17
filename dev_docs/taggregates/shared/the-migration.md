@@ -155,7 +155,7 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
    `SentenceSourceData` a component. A new sentence's `Created` tevent carries its source question, as a vocab's carries
    its question. `SentenceQuestionField` reads and writes the sentence itself. `WritableStringValue` and its interfaces
    are gone: every text field of the notes is a plain string.
-5. **The other simple parts,** one or a few to an increment, in the order of [what the notes hold](what-the-notes-hold.md):
+5. **Done (through `8fc76fcca`). The other simple parts,** one or a few to an increment, in the order of [what the notes hold](what-the-notes-hold.md):
    the sets of words and kanji, the media lists, the register and the flags, the readings, the tags.
    - **Done (`3d4b9b15b`):** the vocab's readings, a list property at its root (`JPNote.PublishIfTheListChanged`), and
      `VocabNoteMetaData` and `VocabNoteUsuallyWrittenInKana` as components. `JPNote.PublishIfChanged` is generic.
@@ -176,10 +176,15 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
    - **Done (`5ad520b73`):** the nine media lists, the audio, images and screenshots of the notes and of their source
      data. `MediaReferenceList` takes its note and its tevent instead of a guard, and the source data components no
      longer take the guard at all.
-   - **Left, by the guarded sites in each file (`grep -rn "Guard\.Update\|_guard\.Update" JAStudio.Core`):**
-     `NoteTags` 4, `KanjiReadingList` 4, `VocabNoteCompoundParts` 3 and `VocabNotePartsOfSpeech` 1; and, for the
-     sixth increment, `VocabNoteForms` 4, `CachingSentenceConfigurationField` 4, `VocabNoteQuestion` 2 and
-     `VocabNoteMatchingConfiguration` 1.
+   - **Done (`c3f6c0fb8`):** a vocab's parts of speech, one list at its root, and `VocabNoteCompoundParts`, a component:
+     the primary parts a list, the entered alternatives a set.
+   - **Done (`29859c50d`):** every note's tags, one set at its root, `INoteTevent.PropertyUpdated.Tags`, which the appliers
+     every note shares apply. The note classes' own `PropertyUpdated` levels are declared `new`.
+   - **Done (`8fc76fcca`):** a kanji's readings. `KanjiNoteReadings` is a component, with a tevent for each kind of
+     reading, and each list keeps its invariants in the methods that compute its new list.
+   - **Left for the sixth increment, by the guarded sites (`grep -rn "Guard\.Update\|_guard\.Update" JAStudio.Core`):**
+     `VocabNoteForms` 4, `CachingSentenceConfigurationField` 4, `VocabNoteQuestion` 2 and
+     `VocabNoteMatchingConfiguration` 1. The specification of the interim tevent uses the forms.
 6. **The parts with real behavior:** the question and renaming, the forms, the perfect synonyms, the mutual
    relationships, the matching configuration, the sentence's configuration. The interim tevent goes with the last.
 
