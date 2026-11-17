@@ -88,8 +88,9 @@ seconds.
 - **A kanji's question could be edited, but nothing renamed the references to it** in other kanji's radicals,
   similar-meaning and confused-with relationships. Settled by Magnus: a kanji's question is its character, set when it is
   created and never changed (commit f75555a65). So a kanji has no question tevent.
-- **The stored order of related vocab depends on the current culture** (`Storage/Converters/VocabNoteConverter.cs`, which
-  already has a `review:` comment), where the alternative compound parts are in ordinal order.
+- **The stored order of related vocab, and of every note's tags, depended on the current culture,** where the alternative
+  compound parts were in ordinal order. Both are in ordinal order now: the rewrite reordered the related vocab of 37
+  vocab, and no note's tags.
 - **`VocabNotePartsOfSpeech.Remove` has no caller,** and `MediaReferenceList.Add` doesn't check what its documentation
   says it does: that the note doesn't reference the file yet.
 - **Dead code removed** (commit 5e85cf9b3): `ValueWrapper<T>`, `IObjectSerializer<T>`, and

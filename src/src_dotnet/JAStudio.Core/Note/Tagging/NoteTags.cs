@@ -68,13 +68,11 @@ public class NoteTags : IEnumerable<Tag>
 
    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-   public List<string> ToStringList()
-   {
-      //bug: the corpus stores the tags in this order, which depends on the current culture: a machine with another culture would write the tags of
-      //   every note it saves in another order. Ordinal order fixes it, with every note's file rewritten, which the main checkout's session makes as a
-      //   change to the corpus. A vocab's related vocab have the same bug (dev_docs/taggregates/shared/what-the-notes-hold.md, "Noticed along the way").
-      return [.. this.Select(t => t.Name).OrderBy(n => n)];
-   }
+   /// <summary>
+   /// The names of the note's tags in ordinal order, the order the corpus stores them in: the same on every machine, which the current culture's<br/>
+   /// order isn't.
+   /// </summary>
+   public List<string> ToStringList() => [.. this.Select(it => it.Name).Order(StringComparer.Ordinal)];
 
    /// <summary>All the note's tags, in alphabetical order: those a person manages and those JAStudio maintains (<see cref="Tags.IsMaintainedByJAStudio"/>).</summary>
    public IReadOnlyList<Tag> InAlphabeticalOrder() => [..this.OrderBy(it => it.Name, StringComparer.OrdinalIgnoreCase)];

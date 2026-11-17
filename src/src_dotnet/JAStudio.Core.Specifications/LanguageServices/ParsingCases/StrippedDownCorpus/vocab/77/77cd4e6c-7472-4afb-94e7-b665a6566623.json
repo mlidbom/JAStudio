@@ -80,15 +80,15 @@
     "confusedWith": [],
     "seeAlso": [
       {
-        "text": "じゃーん",
-        "disambiguation": ""
-      },
-      {
         "text": "じゃない",
         "disambiguation": ""
       },
       {
         "text": "じゃないか",
+        "disambiguation": ""
+      },
+      {
+        "text": "じゃーん",
         "disambiguation": ""
       }
     ]

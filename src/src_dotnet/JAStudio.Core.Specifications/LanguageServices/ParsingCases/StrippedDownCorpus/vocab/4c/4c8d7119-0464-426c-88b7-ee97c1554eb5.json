@@ -175,15 +175,7 @@
         "disambiguation": ""
       },
       {
-        "text": "でおります",
-        "disambiguation": ""
-      },
-      {
         "text": "ておる",
-        "disambiguation": ""
-      },
-      {
-        "text": "でおる",
         "disambiguation": ""
       },
       {
@@ -191,11 +183,19 @@
         "disambiguation": ""
       },
       {
-        "text": "でる",
+        "text": "てん",
         "disambiguation": ""
       },
       {
-        "text": "てん",
+        "text": "でおります",
+        "disambiguation": ""
+      },
+      {
+        "text": "でおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "でる",
         "disambiguation": ""
       },
       {

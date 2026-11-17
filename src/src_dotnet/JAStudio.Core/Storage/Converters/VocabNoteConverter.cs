@@ -48,12 +48,6 @@ static class VocabNoteConverter
 
    static List<WordReferenceDto> ToDtos(IEnumerable<WordReference> references) => [.. references.Select(it => it.ToDto())];
 
-   /// <summary>A set of references in a fixed order, by their names, so that the same set always writes the same file.</summary>
-   static List<WordReferenceDto> InAFixedOrder(IEnumerable<WordReference> references)
-   {
-      //review: This orders by the current culture's comparison, as the related vocab's strings were before they were word-references, while
-      //   WordReference.InAFixedOrder, which the alternative compound parts are stored in, orders ordinally. Should the corpus store both ordinally? Since the
-      //   current culture is the machine's, the stored order could differ between machines. Switching reorders the sets whose orders differ, once.
-      return ToDtos(references.OrderBy(it => it.DisambiguationName));
-   }
+   /// <summary>A set of references in a fixed order (<see cref="WordReference.InAFixedOrder"/>), so that the same set always writes the same file.</summary>
+   static List<WordReferenceDto> InAFixedOrder(IEnumerable<WordReference> references) => ToDtos(WordReference.InAFixedOrder(references));
 }
