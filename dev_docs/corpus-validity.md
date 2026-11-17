@@ -48,6 +48,12 @@ Anki, go unnoticed until something trips on them. Checking the whole corpus find
   - Two vocab have Yomitan WAV audio too (found 2026-11-08): `yomitan_audio_2025-03-13-09-03-56-195.wav` and
     `yomitan_audio_2025-03-04-06-42-32-975.wav`.
   - Nothing but MP3 comes in any more: an import run's check makes audio that isn't MP3 a problem.
+- **A mutual relationship only one side holds** (Magnus, 2026-11-17: it belongs with these checks). A vocab's synonym,
+  antonym, see-also or ergative twin, a form that names another vocab, or a kanji's similar meaning or confused-with,
+  which the other note lacks, as an import can leave it. On `main`, re-adding what a note already had repaired the other
+  side, as a side effect. Since step 11 of the migration to the state store, an add that changes nothing publishes no
+  tevent, so nothing is mirrored (`taggregates/shared/the-migration.md`, "Step 11, as it is built"). Removing and adding
+  again still repairs it.
 
 ## Open questions
 
