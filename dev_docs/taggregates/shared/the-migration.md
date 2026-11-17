@@ -292,9 +292,12 @@ byte, so a run of one loads what the other wrote.
   the most thorough collection, 850 MB on the managed heap against 878 MB, and a working set of 941 MB against 958 MB.
   What the text fields' notifiers and `main`'s index sets took is gone, and the state store's indexes take about as
   much. Their largest part, about 105 MB, is each taggregate's keys in each index, kept as an `ImmutableHashSet`.
-- **Put to `jastudio-rep-opus`:** each taggregate's keys as an array would take about 80 MB less, and most of the 0.8 s.
-  Filing the indexes and restoring the taggregates in parallel would take off most of the rest, at the price of running
-  JAStudio's key functions on several threads at once.
+- **Put to Magnus by `jastudio-rep-opus`:** the index keeps no keys at all. When a unit of work prepares its commit, the
+  index computes a changed taggregate's old keys from its committed instance, which stays the old one until the commit,
+  and its new keys from the unit of work's copy, and files by the difference. That takes the 105 MB and the 0.8 s away,
+  leaving the load about 1.5 s slower than `main`'s. Filing the indexes and restoring the taggregates in parallel would
+  take off most of the rest, at the price of running JAStudio's key functions on several threads at once: optional, and
+  not recommended unless Magnus wants the load time down further.
 
 ## The order
 

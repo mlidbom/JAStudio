@@ -111,7 +111,8 @@ the most in each heap:
 | The store's taggregates by id, and its references to them | | about 13 MB |
 | The strings, and the stored parsing results' `ParsedMatch`es | 146 and 31 MB | the same |
 
-**What would take less: each taggregate's keys as an array.** An `ImmutableHashSet` takes about 56 bytes a key, and a
+**What would take less: an index that keeps no keys.** An `ImmutableHashSet` takes about 56 bytes a key, and a
 sentence's words (`SentenceIndexes.Word`) and matched vocab (`SentenceIndexes.MatchedVocab`) take 33 MB each. An array
-takes 8 bytes a key and a header: about 25 MB in all instead of 105. It's Compze's code: put to `jastudio-rep-opus`
-(2026-11-17).
+would take 8 bytes a key and a header, about 25 MB in all. `jastudio-rep-opus` recommends to Magnus that the index keep
+none: it can compute a changed taggregate's old keys from the committed instance as the commit is prepared, so the
+105 MB go entirely (2026-11-17).
