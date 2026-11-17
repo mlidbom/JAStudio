@@ -162,8 +162,9 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    public abstract CorpusNoteDto ToDto();
 
    /// <summary>
-   /// Publishes that the note is deleted, its class's <see cref="INoteTevent.Deleted"/>, whose participation handlers change what it leaves in other<br/>
-   /// notes. Only <see cref="NoteUnitOfWork.Delete"/> calls it, which then removes the note from the collection.
+   /// Deletes the note: publishes its class's <see cref="INoteTevent.Deleted"/>, and the unit of work then holds it no more, and removes it from<br/>
+   /// the collection when it commits. The participation handlers of the tevent change what the note leaves in other notes. Only<br/>
+   /// <see cref="JPCollection.Delete"/> calls it, on the unit of work's copy of the note, and deletes the note's media and study-note too.
    /// </summary>
    internal abstract void Delete();
 

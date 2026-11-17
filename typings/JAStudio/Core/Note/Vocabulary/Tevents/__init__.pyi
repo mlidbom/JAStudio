@@ -40,7 +40,8 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
 
 
     class Deleted(INoteTevent.Deleted, IVocabTevent_0, typing.Protocol):
-        pass
+        @property
+        def Word(self) -> WordReference: ...
 
 
     class Forms(IVocabTevent_0, typing.Protocol):
@@ -458,13 +459,15 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
 
 
     class Deleted(VocabTevent_0, IVocabTevent.Deleted):
-        def __init__(self) -> None: ...
+        def __init__(self, word: WordReference) -> None: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property
         def TaggregateVersion(self) -> int: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
+        @property
+        def Word(self) -> WordReference: ...
 
 
     class ExplanationLongUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.ExplanationLong):

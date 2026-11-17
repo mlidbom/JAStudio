@@ -192,7 +192,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
 
    public override CorpusNoteDto ToDto() => TakeSnapshot();
 
-   internal override void Delete() => Publish(new VocabTevent.Deleted());
+   internal override void Delete() => Publish(new VocabTevent.Deleted(Question.Reference));
 
    internal override INoteChangedInAUnitOfWork ChangedInAUnitOfWork() => new NoteChangedInAUnitOfWork.Vocab(Id);
 

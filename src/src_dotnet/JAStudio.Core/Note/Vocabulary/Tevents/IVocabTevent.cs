@@ -33,8 +33,14 @@ public interface IVocabTevent : INoteTevent
 
    public interface Created : IVocabTevent, ITaggregateCreatedTevent, Question.PropertyUpdated.Text;
 
-   /// <remarks>A deleted vocab leaves its web of perfect synonyms (<see cref="JAStudio.Core.Note.Vocabulary.RelatedVocab.PerfectSynonyms"/>).</remarks>
-   public new interface Deleted : IVocabTevent, INoteTevent.Deleted;
+   /// <remarks>
+   /// Carries the deleted vocab's name, which nothing else has inside the unit of work: the vocab is gone from it as it publishes this. A deleted<br/>
+   /// vocab leaves its web of perfect synonyms (<see cref="JAStudio.Core.Note.Vocabulary.RelatedVocab.PerfectSynonyms"/>).
+   /// </remarks>
+   public new interface Deleted : IVocabTevent, INoteTevent.Deleted
+   {
+      WordReference Word { get; }
+   }
 
    public interface Question : IVocabTevent
    {

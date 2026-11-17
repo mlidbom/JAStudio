@@ -258,7 +258,7 @@ public class JPCollection
    public void Delete(JPNote note, ItsStudyNote itsStudyNote) => InAUnitOfWork(unitOfWork =>
    {
       var theNoteAsItIs = unitOfWork.ForUpdate(note);
-      unitOfWork.Delete(theNoteAsItIs);
+      theNoteAsItIs.Delete();
       unitOfWork.OnceCommitted(() =>
       {
          if(itsStudyNote == ItsStudyNote.IsDeleted) _studyNotesInTheSRS.DeleteTheStudyNoteOf(theNoteAsItIs.GetId());

@@ -15,8 +15,8 @@ public interface INoteTevent : ITaggregateTevent
    }
 
    /// <summary>
-   /// The note is deleted: the unit of work that publishes this removes it from the collection when it commits<br/>
-   /// (<see cref="Collection.NoteUnitOfWork.Delete"/>). What a deleted note leaves in other notes is changed by participation handlers of it.
+   /// The note is deleted: the unit of work that publishes this holds it no more, and removes it from the collection when it commits<br/>
+   /// (<see cref="JPNote.Delete"/>). What a deleted note leaves in other notes is changed by participation handlers of it.
    /// </summary>
    public interface Deleted : INoteTevent, ITaggregateDeletedTevent;
 }

@@ -33,7 +33,10 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
       public string Text { get; } = question;
    }
 
-   public class Deleted : VocabTevent, IVocabTevent.Deleted;
+   public class Deleted(WordReference word) : VocabTevent, IVocabTevent.Deleted
+   {
+      public WordReference Word { get; } = word;
+   }
 
    public abstract class Question : VocabTevent, IVocabTevent.Question
    {

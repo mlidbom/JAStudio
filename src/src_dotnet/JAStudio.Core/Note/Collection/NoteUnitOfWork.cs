@@ -9,7 +9,7 @@ namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
 /// A unit of work in which JAStudio changes notes, as the code that changes them sees it: the state store's unit of work, through which it gets<br/>
-/// the notes it edits, adds new notes and deletes notes, and what is to be done once it has committed, such as deleting a deleted note's media<br/>
+/// the notes it edits or deletes and adds new notes, and what is to be done once it has committed, such as deleting a deleted note's media<br/>
 /// files. It commits or rolls back as a whole. <see cref="NoteUnitsOfWork"/> runs it. Once its work is done, it publishes for each note it added or<br/>
 /// changed that the note was (<see cref="INoteChangedInAUnitOfWork"/>), and once it has committed, each note it changed is notified through<br/>
 /// <see cref="JPCollection.NoteUpdated"/>.
@@ -85,21 +85,6 @@ public sealed class NoteUnitOfWork
    {
       _store.Save(note);
       MayChange(note);
-   }
-
-   /// <summary>
-   /// Deletes <paramref name="note"/>, as it is in this unit of work, from the collection when this unit of work commits. The note first publishes<br/>
-   /// that it is deleted (<see cref="Tevents.INoteTevent.Deleted"/>), so that participation handlers change what it leaves in other notes while it<br/>
-   /// is still there: the store's session refuses a note deleted in it.
-   /// </summary>
-   public void Delete(JPNote note)
-   {
-      var theNoteAsItIs = ForUpdate(note);
-      theNoteAsItIs.Delete();
-      //todo:compze: a taggregate that publishes an ITaggregateDeletedTevent is to leave Compze's state store as its unit of work commits, and
-      //   ITaggregateStoreUpdater.Delete is to go (Magnus, 2026-11-17, through jastudio-rep-opus). Once it lands, this call goes, and
-      //   JPNote.Delete is the whole deletion.
-      _store.Delete<JPNote>(theNoteAsItIs.Id);
    }
 
    /// <summary>Has <paramref name="action"/> done once this unit of work has committed, after its changed notes are notified, and never if it rolls back.</summary>
