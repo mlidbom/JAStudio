@@ -12,6 +12,17 @@ Suppression is the rare exception, justified only when the diagnostic genuinely 
 because the proper fix is work. If you believe a suppression is right, propose it and let Magnus decide, and
 put the rationale on the same line as the directive.
 
+**A provable false positive needs no asking:** suppress it, and say so in the report (Magnus, 2026-11-18: "Any
+warning that is provably a false positive, such as this one, you do not need to ask permission to suppress. Just do
+it"). It's provable when what the diagnostic claims is untrue of the code, and one line can say why, such as
+`NotAccessedPositionalProperty.Global` on a record whose value only its equality uses. A warning that's right, but
+inconvenient to fix, is still a question for Magnus.
+
+- **As narrow as it fits:** `disable once` on the line, or the file when every instance there is the same case.
+- **The reason on the directive's line,** after the id and a space, without commas, which ReSharper reads as
+  separating ids: `// ReSharper disable NotAccessedPositionalProperty.Global because the index only compares a key's
+  value and never reads it`. Check with an inspection afterwards that it took.
+
 **Approved exception — BDD specification files:** put `// ReSharper disable InconsistentNaming` after the
 usings, as the existing specifications do. BDD class and method names are `lower_case_with_underscores` by
 design, which ReSharper's naming rule flags.
