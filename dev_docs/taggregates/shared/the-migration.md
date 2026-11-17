@@ -394,6 +394,12 @@ to anything that happens".
     the 74 specifications that start with the specifications' collection, 1,035 notes, each added in a unit of work of
     its own, wrote about 5,000 files each, Compze making about five file operations of each note's commit. The other
     2,400 or so start empty and create the few notes they need.
+  - **Next: the specifications load their mini corpus as the application loads the corpus** (Magnus, 2026-11-17: "The
+    tests should load their mini corpus the same way as the real app if possible. I definitely agree"). Once
+    `jastudio-rep-opus`'s JSON store with its files kept in memory lands, which replaces `NotesStoredInMemory` (Magnus's
+    decision), the specifications' collection is prepared once per test process as files: the stripped-down corpus's
+    vocab files as they are, and the sample kanji and sentences serialized once. Each specification that needs it loads
+    them as a start does, rather than adding 1,035 notes in a unit of work each.
   - **Writing every note, changed or not** (`save_every_note`, and the workspace's "Write file system repository"), is
     `CorpusNoteFiles.Write`, which writes a note's file as Compze does, since Compze's storage is out of reach: a
     `todo:compze:` until Compze can rewrite every taggregate.
