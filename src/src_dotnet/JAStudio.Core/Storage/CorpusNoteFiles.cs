@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 using Compze.Teventive.StateStore;
+using Compze.Teventive.StateStore.MemoryPack;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -16,8 +17,9 @@ namespace JAStudio.Core.Storage;
 /// </summary>
 /// <remarks>
 /// Each class of note has a folder of its own in the corpus checkout, <c>vocab</c>, <c>kanji</c> and <c>sentences</c>, and each note's file in it is<br/>
-/// <c>&lt;first two hex digits of its id&gt;/&lt;id&gt;.json</c>, as JAStudio has always stored them. Compze keeps files of its own, the journals of<br/>
-/// its commits, in <c>.state-store</c> in the corpus checkout, which the corpus repository ignores.<br/>
+/// <c>&lt;first two hex digits of its id&gt;/&lt;id&gt;.json</c>, as JAStudio has always stored them. Compze keeps files of its own in<br/>
+/// <c>.state-store</c> in the corpus checkout, which the corpus repository ignores: the journals of its commits, and the cache it starts from,<br/>
+/// a MemoryPack file of each class's snapshots.<br/>
 /// review-naming: CorpusNoteFiles is a name taggregates-opus chose (2026-11-16).
 /// </remarks>
 public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
@@ -31,15 +33,16 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
 
    /// <summary>
    /// Declares that <paramref name="store"/> keeps the notes in their files in the corpus checkout of the <see cref="CorpusNoteFiles"/> the<br/>
-   /// container holds. Each note's file is declared, rather than left to Compze's default, which is the same, since <see cref="Write"/> writes<br/>
-   /// the same file.
+   /// container holds, and starts from a cache of them, which reads only the files changed since it was written. Each note's file is declared,<br/>
+   /// rather than left to Compze's default, which is the same, since <see cref="Write"/> writes the same file.
    /// </summary>
    internal static void DeclareIn(StateStoreBuilder store) =>
       store.StoredInFiles((CorpusNoteFiles files) => files.CorpusCheckout,
                           NoteSerializer.JsonOptions,
                           files => files.Of<VocabNote>(VocabFolder, FileIn)
                                         .Of<KanjiNote>(KanjiFolder, FileIn)
-                                        .Of<SentenceNote>(SentencesFolder, FileIn));
+                                        .Of<SentenceNote>(SentencesFolder, FileIn)
+                                        .CachedWithMemoryPack());
 
    /// <summary>The file of <paramref name="note"/>, whether it has been written or not.</summary>
    public FileInfo FileOf(JPNote note) => FileIn(note, new DirectoryInfo(Path.Combine(CorpusCheckout.FullName, FolderOf(note))));

@@ -193,9 +193,9 @@ Four projects, plus each host's part, and the specifications of the tools, of th
     Before, every source checkout got such a worktree, made from its own corpus clone: a linked worktree's clone isn't
     Magnus's, so its commits never reached his checkout without a fetch. The Anki profile is by default the one whose
     collection file was written last.
-  - **Restarting takes about 14 seconds** when the build is up to date (2026-11-17, since the notes are read from their
-    files, about 80,000 of them). The first load after the computer starts, or on a new corpus checkout, takes about 45,
-    while the system reads the files for the first time.
+  - **Restarting takes about 11 seconds** when the build is up to date. The first load on a corpus checkout takes longer,
+    up to about 45 seconds when the system hasn't read the notes' files yet, since it reads every file and writes the
+    state store's cache of them (`.state-store` in the corpus checkout).
 
 ### Connecting waits for the server's first answer (2026-11-15)
 

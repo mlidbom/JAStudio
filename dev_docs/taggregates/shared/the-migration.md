@@ -55,8 +55,9 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `4ccdfb6b7`, where Compze's JSON store (`StoredInFiles`), which JAStudio now keeps
-  its notes in, reads a class's folder anew at each load: a store that started on an empty folder lost every taggregate at
+  JAStudio's worktree of Compze is at `962a05221`, where the JSON store starts from a MemoryPack cache of its own
+  package, `Compze.Teventive.StateStore.MemoryPack` (`CachedWithMemoryPack`). Before it, `4ccdfb6b7`, where Compze's JSON
+  store (`StoredInFiles`), which JAStudio now keeps its notes in, reads a class's folder anew at each load: a store that started on an empty folder lost every taggregate at
   its next reload (found by `taggregates-opus`). Before it, `d248ebd66`, where only Compze's own file storage hands the
   store a restored taggregate: a storage that kept the snapshots it was given handed back live instances (also found by
   `taggregates-opus`). Before it, `3ff814272`, with observers created at runtime (`ITeventObservation`), each unit
@@ -395,13 +396,19 @@ to anything that happens".
     `CorpusNoteFiles.Write`, which writes a note's file as Compze does, since Compze's storage is out of reach: a
     `todo:compze:` until Compze can rewrite every taggregate.
   - **On the corpus:** a full rebuild changes no file; saving every note, all 79,896, changes no file; and an edit made
-    through Compze's storage and undone leaves the file byte for byte as it was. Compze's own folder, `.state-store`,
-    holds files only while a commit is made: the corpus repository's `.gitignore` should list it.
-  - **The start is slower** ("Loading the notes" in the headless JAStudio): 4.01, 4.16 and 4.45 s from the `snapshot.bin`
-    caches, 7.69 and 7.81 s from the files once the system has cached them, and 37.65 s the first time they were read,
-    as after the computer starts. The machine's other processes used 0.5 to 0.8 cores, and 2 for the cold start. Magnus
-    approved a cache, MemoryPack, as a package of Compze's own if the JSON store is clearly slower:
-    `jastudio-rep-opus` builds it next.
+    through Compze's storage and undone leaves the file byte for byte as it was.
+  - **At the merge, in the corpus repository:** `.gitignore` lists `/.state-store/`, Compze's own folder, which holds the
+    cache, and the journals while a commit is made, in place of `snapshot.bin`; and the `snapshot.bin` files go. A linked
+    worktree's corpus clone ignores the folder in its `info/exclude` meanwhile.
+  - **The start, from Compze's MemoryPack cache, is as fast as from `snapshot.bin`** ("Loading the notes" in the headless
+    JAStudio, the machine's other processes using 0.5 to 0.8 cores): 3.95, 4.06 and 4.13 s from the cache, against 4.01,
+    4.16 and 4.45 s from `snapshot.bin`. Without a cache it was 7.69 and 7.81 s once the system had the files cached, and
+    37.65 s the first time they were read, so Magnus's conditional approval of a MemoryPack cache, a package of Compze's
+    own, held: `Compze.Teventive.StateStore.MemoryPack` (`CachedWithMemoryPack`), whose cache is
+    `.state-store/<class folder>.load-cache`. It takes each file whose length and last write time it has from the cache,
+    and reads the others; a change to a DTO's fields makes the next start read every file once. A start that rebuilt the
+    cache took 10.09 s. A cold start wasn't measured, since emptying the system's file cache takes administrator rights:
+    it reads what `snapshot.bin`'s did, a MemoryPack file of each class (80 MB, against 74) and the folders' listings.
 - **Specifications wait** with `ILocalTessagingEngine.AwaitNoTessagesInFlightAsync`, so named on Magnus's word (Compze's
   `3df5ee7f8`).
 
