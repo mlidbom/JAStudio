@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -20,12 +21,29 @@ static class FieldValueJson
 {
    static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web) { Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, allowIntegerValues: false), new WordExclusionJsonConverter(), new WordReferenceJsonConverter() } };
 
+   /// <summary>JSON as it was written, Japanese included, rather than escaped: for a failure to quote what it was given.</summary>
+   static readonly JsonSerializerOptions AsWritten = new() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
    /// <summary><paramref name="value"/>, a field's value, as JSON.</summary>
    public static JsonNode? JsonOf(object value) => JsonSerializer.SerializeToNode(value, value.GetType(), Options);
 
-   /// <summary>The value for <paramref name="field"/> that <paramref name="json"/> holds, or, when it holds none, a failure that says what the field takes.</summary>
-   public static object ValueFor(EditableFieldOfANote field, JsonNode? json) =>
-      json.Deserialize(field.ValueType, Options) ?? throw new ArgumentException($"The field '{field.Name}' takes {DescriptionOf(field.ValueType)}, not null.");
+   /// <summary>
+   /// The value for <paramref name="field"/> that <paramref name="json"/> holds, or, when it holds none, or one of another shape, such as a text for<br/>
+   /// a flag, a failure that names the field and says what it takes.
+   /// </summary>
+   public static object ValueFor(EditableFieldOfANote field, JsonNode? json)
+   {
+      try
+      {
+         return json.Deserialize(field.ValueType, Options) ?? throw new ArgumentException(WhatTheFieldTakes("null"));
+      }
+      catch(JsonException exception)
+      {
+         throw new ArgumentException(WhatTheFieldTakes(json?.ToJsonString(AsWritten) ?? "null"), exception);
+      }
+
+      string WhatTheFieldTakes(string givenInstead) => $"The field '{field.Name}' takes {DescriptionOf(field.ValueType)}, not {givenInstead}.";
+   }
 
    /// <summary>What a field's value of the type <paramref name="valueType"/> is, in JSON, such as "a list of texts".</summary>
    public static string DescriptionOf(Type valueType) => valueType switch

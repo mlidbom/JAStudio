@@ -219,7 +219,21 @@ public class When_editing_a_note : McpServerSpecification
       public of_a_vocab_giving_a_flag_a_text() => _result = Edit(new JsonObject { ["corpusAnswer"] = "went/left", ["matching.flags.isPoisonWord"] = "yes" });
 
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
+      [XF] public void the_error_names_the_field_what_it_takes_and_what_it_was_given() => TextOf(_result).Must().Contain("""The field 'matching.flags.isPoisonWord' takes true or false, not "yes".""");
       [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Must().Be("went");
+   }
+
+   public class of_a_vocab_giving_a_relationship_its_words_as_texts : When_editing_a_note
+   {
+      readonly CallToolResult _result;
+
+      public of_a_vocab_giving_a_relationship_its_words_as_texts() => _result = Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray("去る") });
+
+      [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
+      [XF] public void the_error_says_the_field_takes_words_with_their_text_and_disambiguation() =>
+         TextOf(_result).Must().Contain("""The field 'relatedVocab.synonyms' takes a list of words, each {"text": "...", "disambiguation": "..."}""");
+
+      [XF] public void the_error_quotes_the_words_it_was_given_as_written() => TextOf(_result).Must().Contain("""not ["去る"].""");
    }
 
    /// <summary>The sentence is marked as a parsing case first.</summary>
