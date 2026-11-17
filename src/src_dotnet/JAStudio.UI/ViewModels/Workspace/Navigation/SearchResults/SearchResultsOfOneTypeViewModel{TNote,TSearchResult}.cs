@@ -63,11 +63,12 @@ sealed class SearchResultsOfOneTypeViewModel<TNote, TSearchResult> : SearchResul
          row.ShowTheCurrentDataOf(updated);
    }
 
-   public override void ShowThatItWasDeleted(JPNote deleted)
+   public override void ShowThatTheyWereDeleted(IReadOnlySet<NoteId> deleted)
    {
-      if(!_rowsByNoteId.TryGetValue(deleted.GetId(), out var row)) return;
+      List<TSearchResult> rowsOfTheDeleted = [.. deleted.Select(it => _rowsByNoteId.GetValueOrDefault(it)).OfType<TSearchResult>()];
+      if(rowsOfTheDeleted.Count == 0) return;
 
-      Remove(row);
+      rowsOfTheDeleted.ForEach(Remove);
       OnTheNumberOfRowsChanged();
    }
 

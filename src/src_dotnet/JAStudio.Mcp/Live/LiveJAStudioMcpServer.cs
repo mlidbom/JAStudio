@@ -1,7 +1,7 @@
 using System;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using Compze.Internals.SystemCE.ReactiveCE;
+using Compze.Tessaging.TessageBus;
 using Compze.Threading;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Mcp.Discovery;
@@ -25,7 +25,7 @@ public sealed class LiveJAStudioMcpServer
    {
       _jastudio = jastudio;
       _host = host;
-      _startingOnceTheCollectionHasLoaded = jastudio.Resolve<JPCollection>().ReloadedFromBackend.Subscribe(_ => StartUnlessStarted());
+      _startingOnceTheCollectionHasLoaded = jastudio.Resolve<ITeventObservation>().ObserveTevents(observe => observe.ForTevent<ICollectionReloaded>(_ => StartUnlessStarted()));
    }
 
    /// <summary>

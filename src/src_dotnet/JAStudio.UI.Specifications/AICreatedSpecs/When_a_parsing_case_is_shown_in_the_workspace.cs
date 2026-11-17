@@ -29,6 +29,9 @@ public class When_a_parsing_case_is_shown_in_the_workspace : SpecificationUsingA
    SentenceNote _sentence => _sentenceReference.Current;
    readonly SentenceEditorSectionViewModel _editor;
 
+   /// <summary>The sentence's editor section, once it has caught up (<see cref="SpecificationUsingAWorkspace.OnceCaughtUp{TViewModel}"/>).</summary>
+   SentenceEditorSectionViewModel TheEditor => OnceCaughtUp(_editor);
+
    protected When_a_parsing_case_is_shown_in_the_workspace()
    {
       CreateVocab("走る", "to-run", "はしる");
@@ -59,7 +62,7 @@ public class When_a_parsing_case_is_shown_in_the_workspace : SpecificationUsingA
                                                                               .Children.Single(it => it.Name.EndsWith("Parsing case", StringComparison.Ordinal))
                                                                               .Children.Select(it => it.Name[(it.Name.IndexOf(' ') + 1)..])];
 
-   TextFieldEditorViewModel EditorField(string label) => _editor.ParsingCase.Fields.Single(it => it.Label == label);
+   TextFieldEditorViewModel EditorField(string label) => TheEditor.ParsingCase.Fields.Single(it => it.Label == label);
 
    public class at_first : When_a_parsing_case_is_shown_in_the_workspace
    {
@@ -69,7 +72,7 @@ public class When_a_parsing_case_is_shown_in_the_workspace : SpecificationUsingA
       [XF] public void the_verdict_chosen_is_unverified() => TheVerdictChosen.Must().Be("unverified");
       [XF] public void the_section_says_it_parses_as_expected() => TheCase.OutcomeText.Must().Be("Parses as expected.");
       [XF] public void the_page_shows_the_breakdown_alone() => Page.ShowsTheExpectedBesideTheBreakdown.Must().BeFalse();
-      [XF] public void the_editor_shows_the_parsing_cases_name_and_why() => _editor.ParsingCase.IsAParsingCase.Must().BeTrue();
+      [XF] public void the_editor_shows_the_parsing_cases_name_and_why() => TheEditor.ParsingCase.IsAParsingCase.Must().BeTrue();
       [XF] public void the_editors_name_field_has_the_name() => EditorField("Name").Text.Must().Be("the progressive");
       [XF] public void the_menu_offers_the_other_two_verdicts_accepting_and_stopping() =>
          TheParsingCaseMenu.Must().SequenceEqual(["The displayed vocab are verified", "The displayed vocab are broken", "Accept what it parses to now", "Stop being a parsing case"]);
@@ -133,7 +136,7 @@ public class When_a_parsing_case_is_shown_in_the_workspace : SpecificationUsingA
       public after_it_stops_being_a_parsing_case() => _sentence.Edit(it => it.StopBeingAParsingCase());
 
       [XF] public void the_page_has_no_parsing_case_section() => Page.IsAParsingCase.Must().BeFalse();
-      [XF] public void the_editor_no_longer_shows_a_parsing_cases_name_and_why() => _editor.ParsingCase.IsAParsingCase.Must().BeFalse();
+      [XF] public void the_editor_no_longer_shows_a_parsing_cases_name_and_why() => TheEditor.ParsingCase.IsAParsingCase.Must().BeFalse();
       [XF] public void the_menu_offers_only_marking_it_as_a_parsing_case() => TheParsingCaseMenu.Must().SequenceEqual(["Mark as a parsing case"]);
 
       public class and_is_then_marked_as_one_on_the_page : after_it_stops_being_a_parsing_case

@@ -5,6 +5,7 @@ from JAStudio.Core.Note.Tagging import Tag
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from Compze.Teventive.Taggregates.BaseClasses import TaggregateTevent_1
+from JAStudio.Core.Note import NoteId
 
 class INoteTevent_GenericClasses(abc.ABCMeta):
     Generic_INoteTevent_GenericClasses_INoteTevent_1_TTevent = typing.TypeVar('Generic_INoteTevent_GenericClasses_INoteTevent_1_TTevent')
@@ -64,4 +65,19 @@ class NoteTevent_1(typing.Generic[NoteTevent_1_TTevent], TaggregateTevent_1[Note
     def __init__(self, tevent: NoteTevent_1_TTevent) -> None: ...
     @property
     def Tevent(self) -> NoteTevent_1_TTevent: ...
+
+
+class NoteTeventExtensions(abc.ABC):
+    @staticmethod
+    def get_NoteId(tevent: INoteTevent) -> NoteId: ...
+
+    class <G>$49A6F769357B776FE95D2A69B2F9912F:
+        @property
+        def NoteId(self) -> NoteId: ...
+
+        class <M>$F44A7828EB74A0E55F7496E010FD479C(abc.ABC):
+            @staticmethod
+            def <Extension>$(tevent: INoteTevent) -> None: ...
+
+
 

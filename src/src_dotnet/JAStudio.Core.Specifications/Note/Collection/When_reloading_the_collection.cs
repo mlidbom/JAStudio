@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
@@ -42,13 +41,11 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
    /// <summary>Behind the collection's back, as when the corpus checkout changes on disk, 行く's stored data is replaced by a copy whose answer is "to walk".</summary>
    public class after_a_notes_file_changed_on_disk : When_reloading_the_collection
    {
-      readonly List<string> _questionsOfTheNotesPassedOnAsUpdated = [];
       readonly IReadOnlyList<JPNote> _notesChangedOnDisk;
 
       public after_a_notes_file_changed_on_disk()
       {
          GetService<NotesStoredInMemory>().Store(ACopyOf行くWithTheAnswer("to walk"));
-         _collection.NoteUpdated.Subscribe(it => _questionsOfTheNotesPassedOnAsUpdated.Add(it.GetQuestion()));
 
          _notesChangedOnDisk = _collection.ReloadFromBackend();
       }
@@ -63,7 +60,6 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
 
       [XF] public void the_collection_holds_the_vocab_as_changed_on_disk() => _collection.Vocab.All().Single(it => it.GetId() == _vocab行く.GetId()).GetAnswer().Must().Be("to walk");
       [XF] public void the_vocab_changed_on_disk_is_the_one_note_reported() => _notesChangedOnDisk.Select(it => it.GetQuestion()).Must().SequenceEqual(["行く"]);
-      [XF] public void the_vocab_changed_on_disk_is_the_one_note_passed_on_as_updated() => _questionsOfTheNotesPassedOnAsUpdated.Must().SequenceEqual(["行く"]);
 
       [XF] public void one_reload_is_observed_with_the_vocab_changed_on_disk_as_its_only_change() =>
          ReloadsObserved().Must().DeepEqual(new[] { new ReloadObserved([], ["行く"], []) });

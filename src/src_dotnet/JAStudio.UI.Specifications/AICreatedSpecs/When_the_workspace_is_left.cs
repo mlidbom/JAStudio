@@ -50,11 +50,12 @@ public class When_the_workspace_is_left : SpecificationUsingAWorkspace, IAIGener
       return sentence.Reference().Current;
    }
 
-   /// <summary>A new workspace, as after a restart, and then the notes loaded, as when Anki opens its profile.</summary>
+   /// <summary>A new workspace, as after a restart, and then the notes loaded, as when Anki opens its profile, once the workspace has observed the load.</summary>
    private protected WorkspaceViewModel OpenedAgainAfterARestart()
    {
       var openedAgain = new WorkspaceViewModel(GetService<TemporaryServiceCollection>());
       GetService<JPCollection>().ReloadFromBackend();
+      WaitUntilEveryTeventPublishedHasBeenObserved();
       return openedAgain;
    }
 

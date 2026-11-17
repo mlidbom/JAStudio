@@ -2,11 +2,10 @@ using System;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
-using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Views.Workspace.Navigation;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 
@@ -28,8 +27,7 @@ partial class NoteListViewModel : ObservableObject
    {
       _services = services;
       Notes = new ListedNotesViewModel(workspace);
-      var uiThread = services.Resolve<IUIThreadDispatcher>();
-      services.CoreApp.Collection.NoteDeleted.Subscribe(deleted => uiThread.PostToUIThread(() => StopListing(deleted)));
+      _ = new TeventsObservedOnTheUIThread(services, observe => observe.ForTevent<INoteTevent.Deleted>(it => StopListing(it.NoteId)));
    }
 
    /// <summary>What the listed notes are, with how many there are.</summary>
@@ -49,10 +47,10 @@ partial class NoteListViewModel : ObservableObject
       ShowInAnkisBrowserCommand.NotifyCanExecuteChanged();
    }
 
-   /// <summary>Takes <paramref name="deleted"/> off the list, if it's listed.</summary>
-   void StopListing(JPNote deleted)
+   /// <summary>Takes the note <paramref name="deleted"/> off the list, if it's listed.</summary>
+   void StopListing(NoteId deleted)
    {
-      if(_shownList.Notes.Any(it => it.GetId().Equals(deleted.GetId())))
+      if(_shownList.Notes.Any(it => it.GetId().Equals(deleted)))
          Show(_shownList.Without(deleted));
    }
 

@@ -1,7 +1,7 @@
 import typing, clr, abc
 from System.Collections.Generic import IReadOnlyList_1, List_1, HashSet_1, IReadOnlyCollection_1, IEnumerable_1
 from JAStudio.Core.Note import NoteId, JPNote, NoteServices, IHasTextToSpeechAudio, KanjiNote
-from System import IEquatable_1, IObservable_1, Action_1, Action, IDisposable, Func_1
+from System import IEquatable_1, Action_1, Action, IDisposable, Func_1
 from Compze.Tessaging.TessageTypes import ITevent
 from Compze.DependencyInjection.Abstractions import IRootResolver
 from JAStudio.Core.Storage.Media import MediaFileIndex, MediaStorageService
@@ -89,17 +89,9 @@ class JPCollection:
     @property
     def Kanji(self) -> KanjiCollection: ...
     @property
-    def NoteDeleted(self) -> IObservable_1[JPNote]: ...
-    @property
     def NoteServices(self) -> NoteServices: ...
     @property
-    def NoteUpdated(self) -> IObservable_1[JPNote]: ...
-    @property
-    def ReloadedFromBackend(self) -> IObservable_1[JPCollection]: ...
-    @property
     def Sentences(self) -> SentenceCollection: ...
-    @property
-    def StudyNoteChanged(self) -> IObservable_1[JPNote]: ...
     @property
     def Vocab(self) -> VocabCollection: ...
     @property

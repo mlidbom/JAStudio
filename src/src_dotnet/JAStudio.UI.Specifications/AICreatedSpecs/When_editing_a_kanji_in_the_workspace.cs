@@ -17,13 +17,16 @@ public class When_editing_a_kanji_in_the_workspace : SpecificationUsingAWorkspac
    KanjiNote _kanji => _kanjiReference.Current;
    readonly KanjiEditorSectionViewModel _editor;
 
+   /// <summary>The kanji's editor section, once it has caught up (<see cref="SpecificationUsingAWorkspace.OnceCaughtUp{TViewModel}"/>).</summary>
+   KanjiEditorSectionViewModel TheEditor => OnceCaughtUp(_editor);
+
    protected When_editing_a_kanji_in_the_workspace()
    {
       _kanjiReference = CreateKanji("走", "run", "", "はし").Reference();
       _editor = Edit<KanjiEditorSectionViewModel>(_kanji);
    }
 
-   KanjiReadingListEditorViewModel ReadingsEditor(string label) => _editor.Readings.Single(it => it.Label == label);
+   KanjiReadingListEditorViewModel ReadingsEditor(string label) => TheEditor.Readings.Single(it => it.Label == label);
 
    public class after_adding_an_on_reading_typed_in_katakana : When_editing_a_kanji_in_the_workspace
    {
@@ -54,7 +57,7 @@ public class When_editing_a_kanji_in_the_workspace : SpecificationUsingAWorkspac
       [XF] public void the_editor_shows_no_kun_readings() => ReadingsEditor("Kun").Items.Must().BeEmpty();
    }
 
-   KanjiListEditorViewModel ListEditor(string title) => _editor.RelatedKanji.Single(it => it.Title == title);
+   KanjiListEditorViewModel ListEditor(string title) => TheEditor.RelatedKanji.Single(it => it.Title == title);
 
    public class after_typing_土_in_the_radicals_box : When_editing_a_kanji_in_the_workspace
    {

@@ -49,7 +49,7 @@ public class When_a_note_shown_in_the_workspace_is_deleted : SpecificationUsingA
    }
 
    [XF] public void its_tab_closes() => Workspace.Tabs.Select(it => it.Header).Must().SequenceEqual([KeptSentence]);
-   [XF] public void the_search_results_no_longer_show_it() => _search.Results.Sentences.Results.Select(it => it.Question).Must().SequenceEqual([KeptSentence]);
+   [XF] public void the_search_results_no_longer_show_it() => Workspace.Navigation.Search.Results.Sentences.Results.Select(it => it.Question).Must().SequenceEqual([KeptSentence]);
    [XF] public void the_List_tab_no_longer_lists_it() =>
       Workspace.Navigation.NoteList.Notes.OfEachType.SelectMany(it => it.Notes).Select(it => it.Question).Must().SequenceEqual([KeptSentence]);
    [XF] public void the_List_tabs_title_counts_only_the_note_that_is_left() => Workspace.Navigation.NoteList.Title.Must().Be("Sentences about going (1)");

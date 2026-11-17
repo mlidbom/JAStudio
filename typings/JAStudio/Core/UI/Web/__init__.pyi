@@ -1,8 +1,7 @@
 import typing, clr, abc
 from System import Func_5, Uri, IDisposable, Action, IEquatable_1
 from JAStudio.Core.Note import JPNote, NoteId
-from JAStudio.Core.Note.Collection import JPCollection
-from JAStudio.Core.Configuration import JapaneseConfig
+from Compze.Tessaging.TessageBus import ITeventObservation
 from JAStudio.Core.UI import PngImage
 
 class AppendingPrerenderer_GenericClasses(abc.ABCMeta):
@@ -43,8 +42,8 @@ class CardServerUrl(abc.ABC):
 
 
 class ChangesThatOutdateNotePages:
-    def __init__(self, collection: JPCollection, config: JapaneseConfig) -> None: ...
-    def Subscribe(self, shownNote: NoteId, thePageIsOutdated: Action) -> IDisposable: ...
+    def __init__(self, observation: ITeventObservation) -> None: ...
+    def Observe(self, shownNote: NoteId, thePageIsOutdated: Action) -> IDisposable: ...
 
 
 class INoteLinkOpener(typing.Protocol):

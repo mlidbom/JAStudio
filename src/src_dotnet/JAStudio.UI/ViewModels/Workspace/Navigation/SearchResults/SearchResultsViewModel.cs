@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Views.Workspace.Navigation.SearchResults;
+using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Studying.StudyNotes;
+using JAStudio.Core.Note.Collection;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 
@@ -79,21 +80,31 @@ class SearchResultsViewModel : ObservableObject
    public ActionsOnSelectedResults ActionsOnTheSelected { get; }
 
    /// <summary>
-   /// Keeps the rows showing their notes as they are now: when a note is updated, or its studying status changes, on whatever thread,<br/>
-   /// its row is updated on the UI thread, and when a note is deleted, its row goes. After the collection is reloaded, every row shows the object<br/>
+   /// Keeps the rows showing their notes as they are now, on the UI thread: when a unit of work changed a note, or its studying status changed,<br/>
+   /// its row shows the note as it is now, and when a note is deleted, its row goes. After the collection is reloaded, every row shows the object<br/>
    /// that replaced its note.
    /// </summary>
    void FollowTheChangesToTheNotesIn(TemporaryServiceCollection services)
    {
       var collection = services.CoreApp.Collection;
-      var uiThread = services.Resolve<IUIThreadDispatcher>();
-      collection.NoteUpdated.Subscribe(ShowTheChangeTo);
-      collection.StudyNoteChanged.Subscribe(ShowTheChangeTo);
-      collection.NoteDeleted.Subscribe(deleted => uiThread.PostToUIThread(() => ShowEachType(it => it.ShowThatItWasDeleted(deleted))));
-      collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(() => ShowEachType(it => it.ShowTheReloadedNotesOf(collection))));
+      _ = new TeventsObservedOnTheUIThread(services, observe => observe
+                                                               .ForEachUnitOfWork<INoteTevent>(ShowTheChangesOfAUnitOfWork)
+                                                               .ForTevent<IStudyNoteChanged>(it => ShowTheChangeTo(it.NoteId))
+                                                               .ForTevent<ICollectionReloaded>(_ => ShowEachType(it => it.ShowTheReloadedNotesOf(collection))));
       return;
 
-      void ShowTheChangeTo(JPNote changed) => uiThread.PostToUIThread(() => ForEachType(it => it.ShowTheChangeTo(changed)));
+      void ShowTheChangesOfAUnitOfWork(IReadOnlyList<INoteTevent> changes)
+      {
+         var deletedNotes = changes.OfType<INoteTevent.Deleted>().Select(it => it.NoteId).ToHashSet();
+         if(deletedNotes.Count > 0) ShowEachType(it => it.ShowThatTheyWereDeleted(deletedNotes));
+         foreach(var changed in changes.Select(it => it.NoteId).Distinct().Except(deletedNotes))
+            ShowTheChangeTo(changed);
+      }
+
+      void ShowTheChangeTo(NoteId changed)
+      {
+         if(collection.NoteFromNoteId(changed) is {} note) ForEachType(it => it.ShowTheChangeTo(note));
+      }
    }
 
    /// <summary>Changes the rows of each type with <paramref name="changeTheRows"/>, and then shows the tabs and the type that fit the rows now.</summary>

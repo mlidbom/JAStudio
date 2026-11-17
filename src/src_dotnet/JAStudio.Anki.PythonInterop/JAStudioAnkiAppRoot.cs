@@ -9,7 +9,6 @@ using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using Compze.Internals.Logging;
 using Compze.Internals.SystemCE;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Mcp.Discovery;
 using JAStudio.Mcp.Live;
@@ -117,9 +116,6 @@ public class JAStudioAnkiAppRoot
       var liveMcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver, JAStudioHost.Anki);
 
       var root = new JAStudioAnkiAppRoot(host, coreApp, dialogs, cardServer, liveMcpServer) { _uiThread = uiThread };
-
-      // A card that Anki drew while the collection was loading says that JAStudio is still loading (AppendingPrerenderer), so Anki draws its cards again.
-      root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => coreApp.Services.SRSWindows.Refresh());
 
       cardServer.Start();
 

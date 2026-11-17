@@ -1,13 +1,14 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using Compze.Contracts.Exceptions;
-using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Must;
+using Compze.Tessaging.TessageBus;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
 using static Compze.Must.MustActions;
 using static JAStudio.Core.Specifications.WordReferenceNames;
@@ -71,16 +72,20 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
 
    public class giving_てよろしい_another_answer : When_changing_a_vocabs_perfect_synonyms
    {
-      readonly List<string> _notesNotifiedAsUpdated = [];
+      /// <summary>For each unit of work observed, the questions of the notes that published its tevents, each once, in order.</summary>
+      readonly ConcurrentQueue<string[]> _notesChangedInEachUnitOfWork = new();
 
       public giving_てよろしい_another_answer()
       {
-         using var _ = GetService<JPCollection>().NoteUpdated.Subscribe(it => _notesNotifiedAsUpdated.Add(it.GetQuestion()));
+         var collection = GetService<JPCollection>();
+         using var _ = GetService<ITeventObservation>().ObserveTevents(observe => observe.ForEachUnitOfWork<INoteTevent>(changes =>
+            _notesChangedInEachUnitOfWork.Enqueue([.. changes.Select(it => collection.NoteFromNoteId(it.NoteId)?.GetQuestion() ?? "<not in the collection>").Distinct().Order()])));
          Teyoroshii.Edit(it => it.SetCorpusAnswer("may, be allowed to"));
+         WaitUntilEveryTeventPublishedHasBeenObserved();
       }
 
       [XF] public void ていい_and_んでいい_get_the_answer() => new[] { Teii.GetAnswer(), Ndeii.GetAnswer() }.Must().SequenceEqual(["may, be allowed to", "may, be allowed to"]);
-      [XF] public void all_three_are_notified_as_updated_by_the_unit_of_work_that_gave_it() => _notesNotifiedAsUpdated.Order().Must().SequenceEqual(["ていい", "てよろしい", "んでいい"]);
+      [XF] public void the_one_unit_of_work_that_gave_it_changed_all_three() => _notesChangedInEachUnitOfWork.ToArray().Must().DeepEqual(new[] { new[] { "ていい", "てよろしい", "んでいい" } });
    }
 
    public class giving_てよろしい_another_answer_in_a_unit_of_work_that_then_fails : When_changing_a_vocabs_perfect_synonyms

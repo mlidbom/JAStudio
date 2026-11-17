@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
@@ -13,6 +12,7 @@ using JAStudio.UI.ViewModels.Studying;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.Views.Workspace;
 using JAStudio.UI.Views.Workspace.Navigation;
+using JAStudio.Core.Note.Collection;
 
 namespace JAStudio.UI.ViewModels.Workspace;
 
@@ -172,7 +172,7 @@ partial class WorkspaceViewModel : ObservableObject
 
    /// <summary>
    /// Shows the state the workspace was last left in, if it was saved, as soon as the notes are loaded: at once if they are, or else when<br/>
-   /// the collection is first loaded, which notifies <see cref="Core.Note.Collection.JPCollection.ReloadedFromBackend"/>.
+   /// the collection is first loaded, which publishes <see cref="ICollectionReloaded"/>.
    /// </summary>
    void ShowTheSavedStateOnceTheNotesAreLoaded()
    {
@@ -184,7 +184,7 @@ partial class WorkspaceViewModel : ObservableObject
 
       var collection = _services.CoreApp.Collection;
       var uiThread = _services.Resolve<IUIThreadDispatcher>();
-      collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(ShowItIfNotShownYet));
+      _ = new TeventsObservedOnTheUIThread(_services, observe => observe.ForTevent<ICollectionReloaded>(_ => ShowItIfNotShownYet()));
       if(collection.IsInitialized) uiThread.PostToUIThread(ShowItIfNotShownYet);
       return;
 

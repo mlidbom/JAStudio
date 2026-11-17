@@ -20,6 +20,9 @@ public class When_editing_a_sentence_in_the_workspace : SpecificationUsingAWorks
    SentenceNote _sentence => _sentenceReference.Current;
    readonly SentenceEditorSectionViewModel _editor;
 
+   /// <summary>The sentence's editor section, once it has caught up (<see cref="SpecificationUsingAWorkspace.OnceCaughtUp{TViewModel}"/>).</summary>
+   SentenceEditorSectionViewModel TheEditor => OnceCaughtUp(_editor);
+
    protected When_editing_a_sentence_in_the_workspace()
    {
       _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
@@ -27,7 +30,7 @@ public class When_editing_a_sentence_in_the_workspace : SpecificationUsingAWorks
       _editor = Edit<SentenceEditorSectionViewModel>(_sentence);
    }
 
-   TextFieldEditorViewModel CorpusQuestion => _editor.CorpusFields.Single(it => it.Label == "Question");
+   TextFieldEditorViewModel CorpusQuestion => TheEditor.CorpusFields.Single(it => it.Label == "Question");
 
    public class before_its_question_is_changed : When_editing_a_sentence_in_the_workspace
    {

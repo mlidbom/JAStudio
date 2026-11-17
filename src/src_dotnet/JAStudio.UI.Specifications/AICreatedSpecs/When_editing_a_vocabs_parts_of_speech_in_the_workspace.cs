@@ -23,6 +23,9 @@ public class When_editing_a_vocabs_parts_of_speech_in_the_workspace : Specificat
    VocabNote _vocab => _vocabReference.Current;
    readonly VocabEditorSectionViewModel _editor;
 
+   /// <summary>The vocab's editor section, once it has caught up (<see cref="SpecificationUsingAWorkspace.OnceCaughtUp{TViewModel}"/>).</summary>
+   VocabEditorSectionViewModel TheEditor => OnceCaughtUp(_editor);
+
    public When_editing_a_vocabs_parts_of_speech_in_the_workspace()
    {
       _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
@@ -30,9 +33,9 @@ public class When_editing_a_vocabs_parts_of_speech_in_the_workspace : Specificat
       _editor = Edit<VocabEditorSectionViewModel>(_vocab);
    }
 
-   PartsOfSpeechEditorViewModel PartsOfSpeech => _editor.Text.PartsOfSpeech;
+   PartsOfSpeechEditorViewModel PartsOfSpeech => TheEditor.Text.PartsOfSpeech;
 
-   void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !_editor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+   void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    [XF] public void the_box_offers_every_part_of_speech_but_the_vocabs() =>
       PartsOfSpeech.Addable.Must().SequenceEqual(PartOfSpeech.All.Where(it => it != PartOfSpeech.GodanVerb && it != PartOfSpeech.Intransitive).Select(it => it.Name));

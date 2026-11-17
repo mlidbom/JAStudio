@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Threading;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
-using JAStudio.Core.TaskRunners;
 using JAStudio.UI.ViewModels.Workspace.Editors;
+using JAStudio.UI.ViewModels;
+using JAStudio.Core.Note.Collection;
 
 namespace JAStudio.UI.Views.Workspace.Editors;
 
@@ -24,8 +24,7 @@ static class EditorWindowExtensions
       {
          window.Activated += (_, _) => ShowItAsItIsNowOrCloseIfItIsGone();
 
-         var uiThread = services.Resolve<IUIThreadDispatcher>();
-         var closingOnTheNextReload = services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(window.Close));
+         var closingOnTheNextReload = new TeventsObservedOnTheUIThread(services, observe => observe.ForTevent<ICollectionReloaded>(_ => window.Close()));
          window.Closed += (_, _) => closingOnTheNextReload.Dispose();
          return;
 

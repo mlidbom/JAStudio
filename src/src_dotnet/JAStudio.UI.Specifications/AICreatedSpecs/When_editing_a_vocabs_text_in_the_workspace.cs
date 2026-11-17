@@ -20,19 +20,22 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
    VocabNote _vocab => _vocabReference.Current;
    readonly VocabEditorSectionViewModel _editor;
 
+   /// <summary>The vocab's editor section, once it has caught up (<see cref="SpecificationUsingAWorkspace.OnceCaughtUp{TViewModel}"/>).</summary>
+   VocabEditorSectionViewModel TheEditor => OnceCaughtUp(_editor);
+
    protected When_editing_a_vocabs_text_in_the_workspace()
    {
       _vocabReference = CreateVocab("走る", "to run", "はしる").Reference();
       _editor = Edit<VocabEditorSectionViewModel>(_vocab);
    }
 
-   VocabTextEditorViewModel Text => _editor.Text;
+   VocabTextEditorViewModel Text => TheEditor.Text;
    TextFieldEditorViewModel CorpusAnswer => Text.CorpusFields.Single(it => it.Label == "Answer");
 
    /// <summary>A change to the vocab made elsewhere, as by Anki or a note menu, which makes the editor refresh.</summary>
    void ChangeTheMnemonicElsewhere() => _vocab.Edit(it => it.SetMnemonic("changed elsewhere"));
 
-   void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !_editor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+   void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    public class after_typing_an_answer : When_editing_a_vocabs_text_in_the_workspace
    {

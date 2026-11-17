@@ -35,6 +35,9 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    SentenceNote _sentence => _sentenceReference.Current;
    readonly NoteTagsEditorViewModel _tagsEditor;
 
+   /// <summary>The note's Tags editor, once it has caught up (<see cref="SpecificationUsingAWorkspace.OnceCaughtUp{TViewModel}"/>).</summary>
+   NoteTagsEditorViewModel TheTagsEditor => OnceCaughtUp(_tagsEditor);
+
    public When_editing_a_notes_tags_in_the_workspace()
    {
       _sentenceReference = WithAStudyNote(CreateTestSentence("家に帰る", "Go home")).Reference();
@@ -47,7 +50,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       _tagsEditor = Edit<SentenceEditorSectionViewModel>(_sentence).Tags;
    }
 
-   List<string> TagsShownInTheEditor() => [.._tagsEditor.Tags.Select(it => it.Name)];
+   List<string> TagsShownInTheEditor() => [..TheTagsEditor.Tags.Select(it => it.Name)];
 
 
    /// <summary>Picks <paramref name="tagPath"/> in the tag picker dialog, as a person would.</summary>
@@ -55,7 +58,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
 
    NoteTabViewModel ShownTab() => Workspace.SelectedTab ?? throw new InvalidOperationException("No tab is shown.");
 
-   TagOnTheNoteViewModel TheTagShown(string tagPath) => _tagsEditor.Tags.Single(it => it.Name == tagPath);
+   TagOnTheNoteViewModel TheTagShown(string tagPath) => TheTagsEditor.Tags.Single(it => it.Name == tagPath);
 
    [XF] public void the_editor_shows_every_tag_the_one_JAStudio_maintains_too_in_alphabetical_order() =>
       TagsShownInTheEditor().Must().SequenceEqual([Label, Tags.Sentence.Uses.HiddenMatches.Name, SourceTag]);
@@ -68,7 +71,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       protected readonly List<string> _questionsAsked = [];
 
       protected void RemoveWithItsButton(string tagPath, bool answerToTheQuestion) =>
-         _tagsEditor.Remove(TheTagShown(tagPath), question =>
+         TheTagsEditor.Remove(TheTagShown(tagPath), question =>
          {
             _questionsAsked.Add(question);
             return Task.FromResult(answerToTheQuestion);
@@ -103,7 +106,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
 
    public class after_adding_a_new_tag_through_the_editor : When_editing_a_notes_tags_in_the_workspace
    {
-      public after_adding_a_new_tag_through_the_editor() => _tagsEditor.AddATag(Picking(NewTag));
+      public after_adding_a_new_tag_through_the_editor() => TheTagsEditor.AddATag(Picking(NewTag));
 
       [XF] public void the_sentence_has_it() => _sentence.Tags.Must().Contain(Tag.FromName(NewTag));
       [XF] public void the_editor_shows_it_in_alphabetical_order() => TagsShownInTheEditor().Must().SequenceEqual([Label, Tags.Sentence.Uses.HiddenMatches.Name, NewTag, SourceTag]);
@@ -143,7 +146,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       {
          public and_then_removing_it_with_its_button()
          {
-            _tagsEditor.Remove(TheTagShown("anki::leech"), _ => Task.FromResult(true));
+            TheTagsEditor.Remove(TheTagShown("anki::leech"), _ => Task.FromResult(true));
             WaitUntil(() => !TagsShownInTheEditor().Contains("anki::leech"));
          }
 

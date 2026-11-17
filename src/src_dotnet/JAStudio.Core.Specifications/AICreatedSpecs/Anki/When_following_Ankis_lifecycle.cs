@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading;
-using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Anki;
@@ -33,18 +32,17 @@ public class When_following_Ankis_lifecycle : SpecificationStartingWithAnEmptyCo
    protected readonly AnkisAvailability Availability = new();
    readonly FollowingAnkisLifecycle _followingAnkisLifecycle;
    readonly NoteId _idOfTheSentence;
-   int _timesTheCollectionLoaded;
 
    public When_following_Ankis_lifecycle()
    {
       _idOfTheSentence = WithAStudyNote(CreateTestSentence("家に帰る", "Go home")).GetId();
       Collection = GetService<JPCollection>();
       Anki = GetService<PretendAnki>();
-      Collection.ReloadedFromBackend.Subscribe(_ => Interlocked.Increment(ref _timesTheCollectionLoaded));
       _followingAnkisLifecycle = new FollowingAnkisLifecycle(Collection, Availability, GetService<BackgroundTaskManager>());
    }
 
-   protected int TimesTheCollectionLoaded => Volatile.Read(ref _timesTheCollectionLoaded);
+   /// <summary>How many times the collection has loaded, as the <see cref="ICollectionReloaded"/>s observed tell.</summary>
+   protected int TimesTheCollectionLoaded => TeventsObservedSoFar().OfType<ICollectionReloaded>().Count();
    protected SentenceNote TheSentence => Collection.Sentences.WithIdOrNone(_idOfTheSentence) ?? throw new InvalidOperationException("The sentence is gone.");
 
    protected void AnkiTellsJAStudioOf(AnkiLifecycleEvent lifecycleEvent) => _followingAnkisLifecycle.Handle(lifecycleEvent);

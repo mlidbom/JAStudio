@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
@@ -15,7 +16,7 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.UI.Web;
 
 /// <summary>
 /// A page showing a note is outdated by the changes <see cref="ChangesThatOutdateNotePages"/> names, and by no others. The sentences 家に帰る and<br/>
-/// 駅に行く, each with a study-note in Anki, in a collection loaded as at startup, and a page that shows 家に帰る and follows the changes that outdate it.
+/// 駅に行く, each with a study-note in Anki, in a collection loaded as at startup, and a page that shows 家に帰る and observes the changes that outdate it.
 /// </summary>
 public class When_a_page_shows_a_sentence_with_a_study_note : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
@@ -24,8 +25,18 @@ public class When_a_page_shows_a_sentence_with_a_study_note : SpecificationStart
    protected SentenceNote TheShownSentence => TheShownSentenceReference.Current;
    protected readonly ITaggregateReference<SentenceNote> TheOtherSentenceReference;
    protected SentenceNote TheOtherSentence => TheOtherSentenceReference.Current;
-   protected readonly IDisposable ThePagesFollowingOfTheChanges;
-   protected int TimesThePageWasOutdated;
+   protected readonly IDisposable ThePagesObservationOfTheChanges;
+   int _timesThePageWasOutdated;
+
+   /// <summary>How many times the page was outdated, once every tevent published so far has been observed.</summary>
+   protected int TimesThePageWasOutdated
+   {
+      get
+      {
+         WaitUntilEveryTeventPublishedHasBeenObserved();
+         return Volatile.Read(ref _timesThePageWasOutdated);
+      }
+   }
 
    public When_a_page_shows_a_sentence_with_a_study_note()
    {
@@ -35,7 +46,7 @@ public class When_a_page_shows_a_sentence_with_a_study_note : SpecificationStart
       Collection.ReloadFromBackend();
       TheShownSentenceReference = (Collection.Sentences.WithIdOrNone(shownSentenceId) ?? throw new InvalidOperationException("The shown sentence is gone.")).Reference();
       TheOtherSentenceReference = (Collection.Sentences.WithIdOrNone(otherSentenceId) ?? throw new InvalidOperationException("The other sentence is gone.")).Reference();
-      ThePagesFollowingOfTheChanges = GetService<ChangesThatOutdateNotePages>().Subscribe(TheShownSentence.GetId(), () => TimesThePageWasOutdated++);
+      ThePagesObservationOfTheChanges = GetService<ChangesThatOutdateNotePages>().Observe(TheShownSentence.GetId(), () => Interlocked.Increment(ref _timesThePageWasOutdated));
    }
 
    public class and_nothing_changes : When_a_page_shows_a_sentence_with_a_study_note
@@ -93,11 +104,11 @@ public class When_a_page_shows_a_sentence_with_a_study_note : SpecificationStart
       [XF] public void the_page_is_outdated_once() => TimesThePageWasOutdated.Must().Be(1);
    }
 
-   public class and_the_page_stops_following_the_changes : When_a_page_shows_a_sentence_with_a_study_note
+   public class and_the_page_stops_observing_the_changes : When_a_page_shows_a_sentence_with_a_study_note
    {
-      public and_the_page_stops_following_the_changes() => ThePagesFollowingOfTheChanges.Dispose();
+      public and_the_page_stops_observing_the_changes() => ThePagesObservationOfTheChanges.Dispose();
 
-      public class and_then_the_shown_sentences_answer_is_changed : and_the_page_stops_following_the_changes
+      public class and_then_the_shown_sentences_answer_is_changed : and_the_page_stops_observing_the_changes
       {
          public and_then_the_shown_sentences_answer_is_changed() => TheShownSentence.Edit(it => it.SetCorpusAnswer("Return home"));
 

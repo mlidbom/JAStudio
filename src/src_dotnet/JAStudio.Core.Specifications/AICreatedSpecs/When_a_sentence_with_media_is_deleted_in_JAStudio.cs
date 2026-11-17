@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compze.Internals.SystemCE.ReactiveCE;
+using JAStudio.Core.Note.Tevents;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
@@ -23,7 +23,6 @@ public class When_a_sentence_with_media_is_deleted_in_JAStudio : SpecificationSt
    readonly SentenceNote _deleted;
    readonly string _ownAudioPath;
    readonly string _sharedScreenshotPath;
-   readonly List<JPNote> _notifiedAsDeleted = [];
 
    public When_a_sentence_with_media_is_deleted_in_JAStudio()
    {
@@ -42,13 +41,11 @@ public class When_a_sentence_with_media_is_deleted_in_JAStudio : SpecificationSt
       });
       CreateTestSentence("部屋が狭い。", "The room is small.").Edit(it => it.SourceData.Screenshots.Add(new ImageReference("shared-screenshot.jpg")));
 
-      var collection = GetService<JPCollection>();
-      collection.NoteDeleted.Subscribe(_notifiedAsDeleted.Add);
-      collection.Delete(_deleted, ItsStudyNote.IsDeleted);
+      GetService<JPCollection>().Delete(_deleted, ItsStudyNote.IsDeleted);
    }
 
    [XF] public void its_audio_file_that_no_other_note_uses_is_deleted_from_the_media_layer() => _ownAudioPath.Must().Satisfy(it => !File.Exists(it));
    [XF] public void the_media_file_index_no_longer_has_its_audio_file() => GetService<MediaFileIndex>().ContainsByOriginalFileName("own-audio.mp3").Must().BeFalse();
    [XF] public void its_screenshot_that_another_sentence_uses_stays() => _sharedScreenshotPath.Must().Satisfy(File.Exists);
-   [XF] public void the_deletion_is_notified() => _notifiedAsDeleted.Select(it => it.GetId()).Must().SequenceEqual([_deleted.GetId()]);
+   [XF] public void the_deletion_is_observed() => TeventsObservedSoFar().OfType<INoteTevent.Deleted>().Select(it => it.NoteId).Must().SequenceEqual([_deleted.GetId()]);
 }

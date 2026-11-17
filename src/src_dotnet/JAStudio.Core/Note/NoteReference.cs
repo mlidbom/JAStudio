@@ -10,8 +10,8 @@ namespace JAStudio.Core.Note;
 /// <see cref="ReferringToANote.Reference{TNote}"/> makes one.
 /// </summary>
 /// <remarks>
-/// JAStudio's own, not the state store's: it gets the note for update in JAStudio's unit of work, which notifies each note it changed once it<br/>
-/// has committed (<see cref="JPCollection.NoteUpdated"/>). The store's own would get it in the store's unit of work, unknown to JAStudio's.
+/// JAStudio's own, not the state store's: it gets the note for update in JAStudio's unit of work, which does what is to be done once it has<br/>
+/// committed (<see cref="NoteUnitOfWork.OnceCommitted"/>). The store's own would get it in the store's unit of work, unknown to JAStudio's.
 /// </remarks>
 sealed class NoteReference<TNote> : ITaggregateReference<TNote> where TNote : JPNote
 {

@@ -124,6 +124,9 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
       readonly SharedConditionWindowViewModel _window;
       readonly VocabEditorSectionViewModel _ますsEditor;
 
+      /// <summary>ます's editor section, once it has caught up (<see cref="SpecificationUsingAWorkspace.OnceCaughtUp{TViewModel}"/>).</summary>
+      VocabEditorSectionViewModel TheEditorOfます => OnceCaughtUp(_ますsEditor);
+
       public the_window_of_FollowsAVerb_with_ます_open_on_its_Matching_tab()
       {
          _ますsEditor = Edit<VocabEditorSectionViewModel>(_ます);
@@ -148,7 +151,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
          [XF] public void it_is_gone_so_that_the_window_closes_when_activated() => _window.IsGone.Must().BeTrue();
 
          [XF] public void the_vocabs_Matching_tab_shows_its_definition_written_out() =>
-            _ますsEditor.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)
+            TheEditorOfます.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)
                        .Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAVerb"]);
       }
 
@@ -162,7 +165,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
             LinesOf(_window)[0].Must().Be("// A word meets Word.FollowsAVerbOfEitherKind when each of these holds:");
 
          [XF] public void the_vocabs_Matching_tab_shows_it_by_the_new_name() =>
-            _ますsEditor.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)
+            TheEditorOfます.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)
                        .Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "FollowsAVerbOfEitherKind"]);
       }
    }

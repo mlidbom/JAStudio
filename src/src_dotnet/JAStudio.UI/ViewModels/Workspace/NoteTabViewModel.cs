@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
+using JAStudio.Core.Configuration;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.Menus;
@@ -43,7 +46,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
    readonly IUIThreadDispatcher _uiThread;
    readonly NoteViewShortcuts _noteViewShortcuts;
    readonly NoteTabHistory _history;
-   readonly List<IDisposable> _subscriptions;
+   readonly TeventsObservedOnTheUIThread _observedTevents;
 
    /// <summary>Whether the tab has been shown, and so has loaded its page. Until then there is no page to become outdated.</summary>
    bool _hasBeenShown;
@@ -85,31 +88,34 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
       var collection = services.CoreApp.Collection;
       //refactor: ChangesThatOutdateNotePages, in Core, names these same changes for the card pages that Anki shows (CardLayout). The tab lists
       //   them itself because it does more on each than reload its page, such as refreshing its editors: one place should say what outdates a page.
-      _subscriptions =
-      [
-         collection.NoteUpdated.Subscribe(ShowTheChangeIfItsTheShownNote),
-         collection.StudyNoteChanged.Subscribe(ShowTheChangeIfItsTheShownNote),
-         collection.NoteDeleted.Subscribe(note => _uiThread.PostToUIThread(() => LeaveTheNotesThatLeftTheCollection(it => it.Equals(note.GetId())))),
-         collection.ReloadedFromBackend.Subscribe(_ => _uiThread.PostToUIThread(() =>
-         {
-            LeaveTheNotesThatLeftTheCollection(it => collection.NoteFromNoteId(it) is null);
-            PageBecameOutdated();
-            CreateTheEditorSectionForTheShownNote();
-         })),
-         services.CoreApp.Config.Changed.Subscribe(_ =>
-         {
-            PageBecameOutdated();
-            _uiThread.PostToUIThread(() => EditorSection?.Refresh());
-         })
-      ];
+      _observedTevents = new TeventsObservedOnTheUIThread(services, observe => observe
+                                                                      .ForEachUnitOfWork<INoteTevent>(ShowTheChangesOfAUnitOfWork)
+                                                                      .ForTevent<IStudyNoteChanged>(it => ShowTheChangeIfItsTheShownNote([it.NoteId]))
+                                                                      .ForTevent<ICollectionReloaded>(_ =>
+                                                                       {
+                                                                          LeaveTheNotesThatLeftTheCollection(it => collection.NoteFromNoteId(it) is null);
+                                                                          PageBecameOutdated();
+                                                                          CreateTheEditorSectionForTheShownNote();
+                                                                       })
+                                                                      .ForTevent<IConfigurationChanged>(_ => ShowTheChange()));
       return;
 
-      void ShowTheChangeIfItsTheShownNote(JPNote note)
+      void ShowTheChangesOfAUnitOfWork(IReadOnlyList<INoteTevent> changes)
       {
-         if(!IsShowing(note)) return;
+         var deletedNotes = changes.OfType<INoteTevent.Deleted>().Select(it => it.NoteId).ToHashSet();
+         if(deletedNotes.Count > 0) LeaveTheNotesThatLeftTheCollection(deletedNotes.Contains);
+         ShowTheChangeIfItsTheShownNote(changes.Select(it => it.NoteId).Except(deletedNotes));
+      }
 
+      void ShowTheChangeIfItsTheShownNote(IEnumerable<NoteId> changedNotes)
+      {
+         if(changedNotes.Contains(ShownNoteId)) ShowTheChange();
+      }
+
+      void ShowTheChange()
+      {
          PageBecameOutdated();
-         _uiThread.PostToUIThread(() => EditorSection?.Refresh());
+         EditorSection?.Refresh();
       }
    }
 
@@ -121,9 +127,9 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
 
    /// <summary>
    /// Raised when the page no longer shows the current state, so it must be reloaded:<br/>
-   /// the note on it was updated, its study-note in Anki changed, such as its tags, the collection was loaded again,<br/>
+   /// a unit of work changed the note on it, its study-note in Anki changed, such as its tags, the collection was loaded again,<br/>
    /// or a setting changed, such as how sentence breakdowns are shown.<br/>
-   /// It's raised on the thread that made the change, or, for a tab that was hidden, when the tab is shown.
+   /// It's raised on the UI thread once the change has committed, or, for a tab that was hidden, when the tab is shown.
    /// </summary>
    public event Action? PageOutdated;
 
@@ -234,7 +240,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
    public void Close() => _workspace.CloseTab(this);
 
    /// <summary>Unsubscribes from the notifications that tell the tab its page is outdated. Called when the tab is closed.</summary>
-   public void Dispose() => _subscriptions.ForEach(it => it.Dispose());
+   public void Dispose() => _observedTevents.Dispose();
 
    internal bool IsShowing(JPNote note) => note.GetId().Equals(ShownNoteId);
 

@@ -9,17 +9,6 @@ public class JapaneseConfig
 {
    readonly ConfigurationStore _store;
    readonly IIndependentTeventPublisher _tevents;
-   readonly SimpleObservable<JapaneseConfig> _changed = new();
-
-   /// <summary>
-   /// Notifies this config every time one of its values or its readings mappings change, after the change is written to its file.<br/>
-   /// It's notified on the thread that made the change. Each change is published as an <see cref="IConfigurationChanged"/> too.
-   /// </summary>
-   /// <remarks>
-   /// todo: goes once its subscribers observe <see cref="IConfigurationChanged"/> instead, which waits for Compze's subscriptions for as long as an<br/>
-   /// object lives (Magnus, 2026-11-17: "I see very little reason not to standardize on tessaging once we are using it").
-   /// </remarks>
-   public IObservable<JapaneseConfig> Changed => _changed;
 
    // Configuration value properties
    public ConfigurationValue<double> BoostFailedCardAllowedTimeByFactor { get; }
@@ -189,7 +178,7 @@ public class JapaneseConfig
    }
 
    /// <summary>
-   /// Saves the readings mappings, which the default kanji mnemonics are made with, and announces the change (<see cref="Changed"/>),<br/>
+   /// Saves the readings mappings, which the default kanji mnemonics are made with, and announces the change (<see cref="IConfigurationChanged"/>),<br/>
    /// so that pages showing default mnemonics are reloaded with the new mappings.
    /// </summary>
    public void SaveMappings(string mappings)
@@ -199,11 +188,8 @@ public class JapaneseConfig
       AnnounceTheChange();
    }
 
-   void AnnounceTheChange()
-   {
-      _changed.OnNext(this);
-      _tevents.Publish(new ConfigurationChanged());
-   }
+   /// <summary>Publishes that a value or the readings mappings changed, once the change is written to its file (<see cref="IConfigurationChanged"/>).</summary>
+   void AnnounceTheChange() => _tevents.Publish(new ConfigurationChanged());
 
    public string ReadReadingsMappingsFile() => _store.ReadReadingsMappingsFile();
 }

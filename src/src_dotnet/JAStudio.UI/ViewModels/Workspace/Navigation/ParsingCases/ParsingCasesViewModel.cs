@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
@@ -14,6 +13,8 @@ using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.ParsingCases;
 using JAStudio.UI.Views.Workspace.Navigation.ParsingCases;
+using JAStudio.Core.Note.Sentences.Tevents;
+using JAStudio.Core.Note.Tevents;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation.ParsingCases;
 
@@ -132,21 +133,25 @@ partial class ParsingCasesViewModel : ObservableObject
       new(label, letsThrough, whenSwitched: () => _fatalErrorHandler.HandleExceptionsFrom(ListTheCasesTheFiltersLetThrough));
 
    /// <summary>
-   /// Keeps the rows showing their cases as they are now: when a sentence is updated, on whatever thread, its case is compared again on the UI<br/>
-   /// thread; when one is deleted, its row goes; and after the collection is reloaded, which replaces every note object, every case is compared again.
+   /// Keeps the rows showing their cases as they are now, on the UI thread: when a unit of work changed a sentence, its case is compared again;<br/>
+   /// when one is deleted, its row goes; and after the collection is reloaded, which replaces every note object, every case is compared again.
    /// </summary>
-   void FollowTheChangesToTheSentencesIn(TemporaryServiceCollection services)
+   void FollowTheChangesToTheSentencesIn(TemporaryServiceCollection services) =>
+      _ = new TeventsObservedOnTheUIThread(services, observe => observe
+                                                               .ForEachUnitOfWork<ISentenceTevent>(ShowTheChangesOfAUnitOfWork)
+                                                               .ForTevent<ICollectionReloaded>(_ =>
+                                                                {
+                                                                   if(_hasComparedTheCases) CompareTheCasesAsTheyParseNow();
+                                                                }));
+
+   /// <summary>After a unit of work changed or deleted the sentences that published <paramref name="changes"/>: shows each change (<see cref="ShowTheChangeTo"/>).</summary>
+   void ShowTheChangesOfAUnitOfWork(IReadOnlyList<ISentenceTevent> changes)
    {
-      var uiThread = services.Resolve<IUIThreadDispatcher>();
-      _collection.NoteUpdated.Subscribe(updated =>
-      {
-         if(updated is SentenceNote sentence) uiThread.PostToUIThread(() => ShowTheChangeTo(sentence));
-      });
-      _collection.NoteDeleted.Subscribe(deleted => uiThread.PostToUIThread(() => StopListing(deleted.GetId())));
-      _collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(() =>
-      {
-         if(_hasComparedTheCases) CompareTheCasesAsTheyParseNow();
-      }));
+      foreach(var changed in changes.Select(it => it.NoteId).Distinct())
+         if(_collection.Sentences.WithIdOrNone(changed) is {} sentence)
+            ShowTheChangeTo(sentence);
+         else
+            StopListing(changed);
    }
 
    /// <summary>Shows <paramref name="compared"/>, every parsing case of the corpus, just compared, and lists those the filters let through.</summary>

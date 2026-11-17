@@ -22,6 +22,6 @@ record NoteList(string Title, IReadOnlyList<JPNote> Notes)
    public static NoteList OfTheVocabDependingOn(ISharedCondition sharedCondition, VocabCollection vocab) =>
       new($"Vocab depending on {sharedCondition.FullName}", [.. vocab.WhoseMatchConditionsDependOnTheDefinitionOf(sharedCondition)]);
 
-   /// <summary>The same list without <paramref name="deleted"/>.</summary>
-   public NoteList Without(JPNote deleted) => this with { Notes = [.. Notes.Where(it => !it.GetId().Equals(deleted.GetId()))] };
+   /// <summary>The same list without the note <paramref name="deleted"/>.</summary>
+   public NoteList Without(NoteId deleted) => this with { Notes = [.. Notes.Where(it => !it.GetId().Equals(deleted))] };
 }

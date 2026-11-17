@@ -33,6 +33,9 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
    readonly ITaggregateReference<VocabNote> _vocabReference;
    VocabNote _vocab => _vocabReference.Current;
    readonly VocabEditorSectionViewModel _editor;
+
+   /// <summary>The vocab's editor section, once it has caught up (<see cref="SpecificationUsingAWorkspace.OnceCaughtUp{TViewModel}"/>).</summary>
+   VocabEditorSectionViewModel TheEditor => OnceCaughtUp(_editor);
    readonly MatchConditionWindowViewModel _window;
    readonly List<string> _vocabWhoseSentencesWereReparsed = [];
    ConditionTextsEditorViewModel? _editorOpenedByTheMenu;
@@ -46,7 +49,7 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
 
    ConditionTreeEditorViewModel Tree => _window.MatchConditionEditor;
 
-   List<string> TheMatchingTabsCode() => [.. _editor.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)];
+   List<string> TheMatchingTabsCode() => [.. TheEditor.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)];
 
    List<string> Lines() => [..Tree.Lines[0].ThisAndAllBelow().Select(it => it.Text)];
 
@@ -80,7 +83,7 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
 
    /// <summary>Waits for the reparse after a change, the window's after a change in the tree, or the Matching tab's after one on the tab.</summary>
    void WaitForTheReparseToFinish() =>
-      SpinWait.SpinUntil(() => !_window.SentencesReparser.IsReparsingSentences && !_editor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+      SpinWait.SpinUntil(() => !_window.SentencesReparser.IsReparsingSentences && !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    public class for_a_vocab_with_no_match_condition : When_editing_a_vocabs_match_condition_in_its_window
    {

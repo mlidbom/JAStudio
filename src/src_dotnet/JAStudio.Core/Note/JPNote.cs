@@ -115,12 +115,12 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
 
    /// <summary>
    /// Marks every card type the note has a status for as active, that is unsuspended, or as suspended, after the spaced repetition system was told to do the same,<br/>
-   /// and notifies the change through <see cref="JPCollection.StudyNoteChanged"/>, since the status isn't stored with the note and no flush reports it.
+   /// and publishes the change (<see cref="JPCollection.PublishThatTheStudyNoteChangedFor"/>), since the status isn't stored with the note and no tevent of the note's tells of it.
    /// </summary>
    void SetTheStatusOfEveryKnownCard(bool isActive)
    {
       Services.WhatTheSRSHoldsOfTheStudyNotes.SetTheStatusOfEveryKnownCard(Id, isActive);
-      Services.Collection.NotifyThatTheStudyNoteChangedFor(this);
+      Services.Collection.PublishThatTheStudyNoteChangedFor(this);
    }
 
    public bool HasSuspendedCards() => Services.WhatTheSRSHoldsOfTheStudyNotes.HasSuspendedCards(Id);

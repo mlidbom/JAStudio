@@ -55,7 +55,11 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `5e9f293e4`, where deletion is a tevent: a taggregate that publishes an
+  JAStudio's worktree of Compze is at `3ff814272`, with observers created at runtime (`ITeventObservation`), each unit
+  of work's tevents observed together (`ForEachUnitOfWork`), what may be observed at runtime declared at composition
+  (`AtRuntime`), and Compze's JSON store (`StoredInFiles`), which JAStudio doesn't use yet. Its store reuses a taggregate
+  that a snapshot from the storage carries, so the specifications' in-memory storage keeps only the snapshot. Before it,
+  `8695d4608`, with the first two. Before it, `5e9f293e4`, where deletion is a tevent: a taggregate that publishes an
   `ITaggregateDeletedTevent` is gone from its unit of work at once, and from the store when it commits, and the updater's
   `Delete` is gone (Magnus, item 42). Before it, `3df5ee7f8`, where the engine's await is `AwaitNoTessagesInFlightAsync`
   (Magnus, item 43). Before it, `53d24b46c`, where an index keeps no record of each taggregate's keys (step 12, below).
@@ -345,22 +349,38 @@ to anything that happens".
   2. **Done, then taken out: one summary tevent per note per unit of work,** `INoteChangedInAUnitOfWork` (`60284d57e`).
      Magnus approved Compze's own instead: `observe.ForEachUnitOfWork<INoteTevent>(tevents => ...)`, called once for each
      committed unit of work that published any matching tevents, in publish order (`jastudio-rep-opus`, 2026-11-17). What
-     follows changes to notes is built on it, once it lands.
+     follows changes to notes is built on it.
   3. **Done. What isn't a note's tevent, published on its own** through `IIndependentTeventPublisher` (`b2e012aa9`):
      `ICollectionReloaded`, with the notes a reload added, changed and removed; `IStudyNoteChanged { NoteId }`, when what
      Anki holds of a note's study-note changes; and `IConfigurationChanged`, which replaces `Config.Changed`. The
      independent publisher refuses to run inside a unit of work, which found the search results suspending cards in an
      edit of each note (`c18ec301f`).
 - **Specifications see the tevents** as the test harness's observer records them (`TeventsObserved`, `d8eddcfee`).
-- **The observing side waits for Compze:** observers are declared only at composition, and the view models that follow
-  changes come and go with the UI. Magnus approved observing at runtime, observation only: an `ObserveTevents` that
-  takes the same registrar as composition and returns an `IDisposable`, whose disposal doesn't wait for a running call
-  (`jastudio-rep-opus`, 2026-11-17, names placeholders). A hub of JAStudio's own would re-implement Compze's routing by
-  tevent type, so there is none. Until then the observables stay, each with a todo. The view models that will observe:
-  a note's tab and its page, the search results' rows, the parsing cases. Those that must run on the UI thread observe
-  through an extension that delivers there (Magnus's idea), over `IUIThreadDispatcher`.
-- **Compze's JSON store is to take over `CorpusNoteFiles`** (Magnus's approval, through `jastudio-rep-opus`): when it
-  lands, JAStudio switches to it and measures its start against `snapshot.bin`.
+- **Done. The observing side:** what follows changes observes the tevents, and `JPCollection`'s `NoteUpdated`,
+  `NoteDeleted`, `StudyNoteChanged` and `ReloadedFromBackend`, and `JapaneseConfig.Changed`, are gone.
+  - **At runtime,** through Compze's `ITeventObservation.ObserveTevents`, which Magnus approved, observation only: a
+    note's tab, the search results, the parsing cases, the note list, the workspace showing its saved state once the
+    notes have loaded, an editor window closing at a reload, a card page in Anki (`ChangesThatOutdateNotePages`), and the
+    live MCP server starting once the collection has loaded. What may be observed at runtime is declared at composition
+    (`DeclareWhatIsObservedAtRuntime`): `INoteTevent`, `ICollectionReloaded`, `IStudyNoteChanged` and
+    `IConfigurationChanged`.
+  - **The view models observe on the UI thread** through `TeventsObservedOnTheUIThread` (Magnus's idea), over
+    `IUIThreadDispatcher`: each call is posted there, and none runs once it is disposed, since Compze's disposal doesn't
+    wait for a call already taken. A note's changes come as each unit of work's `INoteTevent`s, which also tell of its
+    deletions (`INoteTevent.Deleted`).
+  - **At composition:** the log of the notes saved (`SavedNotesLog`), which `NoteUnitOfWork` no longer tracks the notes
+    for, and Anki's windows drawing again after a load, which Anki's environment declares.
+  - **`Settings` reads the configuration as it is,** rather than caching it until a change is announced: the cache only
+    saved a property read, and an observer of the change, off-thread, would leave it stale while a page is made anew.
+  - **The specifications** read the workspace and the view models they hold once every tevent published has been
+    observed (`SpecificationUsingAWorkspace.OnceCaughtUp`), and the specifications' `NoUIThreadDispatcher` runs what is
+    posted one at a time, as a UI thread does, since observers post from threads of their own.
+  - **What changed in what the user sees:** a view now follows a change once it has committed and been observed, a moment
+    later, rather than on the thread that made it. A reload whose change to the corpus checkout fails publishes no
+    `ICollectionReloaded`, where `ReloadedFromBackend` was raised anyway; so the live MCP server no longer starts after a
+    first load that fails.
+- **Compze's JSON store is to take over `CorpusNoteFiles`** (Magnus's approval, through `jastudio-rep-opus`): it has
+  landed (`679775f97`, `3ff814272`), and JAStudio switches to it next and measures its start against `snapshot.bin`.
 - **Specifications wait** with `ILocalTessagingEngine.AwaitNoTessagesInFlightAsync`, so named on Magnus's word (Compze's
   `3df5ee7f8`).
 

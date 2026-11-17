@@ -19,6 +19,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.KanjiRelationships;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.RelatedVocab;
@@ -117,7 +118,7 @@ public static class AppBootstrapper
          Singleton.For<SentenceKanjiListViewModel>().CreatedBy((KanjiCollection kanji) => new SentenceKanjiListViewModel(kanji)),
 
          // Note renderers
-         Singleton.For<ChangesThatOutdateNotePages>().CreatedBy((JPCollection collection, JapaneseConfig config) => new ChangesThatOutdateNotePages(collection, config)),
+         Singleton.For<ChangesThatOutdateNotePages>().CreatedBy((ITeventObservation observation) => new ChangesThatOutdateNotePages(observation)),
          Singleton.For<VocabNoteRenderer>().CreatedBy(() => new VocabNoteRenderer()),
          Singleton.For<SentenceNoteRenderer>().CreatedBy(() => new SentenceNoteRenderer()),
          Singleton.For<KanjiNoteRenderer>().CreatedBy(() => new KanjiNoteRenderer())
@@ -154,17 +155,30 @@ public static class AppBootstrapper
 
    /// <summary>
    /// Composes the engine that dispatches the tevents: to the participation handlers through which a change to one note reaches others<br/>
-   /// (<see cref="DeclareWhatReachesOtherNotes"/>), and to the observers <paramref name="environment"/> declares.
+   /// (<see cref="DeclareWhatReachesOtherNotes"/>), to the log of the notes saved (<see cref="SavedNotesLog"/>), to the observers<br/>
+   /// <paramref name="environment"/> declares, and to those created while the application runs (<see cref="DeclareWhatIsObservedAtRuntime"/>).
    /// </summary>
    static void ComposeTheTessagingEngine(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment) =>
       registrar.LocalTessagingEngine(engine => engine.RegisterTessageBusHandlers(DeclareWhatReachesOtherNotes)
-                                                     .ObserveTevents(environment.ObserveTevents));
+                                                     .ObserveTevents(SavedNotesLog.LogTheNotesEachUnitOfWorkSaved)
+                                                     .ObserveTevents(environment.ObserveTevents)
+                                                     .ObserveTevents(DeclareWhatIsObservedAtRuntime));
+
+   /// <summary>
+   /// Declares the tevents that what follows changes while the application runs observes, through <see cref="ITeventObservation"/>, such as the<br/>
+   /// workspace's view models and the card pages: every change to a note, the reload of the collection, a change to what Anki holds of a<br/>
+   /// note's study-note, and a change to the configuration. Compze lets a runtime observer observe only what is declared here.
+   /// </summary>
+   static void DeclareWhatIsObservedAtRuntime(TeventObservationRegistrar observe) =>
+      observe.AtRuntime<INoteTevent>()
+             .AtRuntime<ICollectionReloaded>()
+             .AtRuntime<IStudyNoteChanged>()
+             .AtRuntime<IConfigurationChanged>();
 
    /// <summary>
    /// Declares the participation handlers through which a change to one note reaches other notes. Compze runs each inside the unit of work that<br/>
    /// made the change, synchronously, as the note that changed ends publishing the tevent the handler handles: what a handler changes is committed,<br/>
-   /// or rolled back, with the change. A handler gets the notes it changes through the unit of work running (<see cref="NoteUnitOfWork"/>), so<br/>
-   /// that they are notified once it has committed.
+   /// or rolled back, with the change. A handler gets the notes it changes through the unit of work running (<see cref="NoteUnitOfWork"/>).
    /// </summary>
    static void DeclareWhatReachesOtherNotes(TessageBusHandlerRegistrar handle)
    {

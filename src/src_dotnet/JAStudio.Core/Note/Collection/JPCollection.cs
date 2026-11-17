@@ -31,87 +31,30 @@ public class JPCollection
 
    public bool IsInitialized { get; private set; }
 
-   readonly SimpleObservable<JPCollection> _reloadedFromBackend = new();
-
-   /// <summary>
-   /// Notifies this collection every time it has loaded again (<see cref="ReloadFromBackend"/>): at startup, and when asked to.<br/>
-   /// The reload replaces every note that changed on disk, so anything holding on to a note, not its reference, must look it up again.
-   /// </summary>
-   /// <remarks>
-   /// todo: goes once its subscribers observe <see cref="ICollectionReloaded"/> instead, which waits for Compze's subscriptions for as long as an object lives<br/>
-   /// (Magnus, 2026-11-17).
-   /// </remarks>
-   public IObservable<JPCollection> ReloadedFromBackend => _reloadedFromBackend;
-
-   readonly SimpleObservable<JPNote> _noteUpdated = new();
-
-   /// <summary>
-   /// Notifies every note in the collection that is updated, whatever its type, as committed, once the unit of work that changed it has committed,<br/>
-   /// on the thread that changed it: a note added, a note an edit changed, and a note whose file a reload found changed on disk.
-   /// </summary>
-   /// <remarks>
-   /// todo:compze: goes once its subscribers observe instead each unit of work's <see cref="Tevents.INoteTevent"/>s, as Compze's coming batches of a<br/>
-   /// unit of work's tevents deliver them, and <see cref="ICollectionReloaded"/>, for as long as each subscriber lives (Magnus, 2026-11-17).
-   /// </remarks>
-   public IObservable<JPNote> NoteUpdated => _noteUpdated;
-
-   readonly SimpleObservable<JPNote> _noteDeleted = new();
-
-   /// <summary>Notifies every note <see cref="Delete"/> deleted, on the thread that deleted it, after it and its media are gone.</summary>
-   /// <remarks>
-   /// todo: goes once its subscribers observe <see cref="Tevents.INoteTevent.Deleted"/> instead, which waits for Compze's subscriptions for as long as an object lives<br/>
-   /// (Magnus, 2026-11-17).
-   /// </remarks>
-   public IObservable<JPNote> NoteDeleted => _noteDeleted;
-
    readonly NoteUnitsOfWork _unitsOfWork;
 
    /// <summary>
    /// Runs <paramref name="work"/> in a unit of work in which notes are changed: the one running on this thread, or else a new one, which commits<br/>
-   /// once it is done, and then notifies each note it changed (<see cref="NoteUpdated"/>). Every change to a note runs in one, as<br/>
-   /// <c>note.Edit(it => ...)</c> does (<see cref="EditingANote"/>).
+   /// once it is done. Every change to a note runs in one, as <c>note.Edit(it => ...)</c> does (<see cref="EditingANote"/>). What follows changes<br/>
+   /// to notes observes the tevents the notes published in it, each unit of work's together, once it has committed<br/>
+   /// (<see cref="ITeventObservation"/>).
    /// </summary>
    public void InAUnitOfWork(Action<NoteUnitOfWork> work) => _unitsOfWork.Run(work);
-
-   /// <summary>
-   /// Notifies <paramref name="note"/>, which a unit of work saved, through <see cref="NoteUpdated"/>, and logs it when the options say to log
-   /// flushing notes (<see cref="Configuration.Settings.LogWhenFlushingNotes"/>).
-   /// </summary>
-   void NotifyThatAUnitOfWorkSaved(JPNote note)
-   {
-      if(NoteServices.Settings.LogWhenFlushingNotes()) this.Log().Info($"Saved the {note.GetType().Name} {note.GetQuestion()}");
-      _noteUpdated.OnNext(note);
-   }
 
    /// <summary>The unit of work running on this thread (<see cref="InAUnitOfWork"/>). Fails when none is.</summary>
    internal NoteUnitOfWork TheRunningUnitOfWork => _unitsOfWork.Running;
 
-   readonly SimpleObservable<JPNote> _studyNoteChanged = new();
-
    /// <summary>
-   /// Notifies every note whose study-note in Anki changed, on the thread that changed it: its studying status, when JAStudio suspended or unsuspended<br/>
-   /// its cards, and whatever reading the study-notes from Anki again finds changed (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>), as a sync does:<br/>
-   /// the studying status of a card, its <see cref="JPNote.AnkiTags"/>, or its study-note itself, created or deleted.
+   /// Publishes that what the collection holds of <paramref name="note"/>'s study-note in the spaced repetition system changed<br/>
+   /// (<see cref="IStudyNoteChanged"/>): its studying status, when JAStudio suspended or unsuspended its cards, or whatever reading the study-notes<br/>
+   /// again finds changed (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>), as a sync does: the studying status of a card, its<br/>
+   /// <see cref="JPNote.AnkiTags"/>, or its study-note itself, created or deleted.
    /// </summary>
    /// <remarks>
-   /// Both are held in memory, not stored with the note, so changing them updates no note, and <see cref="NoteUpdated"/> doesn't notify them.<br/>
-   /// A reload sets every note's without notifying them here: <see cref="ReloadedFromBackend"/> notifies the reload.
+   /// None of it is stored with the note, so no unit of work changes the note for it. A reload sets every note's without publishing it for each:<br/>
+   /// <see cref="ICollectionReloaded"/> tells of the reload.
    /// </remarks>
-   /// <remarks>
-   /// todo: goes once its subscribers observe <see cref="IStudyNoteChanged"/> instead, which waits for Compze's subscriptions for as long as an object lives<br/>
-   /// (Magnus, 2026-11-17).
-   /// </remarks>
-   public IObservable<JPNote> StudyNoteChanged => _studyNoteChanged;
-
-   /// <summary>
-   /// Called after <paramref name="note"/>'s studying status or Anki tags changed, so that <see cref="StudyNoteChanged"/> notifies it, and an<br/>
-   /// <see cref="IStudyNoteChanged"/> is published.
-   /// </summary>
-   internal void NotifyThatTheStudyNoteChangedFor(JPNote note)
-   {
-      _studyNoteChanged.OnNext(note);
-      _tevents.Value.Publish(new Studying.StudyNotes.StudyNoteChanged(note.GetId()));
-   }
+   internal void PublishThatTheStudyNoteChangedFor(JPNote note) => _tevents.Value.Publish(new Studying.StudyNotes.StudyNoteChanged(note.GetId()));
 
    /// <summary>
    /// Renames every word-reference that names <paramref name="oldName"/> exactly to <paramref name="newName"/>, after the vocab that had the one name got the<br/>
@@ -173,8 +116,8 @@ public class JPCollection
 
    /// <summary>
    /// Reads from the SRS, the spaced repetition system, again what this collection holds of each note's study-note, as the load does, without<br/>
-   /// loading the corpus again: its id, the studying statuses of its cards and its tags (<see cref="ISRSStudyNotes.ReadAll"/>). Each note whose study-note<br/>
-   /// differs from before is notified through <see cref="StudyNoteChanged"/>. For when the study-notes may differ from what this collection holds<br/>
+   /// loading the corpus again: its id, the studying statuses of its cards and its tags (<see cref="ISRSStudyNotes.ReadAll"/>). For each note whose study-note<br/>
+   /// differs from before, an <see cref="IStudyNoteChanged"/> is published. For when the study-notes may differ from what this collection holds<br/>
    /// of them: after JAStudio changed Anki's tags (<see cref="AnkiTagChanges"/>), and when another Anki profile opened. A sync reads them so too<br/>
    /// (<see cref="ReadTheStudyNotesFromTheSRSAgainAndCompareThem"/>). It shows no progress.
    /// </summary>
@@ -191,13 +134,13 @@ public class JPCollection
       return (read, new StudyNoteComparison(this, read.StudyNotes));
    });
 
-   /// <summary>Reads the study-notes again, gives each note its study-note from them, and notifies each note whose study-note differs from before or is gone.</summary>
+   /// <summary>Reads the study-notes again, gives each note its study-note from them, and publishes the change for each note whose study-note differs from before or is gone.</summary>
    StudyNotesReadFromTheSRS ReadTheStudyNotesAgain()
    {
       var studyNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
       var read = GiveEachNoteItsStudyNoteFrom(_studyNotesInTheSRS.ReadAll(), studyNoteIdsHeldWhenTheReadBegan);
       foreach(var note in read.NotesWhoseStudyNoteIsGone.Concat(read.NotesWhoseStudyNoteChanged))
-         NotifyThatTheStudyNoteChangedFor(note);
+         PublishThatTheStudyNoteChangedFor(note);
       return read;
    }
 
@@ -221,7 +164,7 @@ public class JPCollection
       _mediaFileIndex = mediaFileIndex;
       _mediaStorage = mediaStorage;
       _studyNotesInTheSRS = studyNotesInTheSRS;
-      _unitsOfWork = new NoteUnitsOfWork(resolver, NotifyThatAUnitOfWorkSaved);
+      _unitsOfWork = new NoteUnitsOfWork(resolver);
       DictLookup = new DictLookup(this);
       VocabNoteGeneratedData = new VocabNoteGeneratedData();
       VocabNoteFactory = new VocabNoteFactory(DictLookup, this, noteServices);
@@ -263,7 +206,6 @@ public class JPCollection
       {
          if(itsStudyNote == ItsStudyNote.IsDeleted) _studyNotesInTheSRS.DeleteTheStudyNoteOf(theNoteAsItIs.GetId());
          DeleteTheMediaFilesNoNoteUses(theNoteAsItIs.MediaReferences.Select(it => it.FileName));
-         _noteDeleted.OnNext(theNoteAsItIs);
       });
    });
 
@@ -317,10 +259,9 @@ public class JPCollection
    /// When the change fails, the notes are left as they were, and the study-notes are read again.
    /// </summary>
    /// <returns>
-   /// The notes whose files changed on disk while this collection held them: each one's data now differs from the same note's as held before. Each<br/>
-   /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as the workspace's pages. Notes this<br/>
-   /// collection didn't hold before aren't among them: none at startup. The reload is published too, with the notes it added, changed and removed<br/>
-   /// (<see cref="ICollectionReloaded"/>), unless the change fails.
+   /// The notes whose files changed on disk while this collection held them: each one's data now differs from the same note's as held before.<br/>
+   /// Notes this collection didn't hold before aren't among them: none at startup. The reload is published, with the notes it added, changed and<br/>
+   /// removed (<see cref="ICollectionReloaded"/>), so that what follows changes catches up, such as the workspace's pages, unless the change fails.
    /// </returns>
    public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {
@@ -328,7 +269,6 @@ public class JPCollection
       var reloaded = LoadFromBackendAfter(changeToTheCorpusCheckout);
 
       List<JPNote> notesChangedOnDisk = [.. reloaded.Changed.Select(it => NoteFromNoteId((NoteId)it)).OfType<JPNote>()];
-      notesChangedOnDisk.ForEach(_noteUpdated.OnNext);
       _tevents.Value.Publish(new CollectionReloaded(NoteIds(reloaded.Added), NoteIds(reloaded.Changed), NoteIds(reloaded.Removed)));
       return notesChangedOnDisk;
 
@@ -364,7 +304,6 @@ public class JPCollection
          runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(studyNotesRead.Result, studyNoteIdsHeldWhenTheReadBegan));
 
          IsInitialized = true;
-         _reloadedFromBackend.OnNext(this);
       }
    }
 

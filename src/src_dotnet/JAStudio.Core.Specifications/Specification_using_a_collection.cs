@@ -44,7 +44,11 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
       return GetService<TeventsObserved>().SoFar();
    }
 
-   void WaitUntilEveryTeventPublishedHasBeenObserved() => GetService<ILocalTessagingEngine>().AwaitNoTessagesInFlightAsync().WaitUnwrappingException();
+   /// <summary>
+   /// Waits until every tevent published so far has been observed: what the application does once a change has committed, such as a view model<br/>
+   /// showing it, has then been done.
+   /// </summary>
+   protected void WaitUntilEveryTeventPublishedHasBeenObserved() => GetService<ILocalTessagingEngine>().AwaitNoTessagesInFlightAsync().WaitUnwrappingException();
 
    protected VocabNote CreateVocab(string question, string answer, params string[] readings) =>
       VocabNote.Create(NoteServices, question, answer, readings);

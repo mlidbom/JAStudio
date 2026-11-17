@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using JAStudio.Core.UI.Web;
 using Microsoft.AspNetCore.Components;
 
@@ -18,7 +19,7 @@ public partial class CardLayout : IDisposable
    [Inject] public NavigationManager Navigation { get; set; } = null!;
    [Inject] public ChangesThatOutdateNotePages ChangesThatOutdateNotePages { get; set; } = null!;
 
-   IDisposable? _subscriptionToTheChangesThatOutdateThePage;
+   IDisposable? _observationOfTheChangesThatOutdateThePage;
 
    /// <summary>Starts following the changes once the page is shown in the browser: <see cref="OnAfterRender"/> isn't called while the server only prerenders the page.</summary>
    protected override void OnAfterRender(bool firstRender)
@@ -27,16 +28,19 @@ public partial class CardLayout : IDisposable
 
       var page = new Uri(Navigation.Uri);
       if(CardServerUrl.IsACardsPageInAnki(page) && CardServerUrl.NoteIdOfPage(page) is {} shownNote)
-         _subscriptionToTheChangesThatOutdateThePage = ChangesThatOutdateNotePages.Subscribe(shownNote, ReloadThePage);
+         _observationOfTheChangesThatOutdateThePage = ChangesThatOutdateNotePages.Observe(shownNote, ReloadThePage);
    }
 
-   /// <summary>Has the browser load the page again. Called on the thread that made the change, so the reload is handed to the page's own thread.</summary>
+   /// <summary>Has the browser load the page again. Called on a thread of the tevents' observation, so the reload is handed to the page's own thread.</summary>
    void ReloadThePage()
    {
-      // One reload shows every change made until the page has loaded again, and the page loaded then follows the changes after it.
-      _subscriptionToTheChangesThatOutdateThePage?.Dispose();
+      // One reload shows every change made until the page has loaded again, and the page loaded then follows the changes after it. Taking the
+      // observation away first keeps a change observed just as it ends from reloading the page a second time.
+      if(Interlocked.Exchange(ref _observationOfTheChangesThatOutdateThePage, null) is not {} observation) return;
+
+      observation.Dispose();
       _ = InvokeAsync(() => Navigation.Refresh(forceReload: true));
    }
 
-   public void Dispose() => _subscriptionToTheChangesThatOutdateThePage?.Dispose();
+   public void Dispose() => _observationOfTheChangesThatOutdateThePage?.Dispose();
 }

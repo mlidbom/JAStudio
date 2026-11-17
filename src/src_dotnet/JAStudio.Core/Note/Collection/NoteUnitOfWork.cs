@@ -8,18 +8,13 @@ namespace JAStudio.Core.Note.Collection;
 /// <summary>
 /// A unit of work in which JAStudio changes notes, as the code that changes them sees it: the state store's unit of work, through which it gets<br/>
 /// the notes it edits or deletes and adds new notes, and what is to be done once it has committed, such as deleting a deleted note's media<br/>
-/// files. It commits or rolls back as a whole. <see cref="NoteUnitsOfWork"/> runs it, and once it has committed, each note it changed is<br/>
-/// notified through <see cref="JPCollection.NoteUpdated"/>.
+/// files. It commits or rolls back as a whole. <see cref="NoteUnitsOfWork"/> runs it. Once it has committed, the tevents the notes published<br/>
+/// in it are observed, each unit of work's together (<see cref="Compze.Tessaging.TessageBus.ITeventObservation"/>).
 /// </summary>
 /// <remarks>review-naming: NoteUnitOfWork, after Compze's TaggregateUnitOfWork, is a name taggregates-opus chose (2026-11-16).</remarks>
 public sealed class NoteUnitOfWork
 {
    readonly ITaggregateStoreUpdater _store;
-
-   /// <summary>The notes this unit of work may change, in the order it first got them: the copies it got for update, and the new notes it added.</summary>
-   readonly List<JPNote> _notesItMayChange = [];
-
-   readonly HashSet<JPNote> _notesItMayChangeAsInstances = new(ReferenceEqualityComparer.Instance);
    readonly List<Action> _whatToDoOnceCommitted = [];
 
    internal NoteUnitOfWork(ITaggregateStoreUpdater store) => _store = store;
@@ -28,12 +23,7 @@ public sealed class NoteUnitOfWork
    /// This unit of work's copy of <paramref name="note"/>, which it may change, and which every read of the note inside it gets from then on. A note<br/>
    /// being created, not yet added to the collection, has no copy: it is the note itself.
    /// </summary>
-   public TNote ForUpdate<TNote>(TNote note) where TNote : JPNote
-   {
-      if(!_store.TryGetForUpdate<TNote>(note.Id, out var copy)) return note;
-      MayChange(copy);
-      return copy;
-   }
+   public TNote ForUpdate<TNote>(TNote note) where TNote : JPNote => _store.TryGetForUpdate<TNote>(note.Id, out var copy) ? copy : note;
 
    /// <summary>
    /// The note that published <paramref name="tevent"/>, as this unit of work holds it: what a participation handler of the tevent changes other notes<br/>
@@ -42,30 +32,11 @@ public sealed class NoteUnitOfWork
    public TNote NoteThatPublished<TNote>(INoteTevent tevent) where TNote : JPNote => _store.Get<TNote>(tevent.TaggregateId);
 
    /// <summary>Adds <paramref name="note"/>, a note just created, to the collection when this unit of work commits.</summary>
-   public void Add(JPNote note)
-   {
-      _store.Save(note);
-      MayChange(note);
-   }
+   public void Add(JPNote note) => _store.Save(note);
 
-   /// <summary>Has <paramref name="action"/> done once this unit of work has committed, after its changed notes are notified, and never if it rolls back.</summary>
+   /// <summary>Has <paramref name="action"/> done once this unit of work has committed, on the thread that ran it, and never if it rolls back.</summary>
    public void OnceCommitted(Action action) => _whatToDoOnceCommitted.Add(action);
 
-   /// <summary>
-   /// Notifies each note this unit of work changed, as committed now, through <paramref name="notifyThatTheNoteWasUpdated"/>, then does what was to<br/>
-   /// be done once it committed. A copy that published no change was not committed, and isn't notified.
-   /// </summary>
-   internal void Committed(ITaggregateStoreReader notes, Action<JPNote> notifyThatTheNoteWasUpdated)
-   {
-      foreach(var note in _notesItMayChange)
-         if(notes.TryGet<JPNote>(note.Id, out var committed) && ReferenceEquals(committed, note))
-            notifyThatTheNoteWasUpdated(committed);
-
-      _whatToDoOnceCommitted.ForEach(it => it());
-   }
-
-   void MayChange(JPNote note)
-   {
-      if(_notesItMayChangeAsInstances.Add(note)) _notesItMayChange.Add(note);
-   }
+   /// <summary>Does what was to be done once this unit of work committed (<see cref="OnceCommitted"/>).</summary>
+   internal void Committed() => _whatToDoOnceCommitted.ForEach(it => it());
 }

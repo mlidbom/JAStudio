@@ -14,7 +14,8 @@ namespace JAStudio.UI.Specifications;
 /// </summary>
 /// <remarks>
 /// There's no window and no web view: the specifications drive the view models, as the views do.<br/>
-/// The UI thread dispatcher runs what's posted to it at once, so a refresh the app would post runs inside the change that caused it.
+/// The view models follow a change once its tevents are observed, after it has committed, on a thread of the observation's: the UI thread<br/>
+/// dispatcher runs what's posted to it there at once. <see cref="Workspace"/> waits for that, as a person looks at the workspace once it has caught up.
 /// </remarks>
 public abstract class SpecificationUsingAWorkspace : SpecificationStartingWithAnEmptyCollection
 {
@@ -24,10 +25,20 @@ public abstract class SpecificationUsingAWorkspace : SpecificationStartingWithAn
    protected SpecificationUsingAWorkspace()
    {
       CardServerUrl.BaseUrl = AddressOfACardServerThatIsNotRunning;
-      Workspace = new WorkspaceViewModel(GetService<TemporaryServiceCollection>());
+      _workspace = new WorkspaceViewModel(GetService<TemporaryServiceCollection>());
    }
 
-   private protected WorkspaceViewModel Workspace { get; }
+   readonly WorkspaceViewModel _workspace;
+
+   /// <summary>The workspace, once it has caught up (<see cref="OnceCaughtUp{TViewModel}"/>).</summary>
+   private protected WorkspaceViewModel Workspace => OnceCaughtUp(_workspace);
+
+   /// <summary><paramref name="viewModel"/>, once every tevent published so far has been observed: it shows every change made so far.</summary>
+   private protected TViewModel OnceCaughtUp<TViewModel>(TViewModel viewModel)
+   {
+      WaitUntilEveryTeventPublishedHasBeenObserved();
+      return viewModel;
+   }
 
    /// <summary>
    /// Opens <paramref name="note"/> in the workspace with the editor section open, as "Edit" in its note menu does,<br/>
