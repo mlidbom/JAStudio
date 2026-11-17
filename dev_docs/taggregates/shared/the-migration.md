@@ -77,8 +77,9 @@ cache.
   the kanji and the sentences are in the store too, and each unit of work writes its notes' files as all or nothing
   (`CorpusNoteFiles`). `FileSystemNoteRepository`, which wrote the same files, is gone (`b00768751`), its specifications
   rewritten against `CorpusNoteFiles`.
-- **Step 10 has begun,** as [below](#step-10-as-it-is-built): the vocab's six text fields are plain strings with tevents
-  of their own (`f69c53948`).
+- **Step 10 is done,** as [below](#step-10-as-it-is-built): every part of the three notes publishes tevents of its
+  own, and the interim tevent, `NoteGuard` and the flush's hash are gone. Step 11, what reaches other notes as
+  participation handlers, is next.
 - **Compze's types are in JAStudio's Python stubs** since the notes derive from `Taggregate`. After each Compze step,
   `src/src_dotnet/regenerate-stubs.ps1 -OnlyTargetTypes -RefreshCompzeStubs` regenerates them: `full-build.ps1`
   regenerates JAStudio's alone.
@@ -182,11 +183,24 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
      every note shares apply. The note classes' own `PropertyUpdated` levels are declared `new`.
    - **Done (`8fc76fcca`):** a kanji's readings. `KanjiNoteReadings` is a component, with a tevent for each kind of
      reading, and each list keeps its invariants in the methods that compute its new list.
-   - **Left for the sixth increment, by the guarded sites (`grep -rn "Guard\.Update\|_guard\.Update" JAStudio.Core`):**
-     `VocabNoteForms` 4, `CachingSentenceConfigurationField` 4, `VocabNoteQuestion` 2 and
-     `VocabNoteMatchingConfiguration` 1. The specification of the interim tevent uses the forms.
-6. **The parts with real behavior:** the question and renaming, the forms, the perfect synonyms, the mutual
-   relationships, the matching configuration, the sentence's configuration. The interim tevent goes with the last.
+6. **Done (through the commit that removes the interim tevent). The parts with real behavior.** The perfect synonyms
+   and the mutual relationships were done in the fifth increment, with the sets of words and kanji.
+   - **Done (`8be0b6f5a`):** a vocab's forms and question, both components. Every change to the entered forms publishes
+     the whole new list, and adding or removing a form also says which. Setting the question's text or disambiguation
+     publishes `Question.Renamed`, with the old name; a new text, applied, drops the forms' caches, and the rename then
+     drops the new question from the entered forms, a tevent of the forms of its own.
+   - **Done (`e9f9c2256`):** a vocab's match-condition, `MatchingConfiguration.PropertyUpdated.MatchCondition`. Renaming
+     a shared-condition a vocab uses publishes `MatchingConfiguration.SharedConditionRenamed`, which sets nothing: the
+     vocab didn't change, but the corpus stores the shared-condition by its new name, so the vocab is written again. It
+     replaces `JPNote.PublishThatWhatItStoresChanged`.
+   - **Done (`b2cba9e2f`):** a sentence's configuration. `CachingSentenceConfigurationField`, which cached nothing, is
+     `SentenceNoteConfiguration`, a component: its highlighted words, a list, and its incorrect and hidden matches,
+     sets, each publish their whole new value, and only a change reparses the sentence.
+   - **Done: the interim tevent is gone,** `INoteTevent.PartWithoutTeventsChanged`, with `NoteGuard`, `JPNote.Flush`
+     and the hash of the note's stored data it compared, 16 bytes a note. A note is written when it published a tevent,
+     and each part publishes only what changed.
+   - **What reaches other notes is still a call from the domain method,** marked `wip:` for step 11: the mirrored forms,
+     the renamed word-references, the perfect synonyms' answer and the other side of the mutual relationships.
 
 ## The order
 
@@ -218,7 +232,7 @@ Each step is an increment that builds and passes JAStudio's whole suite, and is 
 8. **The edit sites get units of work,** the holders of a note get taggregate-references, and the vocab caches' nine
    indexes become `ITaggregateIndex`es.
 9. **The kanji, then the sentences,** the same way.
-10. **The remaining parts converted,** one at a time, until the interim tevent is gone.
+10. **Done. The remaining parts converted,** one at a time, until the interim tevent is gone.
 11. **What reaches other notes becomes participation handlers:** the perfect synonyms' answer, renaming
     word-references, and the other side of the mutual relationships and of `VocabNoteForms.Add` and `Remove`. What
     can't be undone, such as telling Anki to delete a study-note, moves to after the commit.

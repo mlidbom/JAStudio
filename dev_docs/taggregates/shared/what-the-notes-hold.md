@@ -52,7 +52,7 @@ a list or a value, with a `PropertyUpdated` tevent. The real behavior is in a fe
 - **`VocabNoteMatchingConfiguration`:** the match-condition is a real component, and already immutable. The flags around
   it are simple: `VocabMatchingRequireForbidFlags`, `RequireForbidFlagField`, `YieldLastTokenToOverlappingCompound`,
   `IsInflectingWord`.
-- **The sentence's configuration:** `CachingSentenceConfigurationField` wraps `SentenceConfiguration`, caches nothing, and
+- **The sentence's configuration:** `SentenceNoteConfiguration` (`CachingSentenceConfigurationField` when this was written) wraps `SentenceConfiguration`, caches nothing, and
   reparses on a change. `SentenceConfiguration` should be an immutable value. Its `HighlightedWords` is a public mutable
   list that allows duplicates, edited as a set. `WordExclusionSet` keeps real queries for the parsing hot path, but saves
   through a callback, never checking for no change.
@@ -80,7 +80,8 @@ seconds.
 - **A `CorpusAnswer` that is set to the value it has publishes nothing.** That is what stops `PerfectSynonyms` from pushing
   an answer back and forth forever: each set pushes it to every synonym, which pushes it back.
 - **`WordExclusionSet` changes its set outside the guard.** The guard wraps only the reparse that follows
-  (`Sentences/CachingSentenceConfigurationField.cs`). Its tevents must cover the change itself.
+  (`Sentences/SentenceNoteConfiguration.cs`). Its tevents must cover the
+  change itself. Done in step 10: the set changes through the action it's given, which publishes.
 
 ## Noticed along the way
 

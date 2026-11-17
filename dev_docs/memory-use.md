@@ -55,6 +55,8 @@ measurement of one sentence. They come to about 10 KB a sentence.
    - **Done (2026-11-12):** `JPNote` keeps the hash. Right after a start, the `byte[]`s went from 178 MB, 85,702 of them,
      to a few thousand: the snapshots took 2.2 KB a note then, more than the 0.9 KB the dump taken an hour into a run
      showed.
+   - **Gone (2026-11-17):** step 10 of the migration to the state store made every part of a note publish tevents of
+     its own, so nothing compares a note's stored data any more, and the hash went with `Flush`.
 3. **Share what every match repeats: about 50 MB, 0.9 KB a sentence.** `ParsedWordSerializer` and
    `SentenceDto.FromParsedMatchDto` could:
    - use the constants `ParsedMatch.SurfaceVariant` and `BaseVariant` instead of the strings read, or make the variant a
