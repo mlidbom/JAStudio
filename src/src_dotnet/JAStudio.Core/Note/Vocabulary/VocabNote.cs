@@ -22,7 +22,6 @@ namespace JAStudio.Core.Note.Vocabulary;
 public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>, ITeventRouted
 {
    static readonly TeventRouting<VocabNote> Appliers = NoteAppliers.Extend<VocabNote>(it => it
-     .For<IVocabTevent.Question.PropertyUpdated.Text>(static (vocab, tevent) => vocab.Question.Apply(tevent))
      .For<IVocabTevent.PropertyUpdated.CorpusAnswer>(static (vocab, tevent) => vocab.CorpusAnswer = tevent.CorpusAnswer)
      .For<IVocabTevent.PropertyUpdated.Explanation>(static (vocab, tevent) => vocab.Explanation = tevent.Explanation)
      .For<IVocabTevent.PropertyUpdated.ExplanationLong>(static (vocab, tevent) => vocab.ExplanationLong = tevent.ExplanationLong)
@@ -33,6 +32,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
      .For<IVocabTevent.PropertyUpdated.Audio>(static (vocab, tevent) => vocab.Audio.Apply(tevent.Audio))
      .For<IVocabTevent.PropertyUpdated.Images>(static (vocab, tevent) => vocab.Images.Apply(tevent.Images))
      .For<IVocabTevent.PropertyUpdated.PartsOfSpeech>(static (vocab, tevent) => vocab.PartsOfSpeech.Apply(tevent.PartsOfSpeech))
+     .Component(static vocab => vocab.Question)
+     .Component(static vocab => vocab.Forms)
      .Component(static vocab => vocab.CompoundParts)
      .Component(static vocab => vocab.SourceData)
      .Component(static vocab => vocab.RelatedNotes)
@@ -182,8 +183,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       References = data?.References ?? string.Empty;
       _readings = data?.Readings != null ? [..data.Readings] : [];
 
-      Question = new VocabNoteQuestion(this, data, Guard);
-      Forms = new VocabNoteForms(this, data, Guard);
+      Question = new VocabNoteQuestion(this, data);
+      Forms = new VocabNoteForms(this, data);
       PartsOfSpeech = new VocabNotePartsOfSpeech(this, data);
       CompoundParts = new VocabNoteCompoundParts(this, data);
       RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab);

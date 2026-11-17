@@ -189,7 +189,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          public when_a_vocab_is_made_its_last_primary_vocab() => _published = TheTeventsPublishedAs(it => it.PrimaryVocab.PutLast(new WordReference("走る")));
 
          [XF] public void it_publishes_its_primary_vocab() =>
-            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.PrimaryVocab primaryVocab] && primaryVocab.PrimaryVocab.SequenceEqual(new[] { new WordReference("走る") }));
+            _published.Must().Satisfy(it => it is [IKanjiTevent.PropertyUpdated.PrimaryVocab primaryVocab] && primaryVocab.PrimaryVocab.SequenceEqual([new WordReference("走る")]));
 
          [XF] public void the_committed_kanji_has_it() => _kanji.PrimaryVocab.Words.Must().SequenceEqual([new WordReference("走る")]);
 
@@ -375,7 +375,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
          [XF] public void it_publishes_its_parts_of_speech_in_alphabetical_order() =>
             _published.Must().Satisfy(it => it is [IVocabTevent.PropertyUpdated.PartsOfSpeech partsOfSpeech]
-                                          && partsOfSpeech.PartsOfSpeech.SequenceEqual(new[] { PartOfSpeech.GodanVerb, PartOfSpeech.Transitive }));
+                                          && partsOfSpeech.PartsOfSpeech.SequenceEqual([PartOfSpeech.GodanVerb, PartOfSpeech.Transitive]));
 
          [XF] public void the_committed_vocab_has_them() => _vocab.PartsOfSpeech.All().Must().SequenceEqual([PartOfSpeech.GodanVerb, PartOfSpeech.Transitive]);
       }
@@ -388,7 +388,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
          [XF] public void it_publishes_them_in_their_order() =>
             _published.Must().Satisfy(it => it is [IVocabTevent.CompoundParts.PropertyUpdated.Primary primary]
-                                          && primary.Primary.SequenceEqual(new[] { new WordReference("走"), new WordReference("る") }));
+                                          && primary.Primary.SequenceEqual([new WordReference("走"), new WordReference("る")]));
 
          [XF] public void the_committed_vocab_has_them() => _vocab.CompoundParts.Primary().Must().SequenceEqual([new WordReference("走"), new WordReference("る")]);
       }
@@ -544,15 +544,90 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          }
       }
 
-      /// <summary>wip: the forms publish tevents of their own in step 10's sixth increment, and this goes with the interim tevent.</summary>
+      public class when_it_is_renamed_to_a_form_it_has : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_renamed_to_a_form_it_has()
+         {
+            _vocab.Edit(it => it.Forms.SetEnteredForms([EnteredForm.Owned("奔る"), EnteredForm.NotOwned("走")]));
+            _published = TheTeventsPublishedAs(it => it.Question.SetText("奔る"));
+         }
+
+         [XF] public void it_publishes_that_it_was_renamed_from_its_old_name_and_then_its_entered_forms_without_the_new_question() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.Question.Renamed { From.Text: "走る", Text: "奔る", Disambiguation: "" },
+                                                   IVocabTevent.Forms.PropertyUpdated.EnteredForms { EnteredForms: [{ Text: "走" }] }]);
+
+         [XF] public void the_committed_vocab_has_the_new_question() => _vocab.GetQuestion().Must().Be("奔る");
+         [XF] public void the_committed_vocab_has_the_other_form_only() => _vocab.Forms.EnteredFormsList().Must().SequenceEqual(["走"]);
+         [XF] public void the_committed_vocab_matches_the_new_question() => _vocab.Forms.MatchedFormsList().Must().SequenceEqual(["奔る", "走"]);
+      }
+
+      public class when_it_is_given_a_disambiguation : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_it_is_given_a_disambiguation() => _published = TheTeventsPublishedAs(it => it.Question.SetDisambiguation("run"));
+
+         [XF] public void it_publishes_that_it_was_renamed_with_the_same_text() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.Question.Renamed { From.Disambiguation: "", Text: "走る", Disambiguation: "run" }]);
+
+         [XF] public void the_committed_vocab_has_it() => _vocab.Question.DisambiguationName.Must().Be("走る:run");
+
+         public class and_then_the_same_again : when_it_is_given_a_disambiguation
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_the_same_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.Question.SetDisambiguation("run"));
+
+            [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
+      }
+
       public class when_a_form_is_added : given_a_vocab_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;
 
          public when_a_form_is_added() => _published = TheTeventsPublishedAs(it => it.Forms.Add("奔る"));
 
-         [XF] public void it_publishes_that_a_part_without_tevents_changed() =>
-            _published.Must().Satisfy(it => it is [INoteTevent.PartWithoutTeventsChanged]);
+         [XF] public void it_publishes_that_the_form_was_added_with_its_entered_forms_the_form_not_owned() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added { Form: "奔る", EnteredForms: [{ Text: "奔る", IsOwned: false }] }]);
+
+         [XF] public void the_committed_vocab_has_it() => _vocab.Forms.EnteredForms().Must().SequenceEqual([EnteredForm.NotOwned("奔る")]);
+
+         public class and_then_added_again : when_a_form_is_added
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedTheSecondTime;
+
+            public and_then_added_again() => _publishedTheSecondTime = TheTeventsPublishedAs(it => it.Forms.Add("奔る"));
+
+            [XF] public void it_publishes_nothing() => _publishedTheSecondTime.Must().BeEmpty();
+         }
+
+         public class and_then_owned : when_a_form_is_added
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedWhenOwned;
+
+            public and_then_owned() => _publishedWhenOwned = TheTeventsPublishedAs(it => it.Forms.Own("奔る"));
+
+            [XF] public void it_publishes_its_entered_forms_with_the_form_owned() =>
+               _publishedWhenOwned.Must().Satisfy(it => it is [IVocabTevent.Forms.PropertyUpdated.EnteredForms { EnteredForms: [{ Text: "奔る", IsOwned: true }] }
+                                                                  and not IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added]);
+
+            [XF] public void the_committed_vocab_owns_it() => _vocab.Forms.EnteredForms().Must().SequenceEqual([EnteredForm.Owned("奔る")]);
+         }
+
+         public class and_then_removed : when_a_form_is_added
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedWhenRemoved;
+
+            public and_then_removed() => _publishedWhenRemoved = TheTeventsPublishedAs(it => it.Forms.Remove("奔る"));
+
+            [XF] public void it_publishes_that_the_form_was_removed_with_no_entered_forms_left() =>
+               _publishedWhenRemoved.Must().Satisfy(it => it is [IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed { Form: "奔る", EnteredForms: [] }]);
+
+            [XF] public void the_committed_vocab_has_no_entered_forms() => _vocab.Forms.EnteredForms().Must().BeEmpty();
+         }
       }
    }
 }

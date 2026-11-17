@@ -3,6 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Compze.Contracts;
 using Compze.Internals.SystemCE;
+using Compze.Teventive;
+using Compze.Teventive.Taggregates.BaseClasses;
+using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
@@ -21,11 +25,20 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// where a form starting with the <see cref="DictionaryFormEndingPlaceholder"/> expands to one matched form per dictionary form ending.<br/>
 /// Showing, editing, storing and copying forms uses the entered forms; looking forms up in text uses the matched forms.
 /// </remarks>
-public class VocabNoteForms
+/// <remarks>
+/// A component of its vocab: every change to the entered forms publishes the whole new list, <see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms"/>,<br/>
+/// which its applier applies. Adding a form and removing one also say which form (<see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added"/>,<br/>
+/// <see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed"/>).
+/// </remarks>
+public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteForms, IVocabTevent.Forms, VocabTevent.Forms>, ITeventRouted
 {
+   static readonly TeventRouting<VocabNoteForms> Appliers = TeventRouting<VocabNoteForms>.DeclareAppliers(it => it
+     .For<IVocabTevent.Forms.PropertyUpdated.EnteredForms>(static (forms, tevent) => forms.Apply(tevent.EnteredForms)));
+
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
    readonly VocabNote _vocab;
-   readonly NoteGuard _guard;
-   List<EnteredForm> _enteredForms;
+   IReadOnlyList<EnteredForm> _enteredForms;
    LazyCE<List<string>> _enteredFormsList;
    LazyCE<HashSet<string>> _enteredFormsSet;
    LazyCE<List<string>> _questionAndEnteredFormsList;
@@ -33,10 +46,11 @@ public class VocabNoteForms
    LazyCE<HashSet<string>> _matchedFormsSet;
    LazyCE<HashSet<string>> _ownedForms;
 
-   public VocabNoteForms(VocabNote vocab, VocabDto? data, NoteGuard guard)
+   /// <param name="vocab">The vocab they're the forms of, whose question is always one of them.</param>
+   /// <param name="data">The vocab as the corpus stores it, or null for a new vocab.</param>
+   internal VocabNoteForms(VocabNote vocab, VocabDto? data) : base(vocab)
    {
       _vocab = vocab;
-      _guard = guard;
       _enteredForms = WithoutTheQuestion(data?.Forms.Select(it => new EnteredForm(it.Text, it.IsOwned)) ?? []);
       InvalidateCaches();
    }
@@ -173,11 +187,7 @@ public class VocabNoteForms
    /// Replaces the entered forms with <paramref name="forms"/>, dropping the question, which is a form anyway,<br/>
    /// and every form whose text an earlier one already has.
    /// </summary>
-   public void SetEnteredForms(IEnumerable<EnteredForm> forms) => _guard.Update(() =>
-   {
-      _enteredForms = WithoutTheQuestion(forms.DistinctBy(it => it.Text));
-      InvalidateCaches();
-   });
+   public void SetEnteredForms(IEnumerable<EnteredForm> forms) => SetTheEnteredForms(WithoutTheQuestion(forms.DistinctBy(it => it.Text)));
 
    /// <summary>Makes the vocab own its entered form <paramref name="form"/>: see <see cref="OwnedForms"/>.</summary>
    public void Own(string form) => SetOwnership(EnteredForm.Owned(form));
@@ -185,23 +195,23 @@ public class VocabNoteForms
    /// <summary>Makes the vocab stop owning its entered form <paramref name="form"/>, which it then only matches: see <see cref="OwnedForms"/>.</summary>
    public void StopOwning(string form) => SetOwnership(EnteredForm.NotOwned(form));
 
-   void SetOwnership(EnteredForm form) => _guard.Update(() =>
+   void SetOwnership(EnteredForm form)
    {
-      var index = _enteredForms.FindIndex(it => it.Text == form.Text);
+      List<EnteredForm> enteredForms = [.. _enteredForms];
+      var index = enteredForms.FindIndex(it => it.Text == form.Text);
       Contract.Argument.Assert(index >= 0, () => $"{form.Text} isn't one of the entered forms of {_vocab.GetQuestion()}.");
-      _enteredForms[index] = form;
-      InvalidateCaches();
-   });
+      enteredForms[index] = form;
+      SetTheEnteredForms(enteredForms);
+   }
 
    /// <summary>
-   /// Called by <see cref="VocabNoteQuestion.SetText"/>: drops the new question from the entered forms, where it would now be a copy,<br/>
-   /// and discards everything derived from the old question.
+   /// Called by <see cref="VocabNoteQuestion.SetText"/>, once the vocab is renamed: drops the new question from the entered forms, where it would now be<br/>
+   /// a copy.
    /// </summary>
-   internal void OnQuestionChanged()
-   {
-      _enteredForms = WithoutTheQuestion(_enteredForms);
-      InvalidateCaches();
-   }
+   internal void DropTheQuestionFromTheEnteredForms() => SetTheEnteredForms(WithoutTheQuestion(_enteredForms));
+
+   /// <summary>Discards everything derived from the vocab's question, which is always one of the forms: what a change to it, applied, does.</summary>
+   internal void OnQuestionChanged() => InvalidateCaches();
 
    /// <summary>
    /// Removes <paramref name="remove"/> from the entered forms, and removes this vocab's question from the entered forms<br/>
@@ -209,12 +219,9 @@ public class VocabNoteForms
    /// </summary>
    public void Remove(string remove)
    {
-      _guard.Update(() =>
-      {
-         _enteredForms = [.. _enteredForms.Where(it => it.Text != remove)];
-         InvalidateCaches();
-      });
+      _vocab.PublishIfTheListChanged(_enteredForms, [.. _enteredForms.Where(it => it.Text != remove)], enteredForms => new VocabTevent.Forms.EnteredFormRemoved(remove, enteredForms));
 
+      //wip: step 11 of dev_docs/taggregates/shared/the-migration.md moves this to a participation handler of IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed.
       var removeNotes = _vocab.Services.Collection.Vocab.WithQuestion(remove)
                               .Where(voc => voc.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion()))
                               .ToList();
@@ -233,16 +240,10 @@ public class VocabNoteForms
    {
       if(IsTheQuestion(add)) return;
 
-      _guard.Update(() =>
-      {
-         if(!EnteredFormsSet().Contains(add))
-         {
-            _enteredForms.Add(EnteredForm.NotOwned(add));
-         }
+      if(!EnteredFormsSet().Contains(add))
+         _vocab.PublishIfTheListChanged(_enteredForms, [.. _enteredForms, EnteredForm.NotOwned(add)], enteredForms => new VocabTevent.Forms.EnteredFormAdded(add, enteredForms));
 
-         InvalidateCaches();
-      });
-
+      //wip: step 11 of dev_docs/taggregates/shared/the-migration.md moves this to a participation handler of IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added.
       var addNotes = _vocab.Services.Collection.Vocab.WithQuestion(add)
                            .Where(voc => !voc.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion()))
                            .ToList();
@@ -258,6 +259,16 @@ public class VocabNoteForms
    /// The <see cref="MatchedFormsList"/> and the <see cref="OwnedForms"/> depend on whether the vocab requires the dictionary form start.
    /// </summary>
    internal void OnMatchingConfigurationChanged() => InvalidateCaches();
+
+   /// <summary>Makes <paramref name="enteredForms"/> the entered forms: what their tevent's applier does.</summary>
+   void Apply(IReadOnlyList<EnteredForm> enteredForms)
+   {
+      _enteredForms = enteredForms;
+      InvalidateCaches();
+   }
+
+   void SetTheEnteredForms(IReadOnlyList<EnteredForm> enteredForms) =>
+      _vocab.PublishIfTheListChanged(_enteredForms, enteredForms, static it => new VocabTevent.Forms.EnteredFormsUpdated(it));
 
    public override string ToString() => string.Join(", ", EnteredFormsList());
 }
