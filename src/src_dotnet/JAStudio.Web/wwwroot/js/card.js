@@ -172,7 +172,7 @@ function setupRightClickMenu() {
 
    document.addEventListener('keydown', function(event) {
       const menu = window.jaStudioRightClickMenu._dotNetRef;
-      if (event.key === 'Escape' && menu) menu.invokeMethodAsync('Close');
+      if (event.key === 'Escape' && menu) menu.invokeMethodAsync('CloseOnEscape');
    });
 }
 

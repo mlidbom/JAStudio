@@ -54,12 +54,19 @@ public partial class RightClickMenu : IDisposable
       StateHasChanged();
    }
 
+   /// <summary>
+   /// Closes the menu as a press of Escape on the page does, which <c>card.js</c> reports. A call from the page's script, unlike a click, isn't followed<br/>
+   /// by Blazor rendering the menu again by itself, so this has it render.
+   /// </summary>
    [JSInvokable]
-   public void Close()
+   public void CloseOnEscape()
    {
-      _shownAt = null;
+      Close();
       StateHasChanged();
    }
+
+   /// <summary>Closes the menu: as a click beside it does, or picking one of its items, after which Blazor renders it again by itself.</summary>
+   void Close() => _shownAt = null;
 
    List<Item> TheItemsFor(string? noteIdOfTheLinkClicked, string? textOfTheLinkClicked)
    {
