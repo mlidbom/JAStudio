@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Compze.Tessaging.TessageBus;
 
 namespace JAStudio.Core.Configuration;
 
@@ -7,11 +8,13 @@ public class ConfigurationStore
    readonly IReadingsMappingsSource _mappingsSource;
    readonly IConfigDictSource _configSource;
    readonly Dictionary<string, object> _configDict;
+   readonly IIndependentTeventPublisher _tevents;
 
-   internal ConfigurationStore(IReadingsMappingsSource mappingsSource, IConfigDictSource configSource)
+   internal ConfigurationStore(IReadingsMappingsSource mappingsSource, IConfigDictSource configSource, IIndependentTeventPublisher tevents)
    {
       _mappingsSource = mappingsSource;
       _configSource = configSource;
+      _tevents = tevents;
       _configDict = configSource.Load();
    }
 
@@ -23,7 +26,7 @@ public class ConfigurationStore
 
    public JapaneseConfig Config()
    {
-      return _config ??= new JapaneseConfig(this);
+      return _config ??= new JapaneseConfig(this, _tevents);
    }
 
    // --- Readings mappings ---

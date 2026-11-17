@@ -19,13 +19,23 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
 {
    protected readonly JPCollection _collection;
    protected readonly VocabNote _vocab行く;
+   readonly int _teventsObservedInTheSetup;
 
    protected When_reloading_the_collection()
    {
       _collection = GetService<JPCollection>();
       _vocab行く = CreateVocab("行く", "to go", "いく");
       CreateVocab("来る", "to come", "くる");
+      _teventsObservedInTheSetup = TeventsObservedSoFar().Count;
    }
+
+   /// <summary>Each <see cref="ICollectionReloaded"/> observed since the setup, with the questions of the notes it added, changed and removed.</summary>
+   protected ReloadObserved[] ReloadsObserved() =>
+      [.. TeventsObservedSoFar().Skip(_teventsObservedInTheSetup).OfType<ICollectionReloaded>().Select(it => new ReloadObserved(QuestionsOf(it.Added), QuestionsOf(it.Changed), QuestionsOf(it.Removed)))];
+
+   string[] QuestionsOf(IReadOnlyList<NoteId> notes) => [.. notes.Select(it => _collection.NoteFromNoteId(it)?.GetQuestion() ?? "<not in the collection>")];
+
+   protected record ReloadObserved(string[] Added, string[] Changed, string[] Removed);
 
    protected IReadOnlyList<string> QuestionsOfTheVocabHeld() => [.. _collection.Vocab.All().Select(it => it.GetQuestion()).Order(StringComparer.Ordinal)];
 
@@ -54,6 +64,9 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
       [XF] public void the_collection_holds_the_vocab_as_changed_on_disk() => _collection.Vocab.All().Single(it => it.GetId() == _vocab行く.GetId()).GetAnswer().Must().Be("to walk");
       [XF] public void the_vocab_changed_on_disk_is_the_one_note_reported() => _notesChangedOnDisk.Select(it => it.GetQuestion()).Must().SequenceEqual(["行く"]);
       [XF] public void the_vocab_changed_on_disk_is_the_one_note_passed_on_as_updated() => _questionsOfTheNotesPassedOnAsUpdated.Must().SequenceEqual(["行く"]);
+
+      [XF] public void one_reload_is_observed_with_the_vocab_changed_on_disk_as_its_only_change() =>
+         ReloadsObserved().Must().DeepEqual(new[] { new ReloadObserved([], ["行く"], []) });
    }
 
    /// <summary>The reload makes a change to the corpus checkout first, which notes which vocab the collection holds while it's made.</summary>
@@ -82,5 +95,6 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
 
       [XF] public void the_failure_reaches_the_caller() => _failure.Message.Must().Be("git refused the change");
       [XF] public void the_collection_holds_the_notes_again() => QuestionsOfTheVocabHeld().Must().SequenceEqual(["来る", "行く"]);
+      [XF] public void no_reload_is_observed() => ReloadsObserved().Must().BeEmpty();
    }
 }

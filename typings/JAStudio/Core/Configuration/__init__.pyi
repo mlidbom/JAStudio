@@ -2,7 +2,12 @@ import typing, abc
 from JAStudio.Core import IEnvironmentPaths
 from System.Collections.Generic import Dictionary_2, IReadOnlyDictionary_2, List_1
 from System import Func_2, IObservable_1
+from Compze.Tessaging.TessageTypes import ITevent
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import BreakdownParsingOptions
+
+class ConfigurationChanged(IConfigurationChanged):
+    def __init__(self) -> None: ...
+
 
 class ConfigurationFile(IConfigDictSource):
     def __init__(self, paths: IEnvironmentPaths) -> None: ...
@@ -52,6 +57,10 @@ class IConfigDictSource(typing.Protocol):
     def Persist(self, configuration: IReadOnlyDictionary_2[str, typing.Any]) -> None: ...
 
 
+class IConfigurationChanged(ITevent, typing.Protocol):
+    pass
+
+
 class IReadingsMappingsSource(typing.Protocol):
     @abc.abstractmethod
     def GetMappings(self) -> Dictionary_2[str, str]: ...
@@ -62,7 +71,6 @@ class IReadingsMappingsSource(typing.Protocol):
 
 
 class JapaneseConfig:
-    def __init__(self, store: ConfigurationStore) -> None: ...
     ReanalysisThreadsName : str
     @property
     def AutoadvanceSentenceHiraganaSeconds(self) -> ConfigurationValue_1[float]: ...

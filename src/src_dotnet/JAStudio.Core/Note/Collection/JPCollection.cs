@@ -7,6 +7,8 @@ using Compze.DependencyInjection.Abstractions;
 using Compze.Internals.Logging;
 using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
+using Compze.Abstractions;
+using Compze.Tessaging.TessageBus;
 using Compze.Teventive.StateStore;
 using Compze.Teventive.StateStore.Storage;
 using JAStudio.Core.LanguageServices.JamdictEx;
@@ -35,6 +37,10 @@ public class JPCollection
    /// Notifies this collection every time it has loaded again (<see cref="ReloadFromBackend"/>): at startup, and when asked to.<br/>
    /// The reload replaces every note that changed on disk, so anything holding on to a note, not its reference, must look it up again.
    /// </summary>
+   /// <remarks>
+   /// todo: goes once its subscribers observe <see cref="ICollectionReloaded"/> instead, which waits for Compze's subscriptions for as long as an object lives<br/>
+   /// (Magnus, 2026-11-17).
+   /// </remarks>
    public IObservable<JPCollection> ReloadedFromBackend => _reloadedFromBackend;
 
    readonly SimpleObservable<JPNote> _noteUpdated = new();
@@ -43,11 +49,19 @@ public class JPCollection
    /// Notifies every note in the collection that is updated, whatever its type, as committed, once the unit of work that changed it has committed,<br/>
    /// on the thread that changed it: a note added, a note an edit changed, and a note whose file a reload found changed on disk.
    /// </summary>
+   /// <remarks>
+   /// todo: goes once its subscribers observe <see cref="Tevents.INoteChangedInAUnitOfWork"/> and <see cref="ICollectionReloaded"/> instead, which waits for Compze's subscriptions for as long as an object lives<br/>
+   /// (Magnus, 2026-11-17).
+   /// </remarks>
    public IObservable<JPNote> NoteUpdated => _noteUpdated;
 
    readonly SimpleObservable<JPNote> _noteDeleted = new();
 
    /// <summary>Notifies every note <see cref="Delete"/> deleted, on the thread that deleted it, after it and its media are gone.</summary>
+   /// <remarks>
+   /// todo: goes once its subscribers observe <see cref="Tevents.INoteTevent.Deleted"/> instead, which waits for Compze's subscriptions for as long as an object lives<br/>
+   /// (Magnus, 2026-11-17).
+   /// </remarks>
    public IObservable<JPNote> NoteDeleted => _noteDeleted;
 
    readonly NoteUnitsOfWork _unitsOfWork;
@@ -83,10 +97,21 @@ public class JPCollection
    /// Both are held in memory, not stored with the note, so changing them updates no note, and <see cref="NoteUpdated"/> doesn't notify them.<br/>
    /// A reload sets every note's without notifying them here: <see cref="ReloadedFromBackend"/> notifies the reload.
    /// </remarks>
+   /// <remarks>
+   /// todo: goes once its subscribers observe <see cref="IStudyNoteChanged"/> instead, which waits for Compze's subscriptions for as long as an object lives<br/>
+   /// (Magnus, 2026-11-17).
+   /// </remarks>
    public IObservable<JPNote> StudyNoteChanged => _studyNoteChanged;
 
-   /// <summary>Called after <paramref name="note"/>'s studying status or Anki tags changed, so that <see cref="StudyNoteChanged"/> notifies it.</summary>
-   internal void NotifyThatTheStudyNoteChangedFor(JPNote note) => _studyNoteChanged.OnNext(note);
+   /// <summary>
+   /// Called after <paramref name="note"/>'s studying status or Anki tags changed, so that <see cref="StudyNoteChanged"/> notifies it, and an<br/>
+   /// <see cref="IStudyNoteChanged"/> is published.
+   /// </summary>
+   internal void NotifyThatTheStudyNoteChangedFor(JPNote note)
+   {
+      _studyNoteChanged.OnNext(note);
+      _tevents.Value.Publish(new Studying.StudyNotes.StudyNoteChanged(note.GetId()));
+   }
 
    /// <summary>
    /// Renames every word-reference that names <paramref name="oldName"/> exactly to <paramref name="newName"/>, after the vocab that had the one name got the<br/>
@@ -191,6 +216,7 @@ public class JPCollection
 
       NoteServices = noteServices;
       _store = new Lazy<IStateStore>(resolver.Resolve<IStateStore>);
+      _tevents = new Lazy<IIndependentTeventPublisher>(resolver.Resolve<IIndependentTeventPublisher>);
       _storage = new Lazy<ITaggregateStorage>(resolver.Resolve<ITaggregateStorage>);
       _mediaFileIndex = mediaFileIndex;
       _mediaStorage = mediaStorage;
@@ -206,6 +232,7 @@ public class JPCollection
    }
 
    readonly Lazy<IStateStore> _store;
+   readonly Lazy<IIndependentTeventPublisher> _tevents;
    readonly Lazy<ITaggregateStorage> _storage;
    readonly MediaFileIndex _mediaFileIndex;
    readonly MediaStorageService _mediaStorage;
@@ -292,7 +319,8 @@ public class JPCollection
    /// <returns>
    /// The notes whose files changed on disk while this collection held them: each one's data now differs from the same note's as held before. Each<br/>
    /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as the workspace's pages. Notes this<br/>
-   /// collection didn't hold before aren't among them: none at startup.
+   /// collection didn't hold before aren't among them: none at startup. The reload is published too, with the notes it added, changed and removed<br/>
+   /// (<see cref="ICollectionReloaded"/>), unless the change fails.
    /// </returns>
    public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {
@@ -301,7 +329,10 @@ public class JPCollection
 
       List<JPNote> notesChangedOnDisk = [.. reloaded.Changed.Select(it => NoteFromNoteId((NoteId)it)).OfType<JPNote>()];
       notesChangedOnDisk.ForEach(_noteUpdated.OnNext);
+      _tevents.Value.Publish(new CollectionReloaded(NoteIds(reloaded.Added), NoteIds(reloaded.Changed), NoteIds(reloaded.Removed)));
       return notesChangedOnDisk;
+
+      static IReadOnlyList<NoteId> NoteIds(IReadOnlyList<TaggregateId> taggregateIds) => [.. taggregateIds.Cast<NoteId>()];
    });
 
    /// <summary>

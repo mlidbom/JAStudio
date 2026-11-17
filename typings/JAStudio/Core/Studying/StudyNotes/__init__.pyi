@@ -1,6 +1,7 @@
 import typing, clr, abc
 from JAStudio.Core.Note import NoteId, JPNote
 from System.Collections.Generic import IReadOnlyList_1, IReadOnlyDictionary_2
+from Compze.Tessaging.TessageTypes import ITevent
 from System import IEquatable_1
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Studying import CardStudyingStatus
@@ -16,6 +17,11 @@ class ISRSStudyNotes(typing.Protocol):
     def UnsuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
     @abc.abstractmethod
     def Write(self, note: JPNote) -> None: ...
+
+
+class IStudyNoteChanged(ITevent, typing.Protocol):
+    @property
+    def NoteId(self) -> NoteId: ...
 
 
 class NoteWhoseStudyNoteDiffers(IEquatable_1[NoteWhoseStudyNoteDiffers]):
@@ -44,6 +50,12 @@ class NoteWhoseStudyNoteDiffers(IEquatable_1[NoteWhoseStudyNoteDiffers]):
         @typing.overload
         def __call__(self, obj: typing.Any) -> bool:...
 
+
+
+class StudyNoteChanged(IStudyNoteChanged):
+    def __init__(self, noteId: NoteId) -> None: ...
+    @property
+    def NoteId(self) -> NoteId: ...
 
 
 class StudyNoteComparison:

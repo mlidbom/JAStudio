@@ -1,18 +1,24 @@
 using System;
 using System.Collections.Generic;
 using Compze.Internals.SystemCE.ReactiveCE;
+using Compze.Tessaging.TessageBus;
 
 namespace JAStudio.Core.Configuration;
 
 public class JapaneseConfig
 {
    readonly ConfigurationStore _store;
+   readonly IIndependentTeventPublisher _tevents;
    readonly SimpleObservable<JapaneseConfig> _changed = new();
 
    /// <summary>
    /// Notifies this config every time one of its values or its readings mappings change, after the change is written to its file.<br/>
-   /// It's notified on the thread that made the change.
+   /// It's notified on the thread that made the change. Each change is published as an <see cref="IConfigurationChanged"/> too.
    /// </summary>
+   /// <remarks>
+   /// todo: goes once its subscribers observe <see cref="IConfigurationChanged"/> instead, which waits for Compze's subscriptions for as long as an<br/>
+   /// object lives (Magnus, 2026-11-17: "I see very little reason not to standardize on tessaging once we are using it").
+   /// </remarks>
    public IObservable<JapaneseConfig> Changed => _changed;
 
    // Configuration value properties
@@ -85,9 +91,10 @@ public class JapaneseConfig
       public static readonly Func<object, bool> Bool = it => (bool)it;
    }
 
-   public JapaneseConfig(ConfigurationStore store)
+   internal JapaneseConfig(ConfigurationStore store, IIndependentTeventPublisher tevents)
    {
       _store = store;
+      _tevents = tevents;
       var configDict = _store.GetConfigDict();
 
       BoostFailedCardAllowedTimeByFactor = Add(New("boost_failed_card_allowed_time_by_factor", "Boost Failed Card Allowed Time Factor", 1.5f, To.Double));
@@ -167,7 +174,7 @@ public class JapaneseConfig
          value.Changed.Subscribe(_ =>
          {
             _store.WriteConfigDict();
-            _changed.OnNext(this);
+            AnnounceTheChange();
          });
          return value;
       }
@@ -189,7 +196,13 @@ public class JapaneseConfig
    {
       _store.SaveMappings(mappings);
       ReadingsMappingsDict = _store.GetReadingsMappings();
+      AnnounceTheChange();
+   }
+
+   void AnnounceTheChange()
+   {
       _changed.OnNext(this);
+      _tevents.Publish(new ConfigurationChanged());
    }
 
    public string ReadReadingsMappingsFile() => _store.ReadReadingsMappingsFile();

@@ -1,7 +1,8 @@
 import typing, clr, abc
 from System.Collections.Generic import IReadOnlyList_1, List_1, HashSet_1, IReadOnlyCollection_1, IEnumerable_1
+from JAStudio.Core.Note import NoteId, JPNote, NoteServices, IHasTextToSpeechAudio, KanjiNote
 from System import IEquatable_1, IObservable_1, Action_1, Action, IDisposable, Func_1
-from JAStudio.Core.Note import JPNote, NoteServices, IHasTextToSpeechAudio, NoteId, KanjiNote
+from Compze.Tessaging.TessageTypes import ITevent
 from Compze.DependencyInjection.Abstractions import IRootResolver
 from JAStudio.Core.Storage.Media import MediaFileIndex, MediaStorageService
 from JAStudio.Core.Studying.StudyNotes import ISRSStudyNotes
@@ -14,6 +15,16 @@ from JAStudio.Core.Note.Tevents import INoteTevent
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Sentences.ParsingCases import ComparedParsingCase
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
+
+class CollectionReloaded(ICollectionReloaded):
+    def __init__(self, added: IReadOnlyList_1[NoteId], changed: IReadOnlyList_1[NoteId], removed: IReadOnlyList_1[NoteId]) -> None: ...
+    @property
+    def Added(self) -> IReadOnlyList_1[NoteId]: ...
+    @property
+    def Changed(self) -> IReadOnlyList_1[NoteId]: ...
+    @property
+    def Removed(self) -> IReadOnlyList_1[NoteId]: ...
+
 
 class CopiesOfTheNotes(abc.ABC):
     @staticmethod
@@ -44,6 +55,15 @@ class CopiesOfTheNotes(abc.ABC):
             def __call__(self, obj: typing.Any) -> bool:...
 
 
+
+
+class ICollectionReloaded(ITevent, typing.Protocol):
+    @property
+    def Added(self) -> IReadOnlyList_1[NoteId]: ...
+    @property
+    def Changed(self) -> IReadOnlyList_1[NoteId]: ...
+    @property
+    def Removed(self) -> IReadOnlyList_1[NoteId]: ...
 
 
 class ItsStudyNote(typing.SupportsInt):

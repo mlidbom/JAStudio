@@ -62,7 +62,8 @@ public static class AppBootstrapper
       registrar.Register(
          Singleton.For<AnkiHTMLRenderers>().CreatedBy((IRootResolver resolver) => new AnkiHTMLRenderers(resolver)),
          Singleton.For<CoreApp>().CreatedBy((TemporaryServiceCollection services, IEnvironmentPaths paths) => new CoreApp(services, paths)),
-         Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource) => new ConfigurationStore(readingsMappingsSource, configDictSource)),
+         Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource, IIndependentTeventPublisher tevents) =>
+                                                          new ConfigurationStore(readingsMappingsSource, configDictSource, tevents)),
          Singleton.For<TemporaryServiceCollection>().CreatedBy((IRootResolver resolver) => new TemporaryServiceCollection(resolver)),
          Singleton.For<JapaneseConfig>().CreatedBy((ConfigurationStore store) => store.Config()),
          Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, IRootResolver resolver, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISRSStudyNotes studyNotesInTheSRS) =>
