@@ -11,6 +11,16 @@ public static class DirectoryInfoExtensions
    extension(DirectoryInfo @this)
    {
       /// <summary>
+      /// Deletes this folder and everything in it, read-only files included, such as the objects of a git repository in it, which<br/>
+      /// <see cref="DirectoryInfo.Delete(bool)"/> refuses to delete.
+      /// </summary>
+      public void DeleteWithEverythingInIt()
+      {
+         foreach(var file in @this.EnumerateFiles("*", SearchOption.AllDirectories)) file.Attributes = FileAttributes.Normal;
+         @this.Delete(recursive: true);
+      }
+
+      /// <summary>
       /// The folder this path leads to, with every link along it followed, such as a junction or a symbolic link: so that every path to a folder gives<br/>
       /// the same one. Anki loads JAStudio through a link to the add-on folder, <c>addons21\jastudio_module</c>, which leads to a source checkout's<br/>
       /// <c>src</c> folder: through it, the corpus checkout is <c>addons21\jastudio_module\jas_database</c>, and itself, <c>C:\Dev\JAStudio\src\jas_database</c>.

@@ -25,7 +25,7 @@ public class When_storing_a_media_file : SpecificationStartingWithAnEmptyCollect
       _service = new MediaStorageService(_mediaRoot, _index);
    }
 
-   public new void Dispose()
+   public override void Dispose()
    {
       base.Dispose();
       Directory.Delete(_tempDir, recursive: true);

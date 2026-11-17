@@ -21,7 +21,7 @@ public class When_querying_MediaFileIndex_by_original_filename : SpecificationSt
       _index = new MediaFileIndex(_tempDir, GetService<TaskRunner>());
    }
 
-   public new void Dispose()
+   public override void Dispose()
    {
       base.Dispose();
       Directory.Delete(_tempDir, recursive: true);

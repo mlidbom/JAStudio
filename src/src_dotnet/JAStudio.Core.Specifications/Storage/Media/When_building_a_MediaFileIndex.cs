@@ -22,7 +22,7 @@ public class When_building_a_MediaFileIndex : SpecificationStartingWithAnEmptyCo
       _index = new MediaFileIndex(_tempDir, GetService<TaskRunner>());
    }
 
-   public new void Dispose()
+   public override void Dispose()
    {
       base.Dispose();
       Directory.Delete(_tempDir, recursive: true);

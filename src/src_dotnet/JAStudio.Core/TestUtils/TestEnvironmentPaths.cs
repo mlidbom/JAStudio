@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using JAStudio.Core.SysUtils.IO;
 
 namespace JAStudio.Core.TestUtils;
 
@@ -24,9 +25,10 @@ public class TestEnvironmentPaths : IEnvironmentPaths, IDisposable
    public string MediaDir => Path.Combine(DatabaseDir, "media");
    public string TextToSpeechSettingsFile => Path.Combine(UserFilesDir, "text-to-speech.json");
 
+   /// <summary>Deletes the folder tree, the first time it's disposed: <see cref="CoreApp"/> disposes it, and so does the container that holds it.</summary>
    public void Dispose()
    {
-      try { Directory.Delete(AddonRootDir, recursive: true); }
-      catch { /* cleanup is best-effort */ }
+      var addonRoot = new DirectoryInfo(AddonRootDir);
+      if(addonRoot.Exists) addonRoot.DeleteWithEverythingInIt();
    }
 }
