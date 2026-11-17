@@ -85,6 +85,8 @@ cache.
   waiting for me. The events are not stored so the choices can be changed.").
 - **Step 12 is done,** as [below](#step-12-as-measured): against `main`, the branch takes 2% less memory, and about 2.4
   seconds longer to load, almost all of it in filing the state store's indexes.
+- **Every step of [the order](#the-order) is done,** 13 and the last with the switch. What is left is the end: Magnus's
+  decisions, the spike's review in Compze, the release, and the sign-offs.
 - **Compze's types are in JAStudio's Python stubs** since the notes derive from `Taggregate`. After each Compze step,
   `src/src_dotnet/regenerate-stubs.ps1 -OnlyTargetTypes -RefreshCompzeStubs` regenerates them: `full-build.ps1`
   regenerates JAStudio's alone.
@@ -347,10 +349,21 @@ Each step is an increment that builds and passes JAStudio's whole suite, and is 
 
 **After Compze's step 4, snapshots and the JSON store:**
 
-13. **The notes stored through the store,** each file written whole, and several as all or nothing.
+13. **Done, with the switch. The notes stored through the store,** each file written whole, and several as all or
+    nothing: the store is `StoredIn` JAStudio's `CorpusNoteFiles`, its `ITaggregateStorage`. Compze's step 4 has nothing
+    more for JAStudio (`jastudio-rep-opus`, 2026-11-17): its snapshot API is `ISnapshotable`, which the notes implement,
+    their DTOs the snapshots; and its JSON store isn't built, nor for JAStudio, whose corpus files are a format of its own.
 
-**Last, what the store's design doesn't have yet:** loading the whole corpus again while running, as around a git
-fast-forward.
+**Last, and done: loading the whole corpus again while running,** as around a git fast-forward:
+`IStateStore.ReloadFromStorageAfter`, which JAStudio's start and `fast_forward_the_corpus_checkout` load through.
+
+**What is left is the end:**
+- Magnus decides what `jastudio-rep-opus` put to him: an index that keeps no keys, from step 12, and whether the JSON
+  store waits for a consumer that needs it. With the index changed, JAStudio measures the load and the heap again
+  (`dev_scripts/compare-load-times.ps1`).
+- The end of the spike's review in Compze: independent reviews of every public API change and of the store's design,
+  then a pass with Magnus. What it changes may reach JAStudio's code.
+- Compze's release, on Magnus's go-ahead; then this branch goes back to package references, and the three sign-offs.
 
 Two more were on this list, and JAStudio doesn't need them from Compze (2026-11-17):
 - **A wait until observers have caught up.** JAStudio uses no observers. What it does after a commit has to run
