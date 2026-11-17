@@ -161,12 +161,19 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
      `VocabNoteMetaData` and `VocabNoteUsuallyWrittenInKana` as components. `JPNote.PublishIfChanged` is generic.
    - **Done (`2d16944dd`):** a sentence's parsing result and parsing case. `ParsingResult` and `ParsedMatch` are values,
      so a reparse that comes to the same result publishes nothing, and the full rebuild writes only what changed.
+   - **Done (`2ebfc62ce`):** the vocab's register and the flags and rules of its matching configuration.
+     `VocabNoteRegister` and `VocabNoteMatchingConfiguration` are components. A `FlagField` is a view of its kind's
+     flags: `FlagFieldList` holds the names of those set, and a change publishes the whole new set, as the corpus
+     stores it. Each of the two require/forbid rules publishes its own tevent, and the yield-to-surface rule its
+     surfaces. Every tevent of the matching configuration also drops what the forms derived from it, a route of its
+     own, which Compze's routing runs after the applier: it calls every route that matches, in declaration order. The
+     match-condition still changes through the guard.
    - **Left, by the guarded sites in each file (`grep -rn "Guard\.Update\|_guard\.Update" JAStudio.Core`):**
      `KanjiPrimaryVocab` 5, `VocabNoteForms` 4, `WordSet` 4, `NoteTags` 4, `CachingSentenceConfigurationField` 4,
-     `MediaReferenceList` 4, `KanjiReadingList` 4, `VocabNoteCompoundParts` 3, `VocabYieldToSurface` 3, `KanjiRadicals` 3,
-     `VocabNoteQuestion` 2, `KanjiSet` 2, and one each in `VocabNotePartsOfSpeech`, `DerivedFrom`,
-     `VocabNoteMatchingConfiguration`, `RequireForbidFlagField` and `FlagField`. The audio lists and the sentence's
-     configuration change through the guard they're given.
+     `MediaReferenceList` 4, `KanjiReadingList` 4, `VocabNoteCompoundParts` 3, `KanjiRadicals` 3,
+     `VocabNoteQuestion` 2, `KanjiSet` 2, and one each in `VocabNotePartsOfSpeech`, `DerivedFrom` and
+     `VocabNoteMatchingConfiguration`. The audio lists and the sentence's configuration change through the guard
+     they're given.
 6. **The parts with real behavior:** the question and renaming, the forms, the perfect synonyms, the mutual
    relationships, the matching configuration, the sentence's configuration. The interim tevent goes with the last.
 

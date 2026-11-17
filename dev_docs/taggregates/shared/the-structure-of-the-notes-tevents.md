@@ -42,6 +42,9 @@ observe.ForTevent((IVocabTevent.PropertyUpdated.Mnemonic it) => ...);
 
 ## The vocab's tevents so far
 
+As they were at step 6. Step 10 adds each part's as it converts it: `Note/Vocabulary/Tevents/IVocabTevent.cs` has
+them all as they stand.
+
 ```
 IVocabTevent : INoteTevent
    PropertyUpdated.CorpusAnswer, .Explanation, .ExplanationLong, .Mnemonic, .TechnicalNotes, .References
