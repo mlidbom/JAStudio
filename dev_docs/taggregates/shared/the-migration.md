@@ -141,13 +141,20 @@ note in the headless JAStudio, neither changing a file, and the copies checked.
    `ExplanationLong`, `Mnemonic`, `TechnicalNotes` and `References`. Each has a `Set` method that trims and publishes
    its `PropertyUpdated` tevent only when the value changes (`JPNote.PublishIfChanged`), and an applier sets it.
    `SetCorpusAnswer` pushes the answer to the perfect synonyms itself. The call sites were fixed, position by position,
-   from the build's errors, by a script that the next three increments use again.
-2. **The vocab's source data:** its `Answer`, `Mnemonic` and `ReadingMnemonic`, under a group of their own,
-   `IVocabTevent.SourceData`, since the source data holds more than one property. Changing the answer pushes it to the
-   perfect synonyms as the corpus answer does, and `PerfectSynonyms` subscribes to nothing any more.
-3. **The kanji's text fields and source data,** with `IKanjiTevent`'s `PropertyUpdated` tevents.
-4. **The sentence's text fields and source data,** with `ISentenceTevent`'s. `WritableStringValue` and its interfaces
-   go then, and `SentenceQuestionField` with them.
+   from the build's errors, by a script that the next three increments used again.
+2. **Done (`48f1b25b4`). The vocab's source data:** its `Answer`, `Mnemonic` and `ReadingMnemonic`, under a group of
+   their own, `IVocabTevent.SourceData`, since the source data holds more than one property. `VocabSourceData` is the
+   first part that is a Compze component, `TeventiveComponent<VocabNote, ...>`, with appliers of its own, which the
+   vocab's routing reaches with `.Component(vocab => vocab.SourceData)`. A part publishes through
+   `JPNote.PublishIfChanged`. Changing the answer pushes it to the perfect synonyms as the corpus answer does, and
+   `PerfectSynonyms` subscribes to nothing any more. The tevent classes are `SourceAnswerUpdated` and the like: a nested
+   `MnemonicUpdated` hid the vocab's own.
+3. **Done (`d9c5362c2`). The kanji's text fields and source data,** with `IKanjiTevent`'s `PropertyUpdated` tevents, and
+   `KanjiSourceData` a component as the vocab's is.
+4. **Done (`57df9e5b2`). The sentence's text fields and source data,** with `ISentenceTevent`'s, and
+   `SentenceSourceData` a component. A new sentence's `Created` tevent carries its source question, as a vocab's carries
+   its question. `SentenceQuestionField` reads and writes the sentence itself. `WritableStringValue` and its interfaces
+   are gone: every text field of the notes is a plain string.
 5. **The other simple parts,** one or a few to an increment, in the order of [what the notes hold](what-the-notes-hold.md):
    the sets of words and kanji, the media lists, the register and the flags, the readings, the tags.
 6. **The parts with real behavior:** the question and renaming, the forms, the perfect synonyms, the mutual
