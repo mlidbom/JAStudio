@@ -42,16 +42,16 @@ sealed partial class SentencePageViewModel : NotePageViewModel
       var settings = services.Resolve<Settings>();
       var media = services.Resolve<MediaFileIndex>();
       var isInEditMode = settings.ShowBreakdownInEditMode();
-      var hasACorpusQuestion = sentence.CorpusQuestion.HasValue();
+      var hasACorpusQuestion = sentence.CorpusQuestion is not "";
 
       ScreenshotFiles = [.. sentence.AllScreenshots.Select(it => media.TryGetByOriginalFileName(it.FileName)?.FilePath).OfType<string>()];
       Audio = AudioButtonViewModel.For(sentence.PreferredAudio);
-      CorpusQuestion = hasACorpusQuestion ? QuestionAsShown(sentence.CorpusQuestion.Value) : null;
-      SourceQuestion = QuestionAsShown(sentence.SourceData.Question.Value);
-      CorpusAnswer = sentence.CorpusAnswer.HasValue() ? sentence.CorpusAnswer.Value : null;
-      SourceAnswer = sentence.SourceData.Answer.Value;
-      Comments = sentence.Comments.HasValue() ? sentence.Comments.Value : null;
-      SourceComments = sentence.SourceData.Comments.HasValue() ? sentence.SourceData.Comments.Value : null;
+      CorpusQuestion = hasACorpusQuestion ? QuestionAsShown(sentence.CorpusQuestion) : null;
+      SourceQuestion = QuestionAsShown(sentence.SourceData.Question);
+      CorpusAnswer = sentence.CorpusAnswer is not "" ? sentence.CorpusAnswer : null;
+      SourceAnswer = sentence.SourceData.Answer;
+      Comments = sentence.Comments is not "" ? sentence.Comments : null;
+      SourceComments = sentence.SourceData.Comments is not "" ? sentence.SourceData.Comments : null;
       ViewToggles = SentenceViewToggleViewModel.TheOnesOnIn(services.CoreApp.Config);
 
       var breakdown = new SentenceViewModel(sentence, settings, services.CoreApp.Collection.Vocab);

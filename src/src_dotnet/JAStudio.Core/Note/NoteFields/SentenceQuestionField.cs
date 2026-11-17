@@ -1,23 +1,20 @@
+using JAStudio.Core.Note.Sentences;
+
 namespace JAStudio.Core.Note.NoteFields;
 
+/// <summary>
+/// The question a sentence shows: its <see cref="SentenceNote.CorpusQuestion"/>, or its source's question while it has none, with the word-break<br/>
+/// tags that split a word for the tokenizer shown as invisible spaces, or left out.
+/// </summary>
 public class SentenceQuestionField
 {
    public const string WordBreakTag = "<wbr>";
 
-   readonly IWritableStringValue _corpusQuestion;
-   readonly IWritableStringValue _sourceQuestion;
+   readonly SentenceNote _sentence;
 
-   public SentenceQuestionField(IWritableStringValue corpusQuestion, IWritableStringValue sourceQuestion)
-   {
-      _corpusQuestion = corpusQuestion;
-      _sourceQuestion = sourceQuestion;
-   }
+   public SentenceQuestionField(SentenceNote sentence) => _sentence = sentence;
 
-   string SentenceQuestionFieldRawValue()
-   {
-      var corpusQuestion = _corpusQuestion.Value;
-      return string.IsNullOrEmpty(corpusQuestion) ? _sourceQuestion.Value : corpusQuestion;
-   }
+   string SentenceQuestionFieldRawValue() => _sentence.CorpusQuestion is not "" ? _sentence.CorpusQuestion : _sentence.SourceData.Question;
 
    public string WithInvisibleSpace() =>
       StringExtensions.StripHtmlMarkup(
@@ -36,12 +33,12 @@ public class SentenceQuestionField
       var newSection = $"{section[0]}{WordBreakTag}{section.Substring(1)}";
       var newValue = rawValue.Replace(section, newSection);
 
-      if(_corpusQuestion.HasValue())
+      if(_sentence.CorpusQuestion is not "")
       {
-         _corpusQuestion.Set(newValue);
+         _sentence.SetCorpusQuestion(newValue);
       } else
       {
-         _sourceQuestion.Set(newValue);
+         _sentence.SourceData.SetQuestion(newValue);
       }
    }
 }

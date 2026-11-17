@@ -18,10 +18,10 @@ public class When_a_sentence_with_a_source_name_is_saved_to_the_corpus : Specifi
    public When_a_sentence_with_a_source_name_is_saved_to_the_corpus()
    {
       var sentence = CreateTestSentence("ありがとう", "Thank you");
-      sentence.Edit(it => it.SourceName.Set("Shirokuma Cafe"));
+      sentence.Edit(it => it.SetSourceName("Shirokuma Cafe"));
       var serializer = GetService<NoteSerializer>();
       _readBackReference = serializer.DeserializeSentence(serializer.Serialize(sentence)).Reference();
    }
 
-   [XF] public void it_is_read_back_with_its_source_name() => _readBack.SourceName.Value.Must().Be("Shirokuma Cafe");
+   [XF] public void it_is_read_back_with_its_source_name() => _readBack.SourceName.Must().Be("Shirokuma Cafe");
 }

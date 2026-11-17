@@ -23,7 +23,7 @@ class WhatIsInJAStudio
    public WhatIsInJAStudio(JPCollection collection, MediaFileIndex mediaFileIndex)
    {
       _mediaFileIndex = mediaFileIndex;
-      _sentencesByExternalId = collection.Sentences.All().Where(it => it.SourceData.ExternalId.Value != "").ToLookup(it => it.SourceData.ExternalId.Value);
+      _sentencesByExternalId = collection.Sentences.All().Where(it => it.SourceData.ExternalId != "").ToLookup(it => it.SourceData.ExternalId);
       _notesByTheFilesTheyUse = collection.Vocab.All().Cast<JPNote>()
                                           .Concat(collection.Sentences.All())
                                           .SelectMany(note => note.MediaReferences.Select(file => (file.FileName, note)))

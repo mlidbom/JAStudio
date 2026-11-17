@@ -20,30 +20,51 @@ namespace JAStudio.Core.Note.Sentences;
 
 public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<SentenceNote, SentenceDto>, ITeventRouted
 {
-   /// <remarks>The created tevent has nothing to apply but the sentence's id, which the taggregate base class applies.</remarks>
+   /// <remarks>The created tevent is also the source question's, which the source data's applier applies (<see cref="SentenceSourceData"/>).</remarks>
    static readonly TeventRouting<SentenceNote> Appliers = NoteAppliers.Extend<SentenceNote>(it => it
-     .IgnoreUnhandled<ISentenceTevent.Created>());
+     .For<ISentenceTevent.PropertyUpdated.CorpusQuestion>(static (sentence, tevent) => sentence.CorpusQuestion = tevent.CorpusQuestion)
+     .For<ISentenceTevent.PropertyUpdated.CorpusAnswer>(static (sentence, tevent) => sentence.CorpusAnswer = tevent.CorpusAnswer)
+     .For<ISentenceTevent.PropertyUpdated.Comments>(static (sentence, tevent) => sentence.Comments = tevent.Comments)
+     .For<ISentenceTevent.PropertyUpdated.SourceName>(static (sentence, tevent) => sentence.SourceName = tevent.SourceName)
+     .For<ISentenceTevent.PropertyUpdated.Reading>(static (sentence, tevent) => sentence.Reading = tevent.Reading)
+     .Component(static sentence => sentence.SourceData));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
    public CachingSentenceConfigurationField Configuration { get; private set; }
 
    /// <summary>The corpus's own question for the sentence. While it's empty the source's question is shown instead (<see cref="Question"/>).</summary>
-   public WritableStringValue CorpusQuestion { get; private set; }
+   public string CorpusQuestion { get; private set; }
 
    /// <summary>The corpus's own answer for the sentence. While it's empty the source's answer is shown instead (<see cref="Answer"/>).</summary>
-   public WritableStringValue CorpusAnswer { get; private set; }
+   public string CorpusAnswer { get; private set; }
 
    /// <summary>The corpus's comments on the sentence, shown beside its source's comments.</summary>
-   public WritableStringValue Comments { get; private set; }
+   public string Comments { get; private set; }
+
+   /// <summary>Gives the sentence <paramref name="question"/>, trimmed, as its <see cref="CorpusQuestion"/>.</summary>
+   public void SetCorpusQuestion(string question) => PublishIfChanged(CorpusQuestion, question.Trim(), static it => new SentenceTevent.CorpusQuestionUpdated(it));
+
+   /// <summary>Gives the sentence <paramref name="answer"/>, trimmed, as its <see cref="CorpusAnswer"/>.</summary>
+   public void SetCorpusAnswer(string answer) => PublishIfChanged(CorpusAnswer, answer.Trim(), static it => new SentenceTevent.CorpusAnswerUpdated(it));
+
+   /// <summary>Gives the sentence <paramref name="comments"/>, trimmed, as its <see cref="Comments"/>.</summary>
+   public void SetComments(string comments) => PublishIfChanged(Comments, comments.Trim(), static it => new SentenceTevent.CommentsUpdated(it));
 
    /// <summary>What the sentence's source gave it when it was imported.</summary>
    public SentenceSourceData SourceData { get; private set; }
 
    /// <summary>The name of the work or deck the sentence came from, as its source gave it, such as <c>Shirokuma Cafe</c>: see <see cref="SentenceDto.SourceName"/>.</summary>
-   public WritableStringValue SourceName { get; private set; }
+   public string SourceName { get; private set; }
 
-   public WritableStringValue Reading { get; private set; }
+   /// <summary>Gives the sentence <paramref name="sourceName"/>, trimmed, as its <see cref="SourceName"/>.</summary>
+   public void SetSourceName(string sourceName) => PublishIfChanged(SourceName, sourceName.Trim(), static it => new SentenceTevent.SourceNameUpdated(it));
+
+   /// <summary>The sentence's reading, in kana.</summary>
+   public string Reading { get; private set; }
+
+   /// <summary>Gives the sentence <paramref name="reading"/>, trimmed, as its <see cref="Reading"/>.</summary>
+   public void SetReading(string reading) => PublishIfChanged(Reading, reading.Trim(), static it => new SentenceTevent.ReadingUpdated(it));
 
    /// <summary>
    /// The corpus's own audio for the sentence, added since its source: its TTS audio. The audio its source gave it is its <see cref="SentenceSourceData.Audio"/>,<br/>
@@ -60,7 +81,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
    ParsingResult _parsingResult;
 
    /// <summary>The question shown: the <see cref="CorpusQuestion"/>, or the source's question while the corpus has none.</summary>
-   public SentenceQuestionField Question => new(CorpusQuestion, SourceData.Question);
+   public SentenceQuestionField Question => new(this);
 
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none, without its HTML.</summary>
    public StripHtmlOnReadFallbackStringField Answer => new(CorpusAnswer, SourceData.Answer);
@@ -71,8 +92,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
    /// <summary>A new sentence, whose source's question is <paramref name="question"/>.</summary>
    public SentenceNote(NoteServices services, string question) : this(services)
    {
-      Publish(new SentenceTevent.Created(SentenceId.New()));
-      SourceData.Question.Set(question);
+      Publish(new SentenceTevent.Created(SentenceId.New(), question.Trim()));
    }
 
    /// <summary>The sentence <paramref name="data"/> holds, as it was stored.</summary>
@@ -91,12 +111,12 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
                   nameof(Screenshots), nameof(AllAudio), nameof(Configuration), nameof(_parsingResult))]
    void BuildThePartsFrom(SentenceDto? data)
    {
-      SourceName = new WritableStringValue(data?.SourceName ?? string.Empty, Guard);
-      Reading = new WritableStringValue(data?.Reading ?? string.Empty, Guard);
-      CorpusQuestion = new WritableStringValue(data?.CorpusQuestion ?? string.Empty, Guard);
-      CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
-      Comments = new WritableStringValue(data?.Comments ?? string.Empty, Guard);
-      SourceData = new SentenceSourceData(data?.SourceData, Guard);
+      SourceName = data?.SourceName ?? string.Empty;
+      Reading = data?.Reading ?? string.Empty;
+      CorpusQuestion = data?.CorpusQuestion ?? string.Empty;
+      CorpusAnswer = data?.CorpusAnswer ?? string.Empty;
+      Comments = data?.Comments ?? string.Empty;
+      SourceData = new SentenceSourceData(this, data?.SourceData, Guard);
       Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], Guard);
       Screenshots = new MediaReferenceList<ImageReference>(data?.Screenshots.Select(it => it.ToReference()) ?? [], Guard);
       AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
@@ -191,7 +211,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
    public static SentenceNote CreateTestNote(NoteServices services, string question, string answer)
    {
       var note = new SentenceNote(services, question);
-      note.CorpusAnswer.Set(answer);
+      note.SetCorpusAnswer(answer);
       note.UpdateGeneratedData();
       services.Collection.Sentences.Add(note);
       return note;

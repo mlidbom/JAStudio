@@ -1,18 +1,18 @@
 @using JAStudio.Core.Note.Sentences
 
 <div class="bottomSection">
-    @if(Note.Comments.HasValue())
+    @if(Note.Comments is not "")
     {
         <div class="user comments short page_section">
             <div class="page_section_title">user comments</div>
-            @((MarkupString)Note.Comments.Value)
+            @((MarkupString)Note.Comments)
         </div>
     }
-    @if(Note.SourceData.Comments.HasValue())
+    @if(Note.SourceData.Comments is not "")
     {
         <div class="comments page_section">
             <div class="page_section_title">source comments</div>
-            @((MarkupString)Note.SourceData.Comments.Value)
+            @((MarkupString)Note.SourceData.Comments)
         </div>
     }
 </div>

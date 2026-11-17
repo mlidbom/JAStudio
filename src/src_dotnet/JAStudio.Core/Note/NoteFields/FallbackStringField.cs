@@ -1,19 +1,7 @@
 namespace JAStudio.Core.Note.NoteFields;
 
-class FallbackStringField
+/// <summary>A text, <paramref name="primary"/>, or while it's empty, another, <paramref name="fallback"/>: such as the corpus's answer, else the source's.</summary>
+class FallbackStringField(string primary, string fallback)
 {
-   readonly IStringValue _field;
-   readonly IStringValue _fallbackField;
-
-   public FallbackStringField(IStringValue primaryField, IStringValue fallbackField)
-   {
-      _field = primaryField;
-      _fallbackField = fallbackField;
-   }
-
-   public string Get()
-   {
-      var primary = _field.Value;
-      return !string.IsNullOrEmpty(primary) ? primary : _fallbackField.Value;
-   }
+   public string Get() => primary is not "" ? primary : fallback;
 }

@@ -87,7 +87,7 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    /// </summary>
    record WhatTheRunsDid(IReadOnlyList<string> Executed, IReadOnlyList<string> StoppedByProblems, IReadOnlyList<string> BackgroundExceptions);
 
-   protected IEnumerable<string> TheQuestionsOfTheImportedSentences() => Sentences.All().Select(it => it.SourceData.Question.Value);
+   protected IEnumerable<string> TheQuestionsOfTheImportedSentences() => Sentences.All().Select(it => it.SourceData.Question);
 
    public class with_the_subs2srs_profile_not_running_automatically : When_import_profiles_run_automatically
    {

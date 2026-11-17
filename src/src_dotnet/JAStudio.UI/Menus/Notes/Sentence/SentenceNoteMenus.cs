@@ -43,14 +43,14 @@ class SentenceNoteMenus
                                                              SpecMenuItem.Command(ShortcutFinger.Home1("All highlighted"), () => sentence.Edit(it => it.Configuration.ResetHighlightedWords()), enabled: sentence.Configuration.HighlightedWords.Any()),
                                                              SpecMenuItem.Command(ShortcutFinger.Home2("All incorrect matches"), () => sentence.Edit(it => it.Configuration.IncorrectMatches.Reset()), enabled: sentence.Configuration.IncorrectMatches.Get().Any()),
                                                              SpecMenuItem.Command(ShortcutFinger.Home3("All hidden matches"), () => sentence.Edit(it => it.Configuration.HiddenMatches.Reset()), enabled: sentence.Configuration.HiddenMatches.Get().Any()),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home4("Source comments"), () => sentence.Edit(it => it.SourceData.Comments.Empty()), enabled: sentence.SourceData.Comments.HasValue())
+                                                             SpecMenuItem.Command(ShortcutFinger.Home4("Source comments"), () => sentence.Edit(it => it.SourceData.SetComments(string.Empty)), enabled: sentence.SourceData.Comments is not "")
                                                           }),
                                      SpecMenuItem.Submenu(ShortcutFinger.Home4("Remove corpus"),
                                                           new List<SpecMenuItem>
                                                           {
-                                                             SpecMenuItem.Command(ShortcutFinger.Home1("comments"), () => sentence.Edit(it => it.Comments.Empty()), enabled: sentence.Comments.HasValue()),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home2("answer"), () => sentence.Edit(it => it.CorpusAnswer.Empty()), enabled: sentence.CorpusAnswer.HasValue()),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home3("question"), () => sentence.Edit(it => it.CorpusQuestion.Empty()), enabled: sentence.CorpusQuestion.HasValue())
+                                                             SpecMenuItem.Command(ShortcutFinger.Home1("comments"), () => sentence.Edit(it => it.SetComments(string.Empty)), enabled: sentence.Comments is not ""),
+                                                             SpecMenuItem.Command(ShortcutFinger.Home2("answer"), () => sentence.Edit(it => it.SetCorpusAnswer(string.Empty)), enabled: sentence.CorpusAnswer is not ""),
+                                                             SpecMenuItem.Command(ShortcutFinger.Home3("question"), () => sentence.Edit(it => it.SetCorpusQuestion(string.Empty)), enabled: sentence.CorpusQuestion is not "")
                                                           }),
                                      ParsingCaseMenuSpec(sentence)
                                   }

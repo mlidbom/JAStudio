@@ -34,5 +34,5 @@ public class When_running_an_import_profile_that_maps_a_source_name : ImportingS
       _sentenceReference = Sentences.All().Single().Reference();
    }
 
-   [XF] public void the_sentence_takes_its_source_name_from_the_mapped_field() => _sentence.SourceName.Value.Must().Be("Shirokuma Cafe");
+   [XF] public void the_sentence_takes_its_source_name_from_the_mapped_field() => _sentence.SourceName.Must().Be("Shirokuma Cafe");
 }

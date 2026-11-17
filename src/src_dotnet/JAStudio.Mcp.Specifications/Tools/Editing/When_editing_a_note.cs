@@ -132,7 +132,7 @@ public class When_editing_a_note : McpServerSpecification
       public of_a_sentence_writing_its_answer() => _edit = ResultOf<NoteEdit>(Edit(Sentence, new JsonObject { ["corpusAnswer"] = "I went to meet them." }));
 
       [XF] public void the_edit_reports_the_answer_before_as_empty() => _edit.Changes.Single().Before.Must().Satisfy(it => JsonNode.DeepEquals(it, JsonValue.Create("")));
-      [XF] public void the_sentence_has_the_answer() => Sentence.CorpusAnswer.Value.Must().Be("I went to meet them.");
+      [XF] public void the_sentence_has_the_answer() => Sentence.CorpusAnswer.Must().Be("I went to meet them.");
    }
 
    /// <summary>Another vocab, 行く, with the answer "to go".</summary>

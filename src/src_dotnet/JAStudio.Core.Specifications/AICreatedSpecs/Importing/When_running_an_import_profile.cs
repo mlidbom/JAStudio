@@ -36,10 +36,10 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
          SentenceReference = Sentences.All().Single().Reference();
       }
 
-      [XF] public void the_sentence_takes_its_source_question_from_the_Expression_field() => Sentence.SourceData.Question.Value.Must().Be("ずっと1人で生きていくんだ");
-      [XF] public void the_sentence_takes_its_source_answer_from_the_English_field() => Sentence.SourceData.Answer.Value.Must().Be("You've been living your whole life alone!!");
-      [XF] public void the_sentence_takes_its_reading_from_the_Reading_field_with_its_furigana_as_it_is() => Sentence.Reading.Value.Must().Be("ずっと 1 人[にん]で 生[い]きていくんだ");
-      [XF] public void the_sentence_takes_its_external_id_from_the_ID_field() => Sentence.SourceData.ExternalId.Value.Must().Be("anime_the_garden_of_words_000000346");
+      [XF] public void the_sentence_takes_its_source_question_from_the_Expression_field() => Sentence.SourceData.Question.Must().Be("ずっと1人で生きていくんだ");
+      [XF] public void the_sentence_takes_its_source_answer_from_the_English_field() => Sentence.SourceData.Answer.Must().Be("You've been living your whole life alone!!");
+      [XF] public void the_sentence_takes_its_reading_from_the_Reading_field_with_its_furigana_as_it_is() => Sentence.Reading.Must().Be("ずっと 1 人[にん]で 生[い]きていくんだ");
+      [XF] public void the_sentence_takes_its_external_id_from_the_ID_field() => Sentence.SourceData.ExternalId.Must().Be("anime_the_garden_of_words_000000346");
       [XF] public void the_sentences_source_audio_is_the_sentence_cards_audio_file() => Sentence.SourceData.Audio.All.Must().SequenceEqual([new AudioReference("garden_of_words_346.mp3")]);
       [XF] public void the_sentences_source_screenshots_are_the_sentence_cards_screenshot_file() => Sentence.SourceData.Screenshots.All.Must().SequenceEqual([new ImageReference("garden_of_words_346.jpg")]);
       [XF] public void the_sentence_has_no_media_of_the_corpuss_own() => (Sentence.Audio.All.Count, Sentence.Screenshots.All.Count).Must().Be((0, 0));
@@ -107,7 +107,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
             {
                public and_run() => _run.ExecuteUnlessOutOfDate();
 
-               [XF] public void the_sentence_is_back() => Sentences.All().Single().SourceData.ExternalId.Value.Must().Be("anime_the_garden_of_words_000000346");
+               [XF] public void the_sentence_is_back() => Sentences.All().Single().SourceData.ExternalId.Must().Be("anime_the_garden_of_words_000000346");
                [XF] public void it_finds_its_audio_in_the_media_layer() => Sentences.All().Single().PreferredAudio.Must().NotBeNull();
             }
          }
@@ -207,7 +207,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
          Importer.Prepare(ImmersionKitProfile).ExecuteUnlessOutOfDate();
       }
 
-      [XF] public void the_sentence_is_imported() => Sentences.All().Single().SourceData.Question.Value.Must().Be("文です");
+      [XF] public void the_sentence_is_imported() => Sentences.All().Single().SourceData.Question.Must().Be("文です");
       [XF] public void the_sentence_card_is_deleted_from_Anki() => AnkiRawNotes.Must().Satisfy(it => !it.Contains(_sentenceCard));
    }
 

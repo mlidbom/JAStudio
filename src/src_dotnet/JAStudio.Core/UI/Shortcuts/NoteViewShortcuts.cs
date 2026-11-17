@@ -32,7 +32,7 @@ public class NoteViewShortcuts
          new("k", Toggle(config.ShowSentenceBreakdownInEditMode)),
          new("q", Toggle(config.ShowKanjiMnemonicsInSentenceBreakdown)),
          new("0", RemoveMnemonic),
-         new("7", EditingTheViewedSentence(it => it.SourceData.Comments.Empty())),
+         new("7", EditingTheViewedSentence(it => it.SourceData.SetComments(string.Empty))),
          new("8", EditingTheViewedSentence(it => it.Configuration.IncorrectMatches.Reset())),
          new("9", EditingTheViewedVocab(it => it.CompoundParts.AutoGenerate())),
          new("Ctrl+Shift+Alt+s", Toggle(config.AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound)),

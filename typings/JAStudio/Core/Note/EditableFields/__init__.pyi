@@ -1,6 +1,6 @@
 import typing, abc
 from System import Func_2, Action_2, Func_3
-from JAStudio.Core.Note.NoteFields import FlagField, WritableStringValue
+from JAStudio.Core.Note.NoteFields import FlagField
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1, List_1
 
 class EditableField_GenericClasses(abc.ABCMeta):
@@ -130,9 +130,6 @@ EditableTextField : EditableTextField_GenericClasses
 
 EditableTextField_1_TNote = typing.TypeVar('EditableTextField_1_TNote')
 class EditableTextField_1(typing.Generic[EditableTextField_1_TNote], EditableField_2[EditableTextField_1_TNote, str]):
-    @typing.overload
-    def __init__(self, name: str, label: str, format: TextFieldFormat, field: Func_2[EditableTextField_1_TNote, WritableStringValue]) -> None: ...
-    @typing.overload
     def __init__(self, name: str, label: str, format: TextFieldFormat, read: Func_2[EditableTextField_1_TNote, str], write: Action_2[EditableTextField_1_TNote, str], changesHowSentencesParse: bool = ...) -> None: ...
     @property
     def ChangesHowSentencesParse(self) -> bool: ...

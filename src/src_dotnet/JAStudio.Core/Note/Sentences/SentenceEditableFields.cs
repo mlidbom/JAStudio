@@ -19,30 +19,30 @@ namespace JAStudio.Core.Note.Sentences;
 public static class SentenceEditableFields
 {
    /// <summary>The corpus's own question, which takes the place of the source's (<see cref="SourceQuestion"/>).</summary>
-   public static readonly EditableTextField<SentenceNote> Question = new("corpusQuestion", "Question", TextFieldFormat.Paragraphs, it => it.CorpusQuestion);
+   public static readonly EditableTextField<SentenceNote> Question = new("corpusQuestion", "Question", TextFieldFormat.Paragraphs, it => it.CorpusQuestion, (it, text) => it.SetCorpusQuestion(text));
 
    /// <summary>The corpus's own answer, which takes the place of the source's (<see cref="SourceAnswer"/>).</summary>
-   public static readonly EditableTextField<SentenceNote> Answer = new("corpusAnswer", "Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer);
+   public static readonly EditableTextField<SentenceNote> Answer = new("corpusAnswer", "Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer, (it, text) => it.SetCorpusAnswer(text));
 
    /// <summary>The corpus's own comments, shown beside the source's (<see cref="SourceComments"/>).</summary>
-   public static readonly EditableTextField<SentenceNote> Comments = new("comments", "Comments", TextFieldFormat.Paragraphs, it => it.Comments);
+   public static readonly EditableTextField<SentenceNote> Comments = new("comments", "Comments", TextFieldFormat.Paragraphs, it => it.Comments, (it, text) => it.SetComments(text));
 
-   public static readonly EditableTextField<SentenceNote> Reading = new("reading", "Reading", TextFieldFormat.Line, it => it.Reading);
+   public static readonly EditableTextField<SentenceNote> Reading = new("reading", "Reading", TextFieldFormat.Line, it => it.Reading, (it, text) => it.SetReading(text));
 
    /// <summary>The question the sentence's source gave it (<see cref="SentenceNote.SourceData"/>).</summary>
-   public static readonly EditableTextField<SentenceNote> SourceQuestion = new("sourceData.question", "Question", TextFieldFormat.Paragraphs, it => it.SourceData.Question);
+   public static readonly EditableTextField<SentenceNote> SourceQuestion = new("sourceData.question", "Question", TextFieldFormat.Paragraphs, it => it.SourceData.Question, (it, text) => it.SourceData.SetQuestion(text));
 
    /// <summary>The answer the sentence's source gave it.</summary>
-   public static readonly EditableTextField<SentenceNote> SourceAnswer = new("sourceData.answer", "Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer);
+   public static readonly EditableTextField<SentenceNote> SourceAnswer = new("sourceData.answer", "Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer, (it, text) => it.SourceData.SetAnswer(text));
 
    /// <summary>The comments the sentence's source gave it.</summary>
-   public static readonly EditableTextField<SentenceNote> SourceComments = new("sourceData.comments", "Comments", TextFieldFormat.Paragraphs, it => it.SourceData.Comments);
+   public static readonly EditableTextField<SentenceNote> SourceComments = new("sourceData.comments", "Comments", TextFieldFormat.Paragraphs, it => it.SourceData.Comments, (it, text) => it.SourceData.SetComments(text));
 
    /// <summary>The id the sentence has in its source.</summary>
-   public static readonly EditableTextField<SentenceNote> SourceExternalId = new("sourceData.externalId", "External id", TextFieldFormat.Line, it => it.SourceData.ExternalId);
+   public static readonly EditableTextField<SentenceNote> SourceExternalId = new("sourceData.externalId", "External id", TextFieldFormat.Line, it => it.SourceData.ExternalId, (it, text) => it.SourceData.SetExternalId(text));
 
    /// <summary>The name of the source the sentence was imported from (<see cref="SentenceNote.SourceName"/>).</summary>
-   public static readonly EditableTextField<SentenceNote> SourceName = new("sourceName", "Source name", TextFieldFormat.Line, it => it.SourceName);
+   public static readonly EditableTextField<SentenceNote> SourceName = new("sourceName", "Source name", TextFieldFormat.Line, it => it.SourceName, (it, text) => it.SetSourceName(text));
 
    public static readonly EditableTagsField<SentenceNote> Tags = new();
 

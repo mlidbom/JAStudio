@@ -20,8 +20,9 @@ using JAStudio.Core.Note.Vocabulary.Tevents;
 namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a vocab's or a kanji's text field<br/>
-/// publishes the <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>) included. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
+/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and a note's text field publishes the<br/>
+/// <c>PropertyUpdated</c> tevent of its new value, its source data's (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>,<br/>
+/// <see cref="SentenceSourceData"/>) included. Most of a note's parts change its state directly still, and a note whose stored data they<br/>
 /// changed publishes <see cref="INoteTevent.PartWithoutTeventsChanged"/>, so that a taggregate store would save it.
 /// </summary>
 public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
@@ -79,7 +80,9 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
       }
 
       [XF] public void it_published_its_created_tevent_alone() => _published.Must().Satisfy(it => it is [ISentenceTevent.Created]);
+      [XF] public void the_created_tevent_carries_its_source_question() => ((ISentenceTevent.Created)_published[0]).Question.Must().Be("家に帰る");
       [XF] public void the_created_tevent_gave_it_its_id() => _sentence.GetId().Must().Be(_published[0].TaggregateId);
+      [XF] public void its_question_is_the_created_tevents() => _sentence.GetQuestion().Must().Be("家に帰る");
    }
 
    public class given_a_kanji_in_the_collection : When_notes_publish_tevents
@@ -123,6 +126,50 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
             _published.Must().Satisfy(it => it is [IKanjiTevent.SourceData.PropertyUpdated.Answer { Answer: "running" }]);
 
          [XF] public void the_committed_kanji_has_the_new_source_answer() => _kanji.SourceData.Answer.Must().Be("running");
+      }
+   }
+
+   public class given_a_sentence_in_the_collection : When_notes_publish_tevents
+   {
+      readonly ITaggregateReference<SentenceNote> _sentenceReference;
+      SentenceNote _sentence => _sentenceReference.Current;
+
+      public given_a_sentence_in_the_collection() => _sentenceReference = CreateSentence("家に帰る").Reference();
+
+      /// <summary>The tevents the sentence's copy publishes as <paramref name="change"/> changes it, in an edit, as the unit of work dispatches them.</summary>
+      protected IReadOnlyList<INoteTevent> TheTeventsPublishedAs(Action<SentenceNote> change)
+      {
+         List<INoteTevent> published = [];
+         _sentence.Edit(it =>
+         {
+            using var _ = ((ITaggregate)it).TeventStream.Subscribe(tevent => published.Add((INoteTevent)tevent.Tevent));
+            change(it);
+         });
+         return published;
+      }
+
+      public class when_its_answer_is_changed : given_a_sentence_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_answer_is_changed() => _published = TheTeventsPublishedAs(it => it.SetCorpusAnswer(" I go home. "));
+
+         [XF] public void it_publishes_that_its_corpus_answer_was_updated_to_the_new_answer_trimmed() =>
+            _published.Must().Satisfy(it => it is [ISentenceTevent.PropertyUpdated.CorpusAnswer { CorpusAnswer: "I go home." }]);
+
+         [XF] public void the_committed_sentence_has_the_new_answer() => _sentence.CorpusAnswer.Must().Be("I go home.");
+      }
+
+      public class when_its_source_question_is_changed : given_a_sentence_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_source_question_is_changed() => _published = TheTeventsPublishedAs(it => it.SourceData.SetQuestion(" 家へ帰る "));
+
+         [XF] public void it_publishes_that_its_source_question_was_updated_to_the_new_question_trimmed() =>
+            _published.Must().Satisfy(it => it is [ISentenceTevent.SourceData.PropertyUpdated.Question { Question: "家へ帰る" }]);
+
+         [XF] public void the_committed_sentence_shows_the_new_question() => _sentence.GetQuestion().Must().Be("家へ帰る");
       }
    }
 

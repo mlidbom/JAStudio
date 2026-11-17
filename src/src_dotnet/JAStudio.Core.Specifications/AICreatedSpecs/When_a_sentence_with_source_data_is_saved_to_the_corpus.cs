@@ -25,10 +25,10 @@ public class When_a_sentence_with_source_data_is_saved_to_the_corpus : Specifica
       var sentenceReference = CreateTestSentence("川に行く", "go to the river").Reference();
       sentenceReference.Current.Edit(it =>
       {
-         it.SourceData.Answer.Set("I go to the river");
-         it.SourceData.Comments.Set("A comment from the source");
-         it.SourceData.ExternalId.Set("anime_the_garden_of_words_000000346");
-         it.Comments.Set("A comment of the corpus's own");
+         it.SourceData.SetAnswer("I go to the river");
+         it.SourceData.SetComments("A comment from the source");
+         it.SourceData.SetExternalId("anime_the_garden_of_words_000000346");
+         it.SetComments("A comment of the corpus's own");
       });
       var serializer = GetService<NoteSerializer>();
       var json = serializer.Serialize(sentenceReference.Current);
@@ -48,7 +48,7 @@ public class When_a_sentence_with_source_data_is_saved_to_the_corpus : Specifica
    [XF] public void the_question_shown_is_not_stored() => _json.Must().Satisfy(it => !it.TryGetProperty("activeQuestion", out _));
 
    [XF] public void it_is_read_back_showing_the_corpus_answer() => _readBack.GetAnswer().Must().Be("go to the river");
-   [XF] public void it_is_read_back_with_the_source_answer() => _readBack.SourceData.Answer.Value.Must().Be("I go to the river");
+   [XF] public void it_is_read_back_with_the_source_answer() => _readBack.SourceData.Answer.Must().Be("I go to the river");
    [XF] public void it_is_read_back_showing_the_source_question() => _readBack.GetQuestion().Must().Be("川に行く");
-   [XF] public void it_is_read_back_with_its_external_id() => _readBack.SourceData.ExternalId.Value.Must().Be("anime_the_garden_of_words_000000346");
+   [XF] public void it_is_read_back_with_its_external_id() => _readBack.SourceData.ExternalId.Must().Be("anime_the_garden_of_words_000000346");
 }

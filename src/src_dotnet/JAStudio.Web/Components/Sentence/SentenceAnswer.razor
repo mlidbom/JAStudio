@@ -3,13 +3,13 @@
 <div id="answerSection">
     @if(HasCorpusAnswer)
     {
-        <div class="meaning user clipboard">@((MarkupString)Note.CorpusAnswer.Value)</div>
+        <div class="meaning user clipboard">@((MarkupString)Note.CorpusAnswer)</div>
     }
-    <div class="meaning clipboard @(HasCorpusAnswer ? "overridden" : "")">@((MarkupString)Note.SourceData.Answer.Value)</div>
+    <div class="meaning clipboard @(HasCorpusAnswer ? "overridden" : "")">@((MarkupString)Note.SourceData.Answer)</div>
 </div>
 
 @code {
     [Parameter, EditorRequired] public SentenceNote Note { get; set; } = null!;
 
-    bool HasCorpusAnswer => Note.CorpusAnswer.HasValue();
+    bool HasCorpusAnswer => Note.CorpusAnswer is not "";
 }

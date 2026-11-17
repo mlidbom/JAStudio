@@ -1,5 +1,4 @@
 using System;
-using JAStudio.Core.Note.NoteFields;
 
 namespace JAStudio.Core.Note.EditableFields;
 
@@ -22,10 +21,6 @@ public sealed class EditableTextField<TNote> : EditableField<TNote, string> wher
       _read = read;
       _write = write;
    }
-
-   /// <summary>A field held by a <see cref="WritableStringValue"/> of the note, which <paramref name="field"/> finds.</summary>
-   public EditableTextField(string name, string label, TextFieldFormat format, Func<TNote, WritableStringValue> field)
-      : this(name, label, format, it => field(it).Value, (it, text) => field(it).Set(text)) {}
 
    /// <summary>Whether the field holds a <see cref="TextFieldFormat.Line"/> or <see cref="TextFieldFormat.Paragraphs"/>.</summary>
    public TextFieldFormat Format { get; }

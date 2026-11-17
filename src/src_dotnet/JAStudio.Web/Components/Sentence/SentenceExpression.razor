@@ -6,17 +6,17 @@
 <div id="expressionAndReading">
     @if(HasCorpusQuestion)
     {
-        <div class="expression user"><AudioPlayButton Audio="Note.PreferredAudio" IsAudioOfTheShownNote="true" /><span class="clipboard">@((MarkupString)RenderWbr(Note.CorpusQuestion.Value))</span></div>
+        <div class="expression user"><AudioPlayButton Audio="Note.PreferredAudio" IsAudioOfTheShownNote="true" /><span class="clipboard">@((MarkupString)RenderWbr(Note.CorpusQuestion))</span></div>
     }
-    <div class="expression @(HasCorpusQuestion ? "overridden" : "")"><AudioPlayButton Audio="@(HasCorpusQuestion ? null : Note.PreferredAudio)" IsAudioOfTheShownNote="true" /><span class="clipboard">@((MarkupString)RenderWbr(Note.SourceData.Question.Value))</span></div>
-    <div class="reading">@((MarkupString)Note.Reading.Value)</div>
+    <div class="expression @(HasCorpusQuestion ? "overridden" : "")"><AudioPlayButton Audio="@(HasCorpusQuestion ? null : Note.PreferredAudio)" IsAudioOfTheShownNote="true" /><span class="clipboard">@((MarkupString)RenderWbr(Note.SourceData.Question))</span></div>
+    <div class="reading">@((MarkupString)Note.Reading)</div>
 </div>
 
 @code {
     [Parameter, EditorRequired] public SentenceNote Note { get; set; } = null!;
     [Parameter, EditorRequired] public JapaneseConfig Config { get; set; } = null!;
 
-    bool HasCorpusQuestion => Note.CorpusQuestion.HasValue();
+    bool HasCorpusQuestion => Note.CorpusQuestion is not "";
 
     string RenderWbr(string question) =>
         Config.ShowSentenceBreakdownInEditMode.Value
