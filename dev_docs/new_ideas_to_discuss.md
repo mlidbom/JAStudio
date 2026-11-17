@@ -79,3 +79,9 @@ piece of code, or that would otherwise be lost in a long response.
   again when the load is done (`ISRSWindows.Refresh`), by poking the reviewer's and the previewer's private members.
   If the card were a page on the `CardServer` from the start, saying that JAStudio is loading, it could load the
   card itself when the collection has loaded, and that last refresh could go.
+- **(Magnus, 2026-11-17) Consistency checks, to be built later, find and repair what has come apart in the corpus.**
+  The first case for them: a mutual relationship that only one side holds, such as a vocab's synonym, antonym or form,
+  or a kanji's similar meaning, which the other note lacks, as an import can leave it. Until the migration to the state
+  store, re-adding what a note already had repaired the other side, as a side effect; since step 11, an add that changes
+  nothing publishes no tevent, so nothing is mirrored (`dev_docs/taggregates/shared/the-migration.md`, "Step 11, as it is
+  built"). Removing and adding again still repairs it.
