@@ -3,6 +3,8 @@ using System.Linq;
 using Compze.Teventive.StateStore;
 using JAStudio.Core.Note.Vocabulary;
 
+// ReSharper disable NotAccessedPositionalProperty.Global because the index only compares a key's value and never reads it
+
 namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
