@@ -4,6 +4,7 @@ from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.Media import ImageReference
 from JAStudio.Core.Note.Vocabulary import WordReference
+from JAStudio.Core.Note.KanjiReadings import KanjiReading
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from JAStudio.Core.Note import KanjiId
@@ -61,6 +62,27 @@ class IKanjiTevent_0(INoteTevent_0, typing.Protocol):
         class SimilarMeaning(IKanjiTevent_0, typing.Protocol):
             @property
             def SimilarMeaning(self) -> IReadOnlyList_1[str]: ...
+
+
+
+    class Readings(IKanjiTevent_0, typing.Protocol):
+
+        class PropertyUpdated(abc.ABC):
+
+            class Kun(IKanjiTevent.Readings, typing.Protocol):
+                @property
+                def Kun(self) -> IReadOnlyList_1[KanjiReading]: ...
+
+
+            class Nanori(IKanjiTevent.Readings, typing.Protocol):
+                @property
+                def Nanori(self) -> IReadOnlyList_1[KanjiReading]: ...
+
+
+            class On(IKanjiTevent.Readings, typing.Protocol):
+                @property
+                def On(self) -> IReadOnlyList_1[KanjiReading]: ...
+
 
 
 
@@ -209,6 +231,51 @@ class KanjiTevent_0(NoteTevent_0, IKanjiTevent_0):
         def TaggregateVersion(self) -> int: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class Readings(KanjiTevent_0, IKanjiTevent.Readings):
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+        class KunUpdated(KanjiTevent.Readings, IKanjiTevent.Readings.PropertyUpdated.Kun):
+            def __init__(self, kun: IReadOnlyList_1[KanjiReading]) -> None: ...
+            @property
+            def Kun(self) -> IReadOnlyList_1[KanjiReading]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class NanoriUpdated(KanjiTevent.Readings, IKanjiTevent.Readings.PropertyUpdated.Nanori):
+            def __init__(self, nanori: IReadOnlyList_1[KanjiReading]) -> None: ...
+            @property
+            def Nanori(self) -> IReadOnlyList_1[KanjiReading]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+        class OnUpdated(KanjiTevent.Readings, IKanjiTevent.Readings.PropertyUpdated.On):
+            def __init__(self, on: IReadOnlyList_1[KanjiReading]) -> None: ...
+            @property
+            def On(self) -> IReadOnlyList_1[KanjiReading]: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
 
 
     class SimilarMeaningUpdated(KanjiTevent_0, IKanjiTevent.PropertyUpdated.SimilarMeaning):

@@ -32,7 +32,8 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
      .For<IKanjiTevent.PropertyUpdated.SimilarMeaning>(static (kanji, tevent) => kanji.SimilarMeaning.Apply(tevent.SimilarMeaning))
      .For<IKanjiTevent.PropertyUpdated.ConfusedWith>(static (kanji, tevent) => kanji.ConfusedWith.Apply(tevent.ConfusedWith))
      .For<IKanjiTevent.PropertyUpdated.Images>(static (kanji, tevent) => kanji.Images.Apply(tevent.Images))
-     .Component(static kanji => kanji.SourceData));
+     .Component(static kanji => kanji.SourceData)
+     .Component(static kanji => kanji.Readings));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
@@ -110,7 +111,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
       CorpusAnswer = data?.CorpusAnswer ?? string.Empty;
       Mnemonic = data?.Mnemonic ?? string.Empty;
       SourceData = new KanjiSourceData(this, data?.SourceData);
-      Readings = new KanjiNoteReadings(data?.Readings, Guard);
+      Readings = new KanjiNoteReadings(this, data?.Readings);
       KanjiReferences = data?.References ?? string.Empty;
       Images = new MediaReferenceList<ImageReference>(this, data?.Images.Select(it => it.ToReference()) ?? [], static it => new KanjiTevent.ImagesUpdated(it));
       Radicals = new KanjiRadicals(this, data?.Radicals ?? []);

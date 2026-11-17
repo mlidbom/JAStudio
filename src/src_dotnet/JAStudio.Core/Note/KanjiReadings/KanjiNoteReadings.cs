@@ -1,17 +1,31 @@
 using System;
 using System.Collections.Generic;
+using Compze.Teventive;
+using Compze.Teventive.Taggregates.BaseClasses;
+using JAStudio.Core.Note.KanjiTevents;
+using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.KanjiReadings;
 
 /// <summary>The readings of a <see cref="KanjiNote"/>: its <see cref="On"/>, <see cref="Kun"/> and <see cref="Nanori"/> readings, each primary or secondary.</summary>
-public class KanjiNoteReadings
+/// <remarks>A component of its kanji: each kind of reading publishes a tevent of its own, <see cref="IKanjiTevent.Readings"/>, which its appliers apply.</remarks>
+public class KanjiNoteReadings : TeventiveComponent<KanjiNote, INoteTevent, NoteTevent, KanjiNoteReadings, IKanjiTevent.Readings, KanjiTevent.Readings>, ITeventRouted
 {
-   internal KanjiNoteReadings(KanjiReadingsDto? data, NoteGuard guard)
+   static readonly TeventRouting<KanjiNoteReadings> Appliers = TeventRouting<KanjiNoteReadings>.DeclareAppliers(it => it
+     .For<IKanjiTevent.Readings.PropertyUpdated.On>(static (readings, tevent) => readings.On.Apply(tevent.On))
+     .For<IKanjiTevent.Readings.PropertyUpdated.Kun>(static (readings, tevent) => readings.Kun.Apply(tevent.Kun))
+     .For<IKanjiTevent.Readings.PropertyUpdated.Nanori>(static (readings, tevent) => readings.Nanori.Apply(tevent.Nanori)));
+
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
+   /// <param name="kanji">The kanji they're the readings of.</param>
+   /// <param name="data">The readings as the kanji stores them, or null for a new kanji.</param>
+   internal KanjiNoteReadings(KanjiNote kanji, KanjiReadingsDto? data) : base(kanji)
    {
-      On = new KanjiReadingList(KanjiReadingKind.On, data?.On ?? [], guard);
-      Kun = new KanjiReadingList(KanjiReadingKind.Kun, data?.Kun ?? [], guard);
-      Nanori = new KanjiReadingList(KanjiReadingKind.Nanori, data?.Nanori ?? [], guard);
+      On = new KanjiReadingList(kanji, KanjiReadingKind.On, data?.On ?? [], static it => new KanjiTevent.Readings.OnUpdated(it));
+      Kun = new KanjiReadingList(kanji, KanjiReadingKind.Kun, data?.Kun ?? [], static it => new KanjiTevent.Readings.KunUpdated(it));
+      Nanori = new KanjiReadingList(kanji, KanjiReadingKind.Nanori, data?.Nanori ?? [], static it => new KanjiTevent.Readings.NanoriUpdated(it));
    }
 
    /// <summary>The on readings: see <see cref="KanjiReadingKind.On"/>.</summary>

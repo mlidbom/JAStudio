@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
@@ -47,6 +48,17 @@ public abstract class KanjiTevent : NoteTevent, IKanjiTevent
    public class Created(KanjiId kanjiId, string question) : KanjiTevent(kanjiId), IKanjiTevent.Created
    {
       public string Question { get; } = question;
+   }
+
+   public abstract class Readings : KanjiTevent, IKanjiTevent.Readings
+   {
+      public class OnUpdated(IReadOnlyList<KanjiReading> on) : Readings, IKanjiTevent.Readings.PropertyUpdated.On { public IReadOnlyList<KanjiReading> On { get; } = on; }
+      public class KunUpdated(IReadOnlyList<KanjiReading> kun) : Readings, IKanjiTevent.Readings.PropertyUpdated.Kun { public IReadOnlyList<KanjiReading> Kun { get; } = kun; }
+
+      public class NanoriUpdated(IReadOnlyList<KanjiReading> nanori) : Readings, IKanjiTevent.Readings.PropertyUpdated.Nanori
+      {
+         public IReadOnlyList<KanjiReading> Nanori { get; } = nanori;
+      }
    }
 
    public abstract class SourceData : KanjiTevent, IKanjiTevent.SourceData

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Compze.Teventive.Taggregates.Tevents;
+using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
@@ -29,6 +30,16 @@ public interface IKanjiTevent : INoteTevent
 
    /// <remarks>Carries the kanji's question, its character, which no tevent changes: a kanji with another character is another kanji.</remarks>
    public interface Created : IKanjiTevent, ITaggregateCreatedTevent { string Question { get; } }
+
+   public interface Readings : IKanjiTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface On : Readings { IReadOnlyList<KanjiReading> On { get; } }
+         public interface Kun : Readings { IReadOnlyList<KanjiReading> Kun { get; } }
+         public interface Nanori : Readings { IReadOnlyList<KanjiReading> Nanori { get; } }
+      }
+   }
 
    public interface SourceData : IKanjiTevent
    {

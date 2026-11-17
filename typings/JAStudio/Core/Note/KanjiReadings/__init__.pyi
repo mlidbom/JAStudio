@@ -2,6 +2,9 @@ import typing, clr
 from JAStudio.Core.Note.EditableFields import EditableField_2
 from JAStudio.Core.Note import KanjiNote
 from System.Collections.Generic import IReadOnlyList_1, List_1
+from Compze.Teventive.Taggregates.BaseClasses import TeventiveComponent_6
+from JAStudio.Core.Note.Tevents import INoteTevent, NoteTevent
+from JAStudio.Core.Note.KanjiTevents import IKanjiTevent, KanjiTevent
 from System import IEquatable_1
 
 class EditableKanjiReadingsField(EditableField_2[KanjiNote, IReadOnlyList_1[KanjiReading]]):
@@ -18,7 +21,7 @@ class EditableKanjiReadingsField(EditableField_2[KanjiNote, IReadOnlyList_1[Kanj
     def ReadingsOn(self, kanji: KanjiNote) -> KanjiReadingList: ...
 
 
-class KanjiNoteReadings:
+class KanjiNoteReadings(TeventiveComponent_6[KanjiNote, INoteTevent, NoteTevent, KanjiNoteReadings, IKanjiTevent.Readings, KanjiTevent.Readings]):
     @property
     def Kun(self) -> KanjiReadingList: ...
     @property

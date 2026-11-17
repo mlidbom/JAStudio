@@ -132,6 +132,28 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void the_committed_kanji_has_the_new_source_answer() => _kanji.SourceData.Answer.Must().Be("running");
       }
 
+      public class when_an_on_reading_is_added_in_katakana : given_a_kanji_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_an_on_reading_is_added_in_katakana() => _published = TheTeventsPublishedAs(it => it.Readings.On.Add("シュ"));
+
+         [XF] public void it_publishes_its_on_readings_with_the_new_one_last_in_hiragana_and_secondary() =>
+            _published.Must().Satisfy(it => it is [IKanjiTevent.Readings.PropertyUpdated.On { On: [_, { Kana: "しゅ", IsPrimary: false }] }]);
+
+         [XF] public void the_committed_kanji_has_it() => _kanji.Readings.On.AllKana().Must().SequenceEqual(["そう", "しゅ"]);
+
+         public class and_then_made_primary : when_an_on_reading_is_added_in_katakana
+         {
+            readonly IReadOnlyList<INoteTevent> _publishedWhenMadePrimary;
+
+            public and_then_made_primary() => _publishedWhenMadePrimary = TheTeventsPublishedAs(it => it.Readings.On.MakePrimary("しゅ"));
+
+            [XF] public void it_publishes_its_on_readings_with_it_primary() =>
+               _publishedWhenMadePrimary.Must().Satisfy(it => it is [IKanjiTevent.Readings.PropertyUpdated.On { On: [_, { Kana: "しゅ", IsPrimary: true }] }]);
+         }
+      }
+
       public class when_an_image_is_added : given_a_kanji_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;
