@@ -88,16 +88,17 @@ Step 12 of [the migration of the notes to Compze's state store](taggregates/shar
 compared the branch `migrating-the-notes-to-the-state-store` (`237b5bca6`) with `main` (`59cd15125`): each started warm
 in the headless JAStudio, on the same corpus checkout, with 49,338 sentences, 28,004 vocab and 2,554 kanji.
 
-| | main | the branch |
-|---|---|---|
-| The managed heap after the most thorough collection (`describe_memory`) | 878 MB | 850 MB |
-| The process's working set then | 958 MB | 941 MB |
-| Its private memory then | 1,058 MB | 1,035 MB |
-| The heap's objects (`describe_what_the_heap_holds`) | 12.70 million | 12.61 million |
-| The heap without the `byte[]`s that come and go | 727 MB | 712 MB |
+| | main | the branch, Compze at `f0ed1ccf6` | the branch, Compze at `53d24b46c` |
+|---|---|---|---|
+| The managed heap after the most thorough collection (`describe_memory`) | 878 MB | 850 MB | 730 MB |
+| The process's working set then | 958 MB | 941 MB | 818 MB |
+| Its private memory then | 1,058 MB | 1,035 MB | 907 MB |
+| The heap's objects (`describe_what_the_heap_holds`) | 12.70 million | 12.61 million | 10.47 million |
+| The heap without the `byte[]`s that come and go | 727 MB | 712 MB | 574 MB |
 
-**So the state store takes about 2% less.** What went and what came are of about the same size, by the types that take
-the most in each heap:
+**So the state store takes about 2% less at `f0ed1ccf6`, and about 15% less at `53d24b46c`,** where Compze's index keeps
+no keys, as below. At `f0ed1ccf6`, what went and what came are of about the same size, by the types that take the most in
+each heap:
 
 | What | main | the branch |
 |---|---|---|
@@ -111,8 +112,9 @@ the most in each heap:
 | The store's taggregates by id, and its references to them | | about 13 MB |
 | The strings, and the stored parsing results' `ParsedMatch`es | 146 and 31 MB | the same |
 
-**What would take less: an index that keeps no keys.** An `ImmutableHashSet` takes about 56 bytes a key, and a
-sentence's words (`SentenceIndexes.Word`) and matched vocab (`SentenceIndexes.MatchedVocab`) take 33 MB each. An array
-would take 8 bytes a key and a header, about 25 MB in all. `jastudio-rep-opus` recommends to Magnus that the index keep
-none: it can compute a changed taggregate's old keys from the committed instance as the commit is prepared, so the
-105 MB go entirely (2026-11-17).
+**Done: an index that keeps no keys** (Compze's `53d24b46c`, 2026-11-17). An `ImmutableHashSet` takes about 56 bytes a
+key, and a sentence's words (`SentenceIndexes.Word`) and matched vocab (`SentenceIndexes.MatchedVocab`) took 33 MB each.
+The index now computes a changed taggregate's old keys from the committed instance as the commit is prepared, so it
+keeps none. That took 138 MB off the heap, more than the sets' 105 MB: the key objects only they held went with them,
+2.1 million objects in all. What is left of the indexes is about 42 MB: the `ConcurrentDictionary` from each key, about
+21 MB, and its arrays of `ITaggregateReference`s, 21 MB.

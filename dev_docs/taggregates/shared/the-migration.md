@@ -55,7 +55,8 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `f0ed1ccf6`, where every taggregate of a class comes from a bulk reader,
+  JAStudio's worktree of Compze is at `53d24b46c`, where an index keeps no record of each taggregate's keys (step 12, below).
+  Before it, `f0ed1ccf6`, where every taggregate of a class comes from a bulk reader,
   `ITaggregateStoreBulkReader`, and neither it nor an index lookup gives an order (Magnus, items 34, 36 and 37): JAStudio's
   `NoteIndex` sorts lookups by id. Before it, `63a5dcce5`, whose index lookups gave id order, and `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
   and `ITaggregateStoreReader`: the three additions JAStudio's switch asked for, specified under "Three gaps for JAStudio's
@@ -83,8 +84,8 @@ cache.
   participation handler of the change's tevent, in the unit of work that made it. Magnus looks at the structure at the
   end, rather than holding the work up (2026-11-17: "I'd rather refactor at the end than hold everything up with you
   waiting for me. The events are not stored so the choices can be changed.").
-- **Step 12 is done,** as [below](#step-12-as-measured): against `main`, the branch takes 2% less memory, and about 2.4
-  seconds longer to load, almost all of it in filing the state store's indexes.
+- **Step 12 is done,** as [below](#step-12-as-measured): against `main`, the branch takes about 15% less memory, and
+  about 1.7 seconds longer to load, since Compze's index keeps no keys (`53d24b46c`); before, 2% less and 2.4 s longer.
 - **Every step of [the order](#the-order) is done,** 13 and the last with the switch. What is left is the end: Magnus's
   decisions, the spike's review in Compze, the release, and the sign-offs.
 - **Compze's types are in JAStudio's Python stubs** since the notes derive from `Taggregate`. After each Compze step,
@@ -269,7 +270,7 @@ Measured 2026-11-17: the branch at `237b5bca6` against `main` at `59cd15125`, wh
 both record, with the same add-on folder and Anki profile. Both write the same snapshot caches (`snapshot.bin`), byte for
 byte, so a run of one loads what the other wrote.
 
-- **Loading takes the branch about 2.4 seconds longer.** `dev_scripts/compare-load-times.ps1` alternates the two, run by
+- **At Compze's `f0ed1ccf6`, loading took the branch about 2.4 seconds longer.** `dev_scripts/compare-load-times.ps1` alternates the two, run by
   run. Other processes used under 8 processor-seconds in any run, on 32 hardware threads:
 
   | | main | the branch |
@@ -290,16 +291,37 @@ byte, so a run of one loads what the other wrote.
   - reading the snapshot caches: 0.5 s.
 
   `main` reads the caches in 0.9 s, then builds the vocab's and the sentences' caches at the same time, in 1.1 and 1.3 s.
-- **Memory: 2% less,** as [memory-use.md](../../memory-use.md#on-the-state-store-against-main-2026-11-17) details: after
+- **Memory, at `f0ed1ccf6`: 2% less,** as [memory-use.md](../../memory-use.md#on-the-state-store-against-main-2026-11-17) details: after
   the most thorough collection, 850 MB on the managed heap against 878 MB, and a working set of 941 MB against 958 MB.
   What the text fields' notifiers and `main`'s index sets took is gone, and the state store's indexes take about as
   much. Their largest part, about 105 MB, is each taggregate's keys in each index, kept as an `ImmutableHashSet`.
-- **Put to Magnus by `jastudio-rep-opus`:** the index keeps no keys at all. When a unit of work prepares its commit, the
-  index computes a changed taggregate's old keys from its committed instance, which stays the old one until the commit,
-  and its new keys from the unit of work's copy, and files by the difference. That takes the 105 MB and the 0.8 s away,
-  leaving the load about 1.5 s slower than `main`'s. Filing the indexes and restoring the taggregates in parallel would
-  take off most of the rest, at the price of running JAStudio's key functions on several threads at once: optional, and
-  not recommended unless Magnus wants the load time down further.
+- **Then the index keeps no keys at all** (`jastudio-rep-opus`, Compze's `53d24b46c`, on Magnus's yes). When a unit of
+  work prepares its commit, the index computes a changed taggregate's old keys from its committed instance, which stays
+  the old one until the commit, and its new keys from the unit of work's copy, and files by the difference. It asserts
+  that the taggregate is filed under each old key, so a key function that reads anything but its note's own state fails
+  the unit of work: none of JAStudio's does. Measured again, the same way, twice:
+
+  | | main | the branch, before | the branch, now |
+  |---|---|---|---|
+  | Populating JAStudio's data, warm: median of 5, twice | 2.63 and 2.67 s | 5.08 s | 4.38 and 4.31 s |
+  | The same, cold: the second run, twice | 7.1 and 6.2 s | 9.3 s | 9.1 and 7.8 s |
+  | The process's processor time until the MCP server listens, warm | about 14.5 s | about 21 s | about 19 s |
+  | The managed heap after the most thorough collection | 878 MB | 850 MB | 730 MB |
+  | The process's working set then | 958 MB | 941 MB | 818 MB |
+
+  So the branch loads about 1.7 s slower than `main`, and takes about 15% less memory. Another session kept one of the
+  32 hardware threads busy all through both sets, alternating over both builds. The first cold run of each set was
+  disturbed, `main`'s, after every note's file had just been written: 40 and 48 processor-seconds by other processes.
+  Filing the indexes and restoring the taggregates in parallel would take off most of the rest, at the price of running
+  JAStudio's key functions on several threads at once: optional, and not recommended unless Magnus wants the load time
+  down further.
+  - **The headless checks on `53d24b46c`:** a full rebuild, saving every note and copying all 79,896 notes change
+    nothing, and edits that change a vocab's index keys and those of the sentences it matches, reversed, leave every
+    file as committed.
+- **Found while measuring: half the runs of `JAStudio.UI.Specifications` ended in a fatal error,** which `main`'s don't
+  (`38e9cae9d`). Since step 4 moved a note's Anki tags out of it, a search reads them through the container, and a
+  search the search editor started, superseded by a later one, read on after its specification had disposed the
+  container. The specifications now wait for the work they started before disposing the app.
 
 ## The order
 
@@ -358,9 +380,8 @@ Each step is an increment that builds and passes JAStudio's whole suite, and is 
 `IStateStore.ReloadFromStorageAfter`, which JAStudio's start and `fast_forward_the_corpus_checkout` load through.
 
 **What is left is the end:**
-- Magnus decides what `jastudio-rep-opus` put to him: an index that keeps no keys, from step 12, and whether the JSON
-  store waits for a consumer that needs it. With the index changed, JAStudio measures the load and the heap again
-  (`dev_scripts/compare-load-times.ps1`).
+- Magnus decides whether the JSON store waits for a consumer that needs it, as `jastudio-rep-opus` put to him. The index
+  that keeps no keys, from step 12, is built and measured.
 - The end of the spike's review in Compze: independent reviews of every public API change and of the store's design,
   then a pass with Magnus. What it changes may reach JAStudio's code.
 - Compze's release, on Magnus's go-ahead; then this branch goes back to package references, and the three sign-offs.
