@@ -59,10 +59,13 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `37731c854`, step 5's second increment
+  JAStudio's worktree of Compze is at `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`
-  branch): a class's tevent routing is typed on its tevent root, such as `TeventRouting<JPNote, INoteTevent>`, and its
-  first one comes from its Compze base class's `DeclareAppliers`. Before it, `c5c910e06`, where the storage seam is
+  branch): every teventive class must declare its tevent routing, and every component asserts, when it's constructed,
+  that its parent's routing has an entry for its tevents. JAStudio needed no change for it. Before it, `37731c854`,
+  step 5's second increment: a class's tevent routing is typed on its tevent root, such as
+  `TeventRouting<JPNote, INoteTevent>`, and its first one comes from its Compze base class's `DeclareAppliers`. Before
+  it, `c5c910e06`, where the storage seam is
   internal: JAStudio uses none of it, its
   specifications keeping the JSON store's files in memory (`KeptInMemory`, `77c3cdaf8`). Before it, `962a05221`, where the
   JSON store starts from a MemoryPack cache of its own
