@@ -55,7 +55,8 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `53d24b46c`, where an index keeps no record of each taggregate's keys (step 12, below).
+  JAStudio's worktree of Compze is at `3df5ee7f8`, where the engine's await is `AwaitNoTessagesInFlightAsync` (Magnus,
+  item 43). Before it, `53d24b46c`, where an index keeps no record of each taggregate's keys (step 12, below).
   Before it, `f0ed1ccf6`, where every taggregate of a class comes from a bulk reader,
   `ITaggregateStoreBulkReader`, and neither it nor an index lookup gives an order (Magnus, items 34, 36 and 37): JAStudio's
   `NoteIndex` sorts lookups by id. Before it, `63a5dcce5`, whose index lookups gave id order, and `21012570a`, after step 2b, the tevent store joining the shared `ITaggregateStoreUpdater`
@@ -352,8 +353,8 @@ to anything that happens".
   JAStudio's own would re-implement Compze's routing by tevent type, so there is none. Until then the observables stay.
   The view models that will observe: a note's tab and its page, the search results' rows, the parsing cases. Those that
   must run on the UI thread observe through an extension that delivers there (Magnus's idea), over `IUIThreadDispatcher`.
-- **Specifications wait** with `ILocalTessagingEngine.AwaitNoTeventsInFlightAsync`, whose name, or
-  `AwaitNoTessagesInFlightAsync`, is Magnus's call through `jastudio-rep-opus`.
+- **Specifications wait** with `ILocalTessagingEngine.AwaitNoTessagesInFlightAsync`, so named on Magnus's word (Compze's
+  `3df5ee7f8`).
 
 ## The order
 
