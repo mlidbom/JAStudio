@@ -399,7 +399,10 @@ to anything that happens".
     `jastudio-rep-opus`'s JSON store with its files kept in memory lands, which replaces `NotesStoredInMemory` (Magnus's
     decision), the specifications' collection is prepared once per test process as files: the stripped-down corpus's
     vocab files as they are, and the sample kanji and sentences serialized once. Each specification that needs it loads
-    them as a start does, rather than adding 1,035 notes in a unit of work each.
+    them as a start does, rather than adding 1,035 notes in a unit of work each. How, by `jastudio-rep-opus`'s design:
+    the files written through `ITaggregateFilesInMemory.WriteAllText` before the store's first use are what it loads,
+    each app having files of its own; so the 1,035 paths and texts are prepared once, and written into each app's files
+    before its first use, about a megabyte, a millisecond or so.
   - **Writing every note, changed or not** (`save_every_note`, and the workspace's "Write file system repository"), is
     `CorpusNoteFiles.Write`, which writes a note's file as Compze does, since Compze's storage is out of reach: a
     `todo:compze:` until Compze can rewrite every taggregate.
