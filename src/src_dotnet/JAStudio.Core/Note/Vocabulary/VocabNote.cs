@@ -29,7 +29,10 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
      .For<IVocabTevent.PropertyUpdated.Mnemonic>(static (vocab, tevent) => vocab.Mnemonic = tevent.Mnemonic)
      .For<IVocabTevent.PropertyUpdated.TechnicalNotes>(static (vocab, tevent) => vocab.TechnicalNotes = tevent.TechnicalNotes)
      .For<IVocabTevent.PropertyUpdated.References>(static (vocab, tevent) => vocab.References = tevent.References)
-     .Component(static vocab => vocab.SourceData));
+     .For<IVocabTevent.PropertyUpdated.Readings>(static (vocab, tevent) => vocab._readings = tevent.Readings)
+     .Component(static vocab => vocab.SourceData)
+     .Component(static vocab => vocab.MetaData)
+     .Component(static vocab => vocab.UsuallyWrittenInKana));
 
    TeventRouting ITeventRouted.TeventAppliers => Appliers;
 
@@ -124,7 +127,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    /// <summary>Gives the vocab <paramref name="references"/>, trimmed, as its <see cref="References"/>.</summary>
    public void SetReferences(string references) => PublishIfChanged(References, references.Trim(), static it => new VocabTevent.ReferencesUpdated(it));
 
-   List<string> _readings;
+   IReadOnlyList<string> _readings;
 
    /// <summary>An empty vocab, which is no vocab yet: <see cref="RestoreFrom"/> makes it a stored one, and <see cref="VocabTevent.Created"/> a new one.</summary>
    internal VocabNote(NoteServices services) : base(services)
@@ -177,9 +180,9 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
       PartsOfSpeech = new VocabNotePartsOfSpeech(this, data, Guard);
       CompoundParts = new VocabNoteCompoundParts(this, data, Guard);
       RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab, Guard);
-      MetaData = new VocabNoteMetaData(this, data, Guard);
+      MetaData = new VocabNoteMetaData(this, data);
       Register = new VocabNoteRegister(data?.Register ?? [], Guard);
-      UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(data?.UsuallyWrittenInKana, Guard);
+      UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(this, data?.UsuallyWrittenInKana);
       MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, Services.SharedConditions, new NoteGuard(AssertCanBeChanged, FlushAfterTheMatchingConfigurationChanged));
    }
 
@@ -272,11 +275,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
 
    public List<string> GetReadings() => [.. _readings];
 
-   public void SetReadings(List<string> readings) => Guard.Update(() =>
-   {
-      _readings.Clear();
-      _readings.AddRange(readings);
-   });
+   /// <summary>Gives the vocab <paramref name="readings"/>, in their order, as its readings.</summary>
+   public void SetReadings(IReadOnlyList<string> readings) => PublishIfTheListChanged(_readings, readings, static it => new VocabTevent.ReadingsUpdated(it));
 
    public void GenerateAndSetAnswer()
    {

@@ -15,6 +15,7 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
    public class MnemonicUpdated(string mnemonic) : VocabTevent, IVocabTevent.PropertyUpdated.Mnemonic { public string Mnemonic { get; } = mnemonic; }
    public class TechnicalNotesUpdated(string technicalNotes) : VocabTevent, IVocabTevent.PropertyUpdated.TechnicalNotes { public string TechnicalNotes { get; } = technicalNotes; }
    public class ReferencesUpdated(string references) : VocabTevent, IVocabTevent.PropertyUpdated.References { public string References { get; } = references; }
+   public class ReadingsUpdated(IReadOnlyList<string> readings) : VocabTevent, IVocabTevent.PropertyUpdated.Readings { public IReadOnlyList<string> Readings { get; } = readings; }
 
    public class Created(VocabId vocabId, string question) : VocabTevent(vocabId), IVocabTevent.Created
    {
@@ -39,6 +40,19 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
       public class SourceReadingMnemonicUpdated(string readingMnemonic) : SourceData, IVocabTevent.SourceData.PropertyUpdated.ReadingMnemonic
       {
          public string ReadingMnemonic { get; } = readingMnemonic;
+      }
+   }
+
+   public abstract class MetaData : VocabTevent, IVocabTevent.MetaData
+   {
+      public class SentenceCountUpdated(int sentenceCount) : MetaData, IVocabTevent.MetaData.PropertyUpdated.SentenceCount { public int SentenceCount { get; } = sentenceCount; }
+   }
+
+   public abstract class UsuallyWrittenInKana : VocabTevent, IVocabTevent.UsuallyWrittenInKana
+   {
+      public class DecisionUpdated(UsuallyWrittenInKanaDecision decision) : UsuallyWrittenInKana, IVocabTevent.UsuallyWrittenInKana.PropertyUpdated.Decision
+      {
+         public UsuallyWrittenInKanaDecision Decision { get; } = decision;
       }
    }
 

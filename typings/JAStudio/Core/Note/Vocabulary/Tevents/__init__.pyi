@@ -2,7 +2,7 @@ import typing, abc
 from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, NoteTevent_1
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from System.Collections.Generic import IReadOnlyList_1
-from JAStudio.Core.Note.Vocabulary import EnteredForm, WordReference
+from JAStudio.Core.Note.Vocabulary import EnteredForm, WordReference, UsuallyWrittenInKanaDecision
 from Compze.Abstractions import TaggregateId
 from System import DateTime
 from JAStudio.Core.Note import VocabId
@@ -40,6 +40,17 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
 
 
 
+    class MetaData(IVocabTevent_0, typing.Protocol):
+
+        class PropertyUpdated(abc.ABC):
+
+            class SentenceCount(IVocabTevent.MetaData, typing.Protocol):
+                @property
+                def SentenceCount(self) -> int: ...
+
+
+
+
     class PropertyUpdated(abc.ABC):
 
         class CorpusAnswer(IVocabTevent_0, typing.Protocol):
@@ -60,6 +71,11 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
         class Mnemonic(IVocabTevent_0, typing.Protocol):
             @property
             def Mnemonic(self) -> str: ...
+
+
+        class Readings(IVocabTevent_0, typing.Protocol):
+            @property
+            def Readings(self) -> IReadOnlyList_1[str]: ...
 
 
         class References(IVocabTevent_0, typing.Protocol):
@@ -111,6 +127,17 @@ class IVocabTevent_0(INoteTevent, typing.Protocol):
             class ReadingMnemonic(IVocabTevent.SourceData, typing.Protocol):
                 @property
                 def ReadingMnemonic(self) -> str: ...
+
+
+
+
+    class UsuallyWrittenInKana(IVocabTevent_0, typing.Protocol):
+
+        class PropertyUpdated(abc.ABC):
+
+            class Decision(IVocabTevent.UsuallyWrittenInKana, typing.Protocol):
+                @property
+                def Decision(self) -> UsuallyWrittenInKanaDecision: ...
 
 
 
@@ -232,6 +259,27 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
 
 
 
+    class MetaData(VocabTevent_0, IVocabTevent.MetaData):
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+        class SentenceCountUpdated(VocabTevent.MetaData, IVocabTevent.MetaData.PropertyUpdated.SentenceCount):
+            def __init__(self, sentenceCount: int) -> None: ...
+            @property
+            def SentenceCount(self) -> int: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
+
+
     class MnemonicUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.Mnemonic):
         def __init__(self, mnemonic: str) -> None: ...
         @property
@@ -267,6 +315,18 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
             @property
             def UtcTimeStamp(self) -> DateTime: ...
 
+
+
+    class ReadingsUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.Readings):
+        def __init__(self, readings: IReadOnlyList_1[str]) -> None: ...
+        @property
+        def Readings(self) -> IReadOnlyList_1[str]: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
 
 
     class ReferencesUpdated(VocabTevent_0, IVocabTevent.PropertyUpdated.References):
@@ -336,6 +396,27 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def TechnicalNotes(self) -> str: ...
         @property
         def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class UsuallyWrittenInKana(VocabTevent_0, IVocabTevent.UsuallyWrittenInKana):
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+        class DecisionUpdated(VocabTevent.UsuallyWrittenInKana, IVocabTevent.UsuallyWrittenInKana.PropertyUpdated.Decision):
+            def __init__(self, decision: UsuallyWrittenInKanaDecision) -> None: ...
+            @property
+            def Decision(self) -> UsuallyWrittenInKanaDecision: ...
+            @property
+            def TaggregateId(self) -> TaggregateId: ...
+            @property
+            def TaggregateVersion(self) -> int: ...
+            @property
+            def UtcTimeStamp(self) -> DateTime: ...
+
 
 
 

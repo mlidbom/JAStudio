@@ -1,4 +1,8 @@
 using System;
+using Compze.Teventive;
+using Compze.Teventive.Taggregates.BaseClasses;
+using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Note.Vocabulary.Tevents;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -12,16 +16,22 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// the word is usually written in kana.<br/>
 /// Once decided, by hand or by JAStudio, it's never changed automatically, so a no keeps JAStudio from marking the vocab when it gets it wrong.
 /// </remarks>
-public class VocabNoteUsuallyWrittenInKana
+/// <remarks>A component of its vocab, whose decision publishes a tevent of its own, <see cref="IVocabTevent.UsuallyWrittenInKana"/>, which its applier applies.</remarks>
+public class VocabNoteUsuallyWrittenInKana : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteUsuallyWrittenInKana, IVocabTevent.UsuallyWrittenInKana, VocabTevent.UsuallyWrittenInKana>, ITeventRouted
 {
-   readonly NoteGuard _guard;
+   static readonly TeventRouting<VocabNoteUsuallyWrittenInKana> Appliers = TeventRouting<VocabNoteUsuallyWrittenInKana>.DeclareAppliers(it => it
+     .For<IVocabTevent.UsuallyWrittenInKana.PropertyUpdated.Decision>(static (usuallyWrittenInKana, tevent) => usuallyWrittenInKana.Decision = tevent.Decision));
 
+   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+
+   readonly VocabNote _vocab;
+
+   /// <param name="vocab">The vocab it's of.</param>
    /// <param name="stored">The <see cref="Decision"/> as the corpus stores it: see <see cref="ToDto"/>.</param>
-   /// <param name="guard">Saves the vocab after a change.</param>
-   internal VocabNoteUsuallyWrittenInKana(bool? stored, NoteGuard guard)
+   internal VocabNoteUsuallyWrittenInKana(VocabNote vocab, bool? stored) : base(vocab)
    {
+      _vocab = vocab;
       Decision = DecisionStoredAs(stored);
-      _guard = guard;
    }
 
    public UsuallyWrittenInKanaDecision Decision { get; private set; }
@@ -29,8 +39,9 @@ public class VocabNoteUsuallyWrittenInKana
    /// <summary>Whether the vocab is usually written in kana: only once it's decided as <see cref="UsuallyWrittenInKanaDecision.Yes"/>.</summary>
    public bool IsYes => Decision == UsuallyWrittenInKanaDecision.Yes;
 
-   /// <summary>Decides it as <paramref name="decision"/> says, or with <see cref="UsuallyWrittenInKanaDecision.Undecided"/> makes it undecided again, and saves the vocab.</summary>
-   public void Decide(UsuallyWrittenInKanaDecision decision) => _guard.Update(() => Decision = decision);
+   /// <summary>Decides it as <paramref name="decision"/> says, or with <see cref="UsuallyWrittenInKanaDecision.Undecided"/> makes it undecided again.</summary>
+   public void Decide(UsuallyWrittenInKanaDecision decision) =>
+      _vocab.PublishIfChanged(Decision, decision, static it => new VocabTevent.UsuallyWrittenInKana.DecisionUpdated(it));
 
    /// <summary>Decides it as yes, unless it's decided already: how JAStudio decides it automatically.</summary>
    internal void DecideAsYesUnlessDecided()

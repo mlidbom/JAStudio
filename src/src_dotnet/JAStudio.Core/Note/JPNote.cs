@@ -198,10 +198,22 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    /// its parts, unless the property holds it already, as <paramref name="current"/>: a tevent says that something changed.
    /// </summary>
    /// <returns>Whether it published the tevent.</returns>
-   internal bool PublishIfChanged(string current, string updated, Func<string, NoteTevent> teventOf)
+   internal bool PublishIfChanged<TValue>(TValue current, TValue updated, Func<TValue, NoteTevent> teventOf)
    {
-      if(updated == current) return false;
+      if(EqualityComparer<TValue>.Default.Equals(updated, current)) return false;
       Publish(teventOf(updated));
+      return true;
+   }
+
+   /// <summary>
+   /// Publishes the tevent <paramref name="teventOf"/> makes of a copy of <paramref name="updated"/>, the new value of a list property of the note or<br/>
+   /// of one of its parts, unless the property holds the same elements in the same order already, as <paramref name="current"/>.
+   /// </summary>
+   /// <returns>Whether it published the tevent.</returns>
+   internal bool PublishIfTheListChanged<TElement>(IReadOnlyList<TElement> current, IReadOnlyList<TElement> updated, Func<IReadOnlyList<TElement>, NoteTevent> teventOf)
+   {
+      if(updated.SequenceEqual(current)) return false;
+      Publish(teventOf([.. updated]));
       return true;
    }
 

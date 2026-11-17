@@ -204,6 +204,27 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
          [XF] public void the_committed_vocab_has_the_new_answer() => _vocab.CorpusAnswer.Must().Be("to dash");
       }
 
+      public class when_its_readings_are_changed : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_readings_are_changed() => _published = TheTeventsPublishedAs(it => it.SetReadings(["はしる", "かける"]));
+
+         [XF] public void it_publishes_that_its_readings_were_updated_to_the_new_readings() =>
+            _published.Must().Satisfy(it => it is [IVocabTevent.PropertyUpdated.Readings { Readings: ["はしる", "かける"] }]);
+
+         [XF] public void the_committed_vocab_has_the_new_readings() => _vocab.GetReadings().Must().SequenceEqual(["はしる", "かける"]);
+      }
+
+      public class when_its_readings_are_set_to_the_readings_it_has : given_a_vocab_in_the_collection
+      {
+         readonly IReadOnlyList<INoteTevent> _published;
+
+         public when_its_readings_are_set_to_the_readings_it_has() => _published = TheTeventsPublishedAs(it => it.SetReadings(["はしる"]));
+
+         [XF] public void it_publishes_nothing() => _published.Must().BeEmpty();
+      }
+
       public class when_its_source_answer_is_changed : given_a_vocab_in_the_collection
       {
          readonly IReadOnlyList<INoteTevent> _published;

@@ -21,6 +21,7 @@ public interface IVocabTevent : INoteTevent
       public interface Mnemonic : IVocabTevent { string Mnemonic { get; } }
       public interface TechnicalNotes : IVocabTevent { string TechnicalNotes { get; } }
       public interface References : IVocabTevent { string References { get; } }
+      public interface Readings : IVocabTevent { IReadOnlyList<string> Readings { get; } }
    }
 
    public interface Created : IVocabTevent, ITaggregateCreatedTevent, Question.PropertyUpdated.Text;
@@ -47,6 +48,22 @@ public interface IVocabTevent : INoteTevent
          public interface Answer : SourceData { string Answer { get; } }
          public interface Mnemonic : SourceData { string Mnemonic { get; } }
          public interface ReadingMnemonic : SourceData { string ReadingMnemonic { get; } }
+      }
+   }
+
+   public interface MetaData : IVocabTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface SentenceCount : MetaData { int SentenceCount { get; } }
+      }
+   }
+
+   public interface UsuallyWrittenInKana : IVocabTevent
+   {
+      public new static class PropertyUpdated
+      {
+         public interface Decision : UsuallyWrittenInKana { UsuallyWrittenInKanaDecision Decision { get; } }
       }
    }
 
