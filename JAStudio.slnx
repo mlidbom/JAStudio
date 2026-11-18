@@ -22,28 +22,4 @@
    <Project Path="src/src_dotnet/JAStudio.Web.Specifications/JAStudio.Web.Specifications.csproj" />
    <Project Path="src/src_dotnet/Mp3LoudnessNormalization.Specifications/Mp3LoudnessNormalization.Specifications.csproj" />
    <Project Path="src/src_dotnet/Mp3LoudnessNormalization/Mp3LoudnessNormalization.csproj" />
-   <Folder Name="/Compze, the spike of the state store, from source/">
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Abstractions/Compze.Abstractions.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Contracts/Compze.Contracts.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.DependencyInjection/Compze.DependencyInjection.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.DependencyInjection.Extensions.Hosting/Compze.DependencyInjection.Extensions.Hosting.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.DependencyInjection.Microsoft/Compze.DependencyInjection.Microsoft.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.DependencyInjection.Microsoft.Extensions.Hosting/Compze.DependencyInjection.Microsoft.Extensions.Hosting.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Internals.Logging/Compze.Internals.Logging.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Internals.SystemCE/Compze.Internals.SystemCE.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.InterprocessObject/Compze.InterprocessObject.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Must/Compze.Must.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Tessaging/Compze.Tessaging.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Tessaging.Abstractions/Compze.Tessaging.Abstractions.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Teventive/Compze.Teventive.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Teventive.MemoryImageStateStore/Compze.Teventive.MemoryImageStateStore.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Threading/Compze.Threading.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Threading.Interprocess/Compze.Threading.Interprocess.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.TypeIdentifiers/Compze.TypeIdentifiers.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.TypeIdentifiers.DependencyInjection/Compze.TypeIdentifiers.DependencyInjection.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Underscore/Compze.Underscore.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.Unit/Compze.Unit.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.xUnit/Compze.xUnit.csproj" />
-      <Project Path="../Compze.worktrees/taggregate-store-spike-for-jastudio/src/Compze.xUnitBDD/Compze.xUnitBDD.csproj" />
-   </Folder>
 </Solution>

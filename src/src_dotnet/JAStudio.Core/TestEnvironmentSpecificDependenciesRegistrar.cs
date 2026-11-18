@@ -47,7 +47,7 @@ class TestEnvironmentSpecificDependenciesRegistrar(NotesKept notesKept) : IEnvir
 
    public void DeclareWhereTheNotesAreKept(MemoryImageStateStoreBuilder store)
    {
-      if(_notesKept == NotesKept.InMemory) CorpusNoteFiles.DeclareKeptInMemoryIn(store);
+      if(_notesKept == NotesKept.InMemory) CorpusNoteFiles.DeclareOnAFileSystemInMemoryIn(store);
       else CorpusNoteFiles.DeclareIn(store);
    }
 

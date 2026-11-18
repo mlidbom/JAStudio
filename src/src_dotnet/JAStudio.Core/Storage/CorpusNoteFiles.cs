@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Compze.Teventive.MemoryImageStateStore;
 using Compze.Teventive.MemoryImageStateStore.MemoryPack;
+using Compze.Teventive.MemoryImageStateStore.Testing;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -35,21 +36,21 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
    /// container holds, and starts from a cache of them, which reads only the files changed since it was written. Compze keeps each note's file<br/>
    /// as JAStudio always has: <c>&lt;its class's folder&gt;/&lt;first two hex digits of its id&gt;/&lt;id&gt;.json</c>.
    /// </summary>
-   internal static void DeclareIn(MemoryImageStateStoreBuilder store) => DeclareIn(store, keptInMemory: false);
+   internal static void DeclareIn(MemoryImageStateStoreBuilder store) => DeclareIn(store, onAFileSystemInMemory: false);
 
    /// <summary>
    /// As <see cref="DeclareIn(MemoryImageStateStoreBuilder)"/>, with the files kept in memory rather than on the disk, for the specifications: the corpus<br/>
-   /// checkout is then only where the files' paths begin. They're read and changed through Compze's <see cref="ITaggregateFilesInMemory"/>.
+   /// checkout is then only where the files' paths begin. They're read and changed through Compze's <see cref="IFileSystemInMemory"/>.
    /// </summary>
-   internal static void DeclareKeptInMemoryIn(MemoryImageStateStoreBuilder store) => DeclareIn(store, keptInMemory: true);
+   internal static void DeclareOnAFileSystemInMemoryIn(MemoryImageStateStoreBuilder store) => DeclareIn(store, onAFileSystemInMemory: true);
 
-   static void DeclareIn(MemoryImageStateStoreBuilder store, bool keptInMemory) =>
+   static void DeclareIn(MemoryImageStateStoreBuilder store, bool onAFileSystemInMemory) =>
       store.StoredInJsonFiles((CorpusNoteFiles files) => files.CorpusCheckout,
                           NoteSerializer.JsonOptions,
                           files =>
                           {
                              files.StartingFromAMemoryPackCache();
-                             if(keptInMemory) files.KeptInMemory();
+                             if(onAFileSystemInMemory) files.OnAFileSystemInMemory();
                              files.FolderOf<VocabNote>(VocabFolder)
                                   .FolderOf<KanjiNote>(KanjiFolder)
                                   .FolderOf<SentenceNote>(SentencesFolder);

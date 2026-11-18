@@ -62,7 +62,6 @@ class MemoryImageStateStoreBuilder:
 
 class TaggregateFilesBuilder:
     def AcceptingNonAtomicCommitsWithADatabase(self) -> TaggregateFilesBuilder: ...
-    def KeptInMemory(self) -> TaggregateFilesBuilder: ...
     # Skipped FolderOf due to it being static, abstract and generic.
 
     FolderOf : FolderOf_MethodGroup

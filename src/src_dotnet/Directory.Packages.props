@@ -12,26 +12,28 @@
    <ItemGroup>
       <PackageVersion Include="Compze.Abstractions" Version="0.4.0-alpha" />
       <PackageVersion Include="Compze.Contracts" Version="0.7.2" />
-      <PackageVersion Include="Compze.DependencyInjection" Version="0.9.0-alpha" />
+      <PackageVersion Include="Compze.DependencyInjection" Version="0.10.0-alpha" />
       <PackageVersion Include="Compze.DependencyInjection.Extensions.Hosting" Version="0.5.0-alpha" />
       <PackageVersion Include="Compze.DependencyInjection.Microsoft" Version="0.6.0-alpha" />
       <PackageVersion Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.5.0-alpha" />
       <PackageVersion Include="Compze.Internals.Logging" Version="0.7.0-alpha" />
-      <PackageVersion Include="Compze.Internals.SystemCE" Version="0.8.0-internal" />
+      <PackageVersion Include="Compze.Internals.SystemCE" Version="0.9.0-internal" />
       <PackageVersion Include="Compze.InterprocessObject" Version="0.9.0-alpha" />
       <PackageVersion Include="Compze.Must" Version="0.9.0-alpha" />
-      <PackageVersion Include="Compze.Tessaging" Version="0.9.0-alpha" />
-      <PackageVersion Include="Compze.Teventive" Version="0.6.0-alpha" />
+      <PackageVersion Include="Compze.Tessaging" Version="0.10.0-alpha" />
+      <PackageVersion Include="Compze.Teventive" Version="0.7.0-alpha" />
       <PackageVersion Include="Compze.Teventive.MemoryImageStateStore" Version="0.1.0-alpha" />
-      <PackageVersion Include="Compze.Teventive.MemoryImageStateStore.MemoryPack" Version="0.1.0-alpha.1" />
+      <PackageVersion Include="Compze.Teventive.MemoryImageStateStore.MemoryPack" Version="0.1.0-alpha" />
       <PackageVersion Include="Compze.Threading" Version="0.12.0-alpha" />
       <PackageVersion Include="Compze.Underscore" Version="0.6.0-beta" />
       <PackageVersion Include="Compze.xUnit" Version="0.3.0-alpha" />
       <PackageVersion Include="Compze.xUnitBDD" Version="0.7.0-beta" />
       <!-- No project references these: they come only through other Compze packages, and are pinned here so that every project gets one
            version of each. -->
+      <PackageVersion Include="Compze.Tessaging.Abstractions" Version="0.6.0-alpha" />
       <PackageVersion Include="Compze.Threading.Interprocess" Version="0.7.0-alpha" />
       <PackageVersion Include="Compze.TypeIdentifiers" Version="0.3.0-alpha" />
+      <PackageVersion Include="Compze.TypeIdentifiers.DependencyInjection" Version="0.2.0-alpha" />
       <PackageVersion Include="Compze.Unit" Version="0.6.0-beta" />
    </ItemGroup>
 

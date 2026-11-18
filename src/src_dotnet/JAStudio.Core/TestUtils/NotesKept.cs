@@ -1,3 +1,4 @@
+using Compze.Teventive.MemoryImageStateStore.Testing;
 using JAStudio.Core.Storage;
 
 namespace JAStudio.Core.TestUtils;
@@ -11,7 +12,7 @@ public enum NotesKept
 {
    /// <summary>
    /// In memory: as the application keeps them (<see cref="CorpusNoteFiles"/>), but with the files kept in memory, which Compze's<br/>
-   /// <see cref="Compze.Teventive.MemoryImageStateStore.ITaggregateFilesInMemory"/> reads and changes.
+   /// <see cref="Compze.Teventive.MemoryImageStateStore.IFileSystemInMemory"/> reads and changes.
    /// </summary>
    InMemory,
 

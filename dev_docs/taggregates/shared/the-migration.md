@@ -17,6 +17,12 @@ programming model".
 
 ## How JAStudio builds against the spike
 
+**Ended, 2026-11-18:** JAStudio builds against Compze's packages again, the release on this machine's pending-release
+feed, built from Compze's `a8021aa1d`, until nuget.org has them. The block in `Directory.Build.targets` and the Compze
+projects in `JAStudio.slnx` are gone, and so is Rider's mapping of the Compze worktree in `.idea/vcs.xml`. CI's push and
+pull_request triggers are back. No commit is pushed that references the pending versions until nuget.org has them
+(the user-level rule on the local feed and the global NuGet cache). What follows is how it was.
+
 **Project references to the spike's projects, instead of Compze's packages, on the migration branch only.** A change
 in Compze is then in JAStudio's next build, with no packing, and no locally built package reaches the global NuGet
 cache.
@@ -61,8 +67,8 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `9f21d93d5`, after the end review's fixes and Magnus's answers to its questions.
-  Eight changes reached JAStudio, and one change of terms: observers created through `IDynamicTeventObservers.ObserveTevents`
+  JAStudio is on Compze's packages of the pending release, built from `a8021aa1d`, after the end review's fixes and
+  Magnus's answers to its questions. Nine changes reached JAStudio, and one change of terms: observers created through `IDynamicTeventObservers.ObserveTevents`
   as the application runs are *dynamic observers*, and those declared at composition *composed observers*
   (`dev_docs/taggregate-improvements/shared/dynamic-and-composed-observers.md`, in Compze).
   - **A note class is declared with a registration of the container** (end review Q3):
@@ -102,6 +108,11 @@ cache.
     `MemoryImageStateStoreBuilder` and `registrar.MemoryImageStateStore(...)`. JAStudio's code and its documents of how
     things are say "memory image state store" for it; this document's history, and the branch it was built on, say
     "the state store". The store's own folder in a corpus checkout is still `.state-store`.
+  - **The testing aids** (Q6, `dev_docs/taggregate-improvements/shared/the-testing-namespace-and-the-json-files.md`, in
+    Compze): `KeptInMemory` is `OnAFileSystemInMemory` and `ITaggregateFilesInMemory` is `IFileSystemInMemory`, in
+    `Compze.Teventive.MemoryImageStateStore.Testing`; JAStudio's `CorpusNoteFiles.DeclareKeptInMemoryIn` followed, as
+    `DeclareOnAFileSystemInMemoryIn`. And `ITaggregateJsonFiles` gives the path of a taggregate's file
+    (`PathOf<TTaggregate>`) and the taggregate whose file a path is (`TaggregateWhoseFileIs`).
 
   Before it, `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`
@@ -446,8 +457,8 @@ to anything that happens".
   `snapshot.bin` caches, is gone.
   - **Each environment declares where the notes are kept** (`IEnvironmentSpecificDependenciesRegistrar.DeclareWhereTheNotesAreKept`):
     the hosts in the corpus checkout's files. The specifications keep the same files in memory (`NotesKept.InMemory`,
-    Compze's `KeptInMemory`, `77c3cdaf8`), composed as the hosts compose theirs, MemoryPack cache included, and read
-    and change them through Compze's `ITaggregateFilesInMemory` (`SpecificationUsingACollection.TheStoredFileOf` and
+    Compze's `OnAFileSystemInMemory`, `77c3cdaf8`), composed as the hosts compose theirs, MemoryPack cache included, and
+    read and change them through Compze's `IFileSystemInMemory` (`SpecificationUsingACollection.TheStoredFileOf` and
     `WriteTheFileOf`); on the disk only where a specification needs them there (`NotesKept.InTheirFiles`): the corpus
     repository's MCP specifications, which run git on them. `NotesStoredInMemory`, JAStudio's own storage for the
     specifications, is gone, and with it JAStudio's last use of Compze's storage seam (`ITaggregateStorage` and the

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Teventive.MemoryImageStateStore;
+using Compze.Teventive.MemoryImageStateStore.Testing;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.SysUtils.IO;
@@ -35,7 +36,7 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    {
       var corpusCheckoutOfTheApp = new DirectoryInfo(app.Services.Resolve<IEnvironmentPaths>().DatabaseDir);
       CopyTheSharedConditionsTo(new CorpusFolder(corpusCheckoutOfTheApp));
-      var storesFiles = app.Services.Resolve<ITaggregateFilesInMemory>();
+      var storesFiles = app.Services.Resolve<IFileSystemInMemory>();
       foreach(var file in VocabFiles()) storesFiles.WriteAllText(Path.Combine(corpusCheckoutOfTheApp.FullName, Path.GetRelativePath(_folder.FullName, file.FullName)), File.ReadAllText(file.FullName));
       app.Collection.ReloadFromBackend();
    }

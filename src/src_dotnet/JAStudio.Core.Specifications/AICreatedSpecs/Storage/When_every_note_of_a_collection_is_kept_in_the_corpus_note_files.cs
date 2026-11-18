@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Compze.Must;
 using Compze.Teventive.MemoryImageStateStore;
+using Compze.Teventive.MemoryImageStateStore.Testing;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -43,7 +44,7 @@ public class When_every_note_of_a_collection_is_kept_in_the_corpus_note_files : 
       _notes.Where(it => TheStoredFileOf(it) != _serializer.Serialize(it)).Select(it => it.GetQuestion()).Must().BeEmpty();
 
    [XF] public void the_notes_folders_hold_a_file_for_each_note_and_no_other() =>
-      GetService<ITaggregateFilesInMemory>().Paths.Count(IsInAFolderOfNotes).Must().Be(_notes.Count);
+      GetService<IFileSystemInMemory>().Paths.Count(IsInAFolderOfNotes).Must().Be(_notes.Count);
 
    bool IsInAFolderOfNotes(string path) => new[] { "kanji", "vocab", "sentences" }.Any(it => path.StartsWith(Path.Combine(_noteFiles.CorpusCheckout.FullName, it) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase));
 

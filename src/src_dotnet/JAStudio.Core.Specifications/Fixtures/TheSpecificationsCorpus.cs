@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Teventive.MemoryImageStateStore;
+using Compze.Teventive.MemoryImageStateStore.Testing;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
@@ -51,7 +52,7 @@ sealed class TheSpecificationsCorpus
    public void LoadInto(CoreApp app)
    {
       var corpusCheckout = new DirectoryInfo(app.Services.Resolve<IEnvironmentPaths>().DatabaseDir);
-      var storesFiles = app.Services.Resolve<ITaggregateFilesInMemory>();
+      var storesFiles = app.Services.Resolve<IFileSystemInMemory>();
       foreach(var file in _filesOfTheNotes) storesFiles.WriteAllText(file.PathIn(corpusCheckout), file.Text);
       foreach(var file in _filesOnTheDisk) file.WriteTo(corpusCheckout);
       app.Collection.ReloadFromBackend();
@@ -81,7 +82,7 @@ sealed class TheSpecificationsCorpus
    /// <summary>The files of the notes, as the memory image state store of <paramref name="app"/> keeps them in memory, without the store's own files.</summary>
    static IReadOnlyList<FileInTheCorpus> TheFilesOfTheNotesIn(CoreApp app, DirectoryInfo corpusCheckout)
    {
-      var storesFiles = app.Services.Resolve<ITaggregateFilesInMemory>();
+      var storesFiles = app.Services.Resolve<IFileSystemInMemory>();
       return [.. storesFiles.Paths
                             .Select(path => new FileInTheCorpus(Path.GetRelativePath(corpusCheckout.FullName, path), storesFiles.ReadAllText(path)))
                             .Where(it => !it.IsTheMemoryImageStateStoresOwn)];

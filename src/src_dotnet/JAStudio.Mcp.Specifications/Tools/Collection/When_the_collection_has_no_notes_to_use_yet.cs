@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.Teventive.MemoryImageStateStore;
+using Compze.Teventive.MemoryImageStateStore.Testing;
 using Compze.xUnitBDD;
 using JAStudio.Core.Storage;
 using JAStudio.Mcp.Tools.Collection;
@@ -45,7 +46,7 @@ public class When_the_collection_has_no_notes_to_use_yet() : McpServerSpecificat
       public because_its_load_failed_on_a_vocab_file_that_is_not_JSON()
       {
          var corpusCheckout = GetService<CorpusNoteFiles>().CorpusCheckout.FullName;
-         GetService<ITaggregateFilesInMemory>().WriteAllText(Path.Combine(corpusCheckout, "vocab", "00", TheBrokenFile), "{ this is not JSON");
+         GetService<IFileSystemInMemory>().WriteAllText(Path.Combine(corpusCheckout, "vocab", "00", TheBrokenFile), "{ this is not JSON");
          _theReload = ReloadTheCollection();
       }
 
