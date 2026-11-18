@@ -12,10 +12,10 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Reservoir;
 
 /// <summary>
 /// A sentence's analysis kept as the reservoir keeps it (<see cref="ReservoirSentenceAnalysis"/>): the parsing case of 厳密に言えばだけど俺一人が友達だけど, with<br/>
-/// the vocab of the stripped-down corpus, whose configuration rejects its first だけど, which the sentence breakdown displays all the same, as<br/>
+/// the vocab of the parsing cases' corpus, whose configuration rejects its first だけど, which the sentence breakdown displays all the same, as<br/>
 /// nothing else covers its word.
 /// </summary>
-public class When_a_reservoir_sentence_is_analyzed(JAStudioWithTheStrippedDownCorpus jastudio) : IAIGeneratedSpec, IClassFixture<JAStudioWithTheStrippedDownCorpus>
+public class When_a_reservoir_sentence_is_analyzed(JAStudioWithTheParsingCasesCorpus jastudio) : IAIGeneratedSpec, IClassFixture<JAStudioWithTheParsingCasesCorpus>
 {
    const string TheParsingCase = "incorrect exclusions - 厳密に言えばだけど俺一人が友達だけど - incorrect matches";
    const int StartOfTheFirstだけど = 6;

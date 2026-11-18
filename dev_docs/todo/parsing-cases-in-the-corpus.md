@@ -85,9 +85,9 @@ branch `unidic`: `dev_docs/todo/judging-what-unidic-changes-in-parsing.md`). Bef
 - **The branch** `parsing-cases-in-the-corpus`, from `main` at `7b7427b9f`, in the worktree `worktree_1`. Its corpus
   checkout is at `37f3f7fede7`, which is also where Magnus's corpus checkout is, clean and pushed.
 - **The baseline holds.** The full mode, on this branch's code against that corpus checkout: every case parses against
-  the corpus checkout exactly as its file expects, and against the stripped-down corpus exactly as against the corpus
+  the corpus checkout exactly as its file expects, and against the parsing cases' corpus exactly as against the corpus
   checkout.
-- **The stripped-down corpus was behind the corpus, and is refreshed:** 58 of its vocab still had the definitions
+- **The parsing cases' corpus was behind the corpus, and is refreshed:** 58 of its vocab still had the definitions
   written out that the corpus has named as shared-conditions since increment 6 of the matching configuration. The
   harness couldn't read those names: it loads shared-conditions now (brought over from the branch `unidic`).
 
@@ -167,7 +167,7 @@ fit: on hover, or below. With the commands to accept, and to set the verdict and
 3. **Magnus looks at them in JAStudio.** The corpus is committed on his word.
 4. **The Parsing cases tab, and the sentence page showing the parsing case:** its verdict, its why, and what it was
    expected to parse to beside what it parses to, when they differ.
-5. **The case files are generated from the corpus's parsing cases,** with the stripped-down corpus, as the full mode
+5. **The case files are generated from the corpus's parsing cases,** with the parsing cases' corpus, as the full mode
    refreshes it today. The specifications run on them as now, without the corpus.
 
 After it, on `unidic`: the rebuild with UniDic leaves the parsing cases that parse otherwise than expected findable,
@@ -215,7 +215,7 @@ committed: "That gives us a test from the other side. If everything is perfect, 
 with identical data").
 
 - **The full mode generates the case files** from the sentences of the corpus checkout that are parsing cases, and
-  refreshes the stripped-down corpus as before (`FullModeRun`). Accepting is gone from it: a result is accepted on its
+  refreshes the parsing cases' corpus as before (`FullModeRun`). Accepting is gone from it: a result is accepted on its
   sentence, in JAStudio.
 - **The specifications' type is `ParsingCaseFile` now,** since the corpus's `ParsingCase` exists beside it.
 - **The test from the other side found one flaw in the import,** which is corrected: a sentence Magnus studies, 私は毎日
@@ -228,14 +228,14 @@ with identical data").
   - 18 gained a `configuration` with the vocab their sentence highlights in the corpus, and nothing else.
   - 2 have another name, the two cases about noise characters, whose files were named by a description where the
     others have the sentence. One of them also lost the trailing space of its sentence.
-- **The stripped-down corpus holds the same vocab,** with the sentence counts the 176 new sentences changed.
+- **The parsing cases' corpus holds the same vocab,** with the sentence counts the 176 new sentences changed.
 - **Every specification passes on the generated files.**
 - **A case file holds the id of its sentence** (`sentenceId`; Magnus, 2026-11-15: "should not the files we extract
   contain the sentence id so that we have an immutable id?"). The name of the parsing case and the sentence's text can
   both change.
 - **Committed, on Magnus's word, with the same message in both repositories:** the corpus as `3949c927f8d`, on the
   branch `parsing-cases-in-the-corpus` of the worktree's clone of the corpus repository, and the source as
-  `a82c0b425`, with the generated case files, the stripped-down corpus and the pointer to that corpus commit.
+  `a82c0b425`, with the generated case files, the parsing cases' corpus and the pointer to that corpus commit.
 
 **The corpus is handed over to its own line** (2026-11-15, on Magnus's word, with Anki closed): the branch merged
 into `main`, Magnus's corpus checkout fast-forwarded to `3949c927f8d`, fetched from the worktree's clone, the corpus's

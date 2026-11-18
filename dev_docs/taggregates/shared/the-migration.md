@@ -427,10 +427,10 @@ to anything that happens".
   - **Done. The specifications load their mini corpus as the application loads the corpus** (Magnus, 2026-11-17: "The
     tests should load their mini corpus the same way as the real app if possible. I definitely agree").
     `TheSpecificationsCorpus` is made once per test process for each `DataNeeded`, by a JAStudio that creates the notes:
-    the stripped-down corpus's vocab, loaded from its files as below, and the sample kanji and sentences. Its files, the
+    the parsing cases' corpus's vocab, loaded from its files as below, and the sample kanji and sentences. Its files, the
     notes' and the shared-conditions', are then written into each specification's JAStudio, and the collection is loaded
     again, as a start loads it, rather than adding 1,035 notes in a unit of work each. The parsing cases' JAStudio loads
-    the stripped-down corpus's vocab the same way (`CorpusFolder.AddTheVocabTo`).
+    the parsing cases' corpus's vocab the same way (`CorpusFolder.AddTheVocabTo`).
   - **Writing every note, changed or not** (`save_every_note`, and the workspace's "Write file system repository"), is
     `CorpusNoteFiles.Write`, which writes a note's file as Compze does, since Compze's storage is out of reach: a
     `todo:compze:` until Compze can rewrite every taggregate.

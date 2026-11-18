@@ -575,7 +575,7 @@ question 1 below).
   That supports making it a fact about the vocab (open question 1).
 - **Reparsing after an edit.** A vocab's edit reparses the sentences with its forms. A shared-condition or a
   rule-for-many-vocab changes many vocab at once, so its edit needs a full rebuild, which takes about 2 seconds.
-- **The parsing cases need to carry them too.** The cases run against a stripped-down corpus of the vocab their
+- **The parsing cases need to carry them too.** The cases run against a corpus of their own: the vocab their
   sentences look up (`LookupRecording`). It must carry the shared-conditions and rules-for-many-vocab too.
 - **Caching:** a match caches its validity, and only the yield check is computed afresh each time
   (`CustomForbidsNoCache`). A condition on validity must therefore depend only on what doesn't change during the
@@ -910,7 +910,7 @@ stores match-conditions.
   rebuild changed nothing more.
 - **Step 2** removed reading the old format. A full rebuild changed nothing, and saving every note again wrote every file
   as it was. A vocab file of the old format now fails to load, as a file of an older format should.
-- **The parsing cases** pass unchanged, on a stripped-down corpus refreshed in the new format.
+- **The parsing cases** pass unchanged, on the parsing cases' corpus, refreshed in the new format.
 
 **The rules, now views of the match-condition** (`MatchingRules`, namespace `Conditions.Rules`):
 - **Each of the 21 rules a match-condition replaces is a `MatchingRule`:** a `RequireForbidMatchingRule`, with the

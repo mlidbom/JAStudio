@@ -16,7 +16,7 @@ public enum DataNeeded
 {
    None = 0,
    Kanji = 2,
-   /// <summary>The vocab of the parsing cases' stripped-down corpus (<see cref="ParsingCasesFolder.StrippedDownCorpus"/>): real vocab of the corpus,<br/>
+   /// <summary>The vocab of the parsing cases' corpus (<see cref="ParsingCasesFolder.Corpus"/>): real vocab of the corpus,<br/>
    /// committed with the specifications.</summary>
    Vocabulary = 4,
    Sentences = 8,

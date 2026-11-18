@@ -12,7 +12,7 @@ namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
 /// <summary>
 /// A folder holding notes as the corpus repository stores them, one JSON file per note, and the shared-conditions their match-conditions use by name:<br/>
-/// the corpus checkout (<see cref="SourceCheckout.CorpusCheckout"/>), or the parsing cases' stripped-down corpus (<see cref="ParsingCasesFolder.StrippedDownCorpus"/>).<br/>
+/// the corpus checkout (<see cref="SourceCheckout.CorpusCheckout"/>), or the parsing cases' corpus (<see cref="ParsingCasesFolder.Corpus"/>).<br/>
 /// Its vocab are what the parsing cases are parsed against, and the corpus checkout's sentences that are parsing cases are what the case files are<br/>
 /// generated from.
 /// </summary>
@@ -96,7 +96,7 @@ public sealed class CorpusFolder(DirectoryInfo folder)
 
    /// <summary>
    /// The file of each vocab of this folder. A folder without vocab fails loudly, such as a corpus checkout whose submodule isn't initialized:<br/>
-   /// read as no vocab, it would refresh the stripped-down corpus to nothing.
+   /// read as no vocab, it would refresh the parsing cases' corpus to nothing.
    /// </summary>
    IReadOnlyList<FileInfo> VocabFiles() => VocabFolder.TheFilesInPathOrder("*.json");
 }

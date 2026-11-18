@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Vocabulary;
@@ -10,7 +11,7 @@ namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 /// One run of the parsing cases' full mode (<see cref="In_the_full_mode"/>): the sentences of the corpus checkout that are parsing cases<br/>
 /// (<see cref="SentenceNote.ParsingCase"/>) parsed against the corpus checkout (<see cref="SourceCheckout.CorpusCheckout"/>), recording every vocab<br/>
 /// the parsing looks up (<see cref="LookupRecording{TNote}"/>); the case files replaced with one generated from each of those sentences; the<br/>
-/// stripped-down corpus (<see cref="ParsingCasesFolder.StrippedDownCorpus"/>) replaced with those vocab; and every case parsed again against it, to<br/>
+/// parsing cases' corpus (<see cref=\"ParsingCasesFolder.Corpus\"/>) replaced with those vocab; and every case parsed again against it, to<br/>
 /// check that it parses each case exactly as the corpus checkout does.
 /// </summary>
 sealed class FullModeRun
@@ -29,13 +30,13 @@ sealed class FullModeRun
          ];
 
          var caseOf = ParsingCasesFolder.ReplaceTheCasesWithThoseOf(parsingCasesOfTheCorpus, corpusCheckout.Collection);
-         ParsingCasesFolder.StrippedDownCorpus.ReplaceTheVocabWith(vocabLookedUp, SourceCheckout.CorpusCheckout);
+         ParsingCasesFolder.Corpus.ReplaceTheVocabWith(vocabLookedUp, SourceCheckout.CorpusCheckout);
          resultAgainstTheCorpusCheckout = parsingCasesOfTheCorpus.ToDictionary(sentence => caseOf[sentence], sentence => results[sentence]);
       }
 
-      using var strippedDownCorpus = new JAStudioWithTheVocabOf(ParsingCasesFolder.StrippedDownCorpus);
-      CasesParsingOtherwiseAgainstTheStrippedDownCorpus =
-         [.. resultAgainstTheCorpusCheckout.Where(it => !strippedDownCorpus.Parse(it.Key).IsTheSameAs(it.Value)).Select(it => it.Key.Name).Order()];
+      using var parsingCasesCorpus = new JAStudioWithTheVocabOf(ParsingCasesFolder.Corpus);
+      CasesParsingOtherwiseAgainstTheParsingCasesCorpus =
+         [.. resultAgainstTheCorpusCheckout.Where(it => !parsingCasesCorpus.Parse(it.Key).IsTheSameAs(it.Value)).Select(it => it.Key.Name).Order()];
    }
 
    /// <summary>
@@ -45,10 +46,10 @@ sealed class FullModeRun
    public IReadOnlyList<string> HowTheParsingCasesOfTheCorpusCheckoutDifferFromWhatTheyExpect { get; }
 
    /// <summary>
-   /// The cases that parse otherwise against the refreshed stripped-down corpus than their sentences do against the corpus checkout. None, unless<br/>
+   /// The cases that parse otherwise against the refreshed parsing cases' corpus than their sentences do against the corpus checkout. None, unless<br/>
    /// parsing reaches vocab some way other than the vocab collection's lookups, which the recording doesn't see.
    /// </summary>
-   public IReadOnlyList<string> CasesParsingOtherwiseAgainstTheStrippedDownCorpus { get; }
+   public IReadOnlyList<string> CasesParsingOtherwiseAgainstTheParsingCasesCorpus { get; }
 
    static (Dictionary<SentenceNote, ParsingCaseResult> Results, IReadOnlyCollection<VocabNote> VocabLookedUp) ParseEachRecordingTheVocabLookedUp(
       IReadOnlyList<SentenceNote> sentences,

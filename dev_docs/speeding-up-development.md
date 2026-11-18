@@ -134,11 +134,11 @@ date rather than over the code.
 
 **A possible design, two modes (Magnus's idea):**
 - **The full mode** loads all the vocab of the corpus, parses each specification's sentences against it, and writes every
-  vocab that contributed to parsing any of them into a stripped-down corpus. That corpus is committed as source, along
+  vocab that contributed to parsing any of them into the parsing cases' corpus. That corpus is committed as source, along
   with the specifications.
-- **The everyday mode,** the one most runs use, parses against the stripped-down corpus: small, fast, and the same on
+- **The everyday mode,** the one most runs use, parses against the parsing cases' corpus: small, fast, and the same on
   every machine, since it's committed. CI can run it too, though CI doesn't check out the corpus repository.
-- **Running the full mode is a manual step, but a frequent one,** as the corpus changes. It brings the stripped-down
+- **Running the full mode is a manual step, but a frequent one,** as the corpus changes. It brings the parsing cases'
   corpus up to date, and a specification that fails in it shows a change in the corpus that changed how one of the
   specification sentences parses.
 
@@ -148,7 +148,7 @@ date rather than over the code.
 - **Which vocab count as contributing to a sentence's parsing:** Magnus's guess, 2026-11-09, is every vocab the parsing
   machinery loads at all, tracked by a hook in it. That errs on the safe side: a vocab never looked at can't have changed
   the result, while one matched only to be rejected, or shadowed, still can. The full mode could check its own answer:
-  every sentence must parse the same against the stripped-down corpus as against the whole one.
+  every sentence must parse the same against the parsing cases' corpus as against the whole one.
 - **Accepting a change:** when a corpus change changes how a specification sentence parses, and the new parse is right,
   updating the specification's expected words should be cheap.
 - **Which specifications move:** those of the form "this sentence parses into these words". The specifications of a single
@@ -185,7 +185,7 @@ as JSON. Or each case a folder, of one or more files holding the sentence, the e
   Never in an everyday run.
 - **A new case's expected result needs a real review:** recorded, it says what the parser does, not what's right. The
   comment on why the case exists is part of that review.
-- **Naming vocab:** an exact result names each vocab by its id, which works with the stripped-down corpus of item 3, where
+- **Naming vocab:** an exact result names each vocab by its id, which works with the parsing cases' corpus of item 3, where
   vocab keep their real ids, with the question beside it to read. With the vocab copied by hand, ids are new on every run.
   So this item builds on item 3, and they might best be done together.
 - **The sentence's own configuration,** its hidden and incorrect matches and highlighted words, affects its parsing: a case
@@ -209,8 +209,8 @@ naming vocab). And specifications against the real vocab are worth most when the
   (`AnalysisServices`), and finds vocab by form, question and so on (`CandidateWordVariant`, `TextLocation`, `WordInfo`,
   `IchidanGodanPotentialOrImperativeHybridSplitter`, `DictLookup.IsDictionaryOrCollectionWord`), all of it answered by
   `VocabCache`. Recording every vocab a lookup there returns covers them all, and any lookup added later.
-- **So the stripped-down corpus parses each case exactly as the whole corpus does, by construction:** every lookup returns
-  the same vocab, since all it returned is in the stripped-down corpus. The full mode's self-check, every case parsing the
+- **So the parsing cases' corpus parses each case exactly as the whole corpus does, by construction:** every lookup returns
+  the same vocab, since all it returned is in the parsing cases' corpus. The full mode's self-check, every case parsing the
   same against both, then only catches a way of reaching vocab that bypasses the lookups.
 - **The stored parsing result doesn't depend on the options.** The five parsing reads apply only to the sentence breakdown
   (`TextAnalysis.ForUI`): hiding all compounds, hiding compositionally transparent compounds, and automatically yielding
@@ -220,18 +220,18 @@ naming vocab). And specifications against the real vocab are worth most when the
 - **The dictionary is the code's, not the corpus's:** parsing looks words with no vocab up in JMdict, the same on every
   machine.
 - **Loading needs nothing new.** `FileSystemNoteRepository` loads notes from any folder in the corpus's layout, so the
-  stripped-down corpus can be a folder of the corpus's own vocab files, loaded by the same code.
+  parsing cases' corpus can be a folder of the corpus's own vocab files, loaded by the same code.
 - **One collection for all the cases, loaded once per run.** Now every specification builds a collection of its own, from
   the 143 copies. A case can instead be parsed with `TextAnalysis` directly, from its text and configuration, without
   creating a sentence note, so all the cases share one collection that nothing changes.
 - **Size:** each sentence sampled loads 20 to 30 vocab, many of them shared (particles, endings). The about 174 cases might
   load 1,000 to 2,000 vocab: 5 to 10 MB of the corpus's JSON, at about 5 KB a vocab. A guess, for the first run to measure.
-- **CI** checks out only the stub generator's submodule, not the corpus. The committed stripped-down corpus lets the
+- **CI** checks out only the stub generator's submodule, not the corpus. The parsing cases' committed corpus lets the
   everyday mode run there.
 - **Both repositories are public,** so committing vocab to the source repository publishes nothing new.
 
 **Recommended: build it as tooling first, in the code, and the corpus-itself variant (below) later, on top of it.** The
-case files, the stripped-down corpus, the full mode and accepting are what the corpus variant needs too, as its export to
+case files, the parsing cases' corpus, the full mode and accepting are what the corpus variant needs too, as its export to
 the test suite. The corpus variant adds data to sentence notes and a way to review in the UI: a change to the domain model,
 better designed once the tooling shows how specifications like these work in practice.
 
@@ -240,9 +240,9 @@ better designed once the tooling shows how specifications like these work in pra
 2. A case: a JSON file holding the text, the sentence's configuration if it has one, why the case exists, and the exact
    parsing result as the corpus stores it: every valid match, with its form, place, surface or base form, whether it's
    displayed, and its vocab's id, with the vocab's question beside it to read, not compared.
-3. A parameterized specification over the case files, against the stripped-down corpus. A failure says how the words
+3. A parameterized specification over the case files, against the parsing cases' corpus. A failure says how the words
    differ, as `diff_the_changed_notes` does.
-4. The full mode: the same specification, run with a switch, against the corpus checkout. It writes the stripped-down
+4. The full mode: the same specification, run with a switch, against the corpus checkout. It writes the parsing cases'
    corpus, checks it, and reports the cases whose result differs. And accepting: another switch, which writes the actual
    results over the expected ones, for review in git's diff.
 5. A handful of the existing cases converted, to prove the loop. Then the rest, reviewing each difference with Magnus: the
@@ -250,14 +250,14 @@ better designed once the tooling shows how specifications like these work in pra
 
 **Calls made, open to change:**
 - The full mode reads the corpus checkout as it is (`src/jas_database`), not the commit the source records. That's what
-  the specifications should match, and the committed stripped-down corpus records what a run used.
+  the specifications should match, and the parsing cases' committed corpus records what a run used.
 - The full mode is a mode of the specifications, run from the IDE or the command line, so Magnus can run it as easily as
   Claude. A tool of the MCP server that makes a case from a corpus sentence comes later.
 
 ### Progress
 
 1. **Done (2026-11-09): the first increment,** as above: `parsing-cases.md` describes what was built and how to use it. 7
-   cases converted; the full mode runs in about 6 seconds, the everyday mode's 7 cases in 1.3. Their stripped-down corpus is
+   cases converted; the full mode runs in about 6 seconds, the everyday mode's 7 cases in 1.3. Their corpus is
    67 vocab, 276 KB, so the about 174 cases might make 1 to 2 MB, not the 5 to 10 MB guessed. Of the 7, 4 parse as their old
    cases expected, and 3 don't, all because the real corpus has vocab the copies lack.
 2. **Done (2026-11-09): cases hold the breakdown too,** under every combination of the options that change it, storing
@@ -294,7 +294,7 @@ better designed once the tooling shows how specifications like these work in pra
    What's left of the 3.5 seconds: loading the forms, 0.5 to 0.9 seconds once per process, and the parsing itself, most
    of it the 32 breakdowns of each case.
 6. **Done (2026-11-09): the vocab copied by hand deleted.** The specifications that used them as sample data, such as the
-   serializer's, the file system repository's and the card server's, get the stripped-down corpus's real vocab instead
+   serializer's, the file system repository's and the card server's, get the parsing cases' corpus's real vocab instead
    (`DataNeeded.Vocabulary`). It costs time: those specifications roundtrip every vocab, now 872 rather than 143, and
    `FileSystemNoteRepositoryTests` writes them all to files and reads them back in most of its tests. It went from 5.4
    seconds to 10.4 in a run of all of Core's, which it ends, so that run went from 7 seconds to about 10.5. Accepted for
@@ -359,7 +359,7 @@ change that improves the parse is accepted; one that doesn't means the vocab edi
 
 **Open points:**
 - **The test suite and CI don't see the corpus.** Item 3's two modes fit as an export: the marked sentences, and every vocab
-  their parsing loads, written to a stripped-down corpus committed with the source, so that a code change fails in an
+  their parsing loads, written to a corpus of their own, committed with the source, so that a code change fails in an
   everyday test run too. Or the headless JAStudio's check, run through the MCP server after a rebuild, is enough.
 - **A broad vocab edit could fail many specifications at once:** reviewing and accepting them needs to work for many at a
   time, without making acceptance careless.

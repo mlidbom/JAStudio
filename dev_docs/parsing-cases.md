@@ -51,7 +51,7 @@ nothing anyone sees.
 ## The two modes
 
 - **The everyday mode, `Each_parsing_case`,** runs with every test run, CI's included. It parses each case against the
-  **stripped-down corpus** (`ParsingCases/StrippedDownCorpus/`): the vocab of the corpus checkout that parsing the cases
+  **parsing cases' corpus** (`ParsingCases/Corpus/`): the vocab of the corpus checkout that parsing the cases
   looked up, as of the last run of the full mode, committed with the cases. A case fails on any difference from its
   expected result, and lists the words that differ: parsed but not expected, expected but not parsed, and displayed or not
   otherwise than expected, each with its vocab.
@@ -60,10 +60,10 @@ nothing anyone sees.
   `JAStudio.Core.Specifications.exe -explicit only -class "JAStudio.Core.Specifications.LanguageServices.ParsingCases.In_the_full_mode+<the nested class>"`.
   It loads every vocab of the corpus checkout, `src/jas_database`, and its sentences that are parsing cases, reading its
   files and changing nothing there. It parses each of those sentences, recording every vocab the parsing looks up, replaces
-  the case files with one generated from each sentence, and the stripped-down corpus with those vocab. Its one class,
-  `generating_the_case_files_and_the_stripped_down_corpus_from_the_corpus_checkout`, checks two things:
+  the case files with one generated from each sentence, and the parsing cases' corpus with those vocab. Its one class,
+  `generating_the_case_files_and_the_parsing_cases_corpus_from_the_corpus_checkout`, checks two things:
   - every parsing case of the corpus checkout parses there exactly as it expects;
-  - every case parses against the stripped-down corpus exactly as its sentence does against the corpus checkout.
+  - every case parses against the parsing cases' corpus exactly as its sentence does against the corpus checkout.
 
   Review what it wrote in git's diff before committing it. A corpus checkout without parsing cases fails it, before it
   deletes any case file.
@@ -79,17 +79,17 @@ and verdict are editable fields (`SentenceEditableFields`), which the MCP server
 that changes is accepted on the sentence as well. The navigation pane's Parsing cases tab lists every case with how
 it parses now: see [the workspace's design](jastudio-workspace.md#the-parsing-cases-in-the-workspace-as-built).
 
-Then run the full mode: the case's file is generated, and the vocab its parsing looks up join the stripped-down corpus
+Then run the full mode: the case's file is generated, and the vocab its parsing looks up join the parsing cases' corpus
 in the same run.
 
-## Why the stripped-down corpus parses each case as the corpus does
+## Why the parsing cases' corpus parses each case as the corpus does
 
 Parsing reaches the corpus only through the vocab collection's lookups, by form, question and so on, all answered by
 `VocabCache`. While a `LookupRecording` runs (`VocabCollection.StartRecordingTheVocabLookedUp`), every vocab a lookup
 returns is recorded: "every vocab the parsing machinery loads". A corpus holding all of those answers every lookup the
 parsing of the cases makes with the same vocab as the whole corpus, so each case parses the same against both. The full
 mode checks it anyway, which would catch a way of reaching vocab that bypasses the lookups. The recording runs through
-the whole of a case's parsing, its breakdowns included, so the stripped-down corpus also holds the vocab the breakdown
+the whole of a case's parsing, its breakdowns included, so the parsing cases' corpus also holds the vocab the breakdown
 looks up, such as those of a compound's parts.
 
 ## Where it stands
@@ -110,5 +110,5 @@ looks up, such as those of a compound's parts.
   once. The cases run one after another, as the rows of one theory: running them in parallel waits for xUnit v3 4.0
   (`speeding-up-development.md`).
 - **The vocab copied by hand are gone (2026-11-09).** The specifications that aren't about parsing but need vocab as sample
-  data, such as the card server's and the serializer's, get the stripped-down corpus's (`DataNeeded.Vocabulary`). So a
+  data, such as the card server's and the serializer's, get the parsing cases' corpus's (`DataNeeded.Vocabulary`). So a
   run of the full mode changes their sample data too: they need only real vocab, and the web specifications 入れる.

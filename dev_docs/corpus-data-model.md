@@ -1050,8 +1050,8 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
      `UnmappedMemberHandling = Disallow`, so a build of the new format fails loud on an old file instead of reading it as a
      note without media. `VocabCloner` copies the new lists. `TodaysMediaFields`, its `wip:` comments and its specification
      go; a specification of the new format's round trip replaces it. `Tags.TTSAudio` goes: the specifications that use it as
-     the example of a jastudio-maintained-tag take another, such as `Tags.Kanji.IsRadical`. The parsing cases' stripped-down
-     corpus (`JAStudio.Core.Specifications/LanguageServices/ParsingCases/StrippedDownCorpus`) is migrated too.
+     the example of a jastudio-maintained-tag take another, such as `Tags.Kanji.IsRadical`. The parsing cases'
+     corpus (`JAStudio.Core.Specifications/LanguageServices/ParsingCases/Corpus`) is migrated too.
    - **The migration, by the data's file names** (a Python script; C# then rewrites every note in its own format with
      `save_every_note`, and a second `save_every_note` must change nothing, so Python's JSON formatting doesn't matter):
      - **TTS proof:** a vocab's `hypertts-` file is TTS when the survey's recomputed HyperTTS hash matches an Azure or Google
@@ -1102,7 +1102,7 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
        nothing; every note references the same files as at `HEAD`, each once, each list in its old order (79,720 notes,
        119,420 references); of 79,719 study-notes, 1,356 vocab and 5 sentences differ: 1,280 vocab and the sentences only in
        the markup of their audio, the other 76 by a dropped second reference, the source's audio now first, or TTS audio moving
-       to `Audio_TTS` behind a recording. Kanji none. Cards rendered as before. The parsing cases' stripped-down corpus was
+       to `Audio_TTS` behind a recording. Kanji none. Cards rendered as before. The parsing cases' corpus was
        migrated by the same script.
 4. **Into Magnus's checkout:** with Anki closed, a git fast-forward, and the checkout's `snapshot.bin` files deleted, as the
    snapshots' layout changed (`CorpusNoteDto`); Anki started on the new build; the comparison

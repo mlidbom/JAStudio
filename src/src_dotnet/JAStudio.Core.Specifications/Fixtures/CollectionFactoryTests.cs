@@ -31,7 +31,7 @@ public class CollectionFactoryTests : SpecificationUsingACollection
    [Fact]
    public void VocabAddedCorrectly()
    {
-      var expectedVocab = ParsingCasesFolder.StrippedDownCorpus.ReadTheVocab(GetService<NoteSerializer>()).Select(it => (it.GetId(), it.GetQuestion())).ToHashSet();
+      var expectedVocab = ParsingCasesFolder.Corpus.ReadTheVocab(GetService<NoteSerializer>()).Select(it => (it.GetId(), it.GetQuestion())).ToHashSet();
       var savedVocab = GetService<VocabCollection>().All().Select(it => (it.GetId(), it.GetQuestion())).ToHashSet();
 
       Assert.Equal(expectedVocab, savedVocab);

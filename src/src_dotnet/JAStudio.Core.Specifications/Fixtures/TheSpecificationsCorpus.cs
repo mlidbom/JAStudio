@@ -18,7 +18,7 @@ namespace JAStudio.Core.Specifications.Fixtures;
 /// the notes, then loaded by each specification's JAStudio as JAStudio loads the corpus when it starts (<see cref="LoadInto"/>).
 /// </summary>
 /// <remarks>
-/// The vocab are those of the parsing cases' stripped-down corpus (<see cref="ParsingCasesFolder.StrippedDownCorpus"/>), extracted from the corpus;<br/>
+/// The vocab are those of the parsing cases' corpus (<see cref="ParsingCasesFolder.Corpus"/>), extracted from the corpus;<br/>
 /// the kanji and the sentences are made from the sample data (<see cref="KanjiSpec"/>, <see cref="SentenceSpec"/>), the sentences parsed against the<br/>
 /// vocab. Each specification's JAStudio has files of its own, so the files are written into each, which takes a millisecond or so.
 /// </remarks>
@@ -68,7 +68,7 @@ sealed class TheSpecificationsCorpus
          }
       }
 
-      if(data.HasFlag(DataNeeded.Vocabulary)) ParsingCasesFolder.StrippedDownCorpus.AddTheVocabTo(app);
+      if(data.HasFlag(DataNeeded.Vocabulary)) ParsingCasesFolder.Corpus.AddTheVocabTo(app);
 
       if(data.HasFlag(DataNeeded.Sentences))
       {
