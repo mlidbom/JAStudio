@@ -29,16 +29,14 @@ $TypingsPath = Join-Path ".." ".." "typings"
 $StubGenDll = Join-Path $StubGenRoot "csharp" "PythonNetStubTool" "bin" "Debug" "net11.0" "PythonNetStubGenerator.Tool.dll"
 
 try {
-    if (Test-Path $StubGenDll) {
-        Write-Host "Stub generator already compiled, skipping build..." -ForegroundColor Gray
-    } else {
-        Write-Host "Building stub generator..." -ForegroundColor Cyan
-        dotnet build (Join-Path $StubGenRoot "csharp" "PythonNetStubTool" "PythonNetStubGenerator.Tool.csproj")
+    # Built every time, incrementally: a build skipped because an old one exists would generate with the old code after
+    # the submodule moved to a fixed generator.
+    Write-Host "Building stub generator..." -ForegroundColor Cyan
+    dotnet build (Join-Path $StubGenRoot "csharp" "PythonNetStubTool" "PythonNetStubGenerator.Tool.csproj") --verbosity quiet
 
-        if ($LASTEXITCODE -ne 0) {
-            Write-Host "Build failed!" -ForegroundColor Red
-            exit 1
-        }
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Build failed!" -ForegroundColor Red
+        exit 1
     }
 
 Write-Host "`nCleaning old JAStudio stubs..." -ForegroundColor Cyan
