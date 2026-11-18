@@ -71,13 +71,3 @@ class NoteTeventExtensions(abc.ABC):
     @staticmethod
     def get_NoteId(tevent: INoteTevent) -> NoteId: ...
 
-    class <G>$49A6F769357B776FE95D2A69B2F9912F:
-        @property
-        def NoteId(self) -> NoteId: ...
-
-        class <M>$F44A7828EB74A0E55F7496E010FD479C(abc.ABC):
-            @staticmethod
-            def <Extension>$(tevent: INoteTevent) -> None: ...
-
-
-
