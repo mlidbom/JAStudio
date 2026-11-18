@@ -2,7 +2,6 @@ import typing, abc
 from Compze.Tessaging.TessageTypes import ITevent, IPublisherTevent_1
 from Compze.Abstractions import TaggregateId
 from System import DateTime
-from Compze.Teventive import IMutableTaggregateTevent
 
 class ITaggregateCreatedTevent(ITaggregateTevent_0, typing.Protocol):
     pass
@@ -32,7 +31,7 @@ class ITaggregateTevent_1(typing.Generic[ITaggregateTevent_1_TTeventInterface], 
     pass
 
 
-class TaggregateTevent(IMutableTaggregateTevent, abc.ABC):
+class TaggregateTevent(abc.ABC):
     @property
     def TaggregateId(self) -> TaggregateId: ...
     @TaggregateId.setter

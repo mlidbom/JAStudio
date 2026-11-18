@@ -59,8 +59,8 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `8c0544750`, after the end review's fixes and Magnus's answers to its questions.
-  Five changes reached JAStudio, and one change of terms: observers created through `ITeventObservation.ObserveTevents`
+  JAStudio's worktree of Compze is at `eb7470c4a`, after the end review's fixes and Magnus's answers to its questions.
+  Six changes reached JAStudio, and one change of terms: observers created through `ITeventObservation.ObserveTevents`
   as the application runs are *dynamic observers*, and those declared at composition *composed observers*
   (`dev_docs/taggregate-improvements/shared/dynamic-and-composed-observers.md`, in Compze).
   - **A note class is declared with a registration of the container** (end review Q3):
@@ -79,6 +79,12 @@ cache.
     in place of `CorpusNoteFiles.Write`. On the real corpus it rewrote all 79,896 files, none of them changed, in 74 s.
   - **Tevent routing is a protected property** (Q9): each of JAStudio's 17 teventive classes gives its routing as
     `protected override TeventRouting TeventAppliers`, not through the explicit `ITeventRouted`.
+  - **Ten trims of the public API** (Q10, `dev_docs/taggregate-improvements/shared/ten-trims-of-the-public-api.md`, in
+    Compze): a unit of work adds a new note with `Add`, an index has no `HasAny`, and the one reload is
+    `ReloadFromStorage(changeToTheStorage)`, whose added, changed and removed taggregates are collections in no order,
+    as `ICollectionReloaded`'s now are. A reference only reads: `ITaggregateReference.ForUpdate` is gone, and so is
+    JAStudio's `NoteReference.ForUpdate`, which only a specification called. The note for update comes from the unit of
+    work, `NoteUnitOfWork.ForUpdate`.
 
   Before it, `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`

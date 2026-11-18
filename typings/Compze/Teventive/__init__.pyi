@@ -1,18 +1,9 @@
 import typing, abc
-from Compze.Teventive.Taggregates.Tevents import ITaggregateTevent, ITaggregateTevent_1
-from Compze.Abstractions import TaggregateId, ITentity
-from System import DateTime, IObservable_1, Action_1
+from Compze.Abstractions import ITentity, TaggregateId
+from System import IObservable_1, Action_1
+from Compze.Teventive.Taggregates.Tevents import ITaggregateTevent_1, ITaggregateTevent
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from Compze.Tessaging.TessageTypes import IPublisherTevent_1, ITevent
-
-class IMutableTaggregateTevent(ITaggregateTevent, typing.Protocol):
-    @abc.abstractmethod
-    def SetTaggregateIdInternal(self, taggregateId: TaggregateId) -> None: ...
-    @abc.abstractmethod
-    def SetTaggregateVersionInternal(self, taggregateVersion: int) -> None: ...
-    @abc.abstractmethod
-    def SetUtcTimeStampInternal(self, utcTimeStamp: DateTime) -> None: ...
-
 
 class ITaggregate_GenericClasses(abc.ABCMeta):
     Generic_ITaggregate_GenericClasses_ITaggregate_1_TTevent = typing.TypeVar('Generic_ITaggregate_GenericClasses_ITaggregate_1_TTevent')
@@ -39,14 +30,14 @@ class ITaggregate_1(typing.Generic[ITaggregate_1_TTevent], ITaggregate_0, typing
     def TeventStream(self) -> IObservable_1[ITaggregateTevent_1[ITaggregate_1_TTevent]]: ...
 
 
-class ITeventRoutedMember_GenericClasses(abc.ABCMeta):
-    Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent = typing.TypeVar('Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent')
-    def __getitem__(self, types : typing.Type[Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent]) -> typing.Type[ITeventRoutedMember_1[Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent]]: ...
+class ITeventRoutedPart_GenericClasses(abc.ABCMeta):
+    Generic_ITeventRoutedPart_GenericClasses_ITeventRoutedPart_1_TTevent = typing.TypeVar('Generic_ITeventRoutedPart_GenericClasses_ITeventRoutedPart_1_TTevent')
+    def __getitem__(self, types : typing.Type[Generic_ITeventRoutedPart_GenericClasses_ITeventRoutedPart_1_TTevent]) -> typing.Type[ITeventRoutedPart_1[Generic_ITeventRoutedPart_GenericClasses_ITeventRoutedPart_1_TTevent]]: ...
 
-ITeventRoutedMember : ITeventRoutedMember_GenericClasses
+ITeventRoutedPart : ITeventRoutedPart_GenericClasses
 
-ITeventRoutedMember_1_TTevent = typing.TypeVar('ITeventRoutedMember_1_TTevent')
-class ITeventRoutedMember_1(typing.Generic[ITeventRoutedMember_1_TTevent], typing.Protocol):
+ITeventRoutedPart_1_TTevent = typing.TypeVar('ITeventRoutedPart_1_TTevent')
+class ITeventRoutedPart_1(typing.Generic[ITeventRoutedPart_1_TTevent], typing.Protocol):
     @abc.abstractmethod
     def DispatchInternal(self, wrapped: IPublisherTevent_1[ITevent]) -> None: ...
 

@@ -1,7 +1,7 @@
 import typing, clr, abc
 import Compze.Teventive.Taggregates.Tevents
 from System.Collections.Generic import IEnumerable_1, IReadOnlyList_1
-from Compze.Teventive import TeventRouting, ITaggregate_1, ITeventRoutedMember_1
+from Compze.Teventive import TeventRouting, ITaggregate_1, ITeventRoutedPart_1
 from Compze.Abstractions import TaggregateId, EntityId, EntityId_1, VersionedEntity_1
 from System import Guid
 from Compze.Tessaging.TessageBus import PublisherTevent_1
@@ -341,7 +341,7 @@ class Tentity_9(typing.Generic[Tentity_9_TParent, Tentity_9_TParentTevent, Tenti
     ICollectionManager_9_TTentityTevent = typing.TypeVar('ICollectionManager_9_TTentityTevent')
     ICollectionManager_9_TTentityCreatedTevent = typing.TypeVar('ICollectionManager_9_TTentityCreatedTevent')
     ICollectionManager_9_TTentityTeventIdGetterSetter = typing.TypeVar('ICollectionManager_9_TTentityTeventIdGetterSetter')
-    class ICollectionManager_9(typing.Generic[ICollectionManager_9_TParent, ICollectionManager_9_TParentTevent, ICollectionManager_9_TParentTeventImplementation, ICollectionManager_9_TTentity, ICollectionManager_9_TTentityId, ICollectionManager_9_TTentityTeventImplementation, ICollectionManager_9_TTentityTevent, ICollectionManager_9_TTentityCreatedTevent, ICollectionManager_9_TTentityTeventIdGetterSetter], ITeventRoutedMember_1[ICollectionManager_9_TTentityTevent], IEntityCollectionManager_5[ICollectionManager_9_TTentity, ICollectionManager_9_TTentityId, ICollectionManager_9_TTentityTevent, ICollectionManager_9_TTentityTeventImplementation, ICollectionManager_9_TTentityCreatedTevent], typing.Protocol):
+    class ICollectionManager_9(typing.Generic[ICollectionManager_9_TParent, ICollectionManager_9_TParentTevent, ICollectionManager_9_TParentTeventImplementation, ICollectionManager_9_TTentity, ICollectionManager_9_TTentityId, ICollectionManager_9_TTentityTeventImplementation, ICollectionManager_9_TTentityTevent, ICollectionManager_9_TTentityCreatedTevent, ICollectionManager_9_TTentityTeventIdGetterSetter], ITeventRoutedPart_1[ICollectionManager_9_TTentityTevent], IEntityCollectionManager_5[ICollectionManager_9_TTentity, ICollectionManager_9_TTentityId, ICollectionManager_9_TTentityTevent, ICollectionManager_9_TTentityTeventImplementation, ICollectionManager_9_TTentityCreatedTevent], typing.Protocol):
         ICollectionManager_9_TParent = Tentity_9.ICollectionManager_9_TParent
         ICollectionManager_9_TParentTevent = Tentity_9.ICollectionManager_9_TParentTevent
         ICollectionManager_9_TParentTeventImplementation = Tentity_9.ICollectionManager_9_TParentTeventImplementation
@@ -364,7 +364,7 @@ TeventApplyingComponent : TeventApplyingComponent_GenericClasses
 
 TeventApplyingComponent_2_TComponent = typing.TypeVar('TeventApplyingComponent_2_TComponent')
 TeventApplyingComponent_2_TComponentTevent = typing.TypeVar('TeventApplyingComponent_2_TComponentTevent')
-class TeventApplyingComponent_2(typing.Generic[TeventApplyingComponent_2_TComponent, TeventApplyingComponent_2_TComponentTevent], ITeventRoutedMember_1[TeventApplyingComponent_2_TComponentTevent], abc.ABC):
+class TeventApplyingComponent_2(typing.Generic[TeventApplyingComponent_2_TComponent, TeventApplyingComponent_2_TComponentTevent], ITeventRoutedPart_1[TeventApplyingComponent_2_TComponentTevent], abc.ABC):
     pass
 
 

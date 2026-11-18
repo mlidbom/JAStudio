@@ -286,7 +286,7 @@ public class JPCollection
       _tevents.Value.Publish(new CollectionReloaded(NoteIds(reloaded.Added), NoteIds(reloaded.Changed), NoteIds(reloaded.Removed)));
       return notesChangedOnDisk;
 
-      static IReadOnlyList<NoteId> NoteIds(IReadOnlyList<TaggregateId> taggregateIds) => [.. taggregateIds.Cast<NoteId>()];
+      static IReadOnlyCollection<NoteId> NoteIds(IReadOnlyCollection<TaggregateId> taggregateIds) => [.. taggregateIds.Cast<NoteId>()];
    });
 
    /// <summary>
@@ -321,7 +321,7 @@ public class JPCollection
       Task? mediaIndexBuild = null;
       try
       {
-         return runner.RunIndeterminate("Loading the notes", () => _store.Value.ReloadFromStorageAfter(() =>
+         return runner.RunIndeterminate("Loading the notes", () => _store.Value.ReloadFromStorage(() =>
          {
             changeToTheCorpusCheckout();
             mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());

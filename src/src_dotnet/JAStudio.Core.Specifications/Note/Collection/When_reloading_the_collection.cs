@@ -28,11 +28,14 @@ public abstract class When_reloading_the_collection : SpecificationStartingWithA
       _teventsObservedInTheSetup = TeventsObservedSoFar().Count;
    }
 
-   /// <summary>Each <see cref="ICollectionReloaded"/> observed since the setup, with the questions of the notes it added, changed and removed.</summary>
+   /// <summary>
+   /// Each <see cref="ICollectionReloaded"/> observed since the setup, with the questions of the notes it added, changed and removed, in ordinal<br/>
+   /// order, since the reload gives the notes in none.
+   /// </summary>
    protected ReloadObserved[] ReloadsObserved() =>
       [.. TeventsObservedSoFar().Skip(_teventsObservedInTheSetup).OfType<ICollectionReloaded>().Select(it => new ReloadObserved(QuestionsOf(it.Added), QuestionsOf(it.Changed), QuestionsOf(it.Removed)))];
 
-   string[] QuestionsOf(IReadOnlyList<NoteId> notes) => [.. notes.Select(it => _collection.NoteFromNoteId(it)?.GetQuestion() ?? "<not in the collection>")];
+   string[] QuestionsOf(IReadOnlyCollection<NoteId> notes) => [.. notes.Select(it => _collection.NoteFromNoteId(it)?.GetQuestion() ?? "<not in the collection>").Order(StringComparer.Ordinal)];
 
    protected record ReloadObserved(string[] Added, string[] Changed, string[] Removed);
 

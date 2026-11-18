@@ -48,5 +48,5 @@ sealed class NoteIndex<TNote, TKey>
    static int InTheOrderOfTheirIds(TNote one, TNote other) => one.Id.Value.CompareTo(other.Id.Value);
 
    /// <summary>Whether any note is filed under <paramref name="key"/>.</summary>
-   public bool HasNotesWith(TKey key) => _index.Value.HasAny(key);
+   public bool HasNotesWith(TKey key) => _index.Value.Lookup(key).Count > 0;
 }

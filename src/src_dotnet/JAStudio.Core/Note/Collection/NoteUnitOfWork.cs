@@ -32,7 +32,7 @@ public sealed class NoteUnitOfWork
    public TNote NoteThatPublished<TNote>(INoteTevent tevent) where TNote : JPNote => _store.Get<TNote>(tevent.TaggregateId);
 
    /// <summary>Adds <paramref name="note"/>, a note just created, to the collection when this unit of work commits.</summary>
-   public void Add(JPNote note) => _store.Save(note);
+   public void Add(JPNote note) => _store.Add(note);
 
    /// <summary>Has <paramref name="action"/> done once this unit of work has committed, on the thread that ran it, and never if it rolls back.</summary>
    public void OnceCommitted(Action action) => _whatToDoOnceCommitted.Add(action);
