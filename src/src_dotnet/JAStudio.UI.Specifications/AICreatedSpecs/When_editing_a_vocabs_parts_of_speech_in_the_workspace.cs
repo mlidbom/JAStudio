@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
@@ -35,7 +34,7 @@ public class When_editing_a_vocabs_parts_of_speech_in_the_workspace : Specificat
 
    PartsOfSpeechEditorViewModel PartsOfSpeech => TheEditor.Text.PartsOfSpeech;
 
-   void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+   void WaitForTheReparseToFinish() => KeepRunningTheUIThreadUntil(() => !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    [XF] public void the_box_offers_every_part_of_speech_but_the_vocabs() =>
       PartsOfSpeech.Addable.Must().SequenceEqual(PartOfSpeech.All.Where(it => it != PartOfSpeech.GodanVerb && it != PartOfSpeech.Intransitive).Select(it => it.Name));

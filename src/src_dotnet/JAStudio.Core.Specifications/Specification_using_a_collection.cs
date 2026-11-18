@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using Compze.Tessaging.Engine;
 using Compze.Tessaging.TessageTypes;
@@ -58,10 +59,30 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
    }
 
    /// <summary>
-   /// Waits until every tevent published so far has been observed: what the application does once a change has committed, such as a view model<br/>
-   /// showing it, has then been done.
+   /// Waits until every tevent published so far has been observed, and the calls posted to the UI thread meanwhile have run on this thread, which is<br/>
+   /// the UI thread (<see cref="NoUIThreadDispatcher"/>): what the application does once a change has committed, such as a view model showing it,<br/>
+   /// has then been done. A posted call may publish tevents of its own, so it waits until neither is left.
    /// </summary>
-   protected void WaitUntilEveryTeventPublishedHasBeenObserved() => GetService<ILocalTessagingEngine>().AwaitNoTessagesInFlightAsync().WaitUnwrappingException();
+   protected void WaitUntilEveryTeventPublishedHasBeenObserved()
+   {
+      do GetService<ILocalTessagingEngine>().AwaitNoTessagesInFlightAsync().WaitUnwrappingException();
+      while(RunWhatWasPostedToTheUIThread());
+   }
+
+   /// <summary>
+   /// Waits until <paramref name="condition"/> holds, for at most <paramref name="timeout"/>, running meanwhile the calls posted to the UI thread, which<br/>
+   /// this thread is (<see cref="NoUIThreadDispatcher"/>), as a UI thread keeps doing while it waits: a view model shows a change through such a call.
+   /// </summary>
+   /// <returns>Whether <paramref name="condition"/> held before <paramref name="timeout"/> passed.</returns>
+   protected bool KeepRunningTheUIThreadUntil(Func<bool> condition, TimeSpan timeout) => SpinWait.SpinUntil(() =>
+   {
+      RunWhatWasPostedToTheUIThread();
+      return condition();
+   }, timeout);
+
+   /// <summary>Runs the calls posted to the UI thread so far, on this thread (<see cref="NoUIThreadDispatcher.RunWhatWasPosted"/>).</summary>
+   /// <returns>Whether it ran any.</returns>
+   bool RunWhatWasPostedToTheUIThread() => GetService<IUIThreadDispatcher>() is NoUIThreadDispatcher theUIThread && theUIThread.RunWhatWasPosted();
 
    protected VocabNote CreateVocab(string question, string answer, params string[] readings) =>
       VocabNote.Create(NoteServices, question, answer, readings);

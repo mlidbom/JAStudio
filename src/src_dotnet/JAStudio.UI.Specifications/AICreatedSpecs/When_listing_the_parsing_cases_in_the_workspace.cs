@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
@@ -61,7 +60,7 @@ public class When_listing_the_parsing_cases_in_the_workspace : SpecificationUsin
       return sentence;
    }
 
-   void WaitForTheComparison() => SpinWait.SpinUntil(() => !TheParsingCases.IsComparing, TimeToWaitForTheComparison).Must().BeTrue();
+   void WaitForTheComparison() => KeepRunningTheUIThreadUntil(() => !TheParsingCases.IsComparing, TimeToWaitForTheComparison).Must().BeTrue();
 
    void Refresh()
    {

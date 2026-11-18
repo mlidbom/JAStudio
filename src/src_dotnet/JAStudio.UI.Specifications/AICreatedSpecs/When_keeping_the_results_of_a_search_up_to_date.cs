@@ -50,7 +50,7 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
 
       _search = Workspace.Navigation.Search;
       TheSearch.AddCondition(NoteProperties.Tags.Include("source::anime"));
-      SpinWait.SpinUntil(() => !TheSearch.IsSearching && FoundSentences().Count == 1, TimeToWaitForTheSearch).Must().BeTrue();
+      KeepRunningTheUIThreadUntil(() => !TheSearch.IsSearching && FoundSentences().Count == 1, TimeToWaitForTheSearch).Must().BeTrue();
       _rowOfTheSentenceAboutHome = FoundSentences().Single();
       TheRowOfTheSentenceAboutHome.PropertyChanged += (_, _) => Interlocked.Increment(ref _timesTheRowToldTheGridToReadItsValuesAgain);
    }
@@ -83,7 +83,7 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
    void Refresh()
    {
       TheSearch.RefreshCommand.Execute(null);
-      SpinWait.SpinUntil(() => !TheSearch.IsSearching, TimeToWaitForTheSearch).Must().BeTrue();
+      KeepRunningTheUIThreadUntil(() => !TheSearch.IsSearching, TimeToWaitForTheSearch).Must().BeTrue();
    }
 
    public class after_another_matching_sentence_is_created : When_keeping_the_results_of_a_search_up_to_date

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
@@ -35,7 +34,7 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
    /// <summary>A change to the vocab made elsewhere, as by Anki or a note menu, which makes the editor refresh.</summary>
    void ChangeTheMnemonicElsewhere() => _vocab.Edit(it => it.SetMnemonic("changed elsewhere"));
 
-   void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+   void WaitForTheReparseToFinish() => KeepRunningTheUIThreadUntil(() => !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    public class after_typing_an_answer : When_editing_a_vocabs_text_in_the_workspace
    {

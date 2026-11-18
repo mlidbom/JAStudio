@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
@@ -83,7 +82,7 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
 
    /// <summary>Waits for the reparse after a change, the window's after a change in the tree, or the Matching tab's after one on the tab.</summary>
    void WaitForTheReparseToFinish() =>
-      SpinWait.SpinUntil(() => !_window.SentencesReparser.IsReparsingSentences && !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+      KeepRunningTheUIThreadUntil(() => !_window.SentencesReparser.IsReparsingSentences && !TheEditor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    public class for_a_vocab_with_no_match_condition : When_editing_a_vocabs_match_condition_in_its_window
    {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
@@ -168,5 +167,5 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    }
 
    /// <summary>A change to an Anki tag is made in the background: waits until <paramref name="itIsMade"/> says it's shown.</summary>
-   static void WaitUntil(Func<bool> itIsMade) => SpinWait.SpinUntil(itIsMade, TimeSpan.FromSeconds(10)).Must().BeTrue();
+   void WaitUntil(Func<bool> itIsMade) => KeepRunningTheUIThreadUntil(itIsMade, TimeSpan.FromSeconds(10)).Must().BeTrue();
 }

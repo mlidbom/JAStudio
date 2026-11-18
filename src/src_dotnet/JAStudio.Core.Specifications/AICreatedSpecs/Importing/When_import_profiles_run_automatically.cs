@@ -2,7 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Must;
 using Compze.xUnitBDD;
@@ -73,7 +72,7 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    /// <summary>Waits for the automatic runs to have done what <paramref name="condition"/> asks, and fails showing what they did when they haven't in time.</summary>
    void WaitUntilTheRuns(Func<WhatTheRunsDid, bool> condition)
    {
-      SpinWait.SpinUntil(() => condition(WhatTheRunsHaveDone), TimeToWaitForTheRun);
+      KeepRunningTheUIThreadUntil(() => condition(WhatTheRunsHaveDone), TimeToWaitForTheRun);
       WhatTheRunsHaveDone.Must().Satisfy(condition);
    }
 

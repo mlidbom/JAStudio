@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
@@ -79,7 +78,7 @@ public class When_editing_the_Anki_tags_in_the_tag_tree_in_the_workspace : Speci
    };
 
    /// <summary>The change runs in the background, and the tree is shown again with <paramref name="tagPath"/> selected when it's done.</summary>
-   void WaitUntilTheTreeShowsSelected(string tagPath) => SpinWait.SpinUntil(() => SelectedPath() == tagPath, TimeToWaitForTheChange).Must().BeTrue();
+   void WaitUntilTheTreeShowsSelected(string tagPath) => KeepRunningTheUIThreadUntil(() => SelectedPath() == tagPath, TimeToWaitForTheChange).Must().BeTrue();
 
    public class after_renaming_anki_tmp_to_scratch : When_editing_the_Anki_tags_in_the_tag_tree_in_the_workspace
    {

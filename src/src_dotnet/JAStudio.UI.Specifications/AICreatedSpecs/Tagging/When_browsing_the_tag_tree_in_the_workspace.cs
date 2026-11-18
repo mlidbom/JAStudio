@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
@@ -50,7 +49,7 @@ public class When_browsing_the_tag_tree_in_the_workspace : SpecificationUsingAWo
    void ShowTheTagsTab() => _navigation.IsTagManagementShown = true;
 
    /// <summary>The specifications have no UI thread, so a search ends on a thread of its own. See <c>When_building_a_search_in_the_workspace</c>.</summary>
-   void WaitForTheSearch() => SpinWait.SpinUntil(() => !_search.IsSearching, TimeSpan.FromSeconds(10)).Must().BeTrue();
+   void WaitForTheSearch() => KeepRunningTheUIThreadUntil(() => !_search.IsSearching, TimeSpan.FromSeconds(10)).Must().BeTrue();
 
    IEnumerable<TagTreeNodeViewModel> AllLines() => _tags.TopLevelLines.SelectMany(it => it.ThisAndAllBelow());
 

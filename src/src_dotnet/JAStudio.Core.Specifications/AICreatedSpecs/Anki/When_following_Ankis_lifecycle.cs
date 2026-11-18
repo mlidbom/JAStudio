@@ -49,7 +49,7 @@ public class When_following_Ankis_lifecycle : SpecificationStartingWithAnEmptyCo
    protected void WaitUntilTheCollectionHasLoaded() => WaitUntil(() => Collection.IsInitialized);
    protected static void WaitLongerThanAProfileThatOpenedWaitsToBeRead() => Thread.Sleep(LongerThanAProfileThatOpenedWaitsToBeRead);
 
-   protected static void WaitUntil(Func<bool> condition) => SpinWait.SpinUntil(condition, TimeToWaitForTheRead).Must().BeTrue();
+   protected void WaitUntil(Func<bool> condition) => KeepRunningTheUIThreadUntil(condition, TimeToWaitForTheRead).Must().BeTrue();
 
    [XF] public void before_a_profile_has_opened_JAStudio_may_not_use_Ankis_collection() => Availability.WhyItCannotBeUsedNow.Must().Be("No Anki profile is open.");
    [XF] public void before_a_profile_has_opened_the_collection_is_not_loaded() => Collection.IsInitialized.Must().BeFalse();
@@ -88,11 +88,6 @@ public class When_following_Ankis_lifecycle : SpecificationStartingWithAnEmptyCo
          }
       }
 
-      /// <remarks>
-      /// bug: JAStudio_may_not_use_Ankis_collection_since_Anki_is_syncing failed once in a full run of the solution's specifications, on 2026-11-18,
-      ///    and passed in every run after it: 3 alone, with its namespace, and 2 full runs of the Core specifications. The failure's message wasn't
-      ///    caught, so the cause is unknown. Run it under load until it fails, and read what it says.
-      /// </remarks>
       public class and_Ankis_own_sync_then_started : after_a_profile_opened
       {
          public and_Ankis_own_sync_then_started() => AnkiTellsJAStudioOf(AnkiLifecycleEvent.SyncStarting);

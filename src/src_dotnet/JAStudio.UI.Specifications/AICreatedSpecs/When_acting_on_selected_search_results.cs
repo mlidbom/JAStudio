@@ -2,7 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
@@ -68,7 +67,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
    /// The specifications have no UI thread, so a search's end runs on a thread of its own, at the same time as the next change.<br/>
    /// Each change waits for its search, as a person would, or an earlier search could replace the rows of a later one.
    /// </remarks>
-   void WaitForTheSearch() => SpinWait.SpinUntil(() => !_search.IsSearching, TimeToWaitForTheSearch).Must().BeTrue();
+   void WaitForTheSearch() => KeepRunningTheUIThreadUntil(() => !_search.IsSearching, TimeToWaitForTheSearch).Must().BeTrue();
 
    /// <summary>The tag path a person picks in the tag picker dialog, or null to cancel it.</summary>
    string? _tagPathToPickInTheDialog;
@@ -108,7 +107,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
       {
          _tagPathToPickInTheDialog = NewTag;
          ItemInTheMenuOfAllTheFoundSentences(AddATag).Action();
-         SpinWait.SpinUntil(() => BothSentencesHave(NewTag) && _rowsThatToldTheGridToReadTheirValuesAgain.Count == 2, TimeToWaitForTheSearch);
+         KeepRunningTheUIThreadUntil(() => BothSentencesHave(NewTag) && _rowsThatToldTheGridToReadTheirValuesAgain.Count == 2, TimeToWaitForTheSearch);
       }
 
       [XF] public void both_sentences_have_the_tag() => _rowsBeforeActing.Select(it => it.Note.Tags).Must().Satisfy(tagsOfEachSentence => tagsOfEachSentence.All(it => it.Contains(Tag.FromName(NewTag))));
@@ -122,7 +121,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
          public and_removing_it_again_through_the_menu()
          {
             ItemInTheMenuOfAllTheFoundSentences(RemoveATag).Action();
-            SpinWait.SpinUntil(() => NeitherSentenceHas(NewTag), TimeToWaitForTheSearch);
+            KeepRunningTheUIThreadUntil(() => NeitherSentenceHas(NewTag), TimeToWaitForTheSearch);
          }
 
          [XF] public void neither_sentence_has_the_tag() => _rowsBeforeActing.Select(it => it.Note.Tags).Must().Satisfy(tagsOfEachSentence => tagsOfEachSentence.All(it => !it.Contains(Tag.FromName(NewTag))));
@@ -153,7 +152,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
          public after_unsuspending_all_cards()
          {
             ItemInTheMenuOfAllTheFoundSentences(UnsuspendAllCards).Action();
-            SpinWait.SpinUntil(() => _rowsThatToldTheGridToReadTheirValuesAgain.Count == 2, TimeToWaitForTheSearch);
+            KeepRunningTheUIThreadUntil(() => _rowsThatToldTheGridToReadTheirValuesAgain.Count == 2, TimeToWaitForTheSearch);
          }
 
          [XF] public void both_sentences_are_studying_reading() => _rowsBeforeActing.Select(it => it.Note.IsStudyingRead()).Must().SequenceEqual([true, true]);
@@ -166,7 +165,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
             public and_refreshing_the_results()
             {
                _search.RefreshCommand.Execute(null);
-               SpinWait.SpinUntil(() => !_search.IsSearching, TimeToWaitForTheSearch).Must().BeTrue();
+               KeepRunningTheUIThreadUntil(() => !_search.IsSearching, TimeToWaitForTheSearch).Must().BeTrue();
             }
 
             [XF] public void the_sentences_the_search_no_longer_finds_are_gone() => FoundSentences().Must().BeEmpty();

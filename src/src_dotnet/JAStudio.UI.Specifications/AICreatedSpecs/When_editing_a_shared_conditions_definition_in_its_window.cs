@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Compze.Must;
 using Compze.Teventive.TaggregateStores;
 using Compze.xUnitBDD;
@@ -59,8 +58,8 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
 
    private protected static void SelectTheFirstLineUnderTheRoot(SharedConditionWindowViewModel window) => window.DefinitionEditor.SelectedLine = window.DefinitionEditor.Lines[0].Children[0];
 
-   private protected static void WaitForTheReparseToFinish(SharedConditionWindowViewModel window) =>
-      SpinWait.SpinUntil(() => !window.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+   private protected void WaitForTheReparseToFinish(SharedConditionWindowViewModel window) =>
+      KeepRunningTheUIThreadUntil(() => !window.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    public class the_window_of_FollowsAVerb : When_editing_a_shared_conditions_definition_in_its_window
    {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
@@ -39,7 +38,7 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
    /// A context that changes the search again after a search started waits for it first, as a person would, or the first search could<br/>
    /// show its results over those of the change. In JAStudio both run on the UI thread, one after the other.
    /// </remarks>
-   void WaitForTheSearch() => SpinWait.SpinUntil(() => !_search.IsSearching, TimeSpan.FromSeconds(10)).Must().BeTrue();
+   void WaitForTheSearch() => KeepRunningTheUIThreadUntil(() => !_search.IsSearching, TimeSpan.FromSeconds(10)).Must().BeTrue();
 
    List<string> QuestionsOfTheListedNotes()
    {
