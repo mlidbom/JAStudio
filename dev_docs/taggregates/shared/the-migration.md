@@ -59,8 +59,8 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `e01905b14`, after the end review's fixes and Magnus's answers to its questions.
-  Three changes reached JAStudio, and one change of terms: observers created through `ITeventObservation.ObserveTevents`
+  JAStudio's worktree of Compze is at `6680a23c7`, after the end review's fixes and Magnus's answers to its questions.
+  Four changes reached JAStudio, and one change of terms: observers created through `ITeventObservation.ObserveTevents`
   as the application runs are *dynamic observers*, and those declared at composition *composed observers*
   (`dev_docs/taggregate-improvements/shared/dynamic-and-composed-observers.md`, in Compze).
   - **A note class is declared with a registration of the container** (end review Q3):
@@ -71,6 +71,12 @@ cache.
     is a tevent observers hear. An import run and a vocab's clone had created their notes by restoring them from a DTO;
     they now publish creation tevents carrying the note's starting state, `SentenceTevent.Imported` and
     `VocabTevent.Cloned` (Magnus, 2026-11-18: "This is what semantic tevents is all about").
+  - **The files of a state store** (Q5, `dev_docs/taggregate-improvements/shared/the-files-of-a-state-store.md`, in
+    Compze): a taggregate's file is `<its class's folder>/<first two hex digits of its id>/<id>.json`, JAStudio's own
+    layout, with no `fileOf` to declare; a reload compares a file's text with what the store would write, so there is
+    no `snapshotsAreEqual`, and `CorpusNoteDto.HoldTheSameState` is gone; and `IStateStore.WriteEverythingAnew` writes
+    every note's file anew as one commit, which `save_every_note` and the menu item "Write every note's file anew" use,
+    in place of `CorpusNoteFiles.Write`. On the real corpus it rewrote all 79,896 files, none of them changed, in 74 s.
 
   Before it, `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`
