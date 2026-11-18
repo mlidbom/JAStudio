@@ -6,9 +6,9 @@ yours, as a product": add to it, change it and redesign it without asking, tell 
 separately. Its design is in `dev_docs/jastudio-mcp.md`: one server, started live inside Anki or headless without it.
 
 **Claude is the server's only user,** so its changes aren't put to Magnus to check off, in the unanswered list's changes
-made without asking, as no change to a tool he doesn't use himself is: a line in the report is enough (Magnus, 2026-11-18: "unless you have reason to think I would dislike
-an MCP change you are the owner of the MCP since you are its only user and you do what you need and want with it"). A
-change he might dislike still goes to him, as a question.
+made without asking, as no change to a tool he doesn't use himself is: a line in the report is enough (Magnus,
+2026-11-18: "unless you have reason to think I would dislike an MCP change you are the owner of the MCP since you are
+its only user and you do what you need and want with it"). A change he might dislike still goes to him, as a question.
 
 What is JAStudio's own:
 
