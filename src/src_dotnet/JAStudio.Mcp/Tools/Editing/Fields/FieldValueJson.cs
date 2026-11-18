@@ -42,7 +42,7 @@ static class FieldValueJson
          throw new ArgumentException(WhatTheFieldTakes(json?.ToJsonString(AsWritten) ?? "null"), exception);
       }
 
-      string WhatTheFieldTakes(string givenInstead) => $"The field '{field.Name}' takes {DescriptionOf(field.ValueType)}, not {givenInstead}.";
+      string WhatTheFieldTakes(string givenInstead) => $"The field '{field.Name}' takes {field.Takes}, not {givenInstead}.";
    }
 
    /// <summary>What a field's value of the type <paramref name="valueType"/> is, in JSON, such as "a list of texts".</summary>

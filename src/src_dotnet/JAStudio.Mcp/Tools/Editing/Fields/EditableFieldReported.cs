@@ -11,5 +11,5 @@ namespace JAStudio.Mcp.Tools.Editing.Fields;
 public record EditableFieldReported(string Name, string Label, string Takes, bool ChangesHowSentencesParse, JsonNode? Value)
 {
    public static EditableFieldReported Of(EditableFieldOfANote field) =>
-      new(field.Name, field.Label, FieldValueJson.DescriptionOf(field.ValueType), field.ChangesHowSentencesParse, FieldValueJson.JsonOf(field.Read()));
+      new(field.Name, field.Label, field.Takes, field.ChangesHowSentencesParse, FieldValueJson.JsonOf(field.Read()));
 }

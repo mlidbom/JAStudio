@@ -62,5 +62,5 @@ public static class MatchConditionJson
       }
    }
 
-   const string WhatAMatchConditionIs = """A match-condition is a JSON object, as the corpus stores it, such as {"allOf": [{"fact": "matchedByItsSurface"}]}""";
+   internal const string WhatAMatchConditionIs = """A match-condition is a JSON object, as the corpus stores it, such as {"allOf": [{"fact": "matchedByItsSurface"}]}""";
 }

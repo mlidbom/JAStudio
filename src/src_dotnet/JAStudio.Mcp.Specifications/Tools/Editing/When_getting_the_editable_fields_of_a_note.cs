@@ -32,6 +32,9 @@ public class When_getting_the_editable_fields_of_a_note : McpServerSpecification
       [XF] public void every_field_the_vocabs_editor_edits_is_listed_by_its_name_in_order() => _fields.Fields.Select(it => it.Name).Must().SequenceEqual(VocabEditableFields.All.Select(it => it.Name));
       [XF] public void the_readings_are_listed_with_their_value() => Field("readings").Value.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray("いった")));
       [XF] public void the_readings_take_a_list_of_texts() => Field("readings").Takes.Must().Be("a list of texts");
+
+      [XF] public void the_match_condition_takes_a_text_holding_a_match_condition_as_JSON_as_the_corpus_stores_it() =>
+         Field("matching.condition").Takes.Must().Be("""a text: A match-condition is a JSON object, as the corpus stores it, such as {"allOf": [{"fact": "matchedByItsSurface"}]}""");
       [XF] public void the_readings_are_labeled_as_in_the_vocabs_editor() => Field("readings").Label.Must().Be("Readings");
       [XF] public void the_yield_last_token_rule_takes_unset_required_or_forbidden() => Field("matching.requiredOrForbidden.yieldLastTokenToOverlappingCompound").Takes.Must().Be("one of \"unset\", \"required\", \"forbidden\"");
       [XF] public void the_forms_change_how_sentences_parse() => Field("forms").ChangesHowSentencesParse.Must().BeTrue();
