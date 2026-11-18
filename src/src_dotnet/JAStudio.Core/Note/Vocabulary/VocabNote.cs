@@ -155,13 +155,17 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    public VocabNote(NoteServices services, VocabDto data) : this(services) => RestoreFrom(data);
 
    /// <summary>
-   /// A new vocab, a clone of <paramref name="original"/> holding <paramref name="state"/>, the original's data under a question no other vocab has,<br/>
-   /// with the clone's id. Created by <see cref="VocabTevent.Cloned"/>.
+   /// Clones <paramref name="original"/> into the collection: a new vocab holding <paramref name="state"/>, the original's data under a question no<br/>
+   /// other vocab has, with the clone's id, created by <see cref="VocabTevent.Cloned"/>. Each of its synonyms gets the clone as a synonym too.
    /// </summary>
    internal static VocabNote Clone(VocabNote original, VocabDto state)
    {
       var clone = new VocabNote(original.Services);
       clone.Publish(new VocabTevent.Cloned(new VocabId(original.Id.Value), state));
+      //refactor: a participation handler of IVocabTevent.Cloned could give each of the clone's synonyms the clone, as the one of
+      //   IVocabTevent.RelatedVocab.PropertyUpdated.Synonyms.Added does for an added synonym, instead of the synonyms being added again here.
+      foreach(var synonym in clone.RelatedNotes.Synonyms.Words.ToList()) clone.RelatedNotes.Synonyms.Add(synonym);
+      original.Services.Collection.Vocab.Add(clone);
       return clone;
    }
 

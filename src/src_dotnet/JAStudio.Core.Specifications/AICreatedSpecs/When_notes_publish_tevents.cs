@@ -96,21 +96,19 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
    public class given_a_sentence_imported_from_a_note_of_Anki : When_notes_publish_tevents
    {
       readonly SentenceNote _sentence;
-      readonly IReadOnlyList<INoteTevent> _published;
 
-      public given_a_sentence_imported_from_a_note_of_Anki()
-      {
+      public given_a_sentence_imported_from_a_note_of_Anki() =>
          _sentence = SentenceNote.Import(NoteServices, new SentenceDto
-                                                         {
-                                                            Id = Guid.NewGuid(),
-                                                            Tags = ["immersion-kit"],
-                                                            SourceData = new SentenceSourceDataDto { Question = "家に帰る", Answer = "I go home." }
-                                                         });
-         _published = TheTeventsPublishedBy(_sentence);
-      }
+                                                       {
+                                                          Id = Guid.NewGuid(),
+                                                          Tags = ["immersion-kit"],
+                                                          SourceData = new SentenceSourceDataDto { Question = "家に帰る", Answer = "I go home." }
+                                                       });
 
-      [XF] public void it_published_its_imported_tevent_alone() => _published.Must().Satisfy(it => it is [ISentenceTevent.Imported]);
-      [XF] public void the_imported_tevent_gave_it_its_id() => _sentence.GetId().Must().Be(_published[0].TaggregateId);
+      IReadOnlyList<INoteTevent> TheSentencesTevents => [.. TeventsObservedSoFar().OfType<INoteTevent>().Where(it => it.NoteId == _sentence.GetId())];
+
+      [XF] public void its_first_tevent_is_its_imported_tevent() => TheSentencesTevents.Must().Satisfy(it => it is [ISentenceTevent.Imported, ..]);
+      [XF] public void it_is_in_the_collection() => NoteServices.Collection.Sentences.WithIdOrNone(_sentence.GetId()).Must().NotBeNull();
       [XF] public void its_question_is_the_imported_states() => _sentence.GetQuestion().Must().Be("家に帰る");
       [XF] public void its_tags_are_the_imported_states() => _sentence.Tags.ToStringList().Must().SequenceEqual(["immersion-kit"]);
    }

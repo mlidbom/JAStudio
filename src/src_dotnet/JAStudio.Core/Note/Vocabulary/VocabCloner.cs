@@ -101,14 +101,12 @@ public class VocabCloner
    }
 
    /// <summary>
-   /// Gives <paramref name="clone"/> the vocab's source tags: a clone is a copy of the vocab, its source data included, so its content<br/>
-   /// comes from where the vocab's came from. A version derived from the vocab, such as its suffix version, is our own instead (<see cref="VocabNoteFactory.CreateWithCorpusAnswer"/>).
+   /// The tags a clone takes from the vocab: its vocab tags, and its source tags, since a clone is a copy of the vocab, its source data included, so<br/>
+   /// its content comes from where the vocab's came from. A version derived from the vocab, such as its suffix version, is our own instead<br/>
+   /// (<see cref="VocabNoteFactory.CreateWithCorpusAnswer"/>).
    /// </summary>
-   void CopySourceTagsTo(VocabNote clone)
-   {
-      foreach(var tag in Note.Tags.Where(it => it.Name.StartsWithOrdinal(Tags.Source.Folder)))
-         clone.Tags.Set(tag);
-   }
+   List<string> TheTagsACloneTakes() =>
+      [.. Note.Tags.Select(it => it.Name).Where(it => it.StartsWithOrdinal(Tags.Vocab.Root) || it.StartsWithOrdinal(Tags.Source.Folder))];
 
    /// <summary>
    /// A copy of the vocab with <paramref name="form"/>, one of its forms, as its question, its disambiguation kept, such as 其れなり from それなり,<br/>
@@ -135,7 +133,7 @@ public class VocabCloner
       var cloneData = new VocabDto
                       {
                          Id = Guid.NewGuid(),
-                         Tags = [],
+                         Tags = TheTagsACloneTakes(),
                          Question = new VocabQuestionDto { Text = question.Text, Disambiguation = question.Disambiguation },
                          CorpusAnswer = source.CorpusAnswer,
                          Explanation = source.Explanation,
@@ -156,18 +154,7 @@ public class VocabCloner
                          RelatedVocab = source.RelatedVocab,
                          SourceData = source.SourceData,
                       };
-      var clone = VocabNote.Clone(Note, cloneData);
-
-      CopyVocabTagsTo(clone);
-      CopySourceTagsTo(clone);
-
-      foreach(var related in clone.RelatedNotes.Synonyms.Words.ToList())
-      {
-         clone.RelatedNotes.Synonyms.Add(related);
-      }
-
-      Note.Services.Collection.Vocab.Add(clone);
-      return clone;
+      return VocabNote.Clone(Note, cloneData);
    }
 
    public CreatedOrExistingVocab CreateNaAdjective() => CreatePostfixPrefixVersion("な", [PartOfSpeech.NaAdjective]);

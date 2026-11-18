@@ -133,11 +133,7 @@ public class ImportRun
 
    void AddTheSentenceOf(RawNote rawNote)
    {
-      var sentence = Profile.FieldMapping.SentenceFrom(rawNote, Profile.TagsToAdd, _noteServices);
-      sentence.UpdateGeneratedData();
-
-      _noteServices.Collection.Sentences.Add(sentence);
-      _importedSentences.Add(sentence);
+      _importedSentences.Add(SentenceNote.Import(_noteServices, Profile.FieldMapping.SentenceStateFrom(rawNote, Profile.TagsToAdd)));
    }
 
    void FinishWith(IReadOnlyList<RawNote> importedRawNotes)

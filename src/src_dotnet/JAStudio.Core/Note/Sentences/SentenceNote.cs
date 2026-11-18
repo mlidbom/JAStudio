@@ -106,13 +106,22 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
    public SentenceNote(NoteServices services, SentenceDto data) : this(services) => RestoreFrom(data);
 
    /// <summary>
-   /// A new sentence, imported from a note of Anki, holding <paramref name="state"/>: what the import profile takes from the note, and its tags, with<br/>
-   /// the sentence's id. Created by <see cref="SentenceTevent.Imported"/>.
+   /// Imports a sentence from a note of Anki into the collection: a new sentence holding <paramref name="state"/>, what the import profile takes from<br/>
+   /// the note, and its tags, with the sentence's id, created by <see cref="SentenceTevent.Imported"/>, and with its generated data.
    /// </summary>
+   /// <remarks>
+   /// review: the collections could be the notes' factories instead, such as <c>collection.Sentences.Import(state)</c> and<br/>
+   ///    <c>collection.Vocab.Clone(...)</c>: every factory method of the note classes (<see cref="Create"/>, <see cref="Import"/>,<br/>
+   ///    <see cref="Vocabulary.VocabNote.Clone"/>, <see cref="KanjiNote.Create"/> and the rest) would move to the collection of its class, and the notes<br/>
+   ///    would stop reaching the collection through <see cref="NoteServices.Collection"/>, which the Fable end reviewer of Compze's<br/>
+   ///    taggregate-store spike counted in 31 places. Magnus, 2026-11-18: to consider when going through the todo comments.
+   /// </remarks>
    public static SentenceNote Import(NoteServices services, SentenceDto state)
    {
       var sentence = new SentenceNote(services);
       sentence.Publish(new SentenceTevent.Imported(state));
+      sentence.UpdateGeneratedData();
+      services.Collection.Sentences.Add(sentence);
       return sentence;
    }
 

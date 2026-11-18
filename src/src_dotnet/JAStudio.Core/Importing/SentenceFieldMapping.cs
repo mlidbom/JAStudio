@@ -38,18 +38,10 @@ public class SentenceFieldMapping
       new[] { SourceQuestion, SourceAnswer, Reading, ExternalId, SourceName, SourceComments, Audio, Screenshot }.Where(it => it != "");
 
    /// <summary>
-   /// The corpus sentence <paramref name="rawNote"/> becomes: its mapped fields, the texts, audio and screenshots as the sentence's source data, with its own<br/>
-   /// tags and <paramref name="tagsToAdd"/>.
+   /// The state of the corpus sentence <paramref name="rawNote"/> becomes, which it's imported holding (<see cref="SentenceNote.Import"/>): its mapped<br/>
+   /// fields, the texts, audio and screenshots as the sentence's source data, with its own tags and <paramref name="tagsToAdd"/>.
    /// </summary>
-   public SentenceNote SentenceFrom(RawNote rawNote, IEnumerable<string> tagsToAdd, NoteServices services)
-   {
-      var sentence = SentenceNote.Import(services, SentenceDtoFrom(rawNote, tagsToAdd));
-      foreach(var audio in AudioOf(rawNote)) sentence.SourceData.Audio.Add(audio);
-      foreach(var screenshot in ScreenshotsOf(rawNote)) sentence.SourceData.Screenshots.Add(screenshot);
-      return sentence;
-   }
-
-   SentenceDto SentenceDtoFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
+   public SentenceDto SentenceStateFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
    {
       Id = Guid.NewGuid(),
       Reading = rawNote.Field(Reading),
@@ -59,7 +51,9 @@ public class SentenceFieldMapping
                       Question = rawNote.Field(SourceQuestion),
                       Answer = rawNote.Field(SourceAnswer),
                       Comments = rawNote.Field(SourceComments),
-                      ExternalId = rawNote.Field(ExternalId)
+                      ExternalId = rawNote.Field(ExternalId),
+                      Audio = [.. AudioOf(rawNote).Select(AudioReferenceDto.From)],
+                      Screenshots = [.. ScreenshotsOf(rawNote).Select(ImageReferenceDto.From)]
                    },
       Tags = [.. rawNote.Tags.Concat(tagsToAdd).Distinct()]
    };
