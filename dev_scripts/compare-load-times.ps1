@@ -10,9 +10,10 @@ dictionary), the time until the MCP server listens, the processor time the headl
 rest of the machine used meanwhile, with the processes that used the most. A run during which other processes used more than a
 little processor time was disturbed: repeat it.
 
-A warm run loads the notes from the corpus checkout's snapshot caches (snapshot.bin). A cold run deletes them first, so it
-reads every note's file, and writes the caches again. The checkouts' runs share the caches, so the checkouts compared must
-write the same caches: compare the files after each one's cold run if their stored data may differ.
+A warm run loads the notes from the state store's load caches in the corpus checkout (.state-store\*.load-cache), a MemoryPack
+file of each class's snapshots. A cold run deletes them first, so it reads every note's file, and writes the caches again. The
+checkouts' runs share the caches, so the checkouts compared must write the same caches: compare the files after each one's cold
+run if their stored data may differ.
 
 Only one JAStudio runs on a corpus checkout at a time: stop the headless JAStudio first (stop_headless_jastudio).
 
@@ -89,10 +90,10 @@ function Get-SecondsOfTheSummaryLine([string] $log, [string] $step) {
    if($match.Groups['unit'].Value -eq 'ms') { $value / 1000 } else { $value }
 }
 
-function Remove-TheSnapshotCaches { Get-ChildItem (Join-Path $CorpusFolder '*\snapshot.bin') -ErrorAction SilentlyContinue | Remove-Item }
+function Remove-TheLoadCaches { Get-ChildItem (Join-Path $CorpusFolder '.state-store\*.load-cache') -ErrorAction SilentlyContinue | Remove-Item }
 
 function Measure-ALoad([string] $name, [string] $dll, [string] $kind, [int] $round) {
-   if($kind -eq 'cold') { Remove-TheSnapshotCaches }
+   if($kind -eq 'cold') { Remove-TheLoadCaches }
    $logFile = Join-Path $LogFolder "$name-$kind-$round.log"
    $arguments = @("`"$dll`"", '--addon-folder', "`"$AddonFolder`"", '--corpus-folder', "`"$CorpusFolder`"", '--anki-collection-file', "`"$AnkiCollectionFile`"", '--mcp-server-port', '0', '--exit-with-process', $PID)
 
@@ -127,7 +128,7 @@ function Measure-ALoad([string] $name, [string] $dll, [string] $kind, [int] $rou
       OwnProcessorSeconds    = [math]::Round($after[$process.Id].Seconds, 2)
       OtherProcessorSeconds  = [math]::Round(($others | Measure-Object Seconds -Sum).Sum, 2)
       OthersUsingTheMost     = ($others | Sort-Object Seconds -Descending | Select-Object -First 3 | ForEach-Object { "$($_.Name) $([math]::Round($_.Seconds, 1))s" }) -join ', '
-      ReadTheNotesFiles      = $log.Contains('falling back to full rebuild') -or $kind -eq 'cold'
+      ReadTheNotesFiles      = $kind -eq 'cold'
    }
 }
 
