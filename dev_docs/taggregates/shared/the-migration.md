@@ -59,8 +59,8 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `6680a23c7`, after the end review's fixes and Magnus's answers to its questions.
-  Four changes reached JAStudio, and one change of terms: observers created through `ITeventObservation.ObserveTevents`
+  JAStudio's worktree of Compze is at `8c0544750`, after the end review's fixes and Magnus's answers to its questions.
+  Five changes reached JAStudio, and one change of terms: observers created through `ITeventObservation.ObserveTevents`
   as the application runs are *dynamic observers*, and those declared at composition *composed observers*
   (`dev_docs/taggregate-improvements/shared/dynamic-and-composed-observers.md`, in Compze).
   - **A note class is declared with a registration of the container** (end review Q3):
@@ -77,6 +77,8 @@ cache.
     no `snapshotsAreEqual`, and `CorpusNoteDto.HoldTheSameState` is gone; and `IStateStore.WriteEverythingAnew` writes
     every note's file anew as one commit, which `save_every_note` and the menu item "Write every note's file anew" use,
     in place of `CorpusNoteFiles.Write`. On the real corpus it rewrote all 79,896 files, none of them changed, in 74 s.
+  - **Tevent routing is a protected property** (Q9): each of JAStudio's 17 teventive classes gives its routing as
+    `protected override TeventRouting TeventAppliers`, not through the explicit `ITeventRouted`.
 
   Before it, `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`
