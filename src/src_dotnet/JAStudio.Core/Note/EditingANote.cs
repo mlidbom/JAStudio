@@ -14,14 +14,13 @@ namespace JAStudio.Core.Note;
 /// </remarks>
 public static class EditingANote
 {
-   /// <summary>
-   /// Runs <paramref name="edit"/> on <paramref name="note"/> as it is committed now, in a unit of work. <paramref name="edit"/> reads and changes only<br/>
-   /// the note it is given. A note being created, not yet added to the collection, is edited itself.
-   /// </summary>
-   /// <remarks>
-   /// A classic extension method, not a C# 14 extension block: the Python stub generator writes an extension block's compiler-generated types, whose<br/>
-   /// names aren't Python, into the stub of the whole namespace.
-   /// </remarks>
-   public static void Edit<TNote>(this TNote note, Action<TNote> edit) where TNote : JPNote =>
-      note.Services.Collection.InAUnitOfWork(unitOfWork => edit(unitOfWork.ForUpdate(note)));
+   extension<TNote>(TNote note) where TNote : JPNote
+   {
+      /// <summary>
+      /// Runs <paramref name="edit"/> on the note as it is committed now, in a unit of work. <paramref name="edit"/> reads and changes only the note it<br/>
+      /// is given. A note being created, not yet added to the collection, is edited itself.
+      /// </summary>
+      public void Edit(Action<TNote> edit) =>
+         note.Services.Collection.InAUnitOfWork(unitOfWork => edit(unitOfWork.ForUpdate(note)));
+   }
 }

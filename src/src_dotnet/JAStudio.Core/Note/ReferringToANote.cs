@@ -12,10 +12,9 @@ namespace JAStudio.Core.Note;
 /// </remarks>
 public static class ReferringToANote
 {
-   /// <summary>The reference of <paramref name="note"/>, a note of the collection.</summary>
-   /// <remarks>
-   /// A classic extension method, not a C# 14 extension block: the Python stub generator writes an extension block's compiler-generated types, whose<br/>
-   /// names aren't Python, into the stub of the whole namespace.
-   /// </remarks>
-   public static ITaggregateReference<TNote> Reference<TNote>(this TNote note) where TNote : JPNote => new NoteReference<TNote>(note);
+   extension<TNote>(TNote note) where TNote : JPNote
+   {
+      /// <summary>The reference of the note, a note of the collection.</summary>
+      public ITaggregateReference<TNote> Reference() => new NoteReference<TNote>(note);
+   }
 }
