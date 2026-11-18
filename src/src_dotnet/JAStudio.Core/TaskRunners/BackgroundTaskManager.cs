@@ -71,11 +71,14 @@ public sealed class BackgroundTaskManager : IDisposable
    /// threw that the fatal error handler passed on.
    /// </summary>
    /// <remarks>It holds no lock while it waits: a task that starts another task, or finishes, takes the lock that guards the pending tasks.</remarks>
-   public void Dispose()
+   internal void WaitUntilEveryTaskHasFinished()
    {
       while(TakeThePendingTasks() is { Length: > 0 } pendingTasks)
          Task.WaitAll(pendingTasks);
    }
+
+   /// <summary>Waits until every background task has finished (<see cref="WaitUntilEveryTaskHasFinished"/>).</summary>
+   public void Dispose() => WaitUntilEveryTaskHasFinished();
 
    Task[] TakeThePendingTasks() => _monitor.Locked(() =>
    {

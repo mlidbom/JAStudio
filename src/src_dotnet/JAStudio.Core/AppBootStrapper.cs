@@ -19,12 +19,10 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.KanjiRelationships;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
-using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.RelatedVocab;
 using JAStudio.Core.Storage;
-using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
@@ -64,7 +62,7 @@ public static class AppBootstrapper
 
       registrar.Register(
          Singleton.For<AnkiHTMLRenderers>().CreatedBy((IRootResolver resolver) => new AnkiHTMLRenderers(resolver)),
-         Singleton.For<CoreApp>().CreatedBy((TemporaryServiceCollection services, IEnvironmentPaths paths) => new CoreApp(services, paths)),
+         Singleton.For<CoreApp>().CreatedBy((TemporaryServiceCollection services, IEnvironmentPaths paths, BackgroundTaskManager backgroundTasks) => new CoreApp(services, paths, backgroundTasks)),
          Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource, IIndependentTeventPublisher tevents) =>
                                                           new ConfigurationStore(readingsMappingsSource, configDictSource, tevents)),
          Singleton.For<TemporaryServiceCollection>().CreatedBy((IRootResolver resolver) => new TemporaryServiceCollection(resolver)),
