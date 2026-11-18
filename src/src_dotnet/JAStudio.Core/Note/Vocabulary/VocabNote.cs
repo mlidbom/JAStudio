@@ -158,7 +158,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
    /// A new vocab, a clone of <paramref name="original"/> holding <paramref name="state"/>, the original's data under a question no other vocab has,<br/>
    /// with the clone's id. Created by <see cref="VocabTevent.Cloned"/>.
    /// </summary>
-   internal static VocabNote CloneOf(VocabNote original, VocabDto state)
+   internal static VocabNote Clone(VocabNote original, VocabDto state)
    {
       var clone = new VocabNote(original.Services);
       clone.Publish(new VocabTevent.Cloned(new VocabId(original.Id.Value), state));

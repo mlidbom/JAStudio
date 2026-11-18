@@ -100,7 +100,7 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
 
       public given_a_sentence_imported_from_a_note_of_Anki()
       {
-         _sentence = SentenceNote.Imported(NoteServices, new SentenceDto
+         _sentence = SentenceNote.Import(NoteServices, new SentenceDto
                                                          {
                                                             Id = Guid.NewGuid(),
                                                             Tags = ["immersion-kit"],

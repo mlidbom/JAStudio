@@ -109,7 +109,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
    /// A new sentence, imported from a note of Anki, holding <paramref name="state"/>: what the import profile takes from the note, and its tags, with<br/>
    /// the sentence's id. Created by <see cref="SentenceTevent.Imported"/>.
    /// </summary>
-   public static SentenceNote Imported(NoteServices services, SentenceDto state)
+   public static SentenceNote Import(NoteServices services, SentenceDto state)
    {
       var sentence = new SentenceNote(services);
       sentence.Publish(new SentenceTevent.Imported(state));

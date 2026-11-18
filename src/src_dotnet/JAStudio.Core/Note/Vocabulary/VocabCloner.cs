@@ -156,7 +156,7 @@ public class VocabCloner
                          RelatedVocab = source.RelatedVocab,
                          SourceData = source.SourceData,
                       };
-      var clone = VocabNote.CloneOf(Note, cloneData);
+      var clone = VocabNote.Clone(Note, cloneData);
 
       CopyVocabTagsTo(clone);
       CopySourceTagsTo(clone);
