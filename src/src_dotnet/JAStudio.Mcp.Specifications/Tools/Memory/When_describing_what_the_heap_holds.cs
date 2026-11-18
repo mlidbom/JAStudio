@@ -9,6 +9,10 @@ using JAStudio.Mcp.Tools.Memory.Heap;
 
 namespace JAStudio.Mcp.Specifications.Tools.Memory;
 
+/// <remarks>
+/// bug: flaky. It failed twice in full runs of the specifications, on 2026-11-17 and 2026-11-18, each time in another of its cases, and both passed
+///    when run again. The cause is unknown.
+/// </remarks>
 public class When_describing_what_the_heap_holds : McpServerSpecification
 {
    const int ObjectsCounted = 500;
