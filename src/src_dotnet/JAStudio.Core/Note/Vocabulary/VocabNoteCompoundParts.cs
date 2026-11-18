@@ -20,13 +20,13 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// Each part is a <see cref="WordReference"/>: the word, with a disambiguation when the vocab it's part of has to be told apart, as <c>出す:masu</c> in <c>見出す</c>.
 /// </summary>
 /// <remarks>A component of its vocab, whose parts publish tevents of their own, <see cref="IVocabTevent.CompoundParts"/>, which its appliers apply.</remarks>
-public class VocabNoteCompoundParts : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteCompoundParts, IVocabTevent.CompoundParts, VocabTevent.CompoundParts>, ITeventRouted
+public class VocabNoteCompoundParts : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteCompoundParts, IVocabTevent.CompoundParts, VocabTevent.CompoundParts>
 {
    static readonly TeventRouting<VocabNoteCompoundParts, IVocabTevent.CompoundParts> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.CompoundParts.PropertyUpdated.Primary>(static (compoundParts, tevent) => compoundParts._primary = tevent.Primary)
      .For<IVocabTevent.CompoundParts.PropertyUpdated.EnteredAlternatives>(static (compoundParts, tevent) => compoundParts._enteredAlternatives = tevent.EnteredAlternatives));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    IReadOnlyList<WordReference> _primary;
    IReadOnlySet<WordReference> _enteredAlternatives;

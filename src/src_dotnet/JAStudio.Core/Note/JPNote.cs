@@ -23,14 +23,14 @@ namespace JAStudio.Core.Note;
 /// Each part of a note publishes the whole new value of what it changed, through <see cref="PublishIfChanged{TValue}"/> and its kin, and an applier<br/>
 /// sets it: a unit of work writes a note that published a tevent when it commits.
 /// </remarks>
-public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INoteTevent<INoteTevent>, NoteTevent<INoteTevent>>, ITeventRouted
+public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INoteTevent<INoteTevent>, NoteTevent<INoteTevent>>
 {
    /// <summary>The tevent appliers of every note, which each note class's own extend.</summary>
    protected static readonly TeventRouting<JPNote, INoteTevent> NoteAppliers = DeclareAppliers(it => it
      .For<INoteTevent.PropertyUpdated.Tags>(static (note, tevent) => note.Tags.Apply(tevent.Tags))
      .IgnoreUnhandled<INoteTevent.Deleted>());
 
-   TeventRouting ITeventRouted.TeventAppliers => NoteAppliers;
+   protected override TeventRouting TeventAppliers => NoteAppliers;
 
    public NoteServices Services { get; }
 

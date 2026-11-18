@@ -21,7 +21,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching;
 /// A component of its vocab: its match-condition, its flags, its require/forbid rules and its yield-to-surface rule publish tevents of their own,<br/>
 /// <see cref="IVocabTevent.MatchingConfiguration"/>, which its appliers apply.
 /// </remarks>
-public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteMatchingConfiguration, IVocabTevent.MatchingConfiguration, VocabTevent.MatchingConfiguration>, ITeventRouted
+public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteMatchingConfiguration, IVocabTevent.MatchingConfiguration, VocabTevent.MatchingConfiguration>
 {
    /// <remarks>Every tevent of the configuration, applied, also discards what the vocab's forms derived from it (<see cref="VocabNoteForms.OnMatchingConfigurationChanged"/>).</remarks>
    static readonly TeventRouting<VocabNoteMatchingConfiguration, IVocabTevent.MatchingConfiguration> Appliers = DeclareAppliers(it => it
@@ -32,7 +32,7 @@ public class VocabNoteMatchingConfiguration : TeventiveComponent<VocabNote, INot
      .For<IVocabTevent.MatchingConfiguration.PropertyUpdated.MatchCondition>(static (configuration, tevent) => configuration.MatchCondition = tevent.MatchCondition)
      .For<IVocabTevent.MatchingConfiguration>(static (configuration, _) => configuration._vocab.Forms.OnMatchingConfigurationChanged()));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    readonly VocabNote _vocab;
    readonly SharedConditions _sharedConditions;

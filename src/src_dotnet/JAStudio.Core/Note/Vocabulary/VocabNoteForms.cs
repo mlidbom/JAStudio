@@ -32,12 +32,12 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// which its applier applies. Adding a form and removing one also say which form (<see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms.Added"/>,<br/>
 /// <see cref="IVocabTevent.Forms.PropertyUpdated.EnteredForms.Removed"/>), which mirrors the change in other vocab (<see cref="MirrorTheFormsThrough"/>).
 /// </remarks>
-public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteForms, IVocabTevent.Forms, VocabTevent.Forms>, ITeventRouted
+public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteForms, IVocabTevent.Forms, VocabTevent.Forms>
 {
    static readonly TeventRouting<VocabNoteForms, IVocabTevent.Forms> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.Forms.PropertyUpdated.EnteredForms>(static (forms, tevent) => forms.Apply(tevent.EnteredForms)));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    readonly VocabNote _vocab;
    IReadOnlyList<EnteredForm> _enteredForms;

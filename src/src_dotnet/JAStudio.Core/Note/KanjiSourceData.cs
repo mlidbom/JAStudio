@@ -17,7 +17,7 @@ namespace JAStudio.Core.Note;
 /// <remarks>
 /// A component of its kanji: its fields publish tevents of their own, <see cref="IKanjiTevent.SourceData"/>, which its appliers apply.
 /// </remarks>
-public class KanjiSourceData : TeventiveComponent<KanjiNote, INoteTevent, NoteTevent, KanjiSourceData, IKanjiTevent.SourceData, KanjiTevent.SourceData>, ITeventRouted
+public class KanjiSourceData : TeventiveComponent<KanjiNote, INoteTevent, NoteTevent, KanjiSourceData, IKanjiTevent.SourceData, KanjiTevent.SourceData>
 {
    static readonly TeventRouting<KanjiSourceData, IKanjiTevent.SourceData> Appliers = DeclareAppliers(it => it
      .For<IKanjiTevent.SourceData.PropertyUpdated.Answer>(static (sourceData, tevent) => sourceData.Answer = tevent.Answer)
@@ -26,7 +26,7 @@ public class KanjiSourceData : TeventiveComponent<KanjiNote, INoteTevent, NoteTe
      .For<IKanjiTevent.SourceData.PropertyUpdated.MeaningInfo>(static (sourceData, tevent) => sourceData.MeaningInfo = tevent.MeaningInfo)
      .For<IKanjiTevent.SourceData.PropertyUpdated.ReadingInfo>(static (sourceData, tevent) => sourceData.ReadingInfo = tevent.ReadingInfo));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    readonly KanjiNote _kanji;
 

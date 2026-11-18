@@ -10,14 +10,14 @@ namespace JAStudio.Core.Note.KanjiReadings;
 
 /// <summary>The readings of a <see cref="KanjiNote"/>: its <see cref="On"/>, <see cref="Kun"/> and <see cref="Nanori"/> readings, each primary or secondary.</summary>
 /// <remarks>A component of its kanji: each kind of reading publishes a tevent of its own, <see cref="IKanjiTevent.Readings"/>, which its appliers apply.</remarks>
-public class KanjiNoteReadings : TeventiveComponent<KanjiNote, INoteTevent, NoteTevent, KanjiNoteReadings, IKanjiTevent.Readings, KanjiTevent.Readings>, ITeventRouted
+public class KanjiNoteReadings : TeventiveComponent<KanjiNote, INoteTevent, NoteTevent, KanjiNoteReadings, IKanjiTevent.Readings, KanjiTevent.Readings>
 {
    static readonly TeventRouting<KanjiNoteReadings, IKanjiTevent.Readings> Appliers = DeclareAppliers(it => it
      .For<IKanjiTevent.Readings.PropertyUpdated.On>(static (readings, tevent) => readings.On.Apply(tevent.On))
      .For<IKanjiTevent.Readings.PropertyUpdated.Kun>(static (readings, tevent) => readings.Kun.Apply(tevent.Kun))
      .For<IKanjiTevent.Readings.PropertyUpdated.Nanori>(static (readings, tevent) => readings.Nanori.Apply(tevent.Nanori)));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    /// <param name="kanji">The kanji they're the readings of.</param>
    /// <param name="data">The readings as the kanji stores them, or null for a new kanji.</param>

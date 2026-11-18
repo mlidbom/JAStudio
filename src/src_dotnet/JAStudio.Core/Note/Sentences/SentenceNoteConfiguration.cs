@@ -19,14 +19,14 @@ namespace JAStudio.Core.Note.Sentences;
 /// A component of its sentence: each of the three publishes its whole new value, <see cref="ISentenceTevent.Configuration"/>, which its appliers<br/>
 /// apply.
 /// </remarks>
-public class SentenceNoteConfiguration : TeventiveComponent<SentenceNote, INoteTevent, NoteTevent, SentenceNoteConfiguration, ISentenceTevent.Configuration, SentenceTevent.Configuration>, ITeventRouted
+public class SentenceNoteConfiguration : TeventiveComponent<SentenceNote, INoteTevent, NoteTevent, SentenceNoteConfiguration, ISentenceTevent.Configuration, SentenceTevent.Configuration>
 {
    static readonly TeventRouting<SentenceNoteConfiguration, ISentenceTevent.Configuration> Appliers = DeclareAppliers(it => it
      .For<ISentenceTevent.Configuration.PropertyUpdated.HighlightedWords>(static (configuration, tevent) => configuration.HighlightedWords = tevent.HighlightedWords)
      .For<ISentenceTevent.Configuration.PropertyUpdated.IncorrectMatches>(static (configuration, tevent) => configuration.IncorrectMatches.Apply(tevent.IncorrectMatches))
      .For<ISentenceTevent.Configuration.PropertyUpdated.HiddenMatches>(static (configuration, tevent) => configuration.HiddenMatches.Apply(tevent.HiddenMatches)));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    readonly SentenceNote _sentence;
 

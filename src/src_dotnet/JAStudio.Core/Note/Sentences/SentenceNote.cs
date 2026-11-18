@@ -19,7 +19,7 @@ using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Sentences;
 
-public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<SentenceNote, SentenceDto>, ITeventRouted
+public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<SentenceNote, SentenceDto>
 {
    /// <remarks>The created tevent is also the source question's, which the source data's applier applies (<see cref="SentenceSourceData"/>).</remarks>
    static readonly TeventRouting<SentenceNote, INoteTevent> Appliers = NoteAppliers.Extend<SentenceNote>(it => it
@@ -36,7 +36,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
      .Component(static sentence => sentence.SourceData)
      .Component(static sentence => sentence.Configuration));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    public SentenceNoteConfiguration Configuration { get; private set; }
 

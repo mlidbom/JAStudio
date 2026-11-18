@@ -17,7 +17,7 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 /// looked up rather than stored, such as the compounds it's part of.
 /// </summary>
 /// <remarks>A component of its vocab: each relationship publishes a tevent of its own, <see cref="IVocabTevent.RelatedVocab"/>, which its appliers apply.</remarks>
-public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, RelatedVocab, IVocabTevent.RelatedVocab, VocabTevent.RelatedVocab>, ITeventRouted
+public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, RelatedVocab, IVocabTevent.RelatedVocab, VocabTevent.RelatedVocab>
 {
    static readonly TeventRouting<RelatedVocab, IVocabTevent.RelatedVocab> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.RelatedVocab.PropertyUpdated.ErgativeTwins>(static (related, tevent) => related.ErgativeTwins.Apply(tevent.ErgativeTwins))
@@ -28,7 +28,7 @@ public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTeven
      .For<IVocabTevent.RelatedVocab.PropertyUpdated.DerivedFrom>(static (related, tevent) => related.DerivedFrom.Apply(tevent.DerivedFrom))
      .For<IVocabTevent.RelatedVocab.PropertyUpdated.ConfusedWith>(static (related, tevent) => related.ConfusedWith.Apply(tevent.ConfusedWith)));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    static readonly MutualWordRelationshipTevents ErgativeTwinsTevents = new(
       static words => new VocabTevent.RelatedVocab.ErgativeTwinsUpdated(words),

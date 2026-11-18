@@ -20,7 +20,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// A component of its vocab: its text fields, its audio and its images publish tevents of their own, <see cref="IVocabTevent.SourceData"/>, which its<br/>
 /// appliers apply.
 /// </remarks>
-public class VocabSourceData : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabSourceData, IVocabTevent.SourceData, VocabTevent.SourceData>, ITeventRouted
+public class VocabSourceData : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabSourceData, IVocabTevent.SourceData, VocabTevent.SourceData>
 {
    static readonly TeventRouting<VocabSourceData, IVocabTevent.SourceData> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.SourceData.PropertyUpdated.Answer>(static (sourceData, tevent) => sourceData.Answer = tevent.Answer)
@@ -29,7 +29,7 @@ public class VocabSourceData : TeventiveComponent<VocabNote, INoteTevent, NoteTe
      .For<IVocabTevent.SourceData.PropertyUpdated.Audio>(static (sourceData, tevent) => sourceData.Audio.Apply(tevent.Audio))
      .For<IVocabTevent.SourceData.PropertyUpdated.Images>(static (sourceData, tevent) => sourceData.Images.Apply(tevent.Images)));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    readonly VocabNote _vocab;
 

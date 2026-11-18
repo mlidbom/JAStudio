@@ -1,7 +1,7 @@
 import typing, clr, abc
 import Compze.Teventive.Taggregates.Tevents
 from System.Collections.Generic import IEnumerable_1, IReadOnlyList_1
-from Compze.Teventive import ITeventRouted, ITaggregate_1, ITeventRoutedMember_1
+from Compze.Teventive import TeventRouting, ITaggregate_1, ITeventRoutedMember_1
 from Compze.Abstractions import TaggregateId, EntityId, EntityId_1, VersionedEntity_1
 from System import Guid
 from Compze.Tessaging.TessageBus import PublisherTevent_1
@@ -91,7 +91,9 @@ ITeventiveInternals : ITeventiveInternals_GenericClasses
 
 ITeventiveInternals_2_TTevent = typing.TypeVar('ITeventiveInternals_2_TTevent', contravariant=True)
 ITeventiveInternals_2_TTeventImplementation = typing.TypeVar('ITeventiveInternals_2_TTeventImplementation', contravariant=True, bound=Union[Compze.Teventive.Taggregates.Tevents.TaggregateTevent, ITeventiveInternals_2_TTevent])
-class ITeventiveInternals_2(typing.Generic[ITeventiveInternals_2_TTevent, ITeventiveInternals_2_TTeventImplementation], ITeventRouted, typing.Protocol):
+class ITeventiveInternals_2(typing.Generic[ITeventiveInternals_2_TTevent, ITeventiveInternals_2_TTeventImplementation], typing.Protocol):
+    @property
+    def TeventAppliersInternal(self) -> TeventRouting: ...
     @abc.abstractmethod
     def PublishInternal(self, theTevent: ITeventiveInternals_2_TTeventImplementation) -> None: ...
 
@@ -362,7 +364,7 @@ TeventApplyingComponent : TeventApplyingComponent_GenericClasses
 
 TeventApplyingComponent_2_TComponent = typing.TypeVar('TeventApplyingComponent_2_TComponent')
 TeventApplyingComponent_2_TComponentTevent = typing.TypeVar('TeventApplyingComponent_2_TComponentTevent')
-class TeventApplyingComponent_2(typing.Generic[TeventApplyingComponent_2_TComponent, TeventApplyingComponent_2_TComponentTevent], ITeventRouted, ITeventRoutedMember_1[TeventApplyingComponent_2_TComponentTevent], abc.ABC):
+class TeventApplyingComponent_2(typing.Generic[TeventApplyingComponent_2_TComponent, TeventApplyingComponent_2_TComponentTevent], ITeventRoutedMember_1[TeventApplyingComponent_2_TComponentTevent], abc.ABC):
     pass
 
 
@@ -375,7 +377,7 @@ TeventApplyingRoot : TeventApplyingRoot_GenericClasses
 
 TeventApplyingRoot_2_TRoot = typing.TypeVar('TeventApplyingRoot_2_TRoot')
 TeventApplyingRoot_2_TTevent = typing.TypeVar('TeventApplyingRoot_2_TTevent')
-class TeventApplyingRoot_2(typing.Generic[TeventApplyingRoot_2_TRoot, TeventApplyingRoot_2_TTevent], VersionedEntity_1[TeventApplyingRoot_2_TRoot], ITeventRouted, abc.ABC):
+class TeventApplyingRoot_2(typing.Generic[TeventApplyingRoot_2_TRoot, TeventApplyingRoot_2_TTevent], VersionedEntity_1[TeventApplyingRoot_2_TRoot], abc.ABC):
     @property
     def Id(self) -> EntityId: ...
     @Id.setter

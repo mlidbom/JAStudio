@@ -75,7 +75,7 @@ class IHasTextToSpeechAudio(ITaggregate, typing.Protocol):
     def SpeakableTextOf(question: str) -> str: ...
 
 
-class JPNote(Taggregate_5[JPNote, INoteTevent, NoteTevent, INoteTevent_1[INoteTevent], NoteTevent_1[INoteTevent]], abc.ABC):
+class JPNote(Taggregate_5[JPNote, INoteTevent, NoteTevent, INoteTevent_1[INoteTevent], NoteTevent_1[INoteTevent]]):
     @property
     def AllTags(self) -> IEnumerable_1[Tag]: ...
     @property

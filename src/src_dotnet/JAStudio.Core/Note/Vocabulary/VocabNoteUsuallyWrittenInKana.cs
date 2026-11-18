@@ -17,12 +17,12 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// Once decided, by hand or by JAStudio, it's never changed automatically, so a no keeps JAStudio from marking the vocab when it gets it wrong.
 /// </remarks>
 /// <remarks>A component of its vocab, whose decision publishes a tevent of its own, <see cref="IVocabTevent.UsuallyWrittenInKana"/>, which its applier applies.</remarks>
-public class VocabNoteUsuallyWrittenInKana : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteUsuallyWrittenInKana, IVocabTevent.UsuallyWrittenInKana, VocabTevent.UsuallyWrittenInKana>, ITeventRouted
+public class VocabNoteUsuallyWrittenInKana : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteUsuallyWrittenInKana, IVocabTevent.UsuallyWrittenInKana, VocabTevent.UsuallyWrittenInKana>
 {
    static readonly TeventRouting<VocabNoteUsuallyWrittenInKana, IVocabTevent.UsuallyWrittenInKana> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.UsuallyWrittenInKana.PropertyUpdated.Decision>(static (usuallyWrittenInKana, tevent) => usuallyWrittenInKana.Decision = tevent.Decision));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    readonly VocabNote _vocab;
 

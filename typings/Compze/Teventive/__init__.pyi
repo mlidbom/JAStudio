@@ -39,13 +39,6 @@ class ITaggregate_1(typing.Generic[ITaggregate_1_TTevent], ITaggregate_0, typing
     def TeventStream(self) -> IObservable_1[ITaggregateTevent_1[ITaggregate_1_TTevent]]: ...
 
 
-class ITeventRouted(typing.Protocol):
-    @property
-    def TeventAppliers(self) -> TeventRouting: ...
-    @property
-    def TeventHandlers(self) -> TeventRouting: ...
-
-
 class ITeventRoutedMember_GenericClasses(abc.ABCMeta):
     Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent = typing.TypeVar('Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent')
     def __getitem__(self, types : typing.Type[Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent]) -> typing.Type[ITeventRoutedMember_1[Generic_ITeventRoutedMember_GenericClasses_ITeventRoutedMember_1_TTevent]]: ...

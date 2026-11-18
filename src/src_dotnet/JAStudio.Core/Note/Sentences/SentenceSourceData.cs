@@ -20,7 +20,7 @@ namespace JAStudio.Core.Note.Sentences;
 /// A component of its sentence: its text fields, its audio and its screenshots publish tevents of their own, <see cref="ISentenceTevent.SourceData"/>,<br/>
 /// which its appliers apply.
 /// </remarks>
-public class SentenceSourceData : TeventiveComponent<SentenceNote, INoteTevent, NoteTevent, SentenceSourceData, ISentenceTevent.SourceData, SentenceTevent.SourceData>, ITeventRouted
+public class SentenceSourceData : TeventiveComponent<SentenceNote, INoteTevent, NoteTevent, SentenceSourceData, ISentenceTevent.SourceData, SentenceTevent.SourceData>
 {
    static readonly TeventRouting<SentenceSourceData, ISentenceTevent.SourceData> Appliers = DeclareAppliers(it => it
      .For<ISentenceTevent.SourceData.PropertyUpdated.Question>(static (sourceData, tevent) => sourceData.Question = tevent.Question)
@@ -30,7 +30,7 @@ public class SentenceSourceData : TeventiveComponent<SentenceNote, INoteTevent, 
      .For<ISentenceTevent.SourceData.PropertyUpdated.Audio>(static (sourceData, tevent) => sourceData.Audio.Apply(tevent.Audio))
      .For<ISentenceTevent.SourceData.PropertyUpdated.Screenshots>(static (sourceData, tevent) => sourceData.Screenshots.Apply(tevent.Screenshots)));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    readonly SentenceNote _sentence;
 

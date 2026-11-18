@@ -20,7 +20,7 @@ using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
-public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>, ITeventRouted
+public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>
 {
    static readonly TeventRouting<VocabNote, INoteTevent> Appliers = NoteAppliers.Extend<VocabNote>(it => it
      .For<IVocabTevent.Cloned>(static (vocab, tevent) => vocab.BecomeTheClone(tevent))
@@ -44,7 +44,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
      .Component(static vocab => vocab.UsuallyWrittenInKana)
      .Component(static vocab => vocab.MatchingConfiguration));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    public VocabNoteQuestion Question { get; private set; }
 

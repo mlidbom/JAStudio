@@ -20,7 +20,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// A component of its vocab: a new vocab's created tevent gives it its <see cref="Text"/>, and renaming the vocab publishes<br/>
 /// <see cref="IVocabTevent.Question.Renamed"/>, with both, which its appliers apply.
 /// </remarks>
-public class VocabNoteQuestion : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteQuestion, IVocabTevent.Question, VocabTevent.Question>, ITeventRouted
+public class VocabNoteQuestion : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteQuestion, IVocabTevent.Question, VocabTevent.Question>
 {
    /// <remarks>A new <see cref="Text"/>, applied, also discards what the vocab's forms derived from it (<see cref="VocabNoteForms.OnQuestionChanged"/>).</remarks>
    static readonly TeventRouting<VocabNoteQuestion, IVocabTevent.Question> Appliers = DeclareAppliers(it => it
@@ -28,7 +28,7 @@ public class VocabNoteQuestion : TeventiveComponent<VocabNote, INoteTevent, Note
      .For<IVocabTevent.Question.PropertyUpdated.Disambiguation>(static (question, tevent) => question.Disambiguation = tevent.Disambiguation)
      .For<IVocabTevent.Question.PropertyUpdated.Text>(static (question, _) => question._vocab.Forms.OnQuestionChanged()));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    /// <summary>
    /// Declares, through <paramref name="handle"/>, the participation handler by which a vocab renamed keeps the names other notes refer to it by:<br/>

@@ -11,12 +11,12 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// What JAStudio works out about a vocab from the corpus and keeps with it, its <see cref="SentenceCount"/>, and the meta tags its pages show.<br/>
 /// A component of its vocab, whose stored value publishes a tevent of its own, <see cref="IVocabTevent.MetaData"/>, which its applier applies.
 /// </summary>
-public class VocabNoteMetaData : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteMetaData, IVocabTevent.MetaData, VocabTevent.MetaData>, ITeventRouted
+public class VocabNoteMetaData : TeventiveComponent<VocabNote, INoteTevent, NoteTevent, VocabNoteMetaData, IVocabTevent.MetaData, VocabTevent.MetaData>
 {
    static readonly TeventRouting<VocabNoteMetaData, IVocabTevent.MetaData> Appliers = DeclareAppliers(it => it
      .For<IVocabTevent.MetaData.PropertyUpdated.SentenceCount>(static (metaData, tevent) => metaData.SentenceCount = tevent.SentenceCount));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    readonly VocabNote _vocab;
 

@@ -21,7 +21,7 @@ using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note;
 
-public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRouted
+public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>
 {
    static readonly TeventRouting<KanjiNote, INoteTevent> Appliers = NoteAppliers.Extend<KanjiNote>(it => it
      .For<IKanjiTevent.Created>(static (kanji, tevent) => kanji._question = tevent.Question)
@@ -36,7 +36,7 @@ public class KanjiNote : JPNote, ISnapshotable<KanjiNote, KanjiDto>, ITeventRout
      .Component(static kanji => kanji.SourceData)
      .Component(static kanji => kanji.Readings));
 
-   TeventRouting ITeventRouted.TeventAppliers => Appliers;
+   protected override TeventRouting TeventAppliers => Appliers;
 
    /// <summary>
    /// The corpus's own answer for the kanji: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
