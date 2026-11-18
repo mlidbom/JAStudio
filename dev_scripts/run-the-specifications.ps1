@@ -51,7 +51,8 @@ function Get-ProcessorSecondsByProcess {
 }
 
 <# The processes that aren't this run's: neither this script nor a process whose command line names this checkout, as the specifications'
-   test hosts and the builds do. A process of this run that exited before the end isn't seen, nor counted. #>
+   test hosts and the builds do. A process of this run that exited before the end isn't seen, nor counted. The compiler server, VBCSCompiler,
+   serves every build on the machine, this run's own too, so in a run that builds, much of its time may be this run's. #>
 function Get-TheRestOfTheMachine($before, $after) {
    $ours = @{ [int]$PID = $true }
    foreach($process in Get-CimInstance Win32_Process) {
