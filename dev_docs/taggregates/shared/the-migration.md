@@ -59,7 +59,18 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `628f05c1e`, the end of step 5's code
+  JAStudio's worktree of Compze is at `0255c7231`, after the end review's fixes and Magnus's answers to its questions.
+  Three changes reached JAStudio:
+  - **A note class is declared with a registration of the container** (end review Q3):
+    `store.Taggregate<VocabNote, VocabDto>(TrackedTransient.For<VocabNote>().CreatedBy((NoteServices services) => ...), ...)`.
+  - **Nothing is declared for observing at runtime** (Q4): a plain container's runtime observers may observe any tevent,
+    so `DeclareWhatIsObservedAtRuntime` is gone.
+  - **A new taggregate is saved only with the tevents it published from its creation on** (D5), so every note's creation
+    is a tevent observers hear. An import run and a vocab's clone had created their notes by restoring them from a DTO;
+    they now publish creation tevents carrying the note's starting state, `SentenceTevent.Imported` and
+    `VocabTevent.Cloned` (Magnus, 2026-11-18: "This is what semantic tevents is all about").
+
+  Before it, `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`
   branch): every teventive class must declare its tevent routing, and every component asserts, when it's constructed,
   that its parent's routing has an entry for its tevents. JAStudio needed no change for it. Before it, `37731c854`,
@@ -379,9 +390,8 @@ to anything that happens".
   - **At runtime,** through Compze's `ITeventObservation.ObserveTevents`, which Magnus approved, observation only: a
     note's tab, the search results, the parsing cases, the note list, the workspace showing its saved state once the
     notes have loaded, an editor window closing at a reload, and a card page in Anki (`ChangesThatOutdateNotePages`). The
-    live MCP server started once the collection had loaded, until it started with JAStudio (2026-11-17). What may be observed at runtime is declared at composition
-    (`DeclareWhatIsObservedAtRuntime`): `INoteTevent`, `ICollectionReloaded`, `IStudyNoteChanged` and
-    `IConfigurationChanged`.
+    live MCP server started once the collection had loaded, until it started with JAStudio (2026-11-17). Nothing is declared for it: until Compze's `0255c7231`, what
+    could be observed at runtime was declared at composition (`DeclareWhatIsObservedAtRuntime`).
   - **The view models observe on the UI thread** through `TeventsObservedOnTheUIThread` (Magnus's idea), over
     `IUIThreadDispatcher`: each call is posted there, and none runs once it is disposed, since Compze's disposal doesn't
     wait for a call already taken. A note's changes come as each unit of work's `INoteTevent`s, which also tell of its

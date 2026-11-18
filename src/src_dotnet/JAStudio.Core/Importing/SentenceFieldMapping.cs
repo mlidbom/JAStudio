@@ -43,7 +43,7 @@ public class SentenceFieldMapping
    /// </summary>
    public SentenceNote SentenceFrom(RawNote rawNote, IEnumerable<string> tagsToAdd, NoteServices services)
    {
-      var sentence = new SentenceNote(services, SentenceDtoFrom(rawNote, tagsToAdd));
+      var sentence = SentenceNote.Imported(services, SentenceDtoFrom(rawNote, tagsToAdd));
       foreach(var audio in AudioOf(rawNote)) sentence.SourceData.Audio.Add(audio);
       foreach(var screenshot in ScreenshotsOf(rawNote)) sentence.SourceData.Screenshots.Add(screenshot);
       return sentence;

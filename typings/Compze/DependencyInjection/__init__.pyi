@@ -3,7 +3,25 @@ from Compze.DependencyInjection.Abstractions import Lifestyle, IContainerBuilder
 from System.Collections.Generic import IReadOnlySet_1, IReadOnlyList_1, IEnumerable_1
 from System.Threading.Tasks import ValueTask
 
-class ComponentRegistration(abc.ABC):
+class ComponentRegistration_GenericClasses(abc.ABCMeta):
+    Generic_ComponentRegistration_GenericClasses_ComponentRegistration_1_TService = typing.TypeVar('Generic_ComponentRegistration_GenericClasses_ComponentRegistration_1_TService')
+    def __getitem__(self, types : typing.Type[Generic_ComponentRegistration_GenericClasses_ComponentRegistration_1_TService]) -> typing.Type[ComponentRegistration_1[Generic_ComponentRegistration_GenericClasses_ComponentRegistration_1_TService]]: ...
+
+class ComponentRegistration(ComponentRegistration_0, metaclass =ComponentRegistration_GenericClasses): ...
+
+class ComponentRegistration_0(abc.ABC):
+    @property
+    def InstantiationSpec(self) -> InstantiationSpec: ...
+    @property
+    def IsComponentSetMember(self) -> bool: ...
+    @property
+    def Lifestyle(self) -> Lifestyle: ...
+    @property
+    def ServiceTypes(self) -> IReadOnlySet_1[typing.Type[typing.Any]]: ...
+
+
+ComponentRegistration_1_TService = typing.TypeVar('ComponentRegistration_1_TService')
+class ComponentRegistration_1(typing.Generic[ComponentRegistration_1_TService], ComponentRegistration_0):
     @property
     def InstantiationSpec(self) -> InstantiationSpec: ...
     @property

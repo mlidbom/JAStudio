@@ -4,6 +4,7 @@ using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary.Tevents;
 
@@ -31,6 +32,13 @@ public abstract class VocabTevent : NoteTevent, IVocabTevent
    public class Created(VocabId vocabId, string question) : VocabTevent(vocabId), IVocabTevent.Created
    {
       public string Text { get; } = question;
+   }
+
+   /// <summary>The clone's creation, with its id <paramref name="state"/>'s.</summary>
+   public class Cloned(VocabId original, VocabDto state) : VocabTevent(new VocabId(state.Id)), IVocabTevent.Cloned
+   {
+      public VocabId Original { get; } = original;
+      public VocabDto State { get; } = state;
    }
 
    public class Deleted(WordReference word) : VocabTevent, IVocabTevent.Deleted

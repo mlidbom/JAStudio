@@ -59,8 +59,14 @@ public abstract class JPNote : Taggregate<JPNote, INoteTevent, NoteTevent, INote
    protected void RestoreTheNoteFrom(NoteId id, CorpusNoteDto data)
    {
       RestoreIdentity(id);
-      Tags = new NoteTags(this, data.Tags);
+      TakeTheTagsOf(data);
    }
+
+   /// <summary>
+   /// Gives the note the tags <paramref name="data"/> holds as its own <see cref="Tags"/>: as it's restored, and as it's created holding a state, such<br/>
+   /// as an imported sentence (<see cref="Sentences.Tevents.ISentenceTevent.Imported"/>).
+   /// </summary>
+   protected void TakeTheTagsOf(CorpusNoteDto data) => Tags = new NoteTags(this, data.Tags);
 
    /// <summary>Holds <paramref name="status"/> as the studying status of the card it is of, of the note's study-note (<see cref="WhatTheSRSHoldsOfTheStudyNotes"/>).</summary>
    public void SetStudyingStatus(CardStudyingStatus status) => Services.WhatTheSRSHoldsOfTheStudyNotes.SetStudyingStatus(Id, status);

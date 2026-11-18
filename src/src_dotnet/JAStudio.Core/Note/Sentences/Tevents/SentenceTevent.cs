@@ -3,6 +3,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Sentences.Tevents;
 
@@ -42,6 +43,12 @@ public abstract class SentenceTevent : NoteTevent, ISentenceTevent
    public class Created(SentenceId sentenceId, string question) : SentenceTevent(sentenceId), ISentenceTevent.Created
    {
       public string Question { get; } = question;
+   }
+
+   /// <summary>The imported sentence's creation, with its id <paramref name="state"/>'s.</summary>
+   public class Imported(SentenceDto state) : SentenceTevent(new SentenceId(state.Id)), ISentenceTevent.Imported
+   {
+      public SentenceDto State { get; } = state;
    }
 
    public class Deleted : SentenceTevent, ISentenceTevent.Deleted;

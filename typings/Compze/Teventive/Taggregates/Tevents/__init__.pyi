@@ -8,6 +8,10 @@ class ITaggregateCreatedTevent(ITaggregateTevent_0, typing.Protocol):
     pass
 
 
+class ITaggregateDeletedTevent(ITaggregateTevent_0, typing.Protocol):
+    pass
+
+
 class ITaggregateTevent_GenericClasses(abc.ABCMeta):
     Generic_ITaggregateTevent_GenericClasses_ITaggregateTevent_1_TTeventInterface = typing.TypeVar('Generic_ITaggregateTevent_GenericClasses_ITaggregateTevent_1_TTeventInterface')
     def __getitem__(self, types : typing.Type[Generic_ITaggregateTevent_GenericClasses_ITaggregateTevent_1_TTeventInterface]) -> typing.Type[ITaggregateTevent_1[Generic_ITaggregateTevent_GenericClasses_ITaggregateTevent_1_TTeventInterface]]: ...

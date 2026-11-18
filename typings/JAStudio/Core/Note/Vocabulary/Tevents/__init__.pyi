@@ -1,15 +1,16 @@
 import typing, abc
 from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, NoteTevent_1
+from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
+from JAStudio.Core.Note import VocabId
+from JAStudio.Core.Storage.Dto import VocabDto
 from System.Collections.Generic import IReadOnlySet_1, IReadOnlyList_1
 from JAStudio.Core.Note.Vocabulary import WordReference, EnteredForm, PartOfSpeech, UsuallyWrittenInKanaDecision
-from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
 from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from Compze.Abstractions import TaggregateId
 from System import DateTime
-from JAStudio.Core.Note import VocabId
 
 class IVocabTevent_GenericClasses(abc.ABCMeta):
     Generic_IVocabTevent_GenericClasses_IVocabTevent_1_TTevent = typing.TypeVar('Generic_IVocabTevent_GenericClasses_IVocabTevent_1_TTevent')
@@ -18,6 +19,13 @@ class IVocabTevent_GenericClasses(abc.ABCMeta):
 class IVocabTevent(IVocabTevent_0, metaclass =IVocabTevent_GenericClasses): ...
 
 class IVocabTevent_0(INoteTevent, typing.Protocol):
+
+    class Cloned(IVocabTevent_0, ITaggregateCreatedTevent, typing.Protocol):
+        @property
+        def Original(self) -> VocabId: ...
+        @property
+        def State(self) -> VocabDto: ...
+
 
     class CompoundParts(IVocabTevent_0, typing.Protocol):
 
@@ -393,6 +401,20 @@ class VocabTevent_0(NoteTevent, IVocabTevent_0):
         def __init__(self, audio: IReadOnlyList_1[AudioReference]) -> None: ...
         @property
         def Audio(self) -> IReadOnlyList_1[AudioReference]: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class Cloned(VocabTevent_0, IVocabTevent.Cloned):
+        def __init__(self, original: VocabId, state: VocabDto) -> None: ...
+        @property
+        def Original(self) -> VocabId: ...
+        @property
+        def State(self) -> VocabDto: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property

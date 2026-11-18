@@ -3,6 +3,7 @@ from JAStudio.Core.Note.Tevents import INoteTevent, INoteTevent_1, NoteTevent, N
 from System.Collections.Generic import IReadOnlySet_1, IReadOnlyList_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion
 from Compze.Teventive.Taggregates.Tevents import ITaggregateCreatedTevent
+from JAStudio.Core.Storage.Dto import SentenceDto
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from JAStudio.Core.Note.Sentences.ParsingCases import ParsingCase
 from JAStudio.Core.Note.Sentences import ParsingResult
@@ -45,6 +46,11 @@ class ISentenceTevent_0(INoteTevent_0, typing.Protocol):
 
     class Deleted(INoteTevent.Deleted, ISentenceTevent_0, typing.Protocol):
         pass
+
+
+    class Imported(ISentenceTevent_0, ITaggregateCreatedTevent, typing.Protocol):
+        @property
+        def State(self) -> SentenceDto: ...
 
 
     class PropertyUpdated(abc.ABC):
@@ -258,6 +264,18 @@ class SentenceTevent_0(NoteTevent_0, ISentenceTevent_0):
 
     class Deleted(SentenceTevent_0, ISentenceTevent.Deleted):
         def __init__(self) -> None: ...
+        @property
+        def TaggregateId(self) -> TaggregateId: ...
+        @property
+        def TaggregateVersion(self) -> int: ...
+        @property
+        def UtcTimeStamp(self) -> DateTime: ...
+
+
+    class Imported(SentenceTevent_0, ISentenceTevent.Imported):
+        def __init__(self, state: SentenceDto) -> None: ...
+        @property
+        def State(self) -> SentenceDto: ...
         @property
         def TaggregateId(self) -> TaggregateId: ...
         @property

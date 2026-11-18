@@ -23,6 +23,7 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
 {
    /// <remarks>The created tevent is also the source question's, which the source data's applier applies (<see cref="SentenceSourceData"/>).</remarks>
    static readonly TeventRouting<SentenceNote, INoteTevent> Appliers = NoteAppliers.Extend<SentenceNote>(it => it
+     .For<ISentenceTevent.Imported>(static (sentence, tevent) => sentence.BecomeTheImportedSentence(tevent))
      .For<ISentenceTevent.PropertyUpdated.CorpusQuestion>(static (sentence, tevent) => sentence.CorpusQuestion = tevent.CorpusQuestion)
      .For<ISentenceTevent.PropertyUpdated.CorpusAnswer>(static (sentence, tevent) => sentence.CorpusAnswer = tevent.CorpusAnswer)
      .For<ISentenceTevent.PropertyUpdated.Comments>(static (sentence, tevent) => sentence.Comments = tevent.Comments)
@@ -103,6 +104,24 @@ public partial class SentenceNote : JPNote, IHasTextToSpeechAudio, ISnapshotable
 
    /// <summary>The sentence <paramref name="data"/> holds, as it was stored.</summary>
    public SentenceNote(NoteServices services, SentenceDto data) : this(services) => RestoreFrom(data);
+
+   /// <summary>
+   /// A new sentence, imported from a note of Anki, holding <paramref name="state"/>: what the import profile takes from the note, and its tags, with<br/>
+   /// the sentence's id. Created by <see cref="SentenceTevent.Imported"/>.
+   /// </summary>
+   public static SentenceNote Imported(NoteServices services, SentenceDto state)
+   {
+      var sentence = new SentenceNote(services);
+      sentence.Publish(new SentenceTevent.Imported(state));
+      return sentence;
+   }
+
+   /// <summary>Makes this empty sentence the one <paramref name="imported"/> creates: its tags and its parts, from the state the tevent carries.</summary>
+   void BecomeTheImportedSentence(ISentenceTevent.Imported imported)
+   {
+      TakeTheTagsOf(imported.State);
+      BuildThePartsFrom(imported.State);
+   }
 
    public SentenceDto TakeSnapshot() => SentenceNoteConverter.ToDto(this);
 

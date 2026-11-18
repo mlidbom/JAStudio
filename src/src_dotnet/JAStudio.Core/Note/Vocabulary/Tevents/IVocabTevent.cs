@@ -5,6 +5,7 @@ using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Storage.Dto;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleInterfaceMemberAmbiguity
@@ -32,6 +33,16 @@ public interface IVocabTevent : INoteTevent
    }
 
    public interface Created : IVocabTevent, ITaggregateCreatedTevent, Question.PropertyUpdated.Text;
+
+   /// <summary>
+   /// A vocab created as a clone of another, <see cref="Original"/>: holding <see cref="State"/>, the original's data under a question of its own,<br/>
+   /// which no other vocab has. The vocab's creation, as <see cref="IVocabTevent.Created"/> is a new vocab's.
+   /// </summary>
+   public interface Cloned : IVocabTevent, ITaggregateCreatedTevent
+   {
+      VocabId Original { get; }
+      VocabDto State { get; }
+   }
 
    /// <remarks>
    /// Carries the deleted vocab's name, which nothing else has inside the unit of work: the vocab is gone from it as it publishes this. A deleted<br/>

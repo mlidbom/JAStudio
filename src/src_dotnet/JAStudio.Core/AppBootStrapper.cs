@@ -147,9 +147,9 @@ public static class AppBootstrapper
       registrar.StateStore(store =>
       {
          environment.DeclareWhereTheNotesAreKept(store);
-         store.Taggregate((NoteServices services) => new VocabNote(services), CorpusNoteDto.HoldTheSameState)
-              .Taggregate((NoteServices services) => new KanjiNote(services), CorpusNoteDto.HoldTheSameState)
-              .Taggregate((NoteServices services) => new SentenceNote(services), CorpusNoteDto.HoldTheSameState);
+         store.Taggregate<VocabNote, VocabDto>(TrackedTransient.For<VocabNote>().CreatedBy((NoteServices services) => new VocabNote(services)), CorpusNoteDto.HoldTheSameState)
+              .Taggregate<KanjiNote, KanjiDto>(TrackedTransient.For<KanjiNote>().CreatedBy((NoteServices services) => new KanjiNote(services)), CorpusNoteDto.HoldTheSameState)
+              .Taggregate<SentenceNote, SentenceDto>(TrackedTransient.For<SentenceNote>().CreatedBy((NoteServices services) => new SentenceNote(services)), CorpusNoteDto.HoldTheSameState);
          VocabIndexes.DeclareIn(store);
          KanjiIndexes.DeclareIn(store);
          SentenceIndexes.DeclareIn(store);
@@ -159,24 +159,13 @@ public static class AppBootstrapper
    /// <summary>
    /// Composes the engine that dispatches the tevents: to the participation handlers through which a change to one note reaches others<br/>
    /// (<see cref="DeclareWhatReachesOtherNotes"/>), to the log of the notes saved (<see cref="SavedNotesLog"/>), to the observers<br/>
-   /// <paramref name="environment"/> declares, and to those created while the application runs (<see cref="DeclareWhatIsObservedAtRuntime"/>).
+   /// <paramref name="environment"/> declares, and to those created while the application runs, through <see cref="ITeventObservation"/>, such as the<br/>
+   /// workspace's view models and the card pages, which need no declaring.
    /// </summary>
    static void ComposeTheTessagingEngine(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment) =>
       registrar.LocalTessagingEngine(engine => engine.RegisterTessageBusHandlers(DeclareWhatReachesOtherNotes)
                                                      .ObserveTevents(SavedNotesLog.LogTheNotesEachUnitOfWorkSaved)
-                                                     .ObserveTevents(environment.ObserveTevents)
-                                                     .ObserveTevents(DeclareWhatIsObservedAtRuntime));
-
-   /// <summary>
-   /// Declares the tevents that what follows changes while the application runs observes, through <see cref="ITeventObservation"/>, such as the<br/>
-   /// workspace's view models and the card pages: every change to a note, the reload of the collection, a change to what Anki holds of a<br/>
-   /// note's study-note, and a change to the configuration. Compze lets a runtime observer observe only what is declared here.
-   /// </summary>
-   static void DeclareWhatIsObservedAtRuntime(TeventObservationRegistrar observe) =>
-      observe.AtRuntime<INoteTevent>()
-             .AtRuntime<ICollectionReloaded>()
-             .AtRuntime<IStudyNoteChanged>()
-             .AtRuntime<IConfigurationChanged>();
+                                                     .ObserveTevents(environment.ObserveTevents));
 
    /// <summary>
    /// Declares the participation handlers through which a change to one note reaches other notes. Compze runs each inside the unit of work that<br/>

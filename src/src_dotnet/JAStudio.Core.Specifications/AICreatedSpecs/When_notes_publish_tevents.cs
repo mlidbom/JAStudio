@@ -26,7 +26,8 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, and each part of a note publishes the<br/>
+/// A note is a Compze taggregate: a new note publishes its created tevent, which gives it its id, or the tevent that creates it holding a state, as an<br/>
+/// imported sentence (<see cref="ISentenceTevent.Imported"/>) and a cloned vocab (<see cref="IVocabTevent.Cloned"/>) do. Each part of a note publishes the<br/>
 /// <c>PropertyUpdated</c> tevent of what it changed, with the whole new value, and only when it changes: a text field, its source data's<br/>
 /// (<see cref="VocabSourceData"/>, <see cref="KanjiSourceData"/>, <see cref="SentenceSourceData"/>), a list or set of words, kanji, media or tags, a<br/>
 /// vocab's <see cref="VocabNote.Forms"/> and <see cref="VocabNote.MatchingConfiguration"/>, a sentence's <see cref="SentenceNote.Configuration"/>.<br/>
@@ -90,6 +91,46 @@ public class When_notes_publish_tevents : SpecificationStartingWithAnEmptyCollec
       [XF] public void the_created_tevent_carries_its_source_question() => ((ISentenceTevent.Created)_published[0]).Question.Must().Be("家に帰る");
       [XF] public void the_created_tevent_gave_it_its_id() => _sentence.GetId().Must().Be(_published[0].TaggregateId);
       [XF] public void its_question_is_the_created_tevents() => _sentence.GetQuestion().Must().Be("家に帰る");
+   }
+
+   public class given_a_sentence_imported_from_a_note_of_Anki : When_notes_publish_tevents
+   {
+      readonly SentenceNote _sentence;
+      readonly IReadOnlyList<INoteTevent> _published;
+
+      public given_a_sentence_imported_from_a_note_of_Anki()
+      {
+         _sentence = SentenceNote.Imported(NoteServices, new SentenceDto
+                                                         {
+                                                            Id = Guid.NewGuid(),
+                                                            Tags = ["immersion-kit"],
+                                                            SourceData = new SentenceSourceDataDto { Question = "家に帰る", Answer = "I go home." }
+                                                         });
+         _published = TheTeventsPublishedBy(_sentence);
+      }
+
+      [XF] public void it_published_its_imported_tevent_alone() => _published.Must().Satisfy(it => it is [ISentenceTevent.Imported]);
+      [XF] public void the_imported_tevent_gave_it_its_id() => _sentence.GetId().Must().Be(_published[0].TaggregateId);
+      [XF] public void its_question_is_the_imported_states() => _sentence.GetQuestion().Must().Be("家に帰る");
+      [XF] public void its_tags_are_the_imported_states() => _sentence.Tags.ToStringList().Must().SequenceEqual(["immersion-kit"]);
+   }
+
+   public class given_a_vocab_cloned_with_a_disambiguation : When_notes_publish_tevents
+   {
+      readonly VocabNote _original;
+      readonly VocabNote _clone;
+
+      public given_a_vocab_cloned_with_a_disambiguation()
+      {
+         _original = CreateVocab("走る", "run", "はしる");
+         _clone = _original.Cloner.CloneWithDisambiguation("masu").Vocab;
+      }
+
+      IReadOnlyList<INoteTevent> TheClonesTevents => [.. TeventsObservedSoFar().OfType<INoteTevent>().Where(it => it.NoteId == _clone.GetId())];
+
+      [XF] public void its_first_tevent_is_its_cloned_tevent() => TheClonesTevents.Must().Satisfy(it => it is [IVocabTevent.Cloned, ..]);
+      [XF] public void the_cloned_tevent_names_the_original() => ((IVocabTevent.Cloned)TheClonesTevents[0]).Original.Value.Must().Be(_original.GetId().Value);
+      [XF] public void its_question_is_the_cloned_states() => _clone.Question.DisambiguationName.Must().Be("走る:masu");
    }
 
    public class given_a_kanji_in_the_collection : When_notes_publish_tevents

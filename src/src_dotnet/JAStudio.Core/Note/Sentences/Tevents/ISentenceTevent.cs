@@ -3,6 +3,7 @@ using Compze.Teventive.Taggregates.Tevents;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tevents;
+using JAStudio.Core.Storage.Dto;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleInterfaceMemberAmbiguity
@@ -30,6 +31,15 @@ public interface ISentenceTevent : INoteTevent
 
    /// <remarks>Carries the question the sentence's source gave it, which a new sentence is created with.</remarks>
    public interface Created : ISentenceTevent, ITaggregateCreatedTevent, SourceData.PropertyUpdated.Question;
+
+   /// <summary>
+   /// A sentence created by an import run from a note of Anki (<see cref="Importing.ImportRun"/>): holding <see cref="State"/>, what the import profile<br/>
+   /// takes from the note's fields, and its tags. The sentence's creation, as <see cref="ISentenceTevent.Created"/> is a new sentence's.
+   /// </summary>
+   public interface Imported : ISentenceTevent, ITaggregateCreatedTevent
+   {
+      SentenceDto State { get; }
+   }
 
    public new interface Deleted : ISentenceTevent, INoteTevent.Deleted;
 

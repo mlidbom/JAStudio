@@ -23,6 +23,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote, VocabDto>, ITeventRouted
 {
    static readonly TeventRouting<VocabNote, INoteTevent> Appliers = NoteAppliers.Extend<VocabNote>(it => it
+     .For<IVocabTevent.Cloned>(static (vocab, tevent) => vocab.BecomeTheClone(tevent))
      .For<IVocabTevent.PropertyUpdated.CorpusAnswer>(static (vocab, tevent) => vocab.CorpusAnswer = tevent.CorpusAnswer)
      .For<IVocabTevent.PropertyUpdated.Explanation>(static (vocab, tevent) => vocab.Explanation = tevent.Explanation)
      .For<IVocabTevent.PropertyUpdated.ExplanationLong>(static (vocab, tevent) => vocab.ExplanationLong = tevent.ExplanationLong)
@@ -152,6 +153,24 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio, ISnapshotable<VocabNote,
 
    /// <summary>The vocab <paramref name="data"/> holds, as it was stored.</summary>
    public VocabNote(NoteServices services, VocabDto data) : this(services) => RestoreFrom(data);
+
+   /// <summary>
+   /// A new vocab, a clone of <paramref name="original"/> holding <paramref name="state"/>, the original's data under a question no other vocab has,<br/>
+   /// with the clone's id. Created by <see cref="VocabTevent.Cloned"/>.
+   /// </summary>
+   internal static VocabNote CloneOf(VocabNote original, VocabDto state)
+   {
+      var clone = new VocabNote(original.Services);
+      clone.Publish(new VocabTevent.Cloned(new VocabId(original.Id.Value), state));
+      return clone;
+   }
+
+   /// <summary>Makes this empty vocab the clone <paramref name="cloned"/> creates: its tags and its parts, from the state the tevent carries.</summary>
+   void BecomeTheClone(IVocabTevent.Cloned cloned)
+   {
+      TakeTheTagsOf(cloned.State);
+      BuildThePartsFrom(cloned.State);
+   }
 
    public VocabDto TakeSnapshot() => VocabNoteConverter.ToDto(this);
 
