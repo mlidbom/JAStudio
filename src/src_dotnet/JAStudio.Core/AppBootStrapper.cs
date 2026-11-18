@@ -158,9 +158,9 @@ public static class AppBootstrapper
 
    /// <summary>
    /// Composes the engine that dispatches the tevents: to the participation handlers through which a change to one note reaches others<br/>
-   /// (<see cref="DeclareWhatReachesOtherNotes"/>), to the log of the notes saved (<see cref="SavedNotesLog"/>), to the observers<br/>
-   /// <paramref name="environment"/> declares, and to those created while the application runs, through <see cref="ITeventObservation"/>, such as the<br/>
-   /// workspace's view models and the card pages, which need no declaring.
+   /// (<see cref="DeclareWhatReachesOtherNotes"/>); to its composed observers, declared here: the log of the notes saved (<see cref="SavedNotesLog"/>)<br/>
+   /// and those <paramref name="environment"/> declares; and to its dynamic observers, which code creates through <see cref="ITeventObservation"/> as it<br/>
+   /// runs, such as the workspace's view models and the card pages, and which need no declaring.
    /// </summary>
    static void ComposeTheTessagingEngine(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment) =>
       registrar.LocalTessagingEngine(engine => engine.RegisterTessageBusHandlers(DeclareWhatReachesOtherNotes)

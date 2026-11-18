@@ -59,11 +59,13 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `0255c7231`, after the end review's fixes and Magnus's answers to its questions.
-  Three changes reached JAStudio:
+  JAStudio's worktree of Compze is at `e01905b14`, after the end review's fixes and Magnus's answers to its questions.
+  Three changes reached JAStudio, and one change of terms: observers created through `ITeventObservation.ObserveTevents`
+  as the application runs are *dynamic observers*, and those declared at composition *composed observers*
+  (`dev_docs/taggregate-improvements/shared/dynamic-and-composed-observers.md`, in Compze).
   - **A note class is declared with a registration of the container** (end review Q3):
     `store.Taggregate<VocabNote, VocabDto>(TrackedTransient.For<VocabNote>().CreatedBy((NoteServices services) => ...), ...)`.
-  - **Nothing is declared for observing at runtime** (Q4): a plain container's runtime observers may observe any tevent,
+  - **Nothing is declared for the dynamic observers** (Q4): a plain container's dynamic observers may observe any tevent,
     so `DeclareWhatIsObservedAtRuntime` is gone.
   - **A new taggregate is saved only with the tevents it published from its creation on** (D5), so every note's creation
     is a tevent observers hear. An import run and a vocab's clone had created their notes by restoring them from a DTO;
@@ -387,16 +389,16 @@ to anything that happens".
 - **Specifications see the tevents** as the test harness's observer records them (`TeventsObserved`, `d8eddcfee`).
 - **Done. The observing side:** what follows changes observes the tevents, and `JPCollection`'s `NoteUpdated`,
   `NoteDeleted`, `StudyNoteChanged` and `ReloadedFromBackend`, and `JapaneseConfig.Changed`, are gone.
-  - **At runtime,** through Compze's `ITeventObservation.ObserveTevents`, which Magnus approved, observation only: a
+  - **Dynamic observers,** created through Compze's `ITeventObservation.ObserveTevents`, which Magnus approved, observation only: a
     note's tab, the search results, the parsing cases, the note list, the workspace showing its saved state once the
     notes have loaded, an editor window closing at a reload, and a card page in Anki (`ChangesThatOutdateNotePages`). The
-    live MCP server started once the collection had loaded, until it started with JAStudio (2026-11-17). Nothing is declared for it: until Compze's `0255c7231`, what
-    could be observed at runtime was declared at composition (`DeclareWhatIsObservedAtRuntime`).
+    live MCP server started once the collection had loaded, until it started with JAStudio (2026-11-17). Nothing is declared for them: until Compze's `0255c7231`, what
+    they could observe was declared at composition (`DeclareWhatIsObservedAtRuntime`).
   - **The view models observe on the UI thread** through `TeventsObservedOnTheUIThread` (Magnus's idea), over
     `IUIThreadDispatcher`: each call is posted there, and none runs once it is disposed, since Compze's disposal doesn't
     wait for a call already taken. A note's changes come as each unit of work's `INoteTevent`s, which also tell of its
     deletions (`INoteTevent.Deleted`).
-  - **At composition:** the log of the notes saved (`SavedNotesLog`), which `NoteUnitOfWork` no longer tracks the notes
+  - **Composed observers:** the log of the notes saved (`SavedNotesLog`), which `NoteUnitOfWork` no longer tracks the notes
     for, and Anki's windows drawing again after a load, which Anki's environment declares.
   - **`Settings` reads the configuration as it is,** rather than caching it until a change is announced: the cache only
     saved a property read, and an observer of the change, off-thread, would leave it stale while a page is made anew.
