@@ -15,7 +15,7 @@ static class SavedNotesLog
 
    /// <summary>Declares, at composition, the observer of each unit of work's <see cref="INoteTevent"/>s that logs the notes it saved.</summary>
    internal static void LogTheNotesEachUnitOfWorkSaved(TeventObservationRegistrar observe) =>
-      observe.ForEachUnitOfWork<INoteTevent, JPCollection>((tevents, collection) =>
+      observe.ForTeventsOfEachUnitOfWork<INoteTevent, JPCollection>((tevents, collection) =>
       {
          if(!collection.NoteServices.Settings.LogWhenFlushingNotes()) return;
 

@@ -10,7 +10,7 @@ namespace JAStudio.Core.Storage;
 
 /// <summary>
 /// The notes' files in a corpus checkout, a JSON file for each note, where the state store that keeps the notes stores them: Compze's storage of<br/>
-/// taggregates in files (<see cref="StateStoreBuilder.StoredInFiles{TService}"/>), each file holding exactly what<br/>
+/// taggregates in files (<see cref="StateStoreBuilder.StoredInJsonFiles{TService}"/>), each file holding exactly what<br/>
 /// <see cref="NoteSerializer.JsonOptions"/> make of the note's snapshot, its DTO.
 /// </summary>
 /// <remarks>
@@ -43,15 +43,15 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
    internal static void DeclareKeptInMemoryIn(StateStoreBuilder store) => DeclareIn(store, keptInMemory: true);
 
    static void DeclareIn(StateStoreBuilder store, bool keptInMemory) =>
-      store.StoredInFiles((CorpusNoteFiles files) => files.CorpusCheckout,
+      store.StoredInJsonFiles((CorpusNoteFiles files) => files.CorpusCheckout,
                           NoteSerializer.JsonOptions,
                           files =>
                           {
-                             files.Of<VocabNote>(VocabFolder)
-                                  .Of<KanjiNote>(KanjiFolder)
-                                  .Of<SentenceNote>(SentencesFolder)
-                                  .CachedWithMemoryPack();
+                             files.StartingFromAMemoryPackCache();
                              if(keptInMemory) files.KeptInMemory();
+                             files.FolderOf<VocabNote>(VocabFolder)
+                                  .FolderOf<KanjiNote>(KanjiFolder)
+                                  .FolderOf<SentenceNote>(SentencesFolder);
                           });
 
    /// <summary>The file of <paramref name="note"/>, whether it has been written or not.</summary>

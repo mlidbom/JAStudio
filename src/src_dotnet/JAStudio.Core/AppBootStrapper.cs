@@ -118,7 +118,7 @@ public static class AppBootstrapper
          Singleton.For<SentenceKanjiListViewModel>().CreatedBy((KanjiCollection kanji) => new SentenceKanjiListViewModel(kanji)),
 
          // Note renderers
-         Singleton.For<ChangesThatOutdateNotePages>().CreatedBy((ITeventObservation observation) => new ChangesThatOutdateNotePages(observation)),
+         Singleton.For<ChangesThatOutdateNotePages>().CreatedBy((IDynamicTeventObservers dynamicObservers) => new ChangesThatOutdateNotePages(dynamicObservers)),
          Singleton.For<VocabNoteRenderer>().CreatedBy(() => new VocabNoteRenderer()),
          Singleton.For<SentenceNoteRenderer>().CreatedBy(() => new SentenceNoteRenderer()),
          Singleton.For<KanjiNoteRenderer>().CreatedBy(() => new KanjiNoteRenderer())
@@ -157,7 +157,7 @@ public static class AppBootstrapper
    /// <summary>
    /// Composes the engine that dispatches the tevents: to the participation handlers through which a change to one note reaches others<br/>
    /// (<see cref="DeclareWhatReachesOtherNotes"/>); to its composed observers, declared here: the log of the notes saved (<see cref="SavedNotesLog"/>)<br/>
-   /// and those <paramref name="environment"/> declares; and to its dynamic observers, which code creates through <see cref="ITeventObservation"/> as it<br/>
+   /// and those <paramref name="environment"/> declares; and to its dynamic observers, which code creates through <see cref="IDynamicTeventObservers"/> as it<br/>
    /// runs, such as the workspace's view models and the card pages, and which need no declaring.
    /// </summary>
    static void ComposeTheTessagingEngine(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment) =>

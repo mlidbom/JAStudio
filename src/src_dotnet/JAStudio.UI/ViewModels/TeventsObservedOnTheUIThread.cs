@@ -12,7 +12,7 @@ namespace JAStudio.UI.ViewModels;
 /// </summary>
 /// <remarks>
 /// Compze may start a call of an observer just after its observation's disposing returns, since that doesn't wait for a call already taken<br/>
-/// (<see cref="ITeventObservation.ObserveTevents"/>). Disposed on the UI thread, as a view model is when its view closes, this runs no call after<br/>
+/// (<see cref="IDynamicTeventObservers.ObserveTevents"/>). Disposed on the UI thread, as a view model is when its view closes, this runs no call after<br/>
 /// that: each call checks, on the UI thread, whether it has been disposed.
 /// </remarks>
 /// <remarks>review-naming: TeventsObservedOnTheUIThread is a name taggregates-opus chose (2026-11-17).</remarks>
@@ -26,7 +26,7 @@ public sealed partial class TeventsObservedOnTheUIThread : IDisposable
    public TeventsObservedOnTheUIThread(TemporaryServiceCollection services, Action<Registrar> observe)
    {
       _uiThread = services.Resolve<IUIThreadDispatcher>();
-      _observation = services.Resolve<ITeventObservation>().ObserveTevents(registrar => observe(new Registrar(this, registrar)));
+      _observation = services.Resolve<IDynamicTeventObservers>().ObserveTevents(registrar => observe(new Registrar(this, registrar)));
    }
 
    public void Dispose()

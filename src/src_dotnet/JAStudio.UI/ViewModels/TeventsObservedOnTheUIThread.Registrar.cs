@@ -31,11 +31,11 @@ public sealed partial class TeventsObservedOnTheUIThread
 
       /// <summary>
       /// Observes each committed unit of work's tevents compatible with <typeparamref name="TTevent"/>, as one list in the order they were published,<br/>
-      /// with <paramref name="observer"/>, on the UI thread (<see cref="TeventObservationRegistrar.ForEachUnitOfWork{TTevent}(Action{IReadOnlyList{TTevent}, Compze.DependencyInjection.Abstractions.IScopeResolver})"/>).
+      /// with <paramref name="observer"/>, on the UI thread (<see cref="TeventObservationRegistrar.ForTeventsOfEachUnitOfWork{TTevent}(Action{IReadOnlyList{TTevent}, Compze.DependencyInjection.Abstractions.IScopeResolver})"/>).
       /// </summary>
-      public Registrar ForEachUnitOfWork<TTevent>(Action<IReadOnlyList<TTevent>> observer) where TTevent : ITevent
+      public Registrar ForTeventsOfEachUnitOfWork<TTevent>(Action<IReadOnlyList<TTevent>> observer) where TTevent : ITevent
       {
-         _registrar.ForEachUnitOfWork<TTevent>(tevents => _observed.OnTheUIThread(() => observer(tevents)));
+         _registrar.ForTeventsOfEachUnitOfWork<TTevent>(tevents => _observed.OnTheUIThread(() => observer(tevents)));
          return this;
       }
    }

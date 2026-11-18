@@ -1,31 +1,16 @@
 import typing, abc
 from System import IDisposable, Action_1, Func_3, Action_2
-from System.Collections.Generic import IReadOnlyList_1
 from Compze.DependencyInjection.Abstractions import IScopeResolver
 from System.Threading.Tasks import Task
+from System.Collections.Generic import IReadOnlyList_1
 from Compze.Tessaging.TessageTypes import IPublisherTevent_1
 
-class ITeventObservation(typing.Protocol):
+class IDynamicTeventObservers(typing.Protocol):
     @abc.abstractmethod
     def ObserveTevents(self, observe: Action_1[TeventObservationRegistrar]) -> IDisposable: ...
 
 
 class ITeventObservationRegistrar(typing.Protocol):
-    # Skipped ForEachUnitOfWork due to it being static, abstract and generic.
-
-    ForEachUnitOfWork : ForEachUnitOfWork_MethodGroup
-    class ForEachUnitOfWork_MethodGroup:
-        def __getitem__(self, t:typing.Type[ForEachUnitOfWork_1_T1]) -> ForEachUnitOfWork_1[ForEachUnitOfWork_1_T1]: ...
-
-        ForEachUnitOfWork_1_T1 = typing.TypeVar('ForEachUnitOfWork_1_T1')
-        class ForEachUnitOfWork_1(typing.Generic[ForEachUnitOfWork_1_T1]):
-            ForEachUnitOfWork_1_TTevent = ITeventObservationRegistrar.ForEachUnitOfWork_MethodGroup.ForEachUnitOfWork_1_T1
-            @typing.overload
-            def __call__(self, observer: Func_3[IReadOnlyList_1[ForEachUnitOfWork_1_TTevent], IScopeResolver, Task]) -> ITeventObservationRegistrar:...
-            @typing.overload
-            def __call__(self, observer: Action_2[IReadOnlyList_1[ForEachUnitOfWork_1_TTevent], IScopeResolver]) -> ITeventObservationRegistrar:...
-
-
     # Skipped ForTevent due to it being static, abstract and generic.
 
     ForTevent : ForTevent_MethodGroup
@@ -39,6 +24,21 @@ class ITeventObservationRegistrar(typing.Protocol):
             def __call__(self, observer: Func_3[ForTevent_1_TTevent, IScopeResolver, Task]) -> ITeventObservationRegistrar:...
             @typing.overload
             def __call__(self, observer: Action_2[ForTevent_1_TTevent, IScopeResolver]) -> ITeventObservationRegistrar:...
+
+
+    # Skipped ForTeventsOfEachUnitOfWork due to it being static, abstract and generic.
+
+    ForTeventsOfEachUnitOfWork : ForTeventsOfEachUnitOfWork_MethodGroup
+    class ForTeventsOfEachUnitOfWork_MethodGroup:
+        def __getitem__(self, t:typing.Type[ForTeventsOfEachUnitOfWork_1_T1]) -> ForTeventsOfEachUnitOfWork_1[ForTeventsOfEachUnitOfWork_1_T1]: ...
+
+        ForTeventsOfEachUnitOfWork_1_T1 = typing.TypeVar('ForTeventsOfEachUnitOfWork_1_T1')
+        class ForTeventsOfEachUnitOfWork_1(typing.Generic[ForTeventsOfEachUnitOfWork_1_T1]):
+            ForTeventsOfEachUnitOfWork_1_TTevent = ITeventObservationRegistrar.ForTeventsOfEachUnitOfWork_MethodGroup.ForTeventsOfEachUnitOfWork_1_T1
+            @typing.overload
+            def __call__(self, observer: Func_3[IReadOnlyList_1[ForTeventsOfEachUnitOfWork_1_TTevent], IScopeResolver, Task]) -> ITeventObservationRegistrar:...
+            @typing.overload
+            def __call__(self, observer: Action_2[IReadOnlyList_1[ForTeventsOfEachUnitOfWork_1_TTevent], IScopeResolver]) -> ITeventObservationRegistrar:...
 
 
 
@@ -57,21 +57,6 @@ class PublisherTevent_1(typing.Generic[PublisherTevent_1_TTevent], IPublisherTev
 
 
 class TeventObservationRegistrar(ITeventObservationRegistrar):
-    # Skipped ForEachUnitOfWork due to it being static, abstract and generic.
-
-    ForEachUnitOfWork : ForEachUnitOfWork_MethodGroup
-    class ForEachUnitOfWork_MethodGroup:
-        def __getitem__(self, t:typing.Type[ForEachUnitOfWork_1_T1]) -> ForEachUnitOfWork_1[ForEachUnitOfWork_1_T1]: ...
-
-        ForEachUnitOfWork_1_T1 = typing.TypeVar('ForEachUnitOfWork_1_T1')
-        class ForEachUnitOfWork_1(typing.Generic[ForEachUnitOfWork_1_T1]):
-            ForEachUnitOfWork_1_TTevent = TeventObservationRegistrar.ForEachUnitOfWork_MethodGroup.ForEachUnitOfWork_1_T1
-            @typing.overload
-            def __call__(self, observer: Func_3[IReadOnlyList_1[ForEachUnitOfWork_1_TTevent], IScopeResolver, Task]) -> TeventObservationRegistrar:...
-            @typing.overload
-            def __call__(self, observer: Action_2[IReadOnlyList_1[ForEachUnitOfWork_1_TTevent], IScopeResolver]) -> TeventObservationRegistrar:...
-
-
     # Skipped ForTevent due to it being static, abstract and generic.
 
     ForTevent : ForTevent_MethodGroup
@@ -85,6 +70,21 @@ class TeventObservationRegistrar(ITeventObservationRegistrar):
             def __call__(self, observer: Func_3[ForTevent_1_TTevent, IScopeResolver, Task]) -> TeventObservationRegistrar:...
             @typing.overload
             def __call__(self, observer: Action_2[ForTevent_1_TTevent, IScopeResolver]) -> TeventObservationRegistrar:...
+
+
+    # Skipped ForTeventsOfEachUnitOfWork due to it being static, abstract and generic.
+
+    ForTeventsOfEachUnitOfWork : ForTeventsOfEachUnitOfWork_MethodGroup
+    class ForTeventsOfEachUnitOfWork_MethodGroup:
+        def __getitem__(self, t:typing.Type[ForTeventsOfEachUnitOfWork_1_T1]) -> ForTeventsOfEachUnitOfWork_1[ForTeventsOfEachUnitOfWork_1_T1]: ...
+
+        ForTeventsOfEachUnitOfWork_1_T1 = typing.TypeVar('ForTeventsOfEachUnitOfWork_1_T1')
+        class ForTeventsOfEachUnitOfWork_1(typing.Generic[ForTeventsOfEachUnitOfWork_1_T1]):
+            ForTeventsOfEachUnitOfWork_1_TTevent = TeventObservationRegistrar.ForTeventsOfEachUnitOfWork_MethodGroup.ForTeventsOfEachUnitOfWork_1_T1
+            @typing.overload
+            def __call__(self, observer: Func_3[IReadOnlyList_1[ForTeventsOfEachUnitOfWork_1_TTevent], IScopeResolver, Task]) -> TeventObservationRegistrar:...
+            @typing.overload
+            def __call__(self, observer: Action_2[IReadOnlyList_1[ForTeventsOfEachUnitOfWork_1_TTevent], IScopeResolver]) -> TeventObservationRegistrar:...
 
 
 

@@ -103,7 +103,7 @@ Each a commit that builds and passes the whole suite, so the switch to the store
      copy became the committed note, synchronously, on the changing thread. A rollback raises none. A unit of work the
      store began without JAStudio can't be joined, so a change in one fails (`jastudio-rep-opus`'s advice). A reload
      raises it for the notes it found changed on disk.
-   - **Loading and reloading go through the store:** `IStateStore.ReloadFromStorageAfter`, with the corpus change, then
+   - **Loading and reloading go through the store:** `IStateStore.LoadFromStorage`, with the corpus change, then
      the shared conditions, run while every unit of work waits; meanwhile the dictionary, the study-notes and the media
      index load. The notes load in 5.0 s. When the change fails, the notes stay as they were.
    - **A restored note starts from its snapshot's hash,** so its `Flush` publishes a change from it. `_persisted`, the

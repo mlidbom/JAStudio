@@ -42,7 +42,7 @@ public class JPCollection
    /// Runs <paramref name="work"/> in a unit of work in which notes are changed: the one running on this thread, or else a new one, which commits<br/>
    /// once it is done. Every change to a note runs in one, as <c>note.Edit(it => ...)</c> does (<see cref="EditingANote"/>). What follows changes<br/>
    /// to notes observes the tevents the notes published in it, each unit of work's together, once it has committed<br/>
-   /// (<see cref="ITeventObservation"/>).
+   /// (<see cref="IDynamicTeventObservers"/>).
    /// </summary>
    public void InAUnitOfWork(Action<NoteUnitOfWork> work) => _unitsOfWork.Run(work);
 
@@ -261,10 +261,10 @@ public class JPCollection
    /// the files of the notes it changed. To see what loading and saving does to the notes' files, as after a change to how they're stored.
    /// </summary>
    /// <remarks>
-   /// One commit of the state store (<see cref="IStateStore.WriteEverythingAnew"/>), while units of work wait, as at a reload. It changes no note, and<br/>
+   /// One commit of the state store (<see cref="IStateStore.WriteAllToStorage"/>), while units of work wait, as at a reload. It changes no note, and<br/>
    /// the next start reads every note's file once, since every file changed.
    /// </remarks>
-   public void WriteEveryNoteAnew() => _store.Value.WriteEverythingAnew();
+   public void WriteEveryNoteAnew() => _store.Value.WriteAllToStorage();
 
    /// <summary>
    /// Makes <paramref name="changeToTheCorpusCheckout"/>, such as a git fast-forward of the corpus checkout, while no unit of work runs, so that<br/>
@@ -293,7 +293,7 @@ public class JPCollection
    /// Loads the notes again after <paramref name="changeToTheCorpusCheckout"/> (<see cref="LoadFromBackendAfter"/>). While no load has succeeded yet,<br/>
    /// a load that fails leaves its exception as <see cref="WhyItHasNoNotesToUseYet"/>, and goes on failing with it. Once one has, the notes stay usable.
    /// </summary>
-   ReloadedTaggregates LoadFromBackendTellingWhyItFailedIfNoLoadHasSucceeded(Action changeToTheCorpusCheckout)
+   ChangesFoundInStorage LoadFromBackendTellingWhyItFailedIfNoLoadHasSucceeded(Action changeToTheCorpusCheckout)
    {
       try
       {
@@ -311,7 +311,7 @@ public class JPCollection
    /// name; and meanwhile the dictionary, the media layer's index and the study-notes. The state store keeps every unit of work waiting until the<br/>
    /// notes are loaded.
    /// </summary>
-   ReloadedTaggregates LoadFromBackendAfter(Action changeToTheCorpusCheckout)
+   ChangesFoundInStorage LoadFromBackendAfter(Action changeToTheCorpusCheckout)
    {
       using var runner = NoteServices.TaskRunner.Current("=== Populating JAStudio data from file system ===");
 
@@ -321,7 +321,7 @@ public class JPCollection
       Task? mediaIndexBuild = null;
       try
       {
-         return runner.RunIndeterminate("Loading the notes", () => _store.Value.ReloadFromStorage(() =>
+         return runner.RunIndeterminate("Loading the notes", () => _store.Value.LoadFromStorage(() =>
          {
             changeToTheCorpusCheckout();
             mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());

@@ -138,7 +138,7 @@ partial class ParsingCasesViewModel : ObservableObject
    /// </summary>
    void FollowTheChangesToTheSentencesIn(TemporaryServiceCollection services) =>
       _ = new TeventsObservedOnTheUIThread(services, observe => observe
-                                                               .ForEachUnitOfWork<ISentenceTevent>(ShowTheChangesOfAUnitOfWork)
+                                                               .ForTeventsOfEachUnitOfWork<ISentenceTevent>(ShowTheChangesOfAUnitOfWork)
                                                                .ForTevent<ICollectionReloaded>(_ =>
                                                                 {
                                                                    if(_hasComparedTheCases) CompareTheCasesAsTheyParseNow();

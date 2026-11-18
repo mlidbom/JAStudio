@@ -78,7 +78,7 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
       public giving_てよろしい_another_answer()
       {
          var collection = GetService<JPCollection>();
-         using var _ = GetService<ITeventObservation>().ObserveTevents(observe => observe.ForEachUnitOfWork<INoteTevent>(changes =>
+         using var _ = GetService<IDynamicTeventObservers>().ObserveTevents(observe => observe.ForTeventsOfEachUnitOfWork<INoteTevent>(changes =>
             _notesChangedInEachUnitOfWork.Enqueue([.. changes.Select(it => collection.NoteFromNoteId(it.NoteId)?.GetQuestion() ?? "<not in the collection>").Distinct().Order()])));
          Teyoroshii.Edit(it => it.SetCorpusAnswer("may, be allowed to"));
          WaitUntilEveryTeventPublishedHasBeenObserved();

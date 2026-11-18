@@ -9,7 +9,7 @@ namespace JAStudio.Core.Note.Collection;
 /// A unit of work in which JAStudio changes notes, as the code that changes them sees it: the state store's unit of work, through which it gets<br/>
 /// the notes it edits or deletes and adds new notes, and what is to be done once it has committed, such as deleting a deleted note's media<br/>
 /// files. It commits or rolls back as a whole. <see cref="NoteUnitsOfWork"/> runs it. Once it has committed, the tevents the notes published<br/>
-/// in it are observed, each unit of work's together (<see cref="Compze.Tessaging.TessageBus.ITeventObservation"/>).
+/// in it are observed, each unit of work's together (<see cref="Compze.Tessaging.TessageBus.IDynamicTeventObservers"/>).
 /// </summary>
 /// <remarks>review-naming: NoteUnitOfWork, after Compze's TaggregateUnitOfWork, is a name taggregates-opus chose (2026-11-16).</remarks>
 public sealed class NoteUnitOfWork

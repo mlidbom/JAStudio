@@ -88,7 +88,7 @@ class SearchResultsViewModel : ObservableObject
    {
       var collection = services.CoreApp.Collection;
       _ = new TeventsObservedOnTheUIThread(services, observe => observe
-                                                               .ForEachUnitOfWork<INoteTevent>(ShowTheChangesOfAUnitOfWork)
+                                                               .ForTeventsOfEachUnitOfWork<INoteTevent>(ShowTheChangesOfAUnitOfWork)
                                                                .ForTevent<IStudyNoteChanged>(it => ShowTheChangeTo(it.NoteId))
                                                                .ForTevent<ICollectionReloaded>(_ => ShowEachType(it => it.ShowTheReloadedNotesOf(collection))));
       return;

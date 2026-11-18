@@ -89,7 +89,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
       //refactor: ChangesThatOutdateNotePages, in Core, names these same changes for the card pages that Anki shows (CardLayout). The tab lists
       //   them itself because it does more on each than reload its page, such as refreshing its editors: one place should say what outdates a page.
       _observedTevents = new TeventsObservedOnTheUIThread(services, observe => observe
-                                                                      .ForEachUnitOfWork<INoteTevent>(ShowTheChangesOfAUnitOfWork)
+                                                                      .ForTeventsOfEachUnitOfWork<INoteTevent>(ShowTheChangesOfAUnitOfWork)
                                                                       .ForTevent<IStudyNoteChanged>(it => ShowTheChangeIfItsTheShownNote([it.NoteId]))
                                                                       .ForTevent<ICollectionReloaded>(_ =>
                                                                        {

@@ -22,18 +22,18 @@ class StateStoreBuilder:
             def __call__(self, keysOf: Func_2[Index_2_TTaggregate, IEnumerable_1[Index_2_TKey]]) -> StateStoreBuilder:...
 
 
-    # Skipped StoredInFiles due to it being static, abstract and generic.
+    # Skipped StoredInJsonFiles due to it being static, abstract and generic.
 
-    StoredInFiles : StoredInFiles_MethodGroup
-    class StoredInFiles_MethodGroup:
-        def __getitem__(self, t:typing.Type[StoredInFiles_1_T1]) -> StoredInFiles_1[StoredInFiles_1_T1]: ...
+    StoredInJsonFiles : StoredInJsonFiles_MethodGroup
+    class StoredInJsonFiles_MethodGroup:
+        def __getitem__(self, t:typing.Type[StoredInJsonFiles_1_T1]) -> StoredInJsonFiles_1[StoredInJsonFiles_1_T1]: ...
 
-        StoredInFiles_1_T1 = typing.TypeVar('StoredInFiles_1_T1')
-        class StoredInFiles_1(typing.Generic[StoredInFiles_1_T1]):
-            StoredInFiles_1_TService = StateStoreBuilder.StoredInFiles_MethodGroup.StoredInFiles_1_T1
-            def __call__(self, folderWith: Func_2[StoredInFiles_1_TService, DirectoryInfo], options: JsonSerializerOptions, declare: Action_1[TaggregateFiles]) -> StateStoreBuilder:...
+        StoredInJsonFiles_1_T1 = typing.TypeVar('StoredInJsonFiles_1_T1')
+        class StoredInJsonFiles_1(typing.Generic[StoredInJsonFiles_1_T1]):
+            StoredInJsonFiles_1_TService = StateStoreBuilder.StoredInJsonFiles_MethodGroup.StoredInJsonFiles_1_T1
+            def __call__(self, folderWith: Func_2[StoredInJsonFiles_1_TService, DirectoryInfo], options: JsonSerializerOptions, declare: Action_1[TaggregateFilesBuilder]) -> StateStoreBuilder:...
 
-        def __call__(self, folder: DirectoryInfo, options: JsonSerializerOptions, declare: Action_1[TaggregateFiles]) -> StateStoreBuilder:...
+        def __call__(self, folder: DirectoryInfo, options: JsonSerializerOptions, declare: Action_1[TaggregateFilesBuilder]) -> StateStoreBuilder:...
 
     # Skipped Taggregate due to it being static, abstract and generic.
 
@@ -60,19 +60,19 @@ class StateStoreBuilder:
 
 
 
-class TaggregateFiles:
-    def AllowedInTransactionsThatAlsoWriteADatabase(self) -> TaggregateFiles: ...
-    def KeptInMemory(self) -> TaggregateFiles: ...
-    # Skipped Of due to it being static, abstract and generic.
+class TaggregateFilesBuilder:
+    def AcceptingNonAtomicCommitsWithADatabase(self) -> TaggregateFilesBuilder: ...
+    def KeptInMemory(self) -> TaggregateFilesBuilder: ...
+    # Skipped FolderOf due to it being static, abstract and generic.
 
-    Of : Of_MethodGroup
-    class Of_MethodGroup:
-        def __getitem__(self, t:typing.Type[Of_1_T1]) -> Of_1[Of_1_T1]: ...
+    FolderOf : FolderOf_MethodGroup
+    class FolderOf_MethodGroup:
+        def __getitem__(self, t:typing.Type[FolderOf_1_T1]) -> FolderOf_1[FolderOf_1_T1]: ...
 
-        Of_1_T1 = typing.TypeVar('Of_1_T1')
-        class Of_1(typing.Generic[Of_1_T1]):
-            Of_1_TTaggregate = TaggregateFiles.Of_MethodGroup.Of_1_T1
-            def __call__(self, folder: str) -> TaggregateFiles:...
+        FolderOf_1_T1 = typing.TypeVar('FolderOf_1_T1')
+        class FolderOf_1(typing.Generic[FolderOf_1_T1]):
+            FolderOf_1_TTaggregate = TaggregateFilesBuilder.FolderOf_MethodGroup.FolderOf_1_T1
+            def __call__(self, folder: str) -> TaggregateFilesBuilder:...
 
 
 

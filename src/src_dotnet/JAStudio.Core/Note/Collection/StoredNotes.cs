@@ -34,7 +34,7 @@ sealed class StoredNotes<TNote> where TNote : JPNote
    public LookupRecorder<TNote> LookupRecorder { get; } = new();
 
    /// <summary>Every note of the class, in no particular order.</summary>
-   public List<TNote> All() => LookupRecorder.LookedUp([.. _reader.Value.All<TNote>().Select(it => it.Current)]);
+   public List<TNote> All() => LookupRecorder.LookedUp([.. _reader.Value.ReferencesToAll<TNote>().Select(it => it.Current)]);
 
    /// <summary>The note with the id <paramref name="noteId"/>, or null when there is none of this class.</summary>
    public TNote? WithIdOrNone(NoteId noteId) => LookupRecorder.LookedUp(_reader.Value.TryGet<JPNote>(noteId, out var note) ? note as TNote : null);

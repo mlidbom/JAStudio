@@ -19,18 +19,18 @@ namespace JAStudio.Core.UI.Web;
 /// A change to another note that the page shows something of, such as a vocab in a sentence's breakdown, isn't among them: it shows the next time<br/>
 /// the page is shown.
 /// </remarks>
-public sealed class ChangesThatOutdateNotePages(ITeventObservation observation)
+public sealed class ChangesThatOutdateNotePages(IDynamicTeventObservers dynamicObservers)
 {
-   readonly ITeventObservation _observation = observation;
+   readonly IDynamicTeventObservers _dynamicObservers = dynamicObservers;
 
    /// <summary>
    /// Calls <paramref name="thePageIsOutdated"/> after each change that outdates a page showing the note with the id <paramref name="shownNote"/>,<br/>
    /// once it has committed, on a thread of the tevents' observation, until what this returns is disposed. A call may still start just after the<br/>
-   /// disposing returns (<see cref="ITeventObservation.ObserveTevents"/>).
+   /// disposing returns (<see cref="IDynamicTeventObservers.ObserveTevents"/>).
    /// </summary>
    public IDisposable Observe(NoteId shownNote, Action thePageIsOutdated) =>
-      _observation.ObserveTevents(observe => observe
-                                            .ForEachUnitOfWork<INoteTevent>(changes =>
+      _dynamicObservers.ObserveTevents(observe => observe
+                                            .ForTeventsOfEachUnitOfWork<INoteTevent>(changes =>
                                              {
                                                 if(changes.Any(it => it.NoteId.Equals(shownNote))) thePageIsOutdated();
                                              })

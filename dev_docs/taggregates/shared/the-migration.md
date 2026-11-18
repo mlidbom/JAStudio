@@ -59,8 +59,8 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `eb7470c4a`, after the end review's fixes and Magnus's answers to its questions.
-  Six changes reached JAStudio, and one change of terms: observers created through `ITeventObservation.ObserveTevents`
+  JAStudio's worktree of Compze is at `f5415fb8f`, after the end review's fixes and Magnus's answers to its questions.
+  Seven changes reached JAStudio, and one change of terms: observers created through `IDynamicTeventObservers.ObserveTevents`
   as the application runs are *dynamic observers*, and those declared at composition *composed observers*
   (`dev_docs/taggregate-improvements/shared/dynamic-and-composed-observers.md`, in Compze).
   - **A note class is declared with a registration of the container** (end review Q3):
@@ -74,17 +74,25 @@ cache.
   - **The files of a state store** (Q5, `dev_docs/taggregate-improvements/shared/the-files-of-a-state-store.md`, in
     Compze): a taggregate's file is `<its class's folder>/<first two hex digits of its id>/<id>.json`, JAStudio's own
     layout, with no `fileOf` to declare; a reload compares a file's text with what the store would write, so there is
-    no `snapshotsAreEqual`, and `CorpusNoteDto.HoldTheSameState` is gone; and `IStateStore.WriteEverythingAnew` writes
+    no `snapshotsAreEqual`, and `CorpusNoteDto.HoldTheSameState` is gone; and `IStateStore.WriteAllToStorage` writes
     every note's file anew as one commit, which `save_every_note` and the menu item "Write every note's file anew" use,
     in place of `CorpusNoteFiles.Write`. On the real corpus it rewrote all 79,896 files, none of them changed, in 74 s.
   - **Tevent routing is a protected property** (Q9): each of JAStudio's 17 teventive classes gives its routing as
     `protected override TeventRouting TeventAppliers`, not through the explicit `ITeventRouted`.
   - **Ten trims of the public API** (Q10, `dev_docs/taggregate-improvements/shared/ten-trims-of-the-public-api.md`, in
     Compze): a unit of work adds a new note with `Add`, an index has no `HasAny`, and the one reload is
-    `ReloadFromStorage(changeToTheStorage)`, whose added, changed and removed taggregates are collections in no order,
+    `LoadFromStorage(changeTheStorageFirst)`, whose added, changed and removed taggregates are collections in no order,
     as `ICollectionReloaded`'s now are. A reference only reads: `ITaggregateReference.ForUpdate` is gone, and so is
     JAStudio's `NoteReference.ForUpdate`, which only a specification called. The note for update comes from the unit of
     work, `NoteUnitOfWork.ForUpdate`.
+  - **The naming pass** (Q11, `dev_docs/taggregate-improvements/shared/the-naming-pass.md`, in Compze): renames only.
+    Older parts of this document use the old names: `ITeventObservation` is `IDynamicTeventObservers`;
+    `ForEachUnitOfWork` is `ForTeventsOfEachUnitOfWork`, and so is JAStudio's own on `TeventsObservedOnTheUIThread`;
+    `SnapshotRoundTrip.DifferencesOf` is `DifferencesBetweenItAndItsCopy`; `WriteEverythingAnew` is
+    `WriteAllToStorage`; `ReloadedTaggregates` is `ChangesFoundInStorage`; `ReloadFromStorage` and
+    `ReloadFromStorageAfter` are `LoadFromStorage`; the bulk reader's `All` is `ReferencesToAll`; `StoredInFiles` is
+    `StoredInJsonFiles`, whose `TaggregateFiles` is `TaggregateFilesBuilder`, with `FolderOf` for `Of` and
+    `StartingFromAMemoryPackCache` for `CachedWithMemoryPack`.
 
   Before it, `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`
@@ -403,7 +411,7 @@ to anything that happens".
 - **Specifications see the tevents** as the test harness's observer records them (`TeventsObserved`, `d8eddcfee`).
 - **Done. The observing side:** what follows changes observes the tevents, and `JPCollection`'s `NoteUpdated`,
   `NoteDeleted`, `StudyNoteChanged` and `ReloadedFromBackend`, and `JapaneseConfig.Changed`, are gone.
-  - **Dynamic observers,** created through Compze's `ITeventObservation.ObserveTevents`, which Magnus approved, observation only: a
+  - **Dynamic observers,** created through Compze's `IDynamicTeventObservers.ObserveTevents`, which Magnus approved, observation only: a
     note's tab, the search results, the parsing cases, the note list, the workspace showing its saved state once the
     notes have loaded, an editor window closing at a reload, and a card page in Anki (`ChangesThatOutdateNotePages`). The
     live MCP server started once the collection had loaded, until it started with JAStudio (2026-11-17). Nothing is declared for them: until Compze's `0255c7231`, what
@@ -424,7 +432,7 @@ to anything that happens".
     `ICollectionReloaded`, where `ReloadedFromBackend` was raised anyway; so the live MCP server no longer starts after a
     first load that fails.
 - **Done. Compze's JSON store keeps the notes' files** (Magnus's approval, through `jastudio-rep-opus`): the state store
-  is `StoredInFiles` the corpus checkout, as `CorpusNoteFiles.DeclareIn` declares it, a folder for each class of note
+  is `StoredInJsonFiles` the corpus checkout, as `CorpusNoteFiles.DeclareIn` declares it, a folder for each class of note
   and each note's file where it always was. JAStudio's own storage, `JsonFilesystemObjectRepository` and its
   `snapshot.bin` caches, is gone.
   - **Each environment declares where the notes are kept** (`IEnvironmentSpecificDependenciesRegistrar.DeclareWhereTheNotesAreKept`):
@@ -457,7 +465,7 @@ to anything that happens".
     JAStudio, the machine's other processes using 0.5 to 0.8 cores): 3.95, 4.06 and 4.13 s from the cache, against 4.01,
     4.16 and 4.45 s from `snapshot.bin`. Without a cache it was 7.69 and 7.81 s once the system had the files cached, and
     37.65 s the first time they were read, so Magnus's conditional approval of a MemoryPack cache, a package of Compze's
-    own, held: `Compze.Teventive.StateStore.MemoryPack` (`CachedWithMemoryPack`), whose cache is
+    own, held: `Compze.Teventive.StateStore.MemoryPack` (`StartingFromAMemoryPackCache`), whose cache is
     `.state-store/<class folder>.load-cache`. It takes each file whose length and last write time it has from the cache,
     and reads the others; a change to a DTO's fields makes the next start read every file once. A start that rebuilt the
     cache took 10.09 s. A cold start wasn't measured, since emptying the system's file cache takes administrator rights:
@@ -519,7 +527,7 @@ Each step is an increment that builds and passes JAStudio's whole suite, and is 
     their DTOs the snapshots; and its JSON store isn't built, nor for JAStudio, whose corpus files are a format of its own.
 
 **Last, and done: loading the whole corpus again while running,** as around a git fast-forward:
-`IStateStore.ReloadFromStorageAfter`, which JAStudio's start and `fast_forward_the_corpus_checkout` load through.
+`IStateStore.LoadFromStorage`, which JAStudio's start and `fast_forward_the_corpus_checkout` load through.
 
 **What is left is the end:**
 - Magnus decides whether the JSON store waits for a consumer that needs it, as `jastudio-rep-opus` put to him. The index
