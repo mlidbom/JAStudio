@@ -164,7 +164,7 @@ public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTeven
          .. _vocab.Services.Collection.Vocab.CompoundsContaining(_vocab)
                   .OrderByDescending(HasAPartThatNamesThisVocab)
                   .ThenByDescending(StartsWithThisVocab)
-                  .ThenBy(it => it.GetQuestion())
+                  .ThenBy(it => it.GetQuestion(), StringComparer.Ordinal)
       ];
 
       bool HasAPartThatNamesThisVocab(VocabNote compound) => compound.CompoundParts.AnyPartNamesExactly(_vocab);
