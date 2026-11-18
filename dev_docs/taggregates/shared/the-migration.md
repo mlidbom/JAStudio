@@ -59,8 +59,8 @@ cache.
     - a comparison of snapshots per class, `snapshotsAreEqual:`, for that report.
   - Step 3 is tevent routing declared once per class.
 
-  JAStudio's worktree of Compze is at `f5415fb8f`, after the end review's fixes and Magnus's answers to its questions.
-  Seven changes reached JAStudio, and one change of terms: observers created through `IDynamicTeventObservers.ObserveTevents`
+  JAStudio's worktree of Compze is at `9f21d93d5`, after the end review's fixes and Magnus's answers to its questions.
+  Eight changes reached JAStudio, and one change of terms: observers created through `IDynamicTeventObservers.ObserveTevents`
   as the application runs are *dynamic observers*, and those declared at composition *composed observers*
   (`dev_docs/taggregate-improvements/shared/dynamic-and-composed-observers.md`, in Compze).
   - **A note class is declared with a registration of the container** (end review Q3):
@@ -93,6 +93,13 @@ cache.
     `ReloadFromStorageAfter` are `LoadFromStorage`; the bulk reader's `All` is `ReferencesToAll`; `StoredInFiles` is
     `StoredInJsonFiles`, whose `TaggregateFiles` is `TaggregateFilesBuilder`, with `FolderOf` for `Of` and
     `StartingFromAMemoryPackCache` for `CachedWithMemoryPack`.
+  - **The state store is the memory image state store** (Q2,
+    `dev_docs/taggregate-improvements/shared/the-memory-image-state-store.md`, in Compze), after Martin Fowler's memory
+    image: it holds every taggregate in memory, and its files are what it is rebuilt from at a start. Renames only: the
+    packages and namespaces `Compze.Teventive.MemoryImageStateStore` and `.MemoryPack`, `IMemoryImageStateStore`,
+    `MemoryImageStateStoreBuilder` and `registrar.MemoryImageStateStore(...)`. JAStudio's code and its documents of how
+    things are say "memory image state store" for it; this document's history, and the branch it was built on, say
+    "the state store". The store's own folder in a corpus checkout is still `.state-store`.
 
   Before it, `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`

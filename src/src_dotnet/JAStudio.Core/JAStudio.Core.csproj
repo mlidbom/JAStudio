@@ -41,8 +41,8 @@
       <PackageReference Include="Compze.Internals.SystemCE" />
       <PackageReference Include="Compze.Tessaging" />
       <PackageReference Include="Compze.Teventive" />
-      <PackageReference Include="Compze.Teventive.StateStore" />
-      <PackageReference Include="Compze.Teventive.StateStore.MemoryPack" />
+      <PackageReference Include="Compze.Teventive.MemoryImageStateStore" />
+      <PackageReference Include="Compze.Teventive.MemoryImageStateStore.MemoryPack" />
       <PackageReference Include="Compze.Threading" />
       <PackageReference Include="Compze.Underscore" />
    </ItemGroup>

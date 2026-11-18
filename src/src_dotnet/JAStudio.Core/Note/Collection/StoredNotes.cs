@@ -8,7 +8,7 @@ using Compze.Teventive.TaggregateStores;
 namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
-/// The notes of one class that the state store keeps, as their collection reads them: every one, the one with an id, and those an index files<br/>
+/// The notes of one class that the memory image state store keeps, as their collection reads them: every one, the one with an id, and those an index files<br/>
 /// under a key (<see cref="IndexBy{TKey}"/>), each as it is now: inside a unit of work, as it has changed them. Every lookup passes through<br/>
 /// <see cref="LookupRecorder"/>.
 /// </summary>

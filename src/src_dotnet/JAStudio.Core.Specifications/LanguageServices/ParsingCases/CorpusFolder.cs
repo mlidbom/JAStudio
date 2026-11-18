@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.SysUtils.IO;
@@ -29,7 +29,7 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    /// <summary>
    /// Loads the vocab of this folder into <paramref name="app"/>'s collection, as JAStudio loads the corpus when it starts: its files, and the<br/>
    /// shared-conditions' files, which the vocab's match-conditions use by name, are written into <paramref name="app"/>'s own corpus checkout, the vocab's<br/>
-   /// into the state store's files, kept in memory, and the collection is loaded again.
+   /// into the memory image state store's files, kept in memory, and the collection is loaded again.
    /// </summary>
    public void AddTheVocabTo(CoreApp app)
    {
@@ -60,8 +60,8 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    ];
 
    /// <summary>
-   /// Replaces the vocab of this folder with <paramref name="vocab"/>, each in its file as the state store keeps a note's (<see cref="CorpusNoteFiles.FileOf"/>),<br/>
-   /// written by <paramref name="serializer"/> as JAStudio writes the corpus's notes, and its shared-conditions with those of<br/>
+   /// Replaces the vocab of this folder with <paramref name="vocab"/>, each in its file as the memory image state store keeps a note's<br/>
+   /// (<see cref="CorpusNoteFiles.FileOf"/>), written by <paramref name="serializer"/> as JAStudio writes the corpus's notes, and its shared-conditions with those of<br/>
    /// <paramref name="theCorpusOfTheVocab"/>, which the vocab's match-conditions use.
    /// </summary>
    public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, NoteSerializer serializer, CorpusFolder theCorpusOfTheVocab)

@@ -17,7 +17,7 @@ namespace JAStudio.Core.Note;
 
 /// <summary>
 /// A note of the corpus: a vocab, a kanji or a sentence. A Compze taggregate, whose changes are tevents, each an <see cref="INoteTevent"/>, kept by<br/>
-/// the state store that <see cref="AppBootstrapper"/> composes.
+/// the memory image state store that <see cref="AppBootstrapper"/> composes.
 /// </summary>
 /// <remarks>
 /// Each part of a note publishes the whole new value of what it changed, through <see cref="PublishIfChanged{TValue}"/> and its kin, and an applier<br/>

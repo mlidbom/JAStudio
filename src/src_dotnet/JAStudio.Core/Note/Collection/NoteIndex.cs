@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 
 namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
-/// One of the state store's indexes of the notes, such as vocab by form, as a collection reads it: the notes filed under a key, as they are<br/>
+/// One of the memory image state store's indexes of the notes, such as vocab by form, as a collection reads it: the notes filed under a key, as they are<br/>
 /// now, each lookup passed through the collection's <see cref="LookupRecorder{TNote}"/>. The store keeps the index as units of work commit,<br/>
 /// filing each note under the keys its declaration where the store is composed gives (<see cref="VocabIndexes.DeclareIn"/>).
 /// </summary>

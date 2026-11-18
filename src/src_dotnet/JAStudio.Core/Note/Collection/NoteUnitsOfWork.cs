@@ -10,12 +10,14 @@ using Compze.Teventive.TaggregateStores;
 namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
-/// Runs the units of work in which JAStudio changes notes (<see cref="NoteUnitOfWork"/>): each in a unit of work of the state store's, which a<br/>
+/// Runs the units of work in which JAStudio changes notes (<see cref="NoteUnitOfWork"/>): each in a unit of work of the memory image state<br/>
+/// store's, which a<br/>
 /// unit of work begun while it runs joins, such as one editing another note. Once the outermost has committed, what was to be done then is done<br/>
 /// (<see cref="NoteUnitOfWork.OnceCommitted"/>), on the thread that ran it.
 /// </summary>
 /// <remarks>
-/// A unit of work of the state store's that JAStudio didn't begin, such as one a Compze tessage handler begins, can't be joined: what was to be done<br/>
+/// A unit of work of the memory image state store's that JAStudio didn't begin, such as one a Compze tessage handler begins, can't be joined:<br/>
+/// what was to be done<br/>
 /// once the notes changed in it are committed would be done by no one. So changing a note in one fails.
 /// </remarks>
 /// <remarks>review-naming: NoteUnitsOfWork, after Compze's TaggregateUnitsOfWork, is a name taggregates-opus chose (2026-11-16).</remarks>
@@ -30,7 +32,7 @@ sealed class NoteUnitsOfWork
    /// </remarks>
    readonly AsyncLocal<NoteUnitOfWork?> _running = new();
 
-   /// <param name="resolver">Resolves the state store's units of work, at their first use.</param>
+   /// <param name="resolver">Resolves the memory image state store's units of work, at their first use.</param>
    public NoteUnitsOfWork(IRootResolver resolver) => _scopes = new Lazy<IScopeFactory>(resolver.Resolve<IScopeFactory>);
 
    /// <summary>Runs <paramref name="work"/> in the unit of work running, or else in a new one, which commits once it is done.</summary>

@@ -7,7 +7,7 @@ using Compze.DependencyInjection.Microsoft;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using Compze.Tessaging.Engine.Wiring;
 using Compze.Tessaging.TessageBus;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing;
@@ -124,7 +124,7 @@ public static class AppBootstrapper
          Singleton.For<KanjiNoteRenderer>().CreatedBy(() => new KanjiNoteRenderer())
       );
 
-      ComposeTheStateStoreOfTheNotes(registrar, environmentSpecificDependenciesRegistrar);
+      ComposeTheMemoryImageStateStoreOfTheNotes(registrar, environmentSpecificDependenciesRegistrar);
       ComposeTheTessagingEngine(registrar, environmentSpecificDependenciesRegistrar);
 
       // Allow ASP.NET Core / Blazor hosts inside this process (CardServer) to spin up a
@@ -135,14 +135,14 @@ public static class AppBootstrapper
    }
 
    /// <summary>
-   /// Composes the state store that keeps the notes: the three classes of note, which it builds empty with <see cref="NoteServices"/> to restore
+   /// Composes the memory image state store that keeps the notes: the three classes of note, which it builds empty with <see cref="NoteServices"/> to restore
    /// from their snapshots, their DTOs; the indexes the collections look notes up by; and its storage, which <paramref name="environment"/> declares:
    /// the notes' files in the corpus checkout (<see cref="CorpusNoteFiles"/>), in <see cref="IEnvironmentPaths.DatabaseDir"/>, unless it says otherwise.
    /// </summary>
-   static void ComposeTheStateStoreOfTheNotes(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment)
+   static void ComposeTheMemoryImageStateStoreOfTheNotes(IComponentRegistrar registrar, IEnvironmentSpecificDependenciesRegistrar environment)
    {
       registrar.Register(Singleton.For<CorpusNoteFiles>().CreatedBy((IEnvironmentPaths paths) => new CorpusNoteFiles(new DirectoryInfo(paths.DatabaseDir))));
-      registrar.StateStore(store =>
+      registrar.MemoryImageStateStore(store =>
       {
          environment.DeclareWhereTheNotesAreKept(store);
          store.Taggregate(TrackedTransient.For<VocabNote>().CreatedBy((NoteServices services) => new VocabNote(services)))

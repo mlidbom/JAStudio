@@ -1,4 +1,4 @@
-# How JAStudio code edits a note, once the state store keeps the notes
+# How JAStudio code edits a note, once the memory image state store keeps the notes
 
 > **Status: agreed, 2026-11-16: by Magnus ("Looks good to me"), and by `jastudio-rep-opus`, whose review is in it.** By
 > `taggregates-opus`. Step 7 of

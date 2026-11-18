@@ -164,7 +164,7 @@ public class VocabNoteForms : TeventiveComponent<VocabNote, INoteTevent, NoteTev
    /// </summary>
    /// <remarks>
    /// Computed at each call, from the other vocab as they are then. Kept, it would go stale when another vocab's forms change, and a vocab<br/>
-   /// can't keep what it computes from other notes once the notes are kept in Compze's state store, where a committed vocab is never changed.
+   /// can't keep what it computes from other notes once the notes are kept in Compze's memory image state store, where a committed vocab is never changed.
    /// </remarks>
    internal HashSet<string> NotOwnedByOtherVocab()
    {

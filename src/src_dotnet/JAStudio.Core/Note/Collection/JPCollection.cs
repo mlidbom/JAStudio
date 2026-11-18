@@ -8,7 +8,7 @@ using Compze.Internals.Logging;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using Compze.Abstractions;
 using Compze.Tessaging.TessageBus;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.TagProperties;
@@ -150,7 +150,8 @@ public class JPCollection
    }
 
    /// <remarks>
-   /// The state store that keeps the notes (<see cref="IStateStore"/>), and its storage, are resolved at their first use: a host may only know where<br/>
+   /// The memory image state store that keeps the notes (<see cref="IMemoryImageStateStore"/>), and its storage, are resolved at their first<br/>
+   /// use: a host may only know where<br/>
    /// the corpus is once it has started.
    /// </remarks>
    public JPCollection(
@@ -163,7 +164,7 @@ public class JPCollection
       using var _ = this.Log().Info().MethodExecutionTime();
 
       NoteServices = noteServices;
-      _store = new Lazy<IStateStore>(resolver.Resolve<IStateStore>);
+      _store = new Lazy<IMemoryImageStateStore>(resolver.Resolve<IMemoryImageStateStore>);
       _tevents = new Lazy<IIndependentTeventPublisher>(resolver.Resolve<IIndependentTeventPublisher>);
       _mediaFileIndex = mediaFileIndex;
       _mediaStorage = mediaStorage;
@@ -178,7 +179,7 @@ public class JPCollection
       Sentences = new SentenceCollection(NoteServices, resolver, _unitsOfWork);
    }
 
-   readonly Lazy<IStateStore> _store;
+   readonly Lazy<IMemoryImageStateStore> _store;
    readonly Lazy<IIndependentTeventPublisher> _tevents;
    readonly MediaFileIndex _mediaFileIndex;
    readonly MediaStorageService _mediaStorage;
@@ -261,7 +262,8 @@ public class JPCollection
    /// the files of the notes it changed. To see what loading and saving does to the notes' files, as after a change to how they're stored.
    /// </summary>
    /// <remarks>
-   /// One commit of the state store (<see cref="IStateStore.WriteAllToStorage"/>), while units of work wait, as at a reload. It changes no note, and<br/>
+   /// One commit of the memory image state store (<see cref="IMemoryImageStateStore.WriteAllToStorage"/>), while units of work wait, as at a<br/>
+   /// reload. It changes no note, and<br/>
    /// the next start reads every note's file once, since every file changed.
    /// </remarks>
    public void WriteEveryNoteAnew() => _store.Value.WriteAllToStorage();
@@ -308,7 +310,8 @@ public class JPCollection
 
    /// <summary>
    /// Loads the notes again after <paramref name="changeToTheCorpusCheckout"/>, the shared-conditions first, since a vocab's match-condition uses them by<br/>
-   /// name; and meanwhile the dictionary, the media layer's index and the study-notes. The state store keeps every unit of work waiting until the<br/>
+   /// name; and meanwhile the dictionary, the media layer's index and the study-notes. The memory image state store keeps every unit of work<br/>
+   /// waiting until the<br/>
    /// notes are loaded.
    /// </summary>
    ChangesFoundInStorage LoadFromBackendAfter(Action changeToTheCorpusCheckout)

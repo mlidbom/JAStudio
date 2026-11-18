@@ -120,7 +120,7 @@ public class RelatedVocab : TeventiveComponent<VocabNote, INoteTevent, NoteTeven
    /// <summary>The ids of the <see cref="InCompounds"/>.</summary>
    /// <remarks>
    /// Computed at each call, from the other vocab as they are then. Kept, it went stale whenever a compound was added, and a vocab can't keep what<br/>
-   /// it computes from other notes once the notes are kept in Compze's state store, where a committed vocab is never changed.
+   /// it computes from other notes once the notes are kept in Compze's memory image state store, where a committed vocab is never changed.
    /// </remarks>
    internal HashSet<NoteId> InCompoundIds() => [.. InCompounds().Select(it => it.GetId())];
 

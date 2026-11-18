@@ -9,7 +9,7 @@ namespace JAStudio.Core.Storage.Dto;
 /// derive from it.
 /// </summary>
 /// <remarks>
-/// MemoryPack serializes it for the state store's load cache, a MemoryPack file of each class's snapshots that a load starts from<br/>
+/// MemoryPack serializes it for the memory image state store's load cache, a MemoryPack file of each class's snapshots that a load starts from<br/>
 /// (<see cref="CorpusNoteFiles"/>).
 /// </remarks>
 [MemoryPackable(GenerateType.NoGenerate)]

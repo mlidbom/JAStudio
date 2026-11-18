@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
@@ -13,7 +13,8 @@ using JAStudio.Core.TestUtils;
 namespace JAStudio.Core.Specifications.Fixtures;
 
 /// <summary>
-/// The corpus the specifications' collection starts with, as the files of a corpus checkout: the notes' files, which the state store keeps, and<br/>
+/// The corpus the specifications' collection starts with, as the files of a corpus checkout: the notes' files, which the memory image state<br/>
+/// store keeps, and<br/>
 /// the shared-conditions' files, which the vocab's match-conditions use. Made once for each <see cref="DataNeeded"/>, by a JAStudio that creates<br/>
 /// the notes, then loaded by each specification's JAStudio as JAStudio loads the corpus when it starts (<see cref="LoadInto"/>).
 /// </summary>
@@ -43,7 +44,8 @@ sealed class TheSpecificationsCorpus
    }
 
    /// <summary>
-   /// Writes these files into <paramref name="app"/>'s corpus checkout, the notes' files into the state store's files, then loads the collection<br/>
+   /// Writes these files into <paramref name="app"/>'s corpus checkout, the notes' files into the memory image state store's files, then loads<br/>
+   /// the collection<br/>
    /// again, as JAStudio loads the corpus when it starts.
    /// </summary>
    public void LoadInto(CoreApp app)
@@ -76,13 +78,13 @@ sealed class TheSpecificationsCorpus
       }
    }
 
-   /// <summary>The files of the notes, as the state store of <paramref name="app"/> keeps them in memory, without the store's own files.</summary>
+   /// <summary>The files of the notes, as the memory image state store of <paramref name="app"/> keeps them in memory, without the store's own files.</summary>
    static IReadOnlyList<FileInTheCorpus> TheFilesOfTheNotesIn(CoreApp app, DirectoryInfo corpusCheckout)
    {
       var storesFiles = app.Services.Resolve<ITaggregateFilesInMemory>();
       return [.. storesFiles.Paths
                             .Select(path => new FileInTheCorpus(Path.GetRelativePath(corpusCheckout.FullName, path), storesFiles.ReadAllText(path)))
-                            .Where(it => !it.IsTheStateStoresOwn)];
+                            .Where(it => !it.IsTheMemoryImageStateStoresOwn)];
    }
 
    /// <summary>The files on the disk in <paramref name="corpusCheckout"/>, such as the shared-conditions'.</summary>
@@ -92,8 +94,8 @@ sealed class TheSpecificationsCorpus
    /// <summary>A file of the corpus: its path in the corpus checkout, such as <c>vocab\81\81020a41-d636-4ee9-a158-2443d8750482.json</c>, and its text.</summary>
    sealed record FileInTheCorpus(string PathInTheCorpus, string Text)
    {
-      /// <summary>Whether it's one of the state store's own files, in its <c>.state-store</c> folder, such as the cache it starts from.</summary>
-      public bool IsTheStateStoresOwn => PathInTheCorpus.StartsWith(".state-store", StringComparison.OrdinalIgnoreCase);
+      /// <summary>Whether it's one of the memory image state store's own files, in its <c>.state-store</c> folder, such as the cache it starts from.</summary>
+      public bool IsTheMemoryImageStateStoresOwn => PathInTheCorpus.StartsWith(".state-store", StringComparison.OrdinalIgnoreCase);
 
       public string PathIn(DirectoryInfo corpusCheckout) => Path.Combine(corpusCheckout.FullName, PathInTheCorpus);
 

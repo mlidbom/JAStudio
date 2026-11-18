@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Must;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -15,7 +15,7 @@ using JAStudio.Core.Storage;
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Storage;
 
 /// <summary>
-/// Every note of the specifications' collection, which the state store wrote to its file in the specification's corpus checkout<br/>
+/// Every note of the specifications' collection, which the memory image state store wrote to its file in the specification's corpus checkout<br/>
 /// (<see cref="CorpusNoteFiles"/>) as the unit of work that created it, or last changed it, committed.
 /// </summary>
 public class When_every_note_of_a_collection_is_kept_in_the_corpus_note_files : SpecificationUsingACollection, IAIGeneratedSpec

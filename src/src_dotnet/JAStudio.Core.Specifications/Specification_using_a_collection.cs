@@ -4,7 +4,7 @@ using System.Threading;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using Compze.Tessaging.Engine;
 using Compze.Tessaging.TessageTypes;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -40,11 +40,13 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
 
    protected NoteServices NoteServices => GetService<NoteServices>();
 
-   /// <summary>The text of <paramref name="note"/>'s file, as the state store last wrote it, or as <see cref="WriteTheFileOf"/> wrote it.</summary>
+   /// <summary>The text of <paramref name="note"/>'s file, as the memory image state store last wrote it, or as <see cref="WriteTheFileOf"/><br/>
+   /// wrote it.</summary>
    protected string TheStoredFileOf(JPNote note) => GetService<ITaggregateFilesInMemory>().ReadAllText(PathOfTheFileOf(note));
 
    /// <summary>
-   /// Writes <paramref name="note"/>'s file as it is now, behind the state store's back, as an edit to the corpus checkout on the disk would: what the<br/>
+   /// Writes <paramref name="note"/>'s file as it is now, behind the memory image state store's back, as an edit to the corpus checkout on the<br/>
+   /// disk would: what the<br/>
    /// next reload of the collection sees.
    /// </summary>
    protected void WriteTheFileOf(JPNote note) => GetService<ITaggregateFilesInMemory>().WriteAllText(PathOfTheFileOf(note), GetService<NoteSerializer>().Serialize(note));

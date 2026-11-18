@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using Compze.Teventive.StateStore;
-using Compze.Teventive.StateStore.MemoryPack;
+using Compze.Teventive.MemoryImageStateStore;
+using Compze.Teventive.MemoryImageStateStore.MemoryPack;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -9,8 +9,9 @@ using JAStudio.Core.Note.Vocabulary;
 namespace JAStudio.Core.Storage;
 
 /// <summary>
-/// The notes' files in a corpus checkout, a JSON file for each note, where the state store that keeps the notes stores them: Compze's storage of<br/>
-/// taggregates in files (<see cref="StateStoreBuilder.StoredInJsonFiles{TService}"/>), each file holding exactly what<br/>
+/// The notes' files in a corpus checkout, a JSON file for each note, where the memory image state store that keeps the notes stores them:<br/>
+/// Compze's storage of<br/>
+/// taggregates in files (<see cref="MemoryImageStateStoreBuilder.StoredInJsonFiles{TService}"/>), each file holding exactly what<br/>
 /// <see cref="NoteSerializer.JsonOptions"/> make of the note's snapshot, its DTO.
 /// </summary>
 /// <remarks>
@@ -34,15 +35,15 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
    /// container holds, and starts from a cache of them, which reads only the files changed since it was written. Compze keeps each note's file<br/>
    /// as JAStudio always has: <c>&lt;its class's folder&gt;/&lt;first two hex digits of its id&gt;/&lt;id&gt;.json</c>.
    /// </summary>
-   internal static void DeclareIn(StateStoreBuilder store) => DeclareIn(store, keptInMemory: false);
+   internal static void DeclareIn(MemoryImageStateStoreBuilder store) => DeclareIn(store, keptInMemory: false);
 
    /// <summary>
-   /// As <see cref="DeclareIn(StateStoreBuilder)"/>, with the files kept in memory rather than on the disk, for the specifications: the corpus<br/>
+   /// As <see cref="DeclareIn(MemoryImageStateStoreBuilder)"/>, with the files kept in memory rather than on the disk, for the specifications: the corpus<br/>
    /// checkout is then only where the files' paths begin. They're read and changed through Compze's <see cref="ITaggregateFilesInMemory"/>.
    /// </summary>
-   internal static void DeclareKeptInMemoryIn(StateStoreBuilder store) => DeclareIn(store, keptInMemory: true);
+   internal static void DeclareKeptInMemoryIn(MemoryImageStateStoreBuilder store) => DeclareIn(store, keptInMemory: true);
 
-   static void DeclareIn(StateStoreBuilder store, bool keptInMemory) =>
+   static void DeclareIn(MemoryImageStateStoreBuilder store, bool keptInMemory) =>
       store.StoredInJsonFiles((CorpusNoteFiles files) => files.CorpusCheckout,
                           NoteSerializer.JsonOptions,
                           files =>
@@ -56,7 +57,8 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
 
    /// <summary>The file of <paramref name="note"/>, whether it has been written or not.</summary>
    /// <remarks>
-   /// todo:compze: it works out the file's path by Compze's layout of a state store's files, which only Compze should know. Once Compze can give the<br/>
+   /// todo:compze: it works out the file's path by Compze's layout of a memory image state store's files, which only Compze should know. Once<br/>
+   /// Compze can give the<br/>
    ///    path of a taggregate's file, use that instead, and delete <see cref="FileIn"/>.
    /// </remarks>
    public FileInfo FileOf(JPNote note) => FileIn(note, new DirectoryInfo(Path.Combine(CorpusCheckout.FullName, FolderOf(note))));

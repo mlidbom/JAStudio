@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.Note.Vocabulary;
 
 // ReSharper disable NotAccessedPositionalProperty.Global because the index only compares a key's value and never reads it
@@ -8,7 +8,8 @@ using JAStudio.Core.Note.Vocabulary;
 namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
-/// What the state store files each vocab under, for <see cref="VocabCollection"/> to look vocab up by: its question, its forms and their starts,<br/>
+/// What the memory image state store files each vocab under, for <see cref="VocabCollection"/> to look vocab up by: its question, its forms and<br/>
+/// their starts,<br/>
 /// its compound parts, the word it is derived from, its kanji, its readings and its stems. Each index has a key type of its own, such as<br/>
 /// <see cref="Form"/>, since the store has one index for each class and key type.
 /// </summary>
@@ -18,8 +19,8 @@ namespace JAStudio.Core.Note.Collection;
 /// </remarks>
 static class VocabIndexes
 {
-   /// <summary>Declares the vocab's indexes for the state store being composed.</summary>
-   public static void DeclareIn(StateStoreBuilder store) => store
+   /// <summary>Declares the vocab's indexes for the memory image state store being composed.</summary>
+   public static void DeclareIn(MemoryImageStateStoreBuilder store) => store
      .Index<VocabNote, Question>(vocab => [new Question(vocab.GetQuestion())])
      .Index<VocabNote, ReferenceNamingIt>(vocab => vocab.Question.HasText ? [new ReferenceNamingIt(vocab.Question.Reference)] : [])
      .Index<VocabNote, Form>(vocab => vocab.Forms.MatchedFormsList().Distinct().Select(form => new Form(form)))

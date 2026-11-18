@@ -1,5 +1,5 @@
 using System.Linq;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.Note.Sentences;
 
 // ReSharper disable NotAccessedPositionalProperty.Global because the index only compares a key's value and never reads it
@@ -7,15 +7,16 @@ using JAStudio.Core.Note.Sentences;
 namespace JAStudio.Core.Note.Collection;
 
 /// <summary>
-/// What the state store files each sentence under, for <see cref="SentenceCollection"/> to look sentences up by: its question, the words of its<br/>
+/// What the memory image state store files each sentence under, for <see cref="SentenceCollection"/> to look sentences up by: its question, the<br/>
+/// words of its<br/>
 /// text, the vocab its parsing matched, and the words it highlights or marks as matched incorrectly. Each index has a key type of its own, as<br/>
 /// <see cref="VocabIndexes"/> says.
 /// </summary>
 /// <remarks>review: the key types are nested here, as in <see cref="VocabIndexes"/>.</remarks>
 static class SentenceIndexes
 {
-   /// <summary>Declares the sentences' indexes for the state store being composed.</summary>
-   public static void DeclareIn(StateStoreBuilder store) => store
+   /// <summary>Declares the sentences' indexes for the memory image state store being composed.</summary>
+   public static void DeclareIn(MemoryImageStateStoreBuilder store) => store
      .Index<SentenceNote, Question>(sentence => [new Question(sentence.GetQuestion())])
      .Index<SentenceNote, Word>(sentence => sentence.GetWords().Distinct().Select(word => new Word(word)))
      .Index<SentenceNote, MatchedVocab>(sentence => sentence.GetParsingResult().MatchedVocabIds.Distinct().Select(id => new MatchedVocab(id)))

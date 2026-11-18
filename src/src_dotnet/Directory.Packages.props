@@ -22,8 +22,8 @@
       <PackageVersion Include="Compze.Must" Version="0.9.0-alpha" />
       <PackageVersion Include="Compze.Tessaging" Version="0.9.0-alpha" />
       <PackageVersion Include="Compze.Teventive" Version="0.6.0-alpha" />
-      <PackageVersion Include="Compze.Teventive.StateStore" Version="0.1.0-alpha" />
-      <PackageVersion Include="Compze.Teventive.StateStore.MemoryPack" Version="0.1.0-alpha.1" />
+      <PackageVersion Include="Compze.Teventive.MemoryImageStateStore" Version="0.1.0-alpha" />
+      <PackageVersion Include="Compze.Teventive.MemoryImageStateStore.MemoryPack" Version="0.1.0-alpha.1" />
       <PackageVersion Include="Compze.Threading" Version="0.12.0-alpha" />
       <PackageVersion Include="Compze.Underscore" Version="0.6.0-beta" />
       <PackageVersion Include="Compze.xUnit" Version="0.3.0-alpha" />

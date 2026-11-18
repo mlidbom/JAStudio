@@ -9,7 +9,8 @@ using JAStudio.Core.Note;
 namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// A lookup in the collection gives the notes filed under a key in the order of their ids, whatever order the state store files them in, which<br/>
+/// A lookup in the collection gives the notes filed under a key in the order of their ids, whatever order the memory image state store files<br/>
+/// them in, which<br/>
 /// it promises nothing about: what a lookup gives is then a function of the notes' state alone, and a full rebuild reproduces the corpus exactly.
 /// </summary>
 /// <remarks>

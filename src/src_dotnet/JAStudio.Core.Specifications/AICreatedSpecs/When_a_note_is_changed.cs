@@ -15,7 +15,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 /// an edit of another note, fails before it changes anything. A note being created isn't in the collection yet, and is changed freely.
 /// </summary>
 /// <remarks>
-/// The state store that keeps the notes checks this: the notes it serves to readers refuse every change, and an edit changes the copy it gets for<br/>
+/// The memory image state store that keeps the notes checks this: the notes it serves to readers refuse every change, and an edit changes the<br/>
+/// copy it gets for<br/>
 /// update (dev_docs/taggregates/shared/how-jastudio-edits-a-note.md).
 /// </remarks>
 public class When_a_note_is_changed : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec

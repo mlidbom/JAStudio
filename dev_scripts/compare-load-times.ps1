@@ -10,7 +10,7 @@ dictionary), the time until the MCP server listens, the processor time the headl
 rest of the machine used meanwhile, with the processes that used the most. A run during which other processes used more than a
 little processor time was disturbed: repeat it.
 
-A warm run loads the notes from the state store's load caches in the corpus checkout (.state-store\*.load-cache), a MemoryPack
+A warm run loads the notes from the memory image state store's load caches in the corpus checkout (.state-store\*.load-cache), a MemoryPack
 file of each class's snapshots. A cold run deletes them first, so it reads every note's file, and writes the caches again. The
 checkouts' runs share the caches, so the checkouts compared must write the same caches: compare the files after each one's cold
 run if their stored data may differ.

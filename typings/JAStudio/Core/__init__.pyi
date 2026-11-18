@@ -7,7 +7,7 @@ from System import IEquatable_1, IDisposable
 from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
-from Compze.Teventive.StateStore import StateStoreBuilder
+from Compze.Teventive.MemoryImageStateStore import MemoryImageStateStoreBuilder
 from Compze.Tessaging.TessageBus import TeventObservationRegistrar
 from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
 from System.IO import DirectoryInfo
@@ -87,7 +87,7 @@ class IEnvironmentPaths(typing.Protocol):
 
 
 class IEnvironmentSpecificDependenciesRegistrar(typing.Protocol):
-    def DeclareWhereTheNotesAreKept(self, store: StateStoreBuilder) -> None: ...
+    def DeclareWhereTheNotesAreKept(self, store: MemoryImageStateStoreBuilder) -> None: ...
     def ObserveTevents(self, observe: TeventObservationRegistrar) -> None: ...
     @abc.abstractmethod
     def WireEnvironmentSpecificServices(self, registrar: IComponentRegistrar) -> None: ...

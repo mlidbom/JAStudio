@@ -2,7 +2,7 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.Tessaging.TessageBus;
 using Compze.Tessaging.TessageTypes;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Storage;
@@ -45,7 +45,7 @@ class TestEnvironmentSpecificDependenciesRegistrar(NotesKept notesKept) : IEnvir
       );
    }
 
-   public void DeclareWhereTheNotesAreKept(StateStoreBuilder store)
+   public void DeclareWhereTheNotesAreKept(MemoryImageStateStoreBuilder store)
    {
       if(_notesKept == NotesKept.InMemory) CorpusNoteFiles.DeclareKeptInMemoryIn(store);
       else CorpusNoteFiles.DeclareIn(store);

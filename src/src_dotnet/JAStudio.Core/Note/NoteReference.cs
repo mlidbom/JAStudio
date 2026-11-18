@@ -10,7 +10,7 @@ namespace JAStudio.Core.Note;
 /// <see cref="ReferringToANote.Reference{TNote}"/> makes one.
 /// </summary>
 /// <remarks>
-/// JAStudio's own, not the state store's: it reads the note through the collection (<see cref="JPCollection.NoteFromNoteId"/>), so each read<br/>
+/// JAStudio's own, not the memory image state store's: it reads the note through the collection (<see cref="JPCollection.NoteFromNoteId"/>), so each read<br/>
 /// passes through the collection's <see cref="LookupRecorder{TNote}"/>, as every other lookup of a note does. The note for update comes from the<br/>
 /// unit of work (<see cref="NoteUnitOfWork.ForUpdate{TNote}"/>).
 /// </remarks>

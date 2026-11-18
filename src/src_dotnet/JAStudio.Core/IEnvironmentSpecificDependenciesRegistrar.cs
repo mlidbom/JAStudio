@@ -1,6 +1,6 @@
 using Compze.DependencyInjection.Abstractions;
 using Compze.Tessaging.TessageBus;
-using Compze.Teventive.StateStore;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.Storage;
 
 namespace JAStudio.Core;
@@ -20,8 +20,9 @@ public interface IEnvironmentSpecificDependenciesRegistrar
    void ObserveTevents(TeventObservationRegistrar observe) {}
 
    /// <summary>
-   /// Declares where <paramref name="store"/>, the state store that keeps the notes, keeps them: unless the environment says otherwise, in their files<br/>
+   /// Declares where <paramref name="store"/>, the memory image state store that keeps the notes, keeps them: unless the environment says<br/>
+   /// otherwise, in their files<br/>
    /// in the corpus checkout (<see cref="CorpusNoteFiles"/>).
    /// </summary>
-   void DeclareWhereTheNotesAreKept(StateStoreBuilder store) => CorpusNoteFiles.DeclareIn(store);
+   void DeclareWhereTheNotesAreKept(MemoryImageStateStoreBuilder store) => CorpusNoteFiles.DeclareIn(store);
 }
