@@ -47,7 +47,9 @@ cache.
   refactoring."), so that the changes to the corpus that follow the migration are made on `main`, in one line of the
   corpus's history. CI runs only by hand meanwhile (`.github/workflows/ci.yml`), since its machines have no Compze
   worktree. Once Compze publishes the store's packages, on Magnus's approval, JAStudio goes back to package references,
-  and CI's triggers come back.
+  and CI's triggers come back, at once and without asking again (Magnus, 2026-11-18): the Compze projects leave
+  `JAStudio.slnx`, the worktree build leaves `Directory.Build.targets`, the pins go to the released versions, and
+  Rider's change to `.idea/vcs.xml`, which maps the Compze worktree, is reverted.
 
 ## Where it stands, 2026-11-17
 
