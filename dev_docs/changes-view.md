@@ -109,6 +109,36 @@ which `diff_the_changed_notes` already does.
   are stable.
 - **The cost is that JAStudio needs git installed,** which is normal on all three platforms.
 
+## What the memory image state store changes (Claude, 2026-11-18, not yet agreed)
+
+Since the migration, Compze's memory image state store keeps the notes (`dev_docs/taggregates/shared/the-migration.md`).
+It writes each note's file at every commit of a unit of work, at the path where the file always was, so the corpus is
+still JSON files in git, and most of the above holds as it was. Four things change:
+
+- **The paths of the notes' files come from Compze,** both ways. A note's history needs the note's file, which the end
+  review's question on testing aids proposes Compze give: `PathOf<TTaggregate>(TaggregateId)`, on an
+  `ITaggregateJsonFiles` in the production package, so the view can use it too. The other way, from the files `git
+  status` lists to their notes, `CorpusCheckout` and `NoteVersions` know the layout themselves: the three folders, and
+  the id as the file's name. Compze could give that too, such as which class and id a path is the file of.
+- **A git commit runs while no unit of work writes.** The store writes a unit of work's files through a journal, so a
+  commit taken while one writes could hold half of it. `IMemoryImageStateStore.LoadFromStorage(changeTheStorageFirst)`
+  runs its change once the open units of work have completed, while new ones wait, and the load afterwards compares
+  nothing for a file whose length and last write time are as the store last saw them: a git commit, which changes no
+  file, costs it next to nothing. JAStudio's whole reload of the real corpus with nothing changed, the dictionary and
+  the study-notes included, took 3.2 s (once, the machine's load not measured).
+- **A rollback is a tevent carrying the note's old state.** The store saves a note only with the tevents it published,
+  so the old version can't be written over the note: like `VocabTevent.Cloned` and `SentenceTevent.Imported`, a
+  rollback tevent carries the state, its applier takes it, and what observes notes, such as the sync with Anki and the
+  reparsing of sentences, follows as after any edit. Reverting a note created since the last commit (open question 1)
+  is then deleting it, and a note deleted since then is created again, with a creation tevent carrying its state.
+  Checking the file out with git and loading from storage would be simpler, but it publishes no note's tevents: only
+  `ICollectionReloaded`.
+- **The notes edited by hand can be told from the tevents.** Each unit of work's tevents are observed together
+  (`ForTeventsOfEachUnitOfWork`, as `SavedNotesLog` does): an edit publishes what changed, such as
+  `IVocabTevent.Forms.Added`, and a sentence's reparse `ParsingResultUpdated`, which no editor publishes. Not checked:
+  whether every change a rebuild makes has a tevent of its own. The store keeps no history, so what was edited since
+  the last commit has to be recorded by JAStudio, where it survives a restart, until the commit.
+
 ## Where it stands in the order of work
 
 - **2026-11-10, morning:** Magnus put it between the domain model's cleanup and the matching configuration's redesign:
