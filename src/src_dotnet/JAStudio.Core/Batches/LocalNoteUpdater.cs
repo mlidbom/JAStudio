@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Compze.Contracts;
 using Compze.Internals.SystemCE;
 using JAStudio.Core.Configuration;
@@ -15,7 +14,6 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.SysUtils;
 using JAStudio.Core.TaskRunners;
-using JAStudio.Core.Storage;
 
 namespace JAStudio.Core.Batches;
 
@@ -28,18 +26,18 @@ public class LocalNoteUpdater
    readonly JapaneseConfig _config;
    readonly DictLookup _dictLookup;
    readonly VocabNoteFactory _vocabNoteFactory;
-   readonly CorpusNoteFiles _corpusNoteFiles;
+   readonly JPCollection _collection;
 
-   internal LocalNoteUpdater(TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, CorpusNoteFiles corpusNoteFiles)
+   internal LocalNoteUpdater(TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory)
    {
       _taskRunner = taskRunner;
+      _collection = collection;
       _vocab = collection.Vocab;
       _kanji = collection.Kanji;
       _sentences = collection.Sentences;
       _config = config;
       _dictLookup = dictLookup;
       _vocabNoteFactory = vocabNoteFactory;
-      _corpusNoteFiles = corpusNoteFiles;
    }
 
    /// <summary>
@@ -346,12 +344,10 @@ public class LocalNoteUpdater
       scope.RunBatch(vocabNotes, vocab => vocab.Edit(it => it.GenerateAndSetAnswer()), "Regenerating vocab source answers from dictionary");
    }
 
-   public void WriteFileSystemRepository()
+   /// <summary>Writes every note's file anew, changed or not (<see cref="JPCollection.WriteEveryNoteAnew"/>).</summary>
+   public void WriteEveryNoteAnew()
    {
-      using var scope = _taskRunner.Current("Writing file system repository");
-
-      Task.WaitAll(scope.RunBatchAsync(_kanji.All(), _corpusNoteFiles.Write, "Writing kanji"),
-                   scope.RunBatchAsync(_vocab.All(), _corpusNoteFiles.Write, "Writing vocab"),
-                   scope.RunBatchAsync(_sentences.All(), _corpusNoteFiles.Write, "Writing sentences"));
+      using var runner = _taskRunner.Current("Writing every note's file anew");
+      runner.RunIndeterminate("Writing every note's file anew", _collection.WriteEveryNoteAnew);
    }
 }

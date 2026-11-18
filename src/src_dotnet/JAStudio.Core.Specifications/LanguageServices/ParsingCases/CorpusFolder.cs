@@ -60,14 +60,20 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    ];
 
    /// <summary>
-   /// Replaces the vocab of this folder with <paramref name="vocab"/>, written as JAStudio writes the corpus's notes, and its shared-conditions with those of<br/>
+   /// Replaces the vocab of this folder with <paramref name="vocab"/>, each in its file as the state store keeps a note's (<see cref="CorpusNoteFiles.FileOf"/>),<br/>
+   /// written by <paramref name="serializer"/> as JAStudio writes the corpus's notes, and its shared-conditions with those of<br/>
    /// <paramref name="theCorpusOfTheVocab"/>, which the vocab's match-conditions use.
    /// </summary>
-   public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, CorpusFolder theCorpusOfTheVocab)
+   public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, NoteSerializer serializer, CorpusFolder theCorpusOfTheVocab)
    {
       DeleteTheFilesIn(VocabFolder);
       var noteFiles = new CorpusNoteFiles(_folder);
-      foreach(var it in vocab) noteFiles.Write(it);
+      foreach(var it in vocab)
+      {
+         var file = noteFiles.FileOf(it);
+         file.Directory?.Create();
+         File.WriteAllText(file.FullName, serializer.Serialize(it));
+      }
       theCorpusOfTheVocab.CopyTheSharedConditionsTo(this);
    }
 

@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Storage;
 using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Tools.Corpus;
 using ModelContextProtocol.Server;
@@ -14,13 +13,11 @@ public class SaveTools
 {
    readonly JPCollection _collection;
    readonly CorpusCheckout _corpusCheckout;
-   readonly CorpusNoteFiles _corpusNoteFiles;
 
-   public SaveTools(JPCollection collection, CorpusCheckout corpusCheckout, CorpusNoteFiles corpusNoteFiles)
+   public SaveTools(JPCollection collection, CorpusCheckout corpusCheckout)
    {
       _collection = collection;
       _corpusCheckout = corpusCheckout;
-      _corpusNoteFiles = corpusNoteFiles;
    }
 
    [McpServerTool(Name = "save_every_note", Destructive = false, Idempotent = true)]
@@ -36,13 +33,10 @@ public class SaveTools
       [Description("The most changed notes of each type to list. Every changed note is counted either way.")] int maxNotesListedPerType = CorpusTools.NotesListedPerTypeByDefault)
    {
       var stopwatch = Stopwatch.StartNew();
-      var (vocab, kanji, sentences) = (_collection.Vocab.All(), _collection.Kanji.All(), _collection.Sentences.All());
-      vocab.ForEach(_corpusNoteFiles.Write);
-      kanji.ForEach(_corpusNoteFiles.Write);
-      sentences.ForEach(_corpusNoteFiles.Write);
+      _collection.WriteEveryNoteAnew();
       var secondsTaken = stopwatch.Elapsed.TotalSeconds;
 
-      return new EveryNoteSaved(vocab.Count + kanji.Count + sentences.Count,
+      return new EveryNoteSaved(_collection.Vocab.All().Count + _collection.Kanji.All().Count + _collection.Sentences.All().Count,
                                 secondsTaken,
                                 ChangedNotes.In(_collection, _corpusCheckout.IdsOfTheNotesWhoseFilesDifferFromHead(), maxNotesListedPerType));
    }

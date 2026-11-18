@@ -9,7 +9,8 @@ namespace JAStudio.Core.Storage.Dto;
 /// derive from it.
 /// </summary>
 /// <remarks>
-/// MemoryPack serializes it only to compare two of them (<see cref="HoldTheSameState{TDto}"/>): nothing stores what it makes.
+/// MemoryPack serializes it for the state store's load cache, a MemoryPack file of each class's snapshots that a load starts from<br/>
+/// (<see cref="CorpusNoteFiles"/>).
 /// </remarks>
 [MemoryPackable(GenerateType.NoGenerate)]
 [MemoryPackUnion(0, typeof(VocabDto))]
@@ -19,11 +20,4 @@ public abstract partial class CorpusNoteDto
 {
    public Guid Id { get; init; }
    public List<string> Tags { get; init; } = [];
-
-   /// <summary>
-   /// Whether <paramref name="one"/> and <paramref name="other"/> hold the same state: whether they serialize to the same bytes. A DTO is a note's<br/>
-   /// snapshot, so this is how a taggregate store tells whether a note changed, as a reload does.
-   /// </summary>
-   public static bool HoldTheSameState<TDto>(TDto one, TDto other) where TDto : CorpusNoteDto =>
-      MemoryPackSerializer.Serialize(one).AsSpan().SequenceEqual(MemoryPackSerializer.Serialize(other));
 }

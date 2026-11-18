@@ -257,6 +257,16 @@ public class JPCollection
    public IReadOnlyList<JPNote> ReloadFromBackend() => ReloadFromBackendAfter(() => {});
 
    /// <summary>
+   /// Writes every note's file anew, as JAStudio stores the note now, changed or not, which JAStudio otherwise never does: a unit of work writes only<br/>
+   /// the files of the notes it changed. To see what loading and saving does to the notes' files, as after a change to how they're stored.
+   /// </summary>
+   /// <remarks>
+   /// One commit of the state store (<see cref="IStateStore.WriteEverythingAnew"/>), while units of work wait, as at a reload. It changes no note, and<br/>
+   /// the next start reads every note's file once, since every file changed.
+   /// </remarks>
+   public void WriteEveryNoteAnew() => _store.Value.WriteEverythingAnew();
+
+   /// <summary>
    /// Makes <paramref name="changeToTheCorpusCheckout"/>, such as a git fast-forward of the corpus checkout, while no unit of work runs, so that<br/>
    /// nothing JAStudio does meanwhile saves a note over the change, then loads this collection again, as <see cref="ReloadFromBackend"/> does.<br/>
    /// When the change fails, the notes are left as they were, and the study-notes are read again.

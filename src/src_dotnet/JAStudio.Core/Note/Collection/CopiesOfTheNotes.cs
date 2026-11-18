@@ -30,9 +30,9 @@ public static class CopiesOfTheNotes
    {
       var differences = note switch
       {
-         VocabNote vocab => SnapshotRoundTrip.DifferencesOf(vocab, () => new VocabNote(vocab.Services), CorpusNoteDto.HoldTheSameState),
-         KanjiNote kanji => SnapshotRoundTrip.DifferencesOf(kanji, () => new KanjiNote(kanji.Services), CorpusNoteDto.HoldTheSameState),
-         SentenceNote sentence => SnapshotRoundTrip.DifferencesOf(sentence, () => new SentenceNote(sentence.Services), CorpusNoteDto.HoldTheSameState),
+         VocabNote vocab => SnapshotRoundTrip.DifferencesOf<VocabNote, VocabDto>(vocab, () => new VocabNote(vocab.Services)),
+         KanjiNote kanji => SnapshotRoundTrip.DifferencesOf<KanjiNote, KanjiDto>(kanji, () => new KanjiNote(kanji.Services)),
+         SentenceNote sentence => SnapshotRoundTrip.DifferencesOf<SentenceNote, SentenceDto>(sentence, () => new SentenceNote(sentence.Services)),
          _ => throw new ArgumentException($"{note.GetType().FullName} isn't a class of note.")
       };
 

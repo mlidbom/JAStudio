@@ -97,8 +97,8 @@ public static class AppBootstrapper
          Singleton.For<AnalysisServices>().CreatedBy((VocabCollection vocab, DictLookup dictLookup, Settings settings) => new AnalysisServices(vocab, dictLookup, settings)),
          Singleton.For<StudyNoteIds>().CreatedBy(() => new StudyNoteIds()),
          Singleton.For<WhatTheSRSHoldsOfTheStudyNotes>().CreatedBy(() => new WhatTheSRSHoldsOfTheStudyNotes()),
-         Singleton.For<LocalNoteUpdater>().CreatedBy((TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, CorpusNoteFiles corpusNoteFiles) =>
-                                                        new LocalNoteUpdater(taskRunner, collection, config, dictLookup, vocabNoteFactory, corpusNoteFiles)),
+         Singleton.For<LocalNoteUpdater>().CreatedBy((TaskRunner taskRunner, JPCollection collection, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory) =>
+                                                        new LocalNoteUpdater(taskRunner, collection, config, dictLookup, vocabNoteFactory)),
          Singleton.For<TaskRunner>().CreatedBy((DialogProgressPresenter dialogPresenter) => new TaskRunner(dialogPresenter)),
          Singleton.For<DialogProgressPresenter>().CreatedBy((IUIThreadDispatcher dispatcher) => new DialogProgressPresenter(dispatcher)),
          Singleton.For<BackgroundTaskManager>().CreatedBy((IFatalErrorHandler fatalErrorHandler) => new BackgroundTaskManager(fatalErrorHandler)),
@@ -147,9 +147,9 @@ public static class AppBootstrapper
       registrar.StateStore(store =>
       {
          environment.DeclareWhereTheNotesAreKept(store);
-         store.Taggregate<VocabNote, VocabDto>(TrackedTransient.For<VocabNote>().CreatedBy((NoteServices services) => new VocabNote(services)), CorpusNoteDto.HoldTheSameState)
-              .Taggregate<KanjiNote, KanjiDto>(TrackedTransient.For<KanjiNote>().CreatedBy((NoteServices services) => new KanjiNote(services)), CorpusNoteDto.HoldTheSameState)
-              .Taggregate<SentenceNote, SentenceDto>(TrackedTransient.For<SentenceNote>().CreatedBy((NoteServices services) => new SentenceNote(services)), CorpusNoteDto.HoldTheSameState);
+         store.Taggregate(TrackedTransient.For<VocabNote>().CreatedBy((NoteServices services) => new VocabNote(services)))
+              .Taggregate(TrackedTransient.For<KanjiNote>().CreatedBy((NoteServices services) => new KanjiNote(services)))
+              .Taggregate(TrackedTransient.For<SentenceNote>().CreatedBy((NoteServices services) => new SentenceNote(services)));
          VocabIndexes.DeclareIn(store);
          KanjiIndexes.DeclareIn(store);
          SentenceIndexes.DeclareIn(store);
