@@ -10,8 +10,11 @@ using JAStudio.Mcp.Tools.Memory.Heap;
 namespace JAStudio.Mcp.Specifications.Tools.Memory;
 
 /// <remarks>
-/// bug: flaky. It failed twice in full runs of the specifications, on 2026-11-17 and 2026-11-18, each time in another of its cases, and both passed
-///    when run again. The cause is unknown.
+/// bug: flaky. It failed three times in full runs of the specifications, on 2026-11-17 and twice on 2026-11-18, each time in another of its cases,<br/>
+///    and passed when run again. The third time the message was kept: it counted 95 copies of the repeated string where the heap holds 101, all<br/>
+///    of them held by a static field, so none was collected. Likely cause, not verified: <c>HeapCensus</c> snapshots the live process while<br/>
+///    other specifications run in it, and a garbage collection that one of them set off may be moving objects as the snapshot is taken. Holding<br/>
+///    off collections while it's taken, such as with <c>GC.TryStartNoGCRegion</c>, would test that.
 /// </remarks>
 public class When_describing_what_the_heap_holds : McpServerSpecification
 {
