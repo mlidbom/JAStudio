@@ -52,7 +52,7 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
    /// </summary>
    protected void WriteTheFileOf(JPNote note) => GetService<IFileSystemInMemory>().WriteAllText(PathOfTheFileOf(note), GetService<NoteSerializer>().Serialize(note));
 
-   string PathOfTheFileOf(JPNote note) => GetService<CorpusNoteFiles>().FileOf(note).FullName;
+   string PathOfTheFileOf(JPNote note) => GetService<ITaggregateJsonFiles>().PathOf(note);
 
    /// <summary>The tevents observed so far (<see cref="TeventsObserved"/>), once every tevent published so far has been.</summary>
    protected IReadOnlyList<ITevent> TeventsObservedSoFar()

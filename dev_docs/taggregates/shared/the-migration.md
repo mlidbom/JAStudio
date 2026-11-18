@@ -112,7 +112,10 @@ cache.
     Compze): `KeptInMemory` is `OnAFileSystemInMemory` and `ITaggregateFilesInMemory` is `IFileSystemInMemory`, in
     `Compze.Teventive.MemoryImageStateStore.Testing`; JAStudio's `CorpusNoteFiles.DeclareKeptInMemoryIn` followed, as
     `DeclareOnAFileSystemInMemoryIn`. And `ITaggregateJsonFiles` gives the path of a taggregate's file
-    (`PathOf<TTaggregate>`) and the taggregate whose file a path is (`TaggregateWhoseFileIs`).
+    (`PathOf`, by the taggregate or by its class and id) and the taggregate whose file a path is
+    (`TaggregateWhoseFileIs`), so no JAStudio code knows the layout of the notes' files any more:
+    `CorpusNoteFiles.FileOf`, the MCP specifications' `FileOfTheNoteWithTheId` and `CorpusCheckout`'s reading of a
+    note's id from its file's name are gone. JAStudio keeps only the folders it declares, `CorpusNoteFiles.NoteFolders`.
 
   Before it, `628f05c1e`, the end of step 5's code
   (`dev_docs/taggregate-improvements/shared/step-5-the-rest-of-the-teventives.md`, on the `taggregate-improvements`

@@ -30,7 +30,7 @@ public class When_listing_the_changed_notes : CorpusRepositorySpecification
 
       Write(FileOf(vocab行く), """{"changed": true}""");
       FileOf(kanji行).Delete();
-      Write(FileOfTheNoteWithTheId(_idOfANoteTheCollectionDoesNotHave, "vocab"), "{}");
+      Write(FileOfTheVocabWithTheId(_idOfANoteTheCollectionDoesNotHave), "{}");
 
       _changedNotes = ResultOf<ChangedNotes>(CallTool("list_changed_notes", new Dictionary<string, object?>()));
    }

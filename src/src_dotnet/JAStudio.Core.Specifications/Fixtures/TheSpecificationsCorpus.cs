@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compze.Teventive.MemoryImageStateStore;
 using Compze.Teventive.MemoryImageStateStore.Testing;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;

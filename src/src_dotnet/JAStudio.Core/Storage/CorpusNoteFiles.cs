@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.IO;
 using Compze.Teventive.MemoryImageStateStore;
 using Compze.Teventive.MemoryImageStateStore.MemoryPack;
@@ -32,6 +32,12 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
    public DirectoryInfo CorpusCheckout { get; } = corpusCheckout;
 
    /// <summary>
+   /// The folders of the corpus checkout that hold the notes' files, one for each class of note, as <see cref="DeclareIn(MemoryImageStateStoreBuilder)"/><br/>
+   /// declares them to the store: where git looks for the notes' files that changed.
+   /// </summary>
+   public static IReadOnlyList<string> NoteFolders { get; } = [VocabFolder, KanjiFolder, SentencesFolder];
+
+   /// <summary>
    /// Declares that <paramref name="store"/> keeps the notes in their files in the corpus checkout of the <see cref="CorpusNoteFiles"/> the<br/>
    /// container holds, and starts from a cache of them, which reads only the files changed since it was written. Compze keeps each note's file<br/>
    /// as JAStudio always has: <c>&lt;its class's folder&gt;/&lt;first two hex digits of its id&gt;/&lt;id&gt;.json</c>.
@@ -55,26 +61,4 @@ public sealed class CorpusNoteFiles(DirectoryInfo corpusCheckout)
                                   .FolderOf<KanjiNote>(KanjiFolder)
                                   .FolderOf<SentenceNote>(SentencesFolder);
                           });
-
-   /// <summary>The file of <paramref name="note"/>, whether it has been written or not.</summary>
-   /// <remarks>
-   /// todo:compze: it works out the file's path by Compze's layout of a memory image state store's files, which only Compze should know. Once<br/>
-   /// Compze can give the<br/>
-   ///    path of a taggregate's file, use that instead, and delete <see cref="FileIn"/>.
-   /// </remarks>
-   public FileInfo FileOf(JPNote note) => FileIn(note, new DirectoryInfo(Path.Combine(CorpusCheckout.FullName, FolderOf(note))));
-
-   static string FolderOf(JPNote note) => note switch
-   {
-      VocabNote => VocabFolder,
-      KanjiNote => KanjiFolder,
-      SentenceNote => SentencesFolder,
-      _ => throw new ArgumentOutOfRangeException(nameof(note), note.GetType(), "A kind of note the corpus doesn't store.")
-   };
-
-   static FileInfo FileIn(JPNote note, DirectoryInfo folderOfItsClass)
-   {
-      var id = note.GetId().Value;
-      return new FileInfo(Path.Combine(folderOfItsClass.FullName, id.ToString("N")[..2], $"{id}.json"));
-   }
 }

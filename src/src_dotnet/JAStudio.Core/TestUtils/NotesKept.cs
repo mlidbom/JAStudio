@@ -12,7 +12,7 @@ public enum NotesKept
 {
    /// <summary>
    /// In memory: as the application keeps them (<see cref="CorpusNoteFiles"/>), but with the files kept in memory, which Compze's<br/>
-   /// <see cref="Compze.Teventive.MemoryImageStateStore.IFileSystemInMemory"/> reads and changes.
+   /// <see cref="IFileSystemInMemory"/> reads and changes, on a file system in memory.
    /// </summary>
    InMemory,
 

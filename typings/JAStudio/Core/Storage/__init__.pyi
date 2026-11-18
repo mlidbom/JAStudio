@@ -1,7 +1,8 @@
 import typing
 from System import IDisposable
-from System.IO import DirectoryInfo, FileInfo
-from JAStudio.Core.Note import JPNote, NoteServices, KanjiNote
+from System.IO import DirectoryInfo
+from System.Collections.Generic import IReadOnlyList_1
+from JAStudio.Core.Note import NoteServices, KanjiNote, JPNote
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
 
@@ -15,7 +16,9 @@ class CorpusNoteFiles:
     def __init__(self, corpusCheckout: DirectoryInfo) -> None: ...
     @property
     def CorpusCheckout(self) -> DirectoryInfo: ...
-    def FileOf(self, note: JPNote) -> FileInfo: ...
+    @classmethod
+    @property
+    def NoteFolders(cls) -> IReadOnlyList_1[str]: ...
 
 
 class NoteSerializer:

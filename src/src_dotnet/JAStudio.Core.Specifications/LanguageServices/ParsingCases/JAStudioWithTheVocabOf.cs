@@ -1,5 +1,9 @@
 using System;
+using System.IO;
+using Compze.Teventive;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Specifications.Fixtures;
@@ -26,6 +30,13 @@ public class JAStudioWithTheVocabOf : IDisposable
    public JPCollection Collection => _app.CoreApp.Services.Resolve<JPCollection>();
 
    public NoteSerializer Serializer => _app.CoreApp.Services.Resolve<NoteSerializer>();
+
+   /// <summary>
+   /// Where <paramref name="note"/>'s file is in a corpus checkout, relative to it, as this JAStudio's memory image state store keeps it in its own<br/>
+   /// (<see cref="ITaggregateJsonFiles.PathOf(ITaggregate)"/>): where to write it in another corpus checkout.
+   /// </summary>
+   public string PathInACorpusCheckoutOf(JPNote note) =>
+      Path.GetRelativePath(_app.CoreApp.Services.Resolve<CorpusNoteFiles>().CorpusCheckout.FullName, _app.CoreApp.Services.Resolve<ITaggregateJsonFiles>().PathOf(note));
 
    /// <summary>
    /// What <paramref name="parsingCase"/>'s sentence parses to: its parsing result as the corpus stores it, and its sentence breakdown under each<br/>

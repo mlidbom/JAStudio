@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Tools.Corpus.NoteDiffs.Properties;
@@ -53,13 +54,10 @@ public class NoteVersions
          if(file == null) return null;
          try
          {
-            return files.NoteFolder switch
-            {
-               "vocab" => serializer.DeserializeVocab(file),
-               "kanji" => serializer.DeserializeKanji(file),
-               "sentences" => serializer.DeserializeSentence(file),
-               _ => throw new ArgumentOutOfRangeException(nameof(files), files.Path, "A file in a folder that holds no notes.")
-            };
+            if(files.NoteClass == typeof(VocabNote)) return serializer.DeserializeVocab(file);
+            if(files.NoteClass == typeof(KanjiNote)) return serializer.DeserializeKanji(file);
+            if(files.NoteClass == typeof(SentenceNote)) return serializer.DeserializeSentence(file);
+            throw new ArgumentOutOfRangeException(nameof(files), files.NoteClass, $"The file {files.Path} is of a class of note JAStudio doesn't read.");
          }
          catch(JsonException exception)
          {

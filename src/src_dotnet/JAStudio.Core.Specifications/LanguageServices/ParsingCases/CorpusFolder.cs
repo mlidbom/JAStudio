@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compze.Teventive.MemoryImageStateStore;
 using Compze.Teventive.MemoryImageStateStore.Testing;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
@@ -61,19 +60,18 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    ];
 
    /// <summary>
-   /// Replaces the vocab of this folder with <paramref name="vocab"/>, each in its file as the memory image state store keeps a note's<br/>
-   /// (<see cref="CorpusNoteFiles.FileOf"/>), written by <paramref name="serializer"/> as JAStudio writes the corpus's notes, and its shared-conditions with those of<br/>
-   /// <paramref name="theCorpusOfTheVocab"/>, which the vocab's match-conditions use.
+   /// Replaces the vocab of this folder with <paramref name="vocab"/>, each in its file where <paramref name="theJAStudioOfTheVocab"/>'s memory<br/>
+   /// image state store keeps it in its corpus checkout (<see cref="JAStudioWithTheVocabOf.PathInACorpusCheckoutOf"/>), written as JAStudio writes<br/>
+   /// the corpus's notes, and its shared-conditions with those of <paramref name="theCorpusOfTheVocab"/>, which the vocab's match-conditions use.
    /// </summary>
-   public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, NoteSerializer serializer, CorpusFolder theCorpusOfTheVocab)
+   public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, JAStudioWithTheVocabOf theJAStudioOfTheVocab, CorpusFolder theCorpusOfTheVocab)
    {
       DeleteTheFilesIn(VocabFolder);
-      var noteFiles = new CorpusNoteFiles(_folder);
       foreach(var it in vocab)
       {
-         var file = noteFiles.FileOf(it);
+         var file = new FileInfo(Path.Combine(_folder.FullName, theJAStudioOfTheVocab.PathInACorpusCheckoutOf(it)));
          file.Directory?.Create();
-         File.WriteAllText(file.FullName, serializer.Serialize(it));
+         File.WriteAllText(file.FullName, theJAStudioOfTheVocab.Serializer.Serialize(it));
       }
       theCorpusOfTheVocab.CopyTheSharedConditionsTo(this);
    }

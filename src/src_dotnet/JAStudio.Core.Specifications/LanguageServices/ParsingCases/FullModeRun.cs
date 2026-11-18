@@ -11,7 +11,7 @@ namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 /// One run of the parsing cases' full mode (<see cref="In_the_full_mode"/>): the sentences of the corpus checkout that are parsing cases<br/>
 /// (<see cref="SentenceNote.ParsingCase"/>) parsed against the corpus checkout (<see cref="SourceCheckout.CorpusCheckout"/>), recording every vocab<br/>
 /// the parsing looks up (<see cref="LookupRecording{TNote}"/>); the case files replaced with one generated from each of those sentences; the<br/>
-/// parsing cases' corpus (<see cref=\"ParsingCasesFolder.Corpus\"/>) replaced with those vocab; and every case parsed again against it, to<br/>
+/// parsing cases' corpus (<see cref="ParsingCasesFolder.Corpus"/>) replaced with those vocab; and every case parsed again against it, to<br/>
 /// check that it parses each case exactly as the corpus checkout does.
 /// </summary>
 sealed class FullModeRun
@@ -30,7 +30,7 @@ sealed class FullModeRun
          ];
 
          var caseOf = ParsingCasesFolder.ReplaceTheCasesWithThoseOf(parsingCasesOfTheCorpus, corpusCheckout.Collection);
-         ParsingCasesFolder.Corpus.ReplaceTheVocabWith(vocabLookedUp, corpusCheckout.Serializer, SourceCheckout.CorpusCheckout);
+         ParsingCasesFolder.Corpus.ReplaceTheVocabWith(vocabLookedUp, corpusCheckout, SourceCheckout.CorpusCheckout);
          resultAgainstTheCorpusCheckout = parsingCasesOfTheCorpus.ToDictionary(sentence => caseOf[sentence], sentence => results[sentence]);
       }
 

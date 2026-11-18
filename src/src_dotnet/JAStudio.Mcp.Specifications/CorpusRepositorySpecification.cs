@@ -1,10 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using Compze.Teventive.MemoryImageStateStore;
 using JAStudio.Core;
 using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 
@@ -21,13 +21,10 @@ public abstract class CorpusRepositorySpecification : McpServerSpecification
    DirectoryInfo CorpusFolder => new(GetService<IEnvironmentPaths>().DatabaseDir);
 
    /// <summary>The file of <paramref name="note"/>, where the corpus keeps it: <c>vocab/81/81020a41-d636-4ee9-a158-2443d8750482.json</c> for a vocab.</summary>
-   protected FileInfo FileOf(JPNote note) => FileOfTheNoteWithTheId(note.GetId().Value, NoteFolderOf(note));
+   protected FileInfo FileOf(JPNote note) => new(GetService<ITaggregateJsonFiles>().PathOf(note));
 
-   protected FileInfo FileOfTheNoteWithTheId(Guid id, string noteFolder)
-   {
-      var idText = id.ToString();
-      return new FileInfo(Path.Combine(CorpusFolder.FullName, noteFolder, idText[..2], $"{idText}.json"));
-   }
+   /// <summary>The file a vocab with the id <paramref name="id"/> would have, whether the collection has such a vocab or not.</summary>
+   protected FileInfo FileOfTheVocabWithTheId(Guid id) => new(GetService<ITaggregateJsonFiles>().PathOf<VocabNote>(new VocabId(id)));
 
    /// <summary>Writes the files of <paramref name="notes"/>, each as the corpus stores the note as it is now.</summary>
    protected void WriteTheFilesOf(params JPNote[] notes)
@@ -50,14 +47,6 @@ public abstract class CorpusRepositorySpecification : McpServerSpecification
    }
 
    protected string HeadCommit() => Git("rev-parse", "HEAD").Trim();
-
-   static string NoteFolderOf(JPNote note) => note switch
-   {
-      VocabNote => "vocab",
-      KanjiNote => "kanji",
-      SentenceNote => "sentences",
-      _ => throw new ArgumentOutOfRangeException(nameof(note), note.GetType(), "A kind of note the corpus doesn't store.")
-   };
 
    /// <summary>Runs git with <paramref name="arguments"/> in the corpus folder, and gives what it wrote to standard output.</summary>
    protected string Git(params string[] arguments)

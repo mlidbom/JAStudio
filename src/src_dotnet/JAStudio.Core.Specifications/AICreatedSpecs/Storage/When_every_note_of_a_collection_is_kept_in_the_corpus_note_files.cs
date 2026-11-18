@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Must;
-using Compze.Teventive.MemoryImageStateStore;
 using Compze.Teventive.MemoryImageStateStore.Testing;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
@@ -46,7 +45,7 @@ public class When_every_note_of_a_collection_is_kept_in_the_corpus_note_files : 
    [XF] public void the_notes_folders_hold_a_file_for_each_note_and_no_other() =>
       GetService<IFileSystemInMemory>().Paths.Count(IsInAFolderOfNotes).Must().Be(_notes.Count);
 
-   bool IsInAFolderOfNotes(string path) => new[] { "kanji", "vocab", "sentences" }.Any(it => path.StartsWith(Path.Combine(_noteFiles.CorpusCheckout.FullName, it) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase));
+   bool IsInAFolderOfNotes(string path) => CorpusNoteFiles.NoteFolders.Any(it => path.StartsWith(Path.Combine(_noteFiles.CorpusCheckout.FullName, it) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase));
 
    public class loading_the_collection_again_from_the_files : When_every_note_of_a_collection_is_kept_in_the_corpus_note_files
    {

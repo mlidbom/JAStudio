@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json.Nodes;
 using Compze.Must;
-using Compze.Teventive.MemoryImageStateStore;
 using Compze.Teventive.MemoryImageStateStore.Testing;
 using Compze.xUnitBDD;
 using JAStudio.Core.Storage;
