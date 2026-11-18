@@ -6,6 +6,7 @@ Always use `venv\Scripts\python.exe` (not bare `python`) — the venv is require
 |---|---|
 | Fast .NET build (iteration) | `dotnet build JAStudio.slnx -c Debug` |
 | .NET tests | `dotnet test JAStudio.slnx --verbosity quiet` |
+| The specifications, keeping each failure's message and stack trace | `.\dev_scripts\run-the-specifications.ps1` (`-Times N` to hunt a flaky one) |
 | Python tests | `venv\Scripts\python.exe -m pytest` |
 | Lint Python (autofix) | `ruff check --fix` |
 | Format Python | `ruff format` |
