@@ -15,25 +15,25 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Init required submodules
         run: git submodule update --init submodules/pythonnet-stub-generator
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '11.0.x'
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.13'
 
       # JAStudio generates its dictionary's database from JMdict where there is none, which took about a minute of each run on a clean
       # runner. JAStudio.Dictionary generates it, and its project file names the Wacton.Desu version it's generated from.
       - name: Cache the generated dictionary database
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.local/share/JAStudio/jmdict.db
           key: jmdict-db-${{ runner.os }}-${{ hashFiles('src/src_dotnet/JAStudio.Dictionary/**/*.cs', 'src/src_dotnet/JAStudio.Dictionary/*.csproj') }}
