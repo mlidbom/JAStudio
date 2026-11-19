@@ -19,7 +19,7 @@ grouping folders break skill discovery and the link folder's name becomes the sk
 marks shared skills both in the tree and at invocation; see the catalog README. JAStudio's own skills are regular
 folders beside the links, without the prefix, such as `changing-what-the-corpus-stores`. If the links look wrong, run
 `.claude-shared/git-scripts/verify-claude-symlinks.ps1`. If `.claude-shared/` is
-missing, the next session start makes it, or run `sh .claude/verify-shared-claude-config.sessionstart-hook.sh`.
+missing, the next session start makes it, or run `sh .claude/attach-shared-claude-config.sessionstart-hook.sh`.
 To sync with upstream, run `sh .claude-shared/git-scripts/pull.sh` or `push.sh`.
 
 (This README is `.txt` on purpose — a `README.md` with no frontmatter would inject into every session. Like
