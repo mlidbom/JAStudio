@@ -49,3 +49,7 @@ snapshot_vocab.json
 /src/jas_database.lock
 
 /.idea/.idea.JAStudio/.idea/.name
+
+# The shared Claude config: a git worktree of the machine's one clone of it, ~/.claude/.claude-shared, which the
+# SessionStart hook makes and keeps up to date
+/.claude-shared
