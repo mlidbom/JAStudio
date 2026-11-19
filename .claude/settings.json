@@ -8,7 +8,7 @@
     "SessionStart": [
       {
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/verify-shared-claude-config.sessionstart-hook.sh\"" }
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/attach-shared-claude-config.sessionstart-hook.sh\"" }
         ]
       }
     ]
