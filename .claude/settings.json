@@ -3,12 +3,13 @@
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true
   },
-  "_comment_hooks": "Attach the shared catalog at .claude-shared and keep it up to date, and fail loudly if the .claude/ symlinks into it are broken (e.g. a checkout without core.symlinks / Windows Developer Mode). The hook is this repo's copy of the catalog's copy-into-consuming-repository hook; see .claude-shared/README.md.",
+  "_comment_hooks": "Attach the shared catalog at .claude-shared and keep it up to date, and fail loudly if the .claude/ symlinks into it are broken (e.g. a checkout without core.symlinks / Windows Developer Mode). The hook is this repo's copy of the catalog's copy-into-consuming-repository hook; see .claude-shared/README.md. Then, in a linked worktree, link venv to the main checkout's and check out the stub-generator, which the Definition of Done needs: see the hook's own comments.",
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/attach-shared-claude-config.sessionstart-hook.sh\"" }
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/attach-shared-claude-config.sessionstart-hook.sh\"" },
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/prepare-a-new-worktree.sessionstart-hook.sh\"" }
         ]
       }
     ]
