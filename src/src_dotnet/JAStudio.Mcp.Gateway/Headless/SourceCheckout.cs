@@ -57,11 +57,14 @@ class SourceCheckout
    /// </summary>
    bool IsTheMainCheckout => Directory.Exists(Path.Combine(Folder.FullName, ".git"));
 
-   /// <summary>A linked worktree's <see cref="CorpusRepository"/>, which must be initialized: a submodule never initialized is an empty folder.</summary>
+   /// <summary>
+   /// A linked worktree's <see cref="CorpusRepository"/>, which must be checked out: a submodule never checked out is an empty folder, and a new<br/>
+   /// worktree's corpus isn't, as nothing in the Definition of Done reads it. <c>dev_scripts/check-out-the-corpus.ps1</c> checks it out.
+   /// </summary>
    DirectoryInfo TheLinkedWorktreesCorpusCheckout() =>
       Path.Exists(Path.Combine(CorpusRepository.FullName, ".git"))
          ? CorpusRepository
-         : throw new InvalidOperationException($"This worktree's corpus checkout, {CorpusRepository.FullName}, isn't initialized: run 'git submodule update --init src/jas_database' in {Folder.FullName}, or start the headless JAStudio with a corpusFolder.");
+         : throw new InvalidOperationException($"This worktree's corpus checkout, {CorpusRepository.FullName}, isn't checked out: run dev_scripts/check-out-the-corpus.ps1 in {Folder.FullName}, which takes about a minute, or start the headless JAStudio with a corpusFolder.");
 
    /// <summary>
    /// The main checkout's headless corpus checkout: a git worktree of the <see cref="CorpusRepository"/> of its own, so that the headless JAStudio<br/>

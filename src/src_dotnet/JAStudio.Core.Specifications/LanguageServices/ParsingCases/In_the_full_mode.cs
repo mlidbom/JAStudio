@@ -15,7 +15,8 @@ namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 /// </summary>
 /// <remarks>
 /// Explicit, so that only running it by name runs it: it needs the corpus checkout (<see cref="SourceCheckout.CorpusCheckout"/>), takes a while, and<br/>
-/// writes the case files and the parsing cases' corpus. Review what it wrote in git's diff before committing it.
+/// writes the case files and the parsing cases' corpus. Review what it wrote in git's diff before committing it.<br/>
+/// In a linked worktree, check the corpus out first with <c>dev_scripts/check-out-the-corpus.ps1</c>: a new worktree has none.
 /// </remarks>
 public abstract class In_the_full_mode
 {

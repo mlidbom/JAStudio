@@ -82,7 +82,8 @@ always runs the latest source: `start_headless_jastudio` builds the source check
 ## In a linked worktree, on a branch
 
 The session goes through the same cycles in its worktree's `src/jas_database`, to check and analyze, and commits
-nothing there without Magnus's permission.
+nothing there without Magnus's permission. A new worktree has no corpus checkout: `dev_scripts/check-out-the-corpus.ps1`
+checks it out at the commit the branch records, from Magnus's clone, in about a minute.
 
 - **What it hands over instead:** what its rebuild changed, analyzed as above, and the edits to the notes the work
   needs, listed in its report and in its commit message. A large migration is code.
