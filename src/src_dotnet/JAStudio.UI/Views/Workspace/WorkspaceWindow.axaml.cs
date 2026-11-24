@@ -47,7 +47,7 @@ public partial class WorkspaceWindow : Window
    readonly WindowPlaceKeeper _placeKeeper;
 
    /// <summary>
-   /// The window's own shortcuts and its main menu's, by key in the form of <see cref="Shortcuts.NoteViewShortcut.KeyGesture"/>.<br/>
+   /// The window's own shortcuts and its main menu's, by key in the form of <see cref="Core.UI.Shortcuts.NoteViewShortcut.KeyGesture"/>.<br/>
    /// They're bound as Avalonia key bindings for when the keyboard is outside the page,<br/>
    /// and run when a page reports their key (<see cref="TryRunWindowShortcut"/>), since keys pressed on a page go to its web view.
    /// </summary>
@@ -285,13 +285,10 @@ public partial class WorkspaceWindow : Window
       NavigationPane.FocusSearch();
    }
 
-   /// <summary>Shows the window where it was when it was hidden, maximized or snapped included, or else un-minimizes it, and activates it.</summary>
+   /// <summary>Shows the window where it was when it was hidden or minimized, maximized or snapped included, and activates it.</summary>
    void BringToFront()
    {
-      if(!IsVisible)
-         _placeKeeper.ShowItWhereItWas();
-      else if(WindowState == WindowState.Minimized)
-         WindowState = WindowState.Normal;
+      _placeKeeper.ShowItWhereItWas();
       Activate();
    }
 

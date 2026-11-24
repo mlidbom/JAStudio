@@ -15,8 +15,8 @@ namespace JAStudio.UI.Views.Specifications.AICreatedSpecs.WindowPlaces;
 /// </summary>
 public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGeneratedSpec
 {
-   /// <summary>Opens the window, leaves it at <paramref name="topLeft"/>, made 900×500, and returns it opened again.</summary>
-   private protected ImportProfilesWindow LeaveItAtThenOpenItAgain(PixelPoint topLeft)
+   /// <summary>Opens the window, puts it at <paramref name="topLeft"/>, made 900×500, and returns it.</summary>
+   private protected ImportProfilesWindow OpenItAt(PixelPoint topLeft)
    {
       var window = OnTheUIThread(() => ImportProfilesWindow.Open(Services));
       OnTheUIThread(() =>
@@ -25,8 +25,14 @@ public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGen
          window.Width = 900;
          window.Height = 500;
          Dispatcher.UIThread.RunJobs();
-         window.Close();
       });
+      return window;
+   }
+
+   /// <summary>Closes <paramref name="window"/> where it is, and returns it opened again.</summary>
+   private protected ImportProfilesWindow CloseItThenOpenItAgain(Window window)
+   {
+      OnTheUIThread(window.Close);
       return Open(() => ImportProfilesWindow.Open(Services));
    }
 
@@ -34,10 +40,25 @@ public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGen
    {
       readonly ImportProfilesWindow _openedAgain;
 
-      public after_being_left_on_the_screen() => _openedAgain = LeaveItAtThenOpenItAgain(new PixelPoint(300, 200));
+      public after_being_left_on_the_screen() => _openedAgain = CloseItThenOpenItAgain(OpenItAt(new PixelPoint(300, 200)));
 
       [XF] public void it_opens_where_it_was_left() => OnTheUIThread(() => _openedAgain.Position).Must().Be(new PixelPoint(300, 200));
       [XF] public void it_has_the_size_it_was_left_with() => OnTheUIThread(() => _openedAgain.ClientSize).Must().Be(new Size(900, 500));
+   }
+
+   public class after_being_left_minimized : When_a_window_is_opened_again
+   {
+      readonly ImportProfilesWindow _openedAgain;
+
+      public after_being_left_minimized()
+      {
+         var window = OpenItAt(new PixelPoint(300, 200));
+         OnTheUIThread(() => AsWindowsDoes.Minimize(window));
+         _openedAgain = CloseItThenOpenItAgain(window);
+      }
+
+      [XF] public void it_opens_where_it_was_before_it_was_minimized() => OnTheUIThread(() => _openedAgain.Position).Must().Be(new PixelPoint(300, 200));
+      [XF] public void it_has_the_size_it_had_before_it_was_minimized() => OnTheUIThread(() => _openedAgain.ClientSize).Must().Be(new Size(900, 500));
    }
 
    public class after_being_left_maximized : When_a_window_is_opened_again
@@ -46,24 +67,26 @@ public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGen
 
       public after_being_left_maximized()
       {
-         var window = OnTheUIThread(() => ImportProfilesWindow.Open(Services));
-         OnTheUIThread(() =>
-         {
-            window.WindowState = WindowState.Maximized;
-            Dispatcher.UIThread.RunJobs();
-            window.Close();
-         });
-         _openedAgain = Open(() => ImportProfilesWindow.Open(Services));
+         var window = OpenItAt(new PixelPoint(300, 200));
+         OnTheUIThread(() => AsWindowsDoes.Maximize(window));
+         _openedAgain = CloseItThenOpenItAgain(window);
       }
 
       [XF] public void it_opens_maximized() => OnTheUIThread(() => _openedAgain.WindowState).Must().Be(WindowState.Maximized);
+
+      public class and_is_then_no_longer_maximized : after_being_left_maximized
+      {
+         public and_is_then_no_longer_maximized() => OnTheUIThread(() => _openedAgain.WindowState = WindowState.Normal);
+
+         [XF] public void it_is_where_it_was_before_it_was_maximized() => OnTheUIThread(() => _openedAgain.Position).Must().Be(new PixelPoint(300, 200));
+      }
    }
 
    public class after_being_left_on_a_screen_that_is_no_longer_connected : When_a_window_is_opened_again
    {
       readonly ImportProfilesWindow _openedAgain;
 
-      public after_being_left_on_a_screen_that_is_no_longer_connected() => _openedAgain = LeaveItAtThenOpenItAgain(new PixelPoint(5000, 200));
+      public after_being_left_on_a_screen_that_is_no_longer_connected() => _openedAgain = CloseItThenOpenItAgain(OpenItAt(new PixelPoint(5000, 200)));
 
       [XF] public void it_opens_on_the_connected_screen() => OnTheUIThread(() => _openedAgain.Screens.ScreenFromPoint(_openedAgain.Position)).Must().NotBeNull();
    }
