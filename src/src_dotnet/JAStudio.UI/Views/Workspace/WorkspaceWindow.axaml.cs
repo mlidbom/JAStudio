@@ -47,7 +47,7 @@ public partial class WorkspaceWindow : Window
    readonly WindowPlaceKeeper _placeKeeper;
 
    /// <summary>
-   /// The window's own shortcuts and its main menu's, by key in the form of <see cref="Shortcuts.NoteViewShortcut.KeyGesture"/>.<br/>
+   /// The window's own shortcuts and its main menu's, by key in the form of <see cref="Core.UI.Shortcuts.NoteViewShortcut.KeyGesture"/>.<br/>
    /// They're bound as Avalonia key bindings for when the keyboard is outside the page,<br/>
    /// and run when a page reports their key (<see cref="TryRunWindowShortcut"/>), since keys pressed on a page go to its web view.
    /// </summary>
