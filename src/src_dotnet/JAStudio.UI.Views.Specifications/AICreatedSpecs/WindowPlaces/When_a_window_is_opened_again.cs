@@ -15,12 +15,6 @@ namespace JAStudio.UI.Views.Specifications.AICreatedSpecs.WindowPlaces;
 /// </summary>
 public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGeneratedSpec
 {
-   /// <summary>Where Windows puts a window it minimizes: its place for minimized windows, off every screen.</summary>
-   static readonly PixelPoint WindowsPlaceForMinimizedWindows = new(-32000, -32000);
-
-   /// <summary>Where Windows puts a window it maximizes on the headless platform's screen: the screen's corner, less the window's 8-pixel border.</summary>
-   static readonly PixelPoint WhereWindowsPutsAWindowItMaximizes = new(-8, -8);
-
    /// <summary>Opens the window, puts it at <paramref name="topLeft"/>, made 900×500, and returns it.</summary>
    private protected ImportProfilesWindow OpenItAt(PixelPoint topLeft)
    {
@@ -34,28 +28,6 @@ public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGen
       });
       return window;
    }
-
-   /// <summary>
-   /// Minimizes <paramref name="window"/> as Windows does: it moves the window to <see cref="WindowsPlaceForMinimizedWindows"/>, and tells the window<br/>
-   /// it moved before it tells it it's minimized.
-   /// </summary>
-   private protected static void MinimizeItAsWindowsDoes(Window window) => OnTheUIThread(() =>
-   {
-      window.Position = WindowsPlaceForMinimizedWindows;
-      window.WindowState = WindowState.Minimized;
-      Dispatcher.UIThread.RunJobs();
-   });
-
-   /// <summary>
-   /// Maximizes <paramref name="window"/> as Windows does: it moves the window to <see cref="WhereWindowsPutsAWindowItMaximizes"/>, and tells the window<br/>
-   /// it moved before it tells it it's maximized.
-   /// </summary>
-   private protected static void MaximizeItAsWindowsDoes(Window window) => OnTheUIThread(() =>
-   {
-      window.Position = WhereWindowsPutsAWindowItMaximizes;
-      window.WindowState = WindowState.Maximized;
-      Dispatcher.UIThread.RunJobs();
-   });
 
    /// <summary>Closes <paramref name="window"/> where it is, and returns it opened again.</summary>
    private protected ImportProfilesWindow CloseItThenOpenItAgain(Window window)
@@ -81,7 +53,7 @@ public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGen
       public after_being_left_minimized()
       {
          var window = OpenItAt(new PixelPoint(300, 200));
-         MinimizeItAsWindowsDoes(window);
+         OnTheUIThread(() => AsWindowsDoes.Minimize(window));
          _openedAgain = CloseItThenOpenItAgain(window);
       }
 
@@ -96,7 +68,7 @@ public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGen
       public after_being_left_maximized()
       {
          var window = OpenItAt(new PixelPoint(300, 200));
-         MaximizeItAsWindowsDoes(window);
+         OnTheUIThread(() => AsWindowsDoes.Maximize(window));
          _openedAgain = CloseItThenOpenItAgain(window);
       }
 

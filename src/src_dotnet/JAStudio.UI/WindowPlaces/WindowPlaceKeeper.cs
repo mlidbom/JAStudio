@@ -59,22 +59,32 @@ sealed class WindowPlaceKeeper
    internal static WindowPlaceKeeper KeepThePlaceOf(Window window, TemporaryServiceCollection services) =>
       new(window, new RememberedWindowPlaces(services.Resolve<IEnvironmentPaths>()));
 
-   /// <summary>Shows the hidden window again where it was when it was hidden, maximized or snapped included.</summary>
+   /// <summary>
+   /// Shows the window, hidden or minimized, where it was when it last showed: maximized or snapped as it was.<br/>
+   /// A window that shows where it was stays where it is.
+   /// </summary>
    /// <remarks>
    /// Avalonia shows a hidden window in the state code last set, and Windows then undoes a maximize or a snap the user made.<br/>
-   /// So a maximized window is maximized again before it's shown, and any other is moved back after: showing it moves it.
+   /// So a maximized window is maximized again before it's shown, and any other is moved back after: showing it moves it.<br/>
+   /// A minimized window is brought back the same way, rather than relying on the platform to remember how it was before it was minimized.
    /// </remarks>
    internal void ShowItWhereItWas()
    {
-      var placeWhenHidden = _place;
-      if(placeWhenHidden is { IsMaximized: true }) _window.WindowState = WindowState.Maximized;
-      _window.Show();
-      if(placeWhenHidden is { IsMaximized: false }) PutItIn(placeWhenHidden);
+      var whereItWas = _place;
+      if(whereItWas is { IsMaximized: true }) _window.WindowState = WindowState.Maximized;
+      else if(_window.WindowState == WindowState.Minimized) _window.WindowState = WindowState.Normal;
+      if(!_window.IsVisible) _window.Show();
+      if(whereItWas is { IsMaximized: false }) PutItIn(whereItWas);
    }
 
+   /// <summary>
+   /// Puts the window in <paramref name="place"/>. A window already there isn't moved: setting <see cref="Window.Position"/> moves the window<br/>
+   /// through the platform even to where it is, as setting its <see cref="Avalonia.Layout.Layoutable.Width"/> to what it is doesn't,<br/>
+   /// and <see cref="ShowItWhereItWas"/> puts a window that shows where it was in its place too.
+   /// </summary>
    void PutItIn(WindowPlace place)
    {
-      _window.Position = place.TopLeft;
+      if(_window.Position != place.TopLeft) _window.Position = place.TopLeft;
       _window.Width = place.ClientSize.Width;
       _window.Height = place.ClientSize.Height;
       if(place.IsMaximized) _window.WindowState = WindowState.Maximized;

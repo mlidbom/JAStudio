@@ -285,13 +285,10 @@ public partial class WorkspaceWindow : Window
       NavigationPane.FocusSearch();
    }
 
-   /// <summary>Shows the window where it was when it was hidden, maximized or snapped included, or else un-minimizes it, and activates it.</summary>
+   /// <summary>Shows the window where it was when it was hidden or minimized, maximized or snapped included, and activates it.</summary>
    void BringToFront()
    {
-      if(!IsVisible)
-         _placeKeeper.ShowItWhereItWas();
-      else if(WindowState == WindowState.Minimized)
-         WindowState = WindowState.Normal;
+      _placeKeeper.ShowItWhereItWas();
       Activate();
    }
 
